@@ -1,0 +1,6 @@
+#+TITLE: 統計データ解析II 講義資料
+
+講義ノートとコードの公開用 [[https://noboru-murata.github.io/statistical-data-analysis2/]]
+
+* 課題
+  - 講義資料の整理
