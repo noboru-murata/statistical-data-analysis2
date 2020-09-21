@@ -11,11 +11,13 @@ weight = 1001
 
 ## 講義資料 {#講義資料}
 
-以下は統計データ解析 I・II の資料(随時更新)です．
+以下は統計データ解析 I・II の資料です．
 
 1.  Rの基礎編 [(PDF)](https://noboru-murata.github.io/statistical-data-analysis2/pdfs/note1.pdf) [(Rscript/Dataset)](https://noboru-murata.github.io/statistical-data-analysis2/zips/script1.zip)
 2.  確率と統計編 [(PDF)](https://noboru-murata.github.io/statistical-data-analysis2/pdfs/note2.pdf) [(Rscript/Dataset)](https://noboru-murata.github.io/statistical-data-analysis2/zips/script2.zip)
 3.  多変量解析編 [(PDF)](https://noboru-murata.github.io/statistical-data-analysis2/pdfs/note3.pdf) [(Rscript/Dataset)](https://noboru-murata.github.io/statistical-data-analysis2/zips/script3.zip)
+
+(随時更新します)
 
 特に統計データ解析IIでは「Rの基礎」と「多変量解析」を用います．
 
@@ -23,10 +25,3 @@ weight = 1001
 ## 参考資料 {#参考資料}
 
 その他，必要な参考書等については講義中に指示します．
-
-
-## R/RStudioの導入方法 {#r-rstudioの導入方法}
-
-{{< myslide base="statistical-data-analysis2" name="install" >}}
-
--   [PDF file](https://noboru-murata.github.io/statistical-data-analysis2/pdfs/slide01.pdf)
