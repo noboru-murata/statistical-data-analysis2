@@ -29,4 +29,4 @@ weight = 1001
 
 {{< myslide base="statistical-data-analysis2" name="install" >}}
 
--   ハンドアウト [(PDF)](https://noboru-murata.github.io/statistical-data-analysis2/pdfs/slide01.pdf)
+-   [PDF file](https://noboru-murata.github.io/statistical-data-analysis2/pdfs/slide01.pdf)
