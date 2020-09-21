@@ -26,10 +26,6 @@
 ** 参考資料   
    その他，必要な参考書等については講義中に指示します．
 
-** R/RStudioの導入方法
-   #+html: {{< myslide base="statistical-data-analysis2" name="install" >}}
-   - [[github:pdfs/slide01.pdf][PDF file]]
-   
 * 講義1
   :PROPERTIES:
   :EXPORT_FILE_NAME: lecture01
@@ -186,12 +182,16 @@
 * COMMENT お知らせ
   おしらせは以下を利用     
 
-* COMMENT 講義の進め方
+* R/RStudioの導入方法
   :PROPERTIES:
   :EXPORT_HUGO_SECTION: ./post
   :EXPORT_FILE_NAME: post1
   :EXPORT_DATE: <2020-09-19 Sat>
   :END:
+** スライド  
+   #+html: {{< myslide base="statistical-data-analysis2" name="install" >}}
+** ハンドアウト   
+   - [[github:pdfs/slide01.pdf][PDF file]]
 
 * COMMENT ローカル変数
 # Local Variables:
