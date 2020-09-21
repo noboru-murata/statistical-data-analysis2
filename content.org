@@ -28,7 +28,7 @@
 
 ** R/RStudioの導入方法
    #+html: {{< myslide base="statistical-data-analysis2" name="install" >}}
-   - ハンドアウト [[github:pdfs/slide01.pdf][(PDF)]]
+   - [[github:pdfs/slide01.pdf][PDF file]]
    
 * 講義1
   :PROPERTIES:
