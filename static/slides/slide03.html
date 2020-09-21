@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>可視化と数値実験</title>
+<meta name="author" content="村田 昇"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="./reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="./reveal.js/css/theme/oer-reveal.css" id="theme"/>
+
+<link rel="stylesheet" href="./reveal.js/plugin/toc-progress/toc-progress.css"/>
+
+<link rel="stylesheet" href="./reveal.js/css/theme/toc-style.css"/>
+
+<link rel="stylesheet" href="./reveal.js/css/theme/oer-reveal.css"/>
+
+<link rel="stylesheet" href="./reveal.js/lib/font/source-sans-pro/source-sans-pro.css"/>
+
+<link rel="stylesheet" href="./myconf.css"/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = './reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</head>
+<body prefix="dc: http://purl.org/dc/terms/ cc: http://creativecommons.org/ns#">
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide" data-state="no-toc-progress">
+<!-- This is an HTML template for the title slide. -->
+<!-- Embed logos as necessary. -->
+<!-- <a class="nooutlink" href="url"><img class="state-background your-logo-class" src="whatever.png" alt="Whatever" /></a> -->
+<div class="talk-title">
+    <h1 class="no-toc-progress">可視化と数値実験</h1>
+</div>
+<div class="talk-subtitle">
+    <p>グラフ描画とモンテカルロ法</p>
+</div>
+<div class="keyboard-usage">
+    <p>(Press <code>?</code> for help, <code>n</code> and <code>p</code> for next and previous slide)</p>
+</div>
+<div class="talk-author">
+  <p>村田 昇<br />
+  2019.10.11</p>
+</div>
+
+</section>
+
+<section>
+<section id="slide-org903ee1b">
+<h2 id="org903ee1b">描画の基礎</h2>
+<div class="outline-text-2" id="text-org903ee1b">
+</div>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgc677966">
+<h3 id="orgc677966">データの可視化</h3>
+<ul>
+<li>データ全体の特徴や傾向を把握するための直感的で効果的な方法</li>
+<li>R言語には極めて多彩な作図機能が用意されている</li>
+<li>基本となるのは関数 <code>plot()/curve()</code></li>
+<li>描画関連の関数は色，
+線種や線の太さ，
+図中の文字の大きさなどを指定することができる</li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgd939c73" data-background="#EEEEFF">
+<h3 id="orgd939c73">演習</h3>
+<ul>
+<li>以下のそれぞれの場合について
+<a href="./code/03-plot.r">03-plot.r</a> 
+を実行しながら確認しよう．</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgba0d4d8">
+<h3 id="orgba0d4d8">基本的な描画 (ベクトル)</h3>
+<ul>
+<li><p>
+ベクトルデータを左から等間隔で描画
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-R">plot(x, type=<span style="color: #98C379;">"p"</span>, xlim=<span style="color: #E5C07B;">NULL</span>, ylim=<span style="color: #E5C07B;">NULL</span>,
+     main=<span style="color: #E5C07B;">NULL</span>, xlab=<span style="color: #E5C07B;">NULL</span>, ylab=<span style="color: #E5C07B;">NULL</span>, ...)
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">x: &#12505;&#12463;&#12488;&#12523;</span>
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">type: &#25551;&#30011;&#12479;&#12452;&#12503;&#65294;&#26082;&#23450;&#20516;&#12399; "p"(&#28857;&#12503;&#12525;&#12483;&#12488;)&#65294;"l"(&#25240;&#12428;&#32218;)&#12394;&#12393;&#25351;&#23450;&#21487;</span>
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">xlim: x&#36600;&#12398;&#31684;&#22258;&#65294;&#26082;&#23450;&#20516;&#12399;&#33258;&#21205;&#30340;&#12395;&#27770;&#23450;</span>
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">ylim: y&#36600;&#12398;&#31684;&#22258;&#65294;&#26082;&#23450;&#20516;&#12399;&#33258;&#21205;&#30340;&#12395;&#27770;&#23450;</span>
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">main: &#22259;&#12398;&#12479;&#12452;&#12488;&#12523;&#65294;&#26082;&#23450;&#20516;&#12399;&#12479;&#12452;&#12488;&#12523;&#12394;&#12375;</span>
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">xlab: x&#36600;&#12398;&#12521;&#12505;&#12523;&#21517;&#65294;&#26082;&#23450;&#20516;&#12399;"Index"</span>
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">ylab: y&#36600;&#12398;&#12521;&#12505;&#12523;&#21517;&#65294;&#26082;&#23450;&#20516;&#12399;x&#12398;&#12458;&#12502;&#12472;&#12455;&#12463;&#12488;&#21517;</span>
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">...: &#20182;&#12398;&#12458;&#12503;&#12471;&#12519;&#12531;&#65294;&#20197;&#19979;&#12395;&#20363;&#31034;&#65294;&#35443;&#32048;&#12399; help(par) &#12434;&#21442;&#29031;</span>
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">col: &#33394;&#12398;&#25351;&#23450;&#65294;"red"&#12420;"blue"&#12394;&#12393;&#65294;&#25351;&#23450;&#21487;&#33021;&#12394;&#33394;&#12399; colors() &#12434;&#21442;&#29031;</span>
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">pch: &#28857;&#12398;&#24418;&#65294;&#35443;&#32048;&#12399; help(points) &#12434;&#21442;&#29031;</span>
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">cex: &#25991;&#23383;&#12398;&#22823;&#12365;&#12373;&#65294;&#26082;&#23450;&#20516;&#12398;&#20309;&#20493;&#12395;&#12377;&#12427;&#12363;&#12434;&#25351;&#23450;</span>
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">lty: &#32218;&#12398;&#12479;&#12452;&#12503;&#65294;&#23455;&#32218;&#12539;&#30772;&#32218;&#12394;&#12393;&#12434;&#35352;&#21495;&#12539;&#25968;&#23383;&#12391;&#25351;&#23450;&#65294;&#35443;&#32048;&#12399; help(par) &#12434;&#21442;&#29031;</span>
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">lwd: &#32218;&#12398;&#22826;&#12373;&#65294;&#25968;&#23383;&#12391;&#25351;&#23450;</span>
+</pre>
+</div></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org563a9d6">
+<h3 id="org563a9d6">基本的な描画 (関数)</h3>
+<ul>
+<li><p>
+1変数関数の範囲を指定して描画
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-R">curve(fun,from=<span style="color: #E5C07B;">NULL</span>,to=<span style="color: #E5C07B;">NULL</span>, ...)
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">fun: 1&#22793;&#25968;&#38306;&#25968;</span>
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">from: x&#36600;&#12398;&#24038;&#31471;</span>
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">to: x&#36600;&#12398;&#21491;&#31471;</span>
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">...: "&#12505;&#12463;&#12488;&#12523;&#12398;&#25551;&#30011;"&#12392;&#21516;&#12376;&#12458;&#12503;&#12471;&#12519;&#12531;&#12364;&#21033;&#29992;&#21487;&#33021;</span>
+
+plot(fun, y=0, to=1, ...)
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">curve&#12392;&#12411;&#12412;&#21516;&#27096;</span>
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">y: x&#36600;&#12398;&#24038;&#31471; (from=&#12392;&#26360;&#12356;&#12390;&#12418;&#33391;&#12356;)</span>
+
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">&#21029;&#12398;&#38306;&#25968; f &#12434;&#37325;&#12397;&#26360;&#12365;&#12377;&#12427;&#22580;&#21512;</span>
+curve(...,add=<span style="color: #E5C07B;">TRUE</span>, ...)            
+plot(...,add=<span style="color: #E5C07B;">TRUE</span>, ...)            
+</pre>
+</div></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org2802bb9">
+<h3 id="org2802bb9">基本的な描画 (散布図)</h3>
+<ul>
+<li><p>
+点 \((x_1,y_1),\dotsc,(x_N,y_N)\) を平面上に描画
+</p>
+<ul>
+<li>2つの同じ長さのベクトル 
+\(x_1,\dotsc,x_N\) と
+\(y_1,\dotsc,y_N\) を与える</li>
+<li>\(x_1,\dotsc,x_N\) と
+\(y_1,\dotsc,y_N\) を持つデータフレームを与える</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre  class="src src-R">plot(x, y, ...)
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">x: 1&#31278;&#39006;&#30446;&#12398;&#12487;&#12540;&#12479; x_1,...,x_N</span>
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">y: 2&#31278;&#39006;&#30446;&#12398;&#12487;&#12540;&#12479; y_1,...,y_N</span>
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">...: "&#12505;&#12463;&#12488;&#12523;&#12398;&#25551;&#30011;"&#12392;&#21516;&#12376;&#12458;&#12503;&#12471;&#12519;&#12531;&#12364;&#21033;&#29992;&#21487;&#33021;</span>
+
+plot(B ~ A, data=x, ...)
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;x&#12398;&#22793;&#25968;A&#65292;B&#12398;&#25955;&#24067;&#22259;&#12434;&#20316;&#25104;&#12377;&#12427;</span>
+</pre>
+</div></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org2724b1b">
+<h3 id="org2724b1b">図の保存</h3>
+<ul>
+<li>RStudioの機能を使う (少数の場合はこちらが簡便)
+<ul>
+<li>右下ペイン &ldquo;Plots&rdquo; &gt; &ldquo;Export&rdquo;</li>
+<li>形式やサイズを指定する</li>
+<li>クリップボードにコピーもできる</li>
+
+</ul></li>
+<li><p>
+コマンドで実行する (多数の場合はこちらで処理)
+</p>
+<ul>
+<li>関数 <code>pdf()</code></li>
+<li>関数 <code>png()</code></li>
+<li>関数 <code>dev.copy()</code></li>
+
+</ul>
+<p>
+などを参照
+</p></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org4b98e98" data-background="#EEEEFF">
+<h3 id="org4b98e98">演習</h3>
+<ul>
+<li><p>
+2種類の睡眠薬投与による睡眠時間の増減のデータ <code>datasets::sleep</code> 
+において
+</p>
+<ul>
+<li><code>group</code> が1のデータの <code>extra</code> をx軸</li>
+<li><code>group</code> が2のデータの <code>extra</code> をy軸</li>
+
+</ul>
+<p>
+とした散布図を描画せよ(詳細は <code>help(sleep)</code>)．
+</p></li>
+<li>ただし，
+点の色を青，
+点の形を \(\times\) ，
+タイトルを &ldquo;sleep data&rdquo;，
+x軸のラベルを &ldquo;group 1&rdquo;，
+y軸のラベルを &ldquo;group 2&rdquo; 
+とせよ．</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+</section>
+<section>
+<section id="slide-org3bf897a">
+<h2 id="org3bf897a">さまざまなグラフ</h2>
+<div class="outline-text-2" id="text-org3bf897a">
+</div>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgcc70d76" data-background="#EEEEFF">
+<h3 id="orgcc70d76">演習</h3>
+<ul>
+<li>以下の各関数について
+<a href="./code/03-graph.r">03-graph.r</a> 
+を実行しながら確認しよう．</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org6ec89e6">
+<h3 id="org6ec89e6">ヒストグラム</h3>
+<ul>
+<li>データの値の範囲をいくつかの区間に分割し，
+各区間に含まれるデータの個数を棒グラフにした図</li>
+<li>棒グラフの幅が区間, 面積が区間に含まれるデータの個数に比例するようにグラフを作成</li>
+<li><p>
+データの分布を可視化するのに有効(どのあたりに値が集中しているか, どの程度値にばらつきがあるかなど)
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-R">hist(x, breaks=<span style="color: #98C379;">"Sturges"</span>, freq=<span style="color: #E5C07B;">NULL</span>)
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">x: &#12505;&#12463;&#12488;&#12523;</span>
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">breaks: &#21306;&#38291;&#12398;&#20998;&#21106;&#12398;&#20181;&#26041;&#12434;&#25351;&#23450;&#65294;&#25968;&#23383;&#12434;&#25351;&#23450;&#12377;&#12427;&#12392;&#12381;&#12428;&#12395;&#36817;&#12356;&#20491;&#25968;&#12395;&#31561;&#20998;&#21106;</span>
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">freq: TRUE&#12434;&#25351;&#23450;&#12377;&#12427;&#12392;&#32294;&#36600;&#12399;&#12487;&#12540;&#12479;&#25968;&#65292;</span>
+<span style="color: #5C6370;">##       </span><span style="color: #5C6370;">FALSE&#12434;&#25351;&#23450;&#12377;&#12427;&#12392;&#32294;&#36600;&#12399;&#12487;&#12540;&#12479;&#25968;/&#20840;&#12487;&#12540;&#12479;&#25968;&#65294;&#26082;&#23450;&#20516;&#12399;TRUE</span>
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">...: plot&#12391;&#25351;&#23450;&#12391;&#12365;&#12427;&#12458;&#12503;&#12471;&#12519;&#12531;&#12364;&#21033;&#29992;&#21487;&#33021;</span>
+</pre>
+</div></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgbe2861b">
+<h3 id="orgbe2861b">箱ひげ図</h3>
+<ul>
+<li>データの中心，散らばり具合および外れ値を考察するための図 (ヒストグラムの簡易版)
+<ul>
+<li>太線で表示された中央値(第2四分位点)</li>
+<li>第1四分位点を下端・第3四分位点を上端とする長方形(箱)</li>
+<li>中央値から第1四分位点・第3四分位点までの1.5倍以内にあるデータの
+最小の値・最大の値を下端・上端とする線(ひげ)</li>
+<li>ひげの外側のデータは点で表示</li>
+
+</ul></li>
+<li><p>
+複数のデータの分布の比較の際に有効
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-R">boxplot(x, ...)      
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">x: &#12505;&#12463;&#12488;&#12523;&#12414;&#12383;&#12399;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;</span>
+<span style="color: #5C6370;">##      </span><span style="color: #5C6370;">&#12505;&#12463;&#12488;&#12523;&#12395;&#23550;&#12375;&#12390;&#12399;&#21336;&#19968;&#12398;&#31665;&#12402;&#12370;&#22259;</span>
+<span style="color: #5C6370;">##      </span><span style="color: #5C6370;">&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#23550;&#12375;&#12390;&#12399;&#21015;&#12372;&#12392;&#12398;&#31665;&#12402;&#12370;&#22259;</span>
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">...: plot&#12392;&#21516;&#27096;&#12398;&#12458;&#12503;&#12471;&#12519;&#12531;&#12434;&#25351;&#23450;&#21487;&#33021;</span>
+
+boxplot(B ~ A, data=x, ...)
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">x&#12398;&#22793;&#25968;B&#12434;&#22793;&#25968;A(&#36074;&#30340;&#22793;&#25968;; &#24615;&#21029;, &#26893;&#29289;&#12398;&#31278;&#39006;&#12394;&#12393;)&#12391;&#20998;&#39006;&#12377;&#12427;&#22580;&#21512;</span>
+</pre>
+</div></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org2a7183d">
+<h3 id="org2a7183d">棒グラフ</h3>
+<ul>
+<li>項目ごとの量を並べて表示した図</li>
+<li><p>
+縦にも横にも並べられる
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-R">barplot(x,width=1,space=<span style="color: #E5C07B;">NULL</span>,beside=<span style="color: #E5C07B;">FALSE</span>,
+        legend.text=<span style="color: #E5C07B;">NULL</span>,args.legend=<span style="color: #E5C07B;">NULL</span>, ...)
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">x: &#12505;&#12463;&#12488;&#12523;&#12414;&#12383;&#12399;&#34892;&#21015; (&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12399;&#19981;&#21487;)</span>
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">width: &#26834;&#12398;&#24133;</span>
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">space: &#26834;&#12464;&#12521;&#12501;&#38291;&#12539;&#22793;&#25968;&#38291;&#12398;&#12473;&#12506;&#12540;&#12473;</span>
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">legend.text: &#20961;&#20363;</span>
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">beside: &#35079;&#25968;&#12398;&#22793;&#25968;&#12434;&#32294;&#12395;&#20006;&#12409;&#12427;&#12363;&#12539;&#27178;&#12395;&#20006;&#12409;&#12427;&#12363;</span>
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">args.legend: legend&#12395;&#28193;&#12377;&#24341;&#25968;</span>
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">...: plot&#12391;&#25351;&#23450;&#12391;&#12365;&#12427;&#12458;&#12503;&#12471;&#12519;&#12531;&#12364;&#21033;&#29992;&#21487;&#33021;</span>
+</pre>
+</div></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org293e4d9">
+<h3 id="org293e4d9">円グラフ</h3>
+<ul>
+<li>項目ごとの比率を円の分割で表示した図</li>
+<li><p>
+時計回りにも反時計回りにも配置できる
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-R">pie(x, clockwise=<span style="color: #E5C07B;">FALSE</span>, ...)
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">x: &#12505;&#12463;&#12488;&#12523;</span>
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">clockwise: &#26178;&#35336;&#22238;&#12426;&#12395;&#26360;&#12367;&#12363;&#21542;&#12363;</span>
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">...: plot&#12391;&#25351;&#23450;&#12391;&#12365;&#12427;&#12458;&#12503;&#12471;&#12519;&#12531;&#12364;&#21033;&#29992;&#21487;&#33021;</span>
+</pre>
+</div></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org57866f9">
+<h3 id="org57866f9">散布図行列</h3>
+<ul>
+<li>散布図を行列状に並べた図</li>
+<li><p>
+データフレームの全ての列の組み合わせの散布図を同時に見ることができる
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-R">pairs(x, ...)
+plot(x,...) <span style="color: #5C6370;"># </span><span style="color: #5C6370;">pairs&#12392;&#21516;&#12376;&#32080;&#26524;&#12392;&#12394;&#12427;</span>
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">x: &#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512; </span>
+
+pairs(~ A1 + ... + Ak, data=x, ...)
+plot(~ A1 + ... + Ak, data=x, ...)
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">&#22793;&#25968;A1,...,Ak&#12398;&#12415;&#32771;&#12360;&#12427;&#22580;&#21512;</span>
+</pre>
+</div></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org71c09ac">
+<h3 id="org71c09ac">俯瞰図</h3>
+<ul>
+<li><p>
+3次元のグラフを2次元に射影した図
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-R">persp(x, y, z, theta=0, phi=15, expand=1)      
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">x,y,z: x,y,z&#24231;&#27161;</span>
+<span style="color: #5C6370;">##        </span><span style="color: #5C6370;">(z&#12399;&#34892;&#21015;&#12391;&#65292;z[i,j]&#12399;&#28857;(x[i],y[j])&#12395;&#23550;&#24540;&#12377;&#12427;&#20516;&#12434;&#19982;&#12360;&#12427;)</span>
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">theta,phi: &#20463;&#30640;&#12398;&#26041;&#21521;&#12434;&#25351;&#23450;&#12377;&#12427;&#26997;&#24231;&#27161;</span>
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">expand: z&#36600;&#12398;&#25313;&#22823;&#24230;</span>
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">...: plot&#12391;&#25351;&#23450;&#12391;&#12365;&#12427;&#12458;&#12503;&#12471;&#12519;&#12531;&#12364;&#21033;&#29992;&#21487;&#33021;</span>
+
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">&#22810;&#27096;&#12394;3&#27425;&#20803;&#12398;&#12464;&#12521;&#12501;&#12398;&#12383;&#12417;&#12398;&#12497;&#12483;&#12465;&#12540;&#12472;&#12364;&#12354;&#12427;&#65294;</span>
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">&#20197;&#19979;&#12399;scatterplot3d&#12497;&#12483;&#12465;&#12540;&#12472;&#12398;&#20363;</span>
+scatterplot3d(x, color, angle=40)      
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">x: x,y,z&#24231;&#27161;&#12434;&#25351;&#23450;&#12377;&#12427;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;</span>
+<span style="color: #5C6370;">##    </span><span style="color: #5C6370;">(persp&#12398;&#12424;&#12358;&#12395;&#30452;&#25509;&#25351;&#23450;&#12377;&#12427;&#12371;&#12392;&#12418;&#21487;&#33021;)</span>
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">color: &#33394;&#12434;&#25351;&#23450;(col&#12391;&#12399;&#12394;&#12356;&#12398;&#12391;&#27880;&#24847;). &#26082;&#23450;&#20516;&#12399;&#40658;</span>
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">angle: x&#36600;&#12392;y&#36600;&#12398;&#38291;&#12398;&#35282;&#24230;</span>
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">...: plot&#12391;&#25351;&#23450;&#12391;&#12365;&#12427;&#12458;&#12503;&#12471;&#12519;&#12531;&#12364;&#21033;&#29992;&#21487;&#33021;</span>
+</pre>
+</div></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org0c043a4">
+<h3 id="org0c043a4">グラフィクス環境の設定</h3>
+<ul>
+<li>グラフィクス関数には様々なオプションがある</li>
+<li>共通の環境設定のためには関数 <code>par()</code> を用いる
+<ul>
+<li>複数の図の配置: <code>mrow</code>, <code>mcol</code></li>
+<li>余白の設定: <code>margin</code></li>
+<li>日本語フォントの設定: <code>family</code></li>
+<li>他多数 (<code>?par</code> を参照)</li>
+<li>より進んだグラフィクスの使い方の例は
+<code>demo("graphics")</code>, <code>example(関数名)</code> を参照</li>
+
+</ul></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org12067c5" data-background="#EEEEFF">
+<h3 id="org12067c5">演習</h3>
+<ul>
+<li>適当なデータに対してグラフの作成を行ってみよう
+<ul>
+<li>東京都の気候データ (<a href="./data/tokyo-weather.csv">tokyo-weather.csv</a>)</li>
+<li>R言語に用意されているデータ (関数 <code>data()</code> で一覧表示)</li>
+
+</ul></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+</section>
+<section>
+<section id="slide-org3010061">
+<h2 id="org3010061">疑似乱数</h2>
+<div class="outline-text-2" id="text-org3010061">
+</div>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org2d6ed58">
+<h3 id="org2d6ed58">疑似乱数とは</h3>
+<ul>
+<li>コンピューターで生成された数列のこと</li>
+<li>完全にランダムに数字を発生されることは不可能</li>
+<li>Rの既定値は &ldquo;Mersenne-Twister法&rdquo; (<code>?Random</code> 参照)</li>
+<li>数値シミュレーションにおいて再現性が要請される場合には，
+乱数の &ldquo;シード値&rdquo; を指定して再現性を担保 (関数 <code>set.seed()</code>)</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org3e6d5c6">
+<h3 id="org3e6d5c6">基本的な乱数</h3>
+<ul>
+<li><b>ランダムサンプリング</b>: 与えられた集合の要素を無作為抽出することで発生する乱数</li>
+<li><b>二項乱数</b>: 「確率 \(p\) で表がでるコインを \(n\) 回投げた際の表が出る回数」に対応する乱数</li>
+<li><b>一様乱数</b>: 決まった区間 \((a, b)\) からランダムに発生する乱数</li>
+<li><b>正規乱数</b>: 平均 \(\mu\), 分散 \(\sigma^2\) の正規分布に従う乱数</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgb5a58ba">
+<h3 id="orgb5a58ba">乱数を生成する関数</h3>
+<ul>
+<li>関数 <code>sample()</code>: ランダムサンプリング</li>
+<li>関数 <code>rbinom()</code>: 二項乱数</li>
+<li>関数 <code>runif()</code>: 一様乱数</li>
+<li>関数 <code>rnorm()</code>: 正規乱数</li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgae90989" data-background="#EEEEFF">
+<h3 id="orgae90989">演習</h3>
+<ul>
+<li><a href="./code/03-random.r">03-random.r</a> を確認してみよう</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+</section>
+<section>
+<section id="slide-orgfc21a29">
+<h2 id="orgfc21a29">モンテカルロ法</h2>
+<div class="outline-text-2" id="text-orgfc21a29">
+</div>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orga4fae93">
+<h3 id="orga4fae93">モンテカルロ法とは</h3>
+<ul>
+<li>乱数を使った統計実験</li>
+<li>計算機上でランダムネスを実現 (擬似乱数)</li>
+<li>ランダムネスから導かれる種々の数学的結果を観察</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgbf30307">
+<h3 id="orgbf30307">推定量の分布</h3>
+<ul>
+<li><b>推定量</b>: 確率分布の特性値を推測する計算方法</li>
+<li><b>推定値</b>: 観測データから計算した値</li>
+<li>推定値は観測データに依存して異なる (ばらつく)</li>
+<li>推定量の分布を求める
+<ul>
+<li>理論的な解答: 確率の理論を用いて厳密に求める</li>
+<li>数値的な解答: 疑似乱数を用いた数値実験で求める</li>
+
+</ul></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgbed8433">
+<h3 id="orgbed8433">標本平均の分布</h3>
+<ul>
+<li><p>
+標本平均: 平均値の典型的な推定量
+</p>
+<div>
+\begin{equation}
+  \bar{X}_n=\frac{1}{n}\sum_{i=1}^{n}X_{i}
+\end{equation}
+
+</div></li>
+<li>データ数が十分大きいとき標本平均の理論的な分布は，
+観測データの分布(正規分布とは限らない)の
+平均 \(\mu\) と分散 \(\sigma^2\) を用いて与えられる．<br>
+(次に述べる <b>中心極限定理</b> による)</li>
+<li>標本平均は平均 \(\mu\) ，分散 \(\sigma^2/n\) の正規分布に従う．</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgc7c481a">
+<h3 id="orgc7c481a">中心極限定理</h3>
+<ul>
+<li><p>
+\(X_1,X_2,\dotsc\) を独立同分布な確率変数列とし，
+その平均を \(\mu\) ，標準偏差を \(\sigma\) とする．
+このとき，すべての実数 \(a< b\) に対して
+</p>
+<div>
+\begin{equation}
+  P\Bigl(a\leq\frac{\sqrt{n}(\bar{X}_n-\mu)}{\sigma}\leq b \Bigr)
+  \to\frac{1}{\sqrt{2\pi}}\int_a^be^{-\frac{x^2}{2}}dx\quad
+  (n\to\infty)
+\end{equation}
+
+</div>
+<p>
+が成り立つ．
+</p></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orga148a41" data-background="#EEEEFF">
+<h3 id="orga148a41">演習</h3>
+<ul>
+<li><a href="./code/03-meandist.r">03-meandist.r</a> を確認してみよう</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org5894986">
+<h3 id="org5894986">確率的な数値実験</h3>
+<ul>
+<li>例: コイン投げの賭け <br>
+AとBの二人で交互にコインを投げる．
+最初に表が出た方を勝ちとするとき，
+AとBそれぞれの勝率はいくつとなるか？</li>
+<li>コイン投げは <code>sample()</code>, <code>rbinom()</code> などで模擬できる</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orga561b24" data-background="#EEEEFF">
+<h3 id="orga561b24">演習</h3>
+<ul>
+<li><a href="./code/03-cointoss.r">03-cointoss.r</a> を確認してみよう</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgbe46944" data-background="#EEEEFF">
+<h3 id="orgbe46944">演習</h3>
+<ul>
+<li>以下の簡単な双六ゲームの実験を行ってみよう
+<ul>
+<li>ゴールまでの升目は100</li>
+<li>さいころを振り出た目の数だけ進む</li>
+<li>ゴールに辿り着くまで繰り返す</li>
+<li>さいころを振る回数の分布は?</li>
+
+</ul></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orge1c63a1" data-background="#EEEEFF">
+<h3 id="orge1c63a1">演習</h3>
+<ul>
+<li>確率的な事象を想定して実験を行ってみよう
+<ul>
+<li>Buffon の針</li>
+<li>Monty Hall 問題</li>
+<li>St Petersburg のパラドックス</li>
+<li>秘書問題 (最適停止問題)</li>
+
+</ul></li>
+<li>(講義資料に実装例があります)</li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+</section>
+</div>
+</div>
+<script src="./reveal.js/js/reveal.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: true,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: true,
+fragmentInURL: true,
+pdfSeparateFragments: false,
+
+overview: true,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'fade', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+{ src: './reveal.js/plugin/coursemod/coursemod.js', async: true },
+{ src: './reveal.js/plugin/quiz/js/quiz.js', async: true, callback: function() { prepareQuizzes({preventUnanswered: true}); } },
+{ src: './reveal.js/plugin/jump/jump.js', async: true },
+ { src: './reveal.js/plugin/toc-progress/toc-progress.js', async: true, callback: function() { toc_progress.initialize('reduce', 'rgba(120,138,130,0.2)'); toc_progress.create(); } },
+ { src: './reveal.js/plugin/anything/anything.js' },
+ { src: './reveal.js/plugin/audio-slideshow/audio-slideshow.js', condition: function( ) { return !!document.body.classList && !Reveal.isSpeakerNotes(); } },
+ { src: './reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: './reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: './reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } }]
+,audio: {
+    advance: -1, autoplay: true, defaultDuration: 0, defaultAudios: false, playerOpacity: 0.3, playerStyle: 'position: fixed; bottom: 9.5vh; left: 0%; width: 30%; height:30px; z-index: 33;' },
+  anything: [
+	{className: "animate",  initialize: (function(container, options){
+		Reveal.addEventListener( 'fragmentshown', function( event ) {
+			if (typeof event.fragment.beginElement === "function" ) {
+				event.fragment.beginElement();
+			}
+		});
+		Reveal.addEventListener( 'fragmenthidden', function( event ) {
+			if (event.fragment.hasAttribute('data-reverse') ) {
+				var reverse = event.fragment.parentElement.querySelector('[id=\"' + event.fragment.getAttribute('data-reverse') + '\"]');
+				if ( reverse && typeof reverse.beginElement === "function" ) {
+					reverse.beginElement();
+				}
+			}
+		});
+		if ( container.getAttribute("data-svg-src") ) {
+			var xhr = new XMLHttpRequest();
+			xhr.onload = function() {
+				if (xhr.readyState === 4) {
+					var svg = container.querySelector('svg');
+					container.removeChild( svg );
+					container.innerHTML = xhr.responseText + container.innerHTML;
+					if ( svg ) {
+						container.querySelector('svg').innerHTML = container.querySelector('svg').innerHTML + svg.innerHTML;
+					}
+				}
+				else {
+					console.warn( "Failed to get file. ReadyState: " + xhr.readyState + ", Status: " + xhr.status);
+				}
+			};
+			xhr.open( 'GET', container.getAttribute("data-svg-src"), true );
+			xhr.send();
+		}
+	}) },
+	{className: "randomPic",
+	 defaults: {imgalt: "Dummy alt text",
+		    imgcaption: "Image by {name}",
+		    choices: [ {name: "dummyname", path: "dummypath"} ]},
+	 initialize: (function(container, options){
+	     var choice = Math.trunc( Math.random()*(options.choices.length) );
+	     var img = "<img data-src='" + options.choices[choice].path + "' alt='" + options.choices[choice].imgalt + "' />";
+	     var caption = options.imgcaption.replace(new RegExp('\{name\}', 'gm'), options.choices[choice].name);
+	     container.innerHTML = img + caption;
+	 }) },
+	{className: "notes",
+	 initialize: (function(container, options){
+	     container.addEventListener('click', function(e) { RevealNotes.open(); });
+	 }) }
+],
+  coursemod: { enabled: true, shown: false }});
+</script>
+</body>
+</html>

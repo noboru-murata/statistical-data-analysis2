@@ -1,0 +1,175 @@
+#+TITLE: クラスター分析 - 階層的方法
+#+SUBTITLE: 数理科学続論J
+#+AUTHOR: 村田 昇
+#+EMAIL: noboru.murata@eb.waseda.ac.jp
+#+DATE: 2018.12.06
+:preamble:
+#+INCLUDE: "./myconf.org"
+#+STARTUP: hidestars content
+# C-c C-x C-v でinlineを切り替え
+# <l C-i でlatex block
+# C-c '
+:end:
+
+* 講義の予定
+  - *第1日: クラスター分析と階層的クラスタリング*
+  - 第2日: 非階層的クラスタリング
+
+* クラスター分析
+** クラスター分析とは
+   - 個体の間に隠れている *集まり=クラスター* を発見する方法
+   - 個体間の距離・類似度を定義:
+     - 同じクラスターに属する個体どうしは近い性質をもつ
+     - 異なるクラスターに属する個体どうしは異なる性質をもつ
+   - さらなるデータ解析やデータの可視化に利用
+   - 教師なし学習の代表的な手法の一つ
+
+** クラスター分析の考え方
+   - 階層的方法:
+     - データ点およびクラスターの間に *距離* を定義
+     - 距離に基づいてグループ化:
+       - 近いものから順にクラスターを *凝集*
+       - 近いもの同士が残るようにクラスターを *分割*
+   - 非階層的方法:
+     - クラスターの数を事前に指定
+     - クラスターの *集まりの良さ* を評価する損失関数を定義
+     - 損失関数を最小化するようにクラスターを形成
+
+* 階層的クラスタリング
+** 凝集的方法の手続き
+   1. データ・クラスター間の距離を定義する
+      - データ点とデータ点の距離
+      - クラスターとクラスターの距離
+      - (データ点とクラスターの距離はデータ1点をクラスターと考える)
+   2. データ点および形成されているクラスターを対象にそれぞれの間の距離を求める
+   3. 最も近い2つを統合し新たなクラスターを作成する \\
+      (データ点とデータ点，データ点とクラスター，クラスターとクラスタのいずれの場合もあり得る)
+   4. クラスター数が目的の数になるまで2,3の手続きを繰り返す
+
+** データ間の距離
+   - データ: 変数の値を成分としてもつベクトル
+     # #+begin_export latex
+     \begin{equation}
+       \boldsymbol{x}_{i}=(x_{i1},\dotsc,x_{ip})^{\top},
+       \boldsymbol{x}_{j}=(x_{j1},\dotsc,x_{jp})^{\top}\in\mathbb{R}^p
+     \end{equation}
+     # #+end_export
+   - 距離: $d(\boldsymbol{x}_{i},\boldsymbol{x}_{j})$
+   - 代表的なデータ間の距離:
+     - ユークリッド距離 (Euclidean distance)
+     - ミンコフスキー距離 (Minkowski distance)
+     - マンハッタン距離 (Manhattan distance)
+
+** ユークリッド距離
+   - 最も一般的な距離
+   - 各成分の差の2乗和の平方根 (2ノルム)
+     # #+begin_export latex
+     \begin{equation*}
+       d(\boldsymbol{x}_{i},\boldsymbol{x}_{j})
+       =\sqrt{(x_{i1}-x_{j1})^{2}+\dotsb+(x_{ip}-x_{jp})^{2}}
+     \end{equation*}
+     # #+end_export
+
+** ミンコフスキー距離
+   - ユークリッド距離を $q$ 乗に一般化した距離
+   - 各成分の差の $q$ 乗和の $q$ 乗根($q$ ノルム)
+     # #+begin_export latex
+     \begin{equation*}
+       d(\boldsymbol{x}_{i},\boldsymbol{x}_{j})
+       =\bigl\{|x_{i1}-x_{j1}|^{q}+\dotsb+|x_{ip}-x_{jp}|^{q}\bigr\}^{1/q}
+     \end{equation*}
+     # #+end_export
+
+** マンハッタン距離
+   - $q=1$ のミンコフスキー距離
+   - 格子状に引かれた路に沿って移動するときの距離
+     # #+begin_export latex
+     \begin{equation*}
+       d(\boldsymbol{x}_{i},\boldsymbol{x}_{j})
+       =|x_{i1}-x_{j1}|+\dotsb+|x_{ip}-x_{jp}|
+     \end{equation*}
+     # #+end_export
+
+** クラスター間の距離
+   - データ点同士の距離をどのように使うかで定義
+     - データ点の距離から陽に定義する方法
+     - クラスターを統合したときに成り立つクラスター間の距離の関係を用いて再帰的に定義する方法
+   - クラスター: いくつかのデータ点からなる集合
+     # #+begin_export latex
+     \begin{equation*}
+       C_{a}=\left\{\boldsymbol{x}_{i}|i\in\Lambda_{a}\right\},\quad
+       C_{b}=\left\{\boldsymbol{x}_{j}|j\in\Lambda_{b}\right\}
+     \end{equation*}
+     # #+end_export
+   - 2つのクラスター間の距離: $D(C_{a},C_{b})$
+   - 代表的なクラスター間の距離
+     - 最短距離法 (単連結法; single linkage method)
+     - 最長距離法 (完全連結法; complete linkage method)
+     - 群平均法 (average linkage method)
+
+** 最短距離法
+   - 最も近い対象間の距離を用いる方法:
+     # #+begin_export latex
+     \begin{equation}
+       D(C_{a},C_{b})
+       =\min_{\boldsymbol{x}_{i}\in C_{a},\;\boldsymbol{x}_{j}\in C_{b}} d(\boldsymbol{x}_{i},\boldsymbol{x}_{j})
+     \end{equation}
+     # #+end_export
+   - 統合前後のクラスター間の関係:
+     # #+begin_export latex
+     \begin{equation}
+       D(C_{a}+ C_{b}, C_{c})
+       =\min\bigl\{D(C_{a},C_{c}), D(C_{b},C_{c})\bigr\}
+       % =\min\left\{D(C_{a},C_{c}), D(C_{b},C_{c})\right\}
+     \end{equation}
+     # #+end_export
+
+** 最長距離法
+   - 最も遠い対象間の距離を用いる方法:
+     # #+begin_export latex
+     \begin{equation}
+      D(C_{a},C_{b})
+       =\max_{\boldsymbol{x}_{i}\in C_{a},\;\boldsymbol{x}_{j}\in C_{b}} d(\boldsymbol{x}_{i},\boldsymbol{x}_{j})
+     \end{equation}
+     # #+end_export
+   - 統合前後のクラスター間の関係:
+     # #+begin_export latex
+     \begin{equation}
+       D(C_{a}+ C_{b}, C_{c})
+       =\max\bigl\{D(C_{a},C_{c}), D(C_{b},C_{c})\bigr\}
+       % =\max\left\{D(C_{a},C_{c}), D(C_{b},C_{c})\right\}
+     \end{equation}
+     # #+end_export
+
+** 群平均法
+   - 全ての対象間の平均距離を用いる方法:
+     # #+begin_export latex
+     \begin{equation}
+       D(C_{a},C_{b})
+       =\frac{1}{|C_{a}||C_{b}|}
+       \sum_{\boldsymbol{x}_{i}\in C_{a},\;\boldsymbol{x}_{j}\in C_{b}} d(\boldsymbol{x}_{i},\boldsymbol{x}_{j})
+     \end{equation}
+     # #+end_export
+     ただし $|C_{a}|$, $|C_{b}|$ はクラスター内の要素の数を表す
+   - 統合前後のクラスター間の関係:
+     # #+begin_export latex
+     \begin{equation}
+       D(C_{a}+ C_{b}, C_{c})
+       =\frac{|C_{a}|D(C_{a},C_{c})+|C_{b}|D(C_{b},C_{c})}{|C_{a}|+|C_{b}|}
+     \end{equation}
+     # #+end_export
+
+** 距離計算に関する注意
+   - データの性質に応じて距離は適宜使い分ける
+     - データ間の距離の選択
+     - クラスター間の距離の選択
+   - 変数の正規化は必要に応じて行う
+     - 物理的な意味合いを積極的に利用する場合はそのまま
+     - 単位の取り方などによる分析の不確定性を避ける場合は平均0，分散1に正規化
+   - データの性質を鑑みて適切に前処理
+** 演習: 階層的クラスタリング
+   :PROPERTIES:
+   :reveal_background: #EEEEFF
+   :END:
+   - [[./code/11-hclust.r][11-hclust.r]] を確認してみよう
+

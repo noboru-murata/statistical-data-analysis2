@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>クラスター分析 - 階層的方法</title>
+<meta name="author" content="村田 昇"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="./reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="./reveal.js/css/theme/oer-reveal.css" id="theme"/>
+
+<link rel="stylesheet" href="./reveal.js/plugin/toc-progress/toc-progress.css"/>
+
+<link rel="stylesheet" href="./reveal.js/css/theme/toc-style.css"/>
+
+<link rel="stylesheet" href="./reveal.js/css/theme/oer-reveal.css"/>
+
+<link rel="stylesheet" href="./reveal.js/lib/font/source-sans-pro/source-sans-pro.css"/>
+
+<link rel="stylesheet" href="./myconf.css"/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = './reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</head>
+<body prefix="dc: http://purl.org/dc/terms/ cc: http://creativecommons.org/ns#">
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide" data-state="no-toc-progress">
+<!-- This is an HTML template for the title slide. -->
+<!-- Embed logos as necessary. -->
+<!-- <a class="nooutlink" href="url"><img class="state-background your-logo-class" src="whatever.png" alt="Whatever" /></a> -->
+<div class="talk-title">
+    <h1 class="no-toc-progress">クラスター分析 - 階層的方法</h1>
+</div>
+<div class="talk-subtitle">
+    <p>数理科学続論J</p>
+</div>
+<div class="keyboard-usage">
+    <p>(Press <code>?</code> for help, <code>n</code> and <code>p</code> for next and previous slide)</p>
+</div>
+<div class="talk-author">
+  <p>村田 昇<br />
+  2018.12.06</p>
+</div>
+
+</section>
+
+<section>
+<section id="slide-orgd0ed213">
+<h2 id="orgd0ed213">講義の予定</h2>
+<ul>
+<li><b>第1日: クラスター分析と階層的クラスタリング</b></li>
+<li>第2日: 非階層的クラスタリング</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+</section>
+<section>
+<section id="slide-orgf9ea2a1">
+<h2 id="orgf9ea2a1">クラスター分析</h2>
+<div class="outline-text-2" id="text-orgf9ea2a1">
+</div>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org00bd3f9">
+<h3 id="org00bd3f9">クラスター分析とは</h3>
+<ul>
+<li>個体の間に隠れている <b>集まり=クラスター</b> を発見する方法</li>
+<li>個体間の距離・類似度を定義:
+<ul>
+<li>同じクラスターに属する個体どうしは近い性質をもつ</li>
+<li>異なるクラスターに属する個体どうしは異なる性質をもつ</li>
+
+</ul></li>
+<li>さらなるデータ解析やデータの可視化に利用</li>
+<li>教師なし学習の代表的な手法の一つ</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org4950706">
+<h3 id="org4950706">クラスター分析の考え方</h3>
+<ul>
+<li>階層的方法:
+<ul>
+<li>データ点およびクラスターの間に <b>距離</b> を定義</li>
+<li>距離に基づいてグループ化:
+<ul>
+<li>近いものから順にクラスターを <b>凝集</b></li>
+<li>近いもの同士が残るようにクラスターを <b>分割</b></li>
+
+</ul></li>
+
+</ul></li>
+<li>非階層的方法:
+<ul>
+<li>クラスターの数を事前に指定</li>
+<li>クラスターの <b>集まりの良さ</b> を評価する損失関数を定義</li>
+<li>損失関数を最小化するようにクラスターを形成</li>
+
+</ul></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+</section>
+<section>
+<section id="slide-org091d838">
+<h2 id="org091d838">階層的クラスタリング</h2>
+<div class="outline-text-2" id="text-org091d838">
+</div>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org06b86d7">
+<h3 id="org06b86d7">凝集的方法の手続き</h3>
+<ol>
+<li>データ・クラスター間の距離を定義する
+<ul>
+<li>データ点とデータ点の距離</li>
+<li>クラスターとクラスターの距離</li>
+<li>(データ点とクラスターの距離はデータ1点をクラスターと考える)</li>
+
+</ul></li>
+<li>データ点および形成されているクラスターを対象にそれぞれの間の距離を求める</li>
+<li>最も近い2つを統合し新たなクラスターを作成する <br>
+(データ点とデータ点，データ点とクラスター，クラスターとクラスタのいずれの場合もあり得る)</li>
+<li>クラスター数が目的の数になるまで2,3の手続きを繰り返す</li>
+
+</ol>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org76c6989">
+<h3 id="org76c6989">データ間の距離</h3>
+<ul>
+<li><p>
+データ: 変数の値を成分としてもつベクトル
+</p>
+
+<div>
+\begin{equation}
+  \boldsymbol{x}_{i}=(x_{i1},\dotsc,x_{ip})^{\top},
+  \boldsymbol{x}_{j}=(x_{j1},\dotsc,x_{jp})^{\top}\in\mathbb{R}^p
+\end{equation}
+
+</div></li>
+<li>距離: \(d(\boldsymbol{x}_{i},\boldsymbol{x}_{j})\)</li>
+<li>代表的なデータ間の距離:
+<ul>
+<li>ユークリッド距離 (Euclidean distance)</li>
+<li>ミンコフスキー距離 (Minkowski distance)</li>
+<li>マンハッタン距離 (Manhattan distance)</li>
+
+</ul></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org5621d99">
+<h3 id="org5621d99">ユークリッド距離</h3>
+<ul>
+<li>最も一般的な距離</li>
+<li><p>
+各成分の差の2乗和の平方根 (2ノルム)
+</p>
+
+<div>
+\begin{equation*}
+  d(\boldsymbol{x}_{i},\boldsymbol{x}_{j})
+  =\sqrt{(x_{i1}-x_{j1})^{2}+\dotsb+(x_{ip}-x_{jp})^{2}}
+\end{equation*}
+
+</div></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgb7e6284">
+<h3 id="orgb7e6284">ミンコフスキー距離</h3>
+<ul>
+<li>ユークリッド距離を \(q\) 乗に一般化した距離</li>
+<li><p>
+各成分の差の \(q\) 乗和の \(q\) 乗根(\(q\) ノルム)
+</p>
+
+<div>
+\begin{equation*}
+  d(\boldsymbol{x}_{i},\boldsymbol{x}_{j})
+  =\bigl\{|x_{i1}-x_{j1}|^{q}+\dotsb+|x_{ip}-x_{jp}|^{q}\bigr\}^{1/q}
+\end{equation*}
+
+</div></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgf480884">
+<h3 id="orgf480884">マンハッタン距離</h3>
+<ul>
+<li>\(q=1\) のミンコフスキー距離</li>
+<li><p>
+格子状に引かれた路に沿って移動するときの距離
+</p>
+
+<div>
+\begin{equation*}
+  d(\boldsymbol{x}_{i},\boldsymbol{x}_{j})
+  =|x_{i1}-x_{j1}|+\dotsb+|x_{ip}-x_{jp}|
+\end{equation*}
+
+</div></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgfb7abef">
+<h3 id="orgfb7abef">クラスター間の距離</h3>
+<ul>
+<li>データ点同士の距離をどのように使うかで定義
+<ul>
+<li>データ点の距離から陽に定義する方法</li>
+<li>クラスターを統合したときに成り立つクラスター間の距離の関係を用いて再帰的に定義する方法</li>
+
+</ul></li>
+<li><p>
+クラスター: いくつかのデータ点からなる集合
+</p>
+
+<div>
+\begin{equation*}
+  C_{a}=\left\{\boldsymbol{x}_{i}|i\in\Lambda_{a}\right\},\quad
+  C_{b}=\left\{\boldsymbol{x}_{j}|j\in\Lambda_{b}\right\}
+\end{equation*}
+
+</div></li>
+<li>2つのクラスター間の距離: \(D(C_{a},C_{b})\)</li>
+<li>代表的なクラスター間の距離
+<ul>
+<li>最短距離法 (単連結法; single linkage method)</li>
+<li>最長距離法 (完全連結法; complete linkage method)</li>
+<li>群平均法 (average linkage method)</li>
+
+</ul></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgbed55fc">
+<h3 id="orgbed55fc">最短距離法</h3>
+<ul>
+<li><p>
+最も近い対象間の距離を用いる方法:
+</p>
+
+<div>
+\begin{equation}
+  D(C_{a},C_{b})
+  =\min_{\boldsymbol{x}_{i}\in C_{a},\;\boldsymbol{x}_{j}\in C_{b}} d(\boldsymbol{x}_{i},\boldsymbol{x}_{j})
+\end{equation}
+
+</div></li>
+<li><p>
+統合前後のクラスター間の関係:
+</p>
+
+<div>
+\begin{equation}
+  D(C_{a}+ C_{b}, C_{c})
+  =\min\bigl\{D(C_{a},C_{c}), D(C_{b},C_{c})\bigr\}
+  % =\min\left\{D(C_{a},C_{c}), D(C_{b},C_{c})\right\}
+\end{equation}
+
+</div></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgd7ccd39">
+<h3 id="orgd7ccd39">最長距離法</h3>
+<ul>
+<li><p>
+最も遠い対象間の距離を用いる方法:
+</p>
+
+<div>
+\begin{equation}
+ D(C_{a},C_{b})
+  =\max_{\boldsymbol{x}_{i}\in C_{a},\;\boldsymbol{x}_{j}\in C_{b}} d(\boldsymbol{x}_{i},\boldsymbol{x}_{j})
+\end{equation}
+
+</div></li>
+<li><p>
+統合前後のクラスター間の関係:
+</p>
+
+<div>
+\begin{equation}
+  D(C_{a}+ C_{b}, C_{c})
+  =\max\bigl\{D(C_{a},C_{c}), D(C_{b},C_{c})\bigr\}
+  % =\max\left\{D(C_{a},C_{c}), D(C_{b},C_{c})\right\}
+\end{equation}
+
+</div></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org666409d">
+<h3 id="org666409d">群平均法</h3>
+<ul>
+<li><p>
+全ての対象間の平均距離を用いる方法:
+</p>
+
+<div>
+\begin{equation}
+  D(C_{a},C_{b})
+  =\frac{1}{|C_{a}||C_{b}|}
+  \sum_{\boldsymbol{x}_{i}\in C_{a},\;\boldsymbol{x}_{j}\in C_{b}} d(\boldsymbol{x}_{i},\boldsymbol{x}_{j})
+\end{equation}
+
+</div>
+
+<p>
+ただし \(|C_{a}|\), \(|C_{b}|\) はクラスター内の要素の数を表す
+</p></li>
+<li><p>
+統合前後のクラスター間の関係:
+</p>
+
+<div>
+\begin{equation}
+  D(C_{a}+ C_{b}, C_{c})
+  =\frac{|C_{a}|D(C_{a},C_{c})+|C_{b}|D(C_{b},C_{c})}{|C_{a}|+|C_{b}|}
+\end{equation}
+
+</div></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orge440ca5">
+<h3 id="orge440ca5">距離計算に関する注意</h3>
+<ul>
+<li>データの性質に応じて距離は適宜使い分ける
+<ul>
+<li>データ間の距離の選択</li>
+<li>クラスター間の距離の選択</li>
+
+</ul></li>
+<li>変数の正規化は必要に応じて行う
+<ul>
+<li>物理的な意味合いを積極的に利用する場合はそのまま</li>
+<li>単位の取り方などによる分析の不確定性を避ける場合は平均0，分散1に正規化</li>
+
+</ul></li>
+<li>データの性質を鑑みて適切に前処理</li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgea94a8a" data-background="#EEEEFF">
+<h3 id="orgea94a8a">演習: 階層的クラスタリング</h3>
+<ul>
+<li><a href="./code/11-hclust.r">11-hclust.r</a> を確認してみよう</li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+</section>
+</div>
+</div>
+<script src="./reveal.js/js/reveal.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: true,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: true,
+fragmentInURL: true,
+pdfSeparateFragments: false,
+
+overview: true,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'fade', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+{ src: './reveal.js/plugin/coursemod/coursemod.js', async: true },
+{ src: './reveal.js/plugin/quiz/js/quiz.js', async: true, callback: function() { prepareQuizzes({preventUnanswered: true}); } },
+{ src: './reveal.js/plugin/jump/jump.js', async: true },
+ { src: './reveal.js/plugin/toc-progress/toc-progress.js', async: true, callback: function() { toc_progress.initialize('reduce', 'rgba(120,138,130,0.2)'); toc_progress.create(); } },
+ { src: './reveal.js/plugin/anything/anything.js' },
+ { src: './reveal.js/plugin/audio-slideshow/audio-slideshow.js', condition: function( ) { return !!document.body.classList && !Reveal.isSpeakerNotes(); } },
+ { src: './reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: './reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: './reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } }]
+,audio: {
+    advance: -1, autoplay: true, defaultDuration: 0, defaultAudios: false, playerOpacity: 0.3, playerStyle: 'position: fixed; bottom: 9.5vh; left: 0%; width: 30%; height:30px; z-index: 33;' },
+  anything: [
+	{className: "animate",  initialize: (function(container, options){
+		Reveal.addEventListener( 'fragmentshown', function( event ) {
+			if (typeof event.fragment.beginElement === "function" ) {
+				event.fragment.beginElement();
+			}
+		});
+		Reveal.addEventListener( 'fragmenthidden', function( event ) {
+			if (event.fragment.hasAttribute('data-reverse') ) {
+				var reverse = event.fragment.parentElement.querySelector('[id=\"' + event.fragment.getAttribute('data-reverse') + '\"]');
+				if ( reverse && typeof reverse.beginElement === "function" ) {
+					reverse.beginElement();
+				}
+			}
+		});
+		if ( container.getAttribute("data-svg-src") ) {
+			var xhr = new XMLHttpRequest();
+			xhr.onload = function() {
+				if (xhr.readyState === 4) {
+					var svg = container.querySelector('svg');
+					container.removeChild( svg );
+					container.innerHTML = xhr.responseText + container.innerHTML;
+					if ( svg ) {
+						container.querySelector('svg').innerHTML = container.querySelector('svg').innerHTML + svg.innerHTML;
+					}
+				}
+				else {
+					console.warn( "Failed to get file. ReadyState: " + xhr.readyState + ", Status: " + xhr.status);
+				}
+			};
+			xhr.open( 'GET', container.getAttribute("data-svg-src"), true );
+			xhr.send();
+		}
+	}) },
+	{className: "randomPic",
+	 defaults: {imgalt: "Dummy alt text",
+		    imgcaption: "Image by {name}",
+		    choices: [ {name: "dummyname", path: "dummypath"} ]},
+	 initialize: (function(container, options){
+	     var choice = Math.trunc( Math.random()*(options.choices.length) );
+	     var img = "<img data-src='" + options.choices[choice].path + "' alt='" + options.choices[choice].imgalt + "' />";
+	     var caption = options.imgcaption.replace(new RegExp('\{name\}', 'gm'), options.choices[choice].name);
+	     container.innerHTML = img + caption;
+	 }) },
+	{className: "notes",
+	 initialize: (function(container, options){
+	     container.addEventListener('click', function(e) { RevealNotes.open(); });
+	 }) }
+],
+  coursemod: { enabled: true, shown: false }});
+</script>
+</body>
+</html>

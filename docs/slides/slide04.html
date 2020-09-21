@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>回帰分析 - モデルの推定</title>
+<meta name="author" content="村田 昇"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="./reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="./reveal.js/css/theme/oer-reveal.css" id="theme"/>
+
+<link rel="stylesheet" href="./reveal.js/plugin/toc-progress/toc-progress.css"/>
+
+<link rel="stylesheet" href="./reveal.js/css/theme/toc-style.css"/>
+
+<link rel="stylesheet" href="./reveal.js/css/theme/oer-reveal.css"/>
+
+<link rel="stylesheet" href="./reveal.js/lib/font/source-sans-pro/source-sans-pro.css"/>
+
+<link rel="stylesheet" href="./myconf.css"/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = './reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</head>
+<body prefix="dc: http://purl.org/dc/terms/ cc: http://creativecommons.org/ns#">
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide" data-state="no-toc-progress">
+<!-- This is an HTML template for the title slide. -->
+<!-- Embed logos as necessary. -->
+<!-- <a class="nooutlink" href="url"><img class="state-background your-logo-class" src="whatever.png" alt="Whatever" /></a> -->
+<div class="talk-title">
+    <h1 class="no-toc-progress">回帰分析 - モデルの推定</h1>
+</div>
+<div class="talk-subtitle">
+    <p>数理科学続論J</p>
+</div>
+<div class="keyboard-usage">
+    <p>(Press <code>?</code> for help, <code>n</code> and <code>p</code> for next and previous slide)</p>
+</div>
+<div class="talk-author">
+  <p>村田 昇<br />
+  2019.10.18</p>
+</div>
+
+</section>
+
+<section>
+<section id="slide-org75d4af3">
+<h2 id="org75d4af3">講義の予定</h2>
+<ul>
+<li><b>第1日: 回帰モデルの考え方と推定</b></li>
+<li>第2日: モデルの評価</li>
+<li>第3日: モデルによる予測と発展的なモデル</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+</section>
+<section>
+<section id="slide-org92749b0">
+<h2 id="org92749b0">回帰分析の考え方</h2>
+<div class="outline-text-2" id="text-org92749b0">
+</div>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org3ef579a">
+<h3 id="org3ef579a">回帰分析 (regression analysis)</h3>
+<ul>
+<li>ある変量を別の変量によって説明するための関係式を構成</li>
+<li>関係式: <b>回帰式 (regression equation)</b>
+<ul>
+<li>説明される側: <b>目的変数</b>, 被説明変数, 従属変数, 応答変数</li>
+<li>説明する側: <b>説明変数</b>, 独立変数, 共変量</li>
+
+</ul></li>
+<li>説明変数の数による分類:
+<ul>
+<li>一つの場合: <b>単回帰 (simple regression)</b></li>
+<li>複数の場合: <b>重回帰 (multiple regression)</b></li>
+
+</ul></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org9dd5b96">
+<h3 id="org9dd5b96">一般の回帰の枠組</h3>
+<ul>
+<li>説明変数: \(x_1,\dotsc,x_p\) (p次元)</li>
+<li>目的変数: \(y\) (1次元)</li>
+<li><p>
+観測データ: n個の \((y,x_1,\dotsc,x_p)\) の組
+</p>
+
+<div>
+\begin{equation}
+  \{(y_i,x_{i1},\dotsc,x_{ip})\}_{i=1}^n
+\end{equation}
+
+</div></li>
+<li><p>
+\(y\) を \(x_1,\dotsc,x_p\) で説明するための関係式を構成:
+</p>
+
+<div>
+\begin{equation}
+  y=f(x_1,\dotsc,x_p)
+\end{equation}
+
+</div>
+
+<p>
+一般には p変数関数 \(f\) を使う
+</p></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org03aa84a">
+<h3 id="org03aa84a">線形回帰 (linear regression)</h3>
+<ul>
+<li>任意の \(f\) では一般的すぎて分析に不向き</li>
+<li><p>
+\(f\) として1次関数を考える<br>
+ある定数 \(\beta_0,\beta_1,\dots,\beta_p\) を用いた以下の式:
+</p>
+
+<div>
+\begin{equation}
+  f(x_1,\dots,x_p)=\beta_0+\beta_1x_1+\cdots+\beta_px_p
+\end{equation}
+
+</div>
+
+<ul>
+<li>1次式の場合: <b>線形回帰 (linear regression)</b></li>
+<li>一般の場合: 非線形回帰 (nonlinear regression)</li>
+
+</ul></li>
+<li>非線形な関係は新たな説明変数の導入で対応可能
+<ul>
+<li>適切な多項式 \(x_j^2, x_jx_k, x_jx_kx_l,\dots\)</li>
+<li>その他の非線形変換 \(\log x_j, x_j^\alpha,\dots\)</li>
+
+</ul></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org62cb0b8">
+<h3 id="org62cb0b8">回帰係数</h3>
+<ul>
+<li><p>
+線形回帰式:
+</p>
+
+<div>
+\begin{equation}
+  y=\beta_0+\beta_1x_1+\cdots+\beta_px_p
+\end{equation}
+
+</div></li>
+<li>\(\beta_0,\beta_1,\dots,\beta_p\): <b>回帰係数 (regression coefficients)</b></li>
+<li>\(\beta_0\): 定数項 (切片; constant term)</li>
+<li>線形回帰分析: 未知の回帰係数をデータから決定</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgf374280">
+<h3 id="orgf374280">回帰の確率モデル</h3>
+<ul>
+<li>一般にデータは観測誤差などランダムな変動を含む</li>
+
+</ul>
+
+<ul>
+<li><p>
+確率モデル: データのばらつきを表す項 \(\epsilon_i\) を追加
+</p>
+
+<div>
+\begin{equation}
+  y_i=\beta_0+\beta_1 x_{i1}+\cdots+\beta_px_{ip}+\epsilon_i\quad (i=1,\dots,n)
+\end{equation}
+
+</div></li>
+<li>\(\epsilon_1,\dots,\epsilon_n\): <b>誤差項/撹乱項 (error/disturbance term)</b>
+<ul>
+<li>誤差項は独立な確率変数と仮定</li>
+<li>多くの場合，平均0，分散 \(\sigma^2\) の正規分布を仮定</li>
+
+</ul></li>
+<li><b>推定 (estimation)</b>: 未知パラメータ
+(\(\beta_0,\beta_1,\dots,\beta_p\)) 
+を観測データから決定すること</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+</section>
+<section>
+<section id="slide-orgf6a5ebf">
+<h2 id="orgf6a5ebf">回帰係数の推定</h2>
+<div class="outline-text-2" id="text-orgf6a5ebf">
+</div>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orge12d316">
+<h3 id="orge12d316">残差</h3>
+<ul>
+<li>回帰式で説明できない変動: <b>残差 (residual)</b></li>
+<li><p>
+回帰係数 \(\boldsymbol{\beta}=(\beta_0,\beta_1,\dotsc,\beta_p)^\top\) 
+を持つ回帰式の残差:
+</p>
+
+<div>
+\begin{equation}
+  e_i(\boldsymbol{\beta})=
+  y_i-(\beta_0+\beta_1 x_{i1}+\dotsb+\beta_px_{ip})
+  \quad (i=1,\dotsc,n)
+\end{equation}
+
+</div></li>
+<li>残差 \(e_i(\boldsymbol{\beta})\) の絶対値が小さいほど当てはまりがよい</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgc9b2485">
+<h3 id="orgc9b2485">最小二乗法 (least squares)</h3>
+<ul>
+<li><p>
+<b>残差平方和 (residual sum of squares)</b>:
+</p>
+
+<div>
+\begin{equation}
+  S(\boldsymbol{\beta}):=
+  \sum_{i=1}^ne_i(\boldsymbol{\beta})^2
+\end{equation}
+
+</div></li>
+<li><p>
+<b>最小二乗推定量 (least squares estimator)</b>:
+残差平方和
+\(S(\boldsymbol{\beta})\) を最小にする \(\boldsymbol{\beta}\)
+</p>
+
+<div>
+\begin{equation}
+  \boldsymbol{\hat{\beta}}=(\hat{\beta}_0,\hat{\beta}_1,\dotsc,\hat{\beta}_p)^\top:=
+  \arg\min_{\boldsymbol{\beta}}S(\boldsymbol{\beta})
+\end{equation}
+
+</div></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org5f8eaab">
+<h3 id="org5f8eaab">行列の定義</h3>
+<ul>
+<li><p>
+デザイン行列 (design matrix):
+</p>
+
+<div>
+\begin{equation}
+  \boldsymbol{X}=
+  \begin{pmatrix}
+    1 & x_{11} & x_{12} & \cdots & x_{1p} \\
+    1 & x_{21} & x_{22} & \cdots & x_{2p} \\
+    \vdots & \vdots & \vdots & & \vdots \\
+    1 & x_{n1} & x_{n2} & \cdots & x_{np}
+  \end{pmatrix}
+\end{equation}
+
+</div></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgd48af05">
+<h3 id="orgd48af05">ベクトルの定義</h3>
+<ul>
+<li><p>
+目的変数，誤差，回帰係数のベクトル
+</p>
+
+<div>
+\begin{equation}
+  \boldsymbol{y}=
+  \begin{pmatrix}
+    y_1 \\
+    y_2 \\
+    \vdots \\
+    y_n
+  \end{pmatrix},\quad
+  \boldsymbol{\epsilon}=
+  \begin{pmatrix}
+    \epsilon_1 \\
+    \epsilon_2 \\
+    \vdots \\
+    \epsilon_n
+  \end{pmatrix},\quad
+  \boldsymbol{\beta}=
+  \begin{pmatrix}
+    \beta_0 \\
+    \beta_1 \\
+    \vdots \\
+    \beta_p
+  \end{pmatrix}
+\end{equation}
+
+</div></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org8339860">
+<h3 id="org8339860">行列・ベクトルによる表現</h3>
+<ul>
+<li><p>
+確率モデル:
+</p>
+
+<div>
+\begin{equation}
+  \boldsymbol{y}
+  =\boldsymbol{X}\boldsymbol{\beta}+\boldsymbol{\epsilon}
+\end{equation}
+
+</div></li>
+<li><p>
+残差平方和:
+</p>
+
+<div>
+\begin{equation}
+  S(\boldsymbol{\beta})
+  =(\boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta})^\top
+  (\boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta})
+\end{equation}
+
+</div></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org3b03c2a">
+<h3 id="org3b03c2a">解の条件</h3>
+<ul>
+<li><p>
+解 \(\boldsymbol{\beta}\) では残差平方和の勾配は零ベクトル
+</p>
+
+<div>
+\begin{equation}
+  \nabla S(\beta):=
+  \Bigl(
+    \frac{\partial S}{\partial\beta_0}(\boldsymbol{\beta}),
+    \frac{\partial S}{\partial\beta_1}(\boldsymbol{\beta}),\dotsc,
+    \frac{\partial S}{\partial\beta_p}(\boldsymbol{\beta})
+  \Bigr)^\top=\boldsymbol{0}
+\end{equation}
+
+</div></li>
+<li><p>
+成分 (\(j=0,1,\dotsc,p\)) ごとの条件式
+</p>
+
+<div>
+\begin{equation}
+  \frac{\partial S}{\partial\beta_j}(\boldsymbol{\beta})
+  =
+  -2\sum_{i=1}^n\Bigl(y_i-\sum_{k=0}^p\beta_kx_{ik}\Bigr)x_{ij}
+  =0
+\end{equation}
+
+</div>
+
+<p>
+但し \(x_{i0}=1\; (i=1,\dotsc,n)\)
+</p></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org37633a7">
+<h3 id="org37633a7">正規方程式 (normal equation)</h3>
+<ul>
+<li><p>
+条件を整理
+(\(x_{ij}\) は行列 \(\boldsymbol{X}\) の \((i,j)\) 成分)
+</p>
+
+<div>
+\begin{equation}
+  \sum_{i=1}^nx_{ij}\Bigl(\sum_{k=0}^px_{ik}\beta_k\Bigr)
+  =
+  \sum_{i=1}^nx_{ij}y_i\quad(j=0,1,\dotsc,p)
+\end{equation}
+
+</div></li>
+<li><p>
+<b>正規方程式 (normal equation)</b>:
+</p>
+
+<div>
+\begin{equation}
+  \boldsymbol{X}^\top\boldsymbol{X}\boldsymbol{\beta}
+  =\boldsymbol{X}^\top\boldsymbol{y}
+\end{equation}
+
+</div></li>
+<li>\(\boldsymbol{X}^\top\boldsymbol{X}\): <b>Gram行列 (Gram matrix)</b></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org47b9d36">
+<h3 id="org47b9d36">正規方程式の解</h3>
+<ul>
+<li>正規方程式の基本的な性質
+<ul>
+<li>正規方程式は必ず解をもつ (一意に決まらない場合もある)</li>
+<li>正規方程式の解は最小二乗推定量であるための必要条件</li>
+
+</ul></li>
+<li>Gram 行列 \(\boldsymbol{X}^\top\boldsymbol{X}\) が正則ならば解が一意に決定</li>
+<li><p>
+正規方程式の解
+</p>
+
+<div>
+\begin{equation}
+  \boldsymbol{\hat{\beta}}
+  =
+  (\boldsymbol{X}^\top\boldsymbol{X})^{-1}\boldsymbol{X}^\top\boldsymbol{y}  
+\end{equation}
+
+</div></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org3e65d8c">
+<h3 id="org3e65d8c">R: 関数 <code>lm()</code> の使い方</h3>
+<ul>
+<li>ベクトルを用いる基本的な使い方:
+<ul>
+<li>ベクトル <code>y</code>: 目的変数 \(y\)</li>
+<li>ベクトル <code>x1,...,xp</code>: 説明変数 \(x_1,\dotsc,x_p\)</li>
+
+</ul></li>
+<li>データフレームを用いる方法: <b>(こちらの使い方を推奨)</b>
+<ul>
+<li>データフレーム <code>mydata</code>: 目的変数，説明変数を含むデータ</li>
+<li>列名: yの変数名, x1の変数名, &#x2026;, xpの変数名</li>
+
+</ul></li>
+
+</ul>
+<div class="org-src-container">
+
+<pre  class="src src-R"><span style="color: #5C6370;">## </span><span style="color: #5C6370;">&#12505;&#12463;&#12488;&#12523;&#12434;&#28193;&#12377;&#22580;&#21512;</span>
+lm(y ~ x1 + ... + xp)
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12434;&#28193;&#12377;&#22580;&#21512;</span>
+lm(y&#12398;&#22793;&#25968;&#21517; ~ x1&#12398;&#22793;&#25968;&#21517; + ... + xp&#12398;&#22793;&#25968;&#21517;, data = mydata)
+</pre>
+</div>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org8a22d58" data-background="#EEEEFF">
+<h3 id="org8a22d58">演習: 回帰式の推定</h3>
+<ul>
+<li><a href="./code/04-lm.r">04-lm.r</a> を確認してみよう</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+</section>
+<section>
+<section id="slide-org01af223">
+<h2 id="org01af223">最小二乗推定量の性質</h2>
+<div class="outline-text-2" id="text-org01af223">
+</div>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org21be3b5">
+<h3 id="org21be3b5">解と観測データの関係</h3>
+<ul>
+<li>解析の上での良い条件:
+<ul>
+<li>最小二乗推定量がただ一つだけ存在する (以下同値条件)
+<ul>
+<li>\(\boldsymbol{X}^\top\boldsymbol{X}\) が正則</li>
+<li>\(\boldsymbol{X}^\top\boldsymbol{X}\) の階数が \(p{+}1\)</li>
+<li>\(\boldsymbol{X}\) の階数が \(p{+}1\)</li>
+<li>\(\boldsymbol{X}\) の列ベクトルが1次独立</li>
+
+</ul></li>
+
+</ul></li>
+<li>解析の上での良くない条件:
+<ul>
+<li>説明変数が1次従属: <b>多重共線性 (multicollinearity)</b></li>
+<li>説明変数は多重共線性が強くならないように選択するべき 
+<ul>
+<li>\(\boldsymbol{X}\) の列(説明変数)の独立性を担保する</li>
+<li>説明変数が互いに異なる情報をもつように選ぶ</li>
+<li>似た性質をもつ説明変数の重複は避ける</li>
+
+</ul></li>
+
+</ul></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orge19d01f">
+<h3 id="orge19d01f">推定の幾何学的解釈</h3>
+<ul>
+<li><p>
+<b>あてはめ値 (fitted values) / 予測値 (predicted values)</b>
+</p>
+
+<div>
+\begin{equation}
+  \boldsymbol{\hat{y}}
+  =
+  \boldsymbol{X}\boldsymbol{\hat{\beta}}
+  =
+  \hat{\beta}_{0} X_\text{第0列} + 
+  \dots + \hat{\beta}_{p} X_\text{第p列}
+\end{equation}
+
+</div></li>
+<li>最小二乗推定量 \(\boldsymbol{\hat{y}}\) の幾何学的性質:
+<ul>
+<li>\(L[\boldsymbol{X}]\): \(\boldsymbol{X}\) の列ベクトルが張る \(\mathbb{R}^n\) の部分線形空間</li>
+<li>\(X\) の階数が \(p{+}1\) ならば \(L[\boldsymbol{X}]\) の次元は \(p{+}1\) (解の一意性の条件)</li>
+<li>\(\boldsymbol{\hat{y}}\) は \(\boldsymbol{y}\) の \(L[\boldsymbol{X}]\) への直交射影</li>
+<li><p>
+<b>残差 (residuals)</b> \(\boldsymbol{\hat{\epsilon}}:=\boldsymbol{y}-\boldsymbol{\hat{y}}\) はあてはめ値 \(\boldsymbol{\hat{y}}\) に直交
+</p>
+
+<div>
+\begin{equation}
+  \boldsymbol{\hat{\epsilon}}\cdot\boldsymbol{\hat{y}}=0
+\end{equation}
+
+</div></li>
+
+</ul></li>
+<li>幾何学的な考察からも一意に決まる</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org7c90267">
+<h3 id="org7c90267">推定の幾何学的解釈</h3>
+
+<div id="org6e895ce" class="figure">
+<p><img src="./figs/projection.png" alt="projection.png" width="80%" height="80%">
+</p>
+<p><span class="figure-number">Figure 1: </span>\(n=3\) , \(p+1=2\) の場合の最小二乗法による推定</p>
+</div>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org73d76f6">
+<h3 id="org73d76f6">線形回帰式と標本平均</h3>
+<ul>
+<li>\(\boldsymbol{x}_i=(x_{i1},\dotsc,x_{ip})^\top\):
+説明変数の \(i\) 番目の観測データ</li>
+<li><p>
+説明変数および目的変数の標本平均:
+</p>
+
+<div>
+\begin{align}
+  \boldsymbol{\bar{x}}
+  &=\frac{1}{n}\sum_{i=1}^n\boldsymbol{x}_i,
+  &\bar{y}
+  % \overline{\boldsymbol{x}^2}&=\frac{1}{n}\sum_{i=1}^n\boldsymbol{x}_i\boldsymbol{x}_i^\top,&
+  &=\frac{1}{n}\sum_{i=1}^ny_i,&
+  % \overline{\boldsymbol{x}y}&=\frac{1}{n}\sum_{i=1}^n\boldsymbol{x}_iy_i
+\end{align}
+
+</div></li>
+<li><p>
+\(\boldsymbol{\hat{\beta}}\) が最小二乗推定量のとき以下が成立:
+</p>
+
+<div>
+\begin{equation}
+  \bar{y}
+  =
+  (1,\boldsymbol{\bar{x}}^\top)\boldsymbol{\hat{\beta}}
+\end{equation}
+
+</div></li>
+<li><p>
+以下の関係から簡単に示すことができる:
+</p>
+
+<div>
+\begin{equation}
+  \boldsymbol{1}\cdot(\boldsymbol{y}-\boldsymbol{\hat{y}})
+  =\boldsymbol{1}\cdot\boldsymbol{\hat{\epsilon}}
+  =0
+\end{equation}
+
+</div></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org6cdf27f">
+<h3 id="org6cdf27f">R: 推定結果からの情報の取得</h3>
+<ul>
+<li>関数 <code>lm()</code> の出力には様々な情報が含まれる</li>
+<li>情報を取り出すための関数が用意されている</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre  class="src src-R"><span style="color: #5C6370;">## </span><span style="color: #5C6370;">lm&#12398;&#20986;&#21147;&#12434;&#24341;&#25968;&#12392;&#12377;&#12427;&#38306;&#25968;&#12398;&#20363;</span>
+coef(lm&#12398;&#20986;&#21147;)         <span style="color: #5C6370;"># </span><span style="color: #5C6370;">&#25512;&#23450;&#12373;&#12428;&#12383;&#22238;&#24112;&#20418;&#25968;</span>
+fitted(lm&#12398;&#20986;&#21147;)       <span style="color: #5C6370;"># </span><span style="color: #5C6370;">&#12354;&#12390;&#12399;&#12417;&#20516;</span>
+resid(lm&#12398;&#20986;&#21147;)        <span style="color: #5C6370;"># </span><span style="color: #5C6370;">&#27531;&#24046;</span>
+model.frame(lm&#12398;&#20986;&#21147;)  <span style="color: #5C6370;"># </span><span style="color: #5C6370;">model&#12395;&#24517;&#35201;&#12394;&#22793;&#25968;&#12398;&#25277;&#20986;</span>
+model.matrix(lm&#12398;&#20986;&#21147;) <span style="color: #5C6370;"># </span><span style="color: #5C6370;">&#12487;&#12470;&#12452;&#12531;&#34892;&#21015;</span>
+</pre>
+</div>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org4ce2457" data-background="#EEEEFF">
+<h3 id="org4ce2457">演習: 最小二乗推定量の性質</h3>
+<ul>
+<li><a href="./code/04-lse.r">04-lse.r</a> を確認してみよう</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+</section>
+<section>
+<section id="slide-orgcd2f510">
+<h2 id="orgcd2f510">残差の性質</h2>
+<div class="outline-text-2" id="text-orgcd2f510">
+</div>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org09f8ed6">
+<h3 id="org09f8ed6">残差</h3>
+<ul>
+<li><p>
+観測値と推定値 \(\boldsymbol{\hat{\beta}}\) による予測値の差:
+</p>
+
+<div>
+\begin{equation}
+  \hat{\epsilon}_i=
+  y_i-(\hat{\beta}_0+\hat{\beta}_1 x_{i1}+\dotsb+\hat{\beta}_px_{ip})
+  \quad (i=1,\dotsc,n)
+\end{equation}
+
+</div>
+
+<ul>
+<li>誤差項 \(\epsilon_1,\dotsc,\epsilon_n\) の推定値</li>
+<li>全てができるだけ小さいほど良い</li>
+<li>予測値とは独立に偏りがないほど良い</li>
+
+</ul></li>
+<li><p>
+残差ベクトル
+</p>
+
+<div>
+\begin{equation}
+  \boldsymbol{\hat{\epsilon}}
+  =\boldsymbol{y}-\boldsymbol{\hat{y}}
+  =(\hat{\epsilon}_1,\hat{\epsilon}_2,\dotsc,\hat{\epsilon}_n)^{\top}
+\end{equation}
+
+</div></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org6f882f8">
+<h3 id="org6f882f8">ばらつきの分解</h3>
+<ul>
+<li>いろいろなばらつき
+<ul>
+<li>\(\bar{\boldsymbol{y}}=\bar{y}\boldsymbol{1}=(\bar{y},\bar{y},\dotsc,\bar{y})^{\top}\):
+標本平均のベクトル</li>
+<li>\(S_y=(\boldsymbol{y}-\bar{\boldsymbol{y}})^{\top}
+       (\boldsymbol{y}-\bar{\boldsymbol{y}})\):
+目的変数のばらつき</li>
+<li>\(S_{\phantom{y}}=(\boldsymbol{y}-\boldsymbol{\hat{y}})^{\top}
+       (\boldsymbol{y}-\boldsymbol{\hat{y}})\):
+残差のばらつき
+(\(\boldsymbol{\hat{\epsilon}}^{\top}\boldsymbol{\hat{\epsilon}}\))</li>
+<li>\(S_r=(\boldsymbol{\hat{y}}-\bar{\boldsymbol{y}})^{\top}
+       (\boldsymbol{\hat{y}}-\bar{\boldsymbol{y}})\):
+あてはめ値(回帰)のばらつき</li>
+
+</ul></li>
+<li><p>
+3つのばらつきの関係
+</p>
+
+<div>
+\begin{equation}
+  (\boldsymbol{y}-\bar{\boldsymbol{y}})^{\top}
+  (\boldsymbol{y}-\bar{\boldsymbol{y}})
+  =
+  (\boldsymbol{y}-\boldsymbol{\hat{y}})^{\top}
+  (\boldsymbol{y}-\boldsymbol{\hat{y}})+ 
+  (\boldsymbol{\hat{y}}-\bar{\boldsymbol{y}})^{\top}
+  (\boldsymbol{\hat{y}}-\bar{\boldsymbol{y}})
+\end{equation}
+
+</div>
+<div>
+\begin{equation}
+  S_y=S+S_r
+\end{equation}
+
+</div></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org0d2b489">
+<h3 id="org0d2b489">分解に用いる残差の性質</h3>
+<ul>
+<li><p>
+証明には以下の関係を使う
+</p>
+
+<div>
+\begin{align}
+  &\boldsymbol{y}-\bar{\boldsymbol{y}}
+    =\boldsymbol{y}-\boldsymbol{\hat{y}}+\boldsymbol{\hat{y}}-\bar{\boldsymbol{y}}\\
+  &\boldsymbol{\hat{y}}\cdot(\boldsymbol{y}-\boldsymbol{\hat{y}})
+    =\boldsymbol{\hat{y}}\cdot\boldsymbol{\hat{\epsilon}}
+    =0\\
+  &\boldsymbol{1}\cdot(\boldsymbol{y}-\boldsymbol{\hat{y}})
+    =\boldsymbol{1}\cdot\boldsymbol{\hat{\epsilon}}
+    =0
+\end{align}
+
+</div></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org1fa8efc" data-background="#EEEEFF">
+<h3 id="org1fa8efc">演習: 残差の性質</h3>
+<ul>
+<li><a href="./code/04-resid.r">04-resid.r</a> を確認してみよう</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgd38a356">
+<h3 id="orgd38a356">回帰式の寄与</h3>
+<ul>
+<li><p>
+ばらつきの分解:
+</p>
+
+<div>
+\begin{equation}
+  S_y\;\text{(目的変数)} =S\;\text{(残差)} +S_r\;\text{(あてはめ値)}
+\end{equation}
+
+</div></li>
+<li><p>
+回帰式で説明できるばらつきの比率
+</p>
+
+<div>
+\begin{equation}
+  (寄与率)
+  = \frac{S_{r}}{S_{y}}
+  = 1-\frac{S}{S_{y}}
+\end{equation}
+
+</div></li>
+<li>回帰式のあてはまり具合を評価する代表的な指標</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org232f084">
+<h3 id="org232f084">決定係数 (\(R^2\) 値)</h3>
+<ul>
+<li><p>
+<b>決定係数 (R-squared)</b>:
+</p>
+
+<div>
+\begin{equation}
+  R^2
+  =
+  1-\frac{\sum_{i=1}^n\hat{\epsilon}_i^2}{\sum_{i=1}^n(y_i-\bar{y})^2}
+\end{equation}
+
+</div></li>
+<li><p>
+<b>自由度調整済み決定係数 (adjusted R-squared)</b>:
+</p>
+
+<div>
+\begin{equation}
+  \bar{R}^2
+  =
+  1-\frac{\frac{1}{n{-}p{-}1}\sum_{i=1}^n\hat{\epsilon}_i^2}
+  {\frac{1}{n{-}1}\sum_{i=1}^n(y_i-\bar{y})^2}
+\end{equation}
+
+</div>
+
+<p>
+不偏分散で補正している
+</p></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org9d8d0a4" data-background="#EEEEFF">
+<h3 id="org9d8d0a4">演習: 決定係数</h3>
+<ul>
+<li><a href="./code/04-rsq.r">04-rsq.r</a> を確認してみよう</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org2210d78" data-background="#EEEEFF">
+<h3 id="org2210d78">演習</h3>
+<ul align="left">
+<li>以下のデータで回帰分析を行ってみよう
+<ul>
+<li>datasets::airquality</li>
+<li>datasets::LifeCycleSavings</li>
+
+</ul></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+</section>
+</div>
+</div>
+<script src="./reveal.js/js/reveal.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: true,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: true,
+fragmentInURL: true,
+pdfSeparateFragments: false,
+
+overview: true,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'fade', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+{ src: './reveal.js/plugin/coursemod/coursemod.js', async: true },
+{ src: './reveal.js/plugin/quiz/js/quiz.js', async: true, callback: function() { prepareQuizzes({preventUnanswered: true}); } },
+{ src: './reveal.js/plugin/jump/jump.js', async: true },
+ { src: './reveal.js/plugin/toc-progress/toc-progress.js', async: true, callback: function() { toc_progress.initialize('reduce', 'rgba(120,138,130,0.2)'); toc_progress.create(); } },
+ { src: './reveal.js/plugin/anything/anything.js' },
+ { src: './reveal.js/plugin/audio-slideshow/audio-slideshow.js', condition: function( ) { return !!document.body.classList && !Reveal.isSpeakerNotes(); } },
+ { src: './reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: './reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: './reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } }]
+,audio: {
+    advance: -1, autoplay: true, defaultDuration: 0, defaultAudios: false, playerOpacity: 0.3, playerStyle: 'position: fixed; bottom: 9.5vh; left: 0%; width: 30%; height:30px; z-index: 33;' },
+  anything: [
+	{className: "animate",  initialize: (function(container, options){
+		Reveal.addEventListener( 'fragmentshown', function( event ) {
+			if (typeof event.fragment.beginElement === "function" ) {
+				event.fragment.beginElement();
+			}
+		});
+		Reveal.addEventListener( 'fragmenthidden', function( event ) {
+			if (event.fragment.hasAttribute('data-reverse') ) {
+				var reverse = event.fragment.parentElement.querySelector('[id=\"' + event.fragment.getAttribute('data-reverse') + '\"]');
+				if ( reverse && typeof reverse.beginElement === "function" ) {
+					reverse.beginElement();
+				}
+			}
+		});
+		if ( container.getAttribute("data-svg-src") ) {
+			var xhr = new XMLHttpRequest();
+			xhr.onload = function() {
+				if (xhr.readyState === 4) {
+					var svg = container.querySelector('svg');
+					container.removeChild( svg );
+					container.innerHTML = xhr.responseText + container.innerHTML;
+					if ( svg ) {
+						container.querySelector('svg').innerHTML = container.querySelector('svg').innerHTML + svg.innerHTML;
+					}
+				}
+				else {
+					console.warn( "Failed to get file. ReadyState: " + xhr.readyState + ", Status: " + xhr.status);
+				}
+			};
+			xhr.open( 'GET', container.getAttribute("data-svg-src"), true );
+			xhr.send();
+		}
+	}) },
+	{className: "randomPic",
+	 defaults: {imgalt: "Dummy alt text",
+		    imgcaption: "Image by {name}",
+		    choices: [ {name: "dummyname", path: "dummypath"} ]},
+	 initialize: (function(container, options){
+	     var choice = Math.trunc( Math.random()*(options.choices.length) );
+	     var img = "<img data-src='" + options.choices[choice].path + "' alt='" + options.choices[choice].imgalt + "' />";
+	     var caption = options.imgcaption.replace(new RegExp('\{name\}', 'gm'), options.choices[choice].name);
+	     container.innerHTML = img + caption;
+	 }) },
+	{className: "notes",
+	 initialize: (function(container, options){
+	     container.addEventListener('click', function(e) { RevealNotes.open(); });
+	 }) }
+],
+  coursemod: { enabled: true, shown: false }});
+</script>
+</body>
+</html>

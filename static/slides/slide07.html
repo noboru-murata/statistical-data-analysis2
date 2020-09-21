@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>主成分分析 - 考え方</title>
+<meta name="author" content="村田 昇"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="./reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="./reveal.js/css/theme/oer-reveal.css" id="theme"/>
+
+<link rel="stylesheet" href="./reveal.js/plugin/toc-progress/toc-progress.css"/>
+
+<link rel="stylesheet" href="./reveal.js/css/theme/toc-style.css"/>
+
+<link rel="stylesheet" href="./reveal.js/css/theme/oer-reveal.css"/>
+
+<link rel="stylesheet" href="./reveal.js/lib/font/source-sans-pro/source-sans-pro.css"/>
+
+<link rel="stylesheet" href="./myconf.css"/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = './reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</head>
+<body prefix="dc: http://purl.org/dc/terms/ cc: http://creativecommons.org/ns#">
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide" data-state="no-toc-progress">
+<!-- This is an HTML template for the title slide. -->
+<!-- Embed logos as necessary. -->
+<!-- <a class="nooutlink" href="url"><img class="state-background your-logo-class" src="whatever.png" alt="Whatever" /></a> -->
+<div class="talk-title">
+    <h1 class="no-toc-progress">主成分分析 - 考え方</h1>
+</div>
+<div class="talk-subtitle">
+    <p>数理科学続論J</p>
+</div>
+<div class="keyboard-usage">
+    <p>(Press <code>?</code> for help, <code>n</code> and <code>p</code> for next and previous slide)</p>
+</div>
+<div class="talk-author">
+  <p>村田 昇<br />
+  2019.11.08</p>
+</div>
+
+</section>
+
+<section>
+<section id="slide-org7b3cb7f">
+<h2 id="org7b3cb7f">講義の予定</h2>
+<ul>
+<li><b>第1日: 主成分分析の考え方</b></li>
+<li>第2日: 分析の評価と視覚化</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+</section>
+<section>
+<section id="slide-org15af359">
+<h2 id="org15af359">主成分分析の考え方</h2>
+<div class="outline-text-2" id="text-org15af359">
+</div>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org55ae271">
+<h3 id="org55ae271">主成分分析 (principal component analysis)</h3>
+<ul>
+<li>多数の変量のもつ情報の分析・視覚化
+<ul>
+<li>変量を効率的に縮約して少数の特徴量を構成する</li>
+<li>変量の間の関係を明らかにする</li>
+
+</ul></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgf91c779">
+<h3 id="orgf91c779">記号の準備</h3>
+<ul>
+<li>変数: \(X_1,\dotsc,X_p\)</li>
+<li>特徴量: \(Z_1,\dotsc,Z_d\) ( \(d\leq p\) )</li>
+<li><p>
+変数と特徴量の関係 (線形結合):
+</p>
+
+<div>
+\begin{equation}
+  Z_k=a_{1k}X_1+\cdots+a_{pk}X_p\quad(k=1,\dotsc,d)
+\end{equation}
+
+</div></li>
+<li><p>
+特徴量は定数倍の任意性があるので以下を仮定:
+</p>
+
+<div>
+\begin{equation}
+  \|\boldsymbol{a}_k\|^2:=\sum_{j=1}^pa_{jk}^2=1
+\end{equation}
+
+</div></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgb2cdf36">
+<h3 id="orgb2cdf36">主成分分析の用語</h3>
+<ul>
+<li>特徴量 \(Z_k\): 第 \(k\) <b>主成分(得点)</b> <br>
+(principal component score)</li>
+<li>係数ベクトル \(\boldsymbol{a}_k\): 
+第 \(k\) <b>主成分方向</b> <br>
+(principal component direction)<br>
+または第 \(k\) <b>主成分負荷量</b> <br>
+(principal component loading)</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgbc0e88b">
+<h3 id="orgbc0e88b">主成分分析の目的</h3>
+<ul>
+<li>目的: 
+主成分得点 \(Z_1,\dots,Z_d\) が変数 \(X_1,\dotsc,X_p\) の情報を
+効率よく反映するように
+主成分方向 \(\boldsymbol{a}_1,\dotsc,\boldsymbol{a}_d\) を
+観測データから <b>うまく</b> 決定する</li>
+<li>分析の方針: (以下は同値)
+<ul>
+<li>データの情報を最大限保持する変量の線形結合を構成</li>
+<li>データの情報を最大限反映する座標(方向)を探索</li>
+
+</ul></li>
+<li><b>教師なし学習</b> の代表的手法の1つ
+<ul>
+<li>次元縮約: 入力をできるだけ少ない変数で表現</li>
+<li>特徴抽出: 情報処理に重要な特性を変数に凝集</li>
+
+</ul></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgf14ada1">
+<h3 id="orgf14ada1">R: 主成分分析を実行する関数</h3>
+<ul>
+<li>Rの標準的な関数: <code>prcomp()</code> および <code>princomp()</code></li>
+<li>計算法に若干の違いがある
+<ul>
+<li>数値計算の観点からみると <code>prcomp()</code> が優位</li>
+<li><code>princomp()</code> はS言語(商用)との互換性を重視した実装</li>
+
+</ul></li>
+<li>本講義では <code>prcomp()</code> を利用</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org9f032f3">
+<h3 id="org9f032f3">R: 関数 <code>prcomp()</code> の使い方</h3>
+<ul>
+<li>基本的にデータフレームを用いる:
+<ul>
+<li>データフレーム <code>mydata</code>: 必要な変数を含むデータフレーム</li>
+<li>列名: x1の変数名, &#x2026;, xpの変数名</li>
+
+</ul></li>
+
+</ul>
+<div class="org-src-container">
+
+<pre  class="src src-R"><span style="color: #5C6370;">## </span><span style="color: #5C6370;">&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12434;&#20840;&#12390;&#29992;&#12356;&#12427;&#22580;&#21512;</span>
+prcomp(mydata)
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">&#21015;&#21517;&#12434;&#25351;&#23450;&#12377;&#12427;(formula&#12434;&#29992;&#12356;&#12427;)&#22580;&#21512; </span>
+prcomp( ~ x1&#12398;&#22793;&#25968;&#21517; + ... + xp&#12398;&#22793;&#25968;&#21517;, data = mydata)
+</pre>
+</div>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org3258630" data-background="#EEEEFF">
+<h3 id="org3258630">演習: 2次元人工データの主成分分析</h3>
+<ul>
+<li><a href="./code/07-toy.r">07-toy.r</a> の前半を確認してみよう</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+</section>
+<section>
+<section id="slide-orgd62c7eb">
+<h2 id="orgd62c7eb">第1主成分の計算</h2>
+<div class="outline-text-2" id="text-orgd62c7eb">
+</div>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org97fa669">
+<h3 id="org97fa669">記号の準備</h3>
+<ul>
+<li>\(\{(x_{i1},\dots,x_{ip})\}_{i=1}^n\): \(n\) 個の \(p\) 次元観測データ</li>
+<li>\(\boldsymbol{x}_i=(x_{i1},\dots,x_{ip})^\top\): \(i\) 番目の観測データ <br>
+(\(p\) 次元空間内の1点)</li>
+<li>\(\boldsymbol{a}=(a_1,\dots,a_p)^\top\): 長さ1の \(p\) 次元ベクトル</li>
+<li>\(\boldsymbol{a}\cdot\boldsymbol{x}_i\): 
+データ \(\boldsymbol{x}_i\) の \(\boldsymbol{a}\) 方向成分の長さ(スカラー)</li>
+<li>\((\boldsymbol{a}\cdot\boldsymbol{x}_i)\,\boldsymbol{a}\): 
+(スカラー \(\times\) ベクトル)<br>
+方向ベクトル \(\boldsymbol{a}\) をもつ直線上への点 \(\boldsymbol{x}_i\) の直交射影</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org5191a3d">
+<h3 id="org5191a3d">幾何学的描像</h3>
+
+<div id="org9d73b23" class="figure">
+<p><img src="./figs/pca-figure.png" alt="pca-figure.png" width="80%" height="80%">
+</p>
+<p><span class="figure-number">Figure 1: </span>観測データの直交射影 (\(p=2,n=2\) の場合)</p>
+</div>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org2ee24ae">
+<h3 id="org2ee24ae">ベクトル \(\boldsymbol{a}\) の選択の指針</h3>
+<ul>
+<li>ベクトル \(\boldsymbol{a}\) を <b>うまく</b> 選んで
+観測データ \(\boldsymbol{x}_1,\dots,\boldsymbol{x}_n\) の情報を最大限保持する
+1変量データ
+\(\boldsymbol{a}\cdot\boldsymbol{x}_1,\dotsc,\boldsymbol{a}\cdot\boldsymbol{x}_n\)
+を構成する</li>
+<li><p>
+観測データ \(\boldsymbol{x}_1,\dotsc,\boldsymbol{x}_n\) 
+のばらつきを最も反映する方向を最適なベクトル \(\boldsymbol{a}\) とする
+</p>
+
+<div>
+\begin{equation}
+  \arg\max_{\boldsymbol{a}}
+  \sum_{i=1}^n(\boldsymbol{a}\cdot\boldsymbol{x}_i
+  -\boldsymbol{a}\cdot\bar{\boldsymbol{x}})^2,
+  \quad
+  \bar{\boldsymbol{x}}
+  =
+  \frac{1}{n}\sum_{i=1}^n\boldsymbol{x}_i,
+\end{equation}
+
+</div></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org06e6e1b">
+<h3 id="org06e6e1b">ベクトル \(\boldsymbol{a}\) の最適化問題</h3>
+<ul>
+<li><p>
+制約条件 \(\|\boldsymbol{a}\|=1\) の下で関数
+</p>
+
+<div>
+\begin{equation}
+  f(\boldsymbol{a})
+  =
+  \sum_{i=1}^n(\boldsymbol{a}\cdot\boldsymbol{x}_i
+  -\boldsymbol{a}\cdot\bar{\boldsymbol{x}})^2
+\end{equation}
+
+</div>
+
+<p>
+を最大化せよ
+</p></li>
+<li>この最大化問題は必ず解をもつ:
+<ul>
+<li>\(f(\boldsymbol{a})\) は連続関数</li>
+<li>集合 \(\{\boldsymbol{a}\in\mathbb{R}^p:\|\boldsymbol{a}\|=1\}\) はコンパクト(有界閉集合)</li>
+
+</ul></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org4c336ad">
+<h3 id="org4c336ad">ベクトル \(\boldsymbol{a}\) の性質</h3>
+<ul>
+<li><p>
+\(f(\boldsymbol{a})\) の極大値を与える \(\boldsymbol{a}\) は
+以下で定義される行列 \(\boldsymbol{X}^\top\boldsymbol{X}\) の
+固有ベクトル:
+</p>
+
+<div>
+\begin{equation}
+  \boldsymbol{X}
+  =
+  \begin{pmatrix}
+    \boldsymbol{x}_{1}^\top-\bar{\boldsymbol{x}}^\top \\
+    \vdots \\
+    \boldsymbol{x}_{n}^\top-\bar{\boldsymbol{x}}^\top
+  \end{pmatrix}
+  =
+  \begin{pmatrix}
+    x_{11}-\bar{x}_1 & \cdots & x_{1p}-\bar{x}_p\\
+    \vdots & & \vdots \\
+    x_{n1}-\bar{x}_1 & \cdots & x_{np}-\bar{x}_p
+  \end{pmatrix}
+\end{equation}
+
+</div>
+<p>
+(回帰分析のデザイン行列，Gram 行列を参照)
+</p></li>
+<li>関数値 \(f(\boldsymbol{a})\) はこの固有ベクトルに対する固有値</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgf6ebfeb">
+<h3 id="orgf6ebfeb">第1主成分</h3>
+<ul>
+<li>求める \(\boldsymbol{a}\) は
+行列 \(\boldsymbol{X}^\top\boldsymbol{X}\) の最大固有ベクトル (長さ1)</li>
+<li>\(f(\boldsymbol{a})\) は
+行列 \(\boldsymbol{X}^\top\boldsymbol{X}\) の最大固有値</li>
+<li><b>第1主成分方向</b>: ベクトル \(\boldsymbol{a}\)</li>
+<li><p>
+<b>第1主成分得点</b>:
+</p>
+
+<div>
+\begin{equation}
+  z_{i1}=a_1x_{i1}+\cdots+a_px_{ip}\quad(i=1,\dots,n)
+\end{equation}
+
+</div></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgfc3e98b" data-background="#EEEEFF">
+<h3 id="orgfc3e98b">演習: 第1主成分の計算</h3>
+<ul>
+<li><a href="./code/07-eigen.r">07-eigen.r</a> を確認してみよう</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+</section>
+<section>
+<section id="slide-org337d173">
+<h2 id="org337d173">第2主成分以降の計算</h2>
+<div class="outline-text-2" id="text-org337d173">
+</div>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org9d35f05">
+<h3 id="org9d35f05">Gram行列の性質</h3>
+<ul>
+<li>\(\boldsymbol{X}^\top\boldsymbol{X}\) は非負定値対称行列</li>
+<li>\(\boldsymbol{X}^\top\boldsymbol{X}\) の固有値は0以上の実数
+<ul>
+<li><p>
+固有値を重複を許して降順に並べる
+</p>
+
+<div>
+\begin{equation}
+  \lambda_1\geq\dotsb\geq\lambda_p\quad(\geq0)
+\end{equation}
+
+</div></li>
+<li><p>
+固有値 \(\lambda_j\) に対する固有ベクトルを \(\boldsymbol{a}_j\)(長さ1)とする
+</p>
+
+<div>
+\begin{equation}
+  \|\boldsymbol{a}_j\|=1\quad
+  (j=1,\dotsc,p)
+\end{equation}
+
+</div></li>
+
+</ul></li>
+<li><p>
+\(\boldsymbol{a}_1,\dotsc,\boldsymbol{a}_p\) は <b>互いに直交</b> するようとることができる
+</p>
+
+<div>
+\begin{equation}
+  j\neq k
+  \quad\Rightarrow\quad
+  \boldsymbol{a}_j\cdot\boldsymbol{a}_k=0
+\end{equation}
+
+</div></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org6634f25">
+<h3 id="org6634f25">第2主成分の考え方</h3>
+<ul>
+<li>第1主成分:
+<ul>
+<li>主成分方向: ベクトル \(\boldsymbol{a}_1\)</li>
+<li>主成分得点: \(\boldsymbol{a}_1\cdot\boldsymbol{x}_i\) (\(i=1,\dotsc,n\))</li>
+
+</ul></li>
+<li><p>
+第1主成分方向に関してデータが有する情報:
+</p>
+
+<div>
+\begin{equation}
+  (\boldsymbol{a}_1\cdot\boldsymbol{x}_i)\,\boldsymbol{a}_1
+  \quad(i=1,\dotsc,n)
+\end{equation}
+
+</div></li>
+<li><p>
+第1主成分方向の成分を取り除いた観測データ:
+</p>
+
+<div>
+\begin{equation}
+  \tilde{\boldsymbol{x}}_i
+  :=
+  \boldsymbol{x}_i
+  -(\boldsymbol{a}_1\cdot\boldsymbol{x}_i)\,\boldsymbol{a}_1
+  \quad(i=1,\dotsc,n)
+\end{equation}
+
+</div></li>
+<li>これに対してばらつきを最も反映する方向を求める</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgf262e2e">
+<h3 id="orgf262e2e">第2主成分の最適化問題</h3>
+<ul>
+<li><p>
+制約条件 \(\|\boldsymbol{a}\|=1\) の下で関数
+</p>
+
+<div>
+\begin{equation}
+  \tilde{f}(\boldsymbol{a})
+  =
+  \sum_{i=1}^n(\boldsymbol{a}\cdot\tilde{\boldsymbol{x}}_i
+  -\boldsymbol{a}\cdot\bar{\tilde{\boldsymbol{x}}})^2
+  \quad\text{ただし}\quad
+  \bar{\tilde{\boldsymbol{x}}}
+  =
+  \frac{1}{n}\sum_{i=1}^n\tilde{\boldsymbol{x}}_i
+\end{equation}
+
+</div>
+
+<p>
+を最大化せよ
+</p></li>
+<li>解は第2固有値 \(\lambda_2\) に対応する固有ベクトル \(\boldsymbol{a}_2\)</li>
+
+</ul>
+
+<ul>
+<li>以下同様に
+第 \(k\) 主成分方向は 
+\(\boldsymbol{X}^\top\boldsymbol{X}\) の第 \(k\) 固有値 \(\lambda_k\)
+に対応する固有ベクトル \(\boldsymbol{a}_k\)</li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org54fb561" data-background="#EEEEFF">
+<h3 id="org54fb561">演習: 実データによる主成分分析</h3>
+<ul>
+<li><a href="./code/07-pca.r">07-pca.r</a> を確認してみよう</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgbb941b5" data-background="#EEEEFF">
+<h3 id="orgbb941b5">演習</h3>
+<ul>
+<li>以下のデータを用いて主成分分析を行ってみよう
+<ul>
+<li>datasets::USArrests</li>
+<li>MASS::Cars93</li>
+<li>MASS::UScereal</li>
+
+</ul></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+</section>
+</div>
+</div>
+<script src="./reveal.js/js/reveal.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: true,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: true,
+fragmentInURL: true,
+pdfSeparateFragments: false,
+
+overview: true,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'fade', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+{ src: './reveal.js/plugin/coursemod/coursemod.js', async: true },
+{ src: './reveal.js/plugin/quiz/js/quiz.js', async: true, callback: function() { prepareQuizzes({preventUnanswered: true}); } },
+{ src: './reveal.js/plugin/jump/jump.js', async: true },
+ { src: './reveal.js/plugin/toc-progress/toc-progress.js', async: true, callback: function() { toc_progress.initialize('reduce', 'rgba(120,138,130,0.2)'); toc_progress.create(); } },
+ { src: './reveal.js/plugin/anything/anything.js' },
+ { src: './reveal.js/plugin/audio-slideshow/audio-slideshow.js', condition: function( ) { return !!document.body.classList && !Reveal.isSpeakerNotes(); } },
+ { src: './reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: './reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: './reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } }]
+,audio: {
+    advance: -1, autoplay: true, defaultDuration: 0, defaultAudios: false, playerOpacity: 0.3, playerStyle: 'position: fixed; bottom: 9.5vh; left: 0%; width: 30%; height:30px; z-index: 33;' },
+  anything: [
+	{className: "animate",  initialize: (function(container, options){
+		Reveal.addEventListener( 'fragmentshown', function( event ) {
+			if (typeof event.fragment.beginElement === "function" ) {
+				event.fragment.beginElement();
+			}
+		});
+		Reveal.addEventListener( 'fragmenthidden', function( event ) {
+			if (event.fragment.hasAttribute('data-reverse') ) {
+				var reverse = event.fragment.parentElement.querySelector('[id=\"' + event.fragment.getAttribute('data-reverse') + '\"]');
+				if ( reverse && typeof reverse.beginElement === "function" ) {
+					reverse.beginElement();
+				}
+			}
+		});
+		if ( container.getAttribute("data-svg-src") ) {
+			var xhr = new XMLHttpRequest();
+			xhr.onload = function() {
+				if (xhr.readyState === 4) {
+					var svg = container.querySelector('svg');
+					container.removeChild( svg );
+					container.innerHTML = xhr.responseText + container.innerHTML;
+					if ( svg ) {
+						container.querySelector('svg').innerHTML = container.querySelector('svg').innerHTML + svg.innerHTML;
+					}
+				}
+				else {
+					console.warn( "Failed to get file. ReadyState: " + xhr.readyState + ", Status: " + xhr.status);
+				}
+			};
+			xhr.open( 'GET', container.getAttribute("data-svg-src"), true );
+			xhr.send();
+		}
+	}) },
+	{className: "randomPic",
+	 defaults: {imgalt: "Dummy alt text",
+		    imgcaption: "Image by {name}",
+		    choices: [ {name: "dummyname", path: "dummypath"} ]},
+	 initialize: (function(container, options){
+	     var choice = Math.trunc( Math.random()*(options.choices.length) );
+	     var img = "<img data-src='" + options.choices[choice].path + "' alt='" + options.choices[choice].imgalt + "' />";
+	     var caption = options.imgcaption.replace(new RegExp('\{name\}', 'gm'), options.choices[choice].name);
+	     container.innerHTML = img + caption;
+	 }) },
+	{className: "notes",
+	 initialize: (function(container, options){
+	     container.addEventListener('click', function(e) { RevealNotes.open(); });
+	 }) }
+],
+  coursemod: { enabled: true, shown: false }});
+</script>
+</body>
+</html>

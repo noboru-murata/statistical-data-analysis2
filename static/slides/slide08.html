@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>主成分分析 - 評価と視覚化</title>
+<meta name="author" content="村田 昇"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="./reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="./reveal.js/css/theme/oer-reveal.css" id="theme"/>
+
+<link rel="stylesheet" href="./reveal.js/plugin/toc-progress/toc-progress.css"/>
+
+<link rel="stylesheet" href="./reveal.js/css/theme/toc-style.css"/>
+
+<link rel="stylesheet" href="./reveal.js/css/theme/oer-reveal.css"/>
+
+<link rel="stylesheet" href="./reveal.js/lib/font/source-sans-pro/source-sans-pro.css"/>
+
+<link rel="stylesheet" href="./myconf.css"/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = './reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</head>
+<body prefix="dc: http://purl.org/dc/terms/ cc: http://creativecommons.org/ns#">
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide" data-state="no-toc-progress">
+<!-- This is an HTML template for the title slide. -->
+<!-- Embed logos as necessary. -->
+<!-- <a class="nooutlink" href="url"><img class="state-background your-logo-class" src="whatever.png" alt="Whatever" /></a> -->
+<div class="talk-title">
+    <h1 class="no-toc-progress">主成分分析 - 評価と視覚化</h1>
+</div>
+<div class="talk-subtitle">
+    <p>数理科学続論J</p>
+</div>
+<div class="keyboard-usage">
+    <p>(Press <code>?</code> for help, <code>n</code> and <code>p</code> for next and previous slide)</p>
+</div>
+<div class="talk-author">
+  <p>村田 昇<br />
+  2019.11.15</p>
+</div>
+
+</section>
+
+<section>
+<section id="slide-org34ebd07">
+<h2 id="org34ebd07">講義の予定</h2>
+<ul>
+<li>第1日: 主成分分析の考え方</li>
+<li><b>第2日: 分析の評価と視覚化</b></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+</section>
+<section>
+<section id="slide-org49d0a73">
+<h2 id="org49d0a73">主成分分析の復習</h2>
+<div class="outline-text-2" id="text-org49d0a73">
+</div>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgf299243">
+<h3 id="orgf299243">主成分分析 (principal component analysis)</h3>
+<ul>
+<li>多数の変量のもつ情報の分析・視覚化
+<ul>
+<li>変量を効率的に縮約して少数の特徴量を構成する</li>
+<li>変量の間の関係を明らかにする</li>
+
+</ul></li>
+<li>分析の方針: (以下は同値)
+<ul>
+<li>データの情報を最大限保持する変量の線形結合を構成</li>
+<li>データの情報を最大限反映する座標(方向)を探索</li>
+
+</ul></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org5bc79b9">
+<h3 id="org5bc79b9">分析の考え方</h3>
+<ul>
+<li>1変量データ
+\(\boldsymbol{a}\cdot\boldsymbol{x}_1,\dotsc,\boldsymbol{a}\cdot\boldsymbol{x}_n\)
+を構成</li>
+<li>観測データ \(\boldsymbol{x}_1,\dots,\boldsymbol{x}_n\) のもつ情報を最大限保持する
+ベクトル \(\boldsymbol{a}\) を <b>うまく</b> 選択</li>
+<li>\(\boldsymbol{a}\cdot\boldsymbol{x}_1,\dotsc,\boldsymbol{a}\cdot\boldsymbol{x}_n\)
+のばらつきが最も大きい方向を選択</li>
+<li><p>
+<b>最適化問題</b>:
+制約条件 \(\|\boldsymbol{a}\|=1\) の下で関数
+</p>
+
+<div>
+\begin{equation}
+  f(\boldsymbol{a})
+  =
+  \sum_{i=1}^n(\boldsymbol{a}\cdot\boldsymbol{x}_i
+  -\boldsymbol{a}\cdot\bar{\boldsymbol{x}})^2,
+  \quad
+  \bar{\boldsymbol{x}}
+  =
+  \frac{1}{n}\sum_{i=1}^n\boldsymbol{x}_i
+\end{equation}
+
+</div>
+
+<p>
+を最大化せよ
+</p></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgf357b8d">
+<h3 id="orgf357b8d">固有値問題</h3>
+<ul>
+<li><p>
+中心化したデータ行列
+</p>
+
+<div>
+\begin{equation}
+  \boldsymbol{X}
+  =
+  \begin{pmatrix}
+    \boldsymbol{x}_{1}^\top-\bar{\boldsymbol{x}}^\top \\
+    \vdots \\
+    \boldsymbol{x}_{n}^\top-\bar{\boldsymbol{x}}^\top
+  \end{pmatrix}
+  =
+  \begin{pmatrix}
+    x_{11}-\bar{x}_1 & \cdots & x_{1p}-\bar{x}_p\\
+    \vdots & & \vdots \\
+    x_{n1}-\bar{x}_1 & \cdots & x_{np}-\bar{x}_p
+  \end{pmatrix}
+\end{equation}
+
+</div></li>
+<li><p>
+評価関数 \(f(\boldsymbol{a})\) は行列 \(\boldsymbol{X}^\top\boldsymbol{X}\) 
+の二次形式
+</p>
+
+<div>
+\begin{equation}
+  f(\boldsymbol{a})
+  =
+  \boldsymbol{a}^\top\boldsymbol{X}^\top\boldsymbol{X}\boldsymbol{a}
+\end{equation}
+
+</div></li>
+<li><p>
+\(f(\boldsymbol{a})\) の極大値を与える \(\boldsymbol{a}\) は
+\(\boldsymbol{X}^\top\boldsymbol{X}\) の固有ベクトル
+</p>
+
+<div>
+\begin{equation}
+  \boldsymbol{X}^\top\boldsymbol{X}\boldsymbol{a}
+  =
+  \lambda\boldsymbol{a}
+\end{equation}
+
+</div></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgbf6e126">
+<h3 id="orgbf6e126">主成分方向と主成分得点</h3>
+<ul>
+<li><b>主成分方向</b> (principal component direction): 
+\(\boldsymbol{a}\)</li>
+<li><b>主成分得点</b> (principal component score):
+\(\boldsymbol{x}_i^\top\boldsymbol{a}\)</li>
+<li>第1主成分方向は 
+\(\boldsymbol{X}^\top\boldsymbol{X}\) の第1(最大)固有値 \(\lambda_1\)
+に対応する固有ベクトル \(\boldsymbol{a}_1\)</li>
+<li>同様に
+第 \(k\) 主成分方向は 
+\(\boldsymbol{X}^\top\boldsymbol{X}\) の第 \(k\) 固有値 \(\lambda_k\)
+に対応する固有ベクトル \(\boldsymbol{a}_k\)</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+</section>
+<section>
+<section id="slide-orge0b759a">
+<h2 id="orge0b759a">寄与率</h2>
+<div class="outline-text-2" id="text-orge0b759a">
+</div>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgfdf8d2c">
+<h3 id="orgfdf8d2c">寄与率の考え方</h3>
+<ul>
+<li><p>
+回帰分析で考察した <b>寄与率</b> の一般形
+</p>
+
+<div>
+\begin{equation}
+  \text{(寄与率)}=
+  \frac{\text{(その方法で説明できるばらつき)}}{\text{(データ全体のばらつき)}}
+\end{equation}
+
+</div></li>
+<li><p>
+主成分分析での定義 (proportion of variance) 
+</p>
+
+<div>
+\begin{equation}
+  \text{(寄与率)}=
+  \frac{\text{(主成分のばらつき)}}{\text{(全体のばらつき)}}
+\end{equation}
+
+</div></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgedaaf0e">
+<h3 id="orgedaaf0e">Gram行列のスペクトル分解</h3>
+<ul>
+<li><p>
+行列 \(X^{\top}X\) (非負値正定対称行列) のスペクトル分解
+</p>
+
+<div>
+\begin{align}
+  \boldsymbol{X}^\top\boldsymbol{X}
+  &=\lambda_{1}\boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\top}+
+  \lambda_{2}\boldsymbol{a}_{2}\boldsymbol{a}_{2}^{\top}+
+  \dotsb+\lambda_{p}\boldsymbol{a}_{p}\boldsymbol{a}_{p}^{\top}\\
+  &=\sum_{k=1}^{p}\lambda_{k}\boldsymbol{a}_{k}\boldsymbol{a}_{k}^{\top}
+\end{align}
+
+</div>
+
+<p>
+(固有値と固有ベクトルによる行列の表現)
+</p></li>
+<li><p>
+主成分のばらつきの評価
+</p>
+
+<div>
+\begin{equation}
+  f(\boldsymbol{a}_{k})
+  =
+  \boldsymbol{a}_{k}^{\top}\boldsymbol{X}^{\top}\boldsymbol{X}\boldsymbol{a}_{k}
+  =\lambda_{k}
+\end{equation}
+
+</div>
+
+<p>
+(固有ベクトル(単位ベクトル)の直交性を利用)
+</p></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org20265d7">
+<h3 id="org20265d7">寄与率の計算</h3>
+<ul>
+<li><p>
+主成分と全体のばらつき
+</p>
+
+<div>
+\begin{align}
+  \text{(主成分)}
+  &=
+  \sum_{i=1}^{n}(\boldsymbol{a}_k\cdot\boldsymbol{x}_i
+  -\boldsymbol{a}_k\cdot\bar{\boldsymbol{x}})^2
+  =\boldsymbol{a}_{k}^{\top}\boldsymbol{X}^{\top}\boldsymbol{X}\boldsymbol{a}_{k}
+  =\lambda_k\\
+  \text{(全体)}
+  &=
+  \sum_{i=1}^{n}\|\boldsymbol{x}_i-\bar{\boldsymbol{x}}\|^2
+  =\sum_{l=1}^p\boldsymbol{a}_{l}^{\top}\boldsymbol{X}^{\top}\boldsymbol{X}\boldsymbol{a}_{l}
+  =\sum_{l=1}^p\lambda_l
+\end{align}
+
+</div></li>
+<li><p>
+寄与率の固有値による表現: 
+</p>
+
+<div>
+\begin{equation}
+  \text{(寄与率)}
+  =
+  \frac{\lambda_k}{\sum_{l=1}^p\lambda_l}  
+\end{equation}
+
+</div></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org307e96f">
+<h3 id="org307e96f">累積寄与率</h3>
+<ul>
+<li><p>
+<b>累積寄与率</b> (cumulative proportion) :
+第 \(k\) 主成分までのばらつきの累計
+</p>
+
+<div>
+\begin{equation}
+  \text{(累積寄与率)}
+  =
+  \frac{\sum_{l=1}^k\lambda_l}{\sum_{l=1}^p\lambda_l}
+\end{equation}
+
+</div>
+
+<p>
+(第1から第 \(k\) までの寄与率の総和)
+</p>
+<ul>
+<li>累積寄与率はいくつの主成分を用いるべきかの基準</li>
+<li>一般に累積寄与率が80%程度までの主成分を用いる</li>
+
+</ul></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgc1e383c">
+<h3 id="orgc1e383c">R: 主成分分析の評価</h3>
+<ul>
+<li>分析結果の評価を行う関数: <code>summary()</code> および <code>plot()</code></li>
+<li>データフレームに対する分析:
+<ul>
+<li>データフレーム <code>mydata</code>: 必要な変数を含むデータフレーム</li>
+<li>列名: x1の変数名, &#x2026;, xpの変数名</li>
+
+</ul></li>
+
+</ul>
+<div class="org-src-container">
+
+<pre  class="src src-R"><span style="color: #5C6370;">## </span><span style="color: #5C6370;">&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12434;&#20998;&#26512;</span>
+est <span style="color: #56B6C2;">&lt;-</span> prcomp( ~ x1&#12398;&#22793;&#25968;&#21517; + ... + xp&#12398;&#22793;&#25968;&#21517;, data = mydata)
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">&#20027;&#25104;&#20998;&#26041;&#21521;&#12420;&#23492;&#19982;&#29575;&#12434;&#30906;&#35469;</span>
+summary(est)
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">&#23492;&#19982;&#29575;&#12434;&#22259;&#31034;</span>
+plot(est)
+</pre>
+</div>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgc328da3" data-background="#EEEEFF">
+<h3 id="orgc328da3">演習: 寄与率による分析の評価</h3>
+<ul>
+<li><a href="./code/08-summary.r">08-summary.r</a> を確認してみよう</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgf5b4fe2" data-background="#EEEEFF">
+<h3 id="orgf5b4fe2">演習: 実データによる考察</h3>
+<ul>
+<li>累積寄与率から適切な成分数を考察してみよう
+<ul>
+<li>datasets::USArrests</li>
+<li>MASS::Cars93</li>
+<li>MASS::UScereal</li>
+
+</ul></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+</section>
+<section>
+<section id="slide-orge0a1448">
+<h2 id="orge0a1448">主成分方向再考</h2>
+<div class="outline-text-2" id="text-orge0a1448">
+</div>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orga93d93a">
+<h3 id="orga93d93a">主成分方向と主成分得点</h3>
+<ul>
+<li>得点係数の大きさから変数の貢献度がわかる</li>
+<li><b>問題点</b>:
+<ul>
+<li>変数のスケールによって係数の大きさは変化する</li>
+<li>変数の正規化がいつも妥当とは限らない</li>
+
+</ul></li>
+<li>スケールによらない変数と主成分の関係を知りたい</li>
+<li><b>相関係数</b> を利用することができる</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org0c3c704">
+<h3 id="org0c3c704">相関係数</h3>
+<ul>
+<li>\(X\boldsymbol{a}_{k}\): 第 \(k\) 主成分得点</li>
+<li>\(X\boldsymbol{e}_{l}\): 第 \(l\) 変数 (\(\boldsymbol{e}_{l}\) は第 \(l\) 成分のみ1のベクトル)</li>
+<li><p>
+主成分と変数の相関係数: 
+</p>
+
+<div>
+\begin{align}
+  \mathrm{Cor}(X\boldsymbol{a}_{k},X\boldsymbol{e}_{l})
+  % &=\frac{(X\boldsymbol{a}_{k})^{\top}X\boldsymbol{e}_{l}}
+  %     {\sqrt{(X\boldsymbol{a}_{k})^{\top}X\boldsymbol{a}_{k}}
+  %     \sqrt{(X\boldsymbol{e}_{l})^{\top}X\boldsymbol{e}_{l}}}\\
+    &=\frac{\boldsymbol{a}_{k}^{\top}X^{\top}X\boldsymbol{e}_{l}}
+      {\sqrt{\boldsymbol{a}_{k}^{\top}X^{\top}X\boldsymbol{a}_{k}}
+      \sqrt{\boldsymbol{e}_{l}^{\top}X^{\top}X\boldsymbol{e}_{l}}}\\
+    &=\frac{\lambda_{k}\boldsymbol{a}_{k}^{\top}\boldsymbol{e}_{l}}
+      {\sqrt{\lambda_{k}}\sqrt{(X^{\top}X)_{ll}}}
+\end{align}
+
+</div></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orge74d9bb">
+<h3 id="orge74d9bb">正規化データの場合</h3>
+<ul>
+<li>\(X^{\top}X\) の対角成分は全て1 (\((X^{\top}X)_{ll}=1\))</li>
+<li><p>
+第 \(k\) 主成分に対する第 \(l\) 変数の相関係数
+</p>
+
+<div>
+\begin{equation}
+  (\boldsymbol{l}_{k})_{l}
+  =\sqrt{\lambda_{k}}(\boldsymbol{a}_{k})_{l}
+\end{equation}
+
+</div></li>
+<li><p>
+第 \(k\) 主成分に対する相関係数ベクトル 
+</p>
+
+<div>
+\begin{equation}
+  \boldsymbol{l}_{k}
+  =\sqrt{\lambda_{k}}\boldsymbol{a}_{k}
+\end{equation}
+
+</div></li>
+<li><b>主成分負荷量</b>
+<ul>
+<li>同じ主成分への各変数の影響は固有ベクトルの成分比</li>
+<li>同じ変数の各主成分への影響は固有値の平方根で重みづけ</li>
+
+</ul></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+</section>
+<section>
+<section id="slide-org5fe02e0">
+<h2 id="org5fe02e0">バイプロット</h2>
+<div class="outline-text-2" id="text-org5fe02e0">
+</div>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org6bd0b32">
+<h3 id="org6bd0b32">特異値分解</h3>
+<ul>
+<li><p>
+階数 \(r\) の \(n\times p\) 型行列 \(X\) の分解:
+</p>
+
+<div>
+\begin{equation}
+  X=U\Sigma V^{\top}
+\end{equation}
+
+</div>
+
+<ul>
+<li>\(U\) は \(n\times n\) 型直交行列, \(V\) は \(p\times p\) 型直交行列</li>
+<li><p>
+\(\Sigma\) は \(n\times p\) 型行列
+</p>
+
+<div>
+\begin{equation}
+  \Sigma
+  =
+  \begin{pmatrix}
+    D & O_{r,p-r}\\
+    O_{n-r,r} & O_{n-r,m-r}
+  \end{pmatrix}
+\end{equation}
+
+</div>
+
+<ul>
+<li>\(O_{s,t}\) は \(s\times t\) 型零行列</li>
+<li>\(D\) は \(\sigma_{1}\geq\sigma_{2}\geq\sigma_{r}>0\) 
+を対角成分とする \(r\times r\) 型対角行列</li>
+
+</ul></li>
+
+</ul></li>
+<li>\(D\) の対角成分: \(X\) の <b>特異値</b> (singular value)</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orge0adb1c">
+<h3 id="orge0adb1c">特異値分解によるGram行列の表現</h3>
+<ul>
+<li><p>
+Gram行列の展開:
+</p>
+
+<div>
+\begin{align*}
+  X^{\top}X
+  &=(U\Sigma V^{\top})^{\top}(U\Sigma V^{\top})\\
+  &=V\Sigma^{\top}U^{\top}U\Sigma V^{\top}\\
+  &=V\Sigma^{\top}\Sigma V^{\top}
+\end{align*}
+
+</div></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgff1bb26">
+<h3 id="orgff1bb26">特異値分解とGram行列の関係</h3>
+<ul>
+<li><p>
+行列 \(\Sigma^{\top}\Sigma\) は対角行列
+</p>
+
+<div>
+\begin{equation}
+  \Sigma^{\top}\Sigma
+  =
+  \begin{pmatrix}
+    \sigma_{1}^{2}&&&&&\\
+    &\ddots&&&&\\
+    &&\sigma_{r}^{2}&&&\\
+    &&&0&&\\
+    &&&&\ddots&\\
+    &&&&&0
+  \end{pmatrix}
+\end{equation}
+
+</div></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgecc159f">
+<h3 id="orgecc159f">特異値と固有値の関係</h3>
+<ul>
+<li>行列 \(V\) の第 \(k\) 列ベクトル \(\boldsymbol{v}_{k}\)</li>
+<li><p>
+特異値の平方
+</p>
+
+<div>
+\begin{equation}
+  \lambda_{k}
+  =
+  \begin{cases}
+    \sigma_{k}^{2},&k\leq r\\
+    0,&k>r
+  \end{cases}
+\end{equation}
+
+</div></li>
+<li><p>
+Gram行列の固有値問題
+</p>
+
+<div>
+\begin{align}
+  X^{\top}X\boldsymbol{v}_{k}
+  &=V\Sigma^{\top}\Sigma V^{\top}\boldsymbol{v}_{k}
+  =\lambda_{k}\boldsymbol{v}_{k}
+\end{align}
+
+</div>
+
+<ul>
+<li>\(X^{\top}X\) の固有値は行列 \(X\) の特異値の平方</li>
+<li>固有ベクトルは行列 \(V\) の列ベクトル \(\boldsymbol{a}_{k}=\boldsymbol{v}_{k}\)</li>
+
+</ul></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org7bb8cf0">
+<h3 id="org7bb8cf0">データ行列の近似表現</h3>
+<ul>
+<li>行列 \(U\) の第 \(k\) 列ベクトル \(\boldsymbol{u}_{k}\)</li>
+<li><p>
+データ行列の特異値分解: (<b>注意</b> \(\Sigma\) は対角行列)
+</p>
+
+<div>
+\begin{equation}
+  X
+  =
+  U\Sigma V^{\top}
+  =
+  \sum_{k=1}^{r}\boldsymbol{u}_{k}\sigma_{k}\boldsymbol{v}_{k}^{\top}
+\end{equation}
+
+</div></li>
+<li><p>
+第 \(k\) 主成分と第 \(l\) 主成分を用いた行列 \(X\) の近似 \(X'\)
+</p>
+
+<div>
+\begin{equation}
+  X\simeq X'
+  =\boldsymbol{u}_{k}\sigma_{k}\boldsymbol{v}_{k}^{\top}
+  +\boldsymbol{u}_{l}\sigma_{l}\boldsymbol{v}_{l}^{\top}
+\end{equation}
+
+</div></li>
+<li><b>バイプロット</b>: 上記の分解を利用した散布図</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orge40c775">
+<h3 id="orge40c775">バイプロット</h3>
+<ul>
+<li>\(X\) のばらつきを最大限保持する近似は \(k=1,l=2\)</li>
+<li><p>
+\(0\leq s\leq1\) として
+</p>
+
+<div>
+\begin{multline}
+  X'=GH^{\top},\\
+  G=
+  \begin{pmatrix}
+    \sigma_{k}^{1-s}\boldsymbol{u}_{k}&
+    \sigma_{l}^{1-s}\boldsymbol{u}_{l}
+  \end{pmatrix}
+  ,\quad
+  H=
+  \begin{pmatrix}
+    \sigma_{k}^{s}\boldsymbol{v}_{k}&
+    \sigma_{l}^{s}\boldsymbol{v}_{l}
+  \end{pmatrix}
+\end{multline}
+
+</div>
+
+<ul>
+<li>行列 \(G\) の各行は各データの2次元座標</li>
+<li>行列 \(H\) の各行は各変量の2次元座標</li>
+
+</ul></li>
+<li>関連がある2枚の散布図を1つの画面に表示する散布図を一般に
+<b>バイプロット</b> (biplot) と呼ぶ</li>
+<li>パラメタ \(s\) は \(0\), \(1\) または \(1/2\) が主に用いられる</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org257d27e">
+<h3 id="org257d27e">R: 関数 <code>biplot()</code> の使い方</h3>
+<ul>
+<li>Rの標準関数: <code>biplot()</code></li>
+<li>データフレームに対する分析:
+<ul>
+<li>データフレーム <code>mydata</code>: 必要な変数を含むデータフレーム</li>
+<li>列名: x1の変数名, &#x2026;, xpの変数名</li>
+
+</ul></li>
+
+</ul>
+<div class="org-src-container">
+
+<pre  class="src src-R"><span style="color: #5C6370;">## </span><span style="color: #5C6370;">&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12434;&#20998;&#26512;</span>
+est <span style="color: #56B6C2;">&lt;-</span> prcomp( ~ x1&#12398;&#22793;&#25968;&#21517; + ... + xp&#12398;&#22793;&#25968;&#21517;, data = mydata)
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">&#31532;1&#12392;&#31532;2&#20027;&#25104;&#20998;&#12434;&#21033;&#29992;&#12375;&#12383;&#25955;&#24067;&#22259;</span>
+biplot(est)
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">&#31532;2&#12392;&#31532;3&#20027;&#25104;&#20998;&#12434;&#21033;&#29992;&#12375;&#12383;&#25955;&#24067;&#22259;</span>
+biplot(est, choices = c(2,3))
+<span style="color: #5C6370;">## </span><span style="color: #5C6370;">&#12497;&#12521;&#12513;&#12479; s &#12434;&#22793;&#26356; (&#26082;&#23450;&#20516;&#12399;1)</span>
+biplot(est, scale=0)
+</pre>
+</div>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org18ae803" data-background="#EEEEFF">
+<h3 id="org18ae803">演習: 関数 <code>biplot()</code> の使い方</h3>
+<ul>
+<li><a href="./code/08-biplot.r">08-biplot.r</a> を確認してみよう</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgd8d6057" data-background="#EEEEFF">
+<h3 id="orgd8d6057">演習: 実データへの適用</h3>
+<ul>
+<li>バイプロットによる分析結果の図示を行ってみよう
+<ul>
+<li>datasets::USArrests</li>
+<li>MASS::Cars93</li>
+<li>MASS::UScereal</li>
+
+</ul></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+</section>
+</div>
+</div>
+<script src="./reveal.js/js/reveal.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: true,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: true,
+fragmentInURL: true,
+pdfSeparateFragments: false,
+
+overview: true,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'fade', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+{ src: './reveal.js/plugin/coursemod/coursemod.js', async: true },
+{ src: './reveal.js/plugin/quiz/js/quiz.js', async: true, callback: function() { prepareQuizzes({preventUnanswered: true}); } },
+{ src: './reveal.js/plugin/jump/jump.js', async: true },
+ { src: './reveal.js/plugin/toc-progress/toc-progress.js', async: true, callback: function() { toc_progress.initialize('reduce', 'rgba(120,138,130,0.2)'); toc_progress.create(); } },
+ { src: './reveal.js/plugin/anything/anything.js' },
+ { src: './reveal.js/plugin/audio-slideshow/audio-slideshow.js', condition: function( ) { return !!document.body.classList && !Reveal.isSpeakerNotes(); } },
+ { src: './reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: './reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: './reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } }]
+,audio: {
+    advance: -1, autoplay: true, defaultDuration: 0, defaultAudios: false, playerOpacity: 0.3, playerStyle: 'position: fixed; bottom: 9.5vh; left: 0%; width: 30%; height:30px; z-index: 33;' },
+  anything: [
+	{className: "animate",  initialize: (function(container, options){
+		Reveal.addEventListener( 'fragmentshown', function( event ) {
+			if (typeof event.fragment.beginElement === "function" ) {
+				event.fragment.beginElement();
+			}
+		});
+		Reveal.addEventListener( 'fragmenthidden', function( event ) {
+			if (event.fragment.hasAttribute('data-reverse') ) {
+				var reverse = event.fragment.parentElement.querySelector('[id=\"' + event.fragment.getAttribute('data-reverse') + '\"]');
+				if ( reverse && typeof reverse.beginElement === "function" ) {
+					reverse.beginElement();
+				}
+			}
+		});
+		if ( container.getAttribute("data-svg-src") ) {
+			var xhr = new XMLHttpRequest();
+			xhr.onload = function() {
+				if (xhr.readyState === 4) {
+					var svg = container.querySelector('svg');
+					container.removeChild( svg );
+					container.innerHTML = xhr.responseText + container.innerHTML;
+					if ( svg ) {
+						container.querySelector('svg').innerHTML = container.querySelector('svg').innerHTML + svg.innerHTML;
+					}
+				}
+				else {
+					console.warn( "Failed to get file. ReadyState: " + xhr.readyState + ", Status: " + xhr.status);
+				}
+			};
+			xhr.open( 'GET', container.getAttribute("data-svg-src"), true );
+			xhr.send();
+		}
+	}) },
+	{className: "randomPic",
+	 defaults: {imgalt: "Dummy alt text",
+		    imgcaption: "Image by {name}",
+		    choices: [ {name: "dummyname", path: "dummypath"} ]},
+	 initialize: (function(container, options){
+	     var choice = Math.trunc( Math.random()*(options.choices.length) );
+	     var img = "<img data-src='" + options.choices[choice].path + "' alt='" + options.choices[choice].imgalt + "' />";
+	     var caption = options.imgcaption.replace(new RegExp('\{name\}', 'gm'), options.choices[choice].name);
+	     container.innerHTML = img + caption;
+	 }) },
+	{className: "notes",
+	 initialize: (function(container, options){
+	     container.addEventListener('click', function(e) { RevealNotes.open(); });
+	 }) }
+],
+  coursemod: { enabled: true, shown: false }});
+</script>
+</body>
+</html>

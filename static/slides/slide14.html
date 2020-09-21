@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>時系列解析 - 推定と予測</title>
+<meta name="author" content="村田 昇"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="./reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="./reveal.js/css/theme/oer-reveal.css" id="theme"/>
+
+<link rel="stylesheet" href="./reveal.js/plugin/toc-progress/toc-progress.css"/>
+
+<link rel="stylesheet" href="./reveal.js/css/theme/toc-style.css"/>
+
+<link rel="stylesheet" href="./reveal.js/lib/font/source-sans-pro/source-sans-pro.css"/>
+
+<link rel="stylesheet" href="./myconf.css"/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = './reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</head>
+<body prefix="dc: http://purl.org/dc/elements/1.1/ dcterms: http://purl.org/dc/terms/ dcmitype: http://purl.org/dc/dcmitype/ cc: http://creativecommons.org/ns#" typeof="dcmitype:InteractiveResource">
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide" data-state="no-toc-progress">
+<!-- This is an HTML template for the title slide. -->
+<!-- Embed logos as necessary. -->
+<!-- <a class="nooutlink" href="url"><img class="state-background your-logo-class" src="whatever.png" alt="Whatever" /></a> -->
+<div class="talk-title">
+    <h1 class="no-toc-progress">時系列解析 - 推定と予測</h1>
+</div>
+<div class="talk-subtitle">
+    <p>数理科学続論J</p>
+</div>
+<div class="keyboard-usage">
+    <p>(Press <code>?</code> for help, <code>n</code> and <code>p</code> for next and previous slide)</p>
+</div>
+<div class="talk-author">
+  <p>村田 昇<br />
+  2019.12.27</p>
+</div>
+
+</section>
+
+<section>
+<section id="slide-org2b853f3">
+<h2 id="org2b853f3">講義の予定</h2>
+<ul>
+<li>第1日: 時系列のモデル</li>
+<li><b>第2日: モデルの推定と予測</b></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+</section>
+<section>
+<section id="slide-org2833d25">
+<h2 id="org2833d25">時系列解析の復習</h2>
+<div class="outline-text-2" id="text-org2833d25">
+</div>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org2e0c214">
+<h3 id="org2e0c214">時系列解析とは</h3>
+<ul>
+<li>時系列データ
+<ul>
+<li>時間軸に沿って観測されたデータ
+<ul>
+<li>観測の順序に意味がある</li>
+<li>異なる時点間での観測データの従属関係が重要</li>
+
+</ul></li>
+
+</ul></li>
+<li>時系列解析の目的
+<ul>
+<li>時系列データの特徴を効果的に記述すること</li>
+<li>時系列モデルの推定と評価</li>
+
+</ul></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org66e8867">
+<h3 id="org66e8867">時系列モデルと定常性</h3>
+<ul>
+<li><p>
+時間を添え字として持つ確率変数列: 確率過程
+</p>
+
+<div>
+\begin{equation}
+  X_t,\;t=1,\dotsc,T
+\end{equation}
+
+</div></li>
+<li><b>弱定常過程</b>: 次の性質をもつ確率過程 \(X_t\)
+<ul>
+<li>\(X_t\) の平均は時点 \(t\) によらない</li>
+<li>\(X_t\) と \(X_{t+h}\) の共分散は時点 \(t\) によらず時差 \(h\) のみで定まる</li>
+<li>特に \(X_t\) の分散は時点 \(t\) によらない (\(h=0\) の場合)</li>
+
+</ul></li>
+<li>多くの場合弱定常性を考えれば十分なので単に <b>定常</b> ということが多い</li>
+<li>定常でない確率過程は <b>非定常</b> であるという</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgdb7688c">
+<h3 id="orgdb7688c">ホワイトノイズ</h3>
+<ul>
+<li>平均 \(0\) ，分散 \(\sigma^2\) の無相関な確率変数列
+<ul>
+<li>記号 \(\mathrm{WN}(0,\sigma^2)\) で表記</li>
+<li><b>定常</b> な確率過程</li>
+
+</ul></li>
+<li><p>
+<b>トレンド</b> のある場合: 
+\(\epsilon_t,\;t=1,\dotsc,T\) を\(\mathrm{WN}(0,\sigma^2)\) ，
+\(\mu,\alpha\) を定数として
+</p>
+
+<div>
+\begin{equation}
+  X_t=\mu+\alpha t+\epsilon_t  
+\end{equation}
+
+</div>
+
+<p>
+で与えられる確率変数列
+</p>
+<ul>
+<li><b>非定常</b> な確率過程</li>
+
+</ul></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org3694c42">
+<h3 id="org3694c42">ランダムウォーク</h3>
+<ul>
+<li><p>
+\(\epsilon_t,\;t= 2,...,T\) を独立かつ同分布に従う独立な確率変数列 (i.i.d.)， 
+\(X_1\) を定数もしくは確率変数として
+</p>
+
+<div>
+\begin{equation}
+  X_t=X_{t-1}+\epsilon_t,\quad(t=2,\dotsc,T)
+\end{equation}
+
+</div>
+
+<p>
+で帰納的に定義される確率変数列
+</p>
+<ul>
+<li>分散が時間とともに増加・記憶のあるモデル</li>
+<li><b>非定常</b> な確率過程</li>
+
+</ul></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgb9fd73b">
+<h3 id="orgb9fd73b">自己回帰モデル (ARモデル)</h3>
+<ul>
+<li><p>
+\(\epsilon_t,\;t=p+1,...,T\) を \(\mathrm{WN}(0,\sigma^2)\) ，
+\(a_1,\dotsc,a_p\) を定数，
+\(X_1,\dotsc,X_p\) が初期値として
+</p>
+
+<div>
+\begin{equation}
+  X_t=a_1X_{t-1}+\cdots+a_pX_{t-p}+\epsilon_t,\quad t=p+1,\dotsc,T
+\end{equation}
+
+</div>
+
+<p>
+で帰納的に定まる確率変数列
+</p>
+<ul>
+<li>ランダムウォークの一般化</li>
+<li>無限長の記憶のある(忘却しながら記憶する)モデル</li>
+<li><b>定常にも非定常にもなる</b></li>
+
+</ul></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org4849e26">
+<h3 id="org4849e26">移動平均モデル (MAモデル)</h3>
+<ul>
+<li><p>
+\(\epsilon_t,\;t=q+1,\dotsc,T\) を \(\mathrm{WN}(0,\sigma^2)\) ，
+\(b_1,\dotsc,b_q\) を定数，
+\(X_1,\dotsc,X_q\) が初期値として
+</p>
+
+<div>
+\begin{equation}
+  X_t
+  =
+  b_1\epsilon_{t-1}+\cdots+b_q\epsilon_{t-q}+\epsilon_t,
+  \quad t=q+1,\dotsc,T
+\end{equation}
+
+</div>
+
+<p>
+で定まる確率変数列
+</p>
+<ul>
+<li>有限長の記憶のあるモデル</li>
+<li><b>定常</b> な確率過程</li>
+
+</ul></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orga71f34c">
+<h3 id="orga71f34c">自己回帰平均移動モデル (ARMAモデル)</h3>
+<ul>
+<li><p>
+\(\epsilon_t,\;t=\max\{p,q\}+1,...,T\) を \(\mathrm{WN}(0,\sigma^2)\) ，
+\(a_1,\dotsc,a_p\),
+\(b_1,\dotsc,b_q\) を定数，
+\(X_1,\dotsc,X_{\max\{p,q\}}\) を初期値として
+</p>
+
+<div>
+\begin{multline}
+  X_t
+  =
+  a_1X_{t-1}+\cdots+a_pX_{t-p}+b_1\epsilon_{t-1}+\cdots+b_q\epsilon_{t-q}+\epsilon_t,\\
+  t=\max\{p,q\}+1,\dotsc,T
+\end{multline}
+
+</div>
+
+<p>
+で帰納的に定まる確率変数列
+</p>
+<ul>
+<li>AR・MAモデルの一般化・基本的な時系列モデル</li>
+<li><b>定常にも非定常にもなる</b></li>
+
+</ul></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+</section>
+<section>
+<section id="slide-org9c78fa3">
+<h2 id="org9c78fa3">モデルの推定</h2>
+<div class="outline-text-2" id="text-org9c78fa3">
+</div>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgf571020">
+<h3 id="orgf571020">自己相関と偏自己相関</h3>
+<ul>
+<li>弱定常な確率過程: \(X_t,\;t=1,\dotsc,T\) (平均は0とする)</li>
+<li>自己共分散と自己相関係数
+<ul>
+<li>自己共分散: \(\gamma_{h}=\mathbb{E}[X_{t}X_{t-h}]\)</li>
+<li><b>自己相関係数</b>: \(\rho_{h}=\gamma_{h}/\gamma_{0}\)</li>
+
+</ul></li>
+<li><p>
+AR(h)モデル: (雑音なしの場合を考える)
+</p>
+
+<div>
+\begin{equation}
+  X_{t}=a_{1}X_{t-1}+a_{2}X_{t-2}+\dotsb+a_{h}X_{t-h}
+\end{equation}
+
+</div>
+
+<ul>
+<li>\(a_h\) の推定値: ラグ \(h\) の <b>偏自己相関係数</b></li>
+<li><p>
+\(a_1=a_2=a_{h-1}=0\) のときのみ <b>自己相関係数</b> となる
+</p>
+
+<div>
+\begin{equation}
+  \mathbb{E}[X_{t}X_{t-h}]=a_{h}E[X_{t-h}X_{t-h}]
+  \;\Rightarrow\; \gamma_{h}=a_{h}\gamma_{0}
+  \;\Rightarrow\; \rho_{h}=a_{h}
+\end{equation}
+
+</div></li>
+
+</ul></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org4cc059e">
+<h3 id="org4cc059e">R: ARモデルの推定 <code>ar()</code></h3>
+<ul>
+<li>定常ARモデルのあてはめ: <code>stats::ar()</code>
+<ul>
+<li>時系列 <code>x</code>: <code>ts</code> クラスが望ましい</li>
+<li>オプション <code>method</code>: 計算方法 (既定値: <code>yule-walker</code> )</li>
+<li>オプション <code>aic</code>: AICを計算するか (既定値: <code>TRUE</code>)</li>
+<li>オプション <code>order.max</code>: 計算すべき最大次数</li>
+
+</ul></li>
+
+</ul>
+<div class="org-src-container">
+
+<pre  class="src src-R"><span style="color: #6272a4;">## </span><span style="color: #6272a4;">&#26178;&#31995;&#21015;&#12487;&#12540;&#12479;&#12363;&#12425;AR&#12514;&#12487;&#12523;&#20418;&#25968;&#12434;&#25512;&#23450;</span>
+ar(x, aic = TURE, order.max = 10, method = <span style="color: #f1fa8c;">"burg"</span>)
+</pre>
+</div>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orge80e3b7" data-background="#EEEEFF">
+<h3 id="orge80e3b7">演習: ARモデルの推定</h3>
+<ul>
+<li><a href="./code/14-arest.r">14-arest.r</a> を確認してみよう</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgb1cd9b9">
+<h3 id="orgb1cd9b9">R: ARIMAモデルの推定 <code>arima()</code></h3>
+<ul>
+<li>階差系列への定常ARMAモデルのあてはめ: <code>stats::arima()</code>
+<ul>
+<li>時系列 <code>x</code>: <code>ts</code> クラスが望ましい</li>
+<li>オプション <code>order</code>: 次数 <code>c(AR,階差,MA)</code></li>
+<li>オプション <code>seasonal</code>: 次数+期間 <code>list(order=(AR,階差,MA),period=期間)</code></li>
+
+</ul></li>
+<li><code>arima()</code> には次数の決定機能はない
+<ul>
+<li>試行錯誤による次数の決定</li>
+<li><code>forecast::auto.arima()</code> の利用</li>
+
+</ul></li>
+
+</ul>
+<div class="org-src-container">
+
+<pre  class="src src-R"><span style="color: #6272a4;">## </span><span style="color: #6272a4;">&#26178;&#31995;&#21015;&#12487;&#12540;&#12479;&#12363;&#12425;ARIMA&#12514;&#12487;&#12523;&#20418;&#25968;&#25512;&#23450;</span>
+arima(x, order=c(0,1,1), seasona=list(order=c(0,1,1),period=12))
+<span style="color: #6272a4;">## </span><span style="color: #6272a4;">ARIMA&#12514;&#12487;&#12523;&#12398;&#27425;&#25968;&#12398;&#33258;&#21205;&#25512;&#23450;</span>
+<span style="color: #8be9fd;">require</span>(forecast)
+auto.arima(x, d=1, D=1)
+</pre>
+</div>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org80742e7" data-background="#EEEEFF">
+<h3 id="org80742e7">演習: ARIMAモデルの推定</h3>
+<ul>
+<li><a href="./code/14-armaest.r">14-armaest.r</a> を確認してみよう</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+</section>
+<section>
+<section id="slide-org22e89b9">
+<h2 id="org22e89b9">モデルによる予測</h2>
+<div class="outline-text-2" id="text-org22e89b9">
+</div>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org0a08b0b">
+<h3 id="org0a08b0b">R: 時系列の予測 <code>predict()</code></h3>
+<ul>
+<li>推定されたモデルによる予測: <code>predict()</code>
+<ul>
+<li>モデル <code>fit</code>: <code>ar()</code> また <code>arima()</code> による推定結果</li>
+<li>オプション <code>n.ahead</code>: n期先予測</li>
+
+</ul></li>
+
+</ul>
+<div class="org-src-container">
+
+<pre  class="src src-R"><span style="color: #6272a4;">## </span><span style="color: #6272a4;">&#26178;&#31995;&#21015;&#12514;&#12487;&#12523;&#12395;&#12424;&#12427;&#20104;&#28204;</span>
+fit <span style="color: #8be9fd;">&lt;-</span> arima(x, order=c(0,1,1), seasona=list(order=c(0,1,1),period=12))
+prd <span style="color: #8be9fd;">&lt;-</span> predict(fit, n.ahead=10)
+</pre>
+</div>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgcde3050" data-background="#EEEEFF">
+<h3 id="orgcde3050">演習: 時系列の予測</h3>
+<ul>
+<li><a href="./code/14-predict.r">14-predict.r</a> を確認してみよう</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org6796e5c" data-background="#EEEEFF">
+<h3 id="org6796e5c">演習: 実データの予測</h3>
+<ul>
+<li><a href="./code/14-airpass.r">14-airpass.r</a> を確認してみよう</li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+</section>
+</div>
+</div>
+<script src="./reveal.js/js/reveal.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: true,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: true,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: false,
+
+overview: true,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'fade', // see README of reveal.js for options
+transitionSpeed: 'default',
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+ { src: './reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: './reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: './reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } }]
+
+});
+</script>
+</body>
+</html>

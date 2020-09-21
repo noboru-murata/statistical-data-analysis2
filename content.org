@@ -11,25 +11,33 @@
   :EXPORT_HUGO_SECTION: ./
   :EXPORT_DATE: <2020-09-19 Sat>
   :END:
-  本講義では．．．
+  本講義では，
+  初めにR言語の基本的な使い方を解説し，
+  データを用いた実習を交えて
+  多変量解析の様々な手法を学びます．
 
 ** 講義資料
-   - [[github:pdfs/note1.pdf][R編]]
-   随時修正します．
-
+   以下は統計データ解析 I・II の資料(随時更新)です．
+   1. Rの基礎編 [[github:pdfs/note1.pdf][(PDF)]] [[github:zips/script1.zip][(Rscript/Dataset)]] 
+   2. 確率と統計編 [[github:pdfs/note2.pdf][(PDF)]] [[github:zips/script2.zip][(Rscript/Dataset)]] 
+   3. 多変量解析編 [[github:pdfs/note3.pdf][(PDF)]] [[github:zips/script3.zip][(Rscript/Dataset)]] 
+   特に統計データ解析IIでは「Rの基礎」と「多変量解析」を用います．
+   
 ** 参考資料   
-  必要な参考書については講義中に指示します．
+   その他，必要な参考書等については講義中に指示します．
 
-
+** R/RStudioの導入方法
+   #+html: {{< myslide base="statistical-data-analysis2" name="install" >}}
+   - ハンドアウト [[github:pdfs/slide01.pdf][(PDF)]]
+   
 * 講義1
   :PROPERTIES:
   :EXPORT_FILE_NAME: lecture01
   :EXPORT_DATE: <2020-09-19 Sat>
   :END:
-  準備中
-** COMMENT スライド
+** スライド
    #+html: {{< myslide base="statistical-data-analysis2" name="slide01" >}}
-** COMMENT ハンドアウト
+** ハンドアウト
    - [[github:pdfs/slide01.pdf][PDF file]]
    
 * 講義2
@@ -164,7 +172,7 @@
 ** COMMENT ハンドアウト
    - [[github:pdfs/slide13.pdf][PDF file]]
 
-* 講義14
+* COMMENT 講義14
   :PROPERTIES:
   :EXPORT_FILE_NAME: lecture14
   :EXPORT_DATE: <2020-09-19 Sat>

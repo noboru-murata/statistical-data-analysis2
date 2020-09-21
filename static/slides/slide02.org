@@ -1,0 +1,436 @@
+#+TITLE: データの取り扱い
+#+SUBTITLE: データフレームとファイル
+#+AUTHOR: 村田 昇
+#+EMAIL: noboru.murata@eb.waseda.ac.jp
+#+DATE: 2019.10.04
+:preamble:
+#+INCLUDE: "./myconf.org"
+#+STARTUP: hidestars content
+# C-c C-x C-v でinlineを切り替え
+# <l C-i でlatex block
+# C-c '
+:end:
+
+* データフレーム
+** データ構造
+   - Rに用意されている基本的なデータ構造
+     - ベクトル (vector): 1次元配列
+     - 行列 (matrix): 2次元配列
+     - 配列 (array): 多次元配列
+     - *データフレーム* (data frame): 表 (2次元配列)
+   - 特殊なもの
+     - リスト (list): オブジェクトの集合 
+
+** データフレーム
+  - 複数の個体について，いくつかの属性を集計した表
+    - 長さの等しい列ベクトルをまとめたもの
+    - 各列のデータ型はバラバラでも良い
+  - 例: ある小学校の1年生の身長・体重・性別・血液型のデータ
+  - 実データは表形式であることが多いため最も一般的な形式
+
+** データフレームの作成
+   - 同じ長さのベクトルを並べる
+   - データフレームを結合する
+   - マトリクスを変換する (全て数字の場合)
+     #+BEGIN_SRC R :exports code
+     (x <- data.frame(one=c(1,2,3),two=c("AB","CD","EF")))
+     x[1,2] # 1行2列の要素を選択
+     x[c(TRUE,FALSE,TRUE),] # 1,3行を選択
+     x$two # 列"two"を選択
+     x["two"] # 列名"two"を選択
+     x[-c(1,3),] # 1,3行を除外
+     
+     (y <- data.frame(three=c("x","y","z"),four=c(0.9,0.5,-0.3)))
+     (z <- cbind(x,y))
+     #+END_SRC
+
+** 演習
+   :PROPERTIES:
+   :reveal_background: #EEEEFF
+   :END:
+   - [[./code/02-frame.r][02-frame.r]] を確認してみよう
+
+** 演習
+   :PROPERTIES:
+   :reveal_background: #EEEEFF
+   :END:
+   - 次の表に対応するデータフレームを作成しなさい
+     |---+------+------+------+-----|
+     |   | math | phys | chem | bio |
+     |---+------+------+------+-----|
+     | A |   90 |   25 |   65 |  70 |
+     | B |   80 |   50 |  100 |  50 |
+     | C |   70 |   75 |   70 |  30 |
+     | D |   60 |  100 |   40 |  80 |
+     | E |   50 |   80 |   75 | 100 |
+     |---+------+------+------+-----|
+
+* ファイルの操作
+** ファイルを用いたデータの読み書き
+   - 解析においてはデータファイルの操作が必要:
+     - 整理したデータを保存する
+     - 収集されたデータを読み込む
+   - Rで利用可能なデータファイル:
+     - CSV形式(comma separated values): テキストファイル
+     - RData形式: Rの内部表現を用いたバイナリーファイル
+     - (パッケージを用いればEXCELなどを扱うことも可能)
+
+** 作業ディレクトリの確認と変更
+   - 作業ディレクトリとファイルに関する注意:
+     - Rの処理は特定のフォルダ(*作業ディレクトリ*)内で実行される
+     - ファイルは作業ディレクトリにあるものとして扱われる
+     - 作業ディレクトリ以外のファイルを扱う場合はパスを含めて指定する必要がある
+   - 作業ディレクトリに関する操作:
+     - 確認の仕方
+       - コンソールの上部の表示
+       - 関数 ~getwd()~
+     - 変更の仕方
+       - "Session">"Set Working Directory">"Choose Directory..."
+       - 関数 ~setwd()~
+
+** CSV形式の操作 (テキスト)
+   - 関数 ~write.csv()~: CSVファイルの書き出し
+     #+BEGIN_SRC R :exports code
+     write.csv(x, file="mydata.csv") 
+     ## x: 書き出すデータフレーム
+     ## file: 書き出すファイルの名前 (作業ディレクトリ下，またはパスを指定)
+     #+END_SRC
+   - 関数 ~read.csv()~: CSVファイルの読み込み
+     #+BEGIN_SRC R :exports code
+     x <- read.csv(file="mydata.csv", header=TRUE, row.names=1)      
+     ## x: 読み込む変数
+     ## file: 書き出すファイルの名前 (作業ディレクトリ下，またはパスを指定)
+     ## header: 1行目を列名として使うか否か
+     ## row.names: 行名の指定 (行名を含む列番号/列名または行名のベクトル)
+     #+END_SRC
+   - 他の細かいオプションはヘルプを参照
+
+** RData形式の操作 (バイナリ)
+   - 関数 ~save()~: RDataファイルの書き出し
+     #+BEGIN_SRC R :exports code
+     save(..., file="mydata")
+     ## ...: 保存するオブジェクト名 (複数指定可，データフレーム以外も可)
+     ## file: 書き出すファイルの名前 (作業ディレクトリ下，またはパスを指定)
+     #+END_SRC
+   - 関数 ~load()~: RDataファイルの読み込む
+     #+BEGIN_SRC R :exports code
+     load(file="mydata")
+     ## file: 読み込むファイルの名前 (作業ディレクトリ下，またはパスを指定)
+     #+END_SRC
+   - 複数のデータフレームを同時に扱うことができる
+
+** 演習
+   :PROPERTIES:
+   :reveal_background: #EEEEFF
+   :END:
+   - [[./code/02-file.r][02-file.r]] を確認してみよう
+
+** 演習
+   :PROPERTIES:
+   :reveal_background: #EEEEFF
+   :END:
+   - 前の演習で作成したデータフレームを適当なファイルに書き出しなさい
+   - 書き出したファイルから別の変数に読み込みなさい
+
+* データフレームの操作
+** 部分集合の取得
+   - 要素を選択
+     - 添字の番号を指定する (マイナスは除外)
+     - 論理値(TRUE/FALSE)で指定する
+     - 要素の名前で指定する
+     #+BEGIN_SRC R :exports code
+     (x <- data.frame(one=c(1,2,3),two=c("AB","CD","EF")))
+     x[1,2] # 1行2列の要素を選択
+     x[-c(1,3),] # 1,3行を除外
+     x[c(TRUE,FALSE,TRUE),] # 1,3行を選択
+     x[,"two"] # 列名"two"を選択
+     #+END_SRC
+   - 関数 ~subset()~: 条件を指定して行と列を選択
+     #+BEGIN_SRC R :exports code
+     subset(x,subset,select,drop=FALSE)
+     ## x: データフレーム 
+     ## subset: 行に関する条件
+     ## select: 列に関する条件(未指定の場合は全ての列)
+     ## drop: 結果が1行または1列となる場合にベクトルとして返すか否か
+     #+END_SRC
+
+** 演習
+   :PROPERTIES:
+   :reveal_background: #EEEEFF
+   :END:
+   - [[./code/02-choose.r][02-choose.r]] を確認してみよう
+
+** 演習
+   :PROPERTIES:
+   :reveal_background: #EEEEFF
+   :END:
+   #+ATTR_HTML: :align left
+   - ~datasets::mtcars~ から以下の条件を満たすデータを取り出しなさい
+     - オートマチック車のデータ
+     - 4気筒(~cyl~)車の燃費(~mgp~)と排気量(~disp~)のデータ
+     - 馬力(~hp~)が110(馬力)以上で重さ(~wt~)が3(1000lbs)以下のデータ
+
+** 統計量の計算
+  - 関数 ~sum()~: 総和を計算する
+  - 関数 ~mean()~: 平均
+  - 関数 ~max()~: 最大値
+  - 関数 ~min()~: 最小値
+  - これ以外にも沢山あるので調べてみよ
+
+** 行・列ごとの操作
+   - 関数 ~apply()~: 列または行ごとに計算を行う
+     #+BEGIN_SRC R :exports code
+     apply(X, MARGIN, FUN)
+     ## X: データフレーム
+     ## MARGIN: 行(1)か列(2)かを指定
+     ## FUN: 求めたい統計量を計算するための関数
+     #+END_SRC
+   - 関数 ~aggregate()~: 各行をいくつかのグループにまとめて計算を行う
+     #+BEGIN_SRC R :exports code
+     aggregate(x, by, FUN)
+     ## x: データフレーム
+     ## by: 各行が属するグループを指定するベクトルのリスト
+     ## FUN: 求めたい統計量を計算するための関数
+     #+END_SRC
+
+** 演習
+   :PROPERTIES:
+   :reveal_background: #EEEEFF
+   :END:
+   - [[./code/02-operate.r][02-operate.r]] を確認してみよう
+
+** 演習
+   :PROPERTIES:
+   :reveal_background: #EEEEFF
+   :END:
+   #+ATTR_HTML: :align left
+   - ~datasets::mtcars~ のデータを以下の条件で整理しなさい
+     - 気筒数(~cyl~)ごとに排気量(~disp~)の平均値，最大値，最小値
+     - ギア数(~gear~)ごとの燃費(~mpg~)の平均値，最大値，最小値
+     - 気筒数(~cyl~)とギア数(~gear~)ごとの燃費(~mpg~)の平均値
+
+# * 描画の基礎
+# ** データの可視化
+#    - データ全体の特徴や傾向を把握するための効果的な方法
+#    - Rにはきわめて多彩な作図機能が用意されている
+#    - 描画関連の関数は色，
+#      線種や線の太さ，
+#      あるいは図中の文字の大きさなどを指定することができる
+# ** 基本的な描画 (ベクトル)
+#    - ベクトルデータを左から等間隔で順に描画する
+# #+BEGIN_SRC R :exports code
+#   plot(x, type="p", xlim=NULL, ylim=NULL,
+#        main=NULL, xlab=NULL, ylab=NULL, ...)
+#   ## x: ベクトル
+#   ## type: 描画タイプ．既定値は "p"(点プロット)．"l"(折れ線)など指定可
+#   ## xlim: x軸の範囲．既定値は自動的に決定
+#   ## ylim: y軸の範囲．既定値は自動的に決定
+#   ## main: 図のタイトル．既定値はタイトルなし
+#   ## xlab: x軸のラベル名．既定値は"Index"
+#   ## ylab: y軸のラベル名．既定値はxのオブジェクト名
+#   ## ...: 他のオプション．以下に例示．詳細は help(par) を参照
+#   ## col: 色の指定．"red"や"blue"など．指定可能な色は colors() を参照
+#   ## pch: 点の形．詳細は help(points) を参照
+#   ## cex: 文字の大きさ．既定値の何倍にするかを指定
+#   ## lty: 線のタイプ．実線・破線など．タイプ名もしくは数字で指定．詳細は help(par) を参照
+#   ## lwd: 線の太さ．数字で指定
+# #+END_SRC
+
+# ** 基本的な描画 (関数)
+#    - 1変数関数の範囲を指定して描画する
+# #+BEGIN_SRC R :exports code
+#   plot(x, y=0, to=1, ...)
+#   ## x: 1変数関数
+#   ## y: x軸の左端 (from でも良い)
+#   ## to: x軸の右端
+#   ## ...: "ベクトルの描画"と同じオプションが利用可能
+
+#   ## 別の関数 f を重ね書きする場合
+#   curve(f, add=TRUE, ...)            
+#   ## ...: には``ベクトルの描画''と同じオプションが利用可能
+# #+END_SRC
+
+# ** 基本的な描画 (散布図)
+#    - 2種類のデータ $x_1,\dots,x_N$ および $y_1,\dots,y_N$ が与えられたとき，
+#      点 $(x_1,y_1),\dotsc,(x_N,y_N)$ を平面上に描画する
+# #+BEGIN_SRC R :exports code
+#   plot(x, y=NULL, ...)
+#   ## x: 1種類目のデータ x_1,...,x_N
+#   ## y: 2種類目のデータ y_1,...,y_N
+#   ## ...: "ベクトルの描画"と同じオプションが利用可能
+
+#   ## データフレームxの変数A，Bの散布図を作成する
+#   plot(B ~ A, data=x, ...)
+# #+END_SRC
+
+# ** 図の保存
+#   - RStudioの機能を使う場合
+#     - 右下ペイン "Plots" > "Export"
+#     - 形式やサイズを指定する
+#     - クリップボードにコピーもできる
+#   - コマンドで実行する場合
+#     - 関数 ~pdf()~
+#     - 関数 ~png()~
+#     - 関数 ~dev.copy()~
+#     などを参照
+
+# ** 演習
+#    :PROPERTIES:
+#    :reveal_background: #EEEEFF
+#    :END:
+#    [[./code/02-plot.r]] を確認してみよう
+
+# ** 演習
+#    :PROPERTIES:
+#    :reveal_background: #EEEEFF
+#    :END:
+#    #+ATTR_HTML: :align left
+#    ~datasets::sleep~ 
+#    (睡眠薬投与による睡眠時間の増減のデータ，詳細は ~help(sleep)~ 参照)
+#    において
+#    - ~group~ が1のデータの ~extra~ をx軸
+#    - ~group~ が2のデータの ~extra~ をy軸
+#    #+ATTR_HTML: :align left
+#    とした散布図を描画せよ．
+
+#    #+ATTR_HTML: :align left
+#    ただし，
+#    点の色を青，
+#    点の形を $\times$ ，
+#    タイトルを "sleep data"，
+#    x軸のラベルを "group 1"，
+#    y軸のラベルを "group 2" 
+#    とせよ．
+
+#    # x軸, y軸のデータは以下で作ることができる．
+#    # x <- subset(sleep,group==1,extra,drop=TRUE) 
+#    # y <- subset(sleep,group==2,extra,drop=TRUE)
+
+# # * さまざまなグラフ
+# # ** 演習
+# #    :PROPERTIES:
+# #    :reveal_background: #EEEEFF
+# #    :END:
+# #    以下の各関数について
+# #    [[./code/02-graph.r]] 
+# #    を実行して確認してみよう．
+
+# # ** ヒストグラム
+# #    - データの値の範囲をいくつかの区間に分割し，
+# #      各区間に含まれるデータの個数を棒グラフにしたもの
+# #    - 棒グラフの横幅が区間に対応し, 面積が区間に含まれるデータの個数に比例するようにグラフを作成する
+# #    - データの分布の仕方(どのあたりに値が集中しているか, どの程度値にばらつきがあるかなど)を可視化するのに有効
+# # #+BEGIN_SRC R :exports code
+# #   hist(x, breaks, freq)      
+# #   ## x: ベクトル
+# #   ## breaks: 区間の分割の仕方を指定．数字を指定するとデータ範囲をその数字に近い個数に等分割する．
+# #   ## freq: TRUEを指定すると縦軸はデータ数，FALSEを指定すると縦軸はデータ数/全データ数．既定値は\texttt{TRUE}
+# #   ## ...: plotで指定できるオプションが利用可能
+# # #+END_SRC
+
+# # ** 箱ひげ図
+# #    - データの中心，散らばり具合および外れ値を考察するための図 (ヒストグラムの簡易版)
+# #    - 複数のデータの分布の比較の際に有効
+# #      - 太線で表示された中央値(第2四分位点)
+# #      - 第1四分位点を下端・第3四分位点を上端とする長方形(箱)
+# #      - 第1四分位点・第3四分位点からそれぞれ箱の長さの1.5倍以内にあるデータのうちの
+# #        最小の値・最大の値を下端・上端とする直線(ひげ)
+# #    - ひげの外側のデータは点で表示される
+# # #+BEGIN_SRC R :exports code
+# #   boxplot(x, ...)      
+# #   ## x: ベクトルまたはデータフレーム
+# #   ##      ベクトルに対しては単一の箱ひげ図
+# #   ##      データフレーム対しては列ごとの箱ひげ図
+# #   ## ...: plotと同様のオプションを指定可能
+
+# #   boxplot(B ~ A, data=x, ...)
+# #   ## xの変数Bを変数A(質的変数; 性別, 植物の種類など)で分類する場合
+# # #+END_SRC
+
+# # ** 棒グラフ
+# #    - 項目ごとの量を並べて表示した図
+# #    - 縦にも横にも並べられる
+# # #+BEGIN_SRC R :exports code
+# #   barplot(x,width=1,space=NULL,beside=FALSE,
+# # 	  legend.text=NULL,args.legend=NULL, ...)
+# #   ## x: ベクトルまたは行列 (データフレームは不可)
+# #   ## width: 棒の幅
+# #   ## space: 棒グラフ間・変数間のスペース
+# #   ## legend.text: 凡例
+# #   ## beside: 複数の変数を縦に並べるか・横に並べるか
+# #   ## args.legend: legendに渡す引数
+# #   ## ...: plotで指定できるオプションが利用可能
+# # #+END_SRC
+
+# # ** 円グラフ
+# #    - 項目ごとの比率を円の分割で表示した図
+# #    - 時計回りにも反時計回りにも配置できる
+# # #+BEGIN_SRC R :exports code
+# #   pie(x, clockwise=FALSE, ...)
+# #   ## x: ベクトル
+# #   ## clockwise: 時計回りに書くか否か
+# #   ## ...: plotで指定できるオプションが利用可能
+# # #+END_SRC
+
+# # ** 散布図行列
+# #    - 散布図を行列状に並べた図
+# #    - データフレームの全ての列の組み合わせの散布図を同時に見ることができる
+# # #+BEGIN_SRC R :exports code
+# #   pairs(x, ...)
+# #   plot(x,...) # pairsと同じ結果となる
+# #   ## x: データフレーム 
+
+# #   pairs(~ A1 + ... + Ak, data=x, ...)
+# #   plot(~ A1 + ... + Ak, data=x, ...)
+# #   ## 変数A1,...,Akのみ考える場合
+# # #+END_SRC
+
+# # ** 俯瞰図
+# #    - 3次元のグラフを2次元に射影した図
+# # #+BEGIN_SRC R :exports code
+# #   persp(x, y, z, theta=0, phi=15, expand=1)      
+# #   ## x,y,z: x,y,z座標
+# #   ##        (zは行列で，z[i,j]は点(x[i],y[j])に対応する値を与える)
+# #   ## theta,phi: 俯瞰の方向を指定する極座標
+# #   ## expand: z軸の拡大度
+# #   ## ...: plotで指定できるオプションが利用可能
+
+# #   ## # 
+# #   多様な3次元のグラフのためのパッケージがある．
+# #   # 以下はscatterplot3dパッケージの例
+# #   scatterplot3d(x, color, angle=40)      
+# #   ## x: x,y,z座標を指定するデータフレーム
+# #   ##    (perspのように直接指定することも可能)
+# #   ## color: 色を指定(colではないので注意). 既定値は黒
+# #   ## angle: x軸とy軸の間の角度
+# #   ## ...: plotで指定できるオプションが利用可能
+# # #+END_SRC
+
+# # # ** プロット環境の設定
+# # #   \fun{par}: プロット環境の設定(複数図の配置, 余白の設定)をする
+
+# # #   - 基本書式
+# # #     \begin{myverb}
+# # # par(tag=value)      
+# # #     \end{myverb}
+# # #   - 関数の引数
+# # #     \begin{description}
+# # #     -[\texttt{tag}:] グラフィックスパラメータ
+# # #     \end{description}
+# # #   - プロットの際の線の種類や色, 点の形等の既定値は\fun{par}で設定できる
+# # #   - 設定可能なグラフィックスパラメータは\texttt{help(par)}で確認できる
+
+# # #   \code{graph-par}
+
+# # #   \begin{alertblock}{}
+# # #     プロット環境は非常に細かく設定でき，
+# # #     またそれぞれの描画関数独自のパラメータも存在するため，
+# # #     ここでは紹介しきれない\\
+# # #     必要に応じてヘルプやインターネット上の情報を参照すること
+# # #   \end{alertblock}
+
+# # ** 演習
+# #    :PROPERTIES:
+# #    :reveal_background: #EEEEFF
+# #    :END:
+# #    適当なデータを指定して図示を指示
