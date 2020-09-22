@@ -63,7 +63,7 @@
 # Setup for PDF generation via LaTeX export.
 #+LaTeX_CLASS: scrartcl
 #+LaTeX_CLASS_OPTIONS: [10pt,oneside,fleqn]
-#+LATEX_HEADER: \usepackage[style=plain]{myhandout}
+#+LATEX_HEADER: \usepackage[style=plain,list=minted]{myhandout}
 #+LATEX_HEADER: \usepackage[backend=biber,style=alphabetic]{biblatex}
 #+LATEX_HEADER: \addbibresource{references.bib}
 #+LATEX_HEADER: \newenvironment{notes}{\par\footnotesize}{\par}
