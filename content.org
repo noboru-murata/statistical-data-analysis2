@@ -170,19 +170,23 @@
 ** COMMENT ハンドアウト
    - [[github:pdfs/slide13.pdf][PDF file]]
 
-* COMMENT 講義14
-  :PROPERTIES:
-  :EXPORT_FILE_NAME: lecture14
-  :EXPORT_DATE: <2020-09-19 Sat>
-  :END:
-  準備中
-** COMMENT スライド
-   #+html: {{< myslide base="statistical-data-analysis2" name="slide14" >}}
-** COMMENT ハンドアウト
-   - [[github:pdfs/slide14.pdf][PDF file]]
+# * COMMENT 講義14
+#   :PROPERTIES:
+#   :EXPORT_FILE_NAME: lecture14
+#   :EXPORT_DATE: <2020-09-19 Sat>
+#   :END:
+#   準備中
+# ** COMMENT スライド
+#    #+html: {{< myslide base="statistical-data-analysis2" name="slide14" >}}
+# ** COMMENT ハンドアウト
+#    - [[github:pdfs/slide14.pdf][PDF file]]
 
-* COMMENT お知らせ
-  おしらせは以下を利用     
+* COMMENT お知らせの雛形
+  :PROPERTIES:
+  :EXPORT_HUGO_SECTION: ./post
+  :EXPORT_FILE_NAME: post0
+  :EXPORT_DATE: <2020-09-21 Mon>
+  :END:
 
 * R/RStudioの導入方法
   :PROPERTIES:
