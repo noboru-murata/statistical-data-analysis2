@@ -1,8 +1,8 @@
-#+TITLE: RとRStudio
+#+TITLE: Rによるデータ解析
 #+SUBTITLE: R言語の使い方
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
-#+DATE: 2019.09.27
+#+DATE: 2020.09.25
 :reveal:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+STARTUP: hidestars content
@@ -26,7 +26,7 @@
    - 本講義ではRStudioを用いて説明を行う
    - https://www.rstudio.com/ (RStudio社のサイト)
 ** Rの得意分野
-   - [[color:green][データの分類・集計・整理]]
+   - [[color:darkgreen][データの分類・集計・整理]]
      - 記述統計量 (基本・要約統計量) の計算
      - グラフによる視覚化
      - さまざまな統計分析 (多変量解析を含む)
@@ -34,16 +34,15 @@
    - 擬似乱数による不確定性を含む現象の模擬 \\
      (確率的シミュレーション・モンテカルロ法)
 
-* 多変量解析
-  - 複数の変量からなるデータを分析する手法の総称
-    - 回帰分析: 複数の量を用いて注目する変数の値を説明する
-    - 主成分分析: 全体を説明する少数の特徴量を構成する
-    - 判別分析: 特徴量の違いでカテゴリ分けを行う
-    - クラスタ分析: 特徴量の違いに着目してクラスタを構成する
-    - 時系列解析: 時間とともに変化する現象を記述する
 
-  # ここは前期を取っていない人に向けてある程度詳しく書きたい
-  # - 多次元尺度構成法: データ間の違いに基づいてデータ点を配置する
+* 多変量解析
+** 多変量解析とは  
+   - 複数の変量からなるデータを分析する手法の総称
+     - 回帰分析: 複数の量を用いて注目する変数の値を説明する
+     - 主成分分析: 全体を説明する少数の特徴量を構成する
+     - 判別分析: 特徴量の違いでカテゴリ分けを行う
+     - クラスタ分析: 特徴量の違いに着目してクラスタを構成する
+     - 時系列解析: 時間とともに変化する現象を記述する
 
 ** 回帰分析の考え方
    - ある変数を別の変数によって説明・予測するための関係式(回帰式)を構成する
@@ -56,19 +55,49 @@
    # ある1種類の変数/データを別の変数/データ(1種類もしくは複数)によって説明もしくは予測するための関係式(回帰方程式)を構成することを目的とする分析法
    # ある量(説明変数)を用いて注目する量(目的変数)を説明する
 
-** 
+** 単回帰の例 (~MASS::Animals~)
+   #+CAPTION: 体重と脳の重さ 
+   #+NAME:   tbl:brainbody
+   |                 | body [kg] | brain [g] |
+   |-----------------+-----------+-----------|
+   | Mountain beaver |     1.350 |       8.1 |
+   | Cow             |   465.000 |     423.0 |
+   | Grey wolf       |    36.330 |     119.5 |
+   | Goat            |    27.660 |     115.0 |
+   | Guinea pig      |     1.040 |       5.5 |
+   | Dipliodocus     | 11700.000 |      50.0 |
+   | Asian elephant  |  2547.000 |    4603.0 |
+   | Donkey          |   187.100 |     419.0 |
+   | ...             |           |           |
+
+   #+REVEAL: split
    #+CAPTION: 体重と脳の重さの関係 (単回帰)
    #+NAME:   fig:r-brainbody05
    #+ATTR_HTML: 
    [[file:./figs/r-brainbody05.png]]
 
-** 
+** 重回帰の例 (~wine.csv~)
+   #+CAPTION: ワインの価格と生産環境
+   #+NAME:   tbl:wine
+   | 年号 | 価格(対数) | 冬の降雨 |    気温 | 秋の降雨 | 経過年 |
+   |------+------------+----------+---------+----------+--------|
+   | 1952 |   -0.99868 |      600 | 17.1167 |      160 |     31 |
+   | 1953 |    -0.4544 |      690 | 16.7333 |       80 |     30 |
+   | 1954 |         NA |      430 | 15.3833 |      180 |     29 |
+   | 1955 |   -0.80796 |      502 |   17.15 |      130 |     28 |
+   | 1956 |         NA |      440 |   15.65 |      140 |     27 |
+   | 1957 |   -1.50926 |      420 | 16.1333 |      110 |     26 |
+   | 1958 |   -1.71655 |      582 | 16.4167 |      187 |     25 |
+   | 1959 |     -0.418 |      485 | 17.4833 |      187 |     24 |
+   |  ... |            |          |         |          |        |
+
+   #+REVEAL: split
    #+CAPTION: ワインの価格と生産環境の関係
    #+NAME:   fig:r-wine01
    #+ATTR_HTML: :width 55% :height 55%
    [[file:./figs/r-wine01.png]]
 
-** 
+   #+REVEAL: split
    #+CAPTION: 生産環境によるワイン価格の予測 (重回帰)
    #+NAME:   fig:r-wine05
    #+ATTR_HTML: :width 55% :height 55%
@@ -80,52 +109,85 @@
      - 野球選手の打撃成績(打率，本塁打数，打点など)から，打者としての特徴を記述する指標を作成する
      - 複数銘柄からなる株価の時系列データから，市場全体の変動を記述する総合指標を作成する
    # 全体を説明する少数の特徴量を構成する
-** 
+
+** 主成分分析の例 (~jpamenity.csv~)
+   #+CAPTION: 県別の生活環境(一部)
+   #+NAME:   tbl:jpamenity
+   |      | 昼夜人口比 | 年少人口比 | 老年人口比 | 人口増減率 |
+   |----------+------------+------------+------------+------------|
+   | 北海道   |      100.0 |       11.7 |       26.0 |      -0.47 |
+   | 青森県   |      100.0 |       12.1 |       27.0 |      -0.95 |
+   | 岩手県   |       99.7 |       12.4 |       27.9 |      -0.84 |
+   | 宮城県   |      100.2 |       13.0 |       22.9 |      -0.09 |
+   | 秋田県   |       99.9 |       11.1 |       30.7 |      -1.12 |
+   | 山形県   |       99.8 |       12.6 |       28.3 |      -0.78 |
+   | 福島県   |       99.6 |       12.9 |       26.1 |      -1.41 |
+   | 茨城県   |       97.2 |       13.2 |       23.8 |      -0.51 |
+   | ...      |            |            |            |            |
+
+   #+REVEAL: split
    #+CAPTION: 県別の生活環境(人口動態)の散布図 
    #+NAME:   fig:p-jpamenity01
    #+ATTR_HTML: :width 55% :height 55%
    [[file:./figs/p-jpamenity01.png]]
 
-** 
+   #+REVEAL: split
    #+CAPTION: 県別の生活環境(教育・労働)の散布図 
    #+NAME:   fig:p-jpamenity02
    #+ATTR_HTML: :width 55% :height 55%
    [[file:./figs/p-jpamenity02.png]]
 
-** 
+   #+REVEAL: split
    #+CAPTION: 県別の生活環境(貯蓄・余暇)の散布図 
    #+NAME:   fig:p-jpamenity03
    #+ATTR_HTML: :width 55% :height 55%
    [[file:./figs/p-jpamenity03.png]]
 
-** 
+   #+REVEAL: split
    #+CAPTION: 県別の生活環境の主成分分析
    #+NAME:   fig:p-jpamenity06
    #+ATTR_HTML: :width 55% :height 55%
    [[file:./figs/p-jpamenity06.png]]
+
 ** 判別分析の考え方
    - ある個体が複数のクラスのいずれかに属するとき，その個体の特徴量からどのクラスに属するか予測するモデルを構築する
    - 分析の事例:
      - 花の種類を，その花の花弁の幅・長さおよび萼片(がくへん)の幅・長さから判別する
      - 食道がんを患っている人とそうでない人を，年齢・飲酒量・喫煙度から判別する
    # 特徴量の違いでカテゴリ分けを行う
-** 
+** 判別分析の例 (MASS::biopsy)
+   #+CAPTION: 乳癌患者の生研検査
+   #+NAME:   tbl:biopsy
+   |      ID | V1 | V2 | V3 | V4 | V5 | V6 | V7 | V8 | V9 | class     |
+   |---------+----+----+----+----+----+----+----+----+----+-----------|
+   | 1000025 |  5 |  1 |  1 |  1 |  2 |  1 |  3 |  1 |  1 | benign    |
+   | 1002945 |  5 |  4 |  4 |  5 |  7 | 10 |  3 |  2 |  1 | benign    |
+   | 1015425 |  3 |  1 |  1 |  1 |  2 |  2 |  3 |  1 |  1 | benign    |
+   | 1016277 |  6 |  8 |  8 |  1 |  3 |  4 |  3 |  7 |  1 | benign    |
+   | 1017023 |  4 |  1 |  1 |  3 |  2 |  1 |  3 |  1 |  1 | benign    |
+   | 1017122 |  8 | 10 | 10 |  8 |  7 | 10 |  9 |  7 |  1 | malignant |
+   | 1018099 |  1 |  1 |  1 |  1 |  2 | 10 |  3 |  1 |  1 | benign    |
+   | 1018561 |  2 |  1 |  2 |  1 |  2 |  1 |  3 |  1 |  1 | benign    |
+   |     ... |    |    |    |    |    |    |    |    |    |           |
+
+   #+REVEAL: split
    #+CAPTION: 乳癌患者(良性・悪性)の生研検査の散布図
    #+NAME:   fig:d-biopsy01
    #+ATTR_HTML: :width 55% :height 55%
    [[file:./figs/d-biopsy01.png]]
 
-** 
+   #+REVEAL: split
    #+CAPTION: 生研検査の主成分分析
    #+NAME:   fig:d-biopsy02
    #+ATTR_HTML: :width 55% :height 55%
    [[file:./figs/d-biopsy02.png]]
 
-** 
+   #+REVEAL: split
    #+CAPTION: 生研検査による乳癌患者の判別分析
    #+NAME:   fig:d-biopsy03
    #+ATTR_HTML: :width 55% :height 55%
    [[file:./figs/d-biopsy03.png]]
+
 ** クラスタ分析の考え方
    - 特徴量の違いに着目して，妥当な個体のグループ(クラスタ)を構成する
      - 階層的な方法: 系統樹を作成する
@@ -134,17 +196,33 @@
      - 映画に関するアンケート調査から潜在的なジャンル(グループ)を抽出する
      - 顧客の購買履歴から，嗜好の異なる顧客グループに分類し，グループごとの販売戦略を立てる
 
-** 
+** クラスタ分析の例 (~omusubi.csv~)
+   #+CAPTION: おむすびの具に関するアンケート
+   #+NAME:   tbl:omusubi
+   |        |    梅 |    鮭 | 昆布 |   鰹 |  明太 |  鱈子 |  ツナ |    他 |
+   |--------+-------+-------+------+------+-------+-------+-------+-------|
+   | 北海道 | 13.86 | 27.94 | 5.58 | 5.26 |  9.26 | 15.06 | 11.61 | 11.39 |
+   | 青森   | 14.93 | 30.79 | 7.01 | 2.43 | 10.36 | 11.58 | 11.58 | 11.28 |
+   | 岩手   | 17.91 | 23.13 | 5.22 | 3.35 | 17.91 | 10.07 | 10.44 | 11.94 |
+   | 宮城   | 15.16 |  29.5 |   10 | 1.66 | 14.83 |  8.83 | 12.83 |  7.16 |
+   | 秋田   | 10.63 | 31.38 | 5.31 | 3.19 | 14.89 | 13.29 | 10.63 | 10.63 |
+   | 山形   | 16.58 | 20.27 | 8.29 | 1.38 | 18.89 | 10.13 |  12.9 | 11.52 |
+   | 福島   | 12.37 | 21.99 | 8.93 | 3.43 | 16.49 |  9.62 | 19.24 |   7.9 |
+   | 茨城   | 15.42 | 26.49 | 7.98 | 2.54 | 18.33 | 11.79 | 11.79 |  5.62 |
+   | ...    |       |       |      |      |       |       |       |       |
+
+   #+REVEAL: split
    #+CAPTION: おむすびの具に関するアンケート分析 (県別の集計)
    #+NAME:   fig:c-omusubi01
    #+ATTR_HTML: :width 55% :height 55%
    [[file:./figs/c-omusubi01.png]]
 
-** 
+   #+REVEAL: split
    #+CAPTION: アンケート結果にもとづく県のクラスタ分析
    #+NAME:   fig:c-omusubi02
    #+ATTR_HTML: :width 55% :height 55%
    [[file:./figs/c-omusubi02.png]]
+
 ** 時系列解析の考え方
    - 時間とともに変化する現象を記述するために，未来の値を過去の値で近似する式を構成する
      - 自己回帰 (ARモデル): 過去の影響の記述
@@ -152,721 +230,212 @@
    - 分析の事例:
      - 市町村の過去の年齢別の人口変動から将来の人口比率を予測する
      - 食品・飲料の季節ごとの販売履歴から将来の需要量を予測する
-** 
+** 時系列解析の例 (~datasets::AirPassengers~)
+   #+CAPTION: 航空機旅客量の変遷
+   #+NAME:   tbl:airpass
+   |      | Jan | Feb | Mar | Apr | May | Jun | Jul | Aug | Sep | ... |
+   |------+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----|
+   | 1949 | 112 | 118 | 132 | 129 | 121 | 135 | 148 | 148 | 136 | ... |
+   | 1950 | 115 | 126 | 141 | 135 | 125 | 149 | 170 | 170 | 158 | ... |
+   | 1951 | 145 | 150 | 178 | 163 | 172 | 178 | 199 | 199 | 184 | ... |
+   | 1952 | 171 | 180 | 193 | 181 | 183 | 218 | 230 | 242 | 209 | ... |
+   | 1953 | 196 | 196 | 236 | 235 | 229 | 243 | 264 | 272 | 237 | ... |
+   | 1954 | 204 | 188 | 235 | 227 | 234 | 264 | 302 | 293 | 259 | ... |
+   | 1955 | 242 | 233 | 267 | 269 | 270 | 315 | 364 | 347 | 312 | ... |
+   |  ... |     |     |     |     |     |     |     |     |     |     |
+
+   # |      | Jan | Feb | Mar | Apr | May | Jun | Jul | Aug | Sep | Oct | Nov | Dec |
+   # | 1949 | 112 | 118 | 132 | 129 | 121 | 135 | 148 | 148 | 136 | 119 | 104 | 118 |
+   # | 1950 | 115 | 126 | 141 | 135 | 125 | 149 | 170 | 170 | 158 | 133 | 114 | 140 |
+   # | 1951 | 145 | 150 | 178 | 163 | 172 | 178 | 199 | 199 | 184 | 162 | 146 | 166 |
+   # | 1952 | 171 | 180 | 193 | 181 | 183 | 218 | 230 | 242 | 209 | 191 | 172 | 194 |
+   # | 1953 | 196 | 196 | 236 | 235 | 229 | 243 | 264 | 272 | 237 | 211 | 180 | 201 |
+   # | 1954 | 204 | 188 | 235 | 227 | 234 | 264 | 302 | 293 | 259 | 229 | 203 | 229 |
+   # | 1955 | 242 | 233 | 267 | 269 | 270 | 315 | 364 | 347 | 312 | 274 | 237 | 278 |
+   # | 1956 | 284 | 277 | 317 | 313 | 318 | 374 | 413 | 405 | 355 | 306 | 271 | 306 |
+   # |  ... |     |     |     |     |     |     |     |     |     |     |     |     |
+
+   #+REVEAL: split
    #+CAPTION: 航空機旅客量の変遷
    #+NAME:   fig:t-airpass01
    #+ATTR_HTML: :width 55% :height 55%
    [[file:./figs/t-airpass01.png]]
 
-** 
+   #+REVEAL: split
    #+CAPTION: 階差時系列の自己相関分析
    #+NAME:   fig:t-airpass04
    #+ATTR_HTML: :width 55% :height 55%
    [[file:./figs/t-airpass04.png]]
 
-** 
+   #+REVEAL: split
    #+CAPTION: 航空機旅客量の予測 (SARIMAモデルによる)
    #+NAME:   fig:t-airpass12
    #+ATTR_HTML: :width 55% :height 55%
    [[file:./figs/t-airpass12.png]]
 
-* COMMENT R言語の概要
-** R言語とは
-#+ATTR_REVEAL: :frag (roll-in)
-   - 統計計算のための言語と環境の総称
-   - オープンソース・フリーソフトウェア
-   - *パッケージ* のインストールによって容易に機能の拡張が可能
-     - パッケージの開発は非常に活発 (現在10000を越える)
-     - 最新の技術や方法が簡単に導入できることも多い
-   - R Project https://www.r-project.org/
 
-** RStudioとは
-#+ATTR_REVEAL: :frag (roll-in)
-   - RStudio社により開発・公開されているR言語のための統合開発環境(IDE)
-     - Rによるデータ解析や統計計算・パッケージ開発等を支援
-     - OSに依存しない対話型操作環境を提供
-   - RStudio社  https://www.rstudio.com
-   - 本講義ではRStudioを用いて説明を行う
-
-# ** データの形式
-#    - 構造化データ
-#      - 個々のデータが項目ごとに表形式で整理されている
-#      - 集計・分類・抽出・追加など整理が比較的容易
-#      - 例: 国別の経済指標，学生の成績表
-#    - 非構造化データ
-#      - データごとに形式や項目数など属性が異なる
-#      - データの整理や比較がそのままでは困難
-#      - 例: 文書，画像，動画，音声
-
-** R言語の得意分野
-   - データの分類・集計・整理
-   - 記述統計量 (基本・要約統計量とも言う) の計算
-   - グラフによる視覚化
-   - プログラムによる処理の自動化
-   - 確率的シミュレーション (モンテカルロ法)
-
-# * Rの用途
-#   - 電卓
-#   - 計算機
-#   - 統計処理ソフト
-# ** 電卓として使う
-# ** 計算機として使う
-# ** 統計処理ソフトとして使う
-# *** データの操作
-# **** データの表示
-# **** データの集計
-# **** データの視覚化
-#    - データの分類・集計・整理
-#    - 記述統計量 (基本・要約統計量とも言う) の計算
-#    - グラフによる視覚化
-#    - プログラムによる処理の自動化
-
-# ** 数値シミュレーション
-#    - 擬似乱数による不確定性を含む現象の模擬
-#    - 確率的な現象
-#      - コイントス
-#      - さいころ
-#      - ルーレット
-#    - Monte Carlo 法の利点
-#      - 現象の精緻なモデル化
-#      - 再現性の担保
-
-* COMMENT インストール
-** Rのインストール手順
-#+ATTR_REVEAL: :frag (roll-in)
-   - *R: The R project for Statistical Computing* にアクセス
-     - http://www.r-project.org/ を直接入力
-     - または "r install" などで検索
-   - *download R* というリンクをクリック
-   - CRANのミラーサイトを選ぶ:
-     - どれでも利用可だが "Japan" のいずれかを選ぶと良い
-     - OSごとにインストール方法が異なるので注意
-
-** Windowsの場合
-#+ATTR_REVEAL: :frag (roll-in)
-   - *Download R for Windows* をクリック
-   - *base* をクリック
-   - *Download R（バージョン）for Windows* をクリック
-   - ダウンロードされたインストーラを起動
-   - 指示に従って R をインストールする 
-
-** Macの場合
-#+ATTR_REVEAL: :frag (roll-in)
-   - *Download R for（Mac）OS X* をクリック
-   - *R-（バージョン）.pkg* をクリック
-   - ダウンロードされたインストーラーを起動
-   - 指示に従って R をインストールする
-   - (Homebrewを利用することも可能)
-
-** RStudioのインストール手順
-#+ATTR_REVEAL: :frag (roll-in)
-  - *Download RStudio -- RStudio* にアクセス
-    - https://www.rstudio.com/products/rstudio/download/ を入力
-    - "rstudio install" などで検索
-  - *Installers for Supported Platforms* から自分の環境(OS)に合わせてインストーラを選択
-  - ダウンロードしたインストーラを起動
-  - 指示に従って RStudio をインストールする
-
-# - {{{alert(RStudio Desktop Open Source License)}}} の下の
-#   {{{alert(DOWNLOAD NOW)}}} をクリック
-
-* COMMENT 基本操作
-** 起動と終了
-   - 以下 RStudio を用いて説明する
-   - 起動すると標準的な設定では4つのペイン(枠)を持つウィンドウが立ち上がる
-     - 左上: エディタ
+* RStudio の基礎
+** 起動画面
+   - *以下 RStudio を用いて説明する*
+   - 起動すると4つの枠(pane)を持つウィンドウが立ち上がる
+     - 左上: エディタ (開いていない場合もある)
      - 左下: コンソール
      - 右上: 作業環境内の変数・コマンド履歴
      - 右下: パッケージ・グラフィックス・ヘルプ
-   - ペインの配置や数は個別に設定することもできる
+   - [[color:orange][ペインの配置や数は個別に設定することもできる]]
 
-** コンソール (左下のペイン)
-  - プログラムを実行するコマンドを入力する
-  - 例えば，以下のように簡単な計算を行うことができる
-    #+begin_src R :exports both :results none
-    1 + 2 + 3 + 4 
+** コンソール (左下)
+  - コマンドを入力するためのペイン
+  - 例えば，以下のような計算を行うことができる
+    #+begin_src R :eval no :exports code
+      ## 一般的な数式を入力すれば計算機として使える
+      1 + 2 + 3 + 4 # 空白は無視される
+      sin(pi/3) / cos(pi/3) # tan(pi/3) になるはず
     #+end_src
-  - コンソール上で終了を指示する以下のコマンドを入力すればRを終了させることができる
-    #+begin_src R :exports both :results none :eval no
-    q()
+  - コンソール上で終了を指示する以下のコマンドを入力すれば
+    R を終了させることができる
+    #+begin_src R :eval no :exports code
+      ## R の終了には q() または quit() を用いる
+      q()
     #+end_src
-# - 終了できない場合はOSの機能で強制終了する 
-# (Macの場合，画面左上のAppleマークに「強制終了」の項目がある)
+    - [[color:orange][終了できない場合はOSの機能で強制終了]]
 
-** 演習
-   :PROPERTIES:
-   :reveal_background: #EEEEEE
-   :END:
-   - RStudioを起動してみよ
-   - 上記の方法で終了してみよ
+** 作業ディレクトリ
+   - プログラムが実行されるディレクトリ(フォルダ)
+   - 作業ディレクトリにあるファイルの読み書きはパスを指定する必要がない
+   - 現在の作業ディレクトリはコンソールタブで確認
+   - *Session* メニューの *Set Working Directory* で指定
+     - 読み込んだファイルの場所を選択
+     - Files (右下ペイン) の場所を選択
+     - ディレクトリを直接選択
+
+** エディタ (左上)
+   - コマンドを記述したファイルを扱うためのペイン
+   - コンソールに入力したコマンドは直ちに実行される
+   - 一連のコマンドをまとめたり，修正しながら実行するための機能
+     - コマンドを実行順に記述したファイル *RScript* を作成 
+     - ファイルを保存
+     - ファイルを実行
+
+** ヘルプ機能 (右下)
+   - 各関数の詳細(機能，引数名，引数の既定値，実行例など)を記述した
+     ヘルプが用意されている
+   - 右下ペイン *Help* タブ右上の検索窓で参照可能
+   - ヘルプ内の検索はその下の *Find in Topic* で可能
+       
+** パッケージの操作 (右下)
+   - 機能を拡張するために多数のパッケージが用意されている  
+   - RStudio でのインストール手順
+     - 右下ペイン *Package* タブをクリック
+     - 左上の *Install* をクリック
+     - パッケージ名を入力し *Install* をクリック
+   - 利用可能なパッケージの情報は
+     右下ペイン *Package* タブで確認できる
 
 ** 終了時の注意
-   - R終了前に以下のメッセージが表示される場合がある
-     #+BEGIN_SRC R :exports both :results none :eval no
-     Save workspace image? [y/n/c]:     
-     #+END_SRC
-   - 作業で使われた変数などをセーブするか尋ねている
+   - 終了時に以下のメッセージが表示される場合がある
+     #+begin_src R :eval no :exports code
+       > q()
+       Save workspace image? [y/n/c]:     
+     #+end_src
+   - 作業で使った変数などをセーブするか尋ねている
      - y を入力: セーブする (yesの略)
      - n を入力: セーブしない (noの略)
      - c を入力: Rの終了をキャンセルする (cancelの略)
    - セーブした場合次回起動時に読み込まれる 
 
-** エディタ (左上のペイン)
-   - コマンドを記述したファイルを扱う
-   - コンソール上に入力したコマンドは直ちに実行されてしまう
-   - 複雑なコマンドを書いたり，後から一部を修正するための機能
-     - コマンドを実行順に記述したファイルを作成 (R Script)
-     - ファイルを保存
-     - ファイルを実行
-   - 演習を行いながら上記の操作は説明する
 
-# ** ファイルの作成・保存
-#    - 新規ファイルの作成: (以下のいずれか)
-#      - 左上の "+" から "R Script" を選択
-#      - "File'' から "New File'' を選択，更に "R Script" を選択
-#      - "Ctrl+Shift+N" (ショートカットキー)
-#    - ファイルの保存: (以下のいずれか)
-#      - "File" から "Save" を選択
-#      - "Ctrl+S" または "Command+S"
-#    - ファイル作成に関する注意:
-#      - 保存する時にファイル名の入力が求められる
-#      - 拡張子は通常 ".R" または ".r" を利用する
-#      - #以降に入力された文字列は実行されない(コメントアウト)
-#        {{{alert(コマンドに対するコメントを残す際に有用)}}}
-
-# ** ファイルの実行
-#   - エディタからの実行 (エコーなし): (以下のいずれか)
-#     - エディタ右上部にある "Source" をクリック
-#     - "Ctrl+Shift+S" または "Command+Shift+S"
-#     コードの実行のみが行われ，
-#     実行されたコードは出力されない
-#   - エディタからの実行 (エコーあり): (以下のいずれか)
-#     - エディタ右上部の "Source" の右側の▼をクリックして "Source with Echo" を選択
-#     - "Ctrl+Shift+Enter" または "Command+Shift+Enter"
-#     実行したコードの内容が出力("エコー"という)される
-# #  - コンソールからの実行:
-# #     \begin{block}{}
-# #       \begin{Verbatim}
-# #         source("ファイル名")
-# #         source("ファイル名",echo=TRUE) # エコー
-# #       \end{Verbatim}
-# #     \end{block}
-# #     "実行したいファイルのある場所(ディレクトリ)"も含めて指定する\\
-# #     ファイル名だけの場合は作業している場所(作業ディレクトリ)にあると
-# #     みなされる
-# #   - 作業ディレクトリの確認:
-# #     \begin{block}{}
-# #       \begin{Verbatim}
-# #         getwd()
-# #       \end{Verbatim}
-# #     \end{block}
-# #     あるいはコンソール上部に記載されている
-# #   \end{itemize}
-# # \end{frame}
-
-* COMMENT 基本的な使い方
+* 基本的な使い方
 ** 式の入力
-   - 四則演算や一般的な関数が計算可能 \\
-     ほぼ直感に沿った文法で書くことができる
-   - 加算:+，減算:-，乗算:*，除算:/，羃乗:＾または**
-   - コンソールでの実行例:
-     #+BEGIN_SRC R :exports both :results output
-     1*2+3^2
-     1*2+3#^2 # 以降は実行されないのでコメントとして利用できる
-     #+END_SRC
-
-** 演習
-   :PROPERTIES:
-   :reveal_background: #EEEEEE
-   :END:
-   - 以下の式を R を用いて計算してみよう
-     - $123\times456-789$
-     - $(2^{2^5}+1)\div641$
-     - $\sin^2(\pi/3)+\cos^2(\pi/3)$
+   - 四則演算や数学関数は直感的な文法で計算可能
+     - + (加算)，- (減算)，* (乗算)，/ (除算)，＾または** (ベキ乗)
+     - sin, cos, tan (三角関数)，exp (指数関数)，log (対数関数)
+   - [[color:darkgreen][コンソール上での計算例]]
+     #+begin_src R :exports both :results output
+       ## コンソールに以下のコマンドを入力してみる
+       123 * 456 - 789
+       (2^2^5 + 1) / 641
+       sin(pi/3)^2 + cos(pi/3)^2
+     #+end_src
 
 ** エディタからの実行
-   - 新規ファイルの作成: (以下のいずれか)
-     - 左上の "+" から "R Script" を選択
-     - "File'' から "New File'' を選択，更に "R Script" を選択
-   - コマンドやコメントの入力:
-   - 実行範囲の選択:
+   - 新規ファイルの作成 (以下のいずれか)
+     - 左上の *+* から
+       *R Script* を選択
+     - *File* から
+       *New File* を選択，
+       更に *R Script* を選択
+   - エディタ上でコマンドを記述
+   - 実行範囲の選択
      - 一行のみ: カーソルをその行に移動
-     - 複数行: ドラッグして範囲を選択
-   - 選択範囲の実行: (以下のいずれか)
-     - ツールバー内の "Run" をクリック
-     - "Code" から "Run Selected Line(s)" を選択
-     - Ctrl/Command+Enter (Run the current line or selection)
-      
-   # - エコーあり: (以下のいずれか)
-   #   - エディタ右上部の "Source" の右側の▼をクリックして "Source with Echo" を選択
-   #   - "Ctrl+Shift+Enter" または "Command+Shift+Enter"
-   #   実行したコードの内容が出力("エコー"という)される
-   # - エコーなしの実行: (以下のいずれか)
-   #   - エディタ右上部にある "Source" をクリック
-   #   - "Ctrl+Shift+S" または "Command+Shift+S"
-   #   コードの実行のみが行われ，実行されたコードは出力されない
-   #    新規ファイル - "Ctrl+Shift+N" (ショートカットキー)
+     - 複数行: クリックしてながら移動して選択する
+   - 選択範囲の実行 (以下のいずれか)
+     - 左上の *Run* をクリック
+     - *Code* から 
+       *Selected Line(s)* を選択
+       (Ctrl/Command+Enter)
 
 ** ファイルの保存
-   - ファイルの保存: (以下のいずれか)
-     - ツールバーのディスクのマークをクリック
-     - "File" から "Save" を選択
-     - Ctrl/Command+S (Save)
-   - ファイル作成に関する注意:
-     - 初めて保存する時にファイル名の入力が求められる
-     - 拡張子は通常 ".R" または ".r" を利用する
-     - # 以降に入力された文字列は実行されない(コメントアウト)
-       *コマンドに対するコメントを残す際に有用*
-
-#  - コンソールからの実行:
-#     \begin{block}{}
-#       \begin{Verbatim}
-#         source("ファイル名")
-#         source("ファイル名",echo=TRUE) # エコー
-#       \end{Verbatim}
-#     \end{block}
-#     "実行したいファイルのある場所(ディレクトリ)"も含めて指定する\\
-#     ファイル名だけの場合は作業している場所(作業ディレクトリ)にあると
-#     みなされる
-#   - 作業ディレクトリの確認:
-#     \begin{block}{}
-#       \begin{Verbatim}
-#         getwd()
-#       \end{Verbatim}
-#     \end{block}
-#     あるいはコンソール上部に記載されている
-#   \end{itemize}
-# \end{frame}
-
-** 演習
-   :PROPERTIES:
-   :reveal_background: #EEEEEE
-   :END:
-   - 先程の演習の内容をファイルに保存してみよう
-     - $123\times456-789$
-     - $(2^{2^5}+1)\div641$
-     - $\sin^2(\pi/3)+\cos^2(\pi/3)$
+   - ファイルの保存 (以下のいずれか)
+     - 左上のディスクのマークをクリック
+     - *File* から 
+       *Save* を選択 (Ctrl/Command+S)
+   - ファイル作成に関する注意
+     - 保存する時にファイル名の入力が求められる
+     - 拡張子は通常
+       *.R* または
+       *.r* を利用する
+     - *#* 以降の字列は実行されない 
+       /(コメントを残す際に有用)/
 
 ** 関数の実行
    - 関数の取り扱いは一般的な計算機言語とほぼ同様
-     - 関数は引数とその値を指定して実行
-     - ただし引数名は順序を守れば省略可能
-   - 関数の書き方:
-     #+BEGIN_SRC R :exports both :results none
-     f(arg1=value1, arg2=value2) 
-     # arg1, arg2 は引数の名前，value1, value2 は引数に渡す値を表す
-     f(value1, value2) # 上と同値
-     #+END_SRC
-
-** 演習
-   :PROPERTIES:
-   :reveal_background: #EEEEEE
-   :END:
-   - 以下の例を確認してみよう
-     - 例1: 正弦関数の計算:
-       #+BEGIN_SRC R :exports both :results none
+   - 関数は引数とその値を指定して実行
+   - [[color:darkgreen][正弦関数の計算]]
+     #+begin_src R :eval no :exports code
        sin(x = pi/2)
-       sin(pi/2) # 上と同値
-       #+END_SRC
-     - 例2: 対数関数の計算: (xやbに適当な数値を代入せよ)
-       #+BEGIN_SRC R :exports both :results none
+       ## 上と同値．関数の定義どおりの順序であれば引数の名前は省略可能
+       sin(pi/2) 
+     #+end_src
+   - [[color:darkgreen][対数関数の計算]]
+     #+begin_src R :eval no :exports code
+       ## xやbに具体的な数値を代入して実行してなさい
        log(x, b) # 底をbとする対数
        log(x=x, base=b) #上と同値
        log(base=b, x=x) #上と同値
        log(b,x) # = log(x=b,base=x) 
-       log(x) # 自然対数 =log(x,base=exp(1))
-       #+END_SRC
-# log の底 b は既定値として exp(1) が設定されている
-#   - 引数が存在しない，
-#     もしくはすべての引数に対し既定値が設定されている関数もある．
-#     例えば\texttt{f}がそのような関数だった場合，
-#     コンソール上で
-#     \begin{block}{}
-#       \begin{Verbatim}
-#         f()
-#       \end{Verbatim}
-#     \end{block}
-#     を実行すると引数=既定値として関数の内容が実行される
-#   - 典型例はRを終了する関数\texttt{q()}
-#   \end{itemize}
-# \end{frame}
-
-** ヘルプ機能
-   - 各関数の詳細(機能，引数名，引数の既定値，例など)を記述したヘルプファイルが用意されている
-   - ヘルプファイルに関連する関数:
-     - help (使い方や例の表示)
-     - example (例を実際に実行してくれる)
-     - help.search (キーワード検索)
-   - 右下のペインの"Help"タブの右上にある検索バーに関数名を入力することでも参照可能
-** ヘルプの実行例
-   - ヘルプは右下のペインに表示される
-     #+BEGIN_SRC R :exports both :results none
-     help(log) # 関数logのヘルプ
-     ?log # 上と同値
-     example(log) # ヘルプ内の例を実行
-     help.search("log") # "log"に関連する項目は？
-     ??"log" # 上と同値
-     #+END_SRC
-
-#     関数の正確な名前が分からない場合，
-#     キーワードを渡すことで関連するトピックをもつ関数を検索できる
-
-#   % - \underline{例} 三角関数を計算する関数の名前がわからない場合, 三角関数は英語でtrigonometric functionであることから, 
-#   %   \begin{center}\ttfamily
-#   %     help.search(trigonometric)
-#   %   \end{center}
-#   %   または
-#   %   \begin{center}\ttfamily
-#   %     ??trigonometric
-#   %   \end{center}
-#   %   を実行してみればよい
-#   %   \pagebreak
-  
-** 演習
-   :PROPERTIES:
-   :reveal_background: #EEEEEE
-   :END:
-   - 以下の項目についてヘルプを利用してみよう
-     - 三角関数(trigonometric function)を計算するための関数についてのヘルプファイルを調べよ
-     - 双曲線関数(hyperbolic function)についても調べよ
-
+       log(x) # base を省略すると自然対数 =log(x,base=exp(1))
+     #+end_src
 ** オブジェクト
-   - Rで扱うことのできる数値:
+   - Rで扱うことのできる数値
      - 実数および複素数 (指数表記にも対応)
      - 無限大や不定な数など特殊なものにも対応
    - 変数，関数，計算結果などを *オブジェクト* と呼ぶ
-   - オブジェクトには名前を付与すること(代入)ができる
-   - オブジェクトの内容は右上"Environment"タブで確認することができる
+   - 文字列を変数名としてオブジェクトを保持することができる
+   - 保持しているオブジェクトの情報は右上ペインの
+     *Environment* タブで確認できる
+** オブジェクトの代入
+   - オブジェクトの内容(情報)を別のオブジェクトに代入することができる
+   - 計算結果や良く使う文字列の保存に利用できる
+   - [[color:darkgreen][代入操作]]
+     #+begin_src R :exports both :results output
+       ## 数値を変数 foo に代入する
+       (foo <- 3)
+       ## 変数 foo を用いて計算し，結果を bar に代入する
+       bar <- sin(2/3*pi) + cos(foo * pi/4)
+       ## 変数 bar の内容を表示する
+       print(bar) 
+     #+end_src
+** データの読み込み
+   - ファイルにまとめられたデータを読み込むことができる
+   - 対応する形式は csv・excel など
+   - 右下ペインの *Files* を利用する
+     - ファイルが保存されているディレクトリに移動
+     - ファイルをクリック
+     - *View File* (見るだけ) か *Import Dataset* (読み込み) を選択
 
-** 演習
-   :PROPERTIES:
-   :reveal_background: #EEEEEE
-   :END:
-   - 以下の代入操作を実行してみよう
-     #+BEGIN_SRC R :exports both :results output
-     (foo <- 3)
-     bar <- sin(2/3*pi) + cos(foo * pi/4)
-     print(bar)
-     #+END_SRC
 
-#     - 変数への値の代入操作:
-#     \begin{block}{}
-#       \begin{Verbatim}
-#         xxx <- a
-#         xxx = a # 上と同値
-#       \end{Verbatim}
-#     \end{block}
-#     文字列\texttt{xxx}を変数名とする変数に\texttt{a}という値を代入する
-#   % 
-#   \end{itemize}
-
-#   \bigskip
-#   \code{variables}
-#   \pagebreak
-
-#   変数名は自由に決めて用いることが出来る
-#   \begin{itemize}
-#   - 例: \texttt{x}, \texttt{y}, \texttt{abc}など
-#   - \texttt{sin}, \texttt{log}, \texttt{pi}など
-#     Rの仕様として使われているものは，
-#     用いることができないわけではないが混乱を招く元なので使わないほうがよい
-#   - 以下の文字はRの起動時からすでに特定の機能を与えられているので，
-#     値を代入する際は注意が必要
-#     \begin{Verbatim}
-#       c q t C D F I T 
-#     \end{Verbatim}
-#     それぞれの機能はヘルプを参照
-#   \end{itemize}
-#   \pagebreak
-
-#   右上のペインの使い方:
-#   \begin{itemize}
-#   - これまでの作業で生成した変数に関する情報は，
-#     "Environment"タブで確認できる
-#   - これまでの作業でコンソール上で打ち込んだコマンドは，
-#     "History"タブで確認できる
-#   - コンソール上で上下キーを打つことで，
-#     以前に実行したコマンドを再表示できる
-#   \end{itemize}
-# \end{frame}
-
-** パッケージの操作
-   - 機能を拡張するために多数のパッケージが用意されている  
-   - パッケージのインストール方法:
-     - RStudioの機能を利用する方法
-     - コンソールから行う方法
-   - RStudioの機能を利用したインストール手順:
-     - 右下ペインの"Package"タブをクリック
-     - 左上の"Install"をクリック
-     - パッケージ名を入力し"Install"をクリック
-   - パッケージの情報は右下"Package"タブで確認できる
-
-# - パッケージ名の左側のボックスをチェックするとロードされ，パッケージに含まれる関数などが利用可能になる
-# - 左上部の"Update"をクリックするとインストール済みパッケージを最新版に更新できる
-
-#   コンソールからのインストール手順
-#   \begin{enumerate}
-#   - コンソール上で\texttt{install.packages("パッケージ名")}を実行
-#   - パッケージをダウンロードするためのサイト(CRANのミラーサイト)の
-#     選択を要求された場合は，適切なものを選択\\
-#     (Japanのミラーサイトがよい)
-#   \end{enumerate}
-#   \pagebreak
-    
-#   \begin{itemize}
-#   - コンソール上でのパッケージのロード:
-#     \begin{block}{}
-#       \begin{Verbatim}
-#         library(パッケージ名)
-#         require(パッケージ名) # 上のほぼ同値
-#       \end{Verbatim}
-#     \end{block}
-#     % \texttt{require()}を用いると1度読み込んだものは再読み込みしない？
-#   \end{itemize}
-# \end{frame}
-
-# * データ構造}
-
-# \begin{frame}%[allowframebreaks,fragile]%
-#   {データ構造}
-
-#   Rに用意されているデータ構造:
-#   \begin{itemize}
-#   - ベクトル (vector)
-#   - 行列 (matrix)
-#   - リスト (list) 
-#   - データフレーム (data frame)
-#     % -[{\color{blue}$\bullet$}] 配列(array)
-#   \end{itemize}
-#   上記は代表的なもので，これ以外にもある
-# \end{frame}
-
-# \begin{frame}[allowframebreaks,fragile]%
-#   {データ構造: ベクトル}
-
-#   ベクトルとは，スカラー値の集合  
-#   \begin{itemize}
-#   - Rオブジェクトは基本的にはベクトルとして扱われる\\
-#     (スカラー値は長さ1のベクトルとして扱われる) 
-#   - スカラー値として扱われるものには
-#     \begin{itemize}
-#     - 数値 (実数や複素数)
-#     - 文字列 (""で囲まれた文字．"x"など)
-#     - 論理値 (\texttt{TRUE}, \texttt{FALSE})
-#     \end{itemize}
-#     などが含まれる 
-#   \end{itemize}
-
-#   \bigskip
-#   \code{scalar}
-#   \pagebreak
-
-#   \begin{itemize}
-#   - 要素 \texttt{a,b,\dots} からなるベクトルの生成:
-#     \begin{Verbatim}
-#       c(a,b,...)
-#     \end{Verbatim}
-#     \texttt{a,b,\dots} は数値や文字列が混同していてもよい
-#   - ベクトルの要素の取得:
-#     \begin{Verbatim}
-#       x[i] # xの第i要素
-#       x[c(1,3,4)] # 複数の要素
-#                   # = c(x[1],x[3],x[4])
-#     \end{Verbatim}
-#     ベクトルの添え字は1から始まる
-#   - ベクトル\texttt{x}の長さの取得
-#     \begin{Verbatim}
-#       length(x)
-#     \end{Verbatim}
-#     \pagebreak
-    
-#   - 実数\texttt{x}から\texttt{y}まで
-#     1ずつ変化する要素を持つベクトル:
-#     \begin{Verbatim}
-#       x:y
-#     \end{Verbatim}
-#     \texttt{x<y}の場合は1ずつ増加，
-#     \texttt{x>y}の場合は1ずつ減少する
-#   - 実数\texttt{x}から\texttt{y}まで
-#     \texttt{a}ずつ変化する要素を持つベクトル:
-#     \begin{Verbatim}
-#       seq(x,y,by=a)
-#     \end{Verbatim}
-    
-#   - ベクトル\texttt{x}を\texttt{n}回繰り返した要素をもつベクトル:
-#     \begin{Verbatim}
-#       rep(x,n)
-#     \end{Verbatim}
-#     \texttt{rep(x,n)}の長さは\texttt{length(x)} $\times$ \texttt{n}となる
-#     \pagebreak
-
-#   - ベクトル\texttt{x}とベクトル\texttt{y}の結合:
-#     \begin{Verbatim}
-#       c(x,y)
-#     \end{Verbatim}
-#   - ベクトル\texttt{x}の反転:
-#     \begin{Verbatim}
-#       rev(x)
-#     \end{Verbatim}
-#   \end{itemize}
-  
-#   \bigskip
-#   \code{vector}
-#   \pagebreak
-
-#   \begin{exampleblock}{演習}
-#     以下に示すベクトルを\textsf{R}において作成せよ.    
-#     \begin{enumerate}
-#     - $(1,2,\dots,10)$\\
-#       (1から10まで1ずつ増加していく要素をもつベクトル)
-#     - 1以上30以下の奇数を昇順に並べたベクトル
-#     - すべての要素が1からなる長さ10のベクトル
-#     \end{enumerate}
-#   \end{exampleblock}
-# \end{frame}
-
-# \begin{frame}[allowframebreaks,fragile]%
-#   {データ構造: 行列}
-
-#   \begin{itemize}
-#   - すべての要素が\texttt{a}である$m\times n$行列:
-#     \begin{Verbatim}
-#       matrix(a,m,n)
-#     \end{Verbatim}
-#   - より一般に, 長さ$mn$のベクトル\texttt{x}を
-#     $m\times n$行列に変換:
-#     \begin{Verbatim}
-#       matrix(x,m,n)    
-#     \end{Verbatim}
-#     ただし
-#     % $x=(x_{11},\dotsc,x_{m1},x_{21},\dotsc,x_{m1},\dotsc,x_{mn})$
-#     $x=(x_{11},\dots,x_{m1},x_{21},\dots,x_{2n},\dots,x_{m1},\dots,x_{mn})$
-#     % $(x_{ij})_{1\leq i\leq m,1\leq n}$
-#   - 関数\texttt{as.vector}を用いたベクトル化:
-#     \begin{Verbatim}
-#       x <- as.vector(matrix(x,m,n))
-#     \end{Verbatim}
-#     \pagebreak
-
-#   - 行列のサイズの取得: 
-#     \begin{Verbatim}
-#       dim(X) # 長さ2のベクトル
-#       nrow(X) # 行数
-#       ncol(X) # 列数
-#     \end{Verbatim}
-#   - 関数\texttt{dim}によるベクトルから行列への変換:
-#     \begin{Verbatim}
-#       dim(x) <- c(m,n) # = matrix(x,m,n)
-#     \end{Verbatim}
-#   - 行列の成分の取得
-#     \begin{Verbatim}
-#       X[i,j] # (i,j)成分
-#       X[i, ] # 第i行
-#       X[ ,j] # 第j列
-#     \end{Verbatim}
-#     ベクトルの場合と同様に，
-#     添え字をベクトルで指定することで部分行列の取り出しも可能
-#     \pagebreak
-
-#   - 長さが等しい複数のベクトルの結合:
-#     \begin{Verbatim}
-#       rbind(x, y, ...) # 行ベクトルとして結合
-#       cbind(x, y, ...) # 列ベクトルとして結合
-#     \end{Verbatim}
-#     \texttt{cbind/rbind}は行列の結合にも使える
-#     % \texttt{cbind/rbind}は行数/列数が等しい複数の行列を横/縦に結合するのにも使える
-#   - (補足) 行列の高次元版のデータ構造として，
-#     配列(array)が用意されている
-#   \end{itemize}
-
-#   \bigskip
-#   \code{matrix}
-#   \pagebreak
-
-#   \begin{exampleblock}{演習}
-#     以下に示す行列を\textsf{R}において作成せよ
-#     \begin{equation*}
-#       \begin{pmatrix}
-#         1  & 2  & 3  \\
-#         4  & 5  & 6 
-#       \end{pmatrix}
-#     \end{equation*}
-#   \end{exampleblock}
-# \end{frame}
-
-# \begin{frame}[allowframebreaks,fragile]%
-#   {データ構造: リスト}
-
-#   異なる構造のデータをまとめて1つのオブジェクトとしたもの
-#   リストの各要素は異なるデータ型・クラスであって構わない
-#   \begin{itemize}
-#   - リストの生成:
-#     \begin{Verbatim}
-#       L <- list(x,y) # x,yを要素とするリスト
-#       L[[i]] # リストの第i要素
-#     \end{Verbatim}
-#     \pagebreak
-    
-#   - リストの各要素に名前を付与:
-#     \begin{Verbatim}
-#       L1 <- list(first=x, second=y)        # 方法1
-#       L2 <- list(x,y)                      # 方法2
-#       names(L2) <- c("first","second")
-#     \end{Verbatim}
-#   - 名前によるリストの要素の取得
-#     \begin{Verbatim}
-#       L1\$first      # 方法1
-#       L2[["first"]] # 方法2
-#     \end{Verbatim}
-#   \end{itemize}
-
-#   \bigskip
-#   \code{list}
-# \end{frame}
-
-# \begin{frame}[allowframebreaks,fragile]%
-#   {データ構造: データフレーム}
-
-#   リストにおいて各要素が長さの等しいベクトルであるようなもの %(データ型はバラバラでも良い)
-#   \begin{itemize}
-#   - 複数の個体について，いくつかの属性を集計したデータ\\
-#     (例えばある小学校の1年生の身長・体重・性別・血液型などを集計したデータ) 
-#   - リストの各成分はある属性に関する観測データに対応 
-#   - 個体数は集計項目に関わらず変化しないが，
-#     集計項目によっては定量的データ・定性的データの違いが出てくるので，
-#     データ型は変わりうる
-#   - 実データは表形式のデータであることが多いので，
-#     実データをRに読み込む際に役に立つデータ構造
-#   \end{itemize}
-#   \pagebreak
-
-#   \begin{itemize}
-#   - データフレームの生成:
-#     \begin{Verbatim}
-#       data.frame(x,y) # x,yは同じ長さ
-#     \end{Verbatim}
-#   - \alert{データフレームはリストでもある}\\
-#     リストと同様にして各変数にアクセスできる
-#   - \alert{データフレームは行列でもある}\\
-#     行数がベクトルの長さ(個体数), 列数が変数の個数(観測項目の数)の行列と同様にアクセスできる
-#   \end{itemize}
-
-#   \bigskip
-#   \code{data.frame}
-#   \pagebreak
-
-#   \begin{exampleblock}{演習}
-#     次の表に対応するデータフレームを作成せよ
-#     \begin{center}
-#       \begin{tabular}{c|ccc}
-#         & 国語 & 数学 & 英語\\ \hline
-#         A & 90 & 25 & 65\\
-#         B & 80 & 50 & 100\\
-#         C & 70 & 75 & 70\\
-#         D & 60 & 100 & 40%\\ \hline
-#       \end{tabular}
-#     \end{center}
-#   \end{exampleblock}
-# \end{frame}
-
-# \end{document}
+* COMMENT ローカル変数
+# Local Variables:
+# org-latex-listings: minted
+# End:
