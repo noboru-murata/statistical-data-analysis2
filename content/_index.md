@@ -25,3 +25,7 @@ weight = 1001
 ## 参考資料 {#参考資料}
 
 その他，必要な参考書等については講義中に指示します．
+
+春期に開講する統計データ解析Iの資料は
+[こちら](https://noboru-murata.github.io/statistical-data-analysis1/)
+にあります．
