@@ -205,7 +205,7 @@ plot(pcr[c("D","E","F")], labels=pcr_org[5:7], # 変数名を変更
 if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
 hist(pcr$D, breaks=25, labels=TRUE, # ビンの数と度数表示を指定
      col="lightblue", border="blue", # 中と境界の色を指定
-     main="検査件数のヒストグラム", xlab=pcr_org[7]) # 軸の名前を指定
+     main="検査件数のヒストグラム", xlab=pcr_org[5]) # 軸の名前を指定
 
 ### 関数 boxplot() の使用例
 ## 大学等での検査件数の分布
@@ -225,7 +225,7 @@ barplot(as.matrix(foo[-1]), col=rainbow(7), # 作成した月ごとの色を利�
         beside=TRUE, space=c(.3,3), # 横並びの指定とスペースの設定
         legend.text=foo[,1], args.legend=list(ncol=2)) # 凡例の指定
 
-### 練習
+### 練習6
 ### 擬似乱数
 
 ## 関数sampleの使い方
@@ -300,7 +300,7 @@ mydata <- replicate(mc,mytrial())
 table(mydata)    # 頻度
 table(mydata)/mc # 確率(推定値)
 
-### 練習
+### 練習7
 ### 双六ゲーム
 
 ## 双六の試行
