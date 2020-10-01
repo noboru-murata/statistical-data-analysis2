@@ -1,5 +1,5 @@
-#+TITLE: データの取り扱い
-#+SUBTITLE: データフレームとファイル
+#+TITLE: R言語速習
+#+SUBTITLE: データの取り扱いと可視化
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 2020.10.02

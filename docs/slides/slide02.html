@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<title>データの取り扱い</title>
+<title>R言語速習</title>
 <meta name="author" content="村田 昇"/>
 <style type="text/css">
 .underline { text-decoration: underline; }
@@ -31,10 +31,10 @@
 <!-- Embed logos as necessary. -->
 <!-- <a class="nooutlink" href="url"><img class="state-background your-logo-class" src="whatever.png" alt="Whatever" /></a> -->
 <div class="talk-title">
-    <h1 class="no-toc-progress">データの取り扱い</h1>
+    <h1 class="no-toc-progress">R言語速習</h1>
 </div>
 <div class="talk-subtitle">
-    <p>データフレームとファイル</p>
+    <p>データの取り扱いと可視化</p>
 </div>
 <div class="keyboard-usage">
     <p>(Press <code>?</code> for help, <code>n</code> and <code>p</code> for next and previous slide)</p>
@@ -47,14 +47,14 @@
 </section>
 
 <section>
-<section id="slide-org223a25a">
-<h2 id="org223a25a">データフレーム</h2>
-<div class="outline-text-2" id="text-org223a25a">
+<section id="slide-org78e64e8">
+<h2 id="org78e64e8">データフレーム</h2>
+<div class="outline-text-2" id="text-org78e64e8">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org9eba8f9">
-<h3 id="org9eba8f9">データ構造</h3>
+<section id="slide-org746ed7f">
+<h3 id="org746ed7f">データ構造</h3>
 <ul>
 <li>Rに用意されている基本的なデータ構造
 <ul>
@@ -74,8 +74,8 @@
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgdb53344">
-<h3 id="orgdb53344">データフレーム</h3>
+<section id="slide-orgb4a943d">
+<h3 id="orgb4a943d">データフレーム</h3>
 <ul>
 <li>複数の個体について，いくつかの属性を集計した表
 <ul>
@@ -90,8 +90,8 @@
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org5ac915e">
-<h3 id="org5ac915e">データフレームの作成</h3>
+<section id="slide-org58426b0">
+<h3 id="org58426b0">データフレームの作成</h3>
 <ul>
 <li><p>
 方法はいくつか用意されている
@@ -115,8 +115,8 @@ z &lt;- cbind(x,y) # column bind
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgbe84afe" data-background="#fef4f4">
-<h3 id="orgbe84afe">練習問題</h3>
+<section id="slide-org22c7542" data-background="#fef4f4">
+<h3 id="org22c7542">練習問題</h3>
 <ul>
 <li><p>
 次の表に対応するデータフレームを作成しなさい
@@ -192,14 +192,14 @@ z &lt;- cbind(x,y) # column bind
 </section>
 </section>
 <section>
-<section id="slide-orgd132eaf">
-<h2 id="orgd132eaf">ファイルの操作</h2>
-<div class="outline-text-2" id="text-orgd132eaf">
+<section id="slide-orgc98ea84">
+<h2 id="orgc98ea84">ファイルの操作</h2>
+<div class="outline-text-2" id="text-orgc98ea84">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org8278f10">
-<h3 id="org8278f10">ファイルを用いたデータの読み書き</h3>
+<section id="slide-org9bdf2cd">
+<h3 id="org9bdf2cd">ファイルを用いたデータの読み書き</h3>
 <ul>
 <li>解析においてはデータファイルの操作が必要:
 <ul>
@@ -219,8 +219,8 @@ z &lt;- cbind(x,y) # column bind
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org723f4fa">
-<h3 id="org723f4fa">作業ディレクトリの確認と変更</h3>
+<section id="slide-org73a8744">
+<h3 id="org73a8744">作業ディレクトリの確認と変更</h3>
 <ul>
 <li>作業ディレクトリとファイルに関する注意:
 <ul>
@@ -240,8 +240,8 @@ z &lt;- cbind(x,y) # column bind
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org4a52e48">
-<h3 id="org4a52e48">csv形式の操作 (テキスト)</h3>
+<section id="slide-org6435f5d">
+<h3 id="org6435f5d">csv形式の操作 (テキスト)</h3>
 <ul>
 <li><p>
 関数 <code>write.csv()</code>: csvファイルの書き出し
@@ -271,8 +271,8 @@ z &lt;- cbind(x,y) # column bind
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orga2f8c04">
-<h3 id="orga2f8c04">RData形式の操作 (バイナリ)</h3>
+<section id="slide-org1da000c">
+<h3 id="org1da000c">RData形式の操作 (バイナリ)</h3>
 <ul>
 <li><p>
 関数 <code>save()</code>: RDataファイルの書き出し
@@ -299,8 +299,8 @@ z &lt;- cbind(x,y) # column bind
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org16358d0" data-background="#fef4f4">
-<h3 id="org16358d0">練習問題</h3>
+<section id="slide-org525d22f" data-background="#fef4f4">
+<h3 id="org525d22f">練習問題</h3>
 <ul>
 <li>前の演習で作成したデータフレームを適当なファイルに書き出しなさい</li>
 <li>書き出したファイルから別の変数に読み込みなさい</li>
@@ -312,14 +312,14 @@ z &lt;- cbind(x,y) # column bind
 </section>
 </section>
 <section>
-<section id="slide-orgf550348">
-<h2 id="orgf550348">データフレームの操作</h2>
-<div class="outline-text-2" id="text-orgf550348">
+<section id="slide-orgee49e5d">
+<h2 id="orgee49e5d">データフレームの操作</h2>
+<div class="outline-text-2" id="text-orgee49e5d">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org730278f">
-<h3 id="org730278f">要素の選択</h3>
+<section id="slide-orgfee2846">
+<h3 id="orgfee2846">要素の選択</h3>
 <ul>
 <li>添字の番号を指定する (マイナスは除外)</li>
 <li>論理値(TRUE/FALSE)で指定する</li>
@@ -345,8 +345,8 @@ z[c("one","three")]   # 上記と同様の結果となる
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org4d8dd83">
-<h3 id="org4d8dd83">部分集合の取得</h3>
+<section id="slide-org0d66aa5">
+<h3 id="org0d66aa5">部分集合の取得</h3>
 <ul>
 <li><p>
 関数 <code>subset()</code>: 条件を指定して行と列を選択
@@ -372,8 +372,8 @@ z[c("one","three")]   # 上記と同様の結果となる
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgabf6fe5" data-background="#fef4f4">
-<h3 id="orgabf6fe5">練習問題</h3>
+<section id="slide-org6fef3e8" data-background="#fef4f4">
+<h3 id="org6fef3e8">練習問題</h3>
 <ul>
 <li><code>pcr_case_daily.csv</code> から以下の条件を満たすデータを取り出しなさい
 <ul>
@@ -404,14 +404,14 @@ z[c("one","three")]   # 上記と同様の結果となる
 </section>
 </section>
 <section>
-<section id="slide-orgba515ae">
-<h2 id="orgba515ae">データフレームの集約</h2>
-<div class="outline-text-2" id="text-orgba515ae">
+<section id="slide-orgabc3e1f">
+<h2 id="orgabc3e1f">データフレームの集約</h2>
+<div class="outline-text-2" id="text-orgabc3e1f">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgfa4a791">
-<h3 id="orgfa4a791">統計量の計算</h3>
+<section id="slide-org13ef826">
+<h3 id="org13ef826">統計量の計算</h3>
 <ul>
 <li>データを集約した値 = 統計量
 <ul>
@@ -429,8 +429,8 @@ z[c("one","three")]   # 上記と同様の結果となる
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgeda4f87">
-<h3 id="orgeda4f87">行・列ごとの操作</h3>
+<section id="slide-org568880d">
+<h3 id="org568880d">行・列ごとの操作</h3>
 <ul>
 <li><p>
 関数 <code>apply()</code>: 列または行ごとに計算を行う
@@ -457,8 +457,8 @@ apply(x, 2, mean) # 上記と同じ(変数名は省略可能)
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgbf404ed">
-<h3 id="orgbf404ed">グループごとの操作</h3>
+<section id="slide-org4a13b7d">
+<h3 id="org4a13b7d">グループごとの操作</h3>
 <ul>
 <li><p>
 関数 <code>aggregate()</code>: 各行をいくつかのグループにまとめて計算を行う
@@ -489,8 +489,8 @@ apply(x, 2, mean) # 上記と同じ(変数名は省略可能)
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org766aa04" data-background="#fef4f4">
-<h3 id="org766aa04">練習問題</h3>
+<section id="slide-org23dc764" data-background="#fef4f4">
+<h3 id="org23dc764">練習問題</h3>
 <ul>
 <li><code>pcr_case_daily.csv</code> を以下の条件で整理しなさい
 <ul>
@@ -510,8 +510,8 @@ apply(x, 2, mean) # 上記と同じ(変数名は省略可能)
 </section>
 </section>
 <section>
-<section id="slide-orge39bfdf">
-<h2 id="orge39bfdf">補足</h2>
+<section id="slide-orga141f1f">
+<h2 id="orga141f1f">補足</h2>
 <ul>
 <li>より詳細なデータの取り扱いについては以下を参照して下さい
 <ul>
@@ -536,14 +536,14 @@ apply(x, 2, mean) # 上記と同じ(変数名は省略可能)
 </section>
 </section>
 <section>
-<section id="slide-orgcd8c051">
-<h2 id="orgcd8c051">描画の基礎</h2>
-<div class="outline-text-2" id="text-orgcd8c051">
+<section id="slide-orgd9069cd">
+<h2 id="orgd9069cd">描画の基礎</h2>
+<div class="outline-text-2" id="text-orgd9069cd">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org0657b4b">
-<h3 id="org0657b4b">データの可視化</h3>
+<section id="slide-org53fd31f">
+<h3 id="org53fd31f">データの可視化</h3>
 <ul>
 <li>データ全体の特徴や傾向を把握するための直感的で効果的な方法</li>
 <li>R言語には極めて多彩な作図機能が用意されている</li>
@@ -556,8 +556,8 @@ apply(x, 2, mean) # 上記と同じ(変数名は省略可能)
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orga0b9a71">
-<h3 id="orga0b9a71">基本的な描画 (ベクトル)</h3>
+<section id="slide-org4cea657">
+<h3 id="org4cea657">基本的な描画 (ベクトル)</h3>
 <ul>
 <li><p>
 ベクトルデータを左から等間隔で描画
@@ -605,8 +605,8 @@ matplot(pcr[-1], # データフレームから1列目を取り除いたデータ
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgccc331e">
-<h3 id="orgccc331e">基本的な描画 (散布図)</h3>
+<section id="slide-org811732e">
+<h3 id="org811732e">基本的な描画 (散布図)</h3>
 <ul>
 <li><p>
 点 \((x_1,y_1),\dotsc,(x_N,y_N)\) を平面上に描画
@@ -658,8 +658,8 @@ plot(F ~ as.Date(date), data=pcr, # データフレームからD列のベクト�
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org623da52">
-<h3 id="org623da52">基本的な描画 (散布図行列)</h3>
+<section id="slide-org8075bbc">
+<h3 id="org8075bbc">基本的な描画 (散布図行列)</h3>
 <ul>
 <li><p>
 データフレームの2つの列同士の散布図を描画
@@ -684,8 +684,8 @@ plot(F ~ as.Date(date), data=pcr, # データフレームからD列のベクト�
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgfb7ec42">
-<h3 id="orgfb7ec42">図の保存</h3>
+<section id="slide-orgd5aa151">
+<h3 id="orgd5aa151">図の保存</h3>
 <ul>
 <li>RStudioの機能を使う (少数の場合はこちらが簡便)
 <ul>
@@ -711,8 +711,8 @@ plot(F ~ as.Date(date), data=pcr, # データフレームからD列のベクト�
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgd329ddd" data-background="#fef4f4">
-<h3 id="orgd329ddd">練習問題</h3>
+<section id="slide-orgd1b5cc5" data-background="#fef4f4">
+<h3 id="orgd1b5cc5">練習問題</h3>
 <ul>
 <li><code>pcr_case_daily.csv</code> を用いて以下の描画を行いなさい
 <ul>
@@ -728,14 +728,14 @@ plot(F ~ as.Date(date), data=pcr, # データフレームからD列のベクト�
 </section>
 </section>
 <section>
-<section id="slide-org0b729c8">
-<h2 id="org0b729c8">さまざまなグラフ</h2>
-<div class="outline-text-2" id="text-org0b729c8">
+<section id="slide-org562e777">
+<h2 id="org562e777">さまざまなグラフ</h2>
+<div class="outline-text-2" id="text-org562e777">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org968a8d9">
-<h3 id="org968a8d9">ヒストグラム</h3>
+<section id="slide-org135df3a">
+<h3 id="org135df3a">ヒストグラム</h3>
 <ul>
 <li>データの値の範囲をいくつかの区間に分割し，
 各区間に含まれるデータの個数を棒グラフにした図</li>
@@ -774,15 +774,15 @@ hist(pcr$D, breaks=25, labels=TRUE, # ビンの数と度数表示を指定
 </ul>
 
 
-<div id="org6c0cc11" class="figure">
+<div id="org4f7aebd" class="figure">
 <p><img src="figs/02-hist.png" alt="02-hist.png" width="50%" />
 </p>
 </div>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org7fb49ee">
-<h3 id="org7fb49ee">箱ひげ図</h3>
+<section id="slide-org36c9100">
+<h3 id="org36c9100">箱ひげ図</h3>
 <ul>
 <li>データ散らばり具合を考察するための図
 <ul>
@@ -829,15 +829,15 @@ boxplot(E ~ date,
 </ul>
 
 
-<div id="org16fb655" class="figure">
+<div id="org772550c" class="figure">
 <p><img src="figs/02-boxplot.png" alt="02-boxplot.png" width="50%" />
 </p>
 </div>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org98a8de5">
-<h3 id="org98a8de5">棒グラフ</h3>
+<section id="slide-org22763a6">
+<h3 id="org22763a6">棒グラフ</h3>
 <ul>
 <li>項目ごとの量を並べて表示した図</li>
 <li><p>
@@ -879,15 +879,15 @@ barplot(as.matrix(foo[-1]), col=rainbow(7), # 作成した月ごとの色を利�
 </ul>
 
 
-<div id="org724a675" class="figure">
+<div id="orgec2bbef" class="figure">
 <p><img src="figs/02-barplot.png" alt="02-barplot.png" width="50%" />
 </p>
 </div>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org3fb0ac6">
-<h3 id="org3fb0ac6">グラフィクス環境の設定</h3>
+<section id="slide-orga83aa6d">
+<h3 id="orga83aa6d">グラフィクス環境の設定</h3>
 <ul>
 <li>グラフィクス関数には様々なオプションがある</li>
 <li>共通の環境設定のためには関数 <code>par()</code> を用いる
@@ -906,8 +906,8 @@ barplot(as.matrix(foo[-1]), col=rainbow(7), # 作成した月ごとの色を利�
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orga9e49de" data-background="#fef4f4">
-<h3 id="orga9e49de">練習問題</h3>
+<section id="slide-org22e112a" data-background="#fef4f4">
+<h3 id="org22e112a">練習問題</h3>
 <ul>
 <li>適当なデータに対してグラフの作成を行ってみよう
 <ul>
@@ -923,8 +923,8 @@ barplot(as.matrix(foo[-1]), col=rainbow(7), # 作成した月ごとの色を利�
 </section>
 </section>
 <section>
-<section id="slide-orgcab7f6c">
-<h2 id="orgcab7f6c">補足</h2>
+<section id="slide-org6f1cbe6">
+<h2 id="org6f1cbe6">補足</h2>
 <ul>
 <li>より詳細なグラフの描画については以下を参照して下さい
 <ul>
@@ -948,14 +948,14 @@ barplot(as.matrix(foo[-1]), col=rainbow(7), # 作成した月ごとの色を利�
 </section>
 </section>
 <section>
-<section id="slide-orga44d43d">
-<h2 id="orga44d43d">疑似乱数</h2>
-<div class="outline-text-2" id="text-orga44d43d">
+<section id="slide-orgc948060">
+<h2 id="orgc948060">疑似乱数</h2>
+<div class="outline-text-2" id="text-orgc948060">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org670d107">
-<h3 id="org670d107">疑似乱数とは</h3>
+<section id="slide-orge124487">
+<h3 id="orge124487">疑似乱数とは</h3>
 <ul>
 <li>コンピューターで生成された数列のこと</li>
 <li>完全にランダムに数字を発生されることは不可能</li>
@@ -967,8 +967,8 @@ barplot(as.matrix(foo[-1]), col=rainbow(7), # 作成した月ごとの色を利�
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org2ef98ed">
-<h3 id="org2ef98ed">基本的な乱数</h3>
+<section id="slide-orgd84e984">
+<h3 id="orgd84e984">基本的な乱数</h3>
 <ul>
 <li><b>ランダムサンプリング</b>: 与えられた集合の要素を無作為抽出することで発生する乱数</li>
 <li><b>二項乱数</b>: 「確率 \(p\) で表がでるコインを \(n\) 回投げた際の表が出る回数」に対応する乱数</li>
@@ -979,8 +979,8 @@ barplot(as.matrix(foo[-1]), col=rainbow(7), # 作成した月ごとの色を利�
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgd101198">
-<h3 id="orgd101198">乱数を生成する関数</h3>
+<section id="slide-org9702ed3">
+<h3 id="org9702ed3">乱数を生成する関数</h3>
 <ul>
 <li>関数 <code>sample()</code>: ランダムサンプリング</li>
 <li>関数 <code>rbinom()</code>: 二項乱数</li>
@@ -990,8 +990,8 @@ barplot(as.matrix(foo[-1]), col=rainbow(7), # 作成した月ごとの色を利�
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org72508c3" data-background="#fef4f4">
-<h3 id="org72508c3">練習問題</h3>
+<section id="slide-org2901510" data-background="#fef4f4">
+<h3 id="org2901510">練習問題</h3>
 <ul>
 <li>ヘルプを用いて以下の関数を調べよ
 <ul>
@@ -1014,14 +1014,14 @@ barplot(as.matrix(foo[-1]), col=rainbow(7), # 作成した月ごとの色を利�
 </section>
 </section>
 <section>
-<section id="slide-org3598da7">
-<h2 id="org3598da7">モンテカルロ法</h2>
-<div class="outline-text-2" id="text-org3598da7">
+<section id="slide-orga58cb60">
+<h2 id="orga58cb60">モンテカルロ法</h2>
+<div class="outline-text-2" id="text-orga58cb60">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org747f467">
-<h3 id="org747f467">モンテカルロ法とは</h3>
+<section id="slide-org115585c">
+<h3 id="org115585c">モンテカルロ法とは</h3>
 <ul>
 <li>乱数を使った統計実験</li>
 <li>計算機上でランダムネスを実現 (擬似乱数)</li>
@@ -1031,8 +1031,8 @@ barplot(as.matrix(foo[-1]), col=rainbow(7), # 作成した月ごとの色を利�
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgee06d83">
-<h3 id="orgee06d83">例: 中心極限定理</h3>
+<section id="slide-orgfa54d5f">
+<h3 id="orgfa54d5f">例: 中心極限定理</h3>
 <ul>
 <li><p>
 定理
@@ -1093,8 +1093,8 @@ for(n in c(1,2,4,8,16)){ # nを変えて実験
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org737d797">
-<h3 id="org737d797">例: コイン投げの賭け</h3>
+<section id="slide-org5cc4264">
+<h3 id="org5cc4264">例: コイン投げの賭け</h3>
 <ul>
 <li>AとBの二人で交互にコインを投げる．
 最初に表が出た方を勝ちとするとき，
@@ -1140,8 +1140,8 @@ table(mydata)/mc # 確率(推定値)
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org05e08bc" data-background="#fef4f4">
-<h3 id="org05e08bc">練習問題</h3>
+<section id="slide-org297eaae" data-background="#fef4f4">
+<h3 id="org297eaae">練習問題</h3>
 <ul>
 <li>以下の簡単な双六ゲームの実験を行ってみよう
 <ul>
@@ -1157,8 +1157,8 @@ table(mydata)/mc # 確率(推定値)
 </section>
 </section>
 <section>
-<section id="slide-orgb3044e4">
-<h2 id="orgb3044e4">補足</h2>
+<section id="slide-org96eb1f1">
+<h2 id="org96eb1f1">補足</h2>
 <ul>
 <li>より詳細な確率シミュレーションについては以下を参照して下さい
 <ul>
