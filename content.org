@@ -47,11 +47,12 @@
   :EXPORT_FILE_NAME: lecture02
   :EXPORT_DATE: <2020-09-19 Sat>
   :END:
-  準備中
-** COMMENT スライド
+** スライド
    #+html: {{< myslide base="statistical-data-analysis2" name="slide02" >}}
-** COMMENT ハンドアウト
+** ハンドアウト
    - [[github:pdfs/slide02.pdf][PDF file]]
+** 解答例
+   - [[github:code/slide02.R][RScript]]
 
 * 講義3
   :PROPERTIES:
