@@ -12,12 +12,12 @@
 :end:
 
 * COMMENT tangle用
-
+  
 #+begin_src R :exports none
   setwd("~/Desktop/lectures/u-tokyo/autumn/slide")
 #+end_src
 #+begin_src R :eval no :exports none :tangle yes
-  ### 第02回 演習問題解答例
+  ### 第02回 練習問題解答例
 #+end_src
 
 
@@ -837,7 +837,7 @@
    - 直感的には "多数の独立な確率変数の和はほぼ正規分布に従う" ことを主張している
    #+reveal: split
      #+begin_src R :eval no :exports none :tangle yes
-       ## 中心極限定理
+       ### 中心極限定理
      #+end_src
      #+begin_src R :eval no :tangle yes
        ## 確率変数の分布の設定 (例: 区間[-1,1]の一様乱数)
@@ -876,7 +876,7 @@
 
    #+reveal: split
      #+begin_src R :eval no :exports none :tangle yes
-       ## コイン投げの賭け
+       ### コイン投げの賭け
      #+end_src
      #+begin_src R :eval no :tangle yes
        ## コイン投げの試行 (いろいろな書き方があるので以下は一例)
@@ -948,3 +948,10 @@
       - 講義5 確率シミュレーション
 
 
+
+
+* COMMENT ローカル変数
+# Local Variables:
+# org-latex-listings: minted
+# End:
+  

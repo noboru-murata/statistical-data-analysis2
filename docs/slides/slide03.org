@@ -1,330 +1,501 @@
-#+TITLE: 可視化と数値実験
-#+SUBTITLE: グラフ描画とモンテカルロ法
+#+TITLE: 回帰分析 
+#+SUBTITLE: モデルの推定
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
-#+DATE: 2019.10.11
-:preamble:
-#+INCLUDE: "./myconf.org"
+#+DATE: 2020.10.09
+:reveal:
+#+INCLUDE: "./reveal.js/org/mycourse.org"
 #+STARTUP: hidestars content
 # C-c C-x C-v でinlineを切り替え
-# <l C-i でlatex block
+# <m C-i でlatex block (math env用)
 # C-c '
 :end:
 
-* 描画の基礎
-** データの可視化
-   - データ全体の特徴や傾向を把握するための直感的で効果的な方法
-   - R言語には極めて多彩な作図機能が用意されている
-   - 基本となるのは関数 ~plot()/curve()~
-   - 描画関連の関数は色，
-     線種や線の太さ，
-     図中の文字の大きさなどを指定することができる
-** 演習
-   :PROPERTIES:
-   :reveal_background: #EEEEFF
-   :END:
-   - 以下のそれぞれの場合について
-     [[./code/03-plot.r][03-plot.r]] 
-     を実行しながら確認しよう．
+* COMMENT tangle用
 
-** 基本的な描画 (ベクトル)
-   - ベクトルデータを左から等間隔で描画
-     #+BEGIN_SRC R :exports code
-       plot(x, type="p", xlim=NULL, ylim=NULL,
-	    main=NULL, xlab=NULL, ylab=NULL, ...)
-       ## x: ベクトル
-       ## type: 描画タイプ．既定値は "p"(点プロット)．"l"(折れ線)など指定可
-       ## xlim: x軸の範囲．既定値は自動的に決定
-       ## ylim: y軸の範囲．既定値は自動的に決定
-       ## main: 図のタイトル．既定値はタイトルなし
-       ## xlab: x軸のラベル名．既定値は"Index"
-       ## ylab: y軸のラベル名．既定値はxのオブジェクト名
-       ## ...: 他のオプション．以下に例示．詳細は help(par) を参照
-       ## col: 色の指定．"red"や"blue"など．指定可能な色は colors() を参照
-       ## pch: 点の形．詳細は help(points) を参照
-       ## cex: 文字の大きさ．既定値の何倍にするかを指定
-       ## lty: 線のタイプ．実線・破線などを記号・数字で指定．詳細は help(par) を参照
-       ## lwd: 線の太さ．数字で指定
-     #+END_SRC
+#+begin_src R :exports none
+  setwd("~/Desktop/lectures/u-tokyo/autumn/slide")
+#+end_src
+#+begin_src R :eval no :exports none :tangle yes
+  ### 第03回 練習問題解答例
+#+end_src
 
-** 基本的な描画 (関数)
-   - 1変数関数の範囲を指定して描画
-     #+BEGIN_SRC R :exports code
-       curve(fun,from=NULL,to=NULL, ...)
-       ## fun: 1変数関数
-       ## from: x軸の左端
-       ## to: x軸の右端
-       ## ...: "ベクトルの描画"と同じオプションが利用可能
+* 講義の予定
+  - *第1日: 回帰モデルの考え方と推定*
+  - 第2日: モデルの評価
+  - 第3日: モデルによる予測と発展的なモデル
 
-       plot(fun, y=0, to=1, ...)
-       ## curveとほぼ同様
-       ## y: x軸の左端 (from=と書いても良い)
 
-       ## 別の関数 f を重ね書きする場合
-       curve(...,add=TRUE, ...)            
-       plot(...,add=TRUE, ...)            
-     #+END_SRC
+* 回帰分析の考え方
+** 回帰分析 (regression analysis)
+   - ある変量を別の変量によって説明するための関係式を構成
+   - 関係式: *回帰式 (regression equation)*
+     - 説明される側: *目的変数*, 被説明変数, 従属変数, 応答変数
+     - 説明する側: *説明変数*, 独立変数, 共変量
+   - 説明変数の数による分類:
+     - 一つの場合: *単回帰 (simple regression)*
+     - 複数の場合: *重回帰 (multiple regression)*
+     
+** 一般の回帰の枠組
+   - 説明変数: $x_1,\dotsc,x_p$ (p次元)
+   - 目的変数: $y$ (1次元)
+   - 観測データ: n個の $(y,x_1,\dotsc,x_p)$ の組
+     #+begin_src latex
+       \begin{equation}
+         \{(y_i,x_{i1},\dotsc,x_{ip})\}_{i=1}^n
+       \end{equation}
+     #+end_src
+   - $y$ を $x_1,\dotsc,x_p$ で説明するための関係式を構成:
+     #+begin_src latex
+       \begin{equation}
+         y=f(x_1,\dotsc,x_p)
+       \end{equation}
+     #+end_src
+     一般には p変数関数 $f$ を使う
 
-** 基本的な描画 (散布図)
-   - 点 $(x_1,y_1),\dotsc,(x_N,y_N)$ を平面上に描画
-     - 2つの同じ長さのベクトル 
-       $x_1,\dotsc,x_N$ と
-       $y_1,\dotsc,y_N$ を与える
-     - $x_1,\dotsc,x_N$ と
-       $y_1,\dotsc,y_N$ を持つデータフレームを与える
+** 線形回帰 (linear regression)
+	  - 任意の $f$ では一般的すぎて分析に不向き
+	  - $f$ として1次関数を考える\\
+	    ある定数 $\beta_0,\beta_1,\dots,\beta_p$ を用いた以下の式:
+	    #+begin_src latex
+	      \begin{equation}
+		f(x_1,\dots,x_p)=\beta_0+\beta_1x_1+\cdots+\beta_px_p
+	      \end{equation}
+	    #+end_src
+	    - 1次式の場合: *線形回帰 (linear regression)*
+	    - 一般の場合: 非線形回帰 (nonlinear regression)
+	  - 非線形な関係は新たな説明変数の導入で対応可能
+	    - 適切な多項式 $x_j^2, x_jx_k, x_jx_kx_l,\dots$
+	    - その他の非線形変換 $\log x_j, x_j^\alpha,\dots$ 
 
-     #+BEGIN_SRC R :exports code
-       plot(x, y, ...)
-       ## x: 1種類目のデータ x_1,...,x_N
-       ## y: 2種類目のデータ y_1,...,y_N
-       ## ...: "ベクトルの描画"と同じオプションが利用可能
+** 回帰係数
+	- 線形回帰式:
+	  #+begin_src latex
+	    \begin{equation}
+	      y=\beta_0+\beta_1x_1+\cdots+\beta_px_p
+	    \end{equation}
+	  #+end_src
+	- $\beta_0,\beta_1,\dots,\beta_p$: *回帰係数 (regression coefficients)*
+	- $\beta_0$: 定数項 (切片; constant term)
+	- 線形回帰分析: 未知の回帰係数をデータから決定
 
-       plot(B ~ A, data=x, ...)
-       ## データフレームxの変数A，Bの散布図を作成する
-     #+END_SRC
+** 回帰の確率モデル
+   - 一般にデータは観測誤差などランダムな変動を含む
+   #   - 回帰式がそのまま成立することは期待できない
+	- 確率モデル: データのばらつきを表す項 $\epsilon_i$ を追加
+	  #+begin_src latex
+	    \begin{equation}
+	      y_i=\beta_0+\beta_1 x_{i1}+\cdots+\beta_px_{ip}+\epsilon_i\quad (i=1,\dots,n)
+	    \end{equation}
+	  #+end_src
+	- $\epsilon_1,\dots,\epsilon_n$: *誤差項/撹乱項 (error/disturbance term)*
+	  - 誤差項は独立な確率変数と仮定
+	  - 多くの場合，平均0，分散 $\sigma^2$ の正規分布を仮定
+	- *推定 (estimation)*: 未知パラメータ
+	  ($\beta_0,\beta_1,\dots,\beta_p$) 
+	  を観測データから決定すること
 
-** 図の保存
-  - RStudioの機能を使う (少数の場合はこちらが簡便)
-    - 右下ペイン "Plots" > "Export"
-    - 形式やサイズを指定する
-    - クリップボードにコピーもできる
-  - コマンドで実行する (多数の場合はこちらで処理)
-    - 関数 ~pdf()~
-    - 関数 ~png()~
-    - 関数 ~dev.copy()~
-    などを参照
 
-** 演習
-   :PROPERTIES:
-   :reveal_background: #EEEEFF
-   :END:
-   - 2種類の睡眠薬投与による睡眠時間の増減のデータ ~datasets::sleep~ 
-     において
-     - ~group~ が1のデータの ~extra~ をx軸
-     - ~group~ が2のデータの ~extra~ をy軸
-     とした散布図を描画せよ(詳細は ~help(sleep)~)．
-   - ただし，
-     点の色を青，
-     点の形を $\times$ ，
-     タイトルを "sleep data"，
-     x軸のラベルを "group 1"，
-     y軸のラベルを "group 2" 
-     とせよ．
+* 回帰係数の推定
+** 残差
+   - 回帰式で説明できない変動: *残差 (residual)*
+   - 回帰係数 $\boldsymbol{\beta}=(\beta_0,\beta_1,\dotsc,\beta_p)^\top$ 
+     を持つ回帰式の残差:
+     #+begin_src latex
+       \begin{equation}
+         e_i(\boldsymbol{\beta})=
+         y_i-(\beta_0+\beta_1 x_{i1}+\dotsb+\beta_px_{ip})
+         \quad (i=1,\dotsc,n)
+       \end{equation}
+     #+end_src
+   - 残差 $e_i(\boldsymbol{\beta})$ の絶対値が小さいほど当てはまりがよい
+
+** 最小二乗法 (least squares)
+   - *残差平方和 (residual sum of squares)*:
+     #+begin_src latex
+       \begin{equation}
+         S(\boldsymbol{\beta}):=
+         \sum_{i=1}^ne_i(\boldsymbol{\beta})^2
+       \end{equation}
+     #+end_src
+   - *最小二乗推定量 (least squares estimator)*:
+     残差平方和
+     $S(\boldsymbol{\beta})$ を最小にする $\boldsymbol{\beta}$
+     #+begin_src latex
+       \begin{equation}
+         \boldsymbol{\hat{\beta}}=(\hat{\beta}_0,\hat{\beta}_1,\dotsc,\hat{\beta}_p)^\top:=
+         \arg\min_{\boldsymbol{\beta}}S(\boldsymbol{\beta})
+       \end{equation}
+     #+end_src
+     
+** 行列の定義
+   - デザイン行列 (design matrix):
+     #+begin_src latex
+       \begin{equation}
+         \boldsymbol{X}=
+         \begin{pmatrix}
+           1 & x_{11} & x_{12} & \cdots & x_{1p} \\
+           1 & x_{21} & x_{22} & \cdots & x_{2p} \\
+           \vdots & \vdots & \vdots & & \vdots \\
+           1 & x_{n1} & x_{n2} & \cdots & x_{np}
+         \end{pmatrix}
+       \end{equation}
+     #+end_src
+** ベクトルの定義
+   - 目的変数，誤差，回帰係数のベクトル
+     #+begin_src latex
+       \begin{equation}
+         \boldsymbol{y}=
+         \begin{pmatrix}
+           y_1 \\
+           y_2 \\
+           \vdots \\
+           y_n
+         \end{pmatrix},\quad
+         \boldsymbol{\epsilon}=
+         \begin{pmatrix}
+           \epsilon_1 \\
+           \epsilon_2 \\
+           \vdots \\
+           \epsilon_n
+         \end{pmatrix},\quad
+         \boldsymbol{\beta}=
+         \begin{pmatrix}
+           \beta_0 \\
+           \beta_1 \\
+           \vdots \\
+           \beta_p
+         \end{pmatrix}
+       \end{equation}
+     #+end_src
+     
+** 行列・ベクトルによる表現
+   - 確率モデル:
+     #+begin_src latex
+       \begin{equation}
+         \boldsymbol{y}
+         =\boldsymbol{X}\boldsymbol{\beta}+\boldsymbol{\epsilon}
+       \end{equation}
+     #+end_src
+   - 残差平方和:
+     #+begin_src latex
+       \begin{equation}
+         S(\boldsymbol{\beta})
+         =(\boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta})^\top
+         (\boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta})
+       \end{equation}
+     #+end_src
+     
+** 解の条件
+   - 解 $\boldsymbol{\beta}$ では残差平方和の勾配は零ベクトル
+     # \footnote{例えば杉浦光夫著「解析入門I」(東京大学出版会)の第II章定理8.1参照}:
+     #+begin_src latex
+       \begin{equation}
+         \nabla S(\beta):=
+         \Bigl(
+	 \frac{\partial S}{\partial\beta_0}(\boldsymbol{\beta}),
+	 \frac{\partial S}{\partial\beta_1}(\boldsymbol{\beta}),\dotsc,
+	 \frac{\partial S}{\partial\beta_p}(\boldsymbol{\beta})
+         \Bigr)^\top=\boldsymbol{0}
+       \end{equation}
+     #+end_src
+   - 成分 ($j=0,1,\dotsc,p$) ごとの条件式
+     #+begin_src latex
+       \begin{equation}
+         \frac{\partial S}{\partial\beta_j}(\boldsymbol{\beta})
+         =
+         -2\sum_{i=1}^n\Bigl(y_i-\sum_{k=0}^p\beta_kx_{ik}\Bigr)x_{ij}
+         =0
+       \end{equation}
+     #+end_src
+     但し $x_{i0}=1\; (i=1,\dotsc,n)$
+
+** 正規方程式 (normal equation)
+   - 条件を整理
+     ($x_{ij}$ は行列 $\boldsymbol{X}$ の $(i,j)$ 成分)
+     #+begin_src latex
+       \begin{equation}
+         \sum_{i=1}^nx_{ij}\Bigl(\sum_{k=0}^px_{ik}\beta_k\Bigr)
+         =
+         \sum_{i=1}^nx_{ij}y_i\quad(j=0,1,\dotsc,p)
+       \end{equation}
+     #+end_src
+   - *正規方程式 (normal equation)*:
+     #+begin_src latex
+       \begin{equation}
+         \boldsymbol{X}^\top\boldsymbol{X}\boldsymbol{\beta}
+         =\boldsymbol{X}^\top\boldsymbol{y}
+       \end{equation}
+     #+end_src
+   - $\boldsymbol{X}^\top\boldsymbol{X}$: *Gram行列 (Gram matrix)*
+
+** 正規方程式の解
+   - 正規方程式の基本的な性質
+     - 正規方程式は必ず解をもつ (一意に決まらない場合もある)
+     - 正規方程式の解は最小二乗推定量であるための必要条件
+   - Gram 行列 $\boldsymbol{X}^\top\boldsymbol{X}$ が正則ならば解が一意に決定
+   - 正規方程式の解
+     #+begin_src latex
+       \begin{equation}
+         \boldsymbol{\hat{\beta}}
+         =
+         (\boldsymbol{X}^\top\boldsymbol{X})^{-1}\boldsymbol{X}^\top\boldsymbol{y}  
+       \end{equation}
+     #+end_src
+     
+** R: 関数 ~lm()~ の使い方
+   - ベクトルを用いる基本的な使い方:
+     - ベクトル ~y~: 目的変数 $y$
+     - ベクトル ~x1,...,xp~: 説明変数 $x_1,\dotsc,x_p$
+   - データフレームを用いる方法: *(こちらの使い方を推奨)*
+     - データフレーム ~mydata~: 目的変数，説明変数を含むデータ
+     - 列名: yの変数名, x1の変数名, ..., xpの変数名
+   #+BEGIN_SRC R :exports code
+     ## ベクトルを渡す場合
+     lm(y ~ x1 + ... + xp)
+     ## データフレームを渡す場合
+     lm(yの変数名 ~ x1の変数名 + ... + xpの変数名, data = mydata)
+   #+END_SRC
    
-* さまざまなグラフ
-** 演習
+** 演習: 回帰式の推定
    :PROPERTIES:
    :reveal_background: #EEEEFF
    :END:
-   - 以下の各関数について
-     [[./code/03-graph.r][03-graph.r]] 
-     を実行しながら確認しよう．
+   - [[./code/04-lm.r][04-lm.r]] を確認してみよう
 
-** ヒストグラム
-   - データの値の範囲をいくつかの区間に分割し，
-     各区間に含まれるデータの個数を棒グラフにした図
-   - 棒グラフの幅が区間, 面積が区間に含まれるデータの個数に比例するようにグラフを作成
-   - データの分布を可視化するのに有効(どのあたりに値が集中しているか, どの程度値にばらつきがあるかなど)
-     #+BEGIN_SRC R :exports code
-       hist(x, breaks="Sturges", freq=NULL)
-       ## x: ベクトル
-       ## breaks: 区間の分割の仕方を指定．数字を指定するとそれに近い個数に等分割
-       ## freq: TRUEを指定すると縦軸はデータ数，
-       ##       FALSEを指定すると縦軸はデータ数/全データ数．既定値はTRUE
-       ## ...: plotで指定できるオプションが利用可能
-     #+END_SRC
 
-** 箱ひげ図
-   - データの中心，散らばり具合および外れ値を考察するための図 (ヒストグラムの簡易版)
-     - 太線で表示された中央値(第2四分位点)
-     - 第1四分位点を下端・第3四分位点を上端とする長方形(箱)
-     - 中央値から第1四分位点・第3四分位点までの1.5倍以内にあるデータの
-       最小の値・最大の値を下端・上端とする線(ひげ)
-     - ひげの外側のデータは点で表示
-   - 複数のデータの分布の比較の際に有効
-     #+BEGIN_SRC R :exports code
-       boxplot(x, ...)      
-       ## x: ベクトルまたはデータフレーム
-       ##      ベクトルに対しては単一の箱ひげ図
-       ##      データフレーム対しては列ごとの箱ひげ図
-       ## ...: plotと同様のオプションを指定可能
+* 最小二乗推定量の性質
+** 解と観測データの関係
+   - 解析の上での良い条件:
+     - 最小二乗推定量がただ一つだけ存在する (以下同値条件)
+       - $\boldsymbol{X}^\top\boldsymbol{X}$ が正則
+       - $\boldsymbol{X}^\top\boldsymbol{X}$ の階数が $p{+}1$
+       - $\boldsymbol{X}$ の階数が $p{+}1$
+       - $\boldsymbol{X}$ の列ベクトルが1次独立
+   - 解析の上での良くない条件:
+     - 説明変数が1次従属: *多重共線性 (multicollinearity)*
+     - 説明変数は多重共線性が強くならないように選択するべき 
+       - $\boldsymbol{X}$ の列(説明変数)の独立性を担保する
+       - 説明変数が互いに異なる情報をもつように選ぶ
+       - 似た性質をもつ説明変数の重複は避ける
 
-       boxplot(B ~ A, data=x, ...)
-       ## xの変数Bを変数A(質的変数; 性別, 植物の種類など)で分類する場合
-     #+END_SRC
-** 棒グラフ
-   - 項目ごとの量を並べて表示した図
-   - 縦にも横にも並べられる
-     #+BEGIN_SRC R :exports code
-       barplot(x,width=1,space=NULL,beside=FALSE,
-	       legend.text=NULL,args.legend=NULL, ...)
-       ## x: ベクトルまたは行列 (データフレームは不可)
-       ## width: 棒の幅
-       ## space: 棒グラフ間・変数間のスペース
-       ## legend.text: 凡例
-       ## beside: 複数の変数を縦に並べるか・横に並べるか
-       ## args.legend: legendに渡す引数
-       ## ...: plotで指定できるオプションが利用可能
-     #+END_SRC
+** 推定の幾何学的解釈
+   - *あてはめ値 (fitted values) / 予測値 (predicted values)*
+     #+begin_src latex
+       \begin{equation}
+         \boldsymbol{\hat{y}}
+         =
+         \boldsymbol{X}\boldsymbol{\hat{\beta}}
+         =
+         \hat{\beta}_{0} X_\text{第0列} + 
+         \dots + \hat{\beta}_{p} X_\text{第p列}
+       \end{equation}
+     #+end_src
+   - 最小二乗推定量 $\boldsymbol{\hat{y}}$ の幾何学的性質:
+     - $L[\boldsymbol{X}]$: $\boldsymbol{X}$ の列ベクトルが張る $\mathbb{R}^n$ の部分線形空間
+     - $X$ の階数が $p{+}1$ ならば $L[\boldsymbol{X}]$ の次元は $p{+}1$ (解の一意性の条件)
+     - $\boldsymbol{\hat{y}}$ は $\boldsymbol{y}$ の $L[\boldsymbol{X}]$ への直交射影
+     - *残差 (residuals)* $\boldsymbol{\hat{\epsilon}}:=\boldsymbol{y}-\boldsymbol{\hat{y}}$ はあてはめ値 $\boldsymbol{\hat{y}}$ に直交
+       #+begin_src latex
+	 \begin{equation}
+           \boldsymbol{\hat{\epsilon}}\cdot\boldsymbol{\hat{y}}=0
+         \end{equation}
+       #+end_src
+   - 幾何学的な考察からも一意に決まる
 
-** 円グラフ
-   - 項目ごとの比率を円の分割で表示した図
-   - 時計回りにも反時計回りにも配置できる
-     #+BEGIN_SRC R :exports code
-       pie(x, clockwise=FALSE, ...)
-       ## x: ベクトル
-       ## clockwise: 時計回りに書くか否か
-       ## ...: plotで指定できるオプションが利用可能
-     #+END_SRC
+** 推定の幾何学的解釈
+   #+CAPTION: $n=3$ , $p+1=2$ の場合の最小二乗法による推定
+   #+NAME:   fig:projection
+   #+ATTR_HTML: :width 80% :height 80%
+   [[file:./figs/projection.png]]
 
-** 散布図行列
-   - 散布図を行列状に並べた図
-   - データフレームの全ての列の組み合わせの散布図を同時に見ることができる
-     #+BEGIN_SRC R :exports code
-       pairs(x, ...)
-       plot(x,...) # pairsと同じ結果となる
-       ## x: データフレーム 
-
-       pairs(~ A1 + ... + Ak, data=x, ...)
-       plot(~ A1 + ... + Ak, data=x, ...)
-       ## 変数A1,...,Akのみ考える場合
-     #+END_SRC
-
-** 俯瞰図
-   - 3次元のグラフを2次元に射影した図
-     #+BEGIN_SRC R :exports code
-       persp(x, y, z, theta=0, phi=15, expand=1)      
-       ## x,y,z: x,y,z座標
-       ##        (zは行列で，z[i,j]は点(x[i],y[j])に対応する値を与える)
-       ## theta,phi: 俯瞰の方向を指定する極座標
-       ## expand: z軸の拡大度
-       ## ...: plotで指定できるオプションが利用可能
-
-       ## 多様な3次元のグラフのためのパッケージがある．
-       ## 以下はscatterplot3dパッケージの例
-       scatterplot3d(x, color, angle=40)      
-       ## x: x,y,z座標を指定するデータフレーム
-       ##    (perspのように直接指定することも可能)
-       ## color: 色を指定(colではないので注意). 既定値は黒
-       ## angle: x軸とy軸の間の角度
-       ## ...: plotで指定できるオプションが利用可能
-     #+END_SRC
-
-** グラフィクス環境の設定
-   - グラフィクス関数には様々なオプションがある
-   - 共通の環境設定のためには関数 ~par()~ を用いる
-     - 複数の図の配置: ~mrow~, ~mcol~
-     - 余白の設定: ~margin~
-     - 日本語フォントの設定: ~family~
-     - 他多数 (~?par~ を参照)
-     - より進んだグラフィクスの使い方の例は
-       ~demo("graphics")~, ~example(関数名)~ を参照
-
-** 演習
-   :PROPERTIES:
-   :reveal_background: #EEEEFF
-   :END:
-   - 適当なデータに対してグラフの作成を行ってみよう
-     - 東京都の気候データ ([[./data/tokyo-weather.csv][tokyo-weather.csv]])
-     - R言語に用意されているデータ (関数 ~data()~ で一覧表示)
-
-* 疑似乱数
-** 疑似乱数とは
-   - コンピューターで生成された数列のこと
-   - 完全にランダムに数字を発生されることは不可能
-   - Rの既定値は "Mersenne-Twister法" (~?Random~ 参照)
-   - 数値シミュレーションにおいて再現性が要請される場合には，
-     乱数の "シード値" を指定して再現性を担保 (関数 ~set.seed()~)
-
-** 基本的な乱数
-   - *ランダムサンプリング*: 与えられた集合の要素を無作為抽出することで発生する乱数
-   - *二項乱数*: 「確率 $p$ で表がでるコインを $n$ 回投げた際の表が出る回数」に対応する乱数
-   - *一様乱数*: 決まった区間 $(a, b)$ からランダムに発生する乱数
-   - *正規乱数*: 平均 $\mu$, 分散 $\sigma^2$ の正規分布に従う乱数
-
-** 乱数を生成する関数
-   - 関数 ~sample()~: ランダムサンプリング
-   - 関数 ~rbinom()~: 二項乱数
-   - 関数 ~runif()~: 一様乱数
-   - 関数 ~rnorm()~: 正規乱数
-** 演習
-   :PROPERTIES:
-   :reveal_background: #EEEEFF
-   :END:
-   - [[./code/03-random.r][03-random.r]] を確認してみよう
-
-* モンテカルロ法
-** モンテカルロ法とは
-   - 乱数を使った統計実験
-   - 計算機上でランダムネスを実現 (擬似乱数)
-   - ランダムネスから導かれる種々の数学的結果を観察
-
-** 推定量の分布
-   - *推定量*: 確率分布の特性値を推測する計算方法
-   - *推定値*: 観測データから計算した値
-   - 推定値は観測データに依存して異なる (ばらつく)
-   - 推定量の分布を求める
-     - 理論的な解答: 確率の理論を用いて厳密に求める
-     - 数値的な解答: 疑似乱数を用いた数値実験で求める
-
-** 標本平均の分布
-   - 標本平均: 平均値の典型的な推定量
+** 線形回帰式と標本平均
+   - $\boldsymbol{x}_i=(x_{i1},\dotsc,x_{ip})^\top$:
+     説明変数の $i$ 番目の観測データ
+   - 説明変数および目的変数の標本平均:
+     #+begin_src latex
+     \begin{align}
+       \boldsymbol{\bar{x}}
+       &=\frac{1}{n}\sum_{i=1}^n\boldsymbol{x}_i,
+       &\bar{y}
+       % \overline{\boldsymbol{x}^2}&=\frac{1}{n}\sum_{i=1}^n\boldsymbol{x}_i\boldsymbol{x}_i^\top,&
+       &=\frac{1}{n}\sum_{i=1}^ny_i,&
+       % \overline{\boldsymbol{x}y}&=\frac{1}{n}\sum_{i=1}^n\boldsymbol{x}_iy_i
+     \end{align}
+     #+end_src
+   - $\boldsymbol{\hat{\beta}}$ が最小二乗推定量のとき以下が成立:
+     #+begin_src latex
      \begin{equation}
-       \bar{X}_n=\frac{1}{n}\sum_{i=1}^{n}X_{i}
+       \bar{y}
+       =
+       (1,\boldsymbol{\bar{x}}^\top)\boldsymbol{\hat{\beta}}
      \end{equation}
-   - データ数が十分大きいとき標本平均の理論的な分布は，
-     観測データの分布(正規分布とは限らない)の
-     平均 $\mu$ と分散 $\sigma^2$ を用いて与えられる．\\
-     (次に述べる *中心極限定理* による)
-   - 標本平均は平均 $\mu$ ，分散 $\sigma^2/n$ の正規分布に従う．
-
-** 中心極限定理
-   - $X_1,X_2,\dotsc$ を独立同分布な確率変数列とし，
-     その平均を $\mu$ ，標準偏差を $\sigma$ とする．
-     このとき，すべての実数 $a< b$ に対して
+     #+end_src
+   - 以下の関係から簡単に示すことができる:
+     # #+begin_export latex
      \begin{equation}
-       P\Bigl(a\leq\frac{\sqrt{n}(\bar{X}_n-\mu)}{\sigma}\leq b \Bigr)
-       \to\frac{1}{\sqrt{2\pi}}\int_a^be^{-\frac{x^2}{2}}dx\quad
-       (n\to\infty)
+       \boldsymbol{1}\cdot(\boldsymbol{y}-\boldsymbol{\hat{y}})
+       =\boldsymbol{1}\cdot\boldsymbol{\hat{\epsilon}}
+       =0
      \end{equation}
-     が成り立つ．
+     # #+end_export
+   # #+BEGIN_QUOTE
+   # 幾何学的には $y=(1,\boldsymbol{x}^\top)\boldsymbol{\hat{\beta}}$ 
+   # によって定まる超平面は常に点 $(\boldsymbol{\bar{x}}^\top,\bar{y})$ 
+   # (標本平均)を通る
+   # #+END_QUOTE
+
+** R: 推定結果からの情報の取得
+   - 関数 ~lm()~ の出力には様々な情報が含まれる
+   - 情報を取り出すための関数が用意されている
+   #+BEGIN_SRC R :exports code
+     ## lmの出力を引数とする関数の例
+     coef(lmの出力)         # 推定された回帰係数
+     fitted(lmの出力)       # あてはめ値
+     resid(lmの出力)        # 残差
+     model.frame(lmの出力)  # modelに必要な変数の抽出
+     model.matrix(lmの出力) # デザイン行列
+   #+END_SRC
+
+** 演習: 最小二乗推定量の性質
+   :PROPERTIES:
+   :reveal_background: #EEEEFF
+   :END:
+   - [[./code/04-lse.r][04-lse.r]] を確認してみよう
+
+
+* 残差の性質
+** 残差
+   - 観測値と推定値 $\boldsymbol{\hat{\beta}}$ による予測値の差:
+     #+begin_src latex
+     \begin{equation}
+       \hat{\epsilon}_i=
+       y_i-(\hat{\beta}_0+\hat{\beta}_1 x_{i1}+\dotsb+\hat{\beta}_px_{ip})
+       \quad (i=1,\dotsc,n)
+     \end{equation}
+     #+end_src
+     - 誤差項 $\epsilon_1,\dotsc,\epsilon_n$ の推定値
+     - 全てができるだけ小さいほど良い
+     - 予測値とは独立に偏りがないほど良い
+   - 残差ベクトル
+     #+begin_src latex
+     \begin{equation}
+       \boldsymbol{\hat{\epsilon}}
+       =\boldsymbol{y}-\boldsymbol{\hat{y}}
+       =(\hat{\epsilon}_1,\hat{\epsilon}_2,\dotsc,\hat{\epsilon}_n)^{\top}
+     \end{equation}
+     #+end_src
+   # - 標本平均のベクトル
+   #   #+begin_src latex
+   #   \begin{equation}
+   #     \bar{\boldsymbol{y}}=\bar{y}\boldsymbol{1}=(\bar{y},\bar{y},\dotsc,\bar{y})^{\top}
+   #   \end{equation}
+   #   #+end_src
+
+** ばらつきの分解
+   - いろいろなばらつき
+     - $\bar{\boldsymbol{y}}=\bar{y}\boldsymbol{1}=(\bar{y},\bar{y},\dotsc,\bar{y})^{\top}$:
+       標本平均のベクトル
+     - $S_y=(\boldsymbol{y}-\bar{\boldsymbol{y}})^{\top}
+       (\boldsymbol{y}-\bar{\boldsymbol{y}})$:
+       目的変数のばらつき
+     - $S_{\phantom{y}}=(\boldsymbol{y}-\boldsymbol{\hat{y}})^{\top}
+       (\boldsymbol{y}-\boldsymbol{\hat{y}})$:
+       残差のばらつき
+       ($\boldsymbol{\hat{\epsilon}}^{\top}\boldsymbol{\hat{\epsilon}}$)
+     - $S_r=(\boldsymbol{\hat{y}}-\bar{\boldsymbol{y}})^{\top}
+       (\boldsymbol{\hat{y}}-\bar{\boldsymbol{y}})$:
+       あてはめ値(回帰)のばらつき
+   - 3つのばらつきの関係
+     #+begin_src latex
+     \begin{equation}
+       (\boldsymbol{y}-\bar{\boldsymbol{y}})^{\top}
+       (\boldsymbol{y}-\bar{\boldsymbol{y}})
+       =
+       (\boldsymbol{y}-\boldsymbol{\hat{y}})^{\top}
+       (\boldsymbol{y}-\boldsymbol{\hat{y}})+ 
+       (\boldsymbol{\hat{y}}-\bar{\boldsymbol{y}})^{\top}
+       (\boldsymbol{\hat{y}}-\bar{\boldsymbol{y}})
+     \end{equation}
+     \begin{equation}
+       S_y=S+S_r
+     \end{equation}
+     #+end_src
+** 分解に用いる残差の性質
+   - 証明には以下の関係を使う
+     #+begin_src latex
+     \begin{align}
+       &\boldsymbol{y}-\bar{\boldsymbol{y}}
+	 =\boldsymbol{y}-\boldsymbol{\hat{y}}+\boldsymbol{\hat{y}}-\bar{\boldsymbol{y}}\\
+       &\boldsymbol{\hat{y}}\cdot(\boldsymbol{y}-\boldsymbol{\hat{y}})
+	 =\boldsymbol{\hat{y}}\cdot\boldsymbol{\hat{\epsilon}}
+	 =0\\
+       &\boldsymbol{1}\cdot(\boldsymbol{y}-\boldsymbol{\hat{y}})
+	 =\boldsymbol{1}\cdot\boldsymbol{\hat{\epsilon}}
+	 =0
+     \end{align}
+     #+end_src
+
+** 演習: 残差の性質
+   :PROPERTIES:
+   :reveal_background: #EEEEFF
+   :END:
+   - [[./code/04-resid.r][04-resid.r]] を確認してみよう
+
+** 回帰式の寄与
+   - ばらつきの分解:
+     #+begin_src latex
+     \begin{equation}
+       S_y\;\text{(目的変数)} =S\;\text{(残差)} +S_r\;\text{(あてはめ値)}
+     \end{equation}
+     #+end_src
+   - 回帰式で説明できるばらつきの比率
+     #+begin_src latex
+     \begin{equation}
+       (寄与率)
+       = \frac{S_{r}}{S_{y}}
+       = 1-\frac{S}{S_{y}}
+     \end{equation}
+     #+end_src
+   - 回帰式のあてはまり具合を評価する代表的な指標
+
+** 決定係数 ($R^2$ 値)
+   - *決定係数 (R-squared)*:
+     #+begin_src latex
+     \begin{equation}
+       R^2
+       =
+       1-\frac{\sum_{i=1}^n\hat{\epsilon}_i^2}{\sum_{i=1}^n(y_i-\bar{y})^2}
+     \end{equation}
+     #+end_src
+   - *自由度調整済み決定係数 (adjusted R-squared)*:
+     #+begin_src latex
+     \begin{equation}
+       \bar{R}^2
+       =
+       1-\frac{\frac{1}{n{-}p{-}1}\sum_{i=1}^n\hat{\epsilon}_i^2}
+       {\frac{1}{n{-}1}\sum_{i=1}^n(y_i-\bar{y})^2}
+     \end{equation}
+     #+end_src
+     不偏分散で補正している
+
+** 演習: 決定係数
+   :PROPERTIES:
+   :reveal_background: #EEEEFF
+   :END:
+   - [[./code/04-rsq.r][04-rsq.r]] を確認してみよう
 
 ** 演習
    :PROPERTIES:
    :reveal_background: #EEEEFF
    :END:
-   - [[./code/03-meandist.r][03-meandist.r]] を確認してみよう
+   #+ATTR_HTML: :align left
+   - 以下のデータで回帰分析を行ってみよう
+     - datasets::airquality
+     - datasets::LifeCycleSavings
 
-** 確率的な数値実験
-   - 例: コイン投げの賭け \\
-     AとBの二人で交互にコインを投げる．
-     最初に表が出た方を勝ちとするとき，
-     AとBそれぞれの勝率はいくつとなるか？
-   - コイン投げは ~sample()~, ~rbinom()~ などで模擬できる
 
-** 演習
-   :PROPERTIES:
-   :reveal_background: #EEEEFF
-   :END:
-   - [[./code/03-cointoss.r][03-cointoss.r]] を確認してみよう
-
-** 演習
-   :PROPERTIES:
-   :reveal_background: #EEEEFF
-   :END:
-   - 以下の簡単な双六ゲームの実験を行ってみよう
-     - ゴールまでのます目は100
-     - さいころを振り出た目の数だけ進む
-     - ゴールに辿り着くまで繰り返す
-     - さいころを振る回数の分布は?
-
-** 演習
-   :PROPERTIES:
-   :reveal_background: #EEEEFF
-   :END:
-   - 確率的な事象を想定して実験を行ってみよう
-     - Buffon の針
-     - Monty Hall 問題
-     - St Petersburg のパラドックス
-     - 秘書問題 (最適停止問題)
-   - (講義資料に実装例があります)
+* COMMENT ローカル変数
+# Local Variables:
+# org-latex-listings: minted
+# End:
