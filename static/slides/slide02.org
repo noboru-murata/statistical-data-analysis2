@@ -21,6 +21,7 @@
   setwd("~/Desktop/lectures/u-tokyo/autumn/slide")
 #+end_src
 
+
 * データフレーム
 ** データ構造
    - Rに用意されている基本的なデータ構造
@@ -48,10 +49,11 @@
      #+end_src
      #+begin_src R :eval no :tangle yes
        ## 同じ長さのベクトルを並べる
-       x <- data.frame(one=c(1,2,3),two=c("AB","CD","EF"))
-       y <- data.frame(three=c("x","y","z"),four=c(0.9,0.5,-0.3))
+       ## (x <- ...) は代入した結果を表示
+       (x <- data.frame(one=c(1,2,3),two=c("AB","CD","EF"))) 
+       (y <- data.frame(three=c("x","y","z"),four=c(0.9,0.5,-0.3)))
        ## データフレームを結合する
-       z <- cbind(x,y) # column bind
+       (z <- cbind(x,y)) # column bind
      #+end_src
 ** 練習問題
    :PROPERTIES:
@@ -72,24 +74,24 @@
        ### データフレームの作成
 
        ## 各項目が同じ長さのベクトルを並べる
-       (x <- data.frame( 
+       (grade <- data.frame( # 変数名は自由に決めてよい
 	    math=c(90,80,70,60,50),
 	    phys=c(25,50,75,100,80),
 	    chem=c(65,100,70,40,75),
 	    bio =c(70,50,30,80,100)))
 
        ## 行・列の名前の操作
-       rownames(x) # 行の名前を表示する
-       rownames(x) <- c("A","B","C","D","E") # 行の名前を変更する
-       names(x)    # 列の名前を表示する
-       x # 変更されたデータフレームを表示する
+       rownames(grade) # 行の名前を表示する
+       rownames(grade) <- c("A","B","C","D","E") # 行の名前を変更する
+       names(grade)    # 列の名前を表示する
+       grade # 変更されたデータフレームを表示する
        ## データの取り出し方 (後ほど詳しく)
-       x["B","phys"] # 特定の要素を名前で参照する
-       x["C",] # 特定の行を表示
-       x["bio"] # 特定の列を表示(データフレームになる)
-       x[,"bio"] # 特定の列を表示(ベクトルになる)
-       x[["bio"]] # 上記と同じ操作
-       x$bio # 上記と同じ操作
+       grade["B","phys"] # 特定の要素を名前で参照する
+       grade["C",] # 特定の行を表示
+       grade["bio"] # 特定の列を表示(データフレームになる)
+       grade[,"bio"] # 特定の列を表示(ベクトルになる)
+       grade[["bio"]] # 上記と同じ操作
+       grade$bio # 上記と同じ操作
      #+end_src
 
      
@@ -158,36 +160,39 @@
        
        ### csv形式の操作
        ## 関数 write.csv の使い方 (ファイルの書き出し)
-       dim(x) # 大きさを確認
-       write.csv(x, file="mydata.csv")
+       dim(grade) # 大きさを確認
+       write.csv(grade, file="mydata.csv")
        ## 関数 read.csv の使い方 (ファイルの読み込み)
-       (y <- read.csv(file="mydata.csv", row.names=1)) 
-       dim(y) # 大きさが一致していることを確認
-       y["A","math"] <- 100 # データの一部を修正
-       y # 中身を確認しておく
+       (grade2 <- read.csv(file="mydata.csv", row.names=1)) 
+       dim(grade2) # 大きさが一致していることを確認
+       grade2["A","math"] <- 100 # データの一部を修正
+       grade2 # 中身を確認しておく
        
        ### Rdata形式の操作
        ## 関数 save の使い方 (ファイルの書き出し)
-       save(x, y, file="mydata.RData") 
+       save(grade, grade2, file="mydata.RData") 
        ## 関数 load の使い方 
-       x <- c(1,2,3) # xを上書きしておく
-       x # 中身を確認しておく
-       rm(y) # yを消しておく
-       y # "オブジェクト 'y' がありません"というエラーになる 
+       grade <- c(1,2,3) # 上書きしておく
+       grade # 中身を確認しておく
+       rm(grade2) # 消しておく
+       grade2 # "オブジェクト 'grade2' がありません"というエラーになる 
        load(file="mydata.RData") # RData形式の読み込み
-       x # save したときの x が復元されている
-       y # save したときの y が復元されている
+       grade # save したときの grade が復元されている
+       grade2 # save したときの grade2 が復元されている
      #+end_src
      #+begin_src R :exports none :tangle yes
        ### download したファイルの読み込み
        ## ファイル名 pcr_case_daily.csv として作業ディレクトリの data に保存
        pcr <- read.csv(file="data/pcr_case_daily.csv") # 一般的な読み込み方
+       ## 読み込めない場合は文字コードを指定する
+       ## read.csv(file="data/pcr_case_daily.csv")
+       ##          fileEncoding="shift-jis") # 文字コードの指定 (またはutf-8)
        pcr_org <- names(pcr) # 機関名を保存しておく
-       names(pcr) <- c("date","A","B","C","D","E","F") # 英語に付け替える
+       names(pcr) <- c("date","a","b","c","d","e","f") # 英語に付け替える
        head(pcr) # 中身を確認する
        ## 読み込み時に列名を指定することも可能 (以下は上記と同じ結果)
        pcr2 <- read.csv(file="data/pcr_case_daily.csv",
-                       col.names=c("date","A","B","C","D","E","F"))
+                       col.names=c("date","a","b","c","d","e","f"))
        head(pcr2) # 中身を確認する
        ## Filesタブの操作で読み込みことも可能なので確認せよ
        ## ただし tibble+data.frame オブジェクトになるので若干扱いが異なる
@@ -264,35 +269,35 @@
    :reveal_background: #fef4f4
    :END:
    - ~pcr_case_daily.csv~ から以下の条件を満たすデータを取り出しなさい
-     - 例: 国立感染症研究所(~A~)の検査件数が 0 でないデータ
+     - 例: 国立感染症研究所(~a~)の検査件数が 0 でないデータ
        #+begin_src R :eval no :exports none :tangle yes
-         ## 国立感染症研究所の検査件数が 0 でないデータ
+         ## 国立感染症研究所(a)の検査件数が 0 でないデータ
        #+end_src
        #+begin_src R :eval no :tangle yes
-	 subset(pcr, subset= A!=0) # subset オプションに条件を指定する
+	 subset(pcr, subset= a!=0) # subset オプションに条件を指定する
        #+end_src
-     - 例: 検疫所(~B~)と民間検査会社(~D~)の検査件数データ
+     - 例: 検疫所(~b~)と民間検査会社(~d~)の検査件数データ
        #+begin_src R :eval no :exports none :tangle yes
-         ## 検疫所と民間検査会社の検査件数データ
+         ## 検疫所(b)と民間検査会社(d)の検査件数データ
        #+end_src
        #+begin_src R :eval no :tangle yes
-	 subset(pcr, select= c(B,D)) # select オプションに列名を指定する
+	 subset(pcr, select= c(b,d)) # select オプションに列名を指定する
        #+end_src
-     - 医療機関(~F~)での検査件数が2000を越えたときの
-       国立感染症研究所と医療機関のデータ
-     - 大学等と医療機関でともに検査件数が2000を越えたデータ
+     - 医療機関(~f~)での検査件数が2000を越えたときの
+       国立感染症研究所(~a~)と医療機関(~f~)のデータ
+     - 大学等(~e~)と医療機関(~f~)でともに検査件数が2000を越えたデータ
      #+begin_src R :eval no :exports none :tangle yes
        ### 練習3
        ### データフレームの操作
 
        ## 関数subsetの使い方
-       ## 医療機関での検査数が100を越えたときの国立感染症研究所と医療機関のデータ
+       ## 医療機関(f)での検査数が2000を越えたときの国立感染症研究所(a)と医療機関(f)のデータ
        subset(pcr,
-	      subset= F>100,
-	      select= c(A,E))
-       ## 大学等と医療機関でともに2000を越えたデータ
+	      subset= f>2000,
+	      select= c(a,f))
+       ## 大学等(e)と医療機関(f)でともに検査件数が2000を越えたデータ
        subset(pcr,
-	      subset= E>2000 & F>2000)
+	      subset= e>2000 & f>2000)
      #+end_src
 
 
@@ -315,14 +320,14 @@
        ## MARGIN: 行(1)か列(2)かを指定
        ## FUN: 求めたい統計量を計算するための関数
      #+end_src
-   - 例: 学生の成績表 x の各教科の平均値
+   - 例: 学生の成績表 grade の各教科の平均値
      #+begin_src R :eval no :exports none :tangle yes
        ### 関数 apply() の使用例
-       ## 学生の成績表 x の各教科の平均値
+       ## 学生の成績表 grade の各教科の平均値
      #+end_src
      #+begin_src R :eval no :tangle yes
-       apply(X=x, MARGIN=2, FUN=mean) 
-       apply(x, 2, mean) # 上記と同じ(変数名は省略可能)
+       apply(X=grade, MARGIN=2, FUN=mean) 
+       apply(grade, 2, mean) # 上記と同じ(変数名は省略可能)
      #+end_src
      
 ** グループごとの操作
@@ -342,11 +347,12 @@
        ## 月毎の医療機関のPCR数の集計
        pcr$date # 日付を取り出す
        months(as.Date(pcr$date)) # 月を取り出す
-       transform(pcr,month=months(as.Date(pcr$date))) # 列を追加
+       transform(pcr,month=months(as.Date(date))) # 列を追加
+       ## 注意: trasform は pcr の操作をしているので，dateだけで列名が指定できる
      #+end_src
      #+begin_src R :eval no :tangle yes
-       aggregate(F ~ month,
-                 data=transform(pcr,month=months(as.Date(pcr$date))),
+       aggregate(f ~ month,
+                 data=transform(pcr,month=months(as.Date(date))),
                  sum)
      #+end_src
      
@@ -372,12 +378,14 @@
 
        ## 関数aggregateの使い方
        ## 月ごとの各機関でのPCR検査件数の最大値
-       aggregate(cbind(A,B,C,D,E,F) ~ month,
-                 transform(pcr, month=months(as.Date(pcr$date))),
+       aggregate(cbind(a,b,c,d,e,f) ~ month,
+                 transform(pcr, month=months(as.Date(date))),
                  max)
        aggregate(. ~ date, # ちょっとした細工(上書き)で簡単になる
-                 transform(pcr,date=months(as.Date(pcr$date))),
+                 transform(pcr,date=months(as.Date(date))),
                  max)
+
+       ## datasets::mtcars での例
        ## 気筒数ごとに排気量の最大値，最小値
        aggregate(disp ~ cyl,
                  mtcars,
@@ -433,15 +441,15 @@
        ## lwd: 線の太さ．数字で指定
      #+end_src
    #+reveal: split
-   - 例: 民間検査会社(~D~)と医療機関(~F~)の検査件数の推移
+   - 例: 民間検査会社(~d~)と医療機関(~f~)の検査件数の推移
      #+begin_src R :eval no :exports none :tangle yes
        ### 関数 plot() の使用例 (ベクトル) 
-       ## 民間検査会社と医療機関の検査件数の関係
+       ## 民間検査会社(d)と医療機関(f)の検査件数の関係
      #+end_src
      #+begin_src R :eval no :tangle yes
-       plot(pcr$D, # データフレームからD列のベクトルを抽出
+       plot(pcr$d, # データフレームからD列のベクトルを抽出
             type="l", col="blue") # 線での描画と色を指定
-       lines(pcr$F, col="red") # 線を重ね描き
+       lines(pcr$f, col="red") # 線を重ね描き
        ## 複数のデータを同時に描画する方法も用意されている
        matplot(pcr[-1], # データフレームから1列目を取り除いたデータフレームを作成
                type="l") # 線での描画を指定，色も個別に指定できる
@@ -478,23 +486,23 @@
        ## y: 2種類目のデータ y_1,...,y_N
        ## ...: "ベクトルの描画"と同じオプションが利用可能
 
-       ## データフレームxの変数A，Bの散布図を作成する場合
+       ## データフレームxの変数A，Bの散布図を作成する場合 (こちらの書き方を推奨)
        plot(B ~ A, data=x, ...)
      #+end_src
    #+reveal: split
-   - 例: 国立感染症研究所(~A~)と医療機関(~F~)の検査件数の関係
+   - 例: 国立感染症研究所(~a~)と医療機関(~f~)の検査件数の関係
      #+begin_src R :eval no :exports none :tangle yes
        ### 関数 plot() の使用例 (散布図) 
-       ## 国立感染症研究所と医療機関の検査件数の関係
+       ## 国立感染症研究所(a)と医療機関(f)の検査件数の関係
      #+end_src
      #+begin_src R :eval no :tangle yes
        if(Sys.info()["sysname"]=="Darwin") { # MacOSかどうか調べて
            par(family="HiraginoSans-W4")}    # 日本語フォントを指定する
-       plot(F ~ A, data=pcr, # データフレームからD列のベクトルを抽出
+       plot(f ~ a, data=pcr, # y軸=f，x軸=a で散布図を作成
             col="blue", pch=19, # 色と形を指定
             xlab=pcr_org[2], ylab=pcr_org[7]) # 軸の名前を指定
-       ## 複数のデータを同時に描画する方法も用意されている
-       plot(F ~ as.Date(date), data=pcr, # データフレームからD列のベクトルを抽出
+       ## x軸を日付とすることで日付と検査数の関係を表すことも可能
+       plot(f ~ as.Date(date), data=pcr, # 線で描画する
             type="l", col="red", # 色と形を指定
             xlab=pcr_org[1], ylab=pcr_org[7], # 軸の名前を指定
             main="PCR検査件数の推移") 
@@ -513,7 +521,7 @@
        ## 各検査機関での件数の関係
      #+end_src
      #+begin_src R :eval no :tangle yes
-       plot(pcr[-1], col="blue", pch=19) # データフレームから1列目を削除
+       plot(pcr[-1], col="blue", pch=19) # データフレームから1列目を除いて描画
      #+end_src
 
 ** 図の保存
@@ -532,31 +540,34 @@
    :reveal_background: #fef4f4
    :END:
    - ~pcr_case_daily.csv~ を用いて以下の描画を行いなさい
-     - 検疫所(~B~)，地方衛生研究所.保健所(~C~)，民間検査会社(~D~)における
+     - 検疫所(~b~)，地方衛生研究所.保健所(~c~)，民間検査会社(~d~)における
        検査件数の推移
-     - 民間検査会社(~D~)，大学等(~E~)，医療機関(~F~)での
+     - 民間検査会社(~d~)，大学等(~e~)，医療機関(~f~)での
        検査件数の関係(散布図)
      #+begin_src R :eval no :exports none :tangle yes
        ### 練習5
        ### 基本的なグラフの描画
        ## 書き方はいろいろあるので，以下はあくまで一例
 
-       ## 検疫所，地方衛生研究所.保健所，民間検査会社における検査件数の推移
+       ## 検疫所(b)，地方衛生研究所.保健所(c)，民間検査会社(d)における検査件数の推移
        apply(pcr[-1],2,max,na.rm=TRUE) # 最大値を確認しておく
-       plot(D ~ as.Date(date), data=pcr, # 最大値を基準に描画を行う
+       plot(d ~ as.Date(date), data=pcr, # 最大値を基準に描画を行う
             type="l", col="orchid", xlab="日付",ylab="検査件数")
-       lines(B ~ as.Date(date), data=pcr, col="orange")
-       lines(D ~ as.Date(date), data=pcr, col="tomato")
+       lines(b ~ as.Date(date), data=pcr, col="orange")
+       lines(c ~ as.Date(date), data=pcr, col="tomato")
+       ## y軸を対数表示する場合には以下のとおり
+       plot(d ~ as.Date(date), data=pcr, log="y", # y軸を対数変換
+            type="l", col="orchid", xlab="日付",ylab="検査件数")
+       lines(b ~ as.Date(date), data=pcr, col="orange")
+       lines(c ~ as.Date(date), data=pcr, col="tomato")
+       ## log(0) の計算で警告が出る場合がある
 
-       ## 対数表示する場合には以下のとおり
-       plot(D ~ as.Date(date), data=pcr, log="y", # y軸を対数変換
-            type="l", col="orchid", xlab="日付",ylab="検査件数")
-       lines(B ~ as.Date(date), data=pcr, col="orange")
-       lines(D ~ as.Date(date), data=pcr, col="tomato")
-       
-       ## 民間検査会社，大学等，医療機関での検査件数の関係(散布図)
-       plot(pcr[c("D","E","F")], labels=pcr_org[5:7], # 変数名を変更
+       ## 民間検査会社(d)，大学等(e)，医療機関(f)での検査件数の関係(散布図)
+       plot(pcr[c("d","e","f")], # 必要なデータフレームを抽出
+            labels=pcr_org[5:7], # 変数名を日本語に変更
             col="blue", pch=18) # pch については help(points) を参照
+       plot(~ d + e + f, data=pcr, # 式を使った指定の方法の例
+            labels=pcr_org[5:7], col="blue", pch=18) 
      #+end_src
        
 
@@ -575,14 +586,14 @@
        ## ...: plotで指定できるオプションが利用可能
      #+end_src
    #+reveal: split
-   - 例: 民間検査会社(~D~)での検査件数の分布
+   - 例: 民間検査会社(~d~)での検査件数の分布
      #+begin_src R :eval no :exports none :tangle yes
        ### 関数 hist() の使用例
-       ## 民間検査会社での検査件数の分布
+       ## 民間検査会社(d)での検査件数の分布
      #+end_src
      #+begin_src R :file figs/02-hist.png :results graphics :tangle yes
        if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
-       hist(pcr$D, breaks=25, labels=TRUE, # ビンの数と度数表示を指定
+       hist(pcr$d, breaks=25, labels=TRUE, # ビンの数と度数表示を指定
             col="lightblue", border="blue", # 中と境界の色を指定
             main="検査件数のヒストグラム", xlab=pcr_org[5]) # 軸の名前を指定
      #+end_src
@@ -610,15 +621,15 @@
        boxplot(B ~ A, data=x, ...)
      #+end_src
    #+reveal: split
-   - 例: 月ごとの大学等での検査件数の分布
+   - 例: 月ごとの大学等(~e~)での検査件数の分布
      #+begin_src R :eval no :exports none :tangle yes
        ### 関数 boxplot() の使用例
-       ## 大学等での検査件数の分布
+       ## 大学等(e)での検査件数の分布
      #+end_src
      #+begin_src R :file figs/02-boxplot.png :results graphics :tangle yes
        if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
-       boxplot(E ~ date,
-               data=transform(pcr,date=months(as.Date(pcr$date))),
+       boxplot(e ~ date,
+               data=transform(pcr,date=months(as.Date(date))),
                col="orange", main="月ごとの検査件数")
      #+end_src
    #+NAME:   fig:02-boxplot
@@ -641,16 +652,17 @@
        ## ...: plotで指定できるオプションが利用可能
      #+end_src
    #+reveal: split
-   - 例: 月ごとの検査件数の総数の推移
+   - 例: 機関ごとの月の検査件数の推移
      #+begin_src R :eval no :exports none :tangle yes
        ### 関数 barplot() の使用例
-       ## 月ごとの検査件数の総数の推移
+       ## 機関ごとの月の検査件数の推移
      #+end_src
      #+begin_src R :file figs/02-barplot.png :results graphics :tangle yes
        if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
        foo <- aggregate(. ~ date, # 集計したデータを保存
-                        transform(pcr,date=months(as.Date(pcr$date))), sum)
+                        transform(pcr,date=months(as.Date(date))), sum)
        barplot(as.matrix(foo[-1]), col=rainbow(7), # 作成した月ごとの色を利用
+               names.arg=pcr_org[2:7], # 変数名を日本語で表示
                beside=TRUE, space=c(.3,3), # 横並びの指定とスペースの設定
                legend.text=foo[,1], args.legend=list(ncol=2)) # 凡例の指定
      #+end_src
@@ -717,8 +729,8 @@
    :reveal_background: #fef4f4
    :END:
    - 適当なデータに対してグラフの作成を行ってみよう
-     - PCR検査件数データ ([[./data/pcr_case_daily.csv][pcr_case_daily.csv]])
-     - 東京都の気候データ ([[./data/tokyo-weather.csv][tokyo_weather.csv]])
+     - PCR検査件数データ ([[./data/pcr_case_daily.csv][~pcr_case_daily.csv~]])
+     - 東京都の気候データ ([[./data/tokyo-weather.csv][~tokyo_weather.csv~]])
      - R言語に用意されているデータ (関数 ~data()~ で一覧表示)
 
 * 補足
