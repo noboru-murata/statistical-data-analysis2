@@ -47,13 +47,16 @@
   :EXPORT_FILE_NAME: lecture02
   :EXPORT_DATE: <2020-09-19 Sat>
   :END:
+  *10月3日 修正しました*
 ** スライド
    #+html: {{< myslide base="statistical-data-analysis2" name="slide02" >}}
 ** ハンドアウト
    - [[github:pdfs/slide02.pdf][PDF file]]
-** 解答例
+** 付録
    - [[github:code/slide02.R][RScript]]
-
+   - [[github:data/pcr_case_daily.zip][PCR検査件数データ (pcr_case_daily.csv をzip化)]] \\
+     ダウンロードして unzip すると文字コード utf-8 のファイルになります．
+     
 * 講義3
   :PROPERTIES:
   :EXPORT_FILE_NAME: lecture03
