@@ -111,6 +111,7 @@
      #+end_quote
    - 直感的には "多数の独立な確率変数の和はほぼ正規分布に従う" ことを主張している
    #+reveal: split
+   - 中心極限定理のシミュレーション例
      #+begin_src R :eval no :exports none :tangle yes
        ### 中心極限定理
      #+end_src
@@ -150,6 +151,7 @@
      #+end_src
 
    #+reveal: split
+   - コイン投げの賭けのシミュレーション例
      #+begin_src R :eval no :exports none :tangle yes
        ### コイン投げの賭け
      #+end_src
@@ -510,7 +512,7 @@
    - 回帰分析では以下のデータセットを使用します
      - ~tokyo_weather_reg.csv~
        #+begin_quote
-       気象庁より取得した東京の気象データを回帰分析用に整理したもの
+       気象庁より取得した東京の気候データを回帰分析用に整理したもの
        #+end_quote
        https://www.data.jma.go.jp/gmd/risk/obsdl/index.php
      - ~Advertising.csv~
@@ -535,7 +537,7 @@
    :reveal_background: #fef4f4
    :END:
    - 前掲のデータセットを用いて回帰式を構成しなさい
-     - 東京都の8月の気候データ
+     - 東京の8月の気候データ
        #+begin_quote
        temp ~ solar + press
        #+end_quote
@@ -551,7 +553,7 @@
        ### 練習1
        ### 回帰係数の推定
 
-       ### 東京都の気候データによる回帰分析
+       ### 東京の気候データによる回帰分析
        ## モデル: 8月の"気温"を目的変数，"日射量・気圧"を説明変数とする
        TW.data <- read.csv("data/tokyo_weather_reg.csv")
        TW.model <- temp ~ solar + press # モデル式の定義 
@@ -701,14 +703,15 @@
 
 ** R: 推定結果からの情報の取得
    - 関数 ~lm()~ の出力には様々な情報が含まれる
-   #+begin_src R :eval no
-     ## lmの出力を引数とする関数の例
-     coef(lmの出力)         # 推定された回帰係数
-     fitted(lmの出力)       # あてはめ値
-     resid(lmの出力)        # 残差
-     model.frame(lmの出力)  # modelに必要な変数の抽出 (データフレーム)
-     model.matrix(lmの出力) # デザイン行列
-   #+end_src
+     #+begin_src R :eval no
+       ## lmの出力を引数とする関数の例
+       coef(lmの出力)         # 推定された回帰係数
+       fitted(lmの出力)       # あてはめ値
+       resid(lmの出力)        # 残差
+       model.frame(lmの出力)  # modelに必要な変数の抽出 (データフレーム)
+       model.matrix(lmの出力) # デザイン行列
+     #+end_src
+
 ** R: 行列とベクトルの計算
    - $X^\mathsf{T}Y$ および $X^\mathsf{T}X$ の計算
      #+begin_src R :eval no
@@ -754,7 +757,7 @@
        ### 練習2
        ### 最小二乗推定量の性質
 
-       ### 東京都の気候データ
+       ### 東京の気候データ
        ## 回帰係数と正規方程式の解の一致
        (beta <- coef(TW.est))        # 推定された回帰係数
        X <- model.matrix(TW.est)     # デザイン行列
@@ -896,7 +899,7 @@
        ### 練習3
        ### 残差の分解
 
-       ### 東京都の気候データ
+       ### 東京の気候データ
        TW.model
        TW.est <- lm(TW.model,
                     data=subset(TW.data, # 8月のデータの抽出
@@ -985,7 +988,7 @@
    :reveal_background: #fef4f4
    :END:
    - 決定係数を用いてモデルの比較を行ってみなさい
-     - 東京都の8月の気候データ
+     - 東京の8月の気候データ
        #+begin_quote
        temp ~ solar
 
@@ -1005,7 +1008,7 @@
        ### 練習4
        ### 決定係数によるモデルの比較
 
-       ### 東京都の気候データ
+       ### 東京の気候データ
        TW.subset <- subset(TW.data, # 8月のデータの抽出
                            subset= months(as.Date(date),
                                           abbreviate=TRUE)==" 8")

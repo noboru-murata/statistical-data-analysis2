@@ -47,14 +47,14 @@
 </section>
 
 <section>
-<section id="slide-org8ed1268">
-<h2 id="org8ed1268">疑似乱数</h2>
-<div class="outline-text-2" id="text-org8ed1268">
+<section id="slide-orgdbb574c">
+<h2 id="orgdbb574c">疑似乱数</h2>
+<div class="outline-text-2" id="text-orgdbb574c">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgac27f9b">
-<h3 id="orgac27f9b">疑似乱数とは</h3>
+<section id="slide-org98f2633">
+<h3 id="org98f2633">疑似乱数とは</h3>
 <ul>
 <li>コンピューターで生成された数列のこと</li>
 <li>完全にランダムに数字を発生されることは不可能</li>
@@ -66,8 +66,8 @@
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgb1143f3">
-<h3 id="orgb1143f3">基本的な乱数</h3>
+<section id="slide-orgd322963">
+<h3 id="orgd322963">基本的な乱数</h3>
 <ul>
 <li><b>ランダムサンプリング</b>: 与えられた集合の要素を無作為抽出することで発生する乱数</li>
 <li><b>二項乱数</b>: 「確率 \(p\) で表がでるコインを \(n\) 回投げた際の表が出る回数」に対応する乱数</li>
@@ -78,8 +78,8 @@
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org3b3429b">
-<h3 id="org3b3429b">乱数を生成する関数</h3>
+<section id="slide-orgc8981bb">
+<h3 id="orgc8981bb">乱数を生成する関数</h3>
 <ul>
 <li>関数 <code>sample()</code>: ランダムサンプリング</li>
 <li>関数 <code>rbinom()</code>: 二項乱数</li>
@@ -89,8 +89,8 @@
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orge689319" data-background="#fef4f4">
-<h3 id="orge689319">練習問題</h3>
+<section id="slide-org8f218a7" data-background="#fef4f4">
+<h3 id="org8f218a7">練習問題</h3>
 <ul>
 <li>ヘルプを用いて以下の関数を調べよ
 <ul>
@@ -113,14 +113,14 @@
 </section>
 </section>
 <section>
-<section id="slide-org9de37fd">
-<h2 id="org9de37fd">モンテカルロ法</h2>
-<div class="outline-text-2" id="text-org9de37fd">
+<section id="slide-orgb57ac83">
+<h2 id="orgb57ac83">モンテカルロ法</h2>
+<div class="outline-text-2" id="text-orgb57ac83">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org1e99981">
-<h3 id="org1e99981">モンテカルロ法とは</h3>
+<section id="slide-org349bbdb">
+<h3 id="org349bbdb">モンテカルロ法とは</h3>
 <ul>
 <li>乱数を使った統計実験</li>
 <li>計算機上でランダムネスを実現 (擬似乱数)</li>
@@ -130,8 +130,8 @@
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orga775ebb">
-<h3 id="orga775ebb">例: 中心極限定理</h3>
+<section id="slide-org64f15f3">
+<h3 id="org64f15f3">例: 中心極限定理</h3>
 <ul>
 <li><p>
 定理
@@ -161,6 +161,10 @@
 <div class="slide-footer"><br></div>
 </section>
 <section>
+<ul>
+<li><p>
+中心極限定理のシミュレーション例
+</p>
 <div class="org-src-container">
 
 <pre><code class=" R" >## 確率変数の分布の設定 (例: 区間[-1,1]の一様乱数)
@@ -188,12 +192,14 @@ for(n in c(1,2,4,8,16)){ # nを変えて実験
     curve(thdist, add=TRUE, col="orange", lwd=2) # 理論曲線を重ねる
 }
 </code></pre>
-</div>
+</div></li>
+
+</ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org54852b1">
-<h3 id="org54852b1">例: コイン投げの賭け</h3>
+<section id="slide-orgca15930">
+<h3 id="orgca15930">例: コイン投げの賭け</h3>
 <ul>
 <li>AとBの二人で交互にコインを投げる．
 最初に表が出た方を勝ちとするとき，
@@ -213,6 +219,10 @@ rbinom(1,size=1,prob=0.5) # 表裏が等確率で出る1枚のコインを1回�
 <div class="slide-footer"><br></div>
 </section>
 <section>
+<ul>
+<li><p>
+コイン投げの賭けのシミュレーション例
+</p>
 <div class="org-src-container">
 
 <pre><code class=" R" >## コイン投げの試行 (いろいろな書き方があるので以下は一例)
@@ -235,12 +245,14 @@ mydata &lt;- replicate(mc,mytrial())
 table(mydata)    # 頻度
 table(mydata)/mc # 確率(推定値)
 </code></pre>
-</div>
+</div></li>
+
+</ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org082c8b5" data-background="#fef4f4">
-<h3 id="org082c8b5">練習問題</h3>
+<section id="slide-org8c8271f" data-background="#fef4f4">
+<h3 id="org8c8271f">練習問題</h3>
 <ul>
 <li>以下の簡単な双六ゲームの実験を行ってみよう
 <ul>
@@ -256,8 +268,8 @@ table(mydata)/mc # 確率(推定値)
 </section>
 </section>
 <section>
-<section id="slide-orgff3a9fe">
-<h2 id="orgff3a9fe">補足</h2>
+<section id="slide-org32094b6">
+<h2 id="org32094b6">補足</h2>
 <ul>
 <li>より詳細な確率シミュレーションについては以下を参照して下さい
 <ul>
@@ -293,8 +305,8 @@ R言語の基礎 第5章 (pp71-82)
 </section>
 </section>
 <section>
-<section id="slide-orga6c5564">
-<h2 id="orga6c5564">講義の予定</h2>
+<section id="slide-org112afa4">
+<h2 id="org112afa4">講義の予定</h2>
 <ul>
 <li><b>第1日: 回帰モデルの考え方と推定</b></li>
 <li>第2日: モデルの評価</li>
@@ -307,14 +319,14 @@ R言語の基礎 第5章 (pp71-82)
 </section>
 </section>
 <section>
-<section id="slide-org75b3ed7">
-<h2 id="org75b3ed7">回帰分析の考え方</h2>
-<div class="outline-text-2" id="text-org75b3ed7">
+<section id="slide-orgda5680c">
+<h2 id="orgda5680c">回帰分析の考え方</h2>
+<div class="outline-text-2" id="text-orgda5680c">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org6425ac5">
-<h3 id="org6425ac5">回帰分析 (regression analysis)</h3>
+<section id="slide-orgb84fbdf">
+<h3 id="orgb84fbdf">回帰分析 (regression analysis)</h3>
 <ul>
 <li>ある変量を別の変量で説明する関係式を構成</li>
 <li>関係式: <b>回帰式</b> (regression equation)
@@ -334,8 +346,8 @@ R言語の基礎 第5章 (pp71-82)
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org12a2c2c">
-<h3 id="org12a2c2c">一般の回帰の枠組</h3>
+<section id="slide-org3b9c4aa">
+<h3 id="org3b9c4aa">一般の回帰の枠組</h3>
 <ul>
 <li>説明変数: \(x_1,\dotsc,x_p\) (p次元)</li>
 <li>目的変数: \(y\) (1次元)</li>
@@ -366,8 +378,8 @@ R言語の基礎 第5章 (pp71-82)
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org0ef1dfc">
-<h3 id="org0ef1dfc">線形回帰 (linear regression)</h3>
+<section id="slide-org66f35d1">
+<h3 id="org66f35d1">線形回帰 (linear regression)</h3>
 <ul>
 <li>任意の \(f\) では一般的すぎて分析に不向き</li>
 <li><p>
@@ -398,8 +410,8 @@ R言語の基礎 第5章 (pp71-82)
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgb4b8232">
-<h3 id="orgb4b8232">回帰係数</h3>
+<section id="slide-orgcaa3b43">
+<h3 id="orgcaa3b43">回帰係数</h3>
 <ul>
 <li><p>
 線形回帰式:
@@ -420,8 +432,8 @@ R言語の基礎 第5章 (pp71-82)
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org551d540">
-<h3 id="org551d540">回帰の確率モデル</h3>
+<section id="slide-org4d4145b">
+<h3 id="org4d4145b">回帰の確率モデル</h3>
 <ul>
 <li>回帰式の不確定性
 <ul>
@@ -461,14 +473,14 @@ R言語の基礎 第5章 (pp71-82)
 </section>
 </section>
 <section>
-<section id="slide-org83f0c10">
-<h2 id="org83f0c10">回帰係数の推定</h2>
-<div class="outline-text-2" id="text-org83f0c10">
+<section id="slide-org171a429">
+<h2 id="org171a429">回帰係数の推定</h2>
+<div class="outline-text-2" id="text-org171a429">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orga39c9b1">
-<h3 id="orga39c9b1">残差</h3>
+<section id="slide-org7ed634d">
+<h3 id="org7ed634d">残差</h3>
 <ul>
 <li><b>残差</b> (residual):
 回帰式で説明できない変動</li>
@@ -492,8 +504,8 @@ R言語の基礎 第5章 (pp71-82)
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orged623d1">
-<h3 id="orged623d1">最小二乗法 (least squares)</h3>
+<section id="slide-orge15b621">
+<h3 id="orge15b621">最小二乗法 (least squares)</h3>
 <ul>
 <li><p>
 <b>残差平方和</b> (residual sum of squares):
@@ -530,8 +542,8 @@ R言語の基礎 第5章 (pp71-82)
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orge776b85">
-<h3 id="orge776b85">行列の定義</h3>
+<section id="slide-org0743450">
+<h3 id="org0743450">行列の定義</h3>
 <ul>
 <li><p>
 デザイン行列 (design matrix):
@@ -555,8 +567,8 @@ R言語の基礎 第5章 (pp71-82)
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgd612653">
-<h3 id="orgd612653">ベクトルの定義</h3>
+<section id="slide-org808f4dc">
+<h3 id="org808f4dc">ベクトルの定義</h3>
 <ul>
 <li><p>
 目的変数，誤差，回帰係数のベクトル:
@@ -594,8 +606,8 @@ R言語の基礎 第5章 (pp71-82)
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org159ad19">
-<h3 id="org159ad19">行列・ベクトルによる表現</h3>
+<section id="slide-org2084bfe">
+<h3 id="org2084bfe">行列・ベクトルによる表現</h3>
 <ul>
 <li><p>
 確率モデル:
@@ -627,8 +639,8 @@ R言語の基礎 第5章 (pp71-82)
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org90c2906">
-<h3 id="org90c2906">解の条件</h3>
+<section id="slide-orgf73ecb4">
+<h3 id="orgf73ecb4">解の条件</h3>
 <ul>
 <li><p>
 解 \(\boldsymbol{\beta}\) では残差平方和の勾配は零ベクトル
@@ -670,8 +682,8 @@ R言語の基礎 第5章 (pp71-82)
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgd1d6ef1">
-<h3 id="orgd1d6ef1">正規方程式 (normal equation)</h3>
+<section id="slide-orgcb7b0d2">
+<h3 id="orgcb7b0d2">正規方程式 (normal equation)</h3>
 <ul>
 <li><p>
 条件を整理
@@ -706,8 +718,8 @@ R言語の基礎 第5章 (pp71-82)
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org223cbf1">
-<h3 id="org223cbf1">正規方程式の解</h3>
+<section id="slide-orge386ad0">
+<h3 id="orge386ad0">正規方程式の解</h3>
 <ul>
 <li>正規方程式の基本的な性質
 <ul>
@@ -734,8 +746,8 @@ R言語の基礎 第5章 (pp71-82)
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org1fbfd61">
-<h3 id="org1fbfd61">R: 関数 <code>lm()</code> による推定</h3>
+<section id="slide-org56a107d">
+<h3 id="org56a107d">R: 関数 <code>lm()</code> による推定</h3>
 <ul>
 <li><p>
 ベクトルを用いる基本的な使い方:
@@ -763,8 +775,8 @@ R言語の基礎 第5章 (pp71-82)
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgc99062e" data-background="#fef4f4">
-<h3 id="orgc99062e">データセットの準備</h3>
+<section id="slide-orgea6a7dc" data-background="#fef4f4">
+<h3 id="orgea6a7dc">データセットの準備</h3>
 <ul>
 <li>回帰分析では以下のデータセットを使用します
 <ul>
@@ -773,7 +785,7 @@ R言語の基礎 第5章 (pp71-82)
 </p>
 <blockquote>
 <p>
-気象庁より取得した東京の気象データを回帰分析用に整理したもの
+気象庁より取得した東京の気候データを回帰分析用に整理したもの
 </p>
 </blockquote>
 <p>
@@ -804,13 +816,13 @@ D. Witten, T. Hastie and R. Tibshirani &rdquo;
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org51d5f84" data-background="#fef4f4">
-<h3 id="org51d5f84">練習問題</h3>
+<section id="slide-orgce6c9b9" data-background="#fef4f4">
+<h3 id="orgce6c9b9">練習問題</h3>
 <ul>
 <li>前掲のデータセットを用いて回帰式を構成しなさい
 <ul>
 <li><p>
-東京都の8月の気候データ
+東京の8月の気候データ
 </p>
 <blockquote>
 <p>
@@ -841,14 +853,14 @@ sales ~ TV + radio
 </section>
 </section>
 <section>
-<section id="slide-org9633635">
-<h2 id="org9633635">最小二乗推定量の性質</h2>
-<div class="outline-text-2" id="text-org9633635">
+<section id="slide-orgcae3839">
+<h2 id="orgcae3839">最小二乗推定量の性質</h2>
+<div class="outline-text-2" id="text-orgcae3839">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgf103e98">
-<h3 id="orgf103e98">解と観測データの関係</h3>
+<section id="slide-orgfc28ba4">
+<h3 id="orgfc28ba4">解と観測データの関係</h3>
 <ul>
 <li>解析の上での良い条件:
 <ul>
@@ -879,8 +891,8 @@ sales ~ TV + radio
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgfb745e8">
-<h3 id="orgfb745e8">推定の幾何学的解釈</h3>
+<section id="slide-org50c5e32">
+<h3 id="org50c5e32">推定の幾何学的解釈</h3>
 <ul>
 <li><p>
 <b>あてはめ値 / 予測値</b> (fitted values / predicted values):
@@ -929,7 +941,7 @@ sales ~ TV + radio
 
 </ul>
 
-<div id="org738d08d" class="figure">
+<div id="org9ba0e2b" class="figure">
 <p><img src="./figs/projection.png" alt="projection.png" width="80%" height="80%" />
 </p>
 <p><span class="figure-number">Figure 1: </span>\(n=3\) , \(p+1=2\) の場合の最小二乗法による推定</p>
@@ -937,8 +949,8 @@ sales ~ TV + radio
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org5642ba3">
-<h3 id="org5642ba3">線形回帰式と標本平均</h3>
+<section id="slide-org1606110">
+<h3 id="org1606110">線形回帰式と標本平均</h3>
 <ul>
 <li>\(\boldsymbol{x}_i=(x_{i1},\dotsc,x_{ip})^\mathsf{T}\):
 説明変数の \(i\) 番目の観測データ</li>
@@ -995,12 +1007,12 @@ sales ~ TV + radio
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org722bd51">
-<h3 id="org722bd51">R: 推定結果からの情報の取得</h3>
+<section id="slide-orgdc2c39a">
+<h3 id="orgdc2c39a">R: 推定結果からの情報の取得</h3>
 <ul>
-<li>関数 <code>lm()</code> の出力には様々な情報が含まれる</li>
-
-</ul>
+<li><p>
+関数 <code>lm()</code> の出力には様々な情報が含まれる
+</p>
 <div class="org-src-container">
 
 <pre><code class=" R" >## lmの出力を引数とする関数の例
@@ -1010,11 +1022,14 @@ resid(lmの出力)        # 残差
 model.frame(lmの出力)  # modelに必要な変数の抽出 (データフレーム)
 model.matrix(lmの出力) # デザイン行列
 </code></pre>
-</div>
+</div></li>
+
+</ul>
+
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org329c4e3">
-<h3 id="org329c4e3">R: 行列とベクトルの計算</h3>
+<section id="slide-org8edd94c">
+<h3 id="org8edd94c">R: 行列とベクトルの計算</h3>
 <ul>
 <li><p>
 \(X^\mathsf{T}Y\) および \(X^\mathsf{T}X\) の計算
@@ -1048,8 +1063,8 @@ crossprod(X) # 同じものを掛ける場合は引数は1つで良い
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org93fc084" data-background="#fef4f4">
-<h3 id="org93fc084">練習問題</h3>
+<section id="slide-orge02b084" data-background="#fef4f4">
+<h3 id="orge02b084">練習問題</h3>
 <ul>
 <li>前問の推定結果を用いて
 最小二乗推定量の性質を確認しなさい
@@ -1080,14 +1095,14 @@ crossprod(X) # 同じものを掛ける場合は引数は1つで良い
 </section>
 </section>
 <section>
-<section id="slide-orgfc080ec">
-<h2 id="orgfc080ec">残差の分解</h2>
-<div class="outline-text-2" id="text-orgfc080ec">
+<section id="slide-org202f648">
+<h2 id="org202f648">残差の分解</h2>
+<div class="outline-text-2" id="text-org202f648">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org46532ec">
-<h3 id="org46532ec">最小二乗推定量の残差</h3>
+<section id="slide-orgc4c69dd">
+<h3 id="orgc4c69dd">最小二乗推定量の残差</h3>
 <ul>
 <li><p>
 観測値と推定値 \(\boldsymbol{\hat{\beta}}\) による予測値の差:
@@ -1126,8 +1141,8 @@ crossprod(X) # 同じものを掛ける場合は引数は1つで良い
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orga2e6f4f">
-<h3 id="orga2e6f4f">平方和の分解</h3>
+<section id="slide-org36a2ae6">
+<h3 id="org36a2ae6">平方和の分解</h3>
 <ul>
 <li>標本平均のベクトル:
 \(\bar{\boldsymbol{y}}=\bar{y}\boldsymbol{1}=(\bar{y},\bar{y},\dotsc,\bar{y})^{\mathsf{T}}\)</li>
@@ -1197,8 +1212,8 @@ crossprod(X) # 同じものを掛ける場合は引数は1つで良い
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org1155113" data-background="#fef4f4">
-<h3 id="org1155113">練習問題</h3>
+<section id="slide-org319f360" data-background="#fef4f4">
+<h3 id="org319f360">練習問題</h3>
 <ul>
 <li>前問の推定結果を用いて
 残差の性質を確認しなさい
@@ -1237,14 +1252,14 @@ crossprod(X) # 同じものを掛ける場合は引数は1つで良い
 </section>
 </section>
 <section>
-<section id="slide-orga50646c">
-<h2 id="orga50646c">決定係数</h2>
-<div class="outline-text-2" id="text-orga50646c">
+<section id="slide-orgdcfab12">
+<h2 id="orgdcfab12">決定係数</h2>
+<div class="outline-text-2" id="text-orgdcfab12">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org5849d93">
-<h3 id="org5849d93">回帰式の寄与</h3>
+<section id="slide-org5ad5a37">
+<h3 id="org5ad5a37">回帰式の寄与</h3>
 <ul>
 <li><p>
 ばらつきの分解:
@@ -1276,8 +1291,8 @@ crossprod(X) # 同じものを掛ける場合は引数は1つで良い
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgf2fae1e">
-<h3 id="orgf2fae1e">決定係数 (\(R^2\)値)</h3>
+<section id="slide-org540287a">
+<h3 id="org540287a">決定係数 (\(R^2\)値)</h3>
 <ul>
 <li><p>
 <b>決定係数</b> (R-squared):
@@ -1315,13 +1330,13 @@ crossprod(X) # 同じものを掛ける場合は引数は1つで良い
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgf746164" data-background="#fef4f4">
-<h3 id="orgf746164">練習問題</h3>
+<section id="slide-orga37ce38" data-background="#fef4f4">
+<h3 id="orga37ce38">練習問題</h3>
 <ul>
 <li>決定係数を用いてモデルの比較を行ってみなさい
 <ul>
 <li><p>
-東京都の8月の気候データ
+東京の8月の気候データ
 </p>
 <blockquote>
 <p>
@@ -1360,8 +1375,8 @@ sales ~ TV + radio
 </section>
 </section>
 <section>
-<section id="slide-org2d8e4cb">
-<h2 id="org2d8e4cb">補足</h2>
+<section id="slide-org0c90a4a">
+<h2 id="org0c90a4a">補足</h2>
 <ul>
 <li>人工データを作成して
 回帰分析の性質を調べるコード(Rscript)
