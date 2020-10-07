@@ -6,4 +6,11 @@ draft = false
 weight = 1005
 +++
 
-準備中
+## スライド {#スライド}
+
+{{< myslide base="statistical-data-analysis2" name="slide04" >}}
+
+
+## ハンドアウト {#ハンドアウト}
+
+-   [PDF file](https://noboru-murata.github.io/statistical-data-analysis2/pdfs/slide04.pdf)

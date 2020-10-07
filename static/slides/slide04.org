@@ -2,7 +2,7 @@
 #+SUBTITLE: モデルの評価
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
-#+DATE: XXXX.XX.XX
+#+DATE: 2020.10.16
 :reveal:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+STARTUP: hidestars content
@@ -11,15 +11,12 @@
 # C-c '
 :end:
 
-* COMMENT tangle用
-
+#+begin_src R :eval no :exports none :tangle yes
+  ### 第04回 練習問題解答例
+#+end_src
 #+begin_src R :exports none
   setwd("~/Desktop/lectures/u-tokyo/autumn/slide")
 #+end_src
-#+begin_src R :eval no :exports none :tangle yes
-  ### 第XX回 練習問題解答例
-#+end_src
-
 
 * 講義の予定
   - 第1日: 回帰モデルの考え方と推定
@@ -33,23 +30,29 @@
      - 説明変数: $x_1,\dotsc,x_p$ (p次元)
      - 目的変数: $y$ (1次元)
    - *回帰係数* $\beta_0,\beta_1,\dotsc,\beta_p$ を用いた一次式:
+     #+begin_quote
      #+begin_src latex
      \begin{equation}
        y=\beta_0+\beta_1x_1+\dotsb+\beta_px_p
      \end{equation}
      #+end_src
-   - *誤差項* を含む確率モデルで観測データを表現: 
+     #+end_quote
+   - *誤差項* を含む確率モデルで観測データを表現:
+     #+begin_quote
      #+begin_src latex
      \begin{equation}
        y_i=\beta_0+\beta_1 x_{i1}+\cdots+\beta_px_{ip}+\epsilon_i
        \quad (i=1,\dotsc,n)
      \end{equation}
      #+end_src
+     #+end_quote
+
 ** 行列・ベクトルによる簡潔な表現
    - デザイン行列:
+     #+begin_quote
      #+begin_src latex
      \begin{equation}
-       \boldsymbol{X}=
+       X=
        \begin{pmatrix}
 	 1 & x_{11} & x_{12} & \cdots & x_{1p} \\
 	 1 & x_{21} & x_{22} & \cdots & x_{2p} \\
@@ -58,8 +61,11 @@
        \end{pmatrix}
      \end{equation}
      #+end_src
+     #+end_quote
+     
 ** 行列・ベクトルによる簡潔な表現
    - ベクトル:
+     #+begin_quote
      #+begin_src latex
      \begin{equation}
        \boldsymbol{y}=
@@ -85,71 +91,86 @@
        \end{pmatrix}
      \end{equation}
      #+end_src
+     #+end_quote
 
 ** 問題の記述
    - 確率モデル:
+     #+begin_quote
      #+begin_src latex
      \begin{equation}
        \boldsymbol{y}
-       =\boldsymbol{X}\boldsymbol{\beta}+\boldsymbol{\epsilon}
+       =X\boldsymbol{\beta}+\boldsymbol{\epsilon}
      \end{equation}
      #+end_src
+     #+end_quote
    - 回帰式の評価: *残差平方和* の最小化による推定
+     #+begin_quote
      #+begin_src latex
      \begin{equation}
        S(\boldsymbol{\beta})
-       =(\boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta})^\top
-       (\boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta})
+       =(\boldsymbol{y}-X\boldsymbol{\beta})^{\mathsf{T}}
+       (\boldsymbol{y}-X\boldsymbol{\beta})
      \end{equation}
      #+end_src
+     #+end_quote
+
 ** 解の表現
    - 解の条件: *正規方程式*
+     #+begin_quote
      #+begin_src latex
      \begin{equation}
-       \boldsymbol{X}^\top\boldsymbol{X}\boldsymbol{\beta}
-       =\boldsymbol{X}^\top\boldsymbol{y}
+       X^{\mathsf{T}}X\boldsymbol{\beta}
+       =X^{\mathsf{T}}\boldsymbol{y}
      \end{equation}
      #+end_src
-   - 解の一意性: *Gram 行列* $\boldsymbol{X}^\top\boldsymbol{X}$ が正則
+     #+end_quote
+   - 解の一意性: *Gram 行列* $X^{\mathsf{T}}X$ が正則
+     #+begin_quote
      #+begin_src latex
      \begin{equation}
        \boldsymbol{\hat{\beta}}
        =
-       (\boldsymbol{X}^\top\boldsymbol{X})^{-1}
-       \boldsymbol{X}^\top\boldsymbol{y}  
+       (X^{\mathsf{T}}X)^{-1}
+       X^{\mathsf{T}}\boldsymbol{y}  
      \end{equation}
      #+end_src
+     #+end_quote
 
 ** 最小二乗推定量の性質 
    - *あてはめ値*
-     $\boldsymbol{\hat{y}}=\boldsymbol{X}\boldsymbol{\hat{\beta}}$
+     $\boldsymbol{\hat{y}}=X\boldsymbol{\hat{\beta}}$
      は $X$ の列ベクトルの線形結合
    - *残差*
      $\boldsymbol{\hat{\epsilon}}=\boldsymbol{y}-\boldsymbol{\hat{y}}$
      はあてはめ値 $\boldsymbol{\hat{y}}$ と直交する
+     #+begin_quote
      #+begin_src latex
      \begin{equation}
        \boldsymbol{\hat{\epsilon}}\cdot\boldsymbol{\hat{y}}
        =0
      \end{equation}
      #+end_src
+     #+end_quote
    - 回帰式は説明変数と目的変数の *標本平均* を通る
+     #+begin_quote
      #+begin_src latex
-     \begin{equation}
-       \bar{y}
-       =
-       (1,\bar{\boldsymbol{x}}^\top)\boldsymbol{\hat{\beta}},
-       \quad
-       \bar{\boldsymbol{x}}
-       =\frac{1}{n}\sum_{i=1}^n\boldsymbol{x}_i,
-       \quad
-       \bar{y}
-       =\frac{1}{n}\sum_{i=1}^ny_i,
-     \end{equation}
+       \begin{equation}
+         \bar{y}
+         =
+         (1,\bar{\boldsymbol{x}}^{\mathsf{T}})\boldsymbol{\hat{\beta}},
+         \quad
+         \bar{\boldsymbol{x}}
+         =\frac{1}{n}\sum_{i=1}^n\boldsymbol{x}_i,
+         \quad
+         \bar{y}
+         =\frac{1}{n}\sum_{i=1}^ny_i,
+       \end{equation}
      #+end_src
+     #+end_quote
 
 ** 寄与率
-   - *決定係数 (R-squared)*:
+   - *決定係数* (R-squared):
+     #+begin_quote
      #+begin_src latex
      \begin{equation}
        R^2
@@ -157,7 +178,9 @@
        1-\frac{\sum_{i=1}^n\hat{\epsilon}_i^2}{\sum_{i=1}^n(y_i-\bar{y})^2}
      \end{equation}
      #+end_src
-   - *自由度調整済み決定係数 (adjusted R-squared)*:
+     #+end_quote
+   - *自由度調整済み決定係数* (adjusted R-squared):
+     #+begin_quote
      #+begin_src latex
      \begin{equation}
        \bar{R}^2
@@ -167,141 +190,72 @@
      \end{equation}
      #+end_src
      (不偏分散で補正)
+     #+end_quote
 
 
 * 残差の統計的性質
-# ** 残差
-#    - 観測値と推定値 $\boldsymbol{\hat{\beta}}$ による予測値の差:
-#      #+begin_src latex
-#      \begin{equation}
-#        \hat{\epsilon}_i=
-#        y_i-(\hat{\beta}_0+\hat{\beta}_1 x_{i1}+\dotsb+\hat{\beta}_px_{ip}),
-#        \quad i=1,\dotsc,n
-#      \end{equation}
-#      #+end_src
-#      - 誤差項 $\epsilon_1,\dotsc,\epsilon_n$ の推定値
-#      - 全てができるだけ小さいほど良い
-#      - 予測値とは独立に偏りがないほど良い
-#    - 残差ベクトル
-#      #+begin_src latex
-#      \begin{equation}
-#        \boldsymbol{\hat{\epsilon}}
-#        =\boldsymbol{y}-\boldsymbol{\hat{y}}
-#        =(\hat{\epsilon}_1,\hat{\epsilon}_2,\dotsc,\hat{\epsilon}_n)^{\top}
-#      \end{equation}
-#      #+end_src
-#    # - 標本平均のベクトル
-#    #   #+begin_src latex
-#    #   \begin{equation}
-#    #     \bar{\boldsymbol{y}}=\bar{y}\boldsymbol{1}=(\bar{y},\bar{y},\dotsc,\bar{y})^{\top}
-#    #   \end{equation}
-#    #   #+end_src
-
-# ** ばらつきの分解
-#    - いろいろなばらつき
-#      - $\bar{\boldsymbol{y}}=\bar{y}\boldsymbol{1}=(\bar{y},\bar{y},\dotsc,\bar{y})^{\top}$:
-#        標本平均のベクトル
-#      - $S_y=(\boldsymbol{y}-\bar{\boldsymbol{y}})^{\top}
-#        (\boldsymbol{y}-\bar{\boldsymbol{y}})$:
-#        目的変数のばらつき
-#      - $S_{\phantom{y}}=(\boldsymbol{y}-\boldsymbol{\hat{y}})^{\top}
-#        (\boldsymbol{y}-\boldsymbol{\hat{y}})$:
-#        残差のばらつき
-#        ($\boldsymbol{\hat{\epsilon}}^{\top}\boldsymbol{\hat{\epsilon}}$)
-#      - $S_r=(\boldsymbol{\hat{y}}-\bar{\boldsymbol{y}})^{\top}
-#        (\boldsymbol{\hat{y}}-\bar{\boldsymbol{y}})$:
-#        あてはめ値(回帰)のばらつき
-#    - 3つのばらつきの関係
-#      #+begin_src latex
-#      \begin{equation}
-#        (\boldsymbol{y}-\bar{\boldsymbol{y}})^{\top}
-#        (\boldsymbol{y}-\bar{\boldsymbol{y}})
-#        =
-#        (\boldsymbol{y}-\boldsymbol{\hat{y}})^{\top}
-#        (\boldsymbol{y}-\boldsymbol{\hat{y}})+ 
-#        (\boldsymbol{\hat{y}}-\bar{\boldsymbol{y}})^{\top}
-#        (\boldsymbol{\hat{y}}-\bar{\boldsymbol{y}})
-#      \end{equation}
-#      \begin{equation}
-#        S_y=S+S_r
-#      \end{equation}
-#      #+end_src
-# ** 残差の性質
-#    - 証明には以下の関係を使う
-#      #+begin_src latex
-#      \begin{align}
-#        &\boldsymbol{y}-\bar{\boldsymbol{y}}
-# 	 =\boldsymbol{y}-\boldsymbol{\hat{y}}+\boldsymbol{\hat{y}}-\bar{\boldsymbol{y}}\\
-#        &\boldsymbol{\hat{y}}\cdot(\boldsymbol{y}-\boldsymbol{\hat{y}})
-# 	 =\boldsymbol{\hat{y}}\cdot\boldsymbol{\hat{\epsilon}}
-# 	 =0\\
-#        &\boldsymbol{1}\cdot(\boldsymbol{y}-\boldsymbol{\hat{y}})
-# 	 =\boldsymbol{1}\cdot\boldsymbol{\hat{\epsilon}}
-# 	 =0
-#      \end{align}
-#      #+end_src
-
-# ** 演習
-#    :PROPERTIES:
-#    :reveal_background: #EEEEFF
-#    :END:
-#    #+ATTR_HTML: :align center
-#    - [[./code/05-resid.r][05-resid.r]] を確認してみよう
-
 ** あてはめ値と誤差の関係
-   #+begin_src latex
-   \begin{align}
-     \boldsymbol{\hat{y}}
-     &=\boldsymbol{X}\boldsymbol{\hat{\beta}}\\
-     &\qquad(\boldsymbol{\hat{\beta}}=(\boldsymbol{X}^{\top}\boldsymbol{X})^{-1}\boldsymbol{X}^{\top}\boldsymbol{y}を代入)\\
-     &=\boldsymbol{X}(\boldsymbol{X}^{\top}\boldsymbol{X})^{-1}\boldsymbol{X}^{\top}\boldsymbol{y}
-     && (A) \\
-     &\qquad(\boldsymbol{y}=\boldsymbol{X}\boldsymbol{\beta}+\boldsymbol{\epsilon}を代入)\\
-     &=\boldsymbol{X}(\boldsymbol{X}^{\top}\boldsymbol{X})^{-1}\boldsymbol{X}^{\top}\boldsymbol{X}\boldsymbol{\beta}
-       +\boldsymbol{X}(\boldsymbol{X}^{\top}\boldsymbol{X})^{-1}\boldsymbol{X}^{\top}\boldsymbol{\epsilon}\\
-     &=\boldsymbol{X}\boldsymbol{\beta}
-       +\boldsymbol{X}(\boldsymbol{X}^{\top}\boldsymbol{X})^{-1}\boldsymbol{X}^{\top}\boldsymbol{\epsilon}
-     && (B) \\
-   \end{align}
-   #+end_src
-   - (A)あてはめ値は観測値の重み付けの和で表される 
-   - (B)あてはめ値と観測値は誤差項の寄与のみ異なる 
-
-** 残差と誤差の関係
-   #+begin_src latex
-   \begin{align}
-     \boldsymbol{\hat{\epsilon}}
-     &=\boldsymbol{y}-\boldsymbol{\hat{y}}\\
-     &=\boldsymbol{\epsilon}
-       -\boldsymbol{X}(\boldsymbol{X}^{\top}\boldsymbol{X})^{-1}\boldsymbol{X}^{\top}
-       \boldsymbol{\epsilon}\\
-     &=\bigl\{I
-       -\boldsymbol{X}(\boldsymbol{X}^{\top}\boldsymbol{X})^{-1}\boldsymbol{X}^{\top}
-       \bigr\}
-       \boldsymbol{\epsilon}
-     && (A) \\
-   \end{align}
-   #+end_src
-   - (A)残差は誤差の重み付けの和で表される
+   - あてはめ値の表現:
+     #+begin_quote
+     #+begin_src latex
+       \begin{align}
+         \boldsymbol{\hat{y}}
+         &=X\boldsymbol{\hat{\beta}}\\
+         &\qquad(\boldsymbol{\hat{\beta}}=(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}\boldsymbol{y}を代入)\\
+         &=X(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}\boldsymbol{y}
+         && (A) \\
+         &\qquad(\boldsymbol{y}=X\boldsymbol{\beta}+\boldsymbol{\epsilon}を代入)\\
+         &=X(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}X\boldsymbol{\beta}
+           +X(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}\boldsymbol{\epsilon}\\
+         &=X\boldsymbol{\beta}
+           +X(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}\boldsymbol{\epsilon}
+         && (B) \\
+       \end{align}
+     #+end_src
+     #+end_quote
+     - (A)あてはめ値は観測値の重み付けの和で表される 
+     - (B)あてはめ値と観測値は誤差項の寄与のみ異なる
+   - 残差と誤差の関係
+     #+begin_quote
+     #+begin_src latex
+       \begin{align}
+         \boldsymbol{\hat{\epsilon}}
+         &=\boldsymbol{y}-\boldsymbol{\hat{y}}\\
+         &=\boldsymbol{\epsilon}
+           -X(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}
+           \boldsymbol{\epsilon}\\
+         &=\bigl\{I
+           -X(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}
+           \bigr\}
+           \boldsymbol{\epsilon}
+         && (A) \\
+       \end{align}
+     #+end_src
+     #+end_quote
+     - (A)残差は誤差の重み付けの和で表される
 
 ** ハット行列
    - 定義:
+     #+begin_quote
      #+begin_src latex
      \begin{equation}
        H=
-       \boldsymbol{X}(\boldsymbol{X}^{\top}\boldsymbol{X})^{-1}\boldsymbol{X}^{\top}
+       X(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}
      \end{equation}
      #+end_src
+     #+end_quote
    - ハット行列 $H$ の性質:
-     - あてはめ値や残差は $H$ を用いて簡潔に表現される
-       #+begin_src latex
+     #+begin_quote
+     #+begin_src latex
        \begin{align}
 	 \boldsymbol{\hat{y}}
 	 &=H\boldsymbol{y}\\
 	 \boldsymbol{\hat{\epsilon}}
 	 &=(I-H)\boldsymbol{\epsilon}
        \end{align}
-       #+end_src
+     #+end_src
+     #+end_quote
+     - あてはめ値や残差は $H$ を用いて簡潔に表現される
      - 観測データの説明変数の関係を表す
      - 対角成分(*テコ比 (leverage)*)は観測データが自身の予測に及ぼす影響の度合を表す 
        
@@ -309,49 +263,56 @@
 * 推定量の統計的性質
 ** 推定量の性質
    - 推定量と誤差の関係
+     #+begin_quote
      #+begin_src latex
      \begin{align}
        \boldsymbol{\hat{\beta}}
-       &=(\boldsymbol{X}^{\top}\boldsymbol{X})^{-1}\boldsymbol{X}^{\top}\boldsymbol{y}\\
-       &\qquad( \boldsymbol{y}=\boldsymbol{X}\boldsymbol{\beta}+\boldsymbol{\epsilon} を代入) \\
-       &=(\boldsymbol{X}^{\top}\boldsymbol{X})^{-1}\boldsymbol{X}^{\top}\boldsymbol{X}\boldsymbol{\beta}
-	 +(\boldsymbol{X}^{\top}\boldsymbol{X})^{-1}\boldsymbol{X}^{\top}\boldsymbol{\epsilon}\\
+       &=(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}\boldsymbol{y}\\
+       &\qquad( \boldsymbol{y}=X\boldsymbol{\beta}+\boldsymbol{\epsilon} を代入) \\
+       &=(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}X\boldsymbol{\beta}
+	 +(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}\boldsymbol{\epsilon}\\
        &=\boldsymbol{\beta}
-	 +(\boldsymbol{X}^{\top}\boldsymbol{X})^{-1}\boldsymbol{X}^{\top}\boldsymbol{\epsilon}
+	 +(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}\boldsymbol{\epsilon}
      \end{align}
      #+end_src
+     #+end_quote
    - 正規分布の重要な性質:
-     #+BEGIN_QUOTE
+     #+begin_quote
      *正規分布に従う独立な確率変数の和は正規分布に従う*
-     #+END_QUOTE
+     #+end_quote
 #   - 誤差が正規分布に従うならば最小二乗推定量は正規分布に従う
 ** 推定量の分布
    - 誤差の仮定: 平均0，分散 $\sigma^{2}$ の正規分布に従う
-   - 推定量は以下の多変量正規分布に従う:
+   - 推定量は以下の多変量正規分布に従う
+     #+begin_quote
      #+begin_src latex
      \begin{align}
        \mathbb{E}[\boldsymbol{\hat{\beta}}]
        &=\boldsymbol{\beta}\\
        \mathrm{Cov}(\boldsymbol{\hat{\beta}})
-       &=\sigma^{2}(\boldsymbol{X}^{\top}\boldsymbol{X})^{-1}
+       &=\sigma^{2}(X^{\mathsf{T}}X)^{-1}
      \end{align}
      #+end_src
+     #+end_quote
    - 通常 $\sigma^{2}$ は未知，必要な場合には不偏分散で代用
+     #+begin_quote
      #+begin_src latex
      \begin{equation}
        \hat{\sigma^{2}}
        =\frac{S}{n{-}p{-}1}
-       =\frac{1}{n{-}p{-}1}\boldsymbol{\hat{\epsilon}}^{\top}\boldsymbol{\hat{\epsilon}}
+       =\frac{1}{n{-}p{-}1}\boldsymbol{\hat{\epsilon}}^{\mathsf{T}}\boldsymbol{\hat{\epsilon}}
        =\frac{1}{n{-}p{-}1}\sum_{i=1}^n\hat{\epsilon}_i^2
      \end{equation}
      #+end_src
+     #+end_quote
 #   - この性質を利用してモデルの評価を行うことができる
 
 
-* 分析の評価
+* 誤差の評価
 ** 寄与率 (再掲)
    - *決定係数 (R-squared)*: \\
      (回帰式で説明できるばらつきの比率)
+     #+begin_quote
      #+begin_src latex
      \begin{equation}
        R^2
@@ -359,8 +320,10 @@
        1-\frac{\sum_{i=1}^n\hat{\epsilon}_i^2}{\sum_{i=1}^n(y_i-\bar{y})^2}
      \end{equation}
      #+end_src
+     #+end_quote
    - *自由度調整済み決定係数 (adjusted R-squared)*: \\ 
      (決定係数を不偏分散で補正)
+     #+begin_quote
      #+begin_src latex
      \begin{equation}
        \bar{R}^2
@@ -369,20 +332,22 @@
        {\frac{1}{n{-}1}\sum_{i=1}^n(y_i-\bar{y})^2}
      \end{equation}
      #+end_src
+     #+end_quote
      
 ** 標準誤差
    - 推定されたパラメータの精度を評価:
      - 誤差の分布は平均0, 分散 $\sigma^2$ の正規分布
      - $\boldsymbol{\hat{\beta}}$ の分布は
        平均 $\boldsymbol{\beta}$ ，
-       共分散 $\sigma^2(\boldsymbol{X}^{\top}\boldsymbol{X})^{-1}$ 
+       共分散 $\sigma^2(X^{\mathsf{T}}X)^{-1}$ 
        の $p+1$ 変量正規分布
      - $\hat{\beta}_j$ の分布は，
-       行列 $(\boldsymbol{X}^\top\boldsymbol{X})^{-1}$ の対角成分
+       行列 $(X^{\mathsf{T}}X)^{-1}$ の対角成分
        を $\xi_0,\xi_1,\dotsc,\xi_p$ とすると，
        平均 $\beta_j$, 分散 $\sigma^2\xi_j$ の正規分布
      - 未知パラメータ $\sigma^{2}$ は不偏分散 $\hat{\sigma}^{2}$ で推定
    - *標準誤差 (standard error)*: $\hat{\beta}_j$ の精度の評価指標
+     #+begin_quote
      #+begin_src latex
      \begin{equation}
        \hat{\sigma}\sqrt{\xi}_j
@@ -392,33 +357,39 @@
        \sqrt{\xi}_j
      \end{equation}
      #+end_src
+     #+end_quote
 
-** 演習: 標準誤差
+** COMMENT 演習: 標準誤差
    :PROPERTIES:
    :reveal_background: #EEEEFF
    :END:
    - [[./code/05-se.r][05-se.r]] を確認してみよう
 
-** $t$ -統計量
+
+* 係数の評価   
+** \(t\)-統計量
    - *回帰係数の分布に関する定理*: \\
-     *$t$ -統計量* は自由度 $n{-}p{-}1$ の $t$ 分布に従う:
+     *\(t\)-統計量* は自由度 $n{-}p{-}1$ の $t$ 分布に従う:
+     #+begin_quote
      #+begin_src latex
      \begin{equation}
        \text{(t-統計量)}\quad
        t=\frac{\hat{\beta}_j-\beta_j}{\hat{\sigma}\sqrt{\xi_j}}
      \end{equation}
      #+end_src
+     #+end_quote
    - 証明には以下の性質を用いる:
      - $\hat{\sigma}{}^2$ と $\boldsymbol{\hat{\beta}}$ は独立となる
      - $(\hat{\beta}_j-\beta_j)/(\sigma\sqrt{\xi}_j)$ は標準正規分布に従う
      - $(n{-}p{-}1)\hat{\sigma}^2/\sigma^2=S/\sigma^2$ 
        は自由度 $n{-}p{-}1$ の $\chi^{2}$ 分布に従う
 
-** $t$ -統計量による検定
+** \(t\)-統計量による検定
    - 回帰係数 $\beta_j$ が回帰式に寄与するか否かを検定:
-     - 帰無仮説: $\beta_j=0$ ($t$ -統計量が計算できる)
+     - 帰無仮説: $\beta_j=0$ (\(t\)-統計量が計算できる)
      - 対立仮説: $\beta_j\neq0$
    - $p$ -値: 確率変数の絶対値が $|t|$ を超える確率
+     #+begin_quote
      #+begin_src latex
      \begin{equation}
        \text{($p$-値)}
@@ -427,6 +398,7 @@
        \quad\text{(両側検定)}
      \end{equation}
      #+end_src
+     #+end_quote
      - $f(x)$ は自由度 $n{-}p{-}1$ の $t$ 分布の確率密度関数
      - 帰無仮説 $\beta_j=0$ が正しければ $p$ 値は小さくならない
 
@@ -440,16 +412,19 @@
    #   - 帰無仮説 $\beta_j=0$ が正しければ $p$ 値は小さくならない
    #   - $p$ 値が小さいときは帰無仮説が誤り結論するのが自然
 
-** 演習: $t$ -統計量
+** COMMENT 演習: \(t\)-統計量
    :PROPERTIES:
    :reveal_background: #EEEEFF
    :END:
    - [[./code/05-tpval.r][05-tpval.r]] を確認してみよう
 
-** $F$ -統計量
+
+* モデルの評価
+** \(F\)-統計量
    - *ばらつきの比に関する定理*: \\
      $\beta_1=\dotsb=\beta_p=0$ ならば，
-     *$F$ -統計量* は自由度 $p,n{-}p{-}1$ の $F$ 分布に従う
+     *\(F\)-統計量* は自由度 $p,n{-}p{-}1$ の $F$ 分布に従う
+     #+begin_quote
      #+begin_src latex
      \begin{equation}
        \text{(F-統計量)}\quad
@@ -460,17 +435,19 @@
        =\frac{n{-}p{-}1}{p}\frac{R^2}{1-R^2}
      \end{equation}
      #+end_src
+     #+end_quote
    - 証明には以下の性質を用いる:
      - $S_{r}$ と $S$ は独立となる
      - $S_{r}/\sigma^2$ は自由度 $p$ の $\chi^{2}$ 分布に従う
      - $S/\sigma^2$ は自由度 $n{-}p{-}1$ の $\chi^{2}$ 分布に従う
 
-** $F$ -統計量を用いた検定
+** \(F\)-統計量を用いた検定
    - 説明変数のうち1つでも役に立つか否かを検定:
      - 帰無仮説: $\beta_1=\dotsb=\beta_p=0$ 
        ($S_r$ が $\chi^2$ 分布になる)
      - 対立仮説: $\exists j\;\beta_j\neq0$
    - $p$ -値: 確率変数の値が $F$ を超える確率
+     #+begin_quote
      #+begin_src latex
        \begin{equation}
          \text{($p$-値)}
@@ -479,6 +456,7 @@
          \quad\text{(片側検定)}
        \end{equation}
      #+end_src
+     #+end_quote
      - $f(x)$ は自由度 $p,n{-}p{-}1$ の $F$ 分布の確率密度関数
      - 帰無仮説 $\forall j\;\beta_j=0$ が正しければ $p$ 値は小さくならない
 
@@ -491,23 +469,23 @@
    #   \end{equation}
    #   #+end_src
 
-** 演習: $F$ -統計量
+** COMMENT 演習: \(F\)-統計量
    :PROPERTIES:
    :reveal_background: #EEEEFF
    :END:
    - [[./code/05-fstat.r][05-fstat.r]] を確認してみよう
 
-** 演習
+** COMMENT 演習
    :PROPERTIES:
    :reveal_background: #EEEEFF
    :END:
    - 先週用いたデータの回帰分析の結果を，
-     寄与率・標準誤差・ $t$ -統計量・ $F$ -統計量の観点から
+     寄与率・標準誤差・ \(t\)-統計量・ \(F\)-統計量の観点から
      評価してみよう
      - datasets::airquality
      - datasets::LifeCycleSavings
    - 人工データを用いたシミュレーションによって
-     推定量，$t$ -統計量，$F$ -統計量の分布を調べてみよう
+     推定量，\(t\)-統計量，\(F\)-統計量の分布を調べてみよう
 
 
 * COMMENT ローカル変数

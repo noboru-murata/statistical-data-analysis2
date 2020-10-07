@@ -41,14 +41,14 @@
 </div>
 <div class="talk-author">
   <p>村田 昇<br />
-  XXXX.XX.XX</p>
+  2020.10.23</p>
 </div>
 
 </section>
 
 <section>
-<section id="slide-orgb32723b">
-<h2 id="orgb32723b">講義の予定</h2>
+<section id="slide-org0e63337">
+<h2 id="org0e63337">講義の予定</h2>
 <ul>
 <li>第1日: 回帰モデルの考え方と推定</li>
 <li>第2日: モデルの評価</li>
@@ -56,18 +56,19 @@
 
 </ul>
 
+
 <div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-org290cbd9">
-<h2 id="org290cbd9">回帰分析の復習</h2>
-<div class="outline-text-2" id="text-org290cbd9">
+<section id="slide-org69e86e5">
+<h2 id="org69e86e5">回帰分析の復習</h2>
+<div class="outline-text-2" id="text-org69e86e5">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgc7d9ec6">
-<h3 id="orgc7d9ec6">線形回帰モデル</h3>
+<section id="slide-orgbab03ab">
+<h3 id="orgbab03ab">線形回帰モデル</h3>
 <ul>
 <li><b>目的変数</b> を <b>説明変数</b> で説明する関係式を構成:
 <ul>
@@ -78,95 +79,105 @@
 <li><p>
 <b>回帰係数</b> \(\beta_0,\beta_1,\dotsc,\beta_p\) を用いた一次式:
 </p>
+<blockquote>
 <div>
 \begin{equation}
   y=\beta_0+\beta_1x_1+\dotsb+\beta_px_p
 \end{equation}
 
-</div></li>
-
+</div>
+</blockquote></li>
 <li><p>
-<b>誤差項</b> を含む確率モデルで観測データを表現: 
+<b>誤差項</b> を含む確率モデルで観測データを表現:
 </p>
+<blockquote>
 <div>
 \begin{equation}
   y_i=\beta_0+\beta_1 x_{i1}+\cdots+\beta_px_{ip}+\epsilon_i
   \quad (i=1,\dotsc,n)
 \end{equation}
 
-</div></li>
+</div>
+</blockquote></li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgcdb4c8e">
-<h3 id="orgcdb4c8e">問題設定</h3>
+<section id="slide-orgf50ccaf">
+<h3 id="orgf50ccaf">問題設定</h3>
 <ul>
 <li><p>
 確率モデル:
 </p>
+<blockquote>
 <div>
 \begin{equation}
   \boldsymbol{y}
-  =\boldsymbol{X}\boldsymbol{\beta}+\boldsymbol{\epsilon}
+  =X\boldsymbol{\beta}+\boldsymbol{\epsilon}
 \end{equation}
 
-</div></li>
-
+</div>
+</blockquote></li>
 <li><p>
 式の評価: <b>残差平方和</b> の最小による推定
 </p>
+<blockquote>
 <div>
 \begin{equation}
   S(\boldsymbol{\beta})
-  =(\boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta})^\top
-  (\boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta})
+  =(\boldsymbol{y}-X\boldsymbol{\beta})^{\mathsf{T}}
+  (\boldsymbol{y}-X\boldsymbol{\beta})
 \end{equation}
 
-</div></li>
+</div>
+</blockquote></li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org1bdeb4b">
-<h3 id="org1bdeb4b">解</h3>
+<section id="slide-orgc5ccfae">
+<h3 id="orgc5ccfae">解</h3>
 <ul>
 <li><p>
 解の条件: <b>正規方程式</b>
 </p>
+<blockquote>
 <div>
 \begin{equation}
-  \boldsymbol{X}^\top\boldsymbol{X}\boldsymbol{\beta}
-  =\boldsymbol{X}^\top\boldsymbol{y}
+  X^{\mathsf{T}}X\boldsymbol{\beta}
+  =X^{\mathsf{T}}\boldsymbol{y}
 \end{equation}
 
-</div></li>
-
+</div>
+</blockquote></li>
 <li><p>
-解の一意性: <b>Gram 行列</b> \(\boldsymbol{X}^\top\boldsymbol{X}\) が正則
+解の一意性: <b>Gram 行列</b> \(X^{\mathsf{T}}X\) が正則
 </p>
+<blockquote>
 <div>
 \begin{equation}
   \hat{\boldsymbol{\beta}}
   =
-  (\boldsymbol{X}^\top\boldsymbol{X})^{-1}
-  \boldsymbol{X}^\top\boldsymbol{y}  
+  (X^{\mathsf{T}}X)^{-1}
+  X^{\mathsf{T}}\boldsymbol{y}  
 \end{equation}
 
-</div></li>
+</div>
+</blockquote></li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgb78243d">
-<h3 id="orgb78243d">寄与率</h3>
+<section id="slide-orge914fdd">
+<h3 id="orge914fdd">寄与率</h3>
 <ul>
 <li><p>
-<b>決定係数 (R-squared)</b>:
+<b>決定係数</b> (R-squared):
 </p>
+<blockquote>
 <div>
 \begin{equation}
   R^2
@@ -174,11 +185,12 @@
   1-\frac{\sum_{i=1}^n\hat{\epsilon}_i^2}{\sum_{i=1}^n(y_i-\bar{y})^2}
 \end{equation}
 
-</div></li>
-
+</div>
+</blockquote></li>
 <li><p>
-<b>自由度調整済み決定係数 (adjusted R-squared)</b>:
+<b>自由度調整済み決定係数</b> (adjusted R-squared):
 </p>
+<blockquote>
 <div>
 \begin{equation}
   \bar{R}^2
@@ -187,14 +199,15 @@
   {\frac{1}{n{-}1}\sum_{i=1}^n(y_i-\bar{y})^2}
 \end{equation}
 
-</div></li>
+</div>
+</blockquote></li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orga4449d8">
-<h3 id="orga4449d8">\(t\) -統計量による検定</h3>
+<section id="slide-orgc6ccef0">
+<h3 id="orgc6ccef0">\(t\)-統計量による検定</h3>
 <ul>
 <li>回帰係数 \(\beta_j\) が回帰式に寄与するか否かを検定する
 <ul>
@@ -203,23 +216,24 @@
 
 </ul></li>
 <li><p>
-\(t\) -統計量: 各係数ごと，\(\xi\) は \((X^\top X)^{-1}\) の対角成分
+\(t\)-統計量: 各係数ごと，\(\xi\) は \((X^{\mathsf{T}} X)^{-1}\) の対角成分
 </p>
+<blockquote>
 <div>
 \begin{equation}
   t=\frac{\hat{\beta}_j}{\hat{\sigma}\sqrt{\xi_j}}
 \end{equation}
 
-</div></li>
-
+</div>
+</blockquote></li>
 <li>\(p\) -値: 自由度 \(n{-}p{-}1\) の \(t\) 分布を用いて計算</li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgc627727">
-<h3 id="orgc627727">\(F\) -統計量による検定</h3>
+<section id="slide-orgef67137">
+<h3 id="orgef67137">\(F\)-統計量による検定</h3>
 <ul>
 <li>説明変数のうち1つでも役に立つか否かを検定する
 <ul>
@@ -228,26 +242,18 @@
 
 </ul></li>
 <li><p>
-\(F\) -統計量: 決定係数(または残差)を用いて計算
+\(F\)-統計量: 決定係数(または残差)を用いて計算
 </p>
+<blockquote>
 <div>
 \begin{equation}
   F
   =\frac{n{-}p{-}1}{p}\frac{R^2}{1-R^2}
 \end{equation}
 
-</div></li>
-
+</div>
+</blockquote></li>
 <li>\(p\) -値: 自由度 \(p,n{-}p{-}1\) の \(F\) 分布で計算</li>
-
-</ul>
-
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-org04e5b5a" data-background="#EEEEFF">
-<h3 id="org04e5b5a">演習: 回帰分析とその評価</h3>
-<ul>
-<li><a href="./code/06-wine.r">06-wine.r</a> を確認してみよう</li>
 
 </ul>
 
@@ -255,43 +261,46 @@
 </section>
 </section>
 <section>
-<section id="slide-orgeb17d4a">
-<h2 id="orgeb17d4a">回帰モデルによる予測</h2>
-<div class="outline-text-2" id="text-orgeb17d4a">
+<section id="slide-orgdaca66f">
+<h2 id="orgdaca66f">回帰モデルによる予測</h2>
+<div class="outline-text-2" id="text-orgdaca66f">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orga8ca699">
-<h3 id="orga8ca699">予測</h3>
+<section id="slide-org0ab30c4">
+<h3 id="org0ab30c4">予測</h3>
 <ul>
 <li><p>
 新しいデータ (説明変数) \(\boldsymbol{x}\) に対する予測値
 </p>
+<blockquote>
 <div>
 \begin{equation}
   \hat{y}
   =
-  (1,\boldsymbol{x}^{\top})\hat{\boldsymbol{\beta}},
+  (1,\boldsymbol{x}^{\mathsf{T}})\hat{\boldsymbol{\beta}},
   \qquad
   \hat{\boldsymbol{\beta}}
   =
-  (\boldsymbol{X}^{\top}\boldsymbol{X})^{-1}
-  \boldsymbol{X}^{\top}\boldsymbol{y}
+  (X^{\mathsf{T}}X)^{-1}
+  X^{\mathsf{T}}\boldsymbol{y}
 \end{equation}
 
-</div></li>
-
+</div>
+</blockquote></li>
 <li><p>
 予測値は元データの目的変数の重み付け線形和
 </p>
+<blockquote>
 <div>
 \begin{equation}
   \hat{y}
   =
-  \boldsymbol{w}(\boldsymbol{x})^{\top}\boldsymbol{y}
+  \boldsymbol{w}(\boldsymbol{x})^{\mathsf{T}}\boldsymbol{y}
 \end{equation}
 
-</div></li>
+</div>
+</blockquote></li>
 
 </ul>
 
@@ -299,47 +308,51 @@
 <li><p>
 重みは元データと新規データの説明変数で決定
 </p>
+<blockquote>
 <div>
 \begin{equation}
-  \boldsymbol{w}(\boldsymbol{x})^{\top}
+  \boldsymbol{w}(\boldsymbol{x})^{\mathsf{T}}
   =
-  (1,\boldsymbol{x}^{\top})
-  (\boldsymbol{X}^{\top}\boldsymbol{X})^{-1}
-  \boldsymbol{X}^{\top}
+  (1,\boldsymbol{x}^{\mathsf{T}})
+  (X^{\mathsf{T}}X)^{-1}
+  X^{\mathsf{T}}
 \end{equation}
 
-</div></li>
+</div>
+</blockquote></li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org902312f">
-<h3 id="org902312f">予測値の分布</h3>
+<section id="slide-orgd240868">
+<h3 id="orgd240868">予測値の分布</h3>
 <ul>
 <li><p>
 推定量は以下の性質をもつ多変量正規分布
 </p>
+<blockquote>
 <div>
 \begin{align}
   \mathbb{E}[\hat{\boldsymbol{\beta}}]
   &=\boldsymbol{\beta}\\
   \mathrm{Cov}(\hat{\boldsymbol{\beta}})
-  &=\sigma^{2}(\boldsymbol{X}^{\top}\boldsymbol{X})^{-1}
+  &=\sigma^{2}(X^{\mathsf{T}}X)^{-1}
 \end{align}
 
-</div></li>
-
+</div>
+</blockquote></li>
 <li><p>
 この性質を利用して以下の3つの値の違いを評価
 </p>
+<blockquote>
 <div>
 \begin{align}
-  \hat{y}&=(1,\boldsymbol{x}^{\top})\hat{\boldsymbol{\beta}}
+  \hat{y}&=(1,\boldsymbol{x}^{\mathsf{T}})\hat{\boldsymbol{\beta}}
   &&\text{(回帰式による予測値)}\\
-  \tilde{y}&=(1,\boldsymbol{x}^{\top})\boldsymbol{\beta}
+  \tilde{y}&=(1,\boldsymbol{x}^{\mathsf{T}})\boldsymbol{\beta}
   &&\text{(最適な予測値)}\\
-  y&=(1,\boldsymbol{x}^{\top})\boldsymbol{\beta}+\epsilon
+  y&=(1,\boldsymbol{x}^{\mathsf{T}})\boldsymbol{\beta}+\epsilon
   &&\text{(観測値)}
 \end{align}
 
@@ -347,54 +360,59 @@
 
 <p>
 (\(\hat{y}\) と \(y\) は独立な正規分布に従うことに注意)
-</p></li>
+</p>
+</blockquote></li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org8125728">
-<h3 id="org8125728">最適な予測値との差</h3>
+<section id="slide-orgc93ef0a">
+<h3 id="orgc93ef0a">最適な予測値との差</h3>
 <ul>
 <li><p>
 差の分布は以下の平均・分散の正規分布
 </p>
+<blockquote>
 <div>
 \begin{align}
   \mathbb{E}[\tilde{y}-\hat{y}]
-  &=\boldsymbol{x}^{\top}\boldsymbol{\beta}
-    -\boldsymbol{x}^{\top}\mathbb{E}[\hat{\boldsymbol{\beta}}]
+  &=\boldsymbol{x}^{\mathsf{T}}\boldsymbol{\beta}
+    -\boldsymbol{x}^{\mathsf{T}}\mathbb{E}[\hat{\boldsymbol{\beta}}]
     =0\\
   \mathrm{Var}(\tilde{y}-\hat{y})
-  &=\underbrace{\sigma^{2}\boldsymbol{x}^{\top}
-    (\boldsymbol{X}^{\top}\boldsymbol{X})^{-1}\boldsymbol{x}
+  &=\underbrace{\sigma^{2}\boldsymbol{x}^{\mathsf{T}}
+    (X^{\mathsf{T}}X)^{-1}\boldsymbol{x}
     }_{\text{$\hat{\boldsymbol{\beta}}$の推定誤差による分散}}
     =\sigma^{2}\gamma_{c}(\boldsymbol{x})^{2}
 \end{align}
 
-</div></li>
-
+</div>
+</blockquote></li>
 <li><p>
 正規化による表現
 </p>
+<blockquote>
 <div>
 \begin{equation}
   \frac{\tilde{y}-\hat{y}}{\sigma\gamma_{c}(\boldsymbol{x})}
   \sim \mathcal{N}(0,1)
 \end{equation}
 
-</div></li>
+</div>
+</blockquote></li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgb59c9f3">
-<h3 id="orgb59c9f3">信頼区間</h3>
+<section id="slide-org60b7551">
+<h3 id="org60b7551">信頼区間</h3>
 <ul>
 <li><p>
 未知の分散を不偏分散で推定
 </p>
+<blockquote>
 <div>
 \begin{equation}
   Z=
@@ -403,12 +421,13 @@
   \quad (\text{$t$-分布})
 \end{equation}
 
-</div></li>
-
+</div>
+</blockquote></li>
 <li><p>
 確率 \(\alpha\) の信頼区間 
 (最適な予測値 \(\tilde{y}\) が入ることが期待される区間)
 </p>
+<blockquote>
 <div>
 \begin{equation}
   \left(
@@ -418,65 +437,71 @@
 \end{equation}
 
 </div>
-
+</blockquote>
 <p>
 ただし \(C_{\alpha}\) は以下を満たす定数
 </p>
+<blockquote>
 <div>
 \begin{equation}
   P(|Z| < {C_{\alpha}} | Z\sim\mathcal{T}(n{-}p{-}1))
   =\alpha
 \end{equation}
 
-</div></li>
+</div>
+</blockquote></li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org702831d">
-<h3 id="org702831d">観測値との差</h3>
+<section id="slide-org893225e">
+<h3 id="org893225e">観測値との差</h3>
 <ul>
 <li><p>
 差の分布は以下の平均・分散の正規分布
 </p>
+<blockquote>
 <div>
 \begin{align}
   \mathbb{E}[y-\hat{y}]
-  &=\boldsymbol{x}^{\top}\boldsymbol{\beta}
-    -\boldsymbol{x}^{\top}\mathbb{E}[\hat{\boldsymbol{\beta}}]
+  &=\boldsymbol{x}^{\mathsf{T}}\boldsymbol{\beta}
+    -\boldsymbol{x}^{\mathsf{T}}\mathbb{E}[\hat{\boldsymbol{\beta}}]
     =0\\
   \mathrm{Var}(y-\hat{y})
-  &=\underbrace{\sigma^{2}\boldsymbol{x}^{\top}
-    (\boldsymbol{X}^{\top}\boldsymbol{X})^{-1}\boldsymbol{x}
+  &=\underbrace{\sigma^{2}\boldsymbol{x}^{\mathsf{T}}
+    (X^{\mathsf{T}}X)^{-1}\boldsymbol{x}
     }_{\text{$\hat{\boldsymbol{\beta}}$の推定誤差による分散}}
     +\underbrace{\sigma^{2}}_{\text{誤差の分散}}
     =\sigma^{2}\gamma_{p}(\boldsymbol{x})^{2}
 \end{align}
 
-</div></li>
-
+</div>
+</blockquote></li>
 <li><p>
 正規化による表現
 </p>
+<blockquote>
 <div>
 \begin{equation}
   \frac{y-\hat{y}}{\sigma\gamma_{p}(\boldsymbol{x})}
   \sim \mathcal{N}(0,1)
 \end{equation}
 
-</div></li>
+</div>
+</blockquote></li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org283c349">
-<h3 id="org283c349">予測区間</h3>
+<section id="slide-orgbb62e11">
+<h3 id="orgbb62e11">予測区間</h3>
 <ul>
 <li><p>
 未知の分散を不偏分散で推定
 </p>
+<blockquote>
 <div>
 \begin{equation}
   Z=
@@ -485,12 +510,13 @@
   \quad (\text{$t$-分布})
 \end{equation}
 
-</div></li>
-
+</div>
+</blockquote></li>
 <li><p>
 確率 \(\alpha\) の予測区間
 (観測値 \(y\) が入ることが期待される区間)
 </p>
+<blockquote>
 <div>
 \begin{equation}
   \left(
@@ -500,17 +526,19 @@
 \end{equation}
 
 </div>
-
+</blockquote>
 <p>
 ただし \(C_{\alpha}\) は以下を満たす定数
 </p>
+<blockquote>
 <div>
 \begin{equation}
   P(|Z| < {C_{\alpha}} | Z\sim\mathcal{T}(n{-}p{-}1))
   =\alpha
 \end{equation}
 
-</div></li>
+</div>
+</blockquote></li>
 
 </ul>
 
@@ -521,33 +549,16 @@
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org0d47f40" data-background="#EEEEFF">
-<h3 id="org0d47f40">演習: 信頼区間と予測区間</h3>
-<ul>
-<li><a href="./code/06-interval.r">06-interval.r</a> を確認してみよう</li>
-
-</ul>
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-org0c16629" data-background="#EEEEFF">
-<h3 id="org0c16629">演習: モデルの更新</h3>
-<ul>
-<li><a href="./code/06-model.r">06-model.r</a> を確認してみよう</li>
-
-</ul>
-
-<div class="slide-footer"><br></div>
-</section>
 </section>
 <section>
-<section id="slide-orgf5967af">
-<h2 id="orgf5967af">発展的なモデル</h2>
-<div class="outline-text-2" id="text-orgf5967af">
+<section id="slide-org9366487">
+<h2 id="org9366487">発展的なモデル</h2>
+<div class="outline-text-2" id="text-org9366487">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org774be42">
-<h3 id="org774be42">非線形な関係のモデル化</h3>
+<section id="slide-orga268b4e">
+<h3 id="orga268b4e">非線形な関係のモデル化</h3>
 <ul>
 <li>目的変数 \(Y\)</li>
 <li>説明変数 \(X_1,\dotsc,X_p\)</li>
@@ -562,14 +573,14 @@
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org7b72024">
-<h3 id="org7b72024">R: 線形でないモデル式の書き方</h3>
+<section id="slide-orgbe75f7a">
+<h3 id="orgbe75f7a">R: 線形でないモデル式の書き方</h3>
 <ul>
 <li>交互作用を記述するためには特殊な記法がある</li>
 <li>非線形変換はそのまま関数を記述すればよい</li>
-<li>1つの変数の多項式は関数 <code>I()</code> を用いる</li>
-
-</ul>
+<li><p>
+1つの変数の多項式は関数 <code>I()</code> を用いる
+</p>
 <div class="org-src-container">
 
 <pre><code class=" R" >## 目的変数 Y, 説明変数 X1,X2,X3
@@ -581,21 +592,14 @@ Y ~ (X1 + X2 + X3)^2 # X1 + X2 + X3 + X1*X2 + X2*X3 + X3*X1
 Y ~ f(X1)            # f(X1) (fは任意の関数)
 Y ~ X1 + I(X1^2)     # X1 + X1^2
 </code></pre>
-</div>
-
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-org53be626" data-background="#EEEEFF">
-<h3 id="org53be626">演習: 交互作用</h3>
-<ul>
-<li><a href="./code/06-cross.r">06-cross.r</a> を確認してみよう</li>
+</div></li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org042fa07">
-<h3 id="org042fa07">カテゴリデータ</h3>
+<section id="slide-org0578053">
+<h3 id="org0578053">カテゴリデータ</h3>
 <ul>
 <li>悪性良性や血液型などの数値ではないデータ</li>
 <li>適切な方法で数値に変換して対応:
@@ -621,13 +625,13 @@ Y ~ X1 + I(X1^2)     # X1 + X1^2
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org0aa436c">
-<h3 id="org0aa436c">R: カテゴリデータの取り扱い</h3>
+<section id="slide-orgb057ba9">
+<h3 id="orgb057ba9">R: カテゴリデータの取り扱い</h3>
 <ul>
 <li>通常は適切に対応してくれる</li>
-<li>カテゴリデータとして扱いたい場合は <code>factor()</code> を利用する</li>
-
-</ul>
+<li><p>
+カテゴリデータとして扱いたい場合は <code>factor()</code> を利用する
+</p>
 <div class="org-src-container">
 
 <pre><code class=" R" >## データフレーム mydat1, mydat2, mydat3
@@ -635,83 +639,7 @@ Y ~ X1 + I(X1^2)     # X1 + X1^2
 mydat2 &lt;- transform(mydat1, Y=as.factor(X))
 mydat3 &lt;- transform(mydat1, Z=as.factor(X &gt; 0)) 
 </code></pre>
-</div>
-
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-org695fcfd" data-background="#EEEEFF">
-<h3 id="org695fcfd">演習: ダミー変数</h3>
-<ul>
-<li><a href="./code/06-dummy.r">06-dummy.r</a> を確認してみよう</li>
-
-</ul>
-
-<div class="slide-footer"><br></div>
-</section>
-</section>
-<section>
-<section id="slide-org678d83e">
-<h2 id="org678d83e">car package の紹介</h2>
-<div class="outline-text-2" id="text-org678d83e">
-</div>
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-orgd2737e0">
-<h3 id="orgd2737e0">さまざまな評価</h3>
-<ul>
-<li>回帰モデルの評価
-<ul>
-<li>与えられたデータの再現</li>
-<li>新しいデータの予測</li>
-
-</ul></li>
-<li><p>
-モデルの再構築のための視覚化
-</p>
-<ul>
-<li><b>residual plots</b>: 
-説明変数・予測値と残差の関係</li>
-<li><b>marginal-model plots</b>:
-説明変数と目的変数・モデルの関係</li>
-<li><b>added-variable plots</b>:
-説明変数・目的変数をその他の変数で回帰したときの残差の関係</li>
-<li><b>component+residual plots</b>:
-説明変数とそれ以外の説明変数による残差の関係</li>
-
-</ul>
-
-<p>
-などが用意されている
-</p></li>
-
-</ul>
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-orge49b710" data-background="#EEEEFF">
-<h3 id="orge49b710">演習: car package の使用例</h3>
-<ul>
-<li><a href="./code/06-car.r">06-car.r</a> を確認してみよう</li>
-
-</ul>
-
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-orgee211f9" data-background="#EEEEFF">
-<h3 id="orgee211f9">演習</h3>
-<ul>
-<li>これまでに用いたデータでモデルを更新して評価してみよう
-<ul>
-<li>変数間の線形回帰の関係について仮説を立てる</li>
-<li>モデルのあてはめを行い評価する
-<ul>
-<li>説明力があるのか? (\(F\) -統計量，\(t\) -統計量，決定係数)</li>
-<li>残差に偏りはないか? (様々な診断プロット)</li>
-<li>変数間の線形関係は妥当か? (様々な診断プロット)</li>
-
-</ul></li>
-<li>検討結果を踏まえてモデルを更新する (評価の繰り返し)</li>
-
-</ul></li>
+</div></li>
 
 </ul>
 <div class="slide-footer"><br></div>
