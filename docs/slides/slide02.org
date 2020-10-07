@@ -117,13 +117,13 @@
 ** csv形式の操作 (テキスト)
    - 関数 ~write.csv()~: csvファイルの書き出し
      #+begin_src R :eval no
-       write.csv(x, file="ファイル名.csv")
+       write.csv(x, file="ファイル名")
        ## x: 書き出すデータフレーム
        ## file: 書き出すファイルの名前 (作業ディレクトリ下，またはパスを指定)
      #+end_src
    - 関数 ~read.csv()~: csvファイルの読み込み
      #+begin_src R :eval no
-       y <- read.csv(file="ファイル名.csv", header=TRUE, row.names=1)      
+       y <- read.csv(file="ファイル名", header=TRUE, row.names=1)      
        ## y: 読み込む変数
        ## file: 書き出すファイルの名前 (作業ディレクトリ下，またはパスを指定)
        ## header: 1行目を列名として使うか否か

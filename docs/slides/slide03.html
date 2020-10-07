@@ -47,8 +47,254 @@
 </section>
 
 <section>
-<section id="slide-org98b4ba7">
-<h2 id="org98b4ba7">講義の予定</h2>
+<section id="slide-org8ed1268">
+<h2 id="org8ed1268">疑似乱数</h2>
+<div class="outline-text-2" id="text-org8ed1268">
+</div>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgac27f9b">
+<h3 id="orgac27f9b">疑似乱数とは</h3>
+<ul>
+<li>コンピューターで生成された数列のこと</li>
+<li>完全にランダムに数字を発生されることは不可能</li>
+<li>Rの既定値は &ldquo;Mersenne-Twister法&rdquo; (<code>?Random</code> 参照)</li>
+<li>数値シミュレーションにおいて再現性が要請される場合には，
+乱数の &ldquo;シード値&rdquo; を指定して再現性を担保 (関数 <code>set.seed()</code>)</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgb1143f3">
+<h3 id="orgb1143f3">基本的な乱数</h3>
+<ul>
+<li><b>ランダムサンプリング</b>: 与えられた集合の要素を無作為抽出することで発生する乱数</li>
+<li><b>二項乱数</b>: 「確率 \(p\) で表がでるコインを \(n\) 回投げた際の表が出る回数」に対応する乱数</li>
+<li><b>一様乱数</b>: 決まった区間 \((a, b)\) からランダムに発生する乱数</li>
+<li><b>正規乱数</b>: 平均 \(\mu\), 分散 \(\sigma^2\) の正規分布に従う乱数</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org3b3429b">
+<h3 id="org3b3429b">乱数を生成する関数</h3>
+<ul>
+<li>関数 <code>sample()</code>: ランダムサンプリング</li>
+<li>関数 <code>rbinom()</code>: 二項乱数</li>
+<li>関数 <code>runif()</code>: 一様乱数</li>
+<li>関数 <code>rnorm()</code>: 正規乱数</li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orge689319" data-background="#fef4f4">
+<h3 id="orge689319">練習問題</h3>
+<ul>
+<li>ヘルプを用いて以下の関数を調べよ
+<ul>
+<li>関数 <code>sample()</code></li>
+<li>関数 <code>rbinom()</code></li>
+<li>関数 <code>runif()</code></li>
+<li>関数 <code>rnorm()</code></li>
+<li>関数 <code>set.seed()</code></li>
+
+</ul></li>
+<li>以下の試行を実装してみよ
+<ul>
+<li>サイコロを10回振る</li>
+<li>4枚のコインを投げたときの表の枚数</li>
+
+</ul></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+</section>
+<section>
+<section id="slide-org9de37fd">
+<h2 id="org9de37fd">モンテカルロ法</h2>
+<div class="outline-text-2" id="text-org9de37fd">
+</div>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org1e99981">
+<h3 id="org1e99981">モンテカルロ法とは</h3>
+<ul>
+<li>乱数を使った統計実験</li>
+<li>計算機上でランダムネスを実現 (擬似乱数)</li>
+<li>ランダムネスから導かれる種々の数学的結果を観察</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orga775ebb">
+<h3 id="orga775ebb">例: 中心極限定理</h3>
+<ul>
+<li><p>
+定理
+</p>
+<blockquote>
+<p>
+\(X_1,X_2,\dotsc\) を独立同分布な確率変数列とし，
+その平均を \(\mu\) ，標準偏差を \(\sigma\) とする．
+このとき，すべての実数 \(a< b\) に対して
+</p>
+<div>
+\begin{equation}
+  P\Bigl(a\leq\frac{\sqrt{n}(\bar{X}_n-\mu)}{\sigma}\leq b \Bigr)
+  \to\frac{1}{\sqrt{2\pi}}\int_a^be^{-\frac{x^2}{2}}dx\quad
+  (n\to\infty)
+\end{equation}
+
+</div>
+
+<p>
+が成り立つ．
+</p>
+</blockquote></li>
+<li>直感的には &ldquo;多数の独立な確率変数の和はほぼ正規分布に従う&rdquo; ことを主張している</li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+<section>
+<div class="org-src-container">
+
+<pre><code class=" R" >## 確率変数の分布の設定 (例: 区間[-1,1]の一様乱数)
+myrand &lt;- function(n) { # n個の乱数を生成
+    return(runif(n,min=-1,max=1))
+}
+## 標本平均の計算
+mymean &lt;- function(n) { # n個のデータで計算
+    return(mean(myrand(n)))
+}
+</code></pre>
+</div>
+<div class="org-src-container">
+
+<pre><code class=" R" >## Monte-Carlo実験
+set.seed(123) # 実験を再現したい場合はシードを指定する
+mu &lt;- 0; sigma &lt;- sqrt(1/3) # 理論平均と標準偏差
+mc &lt;- 5000 # 実験の繰り返し回数
+for(n in c(1,2,4,8,16)){ # nを変えて実験
+    xbars &lt;- replicate(mc, mymean(n)) # mc回実験し標本平均を記録
+    hist(xbars, breaks=25, freq=FALSE, # 分布を表示
+	 col="orchid", border="slateblue",
+	 xlab=expression(bar(X)), main=paste0("n=",n))
+    thdist &lt;- function(x){dnorm(x,mean=mu,sd=sigma/sqrt(n))}
+    curve(thdist, add=TRUE, col="orange", lwd=2) # 理論曲線を重ねる
+}
+</code></pre>
+</div>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org54852b1">
+<h3 id="org54852b1">例: コイン投げの賭け</h3>
+<ul>
+<li>AとBの二人で交互にコインを投げる．
+最初に表が出た方を勝ちとするとき，
+AとBそれぞれの勝率はいくつとなるか？</li>
+<li><p>
+コイン投げは関数 <code>sample()</code>, <code>rbinom()</code> などを用いて模擬できる
+</p>
+<div class="org-src-container">
+
+<pre><code class=" R" >sample(0:1,1) # 0と1が入った壺からから1つ選ぶ
+rbinom(1,size=1,prob=0.5) # 表裏が等確率で出る1枚のコインを1回投げる
+</code></pre>
+</div></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section>
+<div class="org-src-container">
+
+<pre><code class=" R" >## コイン投げの試行 (いろいろな書き方があるので以下は一例)
+mytrial &lt;- function(){
+    while(TRUE){ # 永久に回るループ
+	if(rbinom(1,size=1,prob=0.5)==1){return("A")} # Aが表で終了
+	if(rbinom(1,size=1,prob=0.5)==1){return("B")} # Bが表で終了
+	## どちらも裏ならもう一度ループ
+    }
+}
+</code></pre>
+</div>
+<div class="org-src-container">
+
+<pre><code class=" R" >## Monte-Carlo実験
+set.seed(8888) # 実験を再現したい場合はシードを指定する
+mc &lt;- 10000 # 実験回数を設定 
+mydata &lt;- replicate(mc,mytrial()) 
+## 簡単な集計
+table(mydata)    # 頻度
+table(mydata)/mc # 確率(推定値)
+</code></pre>
+</div>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org082c8b5" data-background="#fef4f4">
+<h3 id="org082c8b5">練習問題</h3>
+<ul>
+<li>以下の簡単な双六ゲームの実験を行ってみよう
+<ul>
+<li>ゴールまでのます目は100</li>
+<li>さいころを振り出た目の数だけ進む</li>
+<li>ゴールに辿り着くまで繰り返す</li>
+<li>さいころを振る回数の分布は?</li>
+
+</ul></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+</section>
+<section>
+<section id="slide-orgff3a9fe">
+<h2 id="orgff3a9fe">補足</h2>
+<ul>
+<li>より詳細な確率シミュレーションについては以下を参照して下さい
+<ul>
+<li>講義ノート
+<ul>
+<li><p>
+R言語の基礎 第5章 (pp71-82)
+</p>
+<ul>
+<li>Buffon の針</li>
+<li>Monty Hall 問題</li>
+<li>秘書問題 (最適停止問題)</li>
+
+</ul>
+<p>
+などの実装例がある
+</p></li>
+
+</ul></li>
+<li>統計データ解析I スライド 
+<ul>
+<li>講義5 確率シミュレーション</li>
+
+</ul></li>
+
+</ul></li>
+
+</ul>
+
+
+
+<div class="slide-footer"><br></div>
+</section>
+</section>
+<section>
+<section id="slide-orga6c5564">
+<h2 id="orga6c5564">講義の予定</h2>
 <ul>
 <li><b>第1日: 回帰モデルの考え方と推定</b></li>
 <li>第2日: モデルの評価</li>
@@ -61,17 +307,17 @@
 </section>
 </section>
 <section>
-<section id="slide-org0340bc1">
-<h2 id="org0340bc1">回帰分析の考え方</h2>
-<div class="outline-text-2" id="text-org0340bc1">
+<section id="slide-org75b3ed7">
+<h2 id="org75b3ed7">回帰分析の考え方</h2>
+<div class="outline-text-2" id="text-org75b3ed7">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org2ac1bd8">
-<h3 id="org2ac1bd8">回帰分析 (regression analysis)</h3>
+<section id="slide-org6425ac5">
+<h3 id="org6425ac5">回帰分析 (regression analysis)</h3>
 <ul>
-<li>ある変量を別の変量によって説明するための関係式を構成</li>
-<li>関係式: <b>回帰式 (regression equation)</b>
+<li>ある変量を別の変量で説明する関係式を構成</li>
+<li>関係式: <b>回帰式</b> (regression equation)
 <ul>
 <li>説明される側: <b>目的変数</b>, 被説明変数, 従属変数, 応答変数</li>
 <li>説明する側: <b>説明変数</b>, 独立変数, 共変量</li>
@@ -79,8 +325,8 @@
 </ul></li>
 <li>説明変数の数による分類:
 <ul>
-<li>一つの場合: <b>単回帰 (simple regression)</b></li>
-<li>複数の場合: <b>重回帰 (multiple regression)</b></li>
+<li>一つの場合: <b>単回帰</b> (simple regression)</li>
+<li>複数の場合: <b>重回帰</b> (multiple regression)</li>
 
 </ul></li>
 
@@ -88,63 +334,63 @@
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org4885db5">
-<h3 id="org4885db5">一般の回帰の枠組</h3>
+<section id="slide-org12a2c2c">
+<h3 id="org12a2c2c">一般の回帰の枠組</h3>
 <ul>
 <li>説明変数: \(x_1,\dotsc,x_p\) (p次元)</li>
 <li>目的変数: \(y\) (1次元)</li>
 <li><p>
 観測データ: n個の \((y,x_1,\dotsc,x_p)\) の組
 </p>
+<blockquote>
 <div>
 \begin{equation}
   \{(y_i,x_{i1},\dotsc,x_{ip})\}_{i=1}^n
 \end{equation}
 
-</div></li>
-
+</div>
+</blockquote></li>
 <li><p>
 \(y\) を \(x_1,\dotsc,x_p\) で説明するための関係式を構成:
 </p>
+<blockquote>
 <div>
 \begin{equation}
   y=f(x_1,\dotsc,x_p)
 \end{equation}
 
 </div>
-
-<p>
-一般には p変数関数 \(f\) を使う
-</p></li>
+</blockquote></li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org6de273e">
-<h3 id="org6de273e">線形回帰 (linear regression)</h3>
+<section id="slide-org0ef1dfc">
+<h3 id="org0ef1dfc">線形回帰 (linear regression)</h3>
 <ul>
 <li>任意の \(f\) では一般的すぎて分析に不向き</li>
 <li><p>
 \(f\) として1次関数を考える<br />
 ある定数 \(\beta_0,\beta_1,\dots,\beta_p\) を用いた以下の式:
 </p>
+<blockquote>
 <div>
 \begin{equation}
   f(x_1,\dots,x_p)=\beta_0+\beta_1x_1+\cdots+\beta_px_p
 \end{equation}
 
 </div>
-
+</blockquote>
 <ul>
-<li>1次式の場合: <b>線形回帰 (linear regression)</b></li>
+<li>1次関数の場合: <b>線形回帰</b> (linear regression)</li>
 <li>一般の場合: 非線形回帰 (nonlinear regression)</li>
 
 </ul></li>
-<li>非線形な関係は新たな説明変数の導入で対応可能
+<li>非線形関係は新たな説明変数の導入で対応可能
 <ul>
-<li>適切な多項式 \(x_j^2, x_jx_k, x_jx_kx_l,\dots\)</li>
-<li>その他の非線形変換 \(\log x_j, x_j^\alpha,\dots\)</li>
+<li>適切な多項式 \(x_j^2, x_jx_k, x_jx_kx_l,\dotsc\)</li>
+<li>その他の非線形変換 \(\log x_j, x_j^\alpha,\dotsc\)</li>
 
 </ul></li>
 
@@ -152,54 +398,61 @@
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgfb48b0c">
-<h3 id="orgfb48b0c">回帰係数</h3>
+<section id="slide-orgb4b8232">
+<h3 id="orgb4b8232">回帰係数</h3>
 <ul>
 <li><p>
 線形回帰式:
 </p>
+<blockquote>
 <div>
 \begin{equation}
   y=\beta_0+\beta_1x_1+\cdots+\beta_px_p
 \end{equation}
 
-</div></li>
-
-<li>\(\beta_0,\beta_1,\dots,\beta_p\): <b>回帰係数 (regression coefficients)</b></li>
-<li>\(\beta_0\): 定数項 (切片; constant term)</li>
+</div>
+</blockquote></li>
+<li>\(\beta_0,\beta_1,\dots,\beta_p\): <b>回帰係数</b> (regression coefficients)</li>
+<li>\(\beta_0\): <b>定数項 / 切片</b> (constant term / intersection)</li>
 <li>線形回帰分析: 未知の回帰係数をデータから決定</li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org7c237bf">
-<h3 id="org7c237bf">回帰の確率モデル</h3>
+<section id="slide-org551d540">
+<h3 id="org551d540">回帰の確率モデル</h3>
 <ul>
-<li>一般にデータは観測誤差などランダムな変動を含む</li>
-
-</ul>
-
+<li>回帰式の不確定性
 <ul>
+<li>データは一般に観測誤差などランダムな変動を含む</li>
+<li>回帰式がそのまま成立することは期待できない</li>
+
+</ul></li>
 <li><p>
 確率モデル: データのばらつきを表す項 \(\epsilon_i\) を追加
 </p>
+<blockquote>
 <div>
 \begin{equation}
   y_i=\beta_0+\beta_1 x_{i1}+\cdots+\beta_px_{ip}+\epsilon_i\quad (i=1,\dots,n)
 \end{equation}
 
-</div></li>
-
-<li>\(\epsilon_1,\dots,\epsilon_n\): <b>誤差項/撹乱項 (error/disturbance term)</b>
+</div>
+</blockquote>
+<ul>
+<li>\(\epsilon_1,\dots,\epsilon_n\): <b>誤差項 / 撹乱項</b> (error / disturbance term)
 <ul>
 <li>誤差項は独立な確率変数と仮定</li>
 <li>多くの場合，平均0，分散 \(\sigma^2\) の正規分布を仮定</li>
 
 </ul></li>
-<li><b>推定 (estimation)</b>: 未知パラメータ
-(\(\beta_0,\beta_1,\dots,\beta_p\)) 
-を観測データから決定すること</li>
+<li><b>推定</b> (estimation):
+観測データから
+\((\beta_0,\beta_1,\dots,\beta_p)\) 
+を決定</li>
+
+</ul></li>
 
 </ul>
 
@@ -208,20 +461,22 @@
 </section>
 </section>
 <section>
-<section id="slide-org53ca997">
-<h2 id="org53ca997">回帰係数の推定</h2>
-<div class="outline-text-2" id="text-org53ca997">
+<section id="slide-org83f0c10">
+<h2 id="org83f0c10">回帰係数の推定</h2>
+<div class="outline-text-2" id="text-org83f0c10">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org4d441d6">
-<h3 id="org4d441d6">残差</h3>
+<section id="slide-orga39c9b1">
+<h3 id="orga39c9b1">残差</h3>
 <ul>
-<li>回帰式で説明できない変動: <b>残差 (residual)</b></li>
+<li><b>残差</b> (residual):
+回帰式で説明できない変動</li>
 <li><p>
-回帰係数 \(\boldsymbol{\beta}=(\beta_0,\beta_1,\dotsc,\beta_p)^\top\) 
+回帰係数 \(\boldsymbol{\beta}=(\beta_0,\beta_1,\dotsc,\beta_p)^\mathsf{T}\) 
 を持つ回帰式の残差:
 </p>
+<blockquote>
 <div>
 \begin{equation}
   e_i(\boldsymbol{\beta})=
@@ -229,54 +484,62 @@
   \quad (i=1,\dotsc,n)
 \end{equation}
 
-</div></li>
-
+</div>
+</blockquote></li>
 <li>残差 \(e_i(\boldsymbol{\beta})\) の絶対値が小さいほど当てはまりがよい</li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org03087ae">
-<h3 id="org03087ae">最小二乗法 (least squares)</h3>
+<section id="slide-orged623d1">
+<h3 id="orged623d1">最小二乗法 (least squares)</h3>
 <ul>
 <li><p>
-<b>残差平方和 (residual sum of squares)</b>:
+<b>残差平方和</b> (residual sum of squares):
 </p>
+<blockquote>
 <div>
 \begin{equation}
   S(\boldsymbol{\beta}):=
   \sum_{i=1}^ne_i(\boldsymbol{\beta})^2
 \end{equation}
 
-</div></li>
-
+</div>
+</blockquote></li>
 <li><p>
-<b>最小二乗推定量 (least squares estimator)</b>:
+<b>最小二乗推定量</b> (least squares estimator): 
+</p>
+<blockquote>
+<p>
 残差平方和
-\(S(\boldsymbol{\beta})\) を最小にする \(\boldsymbol{\beta}\)
+\(S(\boldsymbol{\beta})\)
+を最小にする
+\(\boldsymbol{\beta}\)
 </p>
 <div>
 \begin{equation}
-  \boldsymbol{\hat{\beta}}=(\hat{\beta}_0,\hat{\beta}_1,\dotsc,\hat{\beta}_p)^\top:=
+  \boldsymbol{\hat{\beta}}=(\hat{\beta}_0,\hat{\beta}_1,\dotsc,\hat{\beta}_p)^\mathsf{T}:=
   \arg\min_{\boldsymbol{\beta}}S(\boldsymbol{\beta})
 \end{equation}
 
-</div></li>
+</div>
+</blockquote></li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org527a2ea">
-<h3 id="org527a2ea">行列の定義</h3>
+<section id="slide-orge776b85">
+<h3 id="orge776b85">行列の定義</h3>
 <ul>
 <li><p>
 デザイン行列 (design matrix):
 </p>
+<blockquote>
 <div>
 \begin{equation}
-  \boldsymbol{X}=
+  X=
   \begin{pmatrix}
     1 & x_{11} & x_{12} & \cdots & x_{1p} \\
     1 & x_{21} & x_{22} & \cdots & x_{2p} \\
@@ -285,18 +548,20 @@
   \end{pmatrix}
 \end{equation}
 
-</div></li>
+</div>
+</blockquote></li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org4132ff9">
-<h3 id="org4132ff9">ベクトルの定義</h3>
+<section id="slide-orgd612653">
+<h3 id="orgd612653">ベクトルの定義</h3>
 <ul>
 <li><p>
-目的変数，誤差，回帰係数のベクトル
+目的変数，誤差，回帰係数のベクトル:
 </p>
+<blockquote>
 <div>
 \begin{equation}
   \boldsymbol{y}=
@@ -322,64 +587,70 @@
   \end{pmatrix}
 \end{equation}
 
-</div></li>
+</div>
+</blockquote></li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgd947fd7">
-<h3 id="orgd947fd7">行列・ベクトルによる表現</h3>
+<section id="slide-org159ad19">
+<h3 id="org159ad19">行列・ベクトルによる表現</h3>
 <ul>
 <li><p>
 確率モデル:
 </p>
+<blockquote>
 <div>
 \begin{equation}
   \boldsymbol{y}
-  =\boldsymbol{X}\boldsymbol{\beta}+\boldsymbol{\epsilon}
+  =X\boldsymbol{\beta}+\boldsymbol{\epsilon}
 \end{equation}
 
-</div></li>
-
+</div>
+</blockquote></li>
 <li><p>
 残差平方和:
 </p>
+<blockquote>
 <div>
 \begin{equation}
   S(\boldsymbol{\beta})
-  =(\boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta})^\top
-  (\boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta})
+  =(\boldsymbol{y}-X\boldsymbol{\beta})^\mathsf{T}
+  (\boldsymbol{y}-X\boldsymbol{\beta})
 \end{equation}
 
-</div></li>
+</div>
+</blockquote></li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org8cabb3d">
-<h3 id="org8cabb3d">解の条件</h3>
+<section id="slide-org90c2906">
+<h3 id="org90c2906">解の条件</h3>
 <ul>
 <li><p>
 解 \(\boldsymbol{\beta}\) では残差平方和の勾配は零ベクトル
 </p>
 
+<blockquote>
 <div>
 \begin{equation}
-  \nabla S(\beta):=
+  \nabla S(\boldsymbol{\beta}):=
   \Bigl(
   \frac{\partial S}{\partial\beta_0}(\boldsymbol{\beta}),
   \frac{\partial S}{\partial\beta_1}(\boldsymbol{\beta}),\dotsc,
   \frac{\partial S}{\partial\beta_p}(\boldsymbol{\beta})
-  \Bigr)^\top=\boldsymbol{0}
+  \Bigr)^\mathsf{T}=\boldsymbol{0}
 \end{equation}
 
-</div></li>
-
+</div>
+</blockquote></li>
 <li><p>
 成分 (\(j=0,1,\dotsc,p\)) ごとの条件式
 </p>
+<blockquote>
 <div>
 \begin{equation}
   \frac{\partial S}{\partial\beta_j}(\boldsymbol{\beta})
@@ -392,19 +663,21 @@
 
 <p>
 但し \(x_{i0}=1\; (i=1,\dotsc,n)\)
-</p></li>
+</p>
+</blockquote></li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgfb04344">
-<h3 id="orgfb04344">正規方程式 (normal equation)</h3>
+<section id="slide-orgd1d6ef1">
+<h3 id="orgd1d6ef1">正規方程式 (normal equation)</h3>
 <ul>
 <li><p>
 条件を整理
-(\(x_{ij}\) は行列 \(\boldsymbol{X}\) の \((i,j)\) 成分)
+(\(x_{ij}\) は行列 \(X\) の \((i,j)\) 成分)
 </p>
+<blockquote>
 <div>
 \begin{equation}
   \sum_{i=1}^nx_{ij}\Bigl(\sum_{k=0}^px_{ik}\beta_k\Bigr)
@@ -412,27 +685,29 @@
   \sum_{i=1}^nx_{ij}y_i\quad(j=0,1,\dotsc,p)
 \end{equation}
 
-</div></li>
-
+</div>
+</blockquote></li>
 <li><p>
-<b>正規方程式 (normal equation)</b>:
+<b>正規方程式</b> (normal equation):
 </p>
+<blockquote>
 <div>
 \begin{equation}
-  \boldsymbol{X}^\top\boldsymbol{X}\boldsymbol{\beta}
-  =\boldsymbol{X}^\top\boldsymbol{y}
+  X^\mathsf{T}X\boldsymbol{\beta}
+  =X^\mathsf{T}\boldsymbol{y}
 \end{equation}
 
-</div></li>
-
-<li>\(\boldsymbol{X}^\top\boldsymbol{X}\): <b>Gram行列 (Gram matrix)</b></li>
+</div>
+</blockquote></li>
+<li><b>Gram行列</b> (Gram matrix):
+\(X^\mathsf{T}X\)</li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org16a9559">
-<h3 id="org16a9559">正規方程式の解</h3>
+<section id="slide-org223cbf1">
+<h3 id="org223cbf1">正規方程式の解</h3>
 <ul>
 <li>正規方程式の基本的な性質
 <ul>
@@ -440,90 +715,159 @@
 <li>正規方程式の解は最小二乗推定量であるための必要条件</li>
 
 </ul></li>
-<li>Gram 行列 \(\boldsymbol{X}^\top\boldsymbol{X}\) が正則ならば解が一意に決定</li>
+<li>Gram 行列 \(X^\mathsf{T}X\) が正則ならば解が一意に決定</li>
 <li><p>
 正規方程式の解
 </p>
+<blockquote>
 <div>
 \begin{equation}
   \boldsymbol{\hat{\beta}}
   =
-  (\boldsymbol{X}^\top\boldsymbol{X})^{-1}\boldsymbol{X}^\top\boldsymbol{y}  
+  (X^\mathsf{T}X)^{-1}X^\mathsf{T}\boldsymbol{y}  
 \end{equation}
 
+</div>
+</blockquote></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org1fbfd61">
+<h3 id="org1fbfd61">R: 関数 <code>lm()</code> による推定</h3>
+<ul>
+<li><p>
+ベクトルを用いる基本的な使い方:
+</p>
+<div class="org-src-container">
+
+<pre><code class=" R" >lm(formula= y ~ x1 + ... + xp)
+## formula: 目的変数 ~ 説明変数 (複数ある場合は + で並べる)
+## y: 目的変数のベクトル
+## x1,...,xp: 各説明変数のベクトル
+</code></pre>
+</div></li>
+<li><p>
+データフレームを用いる方法: <b>(こちらを推奨)</b>
+</p>
+<div class="org-src-container">
+
+<pre><code class=" R" >lm(formula= yの変数名 ~ x1の変数名 + ... + xpの変数名,
+   data = データフレーム)
+## formula: 目的変数名 ~ 説明変数名
+## data: 目的変数，説明変数を含むデータフレーム
+</code></pre>
 </div></li>
 
 </ul>
-
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org3b9728d">
-<h3 id="org3b9728d">R: 関数 <code>lm()</code> の使い方</h3>
+<section id="slide-orgc99062e" data-background="#fef4f4">
+<h3 id="orgc99062e">データセットの準備</h3>
 <ul>
-<li>ベクトルを用いる基本的な使い方:
+<li>回帰分析では以下のデータセットを使用します
 <ul>
-<li>ベクトル <code>y</code>: 目的変数 \(y\)</li>
-<li>ベクトル <code>x1,...,xp</code>: 説明変数 \(x_1,\dotsc,x_p\)</li>
+<li><p>
+<code>tokyo_weather_reg.csv</code>
+</p>
+<blockquote>
+<p>
+気象庁より取得した東京の気象データを回帰分析用に整理したもの
+</p>
+</blockquote>
+<p>
+<a href="https://www.data.jma.go.jp/gmd/risk/obsdl/index.php">https://www.data.jma.go.jp/gmd/risk/obsdl/index.php</a>
+</p></li>
+<li><p>
+<code>Advertising.csv</code>
+</p>
+<blockquote>
+<p>
+広告費(TV,radio,newspapers)と売上の関係を調べたもの
+</p>
 
-</ul></li>
-<li>データフレームを用いる方法: <b>(こちらの使い方を推奨)</b>
-<ul>
-<li>データフレーム <code>mydata</code>: 目的変数，説明変数を含むデータ</li>
-<li>列名: yの変数名, x1の変数名, &#x2026;, xpの変数名</li>
+<p>
+&ldquo;Datasets in this presentation are taken from &rdquo;An
+Introduction to Statistical Learning, with applications in R&ldquo;
+(Springer, 2013) with permission from the authors: G. James,
+D. Witten, T. Hastie and R. Tibshirani &rdquo;
+</p>
+</blockquote>
+<p>
+<a href="http://faculty.marshall.usc.edu/gareth-james/ISL/Advertising.csv">http://faculty.marshall.usc.edu/gareth-james/ISL/Advertising.csv</a>
+</p></li>
 
 </ul></li>
 
 </ul>
-<div class="org-src-container">
-
-<pre><code class=" R" >## ベクトルを渡す場合
-lm(y ~ x1 + ... + xp)
-## データフレームを渡す場合
-lm(yの変数名 ~ x1の変数名 + ... + xpの変数名, data = mydata)
-</code></pre>
-</div>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orge8a786d" data-background="#EEEEFF">
-<h3 id="orge8a786d">演習: 回帰式の推定</h3>
+<section id="slide-org51d5f84" data-background="#fef4f4">
+<h3 id="org51d5f84">練習問題</h3>
 <ul>
-<li><a href="./code/04-lm.r">04-lm.r</a> を確認してみよう</li>
+<li>前掲のデータセットを用いて回帰式を構成しなさい
+<ul>
+<li><p>
+東京都の8月の気候データ
+</p>
+<blockquote>
+<p>
+temp ~ solar + press
+</p>
+</blockquote></li>
+<li><p>
+広告費と売上データ
+</p>
+<blockquote>
+<p>
+sales ~ TV
+</p>
+
+<p>
+sales ~ radio
+</p>
+
+<p>
+sales ~ TV + radio
+</p>
+</blockquote></li>
+
+</ul></li>
 
 </ul>
-
-
 <div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-org45b8bd0">
-<h2 id="org45b8bd0">最小二乗推定量の性質</h2>
-<div class="outline-text-2" id="text-org45b8bd0">
+<section id="slide-org9633635">
+<h2 id="org9633635">最小二乗推定量の性質</h2>
+<div class="outline-text-2" id="text-org9633635">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org6a3fb93">
-<h3 id="org6a3fb93">解と観測データの関係</h3>
+<section id="slide-orgf103e98">
+<h3 id="orgf103e98">解と観測データの関係</h3>
 <ul>
 <li>解析の上での良い条件:
 <ul>
 <li>最小二乗推定量がただ一つだけ存在する (以下同値条件)
 <ul>
-<li>\(\boldsymbol{X}^\top\boldsymbol{X}\) が正則</li>
-<li>\(\boldsymbol{X}^\top\boldsymbol{X}\) の階数が \(p{+}1\)</li>
-<li>\(\boldsymbol{X}\) の階数が \(p{+}1\)</li>
-<li>\(\boldsymbol{X}\) の列ベクトルが1次独立</li>
+<li>\(X^\mathsf{T}X\) が正則</li>
+<li>\(X^\mathsf{T}X\) の階数が \(p{+}1\)</li>
+<li>\(X\) の階数が \(p{+}1\)</li>
+<li>\(X\) の列ベクトルが1次独立</li>
 
 </ul></li>
 
 </ul></li>
 <li>解析の上での良くない条件:
 <ul>
-<li>説明変数が1次従属: <b>多重共線性 (multicollinearity)</b></li>
+<li>説明変数が1次従属: <b>多重共線性</b> (multicollinearity)</li>
 <li>説明変数は多重共線性が強くならないように選択するべき 
 <ul>
-<li>\(\boldsymbol{X}\) の列(説明変数)の独立性を担保する</li>
+<li>\(X\) の列(説明変数)の独立性を担保する</li>
 <li>説明変数が互いに異なる情報をもつように選ぶ</li>
 <li>似た性質をもつ説明変数の重複は避ける</li>
 
@@ -535,51 +879,57 @@ lm(yの変数名 ~ x1の変数名 + ... + xpの変数名, data = mydata)
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org2d87395">
-<h3 id="org2d87395">推定の幾何学的解釈</h3>
+<section id="slide-orgfb745e8">
+<h3 id="orgfb745e8">推定の幾何学的解釈</h3>
 <ul>
 <li><p>
-<b>あてはめ値 (fitted values) / 予測値 (predicted values)</b>
+<b>あてはめ値 / 予測値</b> (fitted values / predicted values):
 </p>
+<blockquote>
 <div>
 \begin{equation}
   \boldsymbol{\hat{y}}
   =
-  \boldsymbol{X}\boldsymbol{\hat{\beta}}
+  X\boldsymbol{\hat{\beta}}
   =
   \hat{\beta}_{0} X_\text{第0列} + 
   \dots + \hat{\beta}_{p} X_\text{第p列}
 \end{equation}
 
-</div></li>
-
+</div>
+</blockquote></li>
 <li>最小二乗推定量 \(\boldsymbol{\hat{y}}\) の幾何学的性質:
 <ul>
-<li>\(L[\boldsymbol{X}]\): \(\boldsymbol{X}\) の列ベクトルが張る \(\mathbb{R}^n\) の部分線形空間</li>
-<li>\(X\) の階数が \(p{+}1\) ならば \(L[\boldsymbol{X}]\) の次元は \(p{+}1\) (解の一意性の条件)</li>
-<li>\(\boldsymbol{\hat{y}}\) は \(\boldsymbol{y}\) の \(L[\boldsymbol{X}]\) への直交射影</li>
+<li>\(L[X]\): \(X\) の列ベクトルが張る \(\mathbb{R}^n\) の部分線形空間</li>
+<li>\(X\) の階数が \(p{+}1\) ならば \(L[X]\) の次元は \(p{+}1\) (解の一意性)</li>
+<li>\(\boldsymbol{\hat{y}}\) は \(\boldsymbol{y}\) の \(L[X]\) への直交射影</li>
 <li><p>
-<b>残差 (residuals)</b> \(\boldsymbol{\hat{\epsilon}}:=\boldsymbol{y}-\boldsymbol{\hat{y}}\) はあてはめ値 \(\boldsymbol{\hat{y}}\) に直交
+<b>残差</b> (residuals)
+\(\boldsymbol{\hat{\epsilon}}:=\boldsymbol{y}-\boldsymbol{\hat{y}}\)
+はあてはめ値
+\(\boldsymbol{\hat{y}}\) に直交
 </p>
+<blockquote>
 <div>
 \begin{equation}
   \boldsymbol{\hat{\epsilon}}\cdot\boldsymbol{\hat{y}}=0
 \end{equation}
 
-</div></li>
+</div>
+</blockquote></li>
 
 </ul></li>
 
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+<section>
+<ul>
 <li>幾何学的な考察からも一意に決まる</li>
 
 </ul>
 
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-orgabeceb5">
-<h3 id="orgabeceb5">推定の幾何学的解釈</h3>
-
-<div id="org10cacd8" class="figure">
+<div id="org738d08d" class="figure">
 <p><img src="./figs/projection.png" alt="projection.png" width="80%" height="80%" />
 </p>
 <p><span class="figure-number">Figure 1: </span>\(n=3\) , \(p+1=2\) の場合の最小二乗法による推定</p>
@@ -587,42 +937,50 @@ lm(yの変数名 ~ x1の変数名 + ... + xpの変数名, data = mydata)
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgc177438">
-<h3 id="orgc177438">線形回帰式と標本平均</h3>
+<section id="slide-org5642ba3">
+<h3 id="org5642ba3">線形回帰式と標本平均</h3>
 <ul>
-<li>\(\boldsymbol{x}_i=(x_{i1},\dotsc,x_{ip})^\top\):
+<li>\(\boldsymbol{x}_i=(x_{i1},\dotsc,x_{ip})^\mathsf{T}\):
 説明変数の \(i\) 番目の観測データ</li>
 <li><p>
 説明変数および目的変数の標本平均:
 </p>
+<blockquote>
 <div>
 \begin{align}
   \boldsymbol{\bar{x}}
   &=\frac{1}{n}\sum_{i=1}^n\boldsymbol{x}_i,
   &\bar{y}
-  % \overline{\boldsymbol{x}^2}&=\frac{1}{n}\sum_{i=1}^n\boldsymbol{x}_i\boldsymbol{x}_i^\top,&
+  % \overline{\boldsymbol{x}^2}&=\frac{1}{n}\sum_{i=1}^n\boldsymbol{x}_i\boldsymbol{x}_i^\mathsf{T},&
   &=\frac{1}{n}\sum_{i=1}^ny_i,&
   % \overline{\boldsymbol{x}y}&=\frac{1}{n}\sum_{i=1}^n\boldsymbol{x}_iy_i
 \end{align}
 
-</div></li>
-
+</div>
+</blockquote></li>
 <li><p>
 \(\boldsymbol{\hat{\beta}}\) が最小二乗推定量のとき以下が成立:
 </p>
+<blockquote>
 <div>
 \begin{equation}
   \bar{y}
   =
-  (1,\boldsymbol{\bar{x}}^\top)\boldsymbol{\hat{\beta}}
+  (1,\boldsymbol{\bar{x}}^\mathsf{T})\boldsymbol{\hat{\beta}}
 \end{equation}
 
-</div></li>
+</div>
+</blockquote></li>
 
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+<section>
+<ul>
 <li><p>
-以下の関係から簡単に示すことができる:
+以下の関係から簡単に示すことができる
 </p>
-
+<blockquote>
 <div>
 \begin{equation}
   \boldsymbol{1}\cdot(\boldsymbol{y}-\boldsymbol{\hat{y}})
@@ -630,17 +988,17 @@ lm(yの変数名 ~ x1の変数名 + ... + xpの変数名, data = mydata)
   =0
 \end{equation}
 
-</div></li>
+</div>
+</blockquote></li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org9bfc481">
-<h3 id="org9bfc481">R: 推定結果からの情報の取得</h3>
+<section id="slide-org722bd51">
+<h3 id="org722bd51">R: 推定結果からの情報の取得</h3>
 <ul>
 <li>関数 <code>lm()</code> の出力には様々な情報が含まれる</li>
-<li>情報を取り出すための関数が用意されている</li>
 
 </ul>
 <div class="org-src-container">
@@ -649,37 +1007,92 @@ lm(yの変数名 ~ x1の変数名 + ... + xpの変数名, data = mydata)
 coef(lmの出力)         # 推定された回帰係数
 fitted(lmの出力)       # あてはめ値
 resid(lmの出力)        # 残差
-model.frame(lmの出力)  # modelに必要な変数の抽出
+model.frame(lmの出力)  # modelに必要な変数の抽出 (データフレーム)
 model.matrix(lmの出力) # デザイン行列
 </code></pre>
 </div>
-
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org44628c2" data-background="#EEEEFF">
-<h3 id="org44628c2">演習: 最小二乗推定量の性質</h3>
+<section id="slide-org329c4e3">
+<h3 id="org329c4e3">R: 行列とベクトルの計算</h3>
 <ul>
-<li><a href="./code/04-lse.r">04-lse.r</a> を確認してみよう</li>
+<li><p>
+\(X^\mathsf{T}Y\) および \(X^\mathsf{T}X\) の計算
+</p>
+<div class="org-src-container">
+
+<pre><code class=" R" >crossprod(X, Y) # cross product の略
+## X: 行列 (またはベクトル)
+## Y: 行列 (またはベクトル)
+crossprod(X) # 同じものを掛ける場合は引数は1つで良い
+</code></pre>
+</div></li>
+<li><p>
+行列 \(A,B\) の積 \(AB\)
+</p>
+<div class="org-src-container">
+
+<pre><code class=" R" >A %*% B # 行列の大きさは適切である必要がある
+</code></pre>
+</div></li>
+<li><p>
+正方行列 \(A\) の逆行列 \(A^{-1}\)
+</p>
+<div class="org-src-container">
+
+<pre><code class=" R" >solve(A) # 他にもいくつか関数はある
+</code></pre>
+</div></li>
 
 </ul>
 
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org93fc084" data-background="#fef4f4">
+<h3 id="org93fc084">練習問題</h3>
+<ul>
+<li>前問の推定結果を用いて
+最小二乗推定量の性質を確認しなさい
+<ul>
+<li><p>
+推定された係数が正規方程式の解
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  \boldsymbol{\hat{\beta}}
+  =
+  (X^\mathsf{T}X)^{-1}X^\mathsf{T}\boldsymbol{y}  
+\end{equation}
 
+</div>
+</blockquote>
+<p>
+となること
+</p></li>
+<li>あてはめ値と残差が直交すること</li>
+<li>回帰式が標本平均を通ること</li>
+
+</ul></li>
+
+</ul>
 <div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-orgf9d4bda">
-<h2 id="orgf9d4bda">残差の性質</h2>
-<div class="outline-text-2" id="text-orgf9d4bda">
+<section id="slide-orgfc080ec">
+<h2 id="orgfc080ec">残差の分解</h2>
+<div class="outline-text-2" id="text-orgfc080ec">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org90037ac">
-<h3 id="org90037ac">残差</h3>
+<section id="slide-org46532ec">
+<h3 id="org46532ec">最小二乗推定量の残差</h3>
 <ul>
 <li><p>
 観測値と推定値 \(\boldsymbol{\hat{\beta}}\) による予測値の差:
 </p>
+<blockquote>
 <div>
 \begin{equation}
   \hat{\epsilon}_i=
@@ -688,7 +1101,7 @@ model.matrix(lmの出力) # デザイン行列
 \end{equation}
 
 </div>
-
+</blockquote>
 <ul>
 <li>誤差項 \(\epsilon_1,\dotsc,\epsilon_n\) の推定値</li>
 <li>全てができるだけ小さいほど良い</li>
@@ -696,51 +1109,54 @@ model.matrix(lmの出力) # デザイン行列
 
 </ul></li>
 <li><p>
-残差ベクトル
+残差ベクトル:
 </p>
+<blockquote>
 <div>
 \begin{equation}
   \boldsymbol{\hat{\epsilon}}
   =\boldsymbol{y}-\boldsymbol{\hat{y}}
-  =(\hat{\epsilon}_1,\hat{\epsilon}_2,\dotsc,\hat{\epsilon}_n)^{\top}
+  =(\hat{\epsilon}_1,\hat{\epsilon}_2,\dotsc,\hat{\epsilon}_n)^{\mathsf{T}}
 \end{equation}
 
-</div></li>
+</div>
+</blockquote></li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org1267a9e">
-<h3 id="org1267a9e">ばらつきの分解</h3>
+<section id="slide-orga2e6f4f">
+<h3 id="orga2e6f4f">平方和の分解</h3>
 <ul>
+<li>標本平均のベクトル:
+\(\bar{\boldsymbol{y}}=\bar{y}\boldsymbol{1}=(\bar{y},\bar{y},\dotsc,\bar{y})^{\mathsf{T}}\)</li>
 <li>いろいろなばらつき
 <ul>
-<li>\(\bar{\boldsymbol{y}}=\bar{y}\boldsymbol{1}=(\bar{y},\bar{y},\dotsc,\bar{y})^{\top}\):
-標本平均のベクトル</li>
-<li>\(S_y=(\boldsymbol{y}-\bar{\boldsymbol{y}})^{\top}
+<li>\(S_y=(\boldsymbol{y}-\bar{\boldsymbol{y}})^{\mathsf{T}}
        (\boldsymbol{y}-\bar{\boldsymbol{y}})\):
 目的変数のばらつき</li>
-<li>\(S_{\phantom{y}}=(\boldsymbol{y}-\boldsymbol{\hat{y}})^{\top}
+<li>\(S_{\phantom{y}}=(\boldsymbol{y}-\boldsymbol{\hat{y}})^{\mathsf{T}}
        (\boldsymbol{y}-\boldsymbol{\hat{y}})\):
 残差のばらつき
-(\(\boldsymbol{\hat{\epsilon}}^{\top}\boldsymbol{\hat{\epsilon}}\))</li>
-<li>\(S_r=(\boldsymbol{\hat{y}}-\bar{\boldsymbol{y}})^{\top}
+(\(\boldsymbol{\hat{\epsilon}}^{\mathsf{T}}\boldsymbol{\hat{\epsilon}}\))</li>
+<li>\(S_r=(\boldsymbol{\hat{y}}-\bar{\boldsymbol{y}})^{\mathsf{T}}
        (\boldsymbol{\hat{y}}-\bar{\boldsymbol{y}})\):
 あてはめ値(回帰)のばらつき</li>
 
 </ul></li>
 <li><p>
-3つのばらつきの関係
+3つのばらつき(平方和)の関係
 </p>
+<blockquote>
 <div>
 \begin{equation}
-  (\boldsymbol{y}-\bar{\boldsymbol{y}})^{\top}
+  (\boldsymbol{y}-\bar{\boldsymbol{y}})^{\mathsf{T}}
   (\boldsymbol{y}-\bar{\boldsymbol{y}})
   =
-  (\boldsymbol{y}-\boldsymbol{\hat{y}})^{\top}
+  (\boldsymbol{y}-\boldsymbol{\hat{y}})^{\mathsf{T}}
   (\boldsymbol{y}-\boldsymbol{\hat{y}})+ 
-  (\boldsymbol{\hat{y}}-\bar{\boldsymbol{y}})^{\top}
+  (\boldsymbol{\hat{y}}-\bar{\boldsymbol{y}})^{\mathsf{T}}
   (\boldsymbol{\hat{y}}-\bar{\boldsymbol{y}})
 \end{equation}
 
@@ -750,18 +1166,18 @@ model.matrix(lmの出力) # デザイン行列
   S_y=S+S_r
 \end{equation}
 
-</div></li>
+</div>
+</blockquote></li>
 
 </ul>
-
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgaa771d0">
-<h3 id="orgaa771d0">分解に用いる残差の性質</h3>
+<section>
 <ul>
 <li><p>
 証明には以下の関係を使う
 </p>
+<blockquote>
 <div>
 \begin{align}
   &\boldsymbol{y}-\bar{\boldsymbol{y}}
@@ -774,58 +1190,99 @@ model.matrix(lmの出力) # デザイン行列
     =0
 \end{align}
 
-</div></li>
+</div>
+</blockquote></li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org9583e66" data-background="#EEEEFF">
-<h3 id="org9583e66">演習: 残差の性質</h3>
+<section id="slide-org1155113" data-background="#fef4f4">
+<h3 id="org1155113">練習問題</h3>
 <ul>
-<li><a href="./code/04-resid.r">04-resid.r</a> を確認してみよう</li>
+<li>前問の推定結果を用いて
+残差の性質を確認しなさい
+<ul>
+<li><p>
+以下の分解
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  (\boldsymbol{y}-\bar{\boldsymbol{y}})^{\mathsf{T}}
+  (\boldsymbol{y}-\bar{\boldsymbol{y}})
+  =
+  (\boldsymbol{y}-\boldsymbol{\hat{y}})^{\mathsf{T}}
+  (\boldsymbol{y}-\boldsymbol{\hat{y}})+ 
+  (\boldsymbol{\hat{y}}-\bar{\boldsymbol{y}})^{\mathsf{T}}
+  (\boldsymbol{\hat{y}}-\bar{\boldsymbol{y}})
+\end{equation}
+
+</div>
+<div>
+\begin{equation}
+  S_y=S+S_r
+\end{equation}
+
+</div>
+</blockquote>
+<p>
+が成り立つこと
+</p></li>
+
+</ul></li>
 
 </ul>
-
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org5f5f448">
-<h3 id="org5f5f448">回帰式の寄与</h3>
+</section>
+<section>
+<section id="slide-orga50646c">
+<h2 id="orga50646c">決定係数</h2>
+<div class="outline-text-2" id="text-orga50646c">
+</div>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org5849d93">
+<h3 id="org5849d93">回帰式の寄与</h3>
 <ul>
 <li><p>
 ばらつきの分解:
 </p>
+<blockquote>
 <div>
 \begin{equation}
   S_y\;\text{(目的変数)} =S\;\text{(残差)} +S_r\;\text{(あてはめ値)}
 \end{equation}
 
-</div></li>
-
+</div>
+</blockquote></li>
 <li><p>
-回帰式で説明できるばらつきの比率
+回帰式で説明できるばらつきの比率:
 </p>
+<blockquote>
 <div>
 \begin{equation}
-  (寄与率)
+  \text{(回帰式の寄与率)}
   = \frac{S_{r}}{S_{y}}
   = 1-\frac{S}{S_{y}}
 \end{equation}
 
-</div></li>
-
+</div>
+</blockquote></li>
 <li>回帰式のあてはまり具合を評価する代表的な指標</li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgdf9ee81">
-<h3 id="orgdf9ee81">決定係数 (\(R^2\) 値)</h3>
+<section id="slide-orgf2fae1e">
+<h3 id="orgf2fae1e">決定係数 (\(R^2\)値)</h3>
 <ul>
 <li><p>
-<b>決定係数 (R-squared)</b>:
+<b>決定係数</b> (R-squared):
 </p>
+<blockquote>
 <div>
 \begin{equation}
   R^2
@@ -833,11 +1290,12 @@ model.matrix(lmの出力) # デザイン行列
   1-\frac{\sum_{i=1}^n\hat{\epsilon}_i^2}{\sum_{i=1}^n(y_i-\bar{y})^2}
 \end{equation}
 
-</div></li>
-
+</div>
+</blockquote></li>
 <li><p>
-<b>自由度調整済み決定係数 (adjusted R-squared)</b>:
+<b>自由度調整済み決定係数</b> (adjusted R-squared):
 </p>
+<blockquote>
 <div>
 \begin{equation}
   \bar{R}^2
@@ -850,28 +1308,71 @@ model.matrix(lmの出力) # デザイン行列
 
 <p>
 不偏分散で補正している
-</p></li>
+</p>
+</blockquote></li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orga6e9fab" data-background="#EEEEFF">
-<h3 id="orga6e9fab">演習: 決定係数</h3>
+<section id="slide-orgf746164" data-background="#fef4f4">
+<h3 id="orgf746164">練習問題</h3>
 <ul>
-<li><a href="./code/04-rsq.r">04-rsq.r</a> を確認してみよう</li>
+<li>決定係数を用いてモデルの比較を行ってみなさい
+<ul>
+<li><p>
+東京都の8月の気候データ
+</p>
+<blockquote>
+<p>
+temp ~ solar
+</p>
+
+<p>
+temp ~ solar + press
+</p>
+
+<p>
+temp ~ solar + press + cloud
+</p>
+</blockquote></li>
+<li><p>
+広告費と売上データ
+</p>
+<blockquote>
+<p>
+sales ~ TV
+</p>
+
+<p>
+sales ~ radio
+</p>
+
+<p>
+sales ~ TV + radio
+</p>
+</blockquote></li>
+
+</ul></li>
 
 </ul>
-
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org7aaa945" data-background="#EEEEFF">
-<h3 id="org7aaa945">演習</h3>
-<ul align="left">
-<li>以下のデータで回帰分析を行ってみよう
+</section>
+<section>
+<section id="slide-org2d8e4cb">
+<h2 id="org2d8e4cb">補足</h2>
 <ul>
-<li>datasets::airquality</li>
-<li>datasets::LifeCycleSavings</li>
+<li>人工データを作成して
+回帰分析の性質を調べるコード(Rscript)
+ついては以下を参照して下さい
+<ul>
+<li>講義ノート
+<ul>
+<li>多変量解析 第1章 単回帰分析</li>
+<li>多変量解析 第2章 回帰分析</li>
+
+</ul></li>
 
 </ul></li>
 
