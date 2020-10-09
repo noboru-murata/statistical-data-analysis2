@@ -579,7 +579,8 @@
        Adv.data <- read.csv("data/Advertising.csv",
                             row.names=1) # 1列目を行名として読み込む
        ## 以下のように download しないで URL を指定してもよい
-       ## read.csv("http://faculty.marshall.usc.edu/gareth-james/ISL/Advertising.csv")
+       ## read.csv("http://faculty.marshall.usc.edu/gareth-james/ISL/Advertising.csv",
+       ##          row.names=1)
        plot(Adv.data, col="orange")
        ## TVの宣伝費で売上を説明
        (Adv.est1 <- lm(sales ~ TV, data=Adv.data))

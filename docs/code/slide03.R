@@ -1,3 +1,5 @@
+### 第03回 練習問題解答例
+
 ### 練習6 (第2回の続き)
 ### 擬似乱数
 
@@ -102,7 +104,7 @@ summary(mydata) # 簡単な集計
 ### 練習1
 ### 回帰係数の推定
 
-### 東京都の気候データによる回帰分析
+### 東京の気候データによる回帰分析
 ## モデル: 8月の"気温"を目的変数，"日射量・気圧"を説明変数とする
 TW.data <- read.csv("data/tokyo_weather_reg.csv")
 TW.model <- temp ~ solar + press # モデル式の定義 
@@ -131,7 +133,8 @@ s3d$plane3d(TW.est, col="blue", # 回帰式の定める平面の追加
 Adv.data <- read.csv("data/Advertising.csv",
                      row.names=1) # 1列目を行名として読み込む
 ## 以下のように download しないで URL を指定してもよい
-## read.csv("http://faculty.marshall.usc.edu/gareth-james/ISL/Advertising.csv")
+## read.csv("http://faculty.marshall.usc.edu/gareth-james/ISL/Advertising.csv",
+##          row.names=1)
 plot(Adv.data, col="orange")
 ## TVの宣伝費で売上を説明
 (Adv.est1 <- lm(sales ~ TV, data=Adv.data))
@@ -157,7 +160,7 @@ s3d$plane3d(Adv.est, col="brown", # 回帰式の定める平面の追加
 ### 練習2
 ### 最小二乗推定量の性質
 
-### 東京都の気候データ
+### 東京の気候データ
 ## 回帰係数と正規方程式の解の一致
 (beta <- coef(TW.est))        # 推定された回帰係数
 X <- model.matrix(TW.est)     # デザイン行列
@@ -187,7 +190,7 @@ mean(Y)              # 目的変数の標本平均
 ### 練習3
 ### 残差の分解
 
-### 東京都の気候データ
+### 東京の気候データ
 TW.model
 TW.est <- lm(TW.model,
              data=subset(TW.data, # 8月のデータの抽出
@@ -211,7 +214,7 @@ S+Sr # Sy と同じになっている
 ### 練習4
 ### 決定係数によるモデルの比較
 
-### 東京都の気候データ
+### 東京の気候データ
 TW.subset <- subset(TW.data, # 8月のデータの抽出
                     subset= months(as.Date(date),
                                    abbreviate=TRUE)==" 8")
