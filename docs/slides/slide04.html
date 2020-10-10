@@ -47,8 +47,8 @@
 </section>
 
 <section>
-<section id="slide-orgb1bf212">
-<h2 id="orgb1bf212">講義の予定</h2>
+<section id="slide-org43d5278">
+<h2 id="org43d5278">講義の予定</h2>
 <ul>
 <li>第1日: 回帰モデルの考え方と推定</li>
 <li><b>第2日: モデルの評価</b></li>
@@ -61,14 +61,14 @@
 </section>
 </section>
 <section>
-<section id="slide-org283cf91">
-<h2 id="org283cf91">回帰分析の復習</h2>
-<div class="outline-text-2" id="text-org283cf91">
+<section id="slide-orgccef7ad">
+<h2 id="orgccef7ad">回帰分析の復習</h2>
+<div class="outline-text-2" id="text-orgccef7ad">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgfd13654">
-<h3 id="orgfd13654">線形回帰モデル</h3>
+<section id="slide-orgaaf400b">
+<h3 id="orgaaf400b">線形回帰モデル</h3>
 <ul>
 <li><b>目的変数</b> を <b>説明変数</b> で説明する関係式を構成:
 <ul>
@@ -104,8 +104,8 @@
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org8db6780">
-<h3 id="org8db6780">行列・ベクトルによる簡潔な表現</h3>
+<section id="slide-orgef84b27">
+<h3 id="orgef84b27">行列・ベクトルによる簡潔な表現</h3>
 <ul>
 <li><p>
 デザイン行列:
@@ -129,8 +129,8 @@
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orga4d3fd1">
-<h3 id="orga4d3fd1">行列・ベクトルによる簡潔な表現</h3>
+<section id="slide-org26daa28">
+<h3 id="org26daa28">行列・ベクトルによる簡潔な表現</h3>
 <ul>
 <li><p>
 ベクトル:
@@ -168,8 +168,8 @@
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org3b36892">
-<h3 id="org3b36892">問題の記述</h3>
+<section id="slide-org2a405d7">
+<h3 id="org2a405d7">問題の記述</h3>
 <ul>
 <li><p>
 確率モデル:
@@ -201,8 +201,8 @@
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org64564ed">
-<h3 id="org64564ed">解の表現</h3>
+<section id="slide-org30d9135">
+<h3 id="org30d9135">解の表現</h3>
 <ul>
 <li><p>
 解の条件: <b>正規方程式</b>
@@ -235,8 +235,8 @@
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org732a66f">
-<h3 id="org732a66f">最小二乗推定量の性質</h3>
+<section id="slide-orgf97889a">
+<h3 id="orgf97889a">最小二乗推定量の性質</h3>
 <ul>
 <li><b>あてはめ値</b>
 \(\boldsymbol{\hat{y}}=X\boldsymbol{\hat{\beta}}\)
@@ -279,8 +279,8 @@
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org379d201">
-<h3 id="org379d201">寄与率</h3>
+<section id="slide-org50bdc69">
+<h3 id="org50bdc69">寄与率</h3>
 <ul>
 <li><p>
 <b>決定係数</b> (R-squared):
@@ -316,22 +316,48 @@
 
 </ul>
 
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org95b6f73" data-background="#fef4f4">
+<h3 id="org95b6f73">練習問題 (前回の宿題)</h3>
+<ul>
+<li>決定係数を用いてモデルの比較を行ってみなさい
+<ul>
+<li><p>
+東京の8月の気候データ
+</p>
+<blockquote>
+<p>
+temp ~ solar
+</p>
 
+<p>
+temp ~ solar + press
+</p>
+
+<p>
+temp ~ solar + press + cloud
+</p>
+</blockquote></li>
+
+</ul></li>
+
+</ul>
 <div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-orgcca4d06">
-<h2 id="orgcca4d06">残差の統計的性質</h2>
-<div class="outline-text-2" id="text-orgcca4d06">
+<section id="slide-org79667d6">
+<h2 id="org79667d6">残差の性質</h2>
+<div class="outline-text-2" id="text-org79667d6">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org1b3a333">
-<h3 id="org1b3a333">あてはめ値と誤差の関係</h3>
+<section id="slide-org7b959b9">
+<h3 id="org7b959b9">あてはめ値</h3>
 <ul>
 <li><p>
-あてはめ値の表現:
+あてはめ値のさまざまな表現:
 </p>
 <blockquote>
 <div>
@@ -352,12 +378,20 @@
 </div>
 </blockquote>
 <ul>
-<li>(A)あてはめ値は観測値の重み付けの和で表される</li>
-<li>(B)あてはめ値と観測値は誤差項の寄与のみ異なる</li>
+<li>(A)あてはめ値は <b>観測値の重み付けの和</b> で表される</li>
+<li>(B)あてはめ値と観測値は <b>誤差項</b> の寄与のみ異なる</li>
 
 </ul></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org13981a0">
+<h3 id="org13981a0">あてはめ値と誤差の関係</h3>
+<ul>
 <li><p>
-残差と誤差の関係
+残差と誤差
 </p>
 <blockquote>
 <div>
@@ -377,7 +411,7 @@
 </div>
 </blockquote>
 <ul>
-<li>(A)残差は誤差の重み付けの和で表される</li>
+<li>(A)残差は <b>誤差の重み付けの和</b> で表される</li>
 
 </ul></li>
 
@@ -385,8 +419,8 @@
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org0480f6e">
-<h3 id="org0480f6e">ハット行列</h3>
+<section id="slide-org1caf47d">
+<h3 id="org1caf47d">ハット行列</h3>
 <ul>
 <li><p>
 定義:
@@ -417,7 +451,8 @@
 <ul>
 <li>あてはめ値や残差は \(H\) を用いて簡潔に表現される</li>
 <li>観測データの説明変数の関係を表す</li>
-<li>対角成分(<b>テコ比 (leverage)</b>)は観測データが自身の予測に及ぼす影響の度合を表す</li>
+<li>対角成分 (<b>テコ比</b>; leverage)
+は観測データが自身の予測に及ぼす影響の度合を表す</li>
 
 </ul></li>
 
@@ -428,14 +463,14 @@
 </section>
 </section>
 <section>
-<section id="slide-org5b9da29">
-<h2 id="org5b9da29">推定量の統計的性質</h2>
-<div class="outline-text-2" id="text-org5b9da29">
+<section id="slide-org125bf7e">
+<h2 id="org125bf7e">推定量の統計的性質</h2>
+<div class="outline-text-2" id="text-org125bf7e">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgcd7de1f">
-<h3 id="orgcd7de1f">推定量の性質</h3>
+<section id="slide-org688af03">
+<h3 id="org688af03">最小二乗推定量の性質</h3>
 <ul>
 <li><p>
 推定量と誤差の関係
@@ -466,8 +501,8 @@
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgae47116">
-<h3 id="orgae47116">推定量の分布</h3>
+<section id="slide-org81a5e99">
+<h3 id="org81a5e99">推定量の分布</h3>
 <ul>
 <li>誤差の仮定: 平均0，分散 \(\sigma^{2}\) の正規分布に従う</li>
 <li><p>
@@ -483,7 +518,21 @@
 \end{align}
 
 </div>
+<div>
+\begin{equation}
+  \boldsymbol{\hat{\beta}}
+  \sim
+  \mathcal{N}(\boldsymbol{\beta},\sigma^{2}(X^{\mathsf{T}}X)^{-1})
+\end{equation}
+
+</div>
 </blockquote></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+<section>
+<ul>
 <li><p>
 通常 \(\sigma^{2}\) は未知，必要な場合には不偏分散で代用
 </p>
@@ -498,22 +547,111 @@
 
 </div>
 </blockquote></li>
+<li>この性質を利用してモデルの評価を行う</li>
 
 </ul>
 
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org97db630">
+<h3 id="org97db630">R: 乱数を用いた人工データの生成</h3>
+<ul>
+<li><p>
+正規乱数を用いた線形回帰モデルの例
+</p>
+<div class="org-src-container">
 
+<pre><code class=" R" >### 人工データによる推定量の性質の確認
+set.seed(987) # 乱数のシード
+xobs &lt;- c(1, 3, 5, 7) # 説明変数の観測値
+epsilon &lt;- rnorm(length(xobs),sd=0.5) # 誤差項の生成
+yobs &lt;- 2 - 3*xobs + epsilon # 目的変数の観測値
+myData &lt;- data.frame(x=xobs,y=yobs) # データフレームの作成
+est &lt;- lm(y ~ x, data=myData) # 回帰係数の推定
+coef(est) # 回帰係数の取得
+summary(est) # 分析結果の概要の表示
+</code></pre>
+</div></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org881cbbc">
+<h3 id="org881cbbc">R: 数値実験</h3>
+<ul>
+<li><p>
+実験のためのコードは以下のようになる
+</p>
+<div class="org-src-container">
+
+<pre><code class=" R" >mc &lt;- 5000 # 実験回数を指定
+myTrial &lt;- function(){ # 1回の試行を行うプログラム
+    # 乱数生成と推定の処理
+    return(返り値)} 
+myData &lt;- as.data.frame(t( # 実験結果を転置してデータフレームに変換
+    replicate(mc, myTrial()))) # Monte-Carlo実験
+## 適切な統計・視覚化処理 (下記は例)
+apply(myData,2,var) # 各列の分散の計算
+plot(myData) # 散布図行列の描画
+hist(myData[[k]]) # k列目のデータのヒストグラム
+</code></pre>
+</div></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgb8cfa3d" data-background="#fef4f4">
+<h3 id="orgb8cfa3d">練習問題</h3>
+<ul>
+<li>数値実験により
+最小二乗推定量の性質を確認しなさい
+<ul>
+<li><p>
+以下のモデルに従う人工データを生成する
+</p>
+<blockquote>
+<p>
+説明変数の観測データ:
+</p>
+<div>
+\begin{equation}
+  \{1, 20, 13, 9, 5, 15, 19, 8, 3, 4\}
+\end{equation}
+
+</div>
+
+<p>
+確率モデル:
+</p>
+<div>
+\begin{equation}
+  y=-1+2\times x + \epsilon,
+  \quad \epsilon\sim\mathcal{N}(0,2)
+\end{equation}
+
+</div>
+</blockquote></li>
+<li>観測データから回帰係数を推定する</li>
+<li>実験を複数回繰り返し
+推定値(\(\hat\beta_{0},\hat\beta_{1}\))の分布を調べる</li>
+
+</ul></li>
+
+</ul>
 <div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-org7aaab86">
-<h2 id="org7aaab86">誤差の評価</h2>
-<div class="outline-text-2" id="text-org7aaab86">
+<section id="slide-orgfbf6c59">
+<h2 id="orgfbf6c59">誤差の評価</h2>
+<div class="outline-text-2" id="text-orgfbf6c59">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgab0b6d3">
-<h3 id="orgab0b6d3">寄与率 (再掲)</h3>
+<section id="slide-orgb0bda89">
+<h3 id="orgb0bda89">寄与率 (再掲)</h3>
 <ul>
 <li><p>
 <b>決定係数 (R-squared)</b>: <br />
@@ -549,25 +687,61 @@
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgb7d3f67">
-<h3 id="orgb7d3f67">標準誤差</h3>
+<section id="slide-orga13c683">
+<h3 id="orga13c683">標準誤差</h3>
 <ul>
 <li>推定されたパラメータの精度を評価:
 <ul>
 <li>誤差の分布は平均0, 分散 \(\sigma^2\) の正規分布</li>
-<li>\(\boldsymbol{\hat{\beta}}\) の分布は
-平均 \(\boldsymbol{\beta}\) ，
-共分散 \(\sigma^2(X^{\mathsf{T}}X)^{-1}\) 
-の \(p+1\) 変量正規分布</li>
-<li>\(\hat{\beta}_j\) の分布は，
-行列 \((X^{\mathsf{T}}X)^{-1}\) の対角成分
-を \(\xi_0,\xi_1,\dotsc,\xi_p\) とすると，
-平均 \(\beta_j\), 分散 \(\sigma^2\xi_j\) の正規分布</li>
-<li>未知パラメータ \(\sigma^{2}\) は不偏分散 \(\hat{\sigma}^{2}\) で推定</li>
+<li><p>
+\(\boldsymbol{\hat{\beta}}\) の分布:
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  \boldsymbol{\hat{\beta}}
+  \sim
+  \mathcal{N}(\boldsymbol{\beta},\sigma^{2}(X^{\mathsf{T}}X)^{-1})
+\end{equation}
+
+</div>
+
+<p>
+\(p+1\) 変量正規分布
+</p>
+</blockquote></li>
+<li><p>
+\(\hat{\beta}_j\) の分布:
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  \hat{\beta}_{j}
+  \sim
+  \mathcal{N}(\beta_{j},\sigma^{2}((X^{\mathsf{T}}X)^{-1})_{jj})
+  =\mathcal{N}(\beta_{j},\sigma^{2}\xi_{j})
+\end{equation}
+
+</div>
+
+<p>
+\((A)_{jj}\) は 
+行列
+\(A\)
+の \((j,j)\) (対角)成分 
+</p>
+</blockquote></li>
 
 </ul></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+<section>
+<ul>
 <li><p>
-<b>標準誤差 (standard error)</b>: \(\hat{\beta}_j\) の精度の評価指標
+<b>標準誤差</b> (standard error):
+\(\hat{\beta}_j\) の標準偏差の推定量
 </p>
 <blockquote>
 <div>
@@ -576,30 +750,59 @@
   =
   \sqrt{\frac{1}{n{-}p{-}1}\sum_{i=1}^n\hat{\epsilon}_i^2}
   \cdot
-  \sqrt{\xi}_j
+  \sqrt{((X^{\mathsf{T}}X)^{-1})_{jj}}
 \end{equation}
 
 </div>
-</blockquote></li>
+</blockquote>
+<ul>
+<li>未知パラメータ \(\sigma^{2}\) は不偏分散 \(\hat{\sigma}^{2}\) で推定</li>
+<li>\(\hat{\beta}_j\) の精度の評価指標</li>
+
+</ul></li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
+<section id="slide-org579ed8e" data-background="#fef4f4">
+<h3 id="org579ed8e">練習問題</h3>
+<ul>
+<li>数値実験により
+標準誤差の性質を確認しなさい
+<ul>
+<li><p>
+人工データを用いて標準誤差と真の誤差を比較しなさい
+</p>
+<div class="org-src-container">
+
+<pre><code class=" R" >### 標準誤差は以下のようにして取り出せる
+est &lt;- lm(formula, data)
+summary(est)$coef[,"Std. Error"] # 列名での指定
+summary(est)$coefficients[,2] # 列番号での指定．coef と省略してもよい
+</code></pre>
+</div></li>
+<li>広告費と売上データを用いて係数の精度を議論しなさい</li>
+<li>東京の気候データを用いて係数の精度を議論しなさい</li>
+
+</ul></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
 </section>
 <section>
-<section id="slide-orge6bc86f">
-<h2 id="orge6bc86f">係数の評価</h2>
-<div class="outline-text-2" id="text-orge6bc86f">
+<section id="slide-orgf5b7d23">
+<h2 id="orgf5b7d23">係数の評価</h2>
+<div class="outline-text-2" id="text-orgf5b7d23">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org2cfce79">
-<h3 id="org2cfce79">\(t\)-統計量</h3>
+<section id="slide-orgb4b72fa">
+<h3 id="orgb4b72fa">\(t\)-統計量</h3>
 <ul>
 <li><p>
 <b>回帰係数の分布に関する定理</b>: <br />
-<b>\(t\)-統計量</b> は自由度 \(n{-}p{-}1\) の \(t\) 分布に従う:
 </p>
 <blockquote>
 <div>
@@ -609,6 +812,10 @@
 \end{equation}
 
 </div>
+
+<p>
+<b>\(t\)-統計量</b> は自由度 \(n{-}p{-}1\) の \(t\) 分布に従う
+</p>
 </blockquote></li>
 <li>証明には以下の性質を用いる:
 <ul>
@@ -623,8 +830,8 @@
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgc11e79d">
-<h3 id="orgc11e79d">\(t\)-統計量による検定</h3>
+<section id="slide-org0001684">
+<h3 id="org0001684">\(t\)-統計量による検定</h3>
 <ul>
 <li>回帰係数 \(\beta_j\) が回帰式に寄与するか否かを検定:
 <ul>
@@ -633,7 +840,7 @@
 
 </ul></li>
 <li><p>
-\(p\) -値: 確率変数の絶対値が \(|t|\) を超える確率
+\(p\)-値: 確率変数の絶対値が \(|t|\) を超える確率
 </p>
 <blockquote>
 <div>
@@ -645,9 +852,12 @@
 \end{equation}
 
 </div>
+
+<p>
+\(f(x)\) は自由度 \(n{-}p{-}1\) の \(t\) 分布の確率密度関数
+</p>
 </blockquote>
 <ul>
-<li>\(f(x)\) は自由度 \(n{-}p{-}1\) の \(t\) 分布の確率密度関数</li>
 <li>帰無仮説 \(\beta_j=0\) が正しければ \(p\) 値は小さくならない</li>
 
 </ul></li>
@@ -656,21 +866,44 @@
 
 <div class="slide-footer"><br></div>
 </section>
+<section id="slide-orgec96ac7" data-background="#fef4f4">
+<h3 id="orgec96ac7">練習問題</h3>
+<ul>
+<li>数値実験により
+\(t\)-統計量の性質を確認しなさい
+<ul>
+<li><p>
+人工データを用いて\(t\)-統計量の分布を確認しなさい
+</p>
+<div class="org-src-container">
+
+<pre><code class=" R" >### t-統計量とそのp-値は以下のようにして取り出せる
+est &lt;- lm(formula, data)
+summary(est)$coef[,c("t value","Pr(&gt;|t|)"] # 列名での指定
+summary(est)$coef[,3:4] # 列番号での指定
+</code></pre>
+</div></li>
+<li>広告費と売上データを用いて係数の有意性を議論しなさい</li>
+<li>東京の気候データを用いて係数の有意性を議論しなさい</li>
+
+</ul></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
 </section>
 <section>
-<section id="slide-orgbeb8310">
-<h2 id="orgbeb8310">モデルの評価</h2>
-<div class="outline-text-2" id="text-orgbeb8310">
+<section id="slide-orgfdcd82b">
+<h2 id="orgfdcd82b">モデルの評価</h2>
+<div class="outline-text-2" id="text-orgfdcd82b">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orga73aad0">
-<h3 id="orga73aad0">\(F\)-統計量</h3>
+<section id="slide-org6f2281e">
+<h3 id="org6f2281e">\(F\)-統計量</h3>
 <ul>
 <li><p>
-<b>ばらつきの比に関する定理</b>: <br />
-\(\beta_1=\dotsb=\beta_p=0\) ならば，
-<b>\(F\)-統計量</b> は自由度 \(p,n{-}p{-}1\) の \(F\) 分布に従う
+<b>ばらつきの比に関する定理</b>: 
 </p>
 <blockquote>
 <div>
@@ -684,6 +917,11 @@
 \end{equation}
 
 </div>
+
+<p>
+\(\beta_1=\dotsb=\beta_p=0\) ならば，
+<b>\(F\)-統計量</b> は自由度 \(p,n{-}p{-}1\) の \(F\) 分布に従う
+</p>
 </blockquote></li>
 <li>証明には以下の性質を用いる:
 <ul>
@@ -697,8 +935,8 @@
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org30c68b6">
-<h3 id="org30c68b6">\(F\)-統計量を用いた検定</h3>
+<section id="slide-org705b619">
+<h3 id="org705b619">\(F\)-統計量を用いた検定</h3>
 <ul>
 <li>説明変数のうち1つでも役に立つか否かを検定:
 <ul>
@@ -708,7 +946,7 @@
 
 </ul></li>
 <li><p>
-\(p\) -値: 確率変数の値が \(F\) を超える確率
+\(p\)-値: 確率変数の値が \(F\) を超える確率
 </p>
 <blockquote>
 <div>
@@ -720,10 +958,39 @@
 \end{equation}
 
 </div>
+
+<p>
+\(f(x)\) は自由度 \(p,n{-}p{-}1\) の \(F\) 分布の確率密度関数
+</p>
 </blockquote>
 <ul>
-<li>\(f(x)\) は自由度 \(p,n{-}p{-}1\) の \(F\) 分布の確率密度関数</li>
 <li>帰無仮説 \(\forall j\;\beta_j=0\) が正しければ \(p\) 値は小さくならない</li>
+
+</ul></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orge823080" data-background="#fef4f4">
+<h3 id="orge823080">練習問題</h3>
+<ul>
+<li>数値実験により
+\(F\)-統計量の性質を確認しなさい
+<ul>
+<li><p>
+人工データを用いて\(F\)-統計量の分布を確認しなさい
+</p>
+<div class="org-src-container">
+
+<pre><code class=" R" >### f-統計量とその自由度は以下のようにして取り出せる
+est &lt;- lm(formula, data)
+summary(est)$fstat
+summary(est)$fstatistic # 省略しない場合
+</code></pre>
+</div></li>
+<li>広告費と売上データのモデルの有効性を議論しなさい</li>
+<li>東京の気候データのモデルの有効性を議論しなさい</li>
 
 </ul></li>
 

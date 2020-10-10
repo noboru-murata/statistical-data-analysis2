@@ -83,6 +83,8 @@
    #+html: {{< myslide base="statistical-data-analysis2" name="slide04" >}}
 ** ハンドアウト
    - [[github:pdfs/slide04.pdf][PDF file]]
+** 付録
+   - [[github:code/slide04.R][RScript]]
 
 * 講義5
   :PROPERTIES:
