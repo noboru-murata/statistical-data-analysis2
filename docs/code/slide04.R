@@ -109,7 +109,7 @@ beta1 <-  2 # xの係数
 beta2 <- -3 # xの係数
 sigma <-  sqrt(2) # 誤差の標準偏差(分散の平方根)
 myTrial <- function(){ 
-    epsilon <- rnorm(length(xobs),sd=sigma) # 誤差項
+    epsilon <- rnorm(length(xobs1),sd=sigma) # 誤差項
     yobs <- beta0 + beta1*xobs1 + beta2*xobs2 + epsilon # 目的変数
     dat <- data.frame(x1=xobs1,x2=xobs2,y=yobs) # データフレームの作成
     est <- lm(y ~ x1 + x2, data=dat) # 回帰係数の推定
@@ -168,7 +168,7 @@ beta1 <-  2 # x1の係数 < 帰無仮説に従わない
 beta2 <-  0 # x2の係数 < 帰無仮説に従う 
 sigma <-  sqrt(2) # 誤差の標準偏差(分散の平方根)
 myTrial <- function(){ 
-    epsilon <- rnorm(length(xobs),sd=sigma) # 誤差項
+    epsilon <- rnorm(length(xobs1),sd=sigma) # 誤差項
     yobs <- beta0 + beta1*xobs1 + beta2*xobs2 + epsilon # 目的変数
     dat <- data.frame(x1=xobs1,x2=xobs2,y=yobs) # データフレームの作成
     est <- lm(y ~ x1 + x2, data=dat) # 回帰係数の推定
@@ -225,7 +225,7 @@ beta1 <-  0 # x1の係数
 beta2 <-  0 # x2の係数 < 係数のどちらも0なので帰無仮説が成り立つ
 sigma <-  sqrt(2) # 誤差の標準偏差(分散の平方根)
 myTrial <- function(){ 
-    epsilon <- rnorm(length(xobs),sd=sigma) # 誤差項
+    epsilon <- rnorm(length(xobs1),sd=sigma) # 誤差項
     yobs <- beta0 + beta1*xobs1 + beta2*xobs2 + epsilon # 目的変数
     dat <- data.frame(x1=xobs1,x2=xobs2,y=yobs) # データフレームの作成
     est <- lm(y ~ x1 + x2, data=dat) # 回帰係数の推定
