@@ -1,0 +1,17 @@
+#+OPTIONS: date:t H:2 num:t toc:nil
+# C-c C-e h h
+* Zoom 録画
+
+** 第2回
+トピック: 数理科学続論J / 知能社会情報学講義III
+日付: 2020年10月2日 04:40 PM 大阪、札幌、東京
+
+ミーティングの記録:
+https://zoom.us/rec/share/jKHF15xOp4rK-d8WMPSIILfnuqHGumgXcWfeCNB2sgR0fb4gKrdBHKfsb-vljo1s.nd2fztb_ey8qwLX6
+
+** 第3回
+トピック: 数理科学続論J / 知能社会情報学講義III
+日付: 2020年10月9日 04:39 PM 大阪、札幌、東京
+
+ミーティングの記録:
+https://zoom.us/rec/share/0B5kVCS_VTr9KbZYna5Gr2MNBCASSQHA4JbfduICxuapIFDGnN9UgFOEQrvKgA0.AX4WsyoIDXySQmyL
