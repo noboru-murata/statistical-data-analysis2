@@ -95,6 +95,9 @@
    #+html: {{< myslide base="statistical-data-analysis2" name="slide05" >}}
 ** ハンドアウト
    - [[github:pdfs/slide05.pdf][PDF file]]
+** 付録
+   - [[github:code/slide05.R][RScript]]
+
 
 * 講義6
   :PROPERTIES:

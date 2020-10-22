@@ -14,3 +14,8 @@ weight = 1006
 ## ハンドアウト {#ハンドアウト}
 
 -   [PDF file](https://noboru-murata.github.io/statistical-data-analysis2/pdfs/slide05.pdf)
+
+
+## 付録 {#付録}
+
+-   [RScript](https://noboru-murata.github.io/statistical-data-analysis2/code/slide05.R)
