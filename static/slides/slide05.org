@@ -19,6 +19,26 @@
 #+end_src
 
 * モデルの評価
+** 回帰式の寄与 (決定係数)
+   - ばらつきの分解:
+     #+begin_quote
+     #+begin_src latex
+     \begin{equation}
+       S_y\;\text{(目的変数)} =S\;\text{(残差)} +S_r\;\text{(あてはめ値)}
+     \end{equation}
+     #+end_src
+     #+end_quote
+   - 回帰式で説明できるばらつきの比率:
+     #+begin_quote
+     #+begin_src latex
+     \begin{equation}
+       \text{(回帰式の寄与率)}
+       = \frac{S_{r}}{S_{y}}
+       = 1-\frac{S}{S_{y}}
+     \end{equation}
+     #+end_src
+     #+end_quote
+
 ** \(F\)-統計量
    - *ばらつきの比に関する定理*: 
      #+begin_quote
@@ -470,6 +490,7 @@
      \begin{align}
        \mathbb{E}[y-\hat{y}]
        &=\check{\boldsymbol{x}}^{\mathsf{T}}\boldsymbol{\beta}
+         +\mathbb{E}[\boldsymbol{\epsilon}]
 	 -\check{\boldsymbol{x}}^{\mathsf{T}}
          \mathbb{E}[\hat{\boldsymbol{\beta}}]
 	 =0\\
@@ -547,17 +568,17 @@
    - 東京の気候データによる例:
      #+begin_src R :eval no :tangle yes
        ### 9,10月のデータでモデルを構築し，8,11月のデータを予測
-       TW.data <- transform(read.csv("data/tokyo_weather_reg.csv"),
-                            month=as.numeric(months(as.Date(date), # 月(数値)を付加
-                                                    abbreviate=TRUE)))
+       TW.data <- transform( # 月(数値)を付加する
+           read.csv("data/tokyo_weather_reg.csv"),
+           month=as.numeric(months(as.Date(date), abbreviate=TRUE)))
        TW.model <- temp ~ solar + press # モデルの定義 
        TW.train <- subset(TW.data, # モデル推定用データ
-                          subset= month %in% c(9,10))
+                          subset= month %in% c(9,10)) # %in% は集合に含むか
+
        TW.test  <- subset(TW.data, # 予測用データ
                           subset= month %in% c(8,11))
        TW.est <- lm(TW.model, data=TW.train) # モデルの推定
        summary(TW.est) # モデルの評価
-       ## 予測値の計算
        TW.fit  <- predict(TW.est) # データのあてはめ値
        TW.pred <- predict(TW.est, # 新規データの予測値
                           newdata=TW.test) 
@@ -602,8 +623,6 @@
        TW.model <- temp ~ solar + press + cloud # モデルの定義 
        TW.train <- subset(TW.data, subset= month==8) # 推定用データ
        TW.test  <- subset(TW.data, subset= month %in% 9) # 予測用データ
-       ## %in% は集合に含まれるかを検査する
-       ## 例えば7月，9月を抽出するには month %in% c(7,9)
      #+end_src
    - 人工データを作成してモデルの予測について検討しなさい (宿題)
      #+begin_src R :eval no :exports none :tangle yes
@@ -841,8 +860,23 @@
        ## 月毎に比較すると雨の日の方が気温が低いことが支持される
      #+end_src
 
-* COMMENT 補遺
-
+* 補足
+** R: モデルの探索
+   - 変数が増えるとモデルの比較が困難
+   - 関数 ~step()~ を用いて自動化することができる \\
+     (最適とは限らないので注意は必要)
+     #+begin_src R :eval no :tangle yes
+       ## モデルの探索
+       Adv.data <- read.csv("data/Advertising.csv",
+                            row.names=1) 
+       summary(lm(sales ~ radio, data=Adv.data))
+       summary(lm(sales ~ TV + radio, data=Adv.data))
+       summary(lm(sales ~ TV + radio + newspaper, data=Adv.data))
+       summary(init <- lm(sales ~ TV * radio * newspaper, data=Adv.data))
+       opt <- step(init)
+       summary(opt)
+     #+end_src
+   
 * COMMENT 補遺 car package の紹介
 ** COMMENT さまざまな評価
    - 回帰モデルの評価

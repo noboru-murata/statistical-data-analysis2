@@ -4,6 +4,7 @@
 #+author: Noboru Murata
 #+link: github https://noboru-murata.github.io/statistical-data-analysis2/
 # C-c C-e H A (generate MDs for all subtrees)
+#+STARTUP: hidestars content
 
 * 概要
   :PROPERTIES:
@@ -97,7 +98,6 @@
    - [[github:pdfs/slide05.pdf][PDF file]]
 ** 付録
    - [[github:code/slide05.R][RScript]]
-
 
 * 講義6
   :PROPERTIES:

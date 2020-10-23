@@ -76,17 +76,17 @@ summary(lm(temp ~ press + solar + rain, data=TW.subset))
 ## solar と rain が相補的にモデルの精度を上げていることが示唆される
 
 ### 9,10月のデータでモデルを構築し，8,11月のデータを予測
-TW.data <- transform(read.csv("data/tokyo_weather_reg.csv"),
-                     month=as.numeric(months(as.Date(date), # 月(数値)を付加
-                                             abbreviate=TRUE)))
+TW.data <- transform( # 月(数値)を付加する
+    read.csv("data/tokyo_weather_reg.csv"),
+    month=as.numeric(months(as.Date(date), abbreviate=TRUE)))
 TW.model <- temp ~ solar + press # モデルの定義 
 TW.train <- subset(TW.data, # モデル推定用データ
-                   subset= month %in% c(9,10))
+                   subset= month %in% c(9,10)) # %in% は集合に含むか
+
 TW.test  <- subset(TW.data, # 予測用データ
                    subset= month %in% c(8,11))
 TW.est <- lm(TW.model, data=TW.train) # モデルの推定
 summary(TW.est) # モデルの評価
-## 予測値の計算
 TW.fit  <- predict(TW.est) # データのあてはめ値
 TW.pred <- predict(TW.est, # 新規データの予測値
                    newdata=TW.test)
@@ -254,3 +254,13 @@ TW.data <- transform(TW.data,
                      month=factor(month))
 summary(lm(temp ~ rain + month, data=TW.data))
 ## 月毎に比較すると雨の日の方が気温が低いことが支持される
+
+## モデルの探索
+Adv.data <- read.csv("data/Advertising.csv",
+                     row.names=1) 
+summary(lm(sales ~ radio, data=Adv.data))
+summary(lm(sales ~ TV + radio, data=Adv.data))
+summary(lm(sales ~ TV + radio + newspaper, data=Adv.data))
+summary(init <- lm(sales ~ TV * radio * newspaper, data=Adv.data))
+opt <- step(init)
+summary(opt)

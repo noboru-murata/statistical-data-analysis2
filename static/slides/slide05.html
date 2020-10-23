@@ -47,14 +47,46 @@
 </section>
 
 <section>
-<section id="slide-org085570f">
-<h2 id="org085570f">モデルの評価</h2>
-<div class="outline-text-2" id="text-org085570f">
+<section id="slide-org9cd509b">
+<h2 id="org9cd509b">モデルの評価</h2>
+<div class="outline-text-2" id="text-org9cd509b">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orga5f02eb">
-<h3 id="orga5f02eb">\(F\)-統計量</h3>
+<section id="slide-org2133c59">
+<h3 id="org2133c59">回帰式の寄与 (決定係数)</h3>
+<ul>
+<li><p>
+ばらつきの分解:
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  S_y\;\text{(目的変数)} =S\;\text{(残差)} +S_r\;\text{(あてはめ値)}
+\end{equation}
+
+</div>
+</blockquote></li>
+<li><p>
+回帰式で説明できるばらつきの比率:
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  \text{(回帰式の寄与率)}
+  = \frac{S_{r}}{S_{y}}
+  = 1-\frac{S}{S_{y}}
+\end{equation}
+
+</div>
+</blockquote></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org939995b">
+<h3 id="org939995b">\(F\)-統計量</h3>
 <ul>
 <li><p>
 <b>ばらつきの比に関する定理</b>: 
@@ -89,8 +121,8 @@
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org5ff0189">
-<h3 id="org5ff0189">\(F\)-統計量を用いた検定</h3>
+<section id="slide-org7196bc7">
+<h3 id="org7196bc7">\(F\)-統計量を用いた検定</h3>
 <ul>
 <li>説明変数のうち1つでも役に立つか否かを検定:
 <ul>
@@ -126,8 +158,8 @@
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org2049f13" data-background="#fef4f4">
-<h3 id="org2049f13">練習問題</h3>
+<section id="slide-org72910bc" data-background="#fef4f4">
+<h3 id="org72910bc">練習問題</h3>
 <ul>
 <li>数値実験により
 \(F\)-統計量の性質を確認しなさい
@@ -153,8 +185,8 @@ summary(est)$fstatistic # 省略しない場合
 </section>
 </section>
 <section>
-<section id="slide-orgd3579e0">
-<h2 id="orgd3579e0">講義の予定</h2>
+<section id="slide-orgd097f7b">
+<h2 id="orgd097f7b">講義の予定</h2>
 <ul>
 <li>第1日: 回帰モデルの考え方と推定</li>
 <li>第2日: モデルの評価</li>
@@ -167,14 +199,14 @@ summary(est)$fstatistic # 省略しない場合
 </section>
 </section>
 <section>
-<section id="slide-org778b574">
-<h2 id="org778b574">回帰分析の復習</h2>
-<div class="outline-text-2" id="text-org778b574">
+<section id="slide-org929774e">
+<h2 id="org929774e">回帰分析の復習</h2>
+<div class="outline-text-2" id="text-org929774e">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgd449f6a">
-<h3 id="orgd449f6a">線形回帰モデル</h3>
+<section id="slide-org85180c9">
+<h3 id="org85180c9">線形回帰モデル</h3>
 <ul>
 <li><b>目的変数</b> を <b>説明変数</b> で説明する関係式を構成:
 <ul>
@@ -210,8 +242,8 @@ summary(est)$fstatistic # 省略しない場合
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgf9ba583">
-<h3 id="orgf9ba583">問題設定</h3>
+<section id="slide-org20047ed">
+<h3 id="org20047ed">問題設定</h3>
 <ul>
 <li><p>
 確率モデル:
@@ -243,8 +275,8 @@ summary(est)$fstatistic # 省略しない場合
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgf587f00">
-<h3 id="orgf587f00">解</h3>
+<section id="slide-org27b4179">
+<h3 id="org27b4179">解</h3>
 <ul>
 <li><p>
 解の条件: <b>正規方程式</b>
@@ -277,8 +309,8 @@ summary(est)$fstatistic # 省略しない場合
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org177a1ec">
-<h3 id="org177a1ec">寄与率</h3>
+<section id="slide-orge1326cb">
+<h3 id="orge1326cb">寄与率</h3>
 <ul>
 <li><p>
 <b>決定係数</b> (R-squared):
@@ -312,8 +344,8 @@ summary(est)$fstatistic # 省略しない場合
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org4e95827">
-<h3 id="org4e95827">\(t\)-統計量による検定</h3>
+<section id="slide-org1995d0c">
+<h3 id="org1995d0c">\(t\)-統計量による検定</h3>
 <ul>
 <li>回帰係数 \(\beta_j\) が回帰式に寄与するか否かを検定する
 <ul>
@@ -338,8 +370,8 @@ summary(est)$fstatistic # 省略しない場合
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org22605f2">
-<h3 id="org22605f2">\(F\)-統計量による検定</h3>
+<section id="slide-orgb9cc6cc">
+<h3 id="orgb9cc6cc">\(F\)-統計量による検定</h3>
 <ul>
 <li>説明変数のうち1つでも役に立つか否かを検定する
 <ul>
@@ -367,14 +399,14 @@ summary(est)$fstatistic # 省略しない場合
 </section>
 </section>
 <section>
-<section id="slide-org6063100">
-<h2 id="org6063100">回帰モデルによる予測</h2>
-<div class="outline-text-2" id="text-org6063100">
+<section id="slide-org8b1bc88">
+<h2 id="org8b1bc88">回帰モデルによる予測</h2>
+<div class="outline-text-2" id="text-org8b1bc88">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org287aa0f">
-<h3 id="org287aa0f">予測</h3>
+<section id="slide-orgf5a780c">
+<h3 id="orgf5a780c">予測</h3>
 <ul>
 <li><p>
 新しいデータ (説明変数) \(\boldsymbol{x}\) に対する予測値
@@ -431,8 +463,8 @@ summary(est)$fstatistic # 省略しない場合
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgbd519ef">
-<h3 id="orgbd519ef">予測値の分布</h3>
+<section id="slide-orgc62eb92">
+<h3 id="orgc62eb92">予測値の分布</h3>
 <ul>
 <li><p>
 推定量は以下の性質をもつ多変量正規分布
@@ -473,8 +505,8 @@ summary(est)$fstatistic # 省略しない場合
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org909fc88">
-<h3 id="org909fc88">最適な予測値との差</h3>
+<section id="slide-orgbfccdc4">
+<h3 id="orgbfccdc4">最適な予測値との差</h3>
 <ul>
 <li><p>
 差の分布は以下の平均・分散の正規分布
@@ -514,8 +546,8 @@ summary(est)$fstatistic # 省略しない場合
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org48ff576">
-<h3 id="org48ff576">信頼区間</h3>
+<section id="slide-org8375efc">
+<h3 id="org8375efc">信頼区間</h3>
 <ul>
 <li><p>
 未知の分散を不偏分散で推定
@@ -562,8 +594,8 @@ summary(est)$fstatistic # 省略しない場合
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org34e0eb5">
-<h3 id="org34e0eb5">観測値との差</h3>
+<section id="slide-orgc30b522">
+<h3 id="orgc30b522">観測値との差</h3>
 <ul>
 <li><p>
 差の分布は以下の平均・分散の正規分布
@@ -573,6 +605,7 @@ summary(est)$fstatistic # 省略しない場合
 \begin{align}
   \mathbb{E}[y-\hat{y}]
   &=\check{\boldsymbol{x}}^{\mathsf{T}}\boldsymbol{\beta}
+    +\mathbb{E}[\boldsymbol{\epsilon}]
     -\check{\boldsymbol{x}}^{\mathsf{T}}
     \mathbb{E}[\hat{\boldsymbol{\beta}}]
     =0\\
@@ -603,8 +636,8 @@ summary(est)$fstatistic # 省略しない場合
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org75daeb6">
-<h3 id="org75daeb6">予測区間</h3>
+<section id="slide-org22ec745">
+<h3 id="org22ec745">予測区間</h3>
 <ul>
 <li><p>
 未知の分散を不偏分散で推定
@@ -656,8 +689,8 @@ summary(est)$fstatistic # 省略しない場合
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgc0dbd0b">
-<h3 id="orgc0dbd0b">R: モデルからの予測</h3>
+<section id="slide-org3d09c9a">
+<h3 id="org3d09c9a">R: モデルからの予測</h3>
 <ul>
 <li><p>
 関数 <code>predict()</code> を用いた予測:
@@ -683,8 +716,8 @@ pint &lt;- predict(est, newdata=test,
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org9536876">
-<h3 id="org9536876">R: 予測の例</h3>
+<section id="slide-orgbcdf1ce">
+<h3 id="orgbcdf1ce">R: 予測の例</h3>
 <ul>
 <li><p>
 東京の気候データによる例:
@@ -692,17 +725,17 @@ pint &lt;- predict(est, newdata=test,
 <div class="org-src-container">
 
 <pre><code class=" R" >### 9,10月のデータでモデルを構築し，8,11月のデータを予測
-TW.data &lt;- transform(read.csv("data/tokyo_weather_reg.csv"),
-		     month=as.numeric(months(as.Date(date), # 月(数値)を付加
-					     abbreviate=TRUE)))
+TW.data &lt;- transform( # 月(数値)を付加する
+    read.csv("data/tokyo_weather_reg.csv"),
+    month=as.numeric(months(as.Date(date), abbreviate=TRUE)))
 TW.model &lt;- temp ~ solar + press # モデルの定義 
 TW.train &lt;- subset(TW.data, # モデル推定用データ
-		   subset= month %in% c(9,10))
+		   subset= month %in% c(9,10)) # %in% は集合に含むか
+
 TW.test  &lt;- subset(TW.data, # 予測用データ
 		   subset= month %in% c(8,11))
 TW.est &lt;- lm(TW.model, data=TW.train) # モデルの推定
 summary(TW.est) # モデルの評価
-## 予測値の計算
 TW.fit  &lt;- predict(TW.est) # データのあてはめ値
 TW.pred &lt;- predict(TW.est, # 新規データの予測値
 		   newdata=TW.test) 
@@ -712,8 +745,8 @@ TW.pred &lt;- predict(TW.est, # 新規データの予測値
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgee499aa" data-background="#fef4f4">
-<h3 id="orgee499aa">練習問題</h3>
+<section id="slide-orgb3b1307" data-background="#fef4f4">
+<h3 id="orgb3b1307">練習問題</h3>
 <ul>
 <li><p>
 東京の気候データを用いて以下の実験を試みなさい
@@ -732,8 +765,6 @@ TW.data &lt;- transform(read.csv("data/tokyo_weather_reg.csv"),
 TW.model &lt;- temp ~ solar + press + cloud # モデルの定義 
 TW.train &lt;- subset(TW.data, subset= month==8) # 推定用データ
 TW.test  &lt;- subset(TW.data, subset= month %in% 9) # 予測用データ
-## %in% は集合に含まれるかを検査する
-## 例えば7月，9月を抽出するには month %in% c(7,9)
 </code></pre>
 </div></li>
 <li>人工データを作成してモデルの予測について検討しなさい (宿題)</li>
@@ -743,14 +774,14 @@ TW.test  &lt;- subset(TW.data, subset= month %in% 9) # 予測用データ
 </section>
 </section>
 <section>
-<section id="slide-orgfae003c">
-<h2 id="orgfae003c">非線形の関係</h2>
-<div class="outline-text-2" id="text-orgfae003c">
+<section id="slide-org897c65b">
+<h2 id="org897c65b">非線形の関係</h2>
+<div class="outline-text-2" id="text-org897c65b">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org687a1c7">
-<h3 id="org687a1c7">非線形な関係のモデル化</h3>
+<section id="slide-org2327e38">
+<h3 id="org2327e38">非線形な関係のモデル化</h3>
 <ul>
 <li>目的変数 \(Y\)</li>
 <li>説明変数 \(X_1,\dotsc,X_p\)</li>
@@ -765,8 +796,8 @@ TW.test  &lt;- subset(TW.data, subset= month %in% 9) # 予測用データ
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org24cb2e9">
-<h3 id="org24cb2e9">R: 線形でないモデル式の書き方</h3>
+<section id="slide-orgb1c4461">
+<h3 id="orgb1c4461">R: 線形でないモデル式の書き方</h3>
 <ul>
 <li>交互作用を記述するためには特殊な記法がある</li>
 <li>非線形変換はそのまま関数を記述すればよい</li>
@@ -790,8 +821,8 @@ Y ~ X1 + I(X2^2)     # X1 + X2^2
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgb0326f6" data-background="#fef4f4">
-<h3 id="orgb0326f6">練習問題</h3>
+<section id="slide-org6cb0188" data-background="#fef4f4">
+<h3 id="org6cb0188">練習問題</h3>
 <ul>
 <li>東京の気候データ(9-11月)を用いて
 気温を回帰する以下のモデルを検討しなさい
@@ -809,14 +840,14 @@ Y ~ X1 + I(X2^2)     # X1 + X2^2
 </section>
 </section>
 <section>
-<section id="slide-orga985bf2">
-<h2 id="orga985bf2">カテゴリカル変数</h2>
-<div class="outline-text-2" id="text-orga985bf2">
+<section id="slide-orgd2b7f0b">
+<h2 id="orgd2b7f0b">カテゴリカル変数</h2>
+<div class="outline-text-2" id="text-orgd2b7f0b">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org8f9a23b">
-<h3 id="org8f9a23b">カテゴリカル変数</h3>
+<section id="slide-org0d63032">
+<h3 id="org0d63032">カテゴリカル変数</h3>
 <ul>
 <li>悪性良性や血液型などの数値ではないデータ</li>
 <li>適切な方法で数値に変換して対応:
@@ -842,8 +873,8 @@ Y ~ X1 + I(X2^2)     # X1 + X2^2
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org307a6f2">
-<h3 id="org307a6f2">R: カテゴリカル変数の取り扱い</h3>
+<section id="slide-orgd742152">
+<h3 id="orgd742152">R: カテゴリカル変数の取り扱い</h3>
 <ul>
 <li>何も宣言しなくても通常は適切に対応してくれる</li>
 <li><p>
@@ -871,8 +902,8 @@ str(dat4) # 条件の真偽で2値に類別される
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org8776bf7" data-background="#fef4f4">
-<h3 id="org8776bf7">練習問題</h3>
+<section id="slide-org599eb76" data-background="#fef4f4">
+<h3 id="org599eb76">練習問題</h3>
 <ul>
 <li>東京の気候データ(1年分)を用いて
 気温を回帰する以下のモデルを検討しなさい
@@ -883,6 +914,39 @@ str(dat4) # 条件の真偽で2値に類別される
 (月毎の気温の差を考慮して検証するモデル)</li>
 
 </ul></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+</section>
+<section>
+<section id="slide-org7d9e748">
+<h2 id="org7d9e748">補足</h2>
+<div class="outline-text-2" id="text-org7d9e748">
+</div>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgd89acf5">
+<h3 id="orgd89acf5">R: モデルの探索</h3>
+<ul>
+<li>変数が増えるとモデルの比較が困難</li>
+<li><p>
+関数 <code>step()</code> を用いて自動化することができる <br />
+(最適とは限らないので注意は必要)
+</p>
+<div class="org-src-container">
+
+<pre><code class=" R" >## モデルの探索
+Adv.data &lt;- read.csv("data/Advertising.csv",
+		     row.names=1) 
+summary(lm(sales ~ radio, data=Adv.data))
+summary(lm(sales ~ TV + radio, data=Adv.data))
+summary(lm(sales ~ TV + radio + newspaper, data=Adv.data))
+summary(init &lt;- lm(sales ~ TV * radio * newspaper, data=Adv.data))
+opt &lt;- step(init)
+summary(opt)
+</code></pre>
+</div></li>
 
 </ul>
 <div class="slide-footer"><br></div>
