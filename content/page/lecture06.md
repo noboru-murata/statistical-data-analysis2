@@ -19,3 +19,4 @@ weight = 1007
 ## 付録 {#付録}
 
 -   [RScript](https://noboru-murata.github.io/statistical-data-analysis2/code/slide06.R)
+-   [都道府県別の社会生活指標データ](https://noboru-murata.github.io/statistical-data-analysis2/data/japan%5Fsocial.csv)

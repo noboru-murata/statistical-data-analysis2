@@ -110,6 +110,7 @@
    - [[github:pdfs/slide06.pdf][PDF file]]
 ** 付録
    - [[github:code/slide06.R][RScript]]
+   - [[github:data/japan_social.csv][都道府県別の社会生活指標データ]]
 
 * 講義7
   :PROPERTIES:
