@@ -104,11 +104,12 @@
   :EXPORT_FILE_NAME: lecture06
   :EXPORT_DATE: <2020-09-19 Sat>
   :END:
-  準備中
-** COMMENT スライド
+** スライド
    #+html: {{< myslide base="statistical-data-analysis2" name="slide06" >}}
-** COMMENT ハンドアウト
+** ハンドアウト
    - [[github:pdfs/slide06.pdf][PDF file]]
+** 付録
+   - [[github:code/slide06.R][RScript]]
 
 * 講義7
   :PROPERTIES:
@@ -121,6 +122,9 @@
 ** COMMENT ハンドアウト
    - [[github:pdfs/slide07.pdf][PDF file]]
 
+** COMMENT 付録
+   - [[github:code/slide07.R][RScript]]
+
 * 講義8
   :PROPERTIES:
   :EXPORT_FILE_NAME: lecture08
@@ -132,6 +136,8 @@
 ** COMMENT ハンドアウト
    - [[github:pdfs/slide08.pdf][PDF file]]
 
+** COMMENT 付録
+   - [[github:code/slide08.R][RScript]]
 * 講義9
   :PROPERTIES:
   :EXPORT_FILE_NAME: lecture09
@@ -143,6 +149,8 @@
 ** COMMENT ハンドアウト
    - [[github:pdfs/slide09.pdf][PDF file]]
 
+** COMMENT 付録
+   - [[github:code/slide09.R][RScript]]
 * 講義10
   :PROPERTIES:
   :EXPORT_FILE_NAME: lecture10
@@ -154,6 +162,8 @@
 ** COMMENT ハンドアウト
    - [[github:pdfs/slide10.pdf][PDF file]]
 
+** COMMENT 付録
+   - [[github:code/slide10.R][RScript]]
 * 講義11
   :PROPERTIES:
   :EXPORT_FILE_NAME: lecture11
@@ -165,6 +175,8 @@
 ** COMMENT ハンドアウト
    - [[github:pdfs/slide11.pdf][PDF file]]
 
+** COMMENT 付録
+   - [[github:code/slide11.R][RScript]]
 * 講義12
   :PROPERTIES:
   :EXPORT_FILE_NAME: lecture12
@@ -176,6 +188,8 @@
 ** COMMENT ハンドアウト
    - [[github:pdfs/slide12.pdf][PDF file]]
 
+** COMMENT 付録
+   - [[github:code/slide12.R][RScript]]
 * 講義13
   :PROPERTIES:
   :EXPORT_FILE_NAME: lecture13
@@ -198,6 +212,8 @@
 # ** COMMENT ハンドアウト
 #    - [[github:pdfs/slide14.pdf][PDF file]]
 
+** COMMENT 付録
+   - [[github:code/slide13.R][RScript]]
 * COMMENT お知らせの雛形
   :PROPERTIES:
   :EXPORT_HUGO_SECTION: ./post
