@@ -308,6 +308,7 @@
      #+begin_quote
      #+begin_src latex
        \begin{equation}
+         \text{maximize}\quad
          f(\boldsymbol{a})
          =
          \boldsymbol{a}^{\mathsf{T}}X^{\mathsf{T}}X\boldsymbol{a}
@@ -611,3 +612,10 @@
      #+end_src
    
    
+
+
+* COMMENT ローカル変数
+# Local Variables:
+# org-latex-listings: minted
+# End:
+  
