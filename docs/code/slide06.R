@@ -75,3 +75,4 @@ pc1 <- predict(JS.pca2)[,1]
 plot(JS.subset, asp=1, pch=4, col="blue") 
 abline(0, ahat[2]/ahat[1], col="orange", lty="dotted", lwd=2)
 points(pc1 %o% ahat, pch=18, col="purple")
+text(JS.subset, labels=row.names(JS.subset), cex=0.5) # 県名を表示
