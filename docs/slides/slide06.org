@@ -381,12 +381,12 @@
 
        ### 人工データ(3次元)による例
        require(scatterplot3d)
-       set.seed(242424)
+       set.seed(2468)
        n <- 50 # データ数
        d <- 3
        a <- rnorm(d)
        (a <- a/sqrt(sum(a^2))) # 主成分負荷量(単位ベクトル)を生成
-       myData <- data.frame(runif(n,-1,1) %o% a + rnorm(d*n, sd=0.1))
+       myData <- data.frame(runif(n,-1,1) %o% a + rnorm(d*n, sd=0.3))
        names(myData) <- paste0("x",1:d) # 観測データ
        plot(myData, pch=4, col="blue") # 散布図行列
        s3d <- scatterplot3d(myData, type="h", asp=1,
