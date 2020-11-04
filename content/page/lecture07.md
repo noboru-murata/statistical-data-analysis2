@@ -7,3 +7,18 @@ weight = 1008
 +++
 
 準備中
+
+
+## スライド {#スライド}
+
+{{< myslide base="statistical-data-analysis2" name="slide07" >}}
+
+
+## ハンドアウト {#ハンドアウト}
+
+-   [PDF file](https://noboru-murata.github.io/statistical-data-analysis2/pdfs/slide07.pdf)
+
+
+## 付録 {#付録}
+
+-   [RScript](https://noboru-murata.github.io/statistical-data-analysis2/code/slide07.R)

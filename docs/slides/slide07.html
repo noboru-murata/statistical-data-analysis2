@@ -47,8 +47,8 @@
 </section>
 
 <section>
-<section id="slide-orgbe6ea86">
-<h2 id="orgbe6ea86">講義の予定</h2>
+<section id="slide-org8e7b398">
+<h2 id="org8e7b398">講義の予定</h2>
 <ul>
 <li>第1日: 主成分分析の考え方</li>
 <li><b>第2日: 分析の評価と視覚化</b></li>
@@ -59,14 +59,14 @@
 </section>
 </section>
 <section>
-<section id="slide-orga7e0aa7">
-<h2 id="orga7e0aa7">主成分分析の復習</h2>
-<div class="outline-text-2" id="text-orga7e0aa7">
+<section id="slide-org36181fd">
+<h2 id="org36181fd">主成分分析の復習</h2>
+<div class="outline-text-2" id="text-org36181fd">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org1c846fd">
-<h3 id="org1c846fd">主成分分析 (principal component analysis)</h3>
+<section id="slide-orgb9bee28">
+<h3 id="orgb9bee28">主成分分析</h3>
 <ul>
 <li>多数の変量のもつ情報の分析・視覚化
 <ul>
@@ -85,20 +85,24 @@
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org6c0c3f3">
-<h3 id="org6c0c3f3">分析の考え方</h3>
+<section id="slide-org77a7ba2">
+<h3 id="org77a7ba2">分析の考え方</h3>
 <ul>
 <li>1変量データ
 \(\boldsymbol{a}\cdot\boldsymbol{x}_1,\dotsc,\boldsymbol{a}\cdot\boldsymbol{x}_n\)
-を構成</li>
-<li>観測データ \(\boldsymbol{x}_1,\dots,\boldsymbol{x}_n\) のもつ情報を最大限保持する
-ベクトル \(\boldsymbol{a}\) を <b>うまく</b> 選択</li>
+を構成
+<ul>
+<li>観測データ \(\boldsymbol{x}_1,\dots,\boldsymbol{x}_n\)
+のもつ情報を最大限保持するベクトル
+\(\boldsymbol{a}\) を <b>うまく</b> 選択</li>
 <li>\(\boldsymbol{a}\cdot\boldsymbol{x}_1,\dotsc,\boldsymbol{a}\cdot\boldsymbol{x}_n\)
 のばらつきが最も大きい方向を選択</li>
+
+</ul></li>
 <li><p>
 <b>最適化問題</b>:
-制約条件 \(\|\boldsymbol{a}\|=1\) の下で関数
-を最大化せよ
+制約条件 \(\|\boldsymbol{a}\|=1\)
+の下で以下の関数を最大化せよ
 </p>
 <blockquote>
 <div>
@@ -120,8 +124,8 @@
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org2c1d617">
-<h3 id="org2c1d617">固有値問題</h3>
+<section id="slide-org9400da4">
+<h3 id="org9400da4">行列による表現</h3>
 <ul>
 <li><p>
 中心化したデータ行列
@@ -129,12 +133,12 @@
 <blockquote>
 <div>
 \begin{equation}
-  \boldsymbol{X}
+  X
   =
   \begin{pmatrix}
-    \boldsymbol{x}_{1}^\top-\bar{\boldsymbol{x}}^\top \\
+    \boldsymbol{x}_{1}^{\mathsf{T}}-\bar{\boldsymbol{x}}^{\mathsf{T}} \\
     \vdots \\
-    \boldsymbol{x}_{n}^\top-\bar{\boldsymbol{x}}^\top
+    \boldsymbol{x}_{n}^{\mathsf{T}}-\bar{\boldsymbol{x}}^{\mathsf{T}}
   \end{pmatrix}
   =
   \begin{pmatrix}
@@ -147,7 +151,7 @@
 </div>
 </blockquote></li>
 <li><p>
-評価関数 \(f(\boldsymbol{a})\) は行列 \(\boldsymbol{X}^\top\boldsymbol{X}\) 
+評価関数 \(f(\boldsymbol{a})\) は行列 \(X^{\mathsf{T}}X\) 
 の二次形式
 </p>
 <blockquote>
@@ -155,19 +159,27 @@
 \begin{equation}
   f(\boldsymbol{a})
   =
-  \boldsymbol{a}^\top\boldsymbol{X}^\top\boldsymbol{X}\boldsymbol{a}
+  \boldsymbol{a}^{\mathsf{T}}X^{\mathsf{T}}X\boldsymbol{a}
 \end{equation}
 
 </div>
 </blockquote></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org0d8ea46">
+<h3 id="org0d8ea46">固有値問題</h3>
+<ul>
 <li><p>
 \(f(\boldsymbol{a})\) の極大値を与える \(\boldsymbol{a}\) は
-\(\boldsymbol{X}^\top\boldsymbol{X}\) の固有ベクトル
+\(X^{\mathsf{T}}X\) の固有ベクトル
 </p>
 <blockquote>
 <div>
 \begin{equation}
-  \boldsymbol{X}^\top\boldsymbol{X}\boldsymbol{a}
+  X^{\mathsf{T}}X\boldsymbol{a}
   =
   \lambda\boldsymbol{a}
 \end{equation}
@@ -179,35 +191,36 @@
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org3e8ece8">
-<h3 id="org3e8ece8">主成分方向と主成分得点</h3>
+<section id="slide-org2ccfcae">
+<h3 id="org2ccfcae">主成分負荷量と主成分得点</h3>
 <ul>
-<li><b>主成分方向</b> (principal component direction): 
+<li><b>主成分負荷量</b> (principal component loading): 
 \(\boldsymbol{a}\)</li>
 <li><b>主成分得点</b> (principal component score):
-\(\boldsymbol{x}_i^\top\boldsymbol{a}\)</li>
-<li>第1主成分方向は 
-\(\boldsymbol{X}^\top\boldsymbol{X}\) の第1(最大)固有値 \(\lambda_1\)
+\(\boldsymbol{x}_i^{\mathsf{T}}\boldsymbol{a}\)</li>
+<li>第1主成分負荷量は 
+\(X^{\mathsf{T}}X\) の第1(最大)固有値 \(\lambda_1\)
 に対応する固有ベクトル \(\boldsymbol{a}_1\)</li>
 <li>同様に
-第 \(k\) 主成分方向は 
-\(\boldsymbol{X}^\top\boldsymbol{X}\) の第 \(k\) 固有値 \(\lambda_k\)
+第 \(k\) 主成分負荷量は 
+\(X^{\mathsf{T}}X\) の第 \(k\) 固有値 \(\lambda_k\)
 に対応する固有ベクトル \(\boldsymbol{a}_k\)</li>
 
 </ul>
+
 
 <div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-org4eb300e">
-<h2 id="org4eb300e">寄与率</h2>
-<div class="outline-text-2" id="text-org4eb300e">
+<section id="slide-org696b380">
+<h2 id="org696b380">寄与率</h2>
+<div class="outline-text-2" id="text-org696b380">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orge3de398">
-<h3 id="orge3de398">寄与率の考え方</h3>
+<section id="slide-org437eee8">
+<h3 id="org437eee8">寄与率の考え方</h3>
 <ul>
 <li><p>
 回帰分析で考察した <b>寄与率</b> の一般形
@@ -238,20 +251,20 @@
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org0892616">
-<h3 id="org0892616">Gram行列のスペクトル分解</h3>
+<section id="slide-org7672f6b">
+<h3 id="org7672f6b">Gram行列のスペクトル分解</h3>
 <ul>
 <li><p>
-行列 \(X^{\top}X\) (非負値正定対称行列) のスペクトル分解
+行列 \(X^{\mathsf{T}}X\) (非負値正定対称行列) のスペクトル分解
 </p>
 <blockquote>
 <div>
 \begin{align}
-  \boldsymbol{X}^\top\boldsymbol{X}
-  &=\lambda_{1}\boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\top}+
-    \lambda_{2}\boldsymbol{a}_{2}\boldsymbol{a}_{2}^{\top}+
-    \dotsb+\lambda_{p}\boldsymbol{a}_{p}\boldsymbol{a}_{p}^{\top}\\
-  &=\sum_{k=1}^{p}\lambda_{k}\boldsymbol{a}_{k}\boldsymbol{a}_{k}^{\top}
+  X^{\mathsf{T}}X
+  &=\lambda_{1}\boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}}+
+    \lambda_{2}\boldsymbol{a}_{2}\boldsymbol{a}_{2}^{\mathsf{T}}+
+    \dotsb+\lambda_{p}\boldsymbol{a}_{p}\boldsymbol{a}_{p}^{\mathsf{T}}\\
+  &=\sum_{k=1}^{p}\lambda_{k}\boldsymbol{a}_{k}\boldsymbol{a}_{k}^{\mathsf{T}}
 \end{align}
 
 </div>
@@ -268,7 +281,7 @@
 \begin{equation}
   f(\boldsymbol{a}_{k})
   =
-  \boldsymbol{a}_{k}^{\top}\boldsymbol{X}^{\top}\boldsymbol{X}\boldsymbol{a}_{k}
+  \boldsymbol{a}_{k}^{\mathsf{T}}X^{\mathsf{T}}X\boldsymbol{a}_{k}
   =\lambda_{k}
 \end{equation}
 
@@ -283,8 +296,8 @@
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgcd2388a">
-<h3 id="orgcd2388a">寄与率の計算</h3>
+<section id="slide-org88d8a8f">
+<h3 id="org88d8a8f">寄与率の計算</h3>
 <ul>
 <li><p>
 主成分と全体のばらつき
@@ -296,12 +309,12 @@
   &=
     \sum_{i=1}^{n}(\boldsymbol{a}_k\cdot\boldsymbol{x}_i
     -\boldsymbol{a}_k\cdot\bar{\boldsymbol{x}})^2
-    =\boldsymbol{a}_{k}^{\top}\boldsymbol{X}^{\top}\boldsymbol{X}\boldsymbol{a}_{k}
+    =\boldsymbol{a}_{k}^{\mathsf{T}}X^{\mathsf{T}}X\boldsymbol{a}_{k}
     =\lambda_k\\
   \text{(全体)}
   &=
     \sum_{i=1}^{n}\|\boldsymbol{x}_i-\bar{\boldsymbol{x}}\|^2
-    =\sum_{l=1}^p\boldsymbol{a}_{l}^{\top}\boldsymbol{X}^{\top}\boldsymbol{X}\boldsymbol{a}_{l}
+    =\sum_{l=1}^p\boldsymbol{a}_{l}^{\mathsf{T}}X^{\mathsf{T}}X\boldsymbol{a}_{l}
     =\sum_{l=1}^p\lambda_l
 \end{align}
 
@@ -325,8 +338,8 @@
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org341e598">
-<h3 id="org341e598">累積寄与率</h3>
+<section id="slide-org910d68b">
+<h3 id="org910d68b">累積寄与率</h3>
 <ul>
 <li><p>
 <b>累積寄与率</b> (cumulative proportion) :
@@ -356,61 +369,140 @@
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org540fa5b">
-<h3 id="org540fa5b">R: 主成分分析の評価</h3>
+<section id="slide-orgd69622c">
+<h3 id="orgd69622c">R: 主成分分析の評価</h3>
 <ul>
-<li>分析結果の評価を行う関数: <code>summary()</code> および <code>plot()</code></li>
-<li>データフレームに対する分析:
+<li><p>
+分析結果の評価を行う関数:
+</p>
 <ul>
-<li>データフレーム <code>mydata</code>: 必要な変数を含むデータフレーム</li>
-<li>列名: x1の変数名, &#x2026;, xpの変数名</li>
-
-</ul></li>
+<li><code>summary()</code>: 主成分負荷量や寄与率を表示</li>
+<li><code>plot()</code>: 寄与率を図示</li>
 
 </ul>
 <div class="org-src-container">
 
 <pre><code class=" R" >## データフレームを分析
-est &lt;- prcomp( ~ x1の変数名 + ... + xpの変数名, data = mydata)
-## 主成分方向や寄与率を確認
+est &lt;- prcomp( ~ x1の変数名 + ... + xpの変数名, data = データフレーム)
+## 主成分負荷量と寄与率を確認する
 summary(est)
-## 寄与率を図示
+## 寄与率を図示する
 plot(est)
 </code></pre>
+</div></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org961796d" data-background="#fef4f4">
+<h3 id="org961796d">データセットの準備</h3>
+<ul>
+<li>以下の2つのデータセットを使用します
+<ul>
+<li><p>
+<code>japan_social.csv</code> (先週から使用)
+</p>
+<blockquote>
+<p>
+総務省統計局より取得した都道府県別の社会生活統計指標の一部
+</p>
+</blockquote></li>
+<li><p>
+<code>MASS::UScereal</code> <br />
+</p>
+<blockquote>
+<p>
+<b>Nutritional and Marketing Information on US Cereals</b> <br />
+The UScereal data frame has 65 rows and 11 columns. The data
+come from the 1993 ASA Statistical Graphics Exposition, and are
+taken from the mandatory F&amp;DA food label. The data have been
+normalized here to a portion of one American cup.
+</p>
+</blockquote>
+<div class="org-src-container">
+
+<pre><code class=" R" >library(MASS) # パッケージの読み込み
+help(UScereal) # 変数名などの詳細はヘルプを参照して下さい
+</code></pre>
+</div></li>
+
+</ul></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org92ca540" data-background="#fef4f4">
+<h3 id="org92ca540">練習問題</h3>
+<ul>
+<li><p>
+それぞれのデータにおいて，
+正規化の有無の違いで寄与率・累積寄与率がどのように異なるか確認しなさい．
+</p>
+<div class="org-src-container">
+
+<pre><code class=" R" >prcomp(データフレーム) # 正規化を行わない場合
+prcomp(データフレーム, scale.=TRUE) # 正規化を行う場合
+## 正式なオプション名は "scale." であるが，"sc=TRUE" などでも可
+</code></pre>
 </div>
+<ul>
+<li><p>
+<code>japan_social.csv</code>
+</p>
+<div class="org-src-container">
+
+<pre><code class=" R" >JS.data &lt;- read.csv("data/japan_social.csv", row.names=1)
+</code></pre>
+</div></li>
+<li><p>
+<code>MASS::UScereal</code>
+</p>
+<div class="org-src-container">
+
+<pre><code class=" R" >## UScereal にはカテゴリカル変数が含まれるので以下のように処理すると良い
+str(UScereal) # 各変数の属性を確認する．factor/intが不要
+UC.data &lt;- UScereal[sapply(UScereal, is.double)]
+</code></pre>
+</div></li>
+
+</ul></li>
+
+</ul>
 
 <div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-org28177fc">
-<h2 id="org28177fc">主成分方向再考</h2>
-<div class="outline-text-2" id="text-org28177fc">
+<section id="slide-org7735799">
+<h2 id="org7735799">主成分負荷量再考</h2>
+<div class="outline-text-2" id="text-org7735799">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org939a95c">
-<h3 id="org939a95c">主成分方向と主成分得点</h3>
+<section id="slide-orgfe6e670">
+<h3 id="orgfe6e670">主成分負荷量と主成分得点</h3>
 <ul>
-<li>得点係数の大きさから変数の貢献度がわかる</li>
+<li>負荷量(得点係数)の大きさ: 変数の貢献度</li>
 <li><b>問題点</b>:
 <ul>
 <li>変数のスケールによって係数の大きさは変化する</li>
 <li>変数の正規化がいつも妥当とは限らない</li>
 
 </ul></li>
-<li>スケールによらない変数と主成分の関係を知りたい</li>
-<li><b>相関係数</b> を利用することができる</li>
+<li>スケールによらない変数と主成分の関係: <b>相関係数</b></li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org4b79287">
-<h3 id="org4b79287">相関係数</h3>
+<section id="slide-orgb81c5ae">
+<h3 id="orgb81c5ae">相関係数</h3>
 <ul>
-<li>\(X\boldsymbol{a}_{k}\): 第 \(k\) 主成分得点</li>
-<li>\(X\boldsymbol{e}_{l}\): 第 \(l\) 変数 (\(\boldsymbol{e}_{l}\) は第 \(l\) 成分のみ1のベクトル)</li>
+<li>\(\boldsymbol{e}_{l}\): 第 \(l\) 成分は1，それ以外は0のベクトル</li>
+<li>\(X\boldsymbol{e}_{l}\): 第 \(l\) 変数ベクトル</li>
+<li>\(X\boldsymbol{a}_{k}\): 第 \(k\) 主成分得点ベクトル</li>
 <li><p>
 主成分と変数の相関係数:
 </p>
@@ -418,14 +510,14 @@ plot(est)
 <div>
 \begin{align}
   \mathrm{Cor}(X\boldsymbol{a}_{k},X\boldsymbol{e}_{l})
-  % &=\frac{(X\boldsymbol{a}_{k})^{\top}X\boldsymbol{e}_{l}}
-  % {\sqrt{(X\boldsymbol{a}_{k})^{\top}X\boldsymbol{a}_{k}}
-  % \sqrt{(X\boldsymbol{e}_{l})^{\top}X\boldsymbol{e}_{l}}}\\
-    &=\frac{\boldsymbol{a}_{k}^{\top}X^{\top}X\boldsymbol{e}_{l}}
-      {\sqrt{\boldsymbol{a}_{k}^{\top}X^{\top}X\boldsymbol{a}_{k}}
-      \sqrt{\boldsymbol{e}_{l}^{\top}X^{\top}X\boldsymbol{e}_{l}}}\\
-    &=\frac{\lambda_{k}\boldsymbol{a}_{k}^{\top}\boldsymbol{e}_{l}}
-      {\sqrt{\lambda_{k}}\sqrt{(X^{\top}X)_{ll}}}
+  % &=\frac{(X\boldsymbol{a}_{k})^{\mathsf{T}}X\boldsymbol{e}_{l}}
+  % {\sqrt{(X\boldsymbol{a}_{k})^{\mathsf{T}}X\boldsymbol{a}_{k}}
+  % \sqrt{(X\boldsymbol{e}_{l})^{\mathsf{T}}X\boldsymbol{e}_{l}}}\\
+    &=\frac{\boldsymbol{a}_{k}^{\mathsf{T}}X^{\mathsf{T}}X\boldsymbol{e}_{l}}
+      {\sqrt{\boldsymbol{a}_{k}^{\mathsf{T}}X^{\mathsf{T}}X\boldsymbol{a}_{k}}
+      \sqrt{\boldsymbol{e}_{l}^{\mathsf{T}}X^{\mathsf{T}}X\boldsymbol{e}_{l}}}\\
+    &=\frac{\lambda_{k}\boldsymbol{a}_{k}^{\mathsf{T}}\boldsymbol{e}_{l}}
+      {\sqrt{\lambda_{k}}\sqrt{(X^{\mathsf{T}}X)_{ll}}}
 \end{align}
 
 </div>
@@ -435,29 +527,29 @@ plot(est)
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orge6d1092">
-<h3 id="orge6d1092">正規化データの場合</h3>
+<section id="slide-orga14be06">
+<h3 id="orga14be06">正規化データの場合</h3>
 <ul>
-<li>\(X^{\top}X\) の対角成分は全て1 (\((X^{\top}X)_{ll}=1\))</li>
+<li>\(X^{\mathsf{T}}X\) の対角成分は全て1 (\((X^{\mathsf{T}}X)_{ll}=1\))</li>
 <li><p>
-第 \(k\) 主成分に対する第 \(l\) 変数の相関係数
+第 \(k\) 主成分に対する第 \(l\) 変数の相関係数:
 </p>
 <blockquote>
 <div>
 \begin{equation}
-  (\boldsymbol{l}_{k})_{l}
+  (\boldsymbol{r}_{k})_{l}
   =\sqrt{\lambda_{k}}(\boldsymbol{a}_{k})_{l}
 \end{equation}
 
 </div>
 </blockquote></li>
 <li><p>
-第 \(k\) 主成分に対する相関係数ベクトル
+第 \(k\) 主成分に対する相関係数ベクトル:
 </p>
 <blockquote>
 <div>
 \begin{equation}
-  \boldsymbol{l}_{k}
+  \boldsymbol{r}_{k}
   =\sqrt{\lambda_{k}}\boldsymbol{a}_{k}
 \end{equation}
 
@@ -472,18 +564,19 @@ plot(est)
 
 </ul>
 
+
 <div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-org4d539e1">
-<h2 id="org4d539e1">バイプロット</h2>
-<div class="outline-text-2" id="text-org4d539e1">
+<section id="slide-orge20f6f4">
+<h2 id="orge20f6f4">バイプロット</h2>
+<div class="outline-text-2" id="text-orge20f6f4">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgce31ebb">
-<h3 id="orgce31ebb">特異値分解</h3>
+<section id="slide-org182b1aa">
+<h3 id="org182b1aa">特異値分解</h3>
 <ul>
 <li><p>
 階数 \(r\) の \(n\times p\) 型行列 \(X\) の分解:
@@ -491,7 +584,7 @@ plot(est)
 <blockquote>
 <div>
 \begin{equation}
-  X=U\Sigma V^{\top}
+  X=U\Sigma V^{\mathsf{T}}
 \end{equation}
 
 </div>
@@ -528,8 +621,8 @@ plot(est)
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgf9e05a3">
-<h3 id="orgf9e05a3">特異値分解によるGram行列の表現</h3>
+<section id="slide-orgc52c1da">
+<h3 id="orgc52c1da">特異値分解によるGram行列の表現</h3>
 <ul>
 <li><p>
 Gram行列の展開:
@@ -537,10 +630,10 @@ Gram行列の展開:
 <blockquote>
 <div>
 \begin{align*}
-  X^{\top}X
-  &=(U\Sigma V^{\top})^{\top}(U\Sigma V^{\top})\\
-  &=V\Sigma^{\top}U^{\top}U\Sigma V^{\top}\\
-  &=V\Sigma^{\top}\Sigma V^{\top}
+  X^{\mathsf{T}}X
+  &=(U\Sigma V^{\mathsf{T}})^{\mathsf{T}}(U\Sigma V^{\mathsf{T}})\\
+  &=V\Sigma^{\mathsf{T}}U^{\mathsf{T}}U\Sigma V^{\mathsf{T}}\\
+  &=V\Sigma^{\mathsf{T}}\Sigma V^{\mathsf{T}}
 \end{align*}
 
 </div>
@@ -549,16 +642,15 @@ Gram行列の展開:
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgeec54a6">
-<h3 id="orgeec54a6">特異値分解とGram行列の関係</h3>
+<section>
 <ul>
 <li><p>
-行列 \(\Sigma^{\top}\Sigma\) は対角行列
+行列 \(\Sigma^{\mathsf{T}}\Sigma\) は対角行列
 </p>
 <blockquote>
 <div>
 \begin{equation}
-  \Sigma^{\top}\Sigma
+  \Sigma^{\mathsf{T}}\Sigma
   =
   \begin{pmatrix}
     \sigma_{1}^{2}&&&&&\\
@@ -577,8 +669,8 @@ Gram行列の展開:
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org3ab3486">
-<h3 id="org3ab3486">特異値と固有値の関係</h3>
+<section id="slide-org2db16ee">
+<h3 id="org2db16ee">特異値と固有値の関係</h3>
 <ul>
 <li>行列 \(V\) の第 \(k\) 列ベクトル \(\boldsymbol{v}_{k}\)</li>
 <li><p>
@@ -603,15 +695,15 @@ Gram行列の固有値問題
 <blockquote>
 <div>
 \begin{align}
-  X^{\top}X\boldsymbol{v}_{k}
-  &=V\Sigma^{\top}\Sigma V^{\top}\boldsymbol{v}_{k}
+  X^{\mathsf{T}}X\boldsymbol{v}_{k}
+  &=V\Sigma^{\mathsf{T}}\Sigma V^{\mathsf{T}}\boldsymbol{v}_{k}
     =\lambda_{k}\boldsymbol{v}_{k}
 \end{align}
 
 </div>
 </blockquote>
 <ul>
-<li>\(X^{\top}X\) の固有値は行列 \(X\) の特異値の平方</li>
+<li>\(X^{\mathsf{T}}X\) の固有値は行列 \(X\) の特異値の平方</li>
 <li>固有ベクトルは行列 \(V\) の列ベクトル \(\boldsymbol{a}_{k}=\boldsymbol{v}_{k}\)</li>
 
 </ul></li>
@@ -620,8 +712,8 @@ Gram行列の固有値問題
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgeee06f8">
-<h3 id="orgeee06f8">データ行列の近似表現</h3>
+<section id="slide-orgd18283a">
+<h3 id="orgd18283a">データ行列の近似表現</h3>
 <ul>
 <li>行列 \(U\) の第 \(k\) 列ベクトル \(\boldsymbol{u}_{k}\)</li>
 <li><p>
@@ -632,9 +724,9 @@ Gram行列の固有値問題
 \begin{equation}
   X
   =
-  U\Sigma V^{\top}
+  U\Sigma V^{\mathsf{T}}
   =
-  \sum_{k=1}^{r}\boldsymbol{u}_{k}\sigma_{k}\boldsymbol{v}_{k}^{\top}
+  \sum_{k=1}^{r}\boldsymbol{u}_{k}\sigma_{k}\boldsymbol{v}_{k}^{\mathsf{T}}
 \end{equation}
 
 </div>
@@ -646,8 +738,8 @@ Gram行列の固有値問題
 <div>
 \begin{equation}
   X\simeq X'
-  =\boldsymbol{u}_{k}\sigma_{k}\boldsymbol{v}_{k}^{\top}
-  +\boldsymbol{u}_{l}\sigma_{l}\boldsymbol{v}_{l}^{\top}
+  =\boldsymbol{u}_{k}\sigma_{k}\boldsymbol{v}_{k}^{\mathsf{T}}
+  +\boldsymbol{u}_{l}\sigma_{l}\boldsymbol{v}_{l}^{\mathsf{T}}
 \end{equation}
 
 </div>
@@ -658,8 +750,8 @@ Gram行列の固有値問題
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgad8644b">
-<h3 id="orgad8644b">バイプロット</h3>
+<section id="slide-orge1a5cec">
+<h3 id="orge1a5cec">バイプロット</h3>
 <ul>
 <li>\(X\) のばらつきを最大限保持する近似は \(k=1,l=2\)</li>
 <li><p>
@@ -668,7 +760,7 @@ Gram行列の固有値問題
 <blockquote>
 <div>
 \begin{multline}
-  X'=GH^{\top},\\
+  X'=GH^{\mathsf{T}},\\
   G=
   \begin{pmatrix}
     \sigma_{k}^{1-s}\boldsymbol{u}_{k}&
@@ -697,22 +789,17 @@ Gram行列の固有値問題
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org66da969">
-<h3 id="org66da969">R: 関数 <code>biplot()</code> の使い方</h3>
+<section id="slide-orgb5869fc">
+<h3 id="orgb5869fc">R: 関数 <code>biplot()</code> の使い方</h3>
 <ul>
 <li>Rの標準関数: <code>biplot()</code></li>
-<li>データフレームに対する分析:
-<ul>
-<li>データフレーム <code>mydata</code>: 必要な変数を含むデータフレーム</li>
-<li>列名: x1の変数名, &#x2026;, xpの変数名</li>
-
-</ul></li>
-
-</ul>
+<li><p>
+主成分分析の結果に対して表示:
+</p>
 <div class="org-src-container">
 
 <pre><code class=" R" >## データフレームを分析
-est &lt;- prcomp( ~ x1の変数名 + ... + xpの変数名, data = mydata)
+est &lt;- prcomp( ~ x1の変数名 + ... + xpの変数名, data = データフレーム)
 ## 第1と第2主成分を利用した散布図
 biplot(est)
 ## 第2と第3主成分を利用した散布図
@@ -720,7 +807,31 @@ biplot(est, choices = c(2,3))
 ## パラメタ s を変更 (既定値は1)
 biplot(est, scale=0)
 </code></pre>
-</div>
+</div></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgb657f74" data-background="#fef4f4">
+<h3 id="orgb657f74">練習問題</h3>
+<ul>
+<li>それぞれのデータの主成分分析の結果を利用してバイプロットによる可視化を行いなさい．
+<ul>
+<li>正規化したデータでの主成分分析を行いなさい</li>
+<li>第1主成分と第2主成分でのバイプロットを描きなさい</li>
+<li><p>
+第2主成分と第3主成分でのバイプロットを描きなさい
+</p>
+<div class="org-src-container">
+
+<pre><code class=" R" >biplot(prcompの結果, choices=c(x軸成分,y軸成分)) # 主成分の指定
+</code></pre>
+</div></li>
+
+</ul></li>
+
+</ul>
 <div class="slide-footer"><br></div>
 </section>
 </section>

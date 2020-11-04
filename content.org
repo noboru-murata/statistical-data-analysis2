@@ -118,12 +118,11 @@
   :EXPORT_DATE: <2020-09-19 Sat>
   :END:
   準備中
-** COMMENT スライド
+** スライド
    #+html: {{< myslide base="statistical-data-analysis2" name="slide07" >}}
-** COMMENT ハンドアウト
+** ハンドアウト
    - [[github:pdfs/slide07.pdf][PDF file]]
-
-** COMMENT 付録
+** 付録
    - [[github:code/slide07.R][RScript]]
 
 * 講義8
