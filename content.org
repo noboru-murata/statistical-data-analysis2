@@ -117,7 +117,6 @@
   :EXPORT_FILE_NAME: lecture07
   :EXPORT_DATE: <2020-09-19 Sat>
   :END:
-  準備中
 ** スライド
    #+html: {{< myslide base="statistical-data-analysis2" name="slide07" >}}
 ** ハンドアウト
