@@ -583,10 +583,11 @@
        JS.agri <- # １人当たり農業産出額に行名を付ける
 	 setNames(JS.data$Agri, row.names(JS.data))
        head(sort(JS.agri, decreasing=TRUE)) # 降順に並べてみる
+
+       ## 第2,3主成分を確認する
        biplot(JS.pca, choices=c(2,3), # バイプロット(第2 vs 第3主成分)
               cex=c(0.6, 0.8), 
               col=c("blue","red")) 
-
        ## 第3主成分方向の負の向きには土地生産性の上位県が集中
        JS.land <- # 土地生産性に行名を付けて取出
 	 setNames(JS.data$Land, row.names(JS.data))
@@ -602,6 +603,10 @@
        biplot(UC.pca, 
               cex=c(0.6, 0.8), 
               col=c("black","orange"))
+       biplot(UC.pca, choices=c(2,3),
+              cex=c(0.6, 0.8), 
+              col=c("black","orange"))
+
        ## 第1,2主成分得点で散布図を描く (上と比較せよ)
        plot(PC2 ~ PC1, data=predict(UC.pca), col="blue")
        biplot(UC.pca,
