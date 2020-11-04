@@ -85,7 +85,9 @@ biplot(UC.pca, choices=c(2,3),
        col=c("black","orange"))
 
 ## 第1,2主成分得点で散布図を描く (上と比較せよ)
-plot(PC2 ~ PC1, data=predict(UC.pca), col="blue")
+plot(PC2 ~ PC1, data=predict(UC.pca), type="n")
+text(PC2 ~ PC1, data=predict(UC.pca),
+     labels=rownames(UC.data), cex=0.5)
 biplot(UC.pca,
        scale=0, # s=0とするとデータの座標は主成分得点となる
        cex=c(0.6, 0.8), 
