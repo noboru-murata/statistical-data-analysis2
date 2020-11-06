@@ -326,7 +326,7 @@
    - 負荷量(得点係数)の大きさ: 変数の貢献度
    - *問題点*:
      - 変数のスケールによって係数の大きさは変化する
-     - 変数の正規化がいつも妥当とは限らない
+     - 変数の正規化(標本平均0，不偏分散1)がいつも妥当とは限らない
    - スケールによらない変数と主成分の関係: *相関係数* 
 
 ** 相関係数
@@ -351,14 +351,14 @@
      #+end_quote
 
 ** 正規化データの場合
-   - $X^{\mathsf{T}}X$ の対角成分は全て\(n\)
-     ($(X^{\mathsf{T}}X)_{ll}=n$)
+   - $X^{\mathsf{T}}X$ の対角成分は全て\(n-1\)
+     ($(X^{\mathsf{T}}X)_{ll}=n-1$)
    - 第 $k$ 主成分に対する第 $l$ 変数の相関係数:
      #+begin_quote
      #+begin_src latex
        \begin{equation}
          (\boldsymbol{r}_{k})_{l}
-         =\sqrt{\lambda_{k}/n}\cdot(\boldsymbol{a}_{k})_{l}
+         =\sqrt{\lambda_{k}/(n-1)}\cdot(\boldsymbol{a}_{k})_{l}
        \end{equation}
      #+end_src
      #+end_quote
@@ -367,7 +367,7 @@
      #+begin_src latex
        \begin{equation}
          \boldsymbol{r}_{k}
-         =\sqrt{\lambda_{k}/n}\cdot\boldsymbol{a}_{k}
+         =\sqrt{\lambda_{k}/(n-1)}\cdot\boldsymbol{a}_{k}
        \end{equation}
      #+end_src
      #+end_quote
