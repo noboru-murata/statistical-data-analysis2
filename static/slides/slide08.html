@@ -2,38 +2,28 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<title>主成分分析 - 評価と視覚化</title>
+<title>判別分析</title>
 <meta name="author" content="村田 昇"/>
 <style type="text/css">
 .underline { text-decoration: underline; }
 </style>
-<link rel="stylesheet" href="./reveal.js/css/reveal.css"/>
+<link rel="stylesheet" href="./reveal.js/dist/reveal.css"/>
 
-<link rel="stylesheet" href="./reveal.js/css/theme/oer-reveal.css" id="theme"/>
+<link rel="stylesheet" href="./reveal.js/dist/theme/oer-reveal.css" id="theme"/>
 
 <link rel="stylesheet" href="./reveal.js/plugin/toc-progress/toc-progress.css"/>
 
-<link rel="stylesheet" href="./reveal.js/css/theme/toc-style.css"/>
+<link rel="stylesheet" href="./reveal.js/dist/theme/toc-style.css"/>
 
-<link rel="stylesheet" href="./reveal.js/css/theme/oer-reveal.css"/>
+<link rel="stylesheet" href="./reveal.js/dist/theme/fonts/source-sans-pro/source-sans-pro.css"/>
 
-<link rel="stylesheet" href="./reveal.js/lib/font/source-sans-pro/source-sans-pro.css"/>
+<link rel="stylesheet" href="./reveal.js/plugin/accessibility/helper.css"/>
 
-<link rel="stylesheet" href="./myconf.css"/>
-
-<!-- If the query includes 'print-pdf', include the PDF print sheet -->
-<script>
-    if( window.location.search.match( /print-pdf/gi ) ) {
-        var link = document.createElement( 'link' );
-        link.rel = 'stylesheet';
-        link.type = 'text/css';
-        link.href = './reveal.js/css/print/pdf.css';
-        document.getElementsByTagName( 'head' )[0].appendChild( link );
-    }
-</script>
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<link rel="stylesheet" href="./reveal.js/dist/theme/mycourse.css"/>
+<link rel="stylesheet" href="./reveal.js/plugin/highlight/zenburn.css"/>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </head>
-<body prefix="dc: http://purl.org/dc/terms/ cc: http://creativecommons.org/ns#">
+<body>
 <div class="reveal">
 <div class="slides">
 <section id="sec-title-slide" data-state="no-toc-progress">
@@ -41,53 +31,57 @@
 <!-- Embed logos as necessary. -->
 <!-- <a class="nooutlink" href="url"><img class="state-background your-logo-class" src="whatever.png" alt="Whatever" /></a> -->
 <div class="talk-title">
-    <h1 class="no-toc-progress">主成分分析 - 評価と視覚化</h1>
+    <h1 class="no-toc-progress">判別分析</h1>
 </div>
 <div class="talk-subtitle">
-    <p>数理科学続論J</p>
+    <p>考え方</p>
 </div>
 <div class="keyboard-usage">
     <p>(Press <code>?</code> for help, <code>n</code> and <code>p</code> for next and previous slide)</p>
 </div>
 <div class="talk-author">
   <p>村田 昇<br />
-  2019.11.15</p>
+  2020.11.13</p>
 </div>
 
 </section>
 
 <section>
-<section id="slide-org34ebd07">
-<h2 id="org34ebd07">講義の予定</h2>
+<section id="slide-orgcbdec85">
+<h2 id="orgcbdec85">講義の予定</h2>
 <ul>
-<li>第1日: 主成分分析の考え方</li>
-<li><b>第2日: 分析の評価と視覚化</b></li>
+<li><b>第1日: 判別分析の考え方</b></li>
+<li>第2日: 分析の評価</li>
 
 </ul>
+
 
 <div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-org49d0a73">
-<h2 id="org49d0a73">主成分分析の復習</h2>
-<div class="outline-text-2" id="text-org49d0a73">
+<section id="slide-org9ca9513">
+<h2 id="org9ca9513">判別分析の考え方</h2>
+<div class="outline-text-2" id="text-org9ca9513">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgf299243">
-<h3 id="orgf299243">主成分分析 (principal component analysis)</h3>
+<section id="slide-orge547aa0">
+<h3 id="orge547aa0">判別分析</h3>
 <ul>
-<li>多数の変量のもつ情報の分析・視覚化
+<li><b>discriminant analysis</b></li>
+<li>個体の特徴量から
+その個体の属するクラスを予測する関係式を構成</li>
+<li>関係式: <b>判別関数</b> (discriminant function)
 <ul>
-<li>変量を効率的に縮約して少数の特徴量を構成する</li>
-<li>変量の間の関係を明らかにする</li>
+<li>特徴量: \(X=(X_1,\dots,X_q)\)</li>
+<li>クラス: \(Y\) (\(K(\geq2)\) 個のラベル)</li>
 
 </ul></li>
-<li>分析の方針: (以下は同値)
+<li>判別関数による分類:
 <ul>
-<li>データの情報を最大限保持する変量の線形結合を構成</li>
-<li>データの情報を最大限反映する座標(方向)を探索</li>
+<li>1次式の場合: <b>線形判別分析</b> (linear discriminant analysis)</li>
+<li>2次式の場合: <b>2次判別分析</b> (quadratic discriminant analysis)</li>
 
 </ul></li>
 
@@ -95,113 +89,121 @@
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org5bc79b9">
-<h3 id="org5bc79b9">分析の考え方</h3>
+<section id="slide-orgc347149">
+<h3 id="orgc347149">判別分析の例</h3>
 <ul>
-<li>1変量データ
-\(\boldsymbol{a}\cdot\boldsymbol{x}_1,\dotsc,\boldsymbol{a}\cdot\boldsymbol{x}_n\)
-を構成</li>
-<li>観測データ \(\boldsymbol{x}_1,\dots,\boldsymbol{x}_n\) のもつ情報を最大限保持する
-ベクトル \(\boldsymbol{a}\) を <b>うまく</b> 選択</li>
-<li>\(\boldsymbol{a}\cdot\boldsymbol{x}_1,\dotsc,\boldsymbol{a}\cdot\boldsymbol{x}_n\)
-のばらつきが最も大きい方向を選択</li>
+<li>検査結果から患者が病気を罹患しているか判定する
+<ul>
+<li>\(X=\) 検査結果</li>
+<li>\(Y=\) 病気・健康</li>
+
+</ul></li>
+<li>今日の経済指標から明日株価が上昇するか予測する
+<ul>
+<li>\(X=\) 今日の経済指標</li>
+<li>\(Y=\) 明日株価の上昇・下降</li>
+
+</ul></li>
+<li>今日の大気の状態から, 明日の天気を予測する
+<ul>
+<li>\(X=\) 今日の大気の状態</li>
+<li>\(Y=\) 晴・くもり・雨・雪</li>
+
+</ul></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org4787112">
+<h3 id="org4787112">判別分析の考え方</h3>
+<ul>
+<li>確率による定式化
+<ul>
 <li><p>
-<b>最適化問題</b>:
-制約条件 \(\|\boldsymbol{a}\|=1\) の下で関数
+\(X=\boldsymbol{x}\) の下で \(Y=k\) となる <b>条件付確率</b> を計算
 </p>
-
+<blockquote>
 <div>
 \begin{equation}
-  f(\boldsymbol{a})
-  =
-  \sum_{i=1}^n(\boldsymbol{a}\cdot\boldsymbol{x}_i
-  -\boldsymbol{a}\cdot\bar{\boldsymbol{x}})^2,
-  \quad
-  \bar{\boldsymbol{x}}
-  =
-  \frac{1}{n}\sum_{i=1}^n\boldsymbol{x}_i
+  p_k(\boldsymbol{x}):=P(Y=k|X=\boldsymbol{x})
 \end{equation}
 
 </div>
+</blockquote></li>
+<li>所属する確率が最も高いクラスに個体を分類</li>
 
+</ul></li>
+<li><p>
+観測データ: \(n\) 個のデータ \((Y,X_1,\dots,X_q)\)
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  \{(y_i,x_{i1},\dots,x_{iq})\}_{i=1}^n
+\end{equation}
+
+</div>
+</blockquote>
 <p>
-を最大化せよ
+から \(p_k(\boldsymbol{x})\) を構成
 </p></li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgf357b8d">
-<h3 id="orgf357b8d">固有値問題</h3>
+<section id="slide-org1dda6f0">
+<h3 id="org1dda6f0">条件付確率</h3>
 <ul>
+<li>以下では \(X\) は離散型の \(q\) 次元確率変数で説明</li>
 <li><p>
-中心化したデータ行列
+事象 \(X=\boldsymbol{x}\) が起きたという条件の下で
+事象 \(Y=k\) が起きる条件付確率
 </p>
-
+<blockquote>
 <div>
 \begin{equation}
-  \boldsymbol{X}
+  p_k(\boldsymbol{x})
   =
-  \begin{pmatrix}
-    \boldsymbol{x}_{1}^\top-\bar{\boldsymbol{x}}^\top \\
-    \vdots \\
-    \boldsymbol{x}_{n}^\top-\bar{\boldsymbol{x}}^\top
-  \end{pmatrix}
+  P(Y=k|X=\boldsymbol{x})
   =
-  \begin{pmatrix}
-    x_{11}-\bar{x}_1 & \cdots & x_{1p}-\bar{x}_p\\
-    \vdots & & \vdots \\
-    x_{n1}-\bar{x}_1 & \cdots & x_{np}-\bar{x}_p
-  \end{pmatrix}
+  \frac{P(Y=k,X=\boldsymbol{x})}{P(X=\boldsymbol{x})}
 \end{equation}
 
-</div></li>
-<li><p>
-評価関数 \(f(\boldsymbol{a})\) は行列 \(\boldsymbol{X}^\top\boldsymbol{X}\) 
-の二次形式
-</p>
-
-<div>
-\begin{equation}
-  f(\boldsymbol{a})
-  =
-  \boldsymbol{a}^\top\boldsymbol{X}^\top\boldsymbol{X}\boldsymbol{a}
-\end{equation}
-
-</div></li>
-<li><p>
-\(f(\boldsymbol{a})\) の極大値を与える \(\boldsymbol{a}\) は
-\(\boldsymbol{X}^\top\boldsymbol{X}\) の固有ベクトル
-</p>
-
-<div>
-\begin{equation}
-  \boldsymbol{X}^\top\boldsymbol{X}\boldsymbol{a}
-  =
-  \lambda\boldsymbol{a}
-\end{equation}
-
-</div></li>
+</div>
+</blockquote></li>
+<li>(以下の議論は連続な確率変数でも成立)</li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgbf6e126">
-<h3 id="orgbf6e126">主成分方向と主成分得点</h3>
+<section id="slide-orgecfb909">
+<h3 id="orgecfb909">条件付確率の表現</h3>
 <ul>
-<li><b>主成分方向</b> (principal component direction): 
-\(\boldsymbol{a}\)</li>
-<li><b>主成分得点</b> (principal component score):
-\(\boldsymbol{x}_i^\top\boldsymbol{a}\)</li>
-<li>第1主成分方向は 
-\(\boldsymbol{X}^\top\boldsymbol{X}\) の第1(最大)固有値 \(\lambda_1\)
-に対応する固有ベクトル \(\boldsymbol{a}_1\)</li>
-<li>同様に
-第 \(k\) 主成分方向は 
-\(\boldsymbol{X}^\top\boldsymbol{X}\) の第 \(k\) 固有値 \(\lambda_k\)
-に対応する固有ベクトル \(\boldsymbol{a}_k\)</li>
+<li>\(p_k(\boldsymbol{x})\) のモデル化の方針: 
+<ul>
+<li>\(p_k(\boldsymbol{x})\) を直接モデル化する (例:ロジスティック回帰)</li>
+<li><p>
+\(Y=k\) の下での \(X\) の条件付き確率質量関数
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  f_k(\boldsymbol{x})
+  =
+  P(X=\boldsymbol{x}|Y=k)=\frac{P(X=\boldsymbol{x},Y=k)}{P(Y=k)}
+\end{equation}
+
+</div>
+</blockquote>
+<p>
+のモデル化を通じて \(p_k(\boldsymbol{x})\) をモデル化する
+</p></li>
+
+</ul></li>
+<li>本講義では後者について説明</li>
 
 </ul>
 
@@ -209,199 +211,342 @@
 </section>
 </section>
 <section>
-<section id="slide-orge0b759a">
-<h2 id="orge0b759a">寄与率</h2>
-<div class="outline-text-2" id="text-orge0b759a">
+<section id="slide-orgfc785b5">
+<h2 id="orgfc785b5">事後確率による判別</h2>
+<div class="outline-text-2" id="text-orgfc785b5">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgfdf8d2c">
-<h3 id="orgfdf8d2c">寄与率の考え方</h3>
+<section id="slide-org4576cd2">
+<h3 id="org4576cd2">ベイズの公式</h3>
 <ul>
+<li>\(f_k(\boldsymbol{x})\) から \(p_k(\boldsymbol{x})\) を得る数学的原理</li>
+<li>「原因 \(X=\boldsymbol{x}\) から結果 \(Y=k\) が生じる確率」を
+「結果 \(Y=k\) が生じたとき, 原因が \(X=\boldsymbol{x}\) だった確率」
+ から計算する方法</li>
 <li><p>
-回帰分析で考察した <b>寄与率</b> の一般形
+ベイズの公式 (Bayes&rsquo; formula)
 </p>
-
+<blockquote>
 <div>
 \begin{equation}
-  \text{(寄与率)}=
-  \frac{\text{(その方法で説明できるばらつき)}}{\text{(データ全体のばらつき)}}
+  P(Y=k|X=\boldsymbol{x})
+  =
+  \frac{f_k(\boldsymbol{x})P(Y=k)}{\sum_{l=1}^Kf_l(\boldsymbol{x})P(Y=l)}
 \end{equation}
 
-</div></li>
-<li><p>
-主成分分析での定義 (proportion of variance) 
-</p>
-
-<div>
-\begin{equation}
-  \text{(寄与率)}=
-  \frac{\text{(主成分のばらつき)}}{\text{(全体のばらつき)}}
-\end{equation}
-
-</div></li>
+</div>
+</blockquote></li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgedaaf0e">
-<h3 id="orgedaaf0e">Gram行列のスペクトル分解</h3>
+<section id="slide-org4a6aff5">
+<h3 id="org4a6aff5">ベイズの公式の略証</h3>
 <ul>
 <li><p>
-行列 \(X^{\top}X\) (非負値正定対称行列) のスペクトル分解
+定義より
 </p>
+<blockquote>
+<div>
+\begin{equation}
+  f_k(\boldsymbol{x})
+  =
+  P(X=\boldsymbol{x}|Y=k)
+  =
+  \frac{P(X=\boldsymbol{x},Y=k)}{P(Y=k)}
+\end{equation}
 
+</div>
+</blockquote></li>
+<li><p>
+求める条件付確率:
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  P(Y=k|X=\boldsymbol{x})
+  =
+  \frac{f_k(\boldsymbol{x})P(Y=k)}{P(X=\boldsymbol{x})}
+\end{equation}
+
+</div>
+</blockquote></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org7a62abf">
+<h3 id="org7a62abf">ベイズの公式の略証 (続)</h3>
+<ul>
+<li><p>
+分母の展開:
+</p>
+<blockquote>
 <div>
 \begin{align}
-  \boldsymbol{X}^\top\boldsymbol{X}
-  &=\lambda_{1}\boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\top}+
-  \lambda_{2}\boldsymbol{a}_{2}\boldsymbol{a}_{2}^{\top}+
-  \dotsb+\lambda_{p}\boldsymbol{a}_{p}\boldsymbol{a}_{p}^{\top}\\
-  &=\sum_{k=1}^{p}\lambda_{k}\boldsymbol{a}_{k}\boldsymbol{a}_{k}^{\top}
+  P(X=\boldsymbol{x})
+  &=
+    \sum_{l=1}^KP(X=\boldsymbol{x},Y=l)\\
+  &=
+    \sum_{l=1}^Kf_l(\boldsymbol{x})P(Y=l)
 \end{align}
 
 </div>
+</blockquote></li>
 
-<p>
-(固有値と固有ベクトルによる行列の表現)
-</p></li>
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgfab8cc2">
+<h3 id="orgfab8cc2">事前確率と事後確率</h3>
+<ul>
+<li><b>事前確率</b> (prior probability): \(\pi_k=P(Y=k)\)
+<ul>
+<li>\(X=\boldsymbol{x}\) が与えられる前に予測されるクラス</li>
+
+</ul></li>
+<li><b>事後確率</b> (posterior probability): \(p_k(\boldsymbol{x})\)
+<ul>
+<li>\(X=\boldsymbol{x}\) が与えられた後に予測されるクラス</li>
+
+</ul></li>
 <li><p>
-主成分のばらつきの評価
+ベイズの公式の書き換え:
 </p>
-
+<blockquote>
 <div>
 \begin{equation}
-  f(\boldsymbol{a}_{k})
+  p_k(\boldsymbol{x})
   =
-  \boldsymbol{a}_{k}^{\top}\boldsymbol{X}^{\top}\boldsymbol{X}\boldsymbol{a}_{k}
-  =\lambda_{k}
+  \frac{f_k(\boldsymbol{x})\pi_k}{\sum_{l=1}^Kf_l(\boldsymbol{x})\pi_l}
 \end{equation}
 
 </div>
-
+</blockquote>
 <p>
-(固有ベクトル(単位ベクトル)の直交性を利用)
+(事前確率が特徴量の確率の重みで変更される)
 </p></li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org20265d7">
-<h3 id="org20265d7">寄与率の計算</h3>
+<section id="slide-orgce42c2b">
+<h3 id="orgce42c2b">事前確率の決め方</h3>
 <ul>
 <li><p>
-主成分と全体のばらつき
+事前に特別な情報がない場合: <br />
+データから自然に決まる確率
 </p>
-
-<div>
-\begin{align}
-  \text{(主成分)}
-  &=
-  \sum_{i=1}^{n}(\boldsymbol{a}_k\cdot\boldsymbol{x}_i
-  -\boldsymbol{a}_k\cdot\bar{\boldsymbol{x}})^2
-  =\boldsymbol{a}_{k}^{\top}\boldsymbol{X}^{\top}\boldsymbol{X}\boldsymbol{a}_{k}
-  =\lambda_k\\
-  \text{(全体)}
-  &=
-  \sum_{i=1}^{n}\|\boldsymbol{x}_i-\bar{\boldsymbol{x}}\|^2
-  =\sum_{l=1}^p\boldsymbol{a}_{l}^{\top}\boldsymbol{X}^{\top}\boldsymbol{X}\boldsymbol{a}_{l}
-  =\sum_{l=1}^p\lambda_l
-\end{align}
-
-</div></li>
-<li><p>
-寄与率の固有値による表現: 
-</p>
-
+<blockquote>
 <div>
 \begin{equation}
-  \text{(寄与率)}
+  \pi_k
   =
-  \frac{\lambda_k}{\sum_{l=1}^p\lambda_l}  
-\end{equation}
-
-</div></li>
-
-</ul>
-
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-org307e96f">
-<h3 id="org307e96f">累積寄与率</h3>
-<ul>
-<li><p>
-<b>累積寄与率</b> (cumulative proportion) :
-第 \(k\) 主成分までのばらつきの累計
-</p>
-
-<div>
-\begin{equation}
-  \text{(累積寄与率)}
-  =
-  \frac{\sum_{l=1}^k\lambda_l}{\sum_{l=1}^p\lambda_l}
+  \frac{\text{$Y=k$であるサンプル数}}{\text{全サンプル数}}
 \end{equation}
 
 </div>
-
-<p>
-(第1から第 \(k\) までの寄与率の総和)
-</p>
+</blockquote></li>
+<li>事前に情報がある場合: 
 <ul>
-<li>累積寄与率はいくつの主成分を用いるべきかの基準</li>
-<li>一般に累積寄与率が80%程度までの主成分を用いる</li>
+<li>例: 身長や体重などの特徴量から喫煙者か否かを判別
+<ul>
+<li>喫煙者の身長や体重などの特徴量を収集</li>
+<li>非喫煙者の身長や体重などの特徴量を収集</li>
+<li>事前確率は(別の調査の)日本人の喫煙者の割合を利用</li>
+
+</ul></li>
 
 </ul></li>
 
 </ul>
 
+
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgc1e383c">
-<h3 id="orgc1e383c">R: 主成分分析の評価</h3>
+</section>
+<section>
+<section id="slide-org9899894">
+<h2 id="org9899894">線形判別分析</h2>
+<div class="outline-text-2" id="text-org9899894">
+</div>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org8248b00">
+<h3 id="org8248b00">判別関数</h3>
 <ul>
-<li>分析結果の評価を行う関数: <code>summary()</code> および <code>plot()</code></li>
+<li>判別の手続き
+<ul>
+<li>特徴量 \(X=\boldsymbol{x}\) の取得</li>
+<li>事後確率 \(p_k(\boldsymbol{x})\) の計算</li>
+<li>事後確率最大のクラスにデータを分類</li>
+
+</ul></li>
+<li><p>
+<b>判別関数</b>: \(\delta_k(\boldsymbol{x})\) (\(k=1,\dots,K\))
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  p_k(\boldsymbol{x}) 
+  < 
+  p_l(\boldsymbol{x})
+  \Leftrightarrow
+  \delta_k(\boldsymbol{x})
+  <
+  \delta_l(\boldsymbol{x})
+\end{equation}
+
+</div>
+</blockquote>
+<p>
+事後確率の順序を保存する計算しやすい関数
+</p></li>
+<li>判別関数 \(\delta_k(\boldsymbol{x})\) を最大化するようなクラス \(k\) に分類</li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orga13cde4">
+<h3 id="orga13cde4">線形判別</h3>
+<ul>
+<li>\(f_k(\boldsymbol{x})\) の仮定:
+<ul>
+<li>\(q\) 変量正規分布の密度関数</li>
+<li>平均ベクトル \(\boldsymbol{\mu}_k\): クラスごとに異なる</li>
+<li><p>
+共分散行列 \(\Sigma\): すべてのクラスで共通
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  f_k(\boldsymbol{x})
+  =
+  \frac{1}{(2\pi)^{q/2}\sqrt{\det\Sigma}}
+  \exp\left(-\frac{1}{2}(\boldsymbol{x}-\boldsymbol{\mu}_k)^\top
+    \Sigma^{-1}(\boldsymbol{x}-\boldsymbol{\mu}_k)\right)
+\end{equation}
+
+</div>
+</blockquote></li>
+
+</ul></li>
+<li><p>
+線形判別関数: \(\boldsymbol{x}\) の1次式
+</p>
+
+<blockquote>
+<div>
+\begin{equation}
+  \delta_k(\boldsymbol{x})
+  =
+  \boldsymbol{x}^\top\Sigma^{-1}\boldsymbol{\mu}_k
+  -\frac{1}{2}\boldsymbol{\mu}_k^\top\Sigma^{-1}\boldsymbol{\mu}_k
+  +\log\pi_k
+\end{equation}
+
+</div>
+</blockquote></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org9687354">
+<h3 id="org9687354">同値性の確認</h3>
+<ul>
+<li><p>
+事後確率と判別関数の関係
+</p>
+<blockquote>
+<div>
+\begin{align}
+  &p_k(\boldsymbol{x}) < p_k(\boldsymbol{x})\\
+  &\Leftrightarrow
+    f_k(\boldsymbol{x})\pi_k < f_l(\boldsymbol{x})\pi_l\\
+  &\Leftrightarrow
+    \log f_k(\boldsymbol{x})+\log\pi_k < \log f_l(\boldsymbol{x})+\log\pi_l\\
+  &\Leftrightarrow
+    -\frac{1}{2}(\boldsymbol{x}-\boldsymbol{\mu}_k)^\top
+    \Sigma^{-1}(\boldsymbol{x}-\boldsymbol{\mu}_k)+\log\pi_k\\
+  &\phantom{\Leftrightarrow}\quad < 
+    -\frac{1}{2}(\boldsymbol{x}-\boldsymbol{\mu}_l)^\top
+    \Sigma^{-1}(\boldsymbol{x}-\boldsymbol{\mu}_l)+\log\pi_l\\
+  &\Leftrightarrow
+    \delta_k(\boldsymbol{x}) < \delta_l(\boldsymbol{x})
+\end{align}
+
+</div>
+</blockquote></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgfda8b0b">
+<h3 id="orgfda8b0b">平均・分散の推定</h3>
+<ul>
+<li><p>
+平均の推定 (クラスごとに行う)
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  \hat{\boldsymbol{\mu}}_k
+  =
+  \frac{1}{n_k}\sum_{i:y_i=k}\boldsymbol{x}_i
+\end{equation}
+
+</div>
+</blockquote></li>
+<li><p>
+分散の推定 (まとめて行う)
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  \hat{\Sigma}
+  =
+  \frac{1}{n-k}\sum_{k=1}^K\sum_{i:y_i=k}
+  (\boldsymbol{x}_i-\boldsymbol{\mu}_k)
+  (\boldsymbol{x}_i-\boldsymbol{\mu}_k)^\top  
+\end{equation}
+
+</div>
+</blockquote></li>
+<li>ただし \(n_k\) は \(y_i=k\) であるようなデータの総数</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org351eebc">
+<h3 id="org351eebc">R: 線形判別関数 <code>lda()</code></h3>
+<ul>
+<li>分析を行う関数: <code>MASS::lda()</code></li>
 <li>データフレームに対する分析:
 <ul>
 <li>データフレーム <code>mydata</code>: 必要な変数を含むデータフレーム</li>
-<li>列名: x1の変数名, &#x2026;, xpの変数名</li>
+<li>列名: x1の変数名, &#x2026;, xpの変数名, yの変数名</li>
 
 </ul></li>
-
-</ul>
+<li><p>
+書式は <code>lm()</code> とほぼ同じ
+</p>
 <div class="org-src-container">
 
-<pre  class="src src-R"><span style="color: #5C6370;">## </span><span style="color: #5C6370;">&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12434;&#20998;&#26512;</span>
-est <span style="color: #56B6C2;">&lt;-</span> prcomp( ~ x1&#12398;&#22793;&#25968;&#21517; + ... + xp&#12398;&#22793;&#25968;&#21517;, data = mydata)
-<span style="color: #5C6370;">## </span><span style="color: #5C6370;">&#20027;&#25104;&#20998;&#26041;&#21521;&#12420;&#23492;&#19982;&#29575;&#12434;&#30906;&#35469;</span>
-summary(est)
-<span style="color: #5C6370;">## </span><span style="color: #5C6370;">&#23492;&#19982;&#29575;&#12434;&#22259;&#31034;</span>
+<pre><code class=" R" >## データフレームを分析
+require(MASS) # または library(MASS)
+est &lt;- lda(yの変数名 ~ x1の変数名 + ... + xpの変数名, data = mydata)
+## 各クラスの判別関数値を図示
 plot(est)
-</pre>
-</div>
-
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-orgc328da3" data-background="#EEEEFF">
-<h3 id="orgc328da3">演習: 寄与率による分析の評価</h3>
-<ul>
-<li><a href="./code/08-summary.r">08-summary.r</a> を確認してみよう</li>
-
-</ul>
-
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-orgf5b4fe2" data-background="#EEEEFF">
-<h3 id="orgf5b4fe2">演習: 実データによる考察</h3>
-<ul>
-<li>累積寄与率から適切な成分数を考察してみよう
-<ul>
-<li>datasets::USArrests</li>
-<li>MASS::Cars93</li>
-<li>MASS::UScereal</li>
-
-</ul></li>
+</code></pre>
+</div></li>
 
 </ul>
 
@@ -409,356 +554,254 @@ plot(est)
 </section>
 </section>
 <section>
-<section id="slide-orge0a1448">
-<h2 id="orge0a1448">主成分方向再考</h2>
-<div class="outline-text-2" id="text-orge0a1448">
+<section id="slide-orgdfe7b15">
+<h2 id="orgdfe7b15">2次判別分析</h2>
+<div class="outline-text-2" id="text-orgdfe7b15">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orga93d93a">
-<h3 id="orga93d93a">主成分方向と主成分得点</h3>
+<section id="slide-org33fcda5">
+<h3 id="org33fcda5">2次判別</h3>
 <ul>
-<li>得点係数の大きさから変数の貢献度がわかる</li>
-<li><b>問題点</b>:
+<li>\(f_k(\boldsymbol{x})\) の仮定:
 <ul>
-<li>変数のスケールによって係数の大きさは変化する</li>
-<li>変数の正規化がいつも妥当とは限らない</li>
+<li>\(q\) 変量正規分布の密度関数</li>
+<li>平均ベクトル \(\boldsymbol{\mu}_k\): クラスごとに異なる</li>
+<li><p>
+共分散行列 \(\Sigma_k\): <b>クラスごとに異なる</b>
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  f_k(\boldsymbol{x})
+  =
+  \frac{1}{(2\pi)^{q/2}\sqrt{\det\Sigma_k}}
+  \exp\left(-\frac{1}{2}(\boldsymbol{x}-\boldsymbol{\mu}_k)^\top
+    \Sigma_k^{-1}(\boldsymbol{x}-\boldsymbol{\mu}_k)\right)
+\end{equation}
+
+</div>
+</blockquote></li>
 
 </ul></li>
-<li>スケールによらない変数と主成分の関係を知りたい</li>
-<li><b>相関係数</b> を利用することができる</li>
+<li><p>
+2次判別関数: \(\boldsymbol{x}\) の2次式
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  \delta_k(\boldsymbol{x})
+  =
+  -\frac{1}{2}\det\Sigma_k
+  -\frac{1}{2}(\boldsymbol{x}-\boldsymbol{\mu}_k)^\top
+  \Sigma_k^{-1}(\boldsymbol{x}-\boldsymbol{\mu}_k)
+  +\log\pi_k
+\end{equation}
+
+</div>
+</blockquote></li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org0c3c704">
-<h3 id="org0c3c704">相関係数</h3>
+<section id="slide-orgdaa12b2">
+<h3 id="orgdaa12b2">同値性の確認</h3>
 <ul>
-<li>\(X\boldsymbol{a}_{k}\): 第 \(k\) 主成分得点</li>
-<li>\(X\boldsymbol{e}_{l}\): 第 \(l\) 変数 (\(\boldsymbol{e}_{l}\) は第 \(l\) 成分のみ1のベクトル)</li>
 <li><p>
-主成分と変数の相関係数: 
+事後確率と判別関数の関係
 </p>
-
+<blockquote>
 <div>
 \begin{align}
-  \mathrm{Cor}(X\boldsymbol{a}_{k},X\boldsymbol{e}_{l})
-  % &=\frac{(X\boldsymbol{a}_{k})^{\top}X\boldsymbol{e}_{l}}
-  %     {\sqrt{(X\boldsymbol{a}_{k})^{\top}X\boldsymbol{a}_{k}}
-  %     \sqrt{(X\boldsymbol{e}_{l})^{\top}X\boldsymbol{e}_{l}}}\\
-    &=\frac{\boldsymbol{a}_{k}^{\top}X^{\top}X\boldsymbol{e}_{l}}
-      {\sqrt{\boldsymbol{a}_{k}^{\top}X^{\top}X\boldsymbol{a}_{k}}
-      \sqrt{\boldsymbol{e}_{l}^{\top}X^{\top}X\boldsymbol{e}_{l}}}\\
-    &=\frac{\lambda_{k}\boldsymbol{a}_{k}^{\top}\boldsymbol{e}_{l}}
-      {\sqrt{\lambda_{k}}\sqrt{(X^{\top}X)_{ll}}}
-\end{align}
-
-</div></li>
-
-</ul>
-
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-orge74d9bb">
-<h3 id="orge74d9bb">正規化データの場合</h3>
-<ul>
-<li>\(X^{\top}X\) の対角成分は全て1 (\((X^{\top}X)_{ll}=1\))</li>
-<li><p>
-第 \(k\) 主成分に対する第 \(l\) 変数の相関係数
-</p>
-
-<div>
-\begin{equation}
-  (\boldsymbol{l}_{k})_{l}
-  =\sqrt{\lambda_{k}}(\boldsymbol{a}_{k})_{l}
-\end{equation}
-
-</div></li>
-<li><p>
-第 \(k\) 主成分に対する相関係数ベクトル 
-</p>
-
-<div>
-\begin{equation}
-  \boldsymbol{l}_{k}
-  =\sqrt{\lambda_{k}}\boldsymbol{a}_{k}
-\end{equation}
-
-</div></li>
-<li><b>主成分負荷量</b>
-<ul>
-<li>同じ主成分への各変数の影響は固有ベクトルの成分比</li>
-<li>同じ変数の各主成分への影響は固有値の平方根で重みづけ</li>
-
-</ul></li>
-
-</ul>
-
-<div class="slide-footer"><br></div>
-</section>
-</section>
-<section>
-<section id="slide-org5fe02e0">
-<h2 id="org5fe02e0">バイプロット</h2>
-<div class="outline-text-2" id="text-org5fe02e0">
-</div>
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-org6bd0b32">
-<h3 id="org6bd0b32">特異値分解</h3>
-<ul>
-<li><p>
-階数 \(r\) の \(n\times p\) 型行列 \(X\) の分解:
-</p>
-
-<div>
-\begin{equation}
-  X=U\Sigma V^{\top}
-\end{equation}
-
-</div>
-
-<ul>
-<li>\(U\) は \(n\times n\) 型直交行列, \(V\) は \(p\times p\) 型直交行列</li>
-<li><p>
-\(\Sigma\) は \(n\times p\) 型行列
-</p>
-
-<div>
-\begin{equation}
-  \Sigma
-  =
-  \begin{pmatrix}
-    D & O_{r,p-r}\\
-    O_{n-r,r} & O_{n-r,m-r}
-  \end{pmatrix}
-\end{equation}
-
-</div>
-
-<ul>
-<li>\(O_{s,t}\) は \(s\times t\) 型零行列</li>
-<li>\(D\) は \(\sigma_{1}\geq\sigma_{2}\geq\sigma_{r}>0\) 
-を対角成分とする \(r\times r\) 型対角行列</li>
-
-</ul></li>
-
-</ul></li>
-<li>\(D\) の対角成分: \(X\) の <b>特異値</b> (singular value)</li>
-
-</ul>
-
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-orge0adb1c">
-<h3 id="orge0adb1c">特異値分解によるGram行列の表現</h3>
-<ul>
-<li><p>
-Gram行列の展開:
-</p>
-
-<div>
-\begin{align*}
-  X^{\top}X
-  &=(U\Sigma V^{\top})^{\top}(U\Sigma V^{\top})\\
-  &=V\Sigma^{\top}U^{\top}U\Sigma V^{\top}\\
-  &=V\Sigma^{\top}\Sigma V^{\top}
-\end{align*}
-
-</div></li>
-
-</ul>
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-orgff1bb26">
-<h3 id="orgff1bb26">特異値分解とGram行列の関係</h3>
-<ul>
-<li><p>
-行列 \(\Sigma^{\top}\Sigma\) は対角行列
-</p>
-
-<div>
-\begin{equation}
-  \Sigma^{\top}\Sigma
-  =
-  \begin{pmatrix}
-    \sigma_{1}^{2}&&&&&\\
-    &\ddots&&&&\\
-    &&\sigma_{r}^{2}&&&\\
-    &&&0&&\\
-    &&&&\ddots&\\
-    &&&&&0
-  \end{pmatrix}
-\end{equation}
-
-</div></li>
-
-</ul>
-
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-orgecc159f">
-<h3 id="orgecc159f">特異値と固有値の関係</h3>
-<ul>
-<li>行列 \(V\) の第 \(k\) 列ベクトル \(\boldsymbol{v}_{k}\)</li>
-<li><p>
-特異値の平方
-</p>
-
-<div>
-\begin{equation}
-  \lambda_{k}
-  =
-  \begin{cases}
-    \sigma_{k}^{2},&k\leq r\\
-    0,&k>r
-  \end{cases}
-\end{equation}
-
-</div></li>
-<li><p>
-Gram行列の固有値問題
-</p>
-
-<div>
-\begin{align}
-  X^{\top}X\boldsymbol{v}_{k}
-  &=V\Sigma^{\top}\Sigma V^{\top}\boldsymbol{v}_{k}
-  =\lambda_{k}\boldsymbol{v}_{k}
+  &p_k(\boldsymbol{x}) < p_l(\boldsymbol{x})\\
+  &\Leftrightarrow 
+    f_k(\boldsymbol{x})\pi_k < f_l(\boldsymbol{x})\pi_l\\
+  &\Leftrightarrow
+    \log f_k(\boldsymbol{x})+\log\pi_k < \log f_l(\boldsymbol{x})+\log\pi_l\\
+  &\Leftrightarrow
+    -\frac{1}{2}\det\Sigma_k
+    -\frac{1}{2}(\boldsymbol{x}-\boldsymbol{\mu}_k)^\top
+    \Sigma_k^{-1}(\boldsymbol{x}-\boldsymbol{\mu}_k)
+    +\log\pi_k\\
+  &\phantom{\Leftrightarrow}\quad <
+    -\frac{1}{2}\det\Sigma_l
+    -\frac{1}{2}(\boldsymbol{x}-\boldsymbol{\mu}_l)^\top
+    \Sigma_l^{-1}(\boldsymbol{x}-\boldsymbol{\mu}_l)
+    +\log\pi_l\\
+  &\Leftrightarrow
+    \delta_k(\boldsymbol{x}) < \delta_l(\boldsymbol{x})
 \end{align}
 
 </div>
-
-<ul>
-<li>\(X^{\top}X\) の固有値は行列 \(X\) の特異値の平方</li>
-<li>固有ベクトルは行列 \(V\) の列ベクトル \(\boldsymbol{a}_{k}=\boldsymbol{v}_{k}\)</li>
-
-</ul></li>
+</blockquote></li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org7bb8cf0">
-<h3 id="org7bb8cf0">データ行列の近似表現</h3>
+<section id="slide-orgb30f5f2">
+<h3 id="orgb30f5f2">平均・分散の推定</h3>
 <ul>
-<li>行列 \(U\) の第 \(k\) 列ベクトル \(\boldsymbol{u}_{k}\)</li>
 <li><p>
-データ行列の特異値分解: (<b>注意</b> \(\Sigma\) は対角行列)
+平均の推定 (クラスごとに行う)
 </p>
-
+<blockquote>
 <div>
 \begin{equation}
-  X
+  \hat{\boldsymbol{\mu}}_k
   =
-  U\Sigma V^{\top}
-  =
-  \sum_{k=1}^{r}\boldsymbol{u}_{k}\sigma_{k}\boldsymbol{v}_{k}^{\top}
+  \frac{1}{n_k}\sum_{i:y_i=k}\boldsymbol{x}_i
 \end{equation}
-
-</div></li>
-<li><p>
-第 \(k\) 主成分と第 \(l\) 主成分を用いた行列 \(X\) の近似 \(X'\)
-</p>
-
-<div>
-\begin{equation}
-  X\simeq X'
-  =\boldsymbol{u}_{k}\sigma_{k}\boldsymbol{v}_{k}^{\top}
-  +\boldsymbol{u}_{l}\sigma_{l}\boldsymbol{v}_{l}^{\top}
-\end{equation}
-
-</div></li>
-<li><b>バイプロット</b>: 上記の分解を利用した散布図</li>
-
-</ul>
-
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-orge40c775">
-<h3 id="orge40c775">バイプロット</h3>
-<ul>
-<li>\(X\) のばらつきを最大限保持する近似は \(k=1,l=2\)</li>
-<li><p>
-\(0\leq s\leq1\) として
-</p>
-
-<div>
-\begin{multline}
-  X'=GH^{\top},\\
-  G=
-  \begin{pmatrix}
-    \sigma_{k}^{1-s}\boldsymbol{u}_{k}&
-    \sigma_{l}^{1-s}\boldsymbol{u}_{l}
-  \end{pmatrix}
-  ,\quad
-  H=
-  \begin{pmatrix}
-    \sigma_{k}^{s}\boldsymbol{v}_{k}&
-    \sigma_{l}^{s}\boldsymbol{v}_{l}
-  \end{pmatrix}
-\end{multline}
 
 </div>
+</blockquote></li>
+<li><p>
+分散の推定 (クラスごとに行う)
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  \hat{\Sigma}_k
+  =
+  \frac{1}{n_k-1}\sum_{i:y_i=k}
+  (\boldsymbol{x}_i-\boldsymbol{\mu}_k)
+  (\boldsymbol{x}_i-\boldsymbol{\mu}_k)^\top
+\end{equation}
 
-<ul>
-<li>行列 \(G\) の各行は各データの2次元座標</li>
-<li>行列 \(H\) の各行は各変量の2次元座標</li>
-
-</ul></li>
-<li>関連がある2枚の散布図を1つの画面に表示する散布図を一般に
-<b>バイプロット</b> (biplot) と呼ぶ</li>
-<li>パラメタ \(s\) は \(0\), \(1\) または \(1/2\) が主に用いられる</li>
+</div>
+</blockquote></li>
+<li>だたし \(n_k\) は \(y_i=k\) であるようなデータの総数</li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org257d27e">
-<h3 id="org257d27e">R: 関数 <code>biplot()</code> の使い方</h3>
+<section id="slide-orgb8e3fb6">
+<h3 id="orgb8e3fb6">R: 2次判別関数 <code>qda()</code></h3>
 <ul>
-<li>Rの標準関数: <code>biplot()</code></li>
+<li>分析を行う関数: <code>MASS::qda()</code></li>
 <li>データフレームに対する分析:
 <ul>
 <li>データフレーム <code>mydata</code>: 必要な変数を含むデータフレーム</li>
-<li>列名: x1の変数名, &#x2026;, xpの変数名</li>
+<li>列名: x1の変数名, &#x2026;, xpの変数名, yの変数名</li>
 
 </ul></li>
-
-</ul>
+<li><p>
+書式は <code>lda()</code> と同じ
+</p>
 <div class="org-src-container">
 
-<pre  class="src src-R"><span style="color: #5C6370;">## </span><span style="color: #5C6370;">&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12434;&#20998;&#26512;</span>
-est <span style="color: #56B6C2;">&lt;-</span> prcomp( ~ x1&#12398;&#22793;&#25968;&#21517; + ... + xp&#12398;&#22793;&#25968;&#21517;, data = mydata)
-<span style="color: #5C6370;">## </span><span style="color: #5C6370;">&#31532;1&#12392;&#31532;2&#20027;&#25104;&#20998;&#12434;&#21033;&#29992;&#12375;&#12383;&#25955;&#24067;&#22259;</span>
-biplot(est)
-<span style="color: #5C6370;">## </span><span style="color: #5C6370;">&#31532;2&#12392;&#31532;3&#20027;&#25104;&#20998;&#12434;&#21033;&#29992;&#12375;&#12383;&#25955;&#24067;&#22259;</span>
-biplot(est, choices = c(2,3))
-<span style="color: #5C6370;">## </span><span style="color: #5C6370;">&#12497;&#12521;&#12513;&#12479; s &#12434;&#22793;&#26356; (&#26082;&#23450;&#20516;&#12399;1)</span>
-biplot(est, scale=0)
-</pre>
-</div>
-
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-org18ae803" data-background="#EEEEFF">
-<h3 id="org18ae803">演習: 関数 <code>biplot()</code> の使い方</h3>
-<ul>
-<li><a href="./code/08-biplot.r">08-biplot.r</a> を確認してみよう</li>
+<pre><code class=" R" >## データフレームを分析
+require(MASS)
+est &lt;- qda(yの変数名 ~ x1の変数名 + ... + xpの変数名, data = mydata)
+</code></pre>
+</div></li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgd8d6057" data-background="#EEEEFF">
-<h3 id="orgd8d6057">演習: 実データへの適用</h3>
+</section>
+<section>
+<section id="slide-orgac74ee5">
+<h2 id="orgac74ee5">多値判別</h2>
+<div class="outline-text-2" id="text-orgac74ee5">
+</div>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org7fc01f9">
+<h3 id="org7fc01f9">多値判別の考え方</h3>
 <ul>
-<li>バイプロットによる分析結果の図示を行ってみよう
+<li>判別関数の比較 (判別関数 \(\delta_k\) を比較)</li>
+<li>2値判別の統合 (組み合わせ数 \({}_nC_2\))</li>
+<li>\(k-1\) 個の特徴量への変換 (Rの線形判別)</li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgb6ce2eb">
+<h3 id="orgb6ce2eb">変動の分解</h3>
 <ul>
-<li>datasets::USArrests</li>
-<li>MASS::Cars93</li>
-<li>MASS::UScereal</li>
+<li><p>
+3種類の変動の関係
+</p>
+<ul>
+<li>全変動　: \(A=\sum_{i=1}^{n}(\boldsymbol{x}_{i}-\mu)(\boldsymbol{x}_{i}-\mu)^\top\)</li>
+<li>群内変動: \(W=\sum_{i=1}^{n}(\boldsymbol{x}_{i}-\mu_{y_i})(\boldsymbol{x}_{i}-\mu_{y_i})^\top\)</li>
+<li>群間変動: \(B=\sum_{k=1}^{K}n_{k}(\mu_{k}-\mu)(\mu_{k}-\mu)^\top\) <br />
+　　　　　　(\(n_{k}\) はクラス \(k\) のデータ数)</li>
+
+</ul>
+<blockquote>
+<div>
+\begin{equation}
+  \text{全変動}A
+  =
+  \text{群内変動}W
+  +\text{群間変動}B
+\end{equation}
+
+</div>
+</blockquote></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org31979ab">
+<h3 id="org31979ab">Fisherの線形判別</h3>
+<ul>
+<li>特徴量 \(Z=\alpha^\top X\)</li>
+<li>良い \(Z\) の基準:
+<ul>
+<li>クラス内では集まっているほど良い</li>
+<li>クラス間では離れているほど良い</li>
+
+</ul></li>
+<li><p>
+Fisherの基準:
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  \text{maximize}\quad \alpha^\top B\alpha
+  \quad\text{s.t.}\quad \alpha^\top W\alpha=\text{const.}
+\end{equation}
+
+</div>
+</blockquote></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org87d6d5b">
+<h3 id="org87d6d5b">Fisherの線形判別の解</h3>
+<ul>
+<li>\(\alpha\) は \(W^{-1}B\) の最大固有値 (主成分分析の導出と同様)
+<ul>
+<li><p>
+\(K=2\) の場合:
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  \alpha\propto W^{-1}(\mu_1-\mu_2)
+\end{equation}
+
+</div>
+</blockquote>
+<p>
+(線形判別と一致する)
+</p></li>
+<li>一般の \(K\) の場合: 第1から第 \(K-1\) 固有値を用いる</li>
+
+</ul></li>
+<li>判別方法: 特徴量の距離を用いる
+<ul>
+<li>\(d_{k}=\sum_{l=1}^{K-1}(\alpha_l^\top\boldsymbol{x}-\alpha_l^\top\mu_k)^2\) を計算</li>
+<li>最小の \(d_{k}\) となるクラス \(k\) に判別</li>
 
 </ul></li>
 
@@ -768,7 +811,11 @@ biplot(est, scale=0)
 </section>
 </div>
 </div>
-<script src="./reveal.js/js/reveal.js"></script>
+<script src="./reveal.js/dist/reveal.js"></script>
+<script src="./reveal.js/plugin/notes/notes.js"></script>
+<script src="./reveal.js/plugin/search/search.js"></script>
+<script src="./reveal.js/plugin/zoom/zoom.js"></script>
+<script src="./reveal.js/plugin/highlight/highlight.js"></script>
 <script>
 // Full list of configuration options available here:
 // https://github.com/hakimel/reveal.js#configuration
@@ -781,84 +828,26 @@ center: true,
 slideNumber: 'c',
 rollingLinks: false,
 keyboard: true,
-mouseWheel: true,
+mouseWheel: false,
 fragmentInURL: true,
+hashOneBasedIndex: false,
 pdfSeparateFragments: false,
 
 overview: true,
 
-theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-transition: Reveal.getQueryHash().transition || 'fade', // default/cube/page/concave/zoom/linear/fade/none
+transition: 'fade',
 transitionSpeed: 'default',
-multiplex: {
-    secret: '', // null if client
-    id: '', // id, obtained from socket.io server
-    url: '' // Location of socket.io server
-},
+chalkboard: { toggleChalkboardButton: { left: '80px' }, toggleNotesButton: { left: '130px'}}, keyboard: { 69: function() { RevealChalkboard.toggleNotesCanvas() }, 87: function() { RevealChalkboard.toggleChalkboard() }, 67: function() { RevealChalkboard.clear() }, 82: function() { RevealChalkboard.reset() }, 68: function() { RevealChalkboard.download() }, 88: function() { RevealChalkboard.colorNext() }, 89: function() { RevealChalkboard.colorPrev() }},
 
-// Optional libraries used to extend on reveal.js
+// Plugins with reveal.js 4.x
+plugins: [ RevealNotes, RevealSearch, RevealZoom, RevealHighlight ],
+
+// Optional libraries used to extend reveal.js
 dependencies: [
-{ src: './reveal.js/plugin/coursemod/coursemod.js', async: true },
-{ src: './reveal.js/plugin/quiz/js/quiz.js', async: true, callback: function() { prepareQuizzes({preventUnanswered: true}); } },
-{ src: './reveal.js/plugin/jump/jump.js', async: true },
- { src: './reveal.js/plugin/toc-progress/toc-progress.js', async: true, callback: function() { toc_progress.initialize('reduce', 'rgba(120,138,130,0.2)'); toc_progress.create(); } },
- { src: './reveal.js/plugin/anything/anything.js' },
- { src: './reveal.js/plugin/audio-slideshow/audio-slideshow.js', condition: function( ) { return !!document.body.classList && !Reveal.isSpeakerNotes(); } },
- { src: './reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
- { src: './reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } },
- { src: './reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } }]
-,audio: {
-    advance: -1, autoplay: true, defaultDuration: 0, defaultAudios: false, playerOpacity: 0.3, playerStyle: 'position: fixed; bottom: 9.5vh; left: 0%; width: 30%; height:30px; z-index: 33;' },
-  anything: [
-	{className: "animate",  initialize: (function(container, options){
-		Reveal.addEventListener( 'fragmentshown', function( event ) {
-			if (typeof event.fragment.beginElement === "function" ) {
-				event.fragment.beginElement();
-			}
-		});
-		Reveal.addEventListener( 'fragmenthidden', function( event ) {
-			if (event.fragment.hasAttribute('data-reverse') ) {
-				var reverse = event.fragment.parentElement.querySelector('[id=\"' + event.fragment.getAttribute('data-reverse') + '\"]');
-				if ( reverse && typeof reverse.beginElement === "function" ) {
-					reverse.beginElement();
-				}
-			}
-		});
-		if ( container.getAttribute("data-svg-src") ) {
-			var xhr = new XMLHttpRequest();
-			xhr.onload = function() {
-				if (xhr.readyState === 4) {
-					var svg = container.querySelector('svg');
-					container.removeChild( svg );
-					container.innerHTML = xhr.responseText + container.innerHTML;
-					if ( svg ) {
-						container.querySelector('svg').innerHTML = container.querySelector('svg').innerHTML + svg.innerHTML;
-					}
-				}
-				else {
-					console.warn( "Failed to get file. ReadyState: " + xhr.readyState + ", Status: " + xhr.status);
-				}
-			};
-			xhr.open( 'GET', container.getAttribute("data-svg-src"), true );
-			xhr.send();
-		}
-	}) },
-	{className: "randomPic",
-	 defaults: {imgalt: "Dummy alt text",
-		    imgcaption: "Image by {name}",
-		    choices: [ {name: "dummyname", path: "dummypath"} ]},
-	 initialize: (function(container, options){
-	     var choice = Math.trunc( Math.random()*(options.choices.length) );
-	     var img = "<img data-src='" + options.choices[choice].path + "' alt='" + options.choices[choice].imgalt + "' />";
-	     var caption = options.imgcaption.replace(new RegExp('\{name\}', 'gm'), options.choices[choice].name);
-	     container.innerHTML = img + caption;
-	 }) },
-	{className: "notes",
-	 initialize: (function(container, options){
-	     container.addEventListener('click', function(e) { RevealNotes.open(); });
-	 }) }
-],
-  coursemod: { enabled: true, shown: false }});
+{ src: './reveal.js/plugin/menu/menu.js'},
+{ src: './reveal.js/plugin/chalkboard/chalkboard.js'}]
+
+});
 </script>
 </body>
 </html>

@@ -33,12 +33,12 @@
 
 ** 分析の考え方
    - 1変量データ
-     $\boldsymbol{a}\cdot\boldsymbol{x}_1,\dotsc,\boldsymbol{a}\cdot\boldsymbol{x}_n$
+     $\boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_1,\dotsc,\boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_n$
      を構成
      - 観測データ $\boldsymbol{x}_1,\dots,\boldsymbol{x}_n$
        のもつ情報を最大限保持するベクトル
        $\boldsymbol{a}$ を *うまく* 選択
-     - $\boldsymbol{a}\cdot\boldsymbol{x}_1,\dotsc,\boldsymbol{a}\cdot\boldsymbol{x}_n$
+     - $\boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_1,\dotsc,\boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_n$
        のばらつきが最も大きい方向を選択
    - *最適化問題*:
      制約条件 $\|\boldsymbol{a}\|=1$
@@ -48,8 +48,8 @@
        \begin{equation}
          f(\boldsymbol{a})
          =
-         \sum_{i=1}^n(\boldsymbol{a}\cdot\boldsymbol{x}_i
-         -\boldsymbol{a}\cdot\bar{\boldsymbol{x}})^2,
+         \sum_{i=1}^n(\boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_i
+         -\boldsymbol{a}^{\mathsf{T}}\bar{\boldsymbol{x}})^2,
          \quad
          \bar{\boldsymbol{x}}
          =
@@ -92,6 +92,19 @@
      #+end_quote
 
 ** 固有値問題
+   - 最適化問題
+     #+begin_quote
+     #+begin_src latex
+       \begin{equation}
+         \text{maximize}\quad
+         f(\boldsymbol{a})
+         =
+         \boldsymbol{a}^{\mathsf{T}}X^{\mathsf{T}}X\boldsymbol{a}
+         \quad\text{s.t.}\quad
+         \boldsymbol{a}^{\mathsf{T}}\boldsymbol{a}=1
+       \end{equation}
+     #+end_src
+     #+end_quote
    - $f(\boldsymbol{a})$ の極大値を与える $\boldsymbol{a}$ は
      $X^{\mathsf{T}}X$ の固有ベクトル
      #+begin_quote
@@ -173,8 +186,8 @@
        \begin{align}
          \text{(主成分)}
          &=
-           \sum_{i=1}^{n}(\boldsymbol{a}_k\cdot\boldsymbol{x}_i
-           -\boldsymbol{a}_k\cdot\bar{\boldsymbol{x}})^2
+           \sum_{i=1}^{n}(\boldsymbol{a}_k^{\mathsf{T}}\boldsymbol{x}_i
+           -\boldsymbol{a}_k^{\mathsf{T}}\bar{\boldsymbol{x}})^2
            =\boldsymbol{a}_{k}^{\mathsf{T}}X^{\mathsf{T}}X\boldsymbol{a}_{k}
            =\lambda_k\\
          \text{(全体)}
