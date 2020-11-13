@@ -289,9 +289,9 @@
        \begin{equation}
          \hat{\Sigma}
          =
-         \frac{1}{n-k}\sum_{k=1}^K\sum_{i:y_i=k}
-         (\boldsymbol{x}_i-\boldsymbol{\mu}_k)
-         (\boldsymbol{x}_i-\boldsymbol{\mu}_k)^{\mathsf{T}}  
+         \frac{1}{n-K}\sum_{k=1}^K\sum_{i:y_i=k}
+         (\boldsymbol{x}_i-\hat{\boldsymbol{\mu}}_k)
+         (\boldsymbol{x}_i-\hat{\boldsymbol{\mu}}_k)^{\mathsf{T}}  
        \end{equation}
      #+end_src
      #+end_quote
@@ -474,8 +474,8 @@
          \hat{\Sigma}_k
          =
          \frac{1}{n_k-1}\sum_{i:y_i=k}
-         (\boldsymbol{x}_i-\boldsymbol{\mu}_k)
-         (\boldsymbol{x}_i-\boldsymbol{\mu}_k)^{\mathsf{T}}
+         (\boldsymbol{x}_i-\hat{\boldsymbol{\mu}}_k)
+         (\boldsymbol{x}_i-\hat{\boldsymbol{\mu}}_k)^{\mathsf{T}}
        \end{equation}
      #+end_src
      #+end_quote
