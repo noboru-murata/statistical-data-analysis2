@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<title>    </title>
-<meta name="author" content="    "/>
+<title>判別分析</title>
+<meta name="author" content="村田 昇"/>
 <style type="text/css">
 .underline { text-decoration: underline; }
 </style>
@@ -31,27 +31,27 @@
 <!-- Embed logos as necessary. -->
 <!-- <a class="nooutlink" href="url"><img class="state-background your-logo-class" src="whatever.png" alt="Whatever" /></a> -->
 <div class="talk-title">
-    <h1 class="no-toc-progress">    </h1>
+    <h1 class="no-toc-progress">判別分析</h1>
 </div>
 <div class="talk-subtitle">
-    <p>   </p>
+    <p>考え方</p>
 </div>
 <div class="keyboard-usage">
     <p>(Press <code>?</code> for help, <code>n</code> and <code>p</code> for next and previous slide)</p>
 </div>
 <div class="talk-author">
-  <p>    <br />
+  <p>村田 昇<br />
   2020.11.13</p>
 </div>
 
 </section>
 
 <section>
-<section id="slide-org5c543a9">
-<h2 id="org5c543a9">     </h2>
+<section id="slide-org38ddcc3">
+<h2 id="org38ddcc3">講義の予定</h2>
 <ul>
-<li><b> 1 :         </b></li>
-<li> 2 :      </li>
+<li><b>第1日: 判別分析の考え方</b></li>
+<li>第2日: 分析の評価</li>
 
 </ul>
 
@@ -60,54 +60,28 @@
 </section>
 </section>
 <section>
-<section id="slide-org32bcc16">
-<h2 id="org32bcc16">        </h2>
-<div class="outline-text-2" id="text-org32bcc16">
+<section id="slide-orgc56d0a7">
+<h2 id="orgc56d0a7">判別分析の考え方</h2>
+<div class="outline-text-2" id="text-orgc56d0a7">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org74dfeb1">
-<h3 id="org74dfeb1">    </h3>
+<section id="slide-orgb38f275">
+<h3 id="orgb38f275">判別分析</h3>
 <ul>
 <li><b>discriminant analysis</b></li>
-<li>        
-                      </li>
-<li>   : <b>    </b> (discriminant function)
+<li>個体の特徴量から
+その個体の属するクラスを予測する関係式を構成</li>
+<li>関係式: <b>判別関数</b> (discriminant function)
 <ul>
-<li>    : \(X=(X_1,\dots,X_q)\)</li>
-<li>    : \(Y\) (\(K(\geq2)\)         )</li>
+<li>説明変数: \(X=(X_1,\dots,X_q)\)</li>
+<li>目的変数: \(Y\) (\(K(\geq2)\) 個のクラスラベル)</li>
 
 </ul></li>
-<li>         :
+<li>判別関数による分類:
 <ul>
-<li>1     : <b>      </b> (linear discriminant analysis)</li>
-<li>2     : <b>2     </b> (quadratic discriminant analysis)</li>
-
-</ul></li>
-
-</ul>
-
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-org14b35de">
-<h3 id="org14b35de">      </h3>
-<ul>
-<li>                       
-<ul>
-<li>\(X=\)     </li>
-<li>\(Y=\)      </li>
-
-</ul></li>
-<li>                       
-<ul>
-<li>\(X=\)        </li>
-<li>\(Y=\)           </li>
-
-</ul></li>
-<li>          ,           
-<ul>
-<li>\(X=\)         </li>
-<li>\(Y=\)          </li>
+<li>1次式の場合: <b>線形判別分析</b> (linear discriminant analysis)</li>
+<li>2次式の場合: <b>2次判別分析</b> (quadratic discriminant analysis)</li>
 
 </ul></li>
 
@@ -115,13 +89,39 @@
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org755a51e">
-<h3 id="org755a51e">        </h3>
+<section id="slide-orgc380837">
+<h3 id="orgc380837">判別分析の例</h3>
 <ul>
-<li>        
+<li>検査結果から患者が病気を罹患しているか判定する
+<ul>
+<li>\(X=\) 検査結果</li>
+<li>\(Y=\) 病気・健康</li>
+
+</ul></li>
+<li>今日の経済指標から明日株価が上昇するか予測する
+<ul>
+<li>\(X=\) 今日の経済指標</li>
+<li>\(Y=\) 明日株価の上昇・下降</li>
+
+</ul></li>
+<li>今日の大気の状態から, 明日の天気を予測する
+<ul>
+<li>\(X=\) 今日の大気の状態</li>
+<li>\(Y=\) 晴・くもり・雨・雪</li>
+
+</ul></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org1ed2851">
+<h3 id="org1ed2851">判別分析の考え方</h3>
+<ul>
+<li>確率による定式化
 <ol>
 <li><p>
-\(X=\boldsymbol{x}\)     \(Y=k\)     <b>     </b>    
+\(X=\boldsymbol{x}\) の下で \(Y=k\) となる <b>条件付確率</b> を計算
 </p>
 <blockquote>
 <div>
@@ -131,11 +131,11 @@
 
 </div>
 </blockquote></li>
-<li>                    </li>
+<li>所属する確率が最も高いクラスに個体を分類</li>
 
 </ol></li>
 <li><p>
-     : \(n\)    \((Y,X_1,\dots,X_q)\)   
+観測データ: \(n\) 個の \((Y,X_1,\dots,X_q)\) の組
 </p>
 <blockquote>
 <div>
@@ -145,19 +145,19 @@
 
 </div>
 </blockquote></li>
-<li>             \(p_k(\boldsymbol{x})\)    </li>
+<li>観測データから条件付確率 \(p_k(\boldsymbol{x})\) を構成</li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org0359cbf">
-<h3 id="org0359cbf">     </h3>
+<section id="slide-orge6bd1d5">
+<h3 id="orge6bd1d5">条件付確率</h3>
 <ul>
-<li>     \(X\)       \(q\)          </li>
+<li>以下では \(X\) は離散型の \(q\) 次元確率変数で説明</li>
 <li><p>
-   \(X=\boldsymbol{x}\)             
-   \(Y=k\)          
+事象 \(X=\boldsymbol{x}\) が起きたという条件の下で
+事象 \(Y=k\) が起きる条件付確率
 </p>
 <blockquote>
 <div>
@@ -171,20 +171,20 @@
 
 </div>
 </blockquote></li>
-<li><span style="color:darkgreen;">                 </span></li>
+<li><span style="color:darkgreen;">以下の議論は連続な確率変数でも成立</span></li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org70d1ce0">
-<h3 id="org70d1ce0">        </h3>
+<section id="slide-orgf1b69da">
+<h3 id="orgf1b69da">条件付確率の表現</h3>
 <ul>
-<li>      \(p_k(\boldsymbol{x})\)         : 
+<li>条件付確率 \(p_k(\boldsymbol{x})\) のモデル化の方針: 
 <ul>
-<li>\(p_k(\boldsymbol{x})\)           ( :         )</li>
+<li>\(p_k(\boldsymbol{x})\) を直接モデル化する (例:ロジスティック回帰)</li>
 <li><p>
-\(Y=k\)      \(X\)            
+\(Y=k\) の下での \(X\) の条件付き確率質量関数
 </p>
 <blockquote>
 <div>
@@ -197,11 +197,11 @@
 </div>
 </blockquote>
 <p>
-          \(p_k(\boldsymbol{x})\)        
+のモデル化を通じて \(p_k(\boldsymbol{x})\) をモデル化する
 </p></li>
 
 </ul></li>
-<li>             </li>
+<li>本講義では後者について説明</li>
 
 </ul>
 
@@ -210,28 +210,28 @@
 </section>
 </section>
 <section>
-<section id="slide-org83c3949">
-<h2 id="org83c3949">         </h2>
-<div class="outline-text-2" id="text-org83c3949">
+<section id="slide-org0f06f22">
+<h2 id="org0f06f22">事後確率による判別</h2>
+<div class="outline-text-2" id="text-org0f06f22">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org24687a5">
-<h3 id="org24687a5">      </h3>
+<section id="slide-org12614fc">
+<h3 id="org12614fc">ベイズの公式</h3>
 <ul>
 <li><p>
-\(f_k(\boldsymbol{x})\)    \(p_k(\boldsymbol{x})\)         
+\(f_k(\boldsymbol{x})\) から \(p_k(\boldsymbol{x})\) を得る数学的原理
 </p>
 <blockquote>
 <p>
-<b>   \(X=\boldsymbol{x}\)      \(Y=k\)       </b>
- 
-<b>   \(Y=k\)            \(X=\boldsymbol{x}\)      </b>
-        
+<b>原因 \(X=\boldsymbol{x}\) から結果 \(Y=k\) が生じる確率</b>
+を
+<b>結果 \(Y=k\) が生じたときの原因が \(X=\boldsymbol{x}\) である確率</b>
+から計算する方法
 </p>
 </blockquote></li>
 <li><p>
-       (Bayes&rsquo; formula)
+ベイズの公式 (Bayes&rsquo; formula)
 </p>
 <blockquote>
 <div>
@@ -248,11 +248,11 @@
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org59c3cd1">
-<h3 id="org59c3cd1">         </h3>
+<section id="slide-org34b764e">
+<h3 id="org34b764e">ベイズの公式の略証</h3>
 <ul>
 <li><p>
-    
+定義より
 </p>
 <blockquote>
 <div>
@@ -267,7 +267,7 @@
 </div>
 </blockquote></li>
 <li><p>
-        :
+求める条件付確率:
 </p>
 <blockquote>
 <div>
@@ -286,7 +286,7 @@
 <section>
 <ul>
 <li><p>
-     :
+分母の展開:
 </p>
 <blockquote>
 <div>
@@ -305,21 +305,21 @@
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgd0d8a12">
-<h3 id="orgd0d8a12">         </h3>
+<section id="slide-orgabd7c8f">
+<h3 id="orgabd7c8f">事前確率と事後確率</h3>
 <ul>
-<li><b>    </b> (prior probability): \(\pi_k=P(Y=k)\)
+<li><b>事前確率</b> (prior probability): \(\pi_k=P(Y=k)\)
 <ul>
-<li>\(X=\boldsymbol{x}\)                 </li>
+<li>\(X=\boldsymbol{x}\) が与えられる前に予測されるクラス</li>
 
 </ul></li>
-<li><b>    </b> (posterior probability): \(p_k(\boldsymbol{x})\)
+<li><b>事後確率</b> (posterior probability): \(p_k(\boldsymbol{x})\)
 <ul>
-<li>\(X=\boldsymbol{x}\)                 </li>
+<li>\(X=\boldsymbol{x}\) が与えられた後に予測されるクラス</li>
 
 </ul></li>
 <li><p>
-             :
+ベイズの公式による書き換え:
 </p>
 <blockquote>
 <div>
@@ -332,7 +332,7 @@
 </div>
 
 <p>
-                       
+事前確率が特徴量の条件付確率の重みで変更される
 </p>
 </blockquote></li>
 
@@ -340,36 +340,36 @@
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org5134332">
-<h3 id="org5134332">        </h3>
+<section id="slide-orgf5ad3ac">
+<h3 id="orgf5ad3ac">事前確率の決め方</h3>
 <ul>
 <li><p>
-             :
+事前に特別な情報がない場合:
 </p>
 <blockquote>
 <p>
-             
+データから自然に決まる確率
 </p>
 <div>
 \begin{equation}
   \pi_k
   =
-  \frac{\text{\(Y=k\)      }}{\text{      }}
+  \frac{\text{\(Y=k\)のサンプル数}}{\text{全サンプル数}}
 \end{equation}
 
 </div>
 </blockquote></li>
 <li><p>
-          : 
+事前に情報がある場合: 
 </p>
 <blockquote>
 <p>
- :                       
+例: 身長や体重などの特徴量から喫煙者か否かを判別
 </p>
 <ul>
-<li>                  </li>
-<li>                   </li>
-<li>     (     )             </li>
+<li>喫煙者の身長や体重などの特徴量を収集</li>
+<li>非喫煙者の身長や体重などの特徴量を収集</li>
+<li>事前確率は(別の調査の)日本人の喫煙者の割合を利用</li>
 
 </ul>
 </blockquote></li>
@@ -381,24 +381,24 @@
 </section>
 </section>
 <section>
-<section id="slide-org74f21ea">
-<h2 id="org74f21ea">      </h2>
-<div class="outline-text-2" id="text-org74f21ea">
+<section id="slide-org983ae13">
+<h2 id="org983ae13">線形判別分析</h2>
+<div class="outline-text-2" id="text-org983ae13">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org69a15f1">
-<h3 id="org69a15f1">    </h3>
+<section id="slide-org7dfccd5">
+<h3 id="org7dfccd5">判別関数</h3>
 <ul>
-<li>      
+<li>判別の手続き
 <ol>
-<li>    \(X=\boldsymbol{x}\)    </li>
-<li>     \(p_k(\boldsymbol{x})\)    </li>
-<li>                 </li>
+<li>特徴量 \(X=\boldsymbol{x}\) の取得</li>
+<li>事後確率 \(p_k(\boldsymbol{x})\) の計算</li>
+<li>事後確率最大のクラスにデータを分類</li>
 
 </ol></li>
 <li><p>
-<b>    </b>: \(\delta_k(\boldsymbol{x})\) (\(k=1,\dots,K\))
+<b>判別関数</b>: \(\delta_k(\boldsymbol{x})\) (\(k=1,\dots,K\))
 </p>
 <blockquote>
 <div>
@@ -415,23 +415,23 @@
 </div>
 
 <p>
-                    
+事後確率の順序を保存する計算しやすい関数
 </p>
 </blockquote></li>
-<li>     \(\delta_k(\boldsymbol{x})\)           \(k\)    </li>
+<li>判別関数 \(\delta_k(\boldsymbol{x})\) を最大化するクラス \(k\) に分類</li>
 
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orga26d9d9">
-<h3 id="orga26d9d9">    </h3>
+<section id="slide-org54743b2">
+<h3 id="org54743b2">線形判別</h3>
 <ul>
-<li>\(f_k(\boldsymbol{x})\)    :
+<li>\(f_k(\boldsymbol{x})\) の仮定:
 <ul>
-<li>\(q\)            </li>
-<li>       \(\boldsymbol{\mu}_k\):          </li>
+<li>\(q\) 変量正規分布の密度関数</li>
+<li>平均ベクトル \(\boldsymbol{\mu}_k\): クラスごとに異なる</li>
 <li><p>
-      \(\Sigma\):           
+共分散行列 \(\Sigma\): すべてのクラスで共通
 </p>
 <blockquote>
 <div>
@@ -448,7 +448,7 @@
 
 </ul></li>
 <li><p>
-      : \(\boldsymbol{x}\)  1  
+線形判別関数: \(\boldsymbol{x}\) の1次式
 </p>
 
 <blockquote>
@@ -468,11 +468,11 @@
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org0a462e5">
-<h3 id="org0a462e5">      </h3>
+<section id="slide-org1d2e6b8">
+<h3 id="org1d2e6b8">同値性の確認</h3>
 <ul>
 <li><p>
-            
+事後確率と判別関数の関係
 </p>
 <blockquote>
 <div>
@@ -499,11 +499,11 @@
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org71e61cd">
-<h3 id="org71e61cd">        </h3>
+<section id="slide-org09ff48b">
+<h3 id="org09ff48b">平均・分散の推定</h3>
 <ul>
 <li><p>
-      (        )
+平均の推定 (クラスごとに行う)
 </p>
 <blockquote>
 <div>
@@ -516,11 +516,11 @@
 </div>
 
 <p>
-    \(n_k\)   \(y_i=k\)             
+ただし \(n_k\) は \(y_i=k\) であるようなデータの総数
 </p>
 </blockquote></li>
 <li><p>
-      (      )
+分散の推定 (まとめて行う)
 </p>
 <blockquote>
 <div>
@@ -539,29 +539,29 @@
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgb112b74">
-<h3 id="orgb112b74">R:        <code>MASS::lda()</code></h3>
+<section id="slide-org81efa0a">
+<h3 id="org81efa0a">R: 線形判別関数 <code>MASS::lda()</code></h3>
 <ul>
 <li><p>
-             :
+データフレームに対する分析:
 </p>
 <div class="org-src-container">
 
-<pre><code class=" R" >library(MASS) #     require(MASS) 
-lda(formula = y     ~ x1     + ... + xp    ,
-    data =        )
-## formula:       ~      
-## data:                    
-##     lm()      
+<pre><code class=" R" >library(MASS) # または require(MASS) 
+lda(formula = yの変数名 ~ x1の変数名 + ... + xpの変数名,
+    data = データフレーム)
+## formula: 目的変数名 ~ 説明変数名
+## data: 目的変数，説明変数を含むデータフレーム
+## 書式は lm() とほぼ同じ
 </code></pre>
 </div></li>
 <li><p>
-        :
+判別関数値の図示:
 </p>
 <div class="org-src-container">
 
-<pre><code class=" R" >est &lt;- lda(formula = y     ~ x1     + ... + xp    ,
-	   data =        )
+<pre><code class=" R" >est &lt;- lda(formula = yの変数名 ~ x1の変数名 + ... + xpの変数名,
+	   data = データフレーム)
 plot(est)
 </code></pre>
 </div></li>
@@ -570,13 +570,13 @@ plot(est)
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org35c195c" data-background="#fef4f4">
-<h3 id="org35c195c">    </h3>
+<section id="slide-org25e6b98" data-background="#fef4f4">
+<h3 id="org25e6b98">練習問題</h3>
 <ul>
-<li>                       
+<li>東京の気候データを用いて以下の分析を行いなさい
 <ul>
 <li><p>
-10  11                
+10月と11月の気温と湿度のデータを抽出する
 </p>
 <div class="org-src-container">
 
@@ -589,16 +589,17 @@ TW.subset  &lt;- subset(TW.data,
 </code></pre>
 </div></li>
 <li><p>
-                                    
+半分のデータを用いて線形判別関数を構成し，残りのデータを用いて判別を行う
 </p>
 <div class="org-src-container">
 
 <pre><code class=" R" >library(MASS)
 idx &lt;- seq(2,60,by = 2)
-TW.train &lt;- TW.subset[ idx,] #      
-TW.test  &lt;- TW.subset[-idx,] #      
-TW.lda &lt;- lda(month ~ temp + humid, data=TW.train) #          
-TW.pred &lt;- predict(TW.lda, newdata=TW.test) #          
+TW.train &lt;- TW.subset[ idx,] # 訓練データ
+TW.test  &lt;- TW.subset[-idx,] # 試験データ
+TW.lda &lt;- lda(month ~ temp + humid, data=TW.train) # 線形判別関数の構成
+TW.est &lt;- predict(TW.lda) # 判別関数によるクラス分類結果の取得
+TW.pred &lt;- predict(TW.lda, newdata=TW.test) # 新しいデータの予測
 </code></pre>
 </div></li>
 
@@ -609,21 +610,21 @@ TW.pred &lt;- predict(TW.lda, newdata=TW.test) #
 </section>
 </section>
 <section>
-<section id="slide-orgc70621f">
-<h2 id="orgc70621f">2     </h2>
-<div class="outline-text-2" id="text-orgc70621f">
+<section id="slide-org04ef9da">
+<h2 id="org04ef9da">2次判別分析</h2>
+<div class="outline-text-2" id="text-org04ef9da">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgcc5b9c6">
-<h3 id="orgcc5b9c6">2   </h3>
+<section id="slide-org95c11f7">
+<h3 id="org95c11f7">2次判別</h3>
 <ul>
-<li>\(f_k(\boldsymbol{x})\)    :
+<li>\(f_k(\boldsymbol{x})\) の仮定:
 <ul>
-<li>\(q\)            </li>
-<li>       \(\boldsymbol{\mu}_k\):          </li>
+<li>\(q\) 変量正規分布の密度関数</li>
+<li>平均ベクトル \(\boldsymbol{\mu}_k\): クラスごとに異なる</li>
 <li><p>
-      \(\Sigma_k\): <b>         </b>
+共分散行列 \(\Sigma_k\): <b>クラスごとに異なる</b>
 </p>
 <blockquote>
 <div>
@@ -640,7 +641,7 @@ TW.pred &lt;- predict(TW.lda, newdata=TW.test) #
 
 </ul></li>
 <li><p>
-2     : \(\boldsymbol{x}\)  2  
+2次判別関数: \(\boldsymbol{x}\) の2次式
 </p>
 <blockquote>
 <div>
@@ -660,11 +661,11 @@ TW.pred &lt;- predict(TW.lda, newdata=TW.test) #
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgdc94aad">
-<h3 id="orgdc94aad">      </h3>
+<section id="slide-orgfc6d45c">
+<h3 id="orgfc6d45c">同値性の確認</h3>
 <ul>
 <li><p>
-            
+事後確率と判別関数の関係
 </p>
 <blockquote>
 <div>
@@ -695,11 +696,11 @@ TW.pred &lt;- predict(TW.lda, newdata=TW.test) #
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgf0274db">
-<h3 id="orgf0274db">        </h3>
+<section id="slide-org548e361">
+<h3 id="org548e361">平均・分散の推定</h3>
 <ul>
 <li><p>
-      (        )
+平均の推定 (クラスごとに行う)
 </p>
 <blockquote>
 <div>
@@ -712,11 +713,11 @@ TW.pred &lt;- predict(TW.lda, newdata=TW.test) #
 </div>
 
 <p>
-    \(n_k\)   \(y_i=k\)             
+だたし \(n_k\) は \(y_i=k\) であるようなデータの総数
 </p>
 </blockquote></li>
 <li><p>
-      (        )
+分散の推定 (クラスごとに行う)
 </p>
 <blockquote>
 <div>
@@ -735,19 +736,19 @@ TW.pred &lt;- predict(TW.lda, newdata=TW.test) #
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org9d0b4df">
-<h3 id="org9d0b4df">R: 2      <code>MASS::qda()</code></h3>
+<section id="slide-orgada8831">
+<h3 id="orgada8831">R: 2次判別関数 <code>MASS::qda()</code></h3>
 <ul>
 <li><p>
-             :
+データフレームに対する分析:
 </p>
 <div class="org-src-container">
 
-<pre><code class=" R" >library(MASS) #     require(MASS) 
-qda(formula = y     ~ x1     + ... + xp    ,
-    data =        )
-## formula:       ~      
-## data:                    
+<pre><code class=" R" >library(MASS) # または require(MASS) 
+qda(formula = yの変数名 ~ x1の変数名 + ... + xpの変数名,
+    data = データフレーム)
+## formula: 目的変数名 ~ 説明変数名
+## data: 目的変数，説明変数を含むデータフレーム
 </code></pre>
 </div></li>
 
@@ -755,21 +756,22 @@ qda(formula = y     ~ x1     + ... + xp    ,
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgbe48514" data-background="#fef4f4">
-<h3 id="orgbe48514">    </h3>
+<section id="slide-orgc572faa" data-background="#fef4f4">
+<h3 id="orgc572faa">練習問題</h3>
 <ul>
-<li>                       
+<li>東京の気候データを用いて以下の分析を行いなさい
 <ul>
 <li><p>
-         2         
+前問と同様な設定で2次判別を行いなさい
 </p>
 <div class="org-src-container">
 
-<pre><code class=" R" >TW.qda &lt;- qda(month ~ temp + humid, data=TW.train) # 2        
-TW.pred &lt;- predict(TW.qda, newdata=TW.test) #          
+<pre><code class=" R" >TW.qda &lt;- qda(month ~ temp + humid, data=TW.train) # 2次判別関数の構成
+TW.est &lt;- predict(TW.qda) # 判別関数によるクラス分類結果の取得
+TW.pred &lt;- predict(TW.qda, newdata=TW.test) # 新しいデータの予測
 </code></pre>
 </div></li>
-<li>                    </li>
+<li>別の月や変数を用いて判別分析を行いなさい</li>
 
 </ul></li>
 
@@ -778,38 +780,38 @@ TW.pred &lt;- predict(TW.qda, newdata=TW.test) #
 </section>
 </section>
 <section>
-<section id="slide-org646262b">
-<h2 id="org646262b">    </h2>
-<div class="outline-text-2" id="text-org646262b">
+<section id="slide-org3365740">
+<h2 id="org3365740">多値判別</h2>
+<div class="outline-text-2" id="text-org3365740">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org0897663">
-<h3 id="org0897663">        </h3>
+<section id="slide-org0b02262">
+<h3 id="org0b02262">多値判別の考え方</h3>
 <ul>
-<li>        (     \(\delta_k\)    )</li>
-<li>2       (       \({}_nC_2\))</li>
-<li>\(k-1\)           (R     )</li>
+<li>判別関数の比較 (判別関数 \(\delta_k\) を比較)</li>
+<li>2値判別の統合 (組み合わせ数 \({}_nC_2\))</li>
+<li>\(k-1\) 個の特徴量への変換 (Rの線形判別)</li>
 
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org3acff1c">
-<h3 id="org3acff1c">     </h3>
+<section id="slide-org086f0f9">
+<h3 id="org086f0f9">変動の分解</h3>
 <ul>
-<li>3     
+<li>3種類の変動
 <ul>
 <li>\(A=\sum_{i=1}^{n}(\boldsymbol{x}_{i}-\mu)(\boldsymbol{x}_{i}-\mu)^{\mathsf{T}}\):
-   </li>
+全変動</li>
 <li>\(W=\sum_{i=1}^{n}(\boldsymbol{x}_{i}-\mu_{y_i})(\boldsymbol{x}_{i}-\mu_{y_i})^{\mathsf{T}}\):
-    </li>
+群内変動</li>
 <li>\(B=\sum_{k=1}^{K}n_{k}(\mu_{k}-\mu)(\mu_{k}-\mu)^{\mathsf{T}}\):
-     <br />
-(\(n_{k}\)      \(k\)      )</li>
+群間変動 <br />
+(\(n_{k}\) はクラス \(k\) のデータ数)</li>
 
 </ul></li>
 <li><p>
-     
+変動の関係
 </p>
 <blockquote>
 <div>
@@ -824,18 +826,18 @@ TW.pred &lt;- predict(TW.qda, newdata=TW.test) #
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org3266516">
-<h3 id="org3266516">Fisher     </h3>
+<section id="slide-org7689ecd">
+<h3 id="org7689ecd">Fisherの線形判別</h3>
 <ul>
-<li>          \(Z=\alpha^{\mathsf{T}} X\)</li>
-<li>   \(Z\)    :
+<li>判別のための特徴量 \(Z=\alpha^{\mathsf{T}} X\)</li>
+<li>良い \(Z\) の基準:
 <ul>
-<li>                 (\(\alpha^{\mathsf{T}} W\alpha\)  )</li>
-<li>                (\(\alpha^{\mathsf{T}} B\alpha\)  )</li>
+<li>クラス内では集まっているほど良い (\(\alpha^{\mathsf{T}} W\alpha\)は小)</li>
+<li>クラス間では離れているほど良い (\(\alpha^{\mathsf{T}} B\alpha\)は大)</li>
 
 </ul></li>
 <li><p>
-Fisher   :
+Fisherの基準:
 </p>
 <blockquote>
 <div>
@@ -847,7 +849,7 @@ Fisher   :
 </div>
 
 <p>
-                        
+クラス内変動を一定にしてクラス間変動を最大化する
 </p>
 </blockquote></li>
 
@@ -855,13 +857,13 @@ Fisher   :
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org9b870c1">
-<h3 id="org9b870c1">Fisher       </h3>
+<section id="slide-org7a3f0ed">
+<h3 id="org7a3f0ed">Fisherの線形判別の解</h3>
 <ul>
-<li>\(\alpha\)   \(W^{-1}B\)      (           )
+<li>\(\alpha\) は \(W^{-1}B\) の固有値 (主成分分析の導出と同様)
 <ul>
 <li><p>
-\(K=2\)    :          
+\(K=2\) の場合: 最大固有値を用いる
 </p>
 <blockquote>
 <div>
@@ -872,18 +874,18 @@ Fisher   :
 </div>
 
 <p>
-         
+線形判別と一致する
 </p>
 </blockquote></li>
-<li>    \(K\)    :  1    \(K-1\)        </li>
+<li>一般の \(K\) の場合: 第1から第 \(K-1\) 固有値を用いる</li>
 
 </ul></li>
-<li>      : <br />
-                   
+<li>判別の手続き: <br />
+特徴量とクラスの中心までの距離を用いる
 <ol>
 <li>\(d_{k}=\sum_{l=1}^{K-1}(\alpha_l^{\mathsf{T}}\boldsymbol{x}-\alpha_l^{\mathsf{T}}\mu_k)^2\) 
-   </li>
-<li>    \(d_{k}\)        \(k\)    </li>
+を計算</li>
+<li>最小の \(d_{k}\) となるクラス \(k\) に判別</li>
 
 </ol></li>
 
@@ -891,13 +893,13 @@ Fisher   :
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orge8c464f" data-background="#fef4f4">
-<h3 id="orge8c464f">    </h3>
+<section id="slide-org6d69c5d" data-background="#fef4f4">
+<h3 id="org6d69c5d">練習問題</h3>
 <ul>
-<li>                       
+<li>東京の気候データを用いて以下の分析を行いなさい
 <ul>
 <li><p>
-9  10  11                           
+9月，10月，11月の気温と湿度のデータを用いて判別関数を作成しなさい．
 </p>
 <div class="org-src-container">
 
@@ -907,7 +909,19 @@ Fisher   :
 TW.lda &lt;- lda(month ~ temp + humid, data=TW.subset)
 </code></pre>
 </div></li>
-<li>                    </li>
+<li><p>
+別の月や変数を用いて判別分析を行いなさい
+</p>
+<div class="org-src-container">
+
+<pre><code class=" R" >## 雨の有無を識別する例
+TW.mydata &lt;- transform(TW.data,
+		       rain=factor(rain&gt;0), # 雨の有無でラベル化する
+		       month=factor(month)) # 月ごとの気候の違いの補正のため
+TW.mylda &lt;- lda(rain ~ temp + solar + wind + month,
+		data=TW.mydata)
+</code></pre>
+</div></li>
 
 </ul></li>
 

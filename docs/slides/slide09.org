@@ -71,7 +71,7 @@
            f_k(\boldsymbol{x})
            =
            \frac{1}{(2\pi)^{q/2}\sqrt{\det\Sigma}}
-           \exp\left(-\frac{1}{2}(\boldsymbol{x}-\boldsymbol{\mu}_k)^\top
+           \exp\left(-\frac{1}{2}(\boldsymbol{x}-\boldsymbol{\mu}_k)^{\mathsf{T}}
              \Sigma^{-1}(\boldsymbol{x}-\boldsymbol{\mu}_k)\right)
          \end{equation}
        #+end_src
@@ -83,8 +83,8 @@
        \begin{equation}
          \delta_k(\boldsymbol{x})
          =
-         \boldsymbol{x}^\top\Sigma^{-1}\boldsymbol{\mu}_k
-         -\frac{1}{2}\boldsymbol{\mu}_k^\top\Sigma^{-1}\boldsymbol{\mu}_k
+         \boldsymbol{x}^{\mathsf{T}}\Sigma^{-1}\boldsymbol{\mu}_k
+         -\frac{1}{2}\boldsymbol{\mu}_k^{\mathsf{T}}\Sigma^{-1}\boldsymbol{\mu}_k
          +\log\pi_k
        \end{equation}
      #+end_src
@@ -101,7 +101,7 @@
            f_k(\boldsymbol{x})
            =
            \frac{1}{(2\pi)^{q/2}\sqrt{\det\Sigma_k}}
-           \exp\left(-\frac{1}{2}(\boldsymbol{x}-\boldsymbol{\mu}_k)^\top
+           \exp\left(-\frac{1}{2}(\boldsymbol{x}-\boldsymbol{\mu}_k)^{\mathsf{T}}
              \Sigma_k^{-1}(\boldsymbol{x}-\boldsymbol{\mu}_k)\right)
          \end{equation}
        #+end_src
@@ -113,7 +113,7 @@
        \delta_k(\boldsymbol{x})
        =
        -\frac{1}{2}\det\Sigma_k
-       -\frac{1}{2}(\boldsymbol{x}-\boldsymbol{\mu}_k)^\top
+       -\frac{1}{2}(\boldsymbol{x}-\boldsymbol{\mu}_k)^{\mathsf{T}}
        \Sigma_k^{-1}(\boldsymbol{x}-\boldsymbol{\mu}_k)
        +\log\pi_k
      \end{equation}
@@ -121,7 +121,7 @@
      #+end_quote
      
 ** Fisherの線形判別
-   - 新しい特徴量 $Z=\boldsymbol{\alpha}^\top X$ を考える
+   - 新しい特徴量 $Z=\boldsymbol{\alpha}^{\mathsf{T}} X$ を考える
    - 良い $Z$ の基準:
      - クラス内では集まっているほど良い
      - クラス間では離れているほど良い
@@ -129,14 +129,14 @@
      #+begin_quote
      #+begin_src latex
        \begin{equation}
-         \text{maximize}\quad \boldsymbol{\alpha}^\top B\boldsymbol{\alpha}
-         \quad\text{s.t.}\quad \boldsymbol{\alpha}^\top W\boldsymbol{\alpha}=\text{const.}
+         \text{maximize}\quad \boldsymbol{\alpha}^{\mathsf{T}} B\boldsymbol{\alpha}
+         \quad\text{s.t.}\quad \boldsymbol{\alpha}^{\mathsf{T}} W\boldsymbol{\alpha}=\text{const.}
        \end{equation}
      #+end_src
      #+end_quote
    - $\boldsymbol{\alpha}$ は $W^{-1}B$ の第1から第 $K-1$ 固有ベクトル
    - 判別方法: 特徴量の距離を用いる
-     - $d_{k}=\sum_{l=1}^{K-1}(\alpha_l^\top\boldsymbol{x}-\alpha_l^\top\mu_k)^2$ 
+     - $d_{k}=\sum_{l=1}^{K-1}(\alpha_l^{\mathsf{T}}\boldsymbol{x}-\alpha_l^{\mathsf{T}}\mu_k)^2$ 
        が最小のとなるクラス $k$ に判別
 
 
