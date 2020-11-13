@@ -129,9 +129,8 @@
   :EXPORT_FILE_NAME: lecture08
   :EXPORT_DATE: <2020-09-19 Sat>
   :END:
-  準備中
 ** スライド
-   #+html: {{< myslide base="statistical-data-analysis2" name="slide08" >}}
+   {{< myslide base="statistical-data-analysis2" name="slide08" >}}
 ** ハンドアウト
    - [[github:pdfs/slide08.pdf][PDF file]]
 
@@ -143,13 +142,14 @@
   :EXPORT_DATE: <2020-09-19 Sat>
   :END:
   準備中
-** COMMENT スライド
+** スライド
    #+html: {{< myslide base="statistical-data-analysis2" name="slide09" >}}
-** COMMENT ハンドアウト
+** ハンドアウト
    - [[github:pdfs/slide09.pdf][PDF file]]
 
 ** COMMENT 付録
    - [[github:code/slide09.R][RScript]]
+
 * 講義10
   :PROPERTIES:
   :EXPORT_FILE_NAME: lecture10

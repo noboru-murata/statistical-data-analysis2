@@ -6,9 +6,6 @@ draft = false
 weight = 1009
 +++
 
-準備中
-
-
 ## スライド {#スライド}
 
 {{< myslide base="statistical-data-analysis2" name="slide08" >}}

@@ -153,19 +153,20 @@
      #+end_src
      #+end_quote
    - 判別したいラベル: 陽性 (positive)
-     - 正しく陽性と判定: *真陽性* (true positive; TP)
-     - 誤って陽性と判定: *偽陽性* (false positive; FP) (第I種過誤)
-     - 誤って陰性と判定: *偽陰性* (false negative; FN) (第II種過誤)
-     - 正しく陰性と判定: *真陰性* (true negative; TN) 
+     - *真陽性*: 正しく陽性と判定 (true positive; TP)
+     - *偽陽性*: 誤って陽性と判定 (false positive; FP) (*第I種過誤*)
+     - *偽陰性*: 誤って陰性と判定 (false negative; FN) (*第II種過誤*)
+     - *真陰性*: 正しく陰性と判定 (true negative; TN) 
 
-** 混同行列 (confusion matrix)
-  |------------+-------------------------+-------------------------|
-  |            | 真値は陽性              | 真値は陰性              |
-  |------------+-------------------------+-------------------------|
-  | 判別は陽性 | 真陽性 (True Positive)  | 偽陽性 (False Positive) |
-  | 判別は陰性 | 偽陰性 (False Negative) | 真陰性 (True Negative)  |
-  |------------+-------------------------+-------------------------|
-  (転置で書く流儀もあるので注意)
+** 混同行列
+   |------------+-------------------------+-------------------------|
+   |            | 真値は陽性              | 真値は陰性              |
+   |------------+-------------------------+-------------------------|
+   | 判別は陽性 | 真陽性 (True Positive)  | 偽陽性 (False Positive) |
+   | 判別は陰性 | 偽陰性 (False Negative) | 真陰性 (True Negative)  |
+   |------------+-------------------------+-------------------------|
+   - confusion matrix
+   - 転置で書く流儀もあるので注意
 
 ** 混同行列 
    |------------+-------------------------+-------------------------|
@@ -174,39 +175,41 @@
    | 真値は陽性 | 真陽性 (True Positive)  | 偽陰性 (False Negative) |
    | 真値は陰性 | 偽陽性 (False Positive) | 真陰性 (True Negative)  |
    |------------+-------------------------+-------------------------|
-   (パターン認識や機械学習で多く見られた書き方．誤差行列 (error matrix) ともいう)
+   - パターン認識や機械学習で多く見られた書き方
+   - 誤差行列 (error matrix) ともいう
 
 ** いろいろな評価基準
-   #+begin_quote
-   #+begin_src latex
-     \begin{align}
-       \text{(真陽性率)}
-       &=\frac{TP}{TP+FN} \qquad\text{(true positive rate)}\\
-       \text{(真陰性率)}
-       &=\frac{TN}{FP+TN} \qquad\text{(true negative rate)}\\
-       \text{(適合率)}
-       &=\frac{TP}{TP+FP} \qquad\text{(precision)}\\
-       \text{(正答率)}
-       &=\frac{TP+TN}{TP+FP+TN+FN} \qquad\text{(accuracy)}
-     \end{align}
-   #+end_src
-   #+end_quote
-   - 真陽性率: 感度 (sensitivity) あるいは 再現率 (recall)
-   - 真陰性率: 特異度 (specificity)
-   - 正答率: 精度
+   - 精度の評価基準
+     #+begin_quote
+     #+begin_src latex
+       \begin{align}
+         \text{(真陽性率)}
+         &=\frac{TP}{TP+FN} \qquad\text{(true positive rate)}\\
+         \text{(真陰性率)}
+         &=\frac{TN}{FP+TN} \qquad\text{(true negative rate)}\\
+         \text{(適合率)}
+         &=\frac{TP}{TP+FP} \qquad\text{(precision)}\\
+         \text{(正答率)}
+         &=\frac{TP+TN}{TP+FP+TN+FN} \qquad\text{(accuracy)}
+       \end{align}
+     #+end_src
+     #+end_quote
+   - 別名 (分野で異なるので注意)
+     - 真陽性率: 感度 (sensitivity) あるいは 再現率 (recall)
+     - 真陰性率: 特異度 (specificity)
+     - 正答率: 精度
 
-** F-値 (F-measure, F-score)
+** F-値
+   - F-measure, F-score
    - 定義
      #+begin_quote
      #+begin_src latex
        \begin{align}
-         F_{1}&=\frac{2}{{1}/{\text{(再現率)}}+{1}/{\text{(適合率)}}}
-         &&\text{(調和平均)}\\
+         F_{1}&=\frac{2}{{1}/{\text{(再現率)}}+{1}/{\text{(適合率)}}}\\
          F_{\beta}&=\frac{\beta^{2}+1}{{\beta^{2}}/{\text{(真陽性率)}}+{1}/{\text{(適合率)}}}
-         &&\text{(重み付き調和平均)}
        \end{align}
      #+end_src
-     再現率(真陽性率)と適合率の調和平均
+     再現率(真陽性率)と適合率の(重み付き)調和平均
      #+end_quote
 
 ** 演習: さまざまな評価値
@@ -218,24 +221,29 @@
 
 * 予測誤差
 ** 訓練誤差と予測誤差
-  - *訓練誤差* (training error):
-    既知データに対する誤り
-  - *予測誤差* (predictive error): 
-    未知データに対する誤り
-  - 訓練誤差は予測誤差より良くなることが多い \\
-    既知データの判別に特化している可能性があるため
+  - *訓練誤差*:
+    既知データに対する誤り (training error)
+  - *予測誤差*:
+    未知データに対する誤り (predictive error)
+  - 訓練誤差は予測誤差より良くなることが多い 
+  - 既知データの判別に特化している可能性がある
     - 過適応 (over-fitting)
     - 過学習 (over-training)
+
 ** 交叉検証
-   - 収集したデータを訓練データと試験データに分割して用いる:
-     - *訓練データ* (training data): 判別関数を構成する
-     - *試験データ* (test data): 予測精度を評価する
+   - データを訓練データと試験データに分割して用いる
+     - *訓練データ*:
+       判別関数を構成する (training data)
+     - *試験データ*:
+       予測精度を評価する (test data)
    - データの分割に依存して予測誤差の評価が偏る
    - 偏りを避けるために複数回分割を行ない評価する
+   - "交差"と書く場合もある
 # データ分割の偏りによる精度評価の
 
-** 交叉検証法 (cross-validation; CV)
-   - $k$ -重交叉検証法 ($k$ -fold cross-validation; $k$ -fold CV)
+** 交叉検証法
+   - cross-validation (CV)
+   - \(k\)-重交叉検証法 (\(k\)-fold cross-validation; \(k\)-fold CV)
      - $n$ 個のデータを $k$ ブロックにランダムに分割
      - 第 $i$ ブロックを除いた $k-1$ ブロックで判別関数を推定
      - 除いておいた第 $i$ ブロックで予測誤差を評価
@@ -243,19 +251,19 @@
    - leave-one-out法 (leave-one-out CV; LOO-CV)
      - $k=n$ として上記を実行
 
-** 演習: 予測誤差の評価
+** COMMENT 演習: 予測誤差の評価
    :PROPERTIES:
    :reveal_background: #EEEEFF
    :END:
    - [[./code/10-valid.r][10-valid.r]] を確認してみよう
 
-** 演習: 交叉検証による評価
+** COMMENT 演習: 交叉検証による評価
    :PROPERTIES:
    :reveal_background: #EEEEFF
    :END:
    - [[./code/10-cv.r][10-cv.r]] を確認してみよう
 
-** 演習
+** COMMENT 演習
    :PROPERTIES:
    :reveal_background: #EEEEFF
    :END:

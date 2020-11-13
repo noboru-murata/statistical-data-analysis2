@@ -7,3 +7,13 @@ weight = 1010
 +++
 
 準備中
+
+
+## スライド {#スライド}
+
+{{< myslide base="statistical-data-analysis2" name="slide09" >}}
+
+
+## ハンドアウト {#ハンドアウト}
+
+-   [PDF file](https://noboru-murata.github.io/statistical-data-analysis2/pdfs/slide09.pdf)
