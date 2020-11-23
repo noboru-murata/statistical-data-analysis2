@@ -27,9 +27,9 @@
 ** 判別分析
    - 個体の特徴量から
      その個体の属するクラスを予測する関係式を構成
-   - *事前確率* (prior probability): $\pi_k=P(Y=k)$
+   - *事前確率*: $\pi_k=P(Y=k)$ (prior probability)
      - $X=\boldsymbol{x}$ が与えられる前に予測されるクラス
-   - *事後確率* (posterior probability): $p_k(\boldsymbol{x})$
+   - *事後確率*: $p_k(\boldsymbol{x})$ (posterior probability)
      - $X=\boldsymbol{x}$ が与えられた後に予測されるクラス
        #+begin_quote
        #+begin_src latex
@@ -41,7 +41,7 @@
      - 所属する確率が最も高いクラスに個体を分類
 ** 判別関数
    - 判別の手続き
-     - 特徴量 $X=\boldsymbol{x}$ の取得
+     - 説明変数 $X=\boldsymbol{x}$ の取得
      - 事後確率 $p_k(\boldsymbol{x})$ の計算
      - 事後確率最大のクラスにデータを分類
    - *判別関数*: $\delta_k(\boldsymbol{x})$ ($k=1,\dots,K$)
@@ -64,7 +64,7 @@
    - $f_k(\boldsymbol{x})$ の仮定:
      - $q$ 変量正規分布の密度関数
      - 平均ベクトル $\boldsymbol{\mu}_k$: クラスごとに異なる
-     - 共分散行列 $\Sigma$: すべてのクラスで共通
+     - 共分散行列 $\Sigma$: *すべてのクラスで共通*
        #+begin_quote
        #+begin_src latex
          \begin{equation}
@@ -123,8 +123,8 @@
 ** Fisherの線形判別
    - 新しい特徴量 $Z=\boldsymbol{\alpha}^{\mathsf{T}} X$ を考える
    - 良い $Z$ の基準:
-     - クラス内では集まっているほど良い
-     - クラス間では離れているほど良い
+     - クラス内では集まっているほど良い (\(\boldsymbol{\alpha}^{\mathsf{T}} W\boldsymbol{\alpha}\)は小)
+     - クラス間では離れているほど良い (\(\boldsymbol{\alpha}^{\mathsf{T}} B\boldsymbol{\alpha}\)は大)
    - Fisherの基準:
      #+begin_quote
      #+begin_src latex
@@ -165,7 +165,7 @@
    | 判別は陽性 | 真陽性 (True Positive)  | 偽陽性 (False Positive) |
    | 判別は陰性 | 偽陰性 (False Negative) | 真陰性 (True Negative)  |
    |------------+-------------------------+-------------------------|
-   - confusion matrix
+   - *confusion matrix*
    - 転置で書く流儀もあるので注意
 
 ** 混同行列 
@@ -176,10 +176,10 @@
    | 真値は陰性 | 偽陽性 (False Positive) | 真陰性 (True Negative)  |
    |------------+-------------------------+-------------------------|
    - パターン認識や機械学習で多く見られた書き方
-   - 誤差行列 (error matrix) ともいう
+   - 誤差行列 (error matrix) とも呼ばれる
 
-** いろいろな評価基準
-   - 精度の評価基準
+** 基本的な評価基準
+   - 定義
      #+begin_quote
      #+begin_src latex
        \begin{align}
@@ -194,30 +194,189 @@
        \end{align}
      #+end_src
      #+end_quote
+   #+reveal: split
    - 別名 (分野で異なるので注意)
-     - 真陽性率: 感度 (sensitivity) あるいは 再現率 (recall)
-     - 真陰性率: 特異度 (specificity)
-     - 正答率: 精度
+     - 感度 (sensitivity) あるいは 再現率 (recall):
+       #+begin_quote
+       #+begin_src latex
+         \begin{equation}
+           \text{(真陽性率)}
+           =\frac{TP}{TP+FN}
+         \end{equation}
+       #+end_src
+       #+end_quote
+     - 特異度 (specificity):
+       #+begin_quote
+       #+begin_src latex
+         \begin{equation}
+           \text{(真陰性率)}
+           =\frac{TN}{FP+TN}
+         \end{equation}
+       #+end_src
+       #+end_quote
+     - 精度:
+       #+begin_quote
+       #+begin_src latex
+         \begin{equation}
+           \text{(正答率)}
+           =\frac{TP+TN}{TP+FP+TN+FN}
+         \end{equation}
+       #+end_src
+       #+end_quote
 
 ** F-値
-   - F-measure, F-score
+   - *F-measure, F-score*
    - 定義
      #+begin_quote
      #+begin_src latex
        \begin{align}
          F_{1}&=\frac{2}{{1}/{\text{(再現率)}}+{1}/{\text{(適合率)}}}\\
-         F_{\beta}&=\frac{\beta^{2}+1}{{\beta^{2}}/{\text{(真陽性率)}}+{1}/{\text{(適合率)}}}
+         F_{\beta}&=\frac{\beta^{2}+1}{{\beta^{2}}/{\text{((再現率)}}+{1}/{\text{(適合率)}}}
        \end{align}
      #+end_src
      再現率(真陽性率)と適合率の(重み付き)調和平均
      #+end_quote
 
-** 演習: さまざまな評価値
+** Cohen の kappa 値
+   - Cohen's *kappa measure*
+   - 定義
+     #+begin_quote
+     #+begin_src latex
+       \begin{align}
+         p_{o}
+         &=\frac{TP+TN}{TP+FP+TN+FN} \qquad\text{(accuracy)}\\
+         p_{e}
+         &=\frac{TP+FP}{TP+FP+TN+FN}\cdot\frac{TP+FN}{TP+FP+TN+FN}\\
+         &\quad
+           +\frac{FN+TN}{TP+FP+TN+FN}\cdot\frac{FP+TN}{TP+FP+TN+FN}\\
+         \kappa
+         &=
+           \frac{p_{o}-p_{e}}{1-p_{e}}
+           =
+           1-\frac{1-p_{o}}{1-p_{e}}
+       \end{align}
+     #+end_src
+     観測された精度と偶然の精度の比較
+     #+end_quote
+
+
+* 実習
+** データセットの準備
+   :PROPERTIES:
+   :reveal_background: #fef4f4
+   :END:
+   - 以下のデータセットを使用します
+     - ~winequality-red.~
+       #+begin_quote
+       UC Irvine Machine Learning Repository で公開されている
+       Wine Quality Data Set の一部
+       #+end_quote
+       [[https://archive.ics.uci.edu/ml/datasets/Wine+Quality]]
+     - 以下に download せずに読み込む方法を紹介します
+       #+begin_src R :eval no
+	 WQ.org <- read.csv("https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-red.csv",
+			    sep=";") # データの区切りが ";" となっている
+	 WQ.data <- transform(WQ.org,
+			      quality=as.factor( # qualityを再分類
+				ifelse(quality %in% 7:10, "A",
+				ifelse(quality %in% 5:6, "B" ,"C"))))
+       #+end_src
+
+** R: 混同行列 ~caret::confusionMatrix()~
+   - ~caret~: 評価のためのパッケージ
+   - 判別結果の評価
+     #+begin_src R :eval no
+       install.packages("caret") # 右下ペインの package タブから install
+       library(caret) # または require(caret) 
+       confusionMatrix(data, reference)
+       ## data: 判別関数による予測ラベル (factor)
+       ## referenc: 真のラベル (上と同じfactorである必要がある)
+     #+end_src
+   
+** 練習問題
+   :PROPERTIES:
+   :reveal_background: #fef4f4
+   :END:
+   - 前回と同様に東京の機構データの線形判別を行い，
+     以下を確認しなさい
+     - 10月と11月の気温と湿度のデータを抽出する
+       #+begin_src R :eval no
+	 TW.data <- transform(read.csv("data/tokyo_weather_reg.csv"),
+			      month=substr(as.Date(date),6,7)) # 月を切り出し
+	 TW.subset  <- transform(subset(TW.data,
+					subset= month %in% c("10","11"),
+					select=c(temp,humid,month)),
+				 month=as.factor(month)) # 因子にする
+       #+end_src
+     - 全てデータを用いて線形判別関数を構成する
+     - 構成した判別関数の評価を行う
+** 練習問題
+   :PROPERTIES:
+   :reveal_background: #fef4f4
+   :END:
+   - Wine Quality Data Set を用いて
+     以下を確認しなさい
+     - 全てデータを用いて線形判別関数を構成し，評価を行う
+     - 全てデータを用いて2次判別関数を構成し，評価を行う
+     #+begin_src R :eval no :exports none :tangle yes
+       ### 練習1
+       ### 判別結果の評価
+
+       ### 東京の気象データによる線形判別分析
+       library(MASS)
+       library(caret)
+
+       ## 10月と11月の判別の例
+       ## データの整理
+       TW.data <- transform(read.csv("data/tokyo_weather_reg.csv"),
+			    month=substr(as.Date(date),6,7)) # 月を切り出し
+       TW.subset  <- transform(subset(TW.data,
+				      subset= month %in% c("10","11"),
+				      select=c(temp,humid,month)),
+			       month=as.factor(month)) # 因子にする
+       ## 判別関数を作成
+       TW.lda <- lda(month ~ temp + humid, data=TW.subset)
+       ## 判別結果の評価
+       TW.est <- predict(TW.lda)
+       confusionMatrix(TW.est$class, TW.subset$month)
+
+       ## 12ヶ月分のデータを用いた例 (説明変数は適宜選択せよ)
+       TW.subset  <- transform(subset(TW.data,
+				      select=c(temp,solar,wind,humid,month)),
+			       month=as.factor(month)) 
+       ## 判別関数を作成
+       TW.lda <- lda(month ~ ., # 右辺の . は month 以外の全てを説明変数として指定
+		     data=TW.subset)
+       ## 判別結果の評価
+       TW.est <- predict(TW.lda)
+       confusionMatrix(TW.est$class, TW.subset$month)
+       confusionMatrix(TW.est$class, TW.subset$month)$table
+       confusionMatrix(TW.est$class, TW.subset$month)$overall
+       confusionMatrix(TW.est$class, TW.subset$month)$byClass
+
+       ## Wine Quality Data Set を用いた判別分析
+       WQ.org <- read.csv("https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-red.csv",
+			  sep=";")
+       table(WQ.org$quality) 
+       WQ.data <- transform(WQ.org,
+			    quality=as.factor(
+				ifelse(quality %in% 7:10, "A",
+				ifelse(quality %in% 5:6, "B" ,"C"))))
+       ## 判別関数を作成
+       WQ.lda <- lda(quality ~ ., data=WQ.data)
+       WQ.qda <- qda(quality ~ ., data=WQ.data)
+       ## 判別結果の評価
+       confusionMatrix(predict(WQ.lda)$class, WQ.data$quality)
+       confusionMatrix(predict(WQ.qda)$class, WQ.data$quality)
+     #+end_src
+
+** COMMENT 演習: さまざまな評価値
    :PROPERTIES:
    :reveal_background: #EEEEFF
    :END:
    - 前回用いたデータについて，
      さまざまな評価値を計算してみよう
+
 
 * 予測誤差
 ** 訓練誤差と予測誤差
@@ -242,7 +401,7 @@
 # データ分割の偏りによる精度評価の
 
 ** 交叉検証法
-   - cross-validation (CV)
+   - *cross-validation (CV)* 
    - \(k\)-重交叉検証法 (\(k\)-fold cross-validation; \(k\)-fold CV)
      - $n$ 個のデータを $k$ ブロックにランダムに分割
      - 第 $i$ ブロックを除いた $k-1$ ブロックで判別関数を推定
@@ -251,6 +410,90 @@
    - leave-one-out法 (leave-one-out CV; LOO-CV)
      - $k=n$ として上記を実行
 
+
+* 実習
+** R: LOO交叉検証法
+   - 関数 ~lda()~ と ~qda()~ はオプションで LOO交叉検証を行うことができる
+   - オプションの指定方法
+     #+begin_src R :eval no
+       est <- lda(formula, data, CV=TRUE)
+       est$class # LOO CV による予測結果
+       ## 特定のデータを除いて判別関数を構成し，そのデータの予測を行っている
+       est <- qda(formula, data, CV=TRUE)
+       est$class # LOO CV による予測結果
+       ## 2次判別についても同様
+     #+end_src
+** R: k-重交叉検証法 ~caret::train()~
+   - ~caret~ パッケージの関数 ~train()~ で実行可能
+     #+begin_src R :eval no
+       train(formula, data,
+             method,
+             trControl=trainControl(method="cv", number))
+       ## formula: Rの式 
+       ## data: データフレーム
+       ## method: 推定を行う関数 method="lda"/"qda" などを指定
+       ## trControl: 学習方法の指定
+       ## trainControl のオプション
+       ##  method: 評価方法など指定 method="cv"/"LOOCV"
+       ##  number: k-重交叉検証のブロック数 (k)
+     #+end_src
+
+** 練習問題
+   :PROPERTIES:
+   :reveal_background: #fef4f4
+   :END:
+   - Wine Quality Data Set を用いた
+     線形判別と2次判別に関して，以下を行いなさい
+     - LOO交叉検証法を用いて予測誤差の評価を行いなさい
+     - k-重交叉検証法を用いて予測誤差の評価を行いなさい
+     #+begin_src R :eval no :exports none :tangle yes
+       ### 練習2
+       ### 予測誤差の評価
+
+       ### Wine Quality Data Set による誤差の評価
+       library(MASS)  # 既に読み込んでいれば不要
+       library(caret) # 既に読み込んでいれば不要
+
+       ## データの整理 (既に整理してあれば不要)
+       WQ.org <- read.csv("https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-red.csv",
+			  sep=";")
+       WQ.data <- transform(WQ.org,
+			    quality=as.factor(
+				ifelse(quality %in% 7:10, "A",
+				ifelse(quality %in% 5:6, "B" ,"C"))))
+
+       ## LOO CV の例 (lda/qdaは標準で装備している)
+       ## 線形判別
+       WQ.lda <- lda(quality ~ ., data=WQ.data) 
+       WQ.ldloo <- lda(quality ~ ., data=WQ.data, CV=TRUE)
+       confusionMatrix(predict(WQ.lda)$class, WQ.data$quality)$table
+       confusionMatrix(WQ.ldloo$class, WQ.data$quality)$table
+       ## 線形判別の過学習は微小
+
+       ## 2次判別
+       WQ.qda <- qda(quality ~ ., data=WQ.data) 
+       WQ.qdloo <- qda(quality ~ ., data=WQ.data, CV=TRUE)
+       confusionMatrix(predict(WQ.qda)$class, WQ.data$quality)$table
+       confusionMatrix(WQ.qdloo$class, WQ.data$quality)$table
+       ## 2次判別は若干過学習している
+
+       ## 予測誤差の比較
+       confusionMatrix(WQ.ldloo$class, WQ.data$quality)$overall
+       confusionMatrix(WQ.qdloo$class, WQ.data$quality)$overall
+       ## 予測誤差の観点からは線形判別の方が良さそう
+
+       ## k-重交叉検証は caret package の機能を利用して求めることができる
+       (train(quality ~., data=WQ.data, method="lda",
+		    trControl=trainControl(method="cv", number=10)))
+       (train(quality ~., data=WQ.data, method="qda",
+		    trControl=trainControl(method="cv", number=10)))
+       ## LOO CV も利用することができるが，計算は遅い
+       (train(quality ~., data=WQ.data, method="lda",
+		    trControl=trainControl(method="LOOCV")))
+       (train(quality ~., data=WQ.data, method="qda",
+		    trControl=trainControl(method="LOOCV")))
+     #+end_src
+  
 ** COMMENT 演習: 予測誤差の評価
    :PROPERTIES:
    :reveal_background: #EEEEFF
@@ -269,6 +512,10 @@
    :END:
    - 前回用いたデータについて線形・2次どちらの判別方法が望ましいか検証してみよう
 
+
+* 次週の予定
+  - *第1日: クラスター分析と階層的クラスタリング*
+  - 第2日: 非階層的クラスタリング
 
 * COMMENT ローカル変数
 # Local Variables:
