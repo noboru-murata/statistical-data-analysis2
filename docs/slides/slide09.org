@@ -287,7 +287,7 @@
 	 TW.subset  <- transform(subset(TW.data,
 					subset= month %in% c("09","10"),
 					select=c(temp,humid,month)),
-				 month=as.factor(month)) # 因子にする
+				 month=factor(month)) # 因子にする
        #+end_src
      - 全てのデータを用いて判別関数を構成する
      - 構成した判別関数の評価を行う
@@ -305,7 +305,7 @@
        TW.subset  <- transform(subset(TW.data,
 				      subset= month %in% c("09","10"),
 				      select=c(temp,humid,month)),
-			       month=as.factor(month)) # 因子にする
+			       month=factor(month)) # 因子にする
        ## 判別関数を作成
        TW.lda <- lda(month ~ temp + humid, data=TW.subset)
        TW.qda <- qda(month ~ temp + humid, data=TW.subset)

@@ -13,7 +13,7 @@ TW.data <- transform(read.csv("data/tokyo_weather_reg.csv"),
 TW.subset  <- transform(subset(TW.data,
 			       subset= month %in% c("09","10"),
 			       select=c(temp,humid,month)),
-			month=as.factor(month)) # 因子にする
+			month=factor(month)) # 因子にする
 ## 判別関数を作成
 TW.lda <- lda(month ~ temp + humid, data=TW.subset)
 TW.qda <- qda(month ~ temp + humid, data=TW.subset)
