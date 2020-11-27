@@ -9,11 +9,11 @@ library(MASS)
 ## 9月と10月の判別の例
 ## データの整理
 TW.data <- transform(read.csv("data/tokyo_weather_reg.csv"),
-		     month=substr(as.Date(date),6,7)) # 月を切り出し
+                     month=substr(as.Date(date),6,7)) # 月を切り出し
 TW.subset  <- transform(subset(TW.data,
-			       subset= month %in% c("09","10"),
-			       select=c(temp,humid,month)),
-			month=factor(month)) # 因子にする
+                               subset= month %in% c("09","10"),
+                               select=c(temp,humid,month)),
+                        month=factor(month)) # 因子にする
 ## 判別関数を作成
 TW.lda <- lda(month ~ temp + humid, data=TW.subset)
 TW.qda <- qda(month ~ temp + humid, data=TW.subset)
@@ -56,7 +56,7 @@ with(TW.subset,
 ## 誤ったデータを表示
 with(TW.subset[TW.lest$class!=TW.subset$month,], 
      points(temp, humid, 
-	    pch=1, col="orchid", cex=2, lwd=2))
+            pch=1, col="orchid", cex=2, lwd=2))
 ## 判別されるラベルごとに背景を着色
 image(x=sx, y=sy, add=TRUE, col=myBg,
       z=matrix(as.numeric(predict(TW.lda,newdata=myGrid)$class),
@@ -71,7 +71,7 @@ with(TW.subset,
 ## 誤ったデータを表示
 with(TW.subset[TW.qest$class!=TW.subset$month,], 
      points(temp, humid, 
-	    pch=1, col="orchid", cex=2, lwd=2))
+            pch=1, col="orchid", cex=2, lwd=2))
 ## 判別されるラベルごとに背景を着色
 image(x=sx, y=sy, add=TRUE, col=myBg,
       z=matrix(as.numeric(predict(TW.qda,newdata=myGrid)$class),
@@ -84,11 +84,11 @@ confusionMatrix(TW.qest$class, TW.subset$month) # 2次
 
 ## 12ヶ月分のデータを用いた例 (説明変数は適宜選択せよ)
 TW.subset  <- transform(subset(TW.data,
-			       select=c(temp,solar,wind,humid,month)),
-			month=factor(month)) 
+                               select=c(temp,solar,wind,humid,month)),
+                        month=factor(month)) 
 ## 判別関数を作成
 TW.lda <- lda(month ~ ., # 右辺の . は month 以外の全てを説明変数として指定
-	      data=TW.subset)
+              data=TW.subset)
 ## 判別結果の評価
 TW.est <- predict(TW.lda)
 confusionMatrix(TW.est$class, TW.subset$month)
@@ -101,12 +101,12 @@ confusionMatrix(TW.est$class, TW.subset$month)$byClass
 
 ## Wine Quality Data Set を用いた判別分析
 WQ.org <- read.csv("https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-red.csv",
-		   sep=";")
+                   sep=";")
 table(WQ.org$quality) 
 WQ.data <- transform(WQ.org,
-		     quality=factor(
-			 ifelse(quality %in% 7:10, "A",
-			 ifelse(quality %in% 5:6, "B" ,"C"))))
+                     quality=factor(
+                         ifelse(quality %in% 7:10, "A",
+                         ifelse(quality %in% 5:6, "B" ,"C"))))
 ## 判別関数を作成
 WQ.lda <- lda(quality ~ ., data=WQ.data)
 WQ.qda <- qda(quality ~ ., data=WQ.data)
@@ -122,11 +122,11 @@ library(MASS)  # 既に読み込んでいれば不要
 
 ## データの整理 (既に整理してあれば不要)
 TW.data <- transform(read.csv("data/tokyo_weather_reg.csv"),
-		     month=substr(as.Date(date),6,7)) # 月を切り出し
+                     month=substr(as.Date(date),6,7)) # 月を切り出し
 TW.subset  <- transform(subset(TW.data,
-			       subset= month %in% c("09","10"),
-			       select=c(temp,humid,month)),
-			month=factor(month)) # 因子にする
+                               subset= month %in% c("09","10"),
+                               select=c(temp,humid,month)),
+                        month=factor(month)) # 因子にする
 
 ## LOO交叉検証法
 lloo <- c()
@@ -174,11 +174,11 @@ library(caret) # 既に読み込んでいれば不要
 
 ## データの整理 (既に整理してあれば不要)
 WQ.org <- read.csv("https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-red.csv",
-		   sep=";")
+                   sep=";")
 WQ.data <- transform(WQ.org,
-		     quality=factor(
-			 ifelse(quality %in% 7:10, "A",
-			 ifelse(quality %in% 5:6, "B" ,"C"))))
+                     quality=factor(
+                         ifelse(quality %in% 7:10, "A",
+                         ifelse(quality %in% 5:6, "B" ,"C"))))
 
 ## LOO CV の例 (lda/qdaは標準で装備している)
 ## 線形判別
@@ -202,11 +202,11 @@ confusionMatrix(WQ.qdloo$class, WQ.data$quality)$overall
 
 ## k-重交叉検証は caret package の機能を利用して求めることができる
 (train(quality ~., data=WQ.data, method="lda",
-	     trControl=trainControl(method="cv", number=10)))
+             trControl=trainControl(method="cv", number=10)))
 (train(quality ~., data=WQ.data, method="qda",
-	     trControl=trainControl(method="cv", number=10)))
+             trControl=trainControl(method="cv", number=10)))
 ## LOO CV も利用することができるが，計算は遅い
 (train(quality ~., data=WQ.data, method="lda",
-	     trControl=trainControl(method="LOOCV")))
+             trControl=trainControl(method="LOOCV")))
 (train(quality ~., data=WQ.data, method="qda",
-	     trControl=trainControl(method="LOOCV")))
+             trControl=trainControl(method="LOOCV")))
