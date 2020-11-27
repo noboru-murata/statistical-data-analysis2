@@ -26,7 +26,7 @@ TW.qest <- predict(TW.qda)
                Truth=TW.subset$month))
 (qtab <- table(Prediction=TW.qest$class,
                Truth=TW.subset$month))
-## positive=10月とする
+## positive=9月とする
 ## 線形判別の評価
 ltab[1,1] # 真陽性 true positive
 ltab[1,2] # 偽陽性 false positive

@@ -11,16 +11,26 @@
 # C-c '
 :end:
 
+* COMMENT 講義の予定
 #+begin_src R :eval no :exports none :tangle yes
   ### 第10回 練習問題解答例
 #+end_src
 #+begin_src R :exports none
   setwd("~/Desktop/lectures/u-tokyo/autumn/slide")
 #+end_src
-
-* 講義の予定
   - *第1日: クラスター分析と階層的クラスタリング*
   - 第2日: 非階層的クラスタリング
+
+* 講義の予定
+#+begin_src R :eval no :exports none :tangle yes
+  ### 第10回 練習問題解答例
+#+end_src
+#+begin_src R :exports none
+  setwd("~/Desktop/lectures/u-tokyo/autumn/slide")
+#+end_src
+  - *第1日: クラスター分析と階層的クラスタリング*
+  - 第2日: 非階層的クラスタリング
+
 
 * クラスター分析
 ** クラスター分析とは
@@ -42,6 +52,11 @@
      - クラスターの *集まりの良さ* を評価する損失関数を定義
      - 損失関数を最小化するようにクラスターを形成
 
+** 事例
+   2次元の分布を考え
+   その中にグループを作成する方法を入れる
+   PCAで使ったデータが表示しやすい
+
 * 階層的クラスタリング
 ** 凝集的方法の手続き
    1. データ・クラスター間の距離を定義する
@@ -53,13 +68,19 @@
       (データ点とデータ点，データ点とクラスター，クラスターとクラスタのいずれの場合もあり得る)
    4. クラスター数が目的の数になるまで2,3の手続きを繰り返す
 
+** 事例
+   上の例に対して
+   系統樹でどのように見せるか
+   実際の分析結果を見せるか
+   
+* データ間の距離   
 ** データ間の距離
    - データ: 変数の値を成分としてもつベクトル
      #+begin_quote
      #+begin_src latex
        \begin{equation}
-         \boldsymbol{x}_{i}=(x_{i1},\dotsc,x_{ip})^{\top},
-         \boldsymbol{x}_{j}=(x_{j1},\dotsc,x_{jp})^{\top}\in\mathbb{R}^p
+         \boldsymbol{x}_{i}=(x_{i1},\dotsc,x_{ip})^{\mathsf{T}},
+         \boldsymbol{x}_{j}=(x_{j1},\dotsc,x_{jp})^{\mathsf{T}}\in\mathbb{R}^p
        \end{equation}
      #+end_src
      #+end_quote
@@ -81,18 +102,6 @@
      #+end_src
      #+end_quote
 
-** ミンコフスキー距離
-   - ユークリッド距離を $q$ 乗に一般化した距離
-   - 各成分の差の $q$ 乗和の $q$ 乗根($q$ ノルム)
-     #+begin_quote
-     #+begin_src latex
-       \begin{equation*}
-         d(\boldsymbol{x}_{i},\boldsymbol{x}_{j})
-         =\bigl\{|x_{i1}-x_{j1}|^{q}+\dotsb+|x_{ip}-x_{jp}|^{q}\bigr\}^{1/q}
-       \end{equation*}
-     #+end_src
-     #+end_quote
-
 ** マンハッタン距離
    - $q=1$ のミンコフスキー距離
    - 格子状に引かれた路に沿って移動するときの距離
@@ -105,6 +114,33 @@
      #+end_src
      #+end_quote
 
+** ミンコフスキー距離
+   - ユークリッド距離を $q$ 乗に一般化した距離
+   - 各成分の差の $q$ 乗和の $q$ 乗根($q$ ノルム)
+     #+begin_quote
+     #+begin_src latex
+       \begin{equation*}
+         d(\boldsymbol{x}_{i},\boldsymbol{x}_{j})
+         =\bigl\{|x_{i1}-x_{j1}|^{q}+\dotsb+|x_{ip}-x_{jp}|^{q}\bigr\}^{1/q}
+       \end{equation*}
+     #+end_src
+     #+end_quote
+
+** その他の距離
+   - 距離の定義
+   - 類似度や乖離度などデータ間に自然に定義されるものを用いることは可能
+   - 語句の共起 (同一文書に現れる頻度・確率)
+   - 会社間の取引量
+   - 擬似的な距離でもアルゴリズムは動く
+     
+* COMMENT 演習
+  
+* 実習
+  距離を比較させる問題を考える
+  ユークリッド距離とマンハッタン距離でのデータ間の違い
+  shepard plotを考えさせる．
+   
+* クラスタ間の距離   
 ** クラスター間の距離
    - データ点同士の距離をどのように使うかで定義
      - データ点の距離から陽に定義する方法
@@ -196,11 +232,21 @@
      - 物理的な意味合いを積極的に利用する場合はそのまま
      - 単位の取り方などによる分析の不確定性を避ける場合は平均0，分散1に正規化
    - データの性質を鑑みて適切に前処理
+
+* COMMENT 演習
+
+* 実習
 ** 演習: 階層的クラスタリング
    :PROPERTIES:
    :reveal_background: #EEEEFF
    :END:
    - [[./code/11-hclust.r][11-hclust.r]] を確認してみよう
+
+* COMMENT 解析事例
+  
+* 講義の予定
+  - 第1日: クラスター分析と階層的クラスタリング
+  - *第2日: 非階層的クラスタリング*
 
 * COMMENT ローカル変数
 # Local Variables:
