@@ -85,7 +85,7 @@ confusionMatrix(TW.qest$class, TW.subset$month) # 2次
 ## 12ヶ月分のデータを用いた例 (説明変数は適宜選択せよ)
 TW.subset  <- transform(subset(TW.data,
 			       select=c(temp,solar,wind,humid,month)),
-			month=as.factor(month)) 
+			month=factor(month)) 
 ## 判別関数を作成
 TW.lda <- lda(month ~ ., # 右辺の . は month 以外の全てを説明変数として指定
 	      data=TW.subset)
@@ -104,7 +104,7 @@ WQ.org <- read.csv("https://archive.ics.uci.edu/ml/machine-learning-databases/wi
 		   sep=";")
 table(WQ.org$quality) 
 WQ.data <- transform(WQ.org,
-		     quality=as.factor(
+		     quality=factor(
 			 ifelse(quality %in% 7:10, "A",
 			 ifelse(quality %in% 5:6, "B" ,"C"))))
 ## 判別関数を作成
@@ -126,7 +126,7 @@ TW.data <- transform(read.csv("data/tokyo_weather_reg.csv"),
 TW.subset  <- transform(subset(TW.data,
 			       subset= month %in% c("09","10"),
 			       select=c(temp,humid,month)),
-			month=as.factor(month)) # 因子にする
+			month=factor(month)) # 因子にする
 
 ## LOO交叉検証法
 lloo <- c()
@@ -176,7 +176,7 @@ library(caret) # 既に読み込んでいれば不要
 WQ.org <- read.csv("https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-red.csv",
 		   sep=";")
 WQ.data <- transform(WQ.org,
-		     quality=as.factor(
+		     quality=factor(
 			 ifelse(quality %in% 7:10, "A",
 			 ifelse(quality %in% 5:6, "B" ,"C"))))
 
