@@ -405,7 +405,7 @@
    :reveal_background: #fef4f4
    :END:
    - 以下のデータセットを使用します
-     - ~winequality-red.~
+     - ~winequality-red.csv~
        #+begin_quote
        UC Irvine Machine Learning Repository で公開されている
        Wine Quality Data Set の一部

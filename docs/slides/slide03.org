@@ -230,8 +230,11 @@
 
 
 * 回帰分析の考え方
-** 回帰分析 (regression analysis)
-   - ある変量を別の変量で説明する関係式を構成
+** 回帰分析
+   - *regression analysis*
+     #+begin_quote
+     ある変量を別の変量で説明する関係式を構成する方法
+     #+end_quote
    - 関係式: *回帰式* (regression equation)
      - 説明される側: *目的変数*, 被説明変数, 従属変数, 応答変数
      - 説明する側: *説明変数*, 独立変数, 共変量

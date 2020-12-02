@@ -26,8 +26,10 @@
 * 判別分析の考え方
 ** 判別分析
    - *discriminant analysis*
-   - 個体の特徴量から
-     その個体の属するクラスを予測する関係式を構成
+     #+begin_quote
+     個体の特徴量から
+     その個体の属するクラスを予測する関係式を構成する方法
+     #+end_quote
    - 関係式: *判別関数* (discriminant function)
      - 説明変数: $X=(X_1,\dots,X_q)$ 
      - 目的変数: $Y$ ($K(\geq2)$ 個のクラスラベル)

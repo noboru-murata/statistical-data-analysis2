@@ -25,8 +25,10 @@
 
 * 主成分分析の考え方
 ** 主成分分析
-   - *PCA* (Principal Component Analysis)
-   - 多数の変量のもつ情報の分析・視覚化:
+   - *principal component analysis (PCA)* 
+     #+begin_quote
+     多数の変量のもつ情報の分析・視覚化する方法
+     #+end_quote
      - 変量を効率的に縮約して少数の特徴量を構成する
      - 特徴量に関与する変量間の関係を明らかにする
 

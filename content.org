@@ -155,13 +155,15 @@
   :EXPORT_DATE: <2020-09-19 Sat>
   :END:
   準備中
-** COMMENT スライド
+** スライド
    #+html: {{< myslide base="statistical-data-analysis2" name="slide10" >}}
-** COMMENT ハンドアウト
+** ハンドアウト
    - [[github:pdfs/slide10.pdf][PDF file]]
 
-** COMMENT 付録
+** 付録
    - [[github:code/slide10.R][RScript]]
+   - [[github:data/omusubi.csv][都道府県別のおむすびの具の好み]]
+     
 * 講義11
   :PROPERTIES:
   :EXPORT_FILE_NAME: lecture11
