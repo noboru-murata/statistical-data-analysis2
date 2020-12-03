@@ -1,4 +1,4 @@
-### 第10回 資料
+### 第10回 練習問題解答例
 
 ### 練習1
 ### 距離の計算
@@ -85,7 +85,7 @@ m <- which.max(table(JS.clst)) # 最大クラスタの番号を取り出す
 JS.pca <- prcomp(JS.data[JS.clst==m,], scale.=TRUE) 
 plot(predict(JS.pca), col=m)
 text(predict(JS.pca),
-     labels=rownames(JS.data[JS.clst==l,]), col="orchid", cex=0.8)
+     labels=rownames(JS.data[JS.clst==m,]), col="orchid", cex=0.8)
 
 ### 練習2.2
 ### 階層的クラスタリング
@@ -98,14 +98,21 @@ OM.data <- read.csv(file="data/omusubi.csv", row.names=1)
 
 ## データの視覚化
 ## pairs plot
-pairs(OM.data, panel=panel.smooth, # 各散布図の傾向を見る
+pairs(OM.data,
+      col="blue",
+      panel=panel.smooth, # 各散布図の傾向を見る回帰曲線を付加
       main="Favorite Filling in Omusubi (2009)")
 ## bar plot
-barplot(t(as.matrix(OM.data)),col=rainbow(8),
-        legend.text=colnames(OM.data),
-        horiz=TRUE,xlim=c(0,130),las=2,
-        cex.names=0.6,axes=FALSE)
-title(main="Favorite Filling in Omusubi (2009)")
+barplot(t(as.matrix(OM.data)), # barplot用にデータフレームを変換
+        col=rainbow(8), # 具材ごとに色を変える
+        legend.text=colnames(OM.data), # 色の凡例を付加
+        args.legend=list(cex=0.6), # 凡例の大きさを調整
+        horiz=TRUE, # 横向きで作成
+        las=1, # ラベルを水平に表示
+        cex.names=0.6, # ラベルの文字の大きさを調整
+        xlim=c(0,120), # 凡例のためにx軸に余白を付加
+        axes=FALSE, # 座標軸を描かない
+        main="Favorite Filling in Omusubi (2009)")
 
 ## Hellinger距離の計算
 OM.dsy <- 1/sqrt(2)*daisy(sqrt(OM.data/100))

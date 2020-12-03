@@ -11,7 +11,7 @@
 # C-c '
 :end:
 
-* COMMENT 講義の予定
+* 講義の予定
 #+begin_src R :eval no :exports none :tangle yes
   ### 第10回 練習問題解答例
 #+end_src
@@ -20,7 +20,7 @@
 #+end_src
   - *第1日: クラスタ分析の考え方と階層的方法*
   - 第2日: 非階層的方法と分析の評価
-* 今週の内容
+* COMMENT 今週の内容
 #+begin_src R :eval no :exports none :tangle yes
   ### 第10回 資料
 #+end_src
@@ -76,7 +76,6 @@
        print(JS.data)
      #+end_src
 
-   #+reveal: split
    #+header: :width 720 :height 720 :res 100
    #+begin_src R :file figs/10_pairs.png :exports results :results graphics
      ## データの視覚化
@@ -86,7 +85,6 @@
    #+NAME: fig:10_pairs
    #+ATTR_HTML: height 100%
    #+ATTR_LATEX: :width 0.6\linewidth
-   [[file:figs/10_pairs.png]]
 
    #+reveal: split
    #+header: :width 720 :height 720 :res 100
@@ -124,8 +122,8 @@
    [[file:figs/10_clusplot.png]]
 
 
-* 階層的クラスタリング
-** 凝集的方法の手続き
+* 階層的方法
+** 凝集的手続き
    1. データ・クラスタ間の距離を定義する
       - データ点とデータ点の距離
       - クラスタとクラスタの距離
@@ -140,7 +138,12 @@
    - 社会生活統計指標の一部(関東)での例
      #+header: :width 720 :height 720 :res 100
      #+begin_src R :file figs/10_hclst0.png :exports results :results graphics
+       require(cluster)
+       JS.data <- read.csv(file="data/japan_social.csv", row.names=1)
+       pref <- read.csv(file="data/prefecture.csv", row.names=1)
+       rownames(JS.data) <- pref$jp
        myPlot <- function(k) {
+           if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
 	   tmpa <- JS.data[8:14,]
 	   tmpb <- list(c(1,2,3,4,1,6,7),
 			c(1,2,3,1,1,6,7),
@@ -167,7 +170,7 @@
        }
        myPlot(0)
      #+end_src
-   #+CAPTION: 凝集的方法
+   #+CAPTION: 凝集的クラスタリング
    #+NAME: fig:10_hclst0
    #+ATTR_HTML: height 100%
    #+ATTR_LATEX: :width 0.6\linewidth
@@ -242,6 +245,7 @@
    #+reveal: split
    #+header: :width 720 :height 720 :res 100
    #+begin_src R :file figs/10_dendro.png :exports results :results graphics
+     if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
      plot(agnes(scale(JS.data[8:14,])), which.plots=2,
           main="",sub="",xlab="")
    #+end_src
@@ -274,10 +278,10 @@
    - 各成分の差の2乗和の平方根 (2ノルム)
      #+begin_quote
      #+begin_src latex
-       \begin{equation*}
+       \begin{equation}
          d(\boldsymbol{x}_{i},\boldsymbol{x}_{j})
          =\sqrt{(x_{i1}-x_{j1})^{2}+\dotsb+(x_{ip}-x_{jp})^{2}}
-       \end{equation*}
+       \end{equation}
      #+end_src
      #+end_quote
 
@@ -286,10 +290,10 @@
    - 格子状に引かれた路に沿って移動するときの距離
      #+begin_quote
      #+begin_src latex
-       \begin{equation*}
+       \begin{equation}
          d(\boldsymbol{x}_{i},\boldsymbol{x}_{j})
          =|x_{i1}-x_{j1}|+\dotsb+|x_{ip}-x_{jp}|
-       \end{equation*}
+       \end{equation}
      #+end_src
      #+end_quote
 
@@ -298,10 +302,10 @@
    - 各成分の差の $q$ 乗和の $q$ 乗根($q$ ノルム)
      #+begin_quote
      #+begin_src latex
-       \begin{equation*}
+       \begin{equation}
          d(\boldsymbol{x}_{i},\boldsymbol{x}_{j})
          =\bigl\{|x_{i1}-x_{j1}|^{q}+\dotsb+|x_{ip}-x_{jp}|^{q}\bigr\}^{1/q}
-       \end{equation*}
+       \end{equation}
      #+end_src
      #+end_quote
 
@@ -324,10 +328,10 @@
        とするとどのような距離となるか答えなさい
        #+begin_quote
        #+begin_src latex
-         \begin{equation*}
+         \begin{equation}
            d(\boldsymbol{x}_{i},\boldsymbol{x}_{j})
            =\bigl\{|x_{i1}-x_{j1}|^{q}+\dotsb+|x_{ip}-x_{jp}|^{q}\bigr\}^{1/q}
-         \end{equation*}
+         \end{equation}
        #+end_src
        #+end_quote
        
@@ -517,10 +521,10 @@
    - クラスタ: いくつかのデータ点からなる集合
      #+begin_quote
      #+begin_src latex
-       \begin{equation*}
+       \begin{equation}
          C_{a}=\left\{\boldsymbol{x}_{i}|i\in\Lambda_{a}\right\},\quad
          C_{b}=\left\{\boldsymbol{x}_{j}|j\in\Lambda_{b}\right\}
-       \end{equation*}
+       \end{equation}
      #+end_src
      #+end_quote
    - 2つのクラスタ間の距離: $D(C_{a},C_{b})$
@@ -757,7 +761,7 @@
        JS.pca <- prcomp(JS.data[JS.clst==m,], scale.=TRUE) 
        plot(predict(JS.pca), col=m)
        text(predict(JS.pca),
-	    labels=rownames(JS.data[JS.clst==l,]), col="orchid", cex=0.8) 
+	    labels=rownames(JS.data[JS.clst==m,]), col="orchid", cex=0.8) 
      #+end_src
 
 ** R: 関数 ~cluster::agnes()~ 
@@ -800,7 +804,7 @@
        (閉鎖) http://www.gohan.gr.jp/result/09/anketo09.html
      - データ https://noboru-murata.github.io/multivariate-analysis/data/omusubi.csv
    #+reveal: split
-   - アンケート概要
+   - アンケート概要 (Q2の結果を利用)
      : 【応募期間】 2009年1月4日～2009年2月28日
      : 【応募方法】 インターネット、携帯ウェブ
      : 
@@ -818,13 +822,12 @@
      : 男性     9,702人     32.0%
      : 女性    20,616人     68.0%
      : 総数    30,318人    100.0%
-     - Q2の結果を利用
 
 ** 練習問題
    :PROPERTIES:
    :reveal_background: #fef4f4
    :END:
-   - 上記のWebアンケートデータを用いて以下の分析を行いなさい
+   - 上記のデータを用いて以下の分析を行いなさい
      #+begin_src R :eval no
        ### データの読み込み 
        OM.data <- read.csv(file="data/omusubi.csv", row.names=1)
@@ -856,14 +859,21 @@
        
        ## データの視覚化
        ## pairs plot
-       pairs(OM.data, panel=panel.smooth, # 各散布図の傾向を見る
+       pairs(OM.data,
+             col="blue",
+             panel=panel.smooth, # 各散布図の傾向を見る回帰曲線を付加
              main="Favorite Filling in Omusubi (2009)")
        ## bar plot
-       barplot(t(as.matrix(OM.data)),col=rainbow(8),
-               legend.text=colnames(OM.data),
-               horiz=TRUE,xlim=c(0,130),las=2,
-               cex.names=0.6,axes=FALSE)
-       title(main="Favorite Filling in Omusubi (2009)")
+       barplot(t(as.matrix(OM.data)), # barplot用にデータフレームを変換
+               col=rainbow(8), # 具材ごとに色を変える
+               legend.text=colnames(OM.data), # 色の凡例を付加
+               args.legend=list(cex=0.6), # 凡例の大きさを調整
+               horiz=TRUE, # 横向きで作成
+               las=1, # ラベルを水平に表示
+               cex.names=0.6, # ラベルの文字の大きさを調整
+               xlim=c(0,120), # 凡例のためにx軸に余白を付加
+               axes=FALSE, # 座標軸を描かない
+               main="Favorite Filling in Omusubi (2009)")
 
        ## Hellinger距離の計算
        OM.dsy <- 1/sqrt(2)*daisy(sqrt(OM.data/100))
@@ -882,6 +892,7 @@
                 col.p="green", col.txt="blue", col.clus="orange", cex=0.8,
                 main="Cluster of Omusubi Data")
      #+end_src
+
 
 * COMMENT 解析事例
 ** 都道府県別の社会生活統計指標
@@ -945,7 +956,7 @@
        (閉鎖) http://www.gohan.gr.jp/result/09/anketo09.html
      - データ https://noboru-murata.github.io/multivariate-analysis/data/omusubi.csv
    #+reveal: split
-   - アンケート概要
+   - アンケート概要 (Q2の結果を利用)
      : 【応募期間】 2009年1月4日～2009年2月28日
      : 【応募方法】 インターネット、携帯ウェブ
      : 
@@ -963,7 +974,7 @@
      : 男性     9,702人     32.0%
      : 女性    20,616人     68.0%
      : 総数    30,318人    100.0%
-     - Q2の結果を利用
+
    #+reveal: split
    - データの内容
      #+begin_src R :exports results :tangle yes
