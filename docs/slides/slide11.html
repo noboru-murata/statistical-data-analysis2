@@ -2,38 +2,28 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<title>クラスター分析 - 階層的方法</title>
+<title>クラスタ分析</title>
 <meta name="author" content="村田 昇"/>
 <style type="text/css">
 .underline { text-decoration: underline; }
 </style>
-<link rel="stylesheet" href="./reveal.js/css/reveal.css"/>
+<link rel="stylesheet" href="./reveal.js/dist/reveal.css"/>
 
-<link rel="stylesheet" href="./reveal.js/css/theme/oer-reveal.css" id="theme"/>
+<link rel="stylesheet" href="./reveal.js/dist/theme/oer-reveal.css" id="theme"/>
 
 <link rel="stylesheet" href="./reveal.js/plugin/toc-progress/toc-progress.css"/>
 
-<link rel="stylesheet" href="./reveal.js/css/theme/toc-style.css"/>
+<link rel="stylesheet" href="./reveal.js/dist/theme/toc-style.css"/>
 
-<link rel="stylesheet" href="./reveal.js/css/theme/oer-reveal.css"/>
+<link rel="stylesheet" href="./reveal.js/dist/theme/fonts/source-sans-pro/source-sans-pro.css"/>
 
-<link rel="stylesheet" href="./reveal.js/lib/font/source-sans-pro/source-sans-pro.css"/>
+<link rel="stylesheet" href="./reveal.js/plugin/accessibility/helper.css"/>
 
-<link rel="stylesheet" href="./myconf.css"/>
-
-<!-- If the query includes 'print-pdf', include the PDF print sheet -->
-<script>
-    if( window.location.search.match( /print-pdf/gi ) ) {
-        var link = document.createElement( 'link' );
-        link.rel = 'stylesheet';
-        link.type = 'text/css';
-        link.href = './reveal.js/css/print/pdf.css';
-        document.getElementsByTagName( 'head' )[0].appendChild( link );
-    }
-</script>
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<link rel="stylesheet" href="./reveal.js/dist/theme/mycourse.css"/>
+<link rel="stylesheet" href="./reveal.js/plugin/highlight/zenburn.css"/>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </head>
-<body prefix="dc: http://purl.org/dc/terms/ cc: http://creativecommons.org/ns#">
+<body>
 <div class="reveal">
 <div class="slides">
 <section id="sec-title-slide" data-state="no-toc-progress">
@@ -41,48 +31,56 @@
 <!-- Embed logos as necessary. -->
 <!-- <a class="nooutlink" href="url"><img class="state-background your-logo-class" src="whatever.png" alt="Whatever" /></a> -->
 <div class="talk-title">
-    <h1 class="no-toc-progress">クラスター分析 - 階層的方法</h1>
+    <h1 class="no-toc-progress">クラスタ分析</h1>
 </div>
 <div class="talk-subtitle">
-    <p>数理科学続論J</p>
+    <p>非階層的方法と分析の評価</p>
 </div>
 <div class="keyboard-usage">
     <p>(Press <code>?</code> for help, <code>n</code> and <code>p</code> for next and previous slide)</p>
 </div>
 <div class="talk-author">
   <p>村田 昇<br />
-  2018.12.06</p>
+  2020.12.11</p>
 </div>
 
 </section>
 
 <section>
-<section id="slide-orgd0ed213">
-<h2 id="orgd0ed213">講義の予定</h2>
+<section id="slide-org84c86c3">
+<h2 id="org84c86c3">講義の予定</h2>
 <ul>
-<li><b>第1日: クラスター分析と階層的クラスタリング</b></li>
-<li>第2日: 非階層的クラスタリング</li>
+<li>第1日: クラスタ分析の考え方と階層的方法</li>
+<li><b>第2日: 非階層的方法と分析の評価</b></li>
 
 </ul>
-
 <div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-orgf9ea2a1">
-<h2 id="orgf9ea2a1">クラスター分析</h2>
-<div class="outline-text-2" id="text-orgf9ea2a1">
+<section id="slide-org714ae29">
+<h2 id="org714ae29">クラスタ分析の復習</h2>
+<div class="outline-text-2" id="text-org714ae29">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org00bd3f9">
-<h3 id="org00bd3f9">クラスター分析とは</h3>
+<section id="slide-orgf60e2d5">
+<h3 id="orgf60e2d5">クラスタ分析</h3>
 <ul>
-<li>個体の間に隠れている <b>集まり=クラスター</b> を発見する方法</li>
-<li>個体間の距離・類似度を定義:
+<li><p>
+<b>cluster analysis</b>
+</p>
+<blockquote>
+<p>
+個体の間に隠れている
+<b>集まり=クラスタ</b>
+を個体間の&ldquo;距離&rdquo;にもとづいて発見する方法
+</p>
+</blockquote></li>
+<li>個体間の類似度・距離(非類似度)を定義:
 <ul>
-<li>同じクラスターに属する個体どうしは近い性質をもつ</li>
-<li>異なるクラスターに属する個体どうしは異なる性質をもつ</li>
+<li>同じクラスタに属する個体どうしは似通った性質</li>
+<li>異なるクラスタに属する個体どうしは異なる性質</li>
 
 </ul></li>
 <li>さらなるデータ解析やデータの可視化に利用</li>
@@ -92,300 +90,756 @@
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org4950706">
-<h3 id="org4950706">クラスター分析の考え方</h3>
+<section id="slide-org86c84f2">
+<h3 id="org86c84f2">クラスタ分析の考え方</h3>
 <ul>
 <li>階層的方法:
 <ul>
-<li>データ点およびクラスターの間に <b>距離</b> を定義</li>
+<li>データ点およびクラスタの間に <b>距離</b> を定義</li>
 <li>距離に基づいてグループ化:
 <ul>
-<li>近いものから順にクラスターを <b>凝集</b></li>
-<li>近いもの同士が残るようにクラスターを <b>分割</b></li>
+<li>近いものから順にクラスタを <b>凝集</b></li>
+<li>近いものが同じクラスタに残るように <b>分割</b></li>
 
 </ul></li>
 
 </ul></li>
 <li>非階層的方法:
 <ul>
-<li>クラスターの数を事前に指定</li>
-<li>クラスターの <b>集まりの良さ</b> を評価する損失関数を定義</li>
-<li>損失関数を最小化するようにクラスターを形成</li>
+<li>クラスタの数を事前に指定</li>
+<li>クラスタの <b>集まりの良さ</b> を評価する損失関数を定義</li>
+<li>損失関数を最小化するようにクラスタを形成</li>
 
 </ul></li>
 
 </ul>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org49bad4f">
+<h3 id="org49bad4f">階層的方法における凝集的手続き</h3>
+<div class="leftcol60">
+<ol>
+<li>データ・クラスタ間の距離を定義
+<ul>
+<li>データ点間の距離</li>
+<li>クラスタ間の距離</li>
+
+</ul></li>
+<li>データ点およびクラスタ間の距離を計算</li>
+<li>最も近い2つを統合し新たなクラスタを形成</li>
+<li>クラスタ数が1つになるまで2-3の手続きを繰り返す</li>
+
+</ol>
+
+</div>
+<div class="rightcol40">
+
+<div id="org64f79cd" class="figure">
+<p><img src="figs/11_hclst.png" alt="11_hclst.png" />
+</p>
+<p><span class="figure-number">Figure 1: </span>凝集的手続きの例</p>
+</div>
+
+</div>
+
 
 <div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-org091d838">
-<h2 id="org091d838">階層的クラスタリング</h2>
-<div class="outline-text-2" id="text-org091d838">
+<section id="slide-orga308f01">
+<h2 id="orga308f01">非階層的方法</h2>
+<div class="outline-text-2" id="text-orga308f01">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org06b86d7">
-<h3 id="org06b86d7">凝集的方法の手続き</h3>
-<ol>
-<li>データ・クラスター間の距離を定義する
+<section id="slide-org7878bee">
+<h3 id="org7878bee">非階層的方法の手続き</h3>
 <ul>
-<li>データ点とデータ点の距離</li>
-<li>クラスターとクラスターの距離</li>
-<li>(データ点とクラスターの距離はデータ1点をクラスターと考える)</li>
+<li>対象の変数: \(\boldsymbol{X}=(X_1,X_2,\dotsc,X_p)^{\mathsf{T}}\) (\(p\)次元)</li>
+<li><p>
+観測データ: \(n\) 個の個体の組
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  \{\boldsymbol{x}_{i}\}_{i=1}^{n}
+  =
+  \{(x_{i1},x_{i2},\dotsc,x_{ip})^{\mathsf{T}}\}_{i=1}^{n}
+\end{equation}
+
+</div>
+</blockquote></li>
+<li><p>
+個体とクラスタの対応 \(C\) を推定:
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  C(i)
+  =\text{(個体 $i$ が属するクラスタ番号)}
+\end{equation}
+
+</div>
+</blockquote>
+<ul>
+<li>対応 \(C\) の <b>全体の良さ</b> を評価する損失関数を設定</li>
+<li>観測データ
+\(\{\boldsymbol{x}_{i}\}_{i=1}^{n}\)
+に最適な対応
+\(\{C(i)\}_{i=1}^{n}\) を決定</li>
 
 </ul></li>
-<li>データ点および形成されているクラスターを対象にそれぞれの間の距離を求める</li>
-<li>最も近い2つを統合し新たなクラスターを作成する <br>
-(データ点とデータ点，データ点とクラスター，クラスターとクラスタのいずれの場合もあり得る)</li>
-<li>クラスター数が目的の数になるまで2,3の手続きを繰り返す</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orga13b483">
+<h3 id="orga13b483">\(k\)-平均法の損失関数</h3>
+<ul>
+<li>クラスタの個数 \(k\) を指定</li>
+<li><p>
+2つの個体 \(i,i'\) の <b>近さ=損失</b> を距離の二乗で評価
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  \|\boldsymbol{x}_i-\boldsymbol{x}_{i'}\|^2
+  =
+  \sum_{j=1}^p(x_{ij}-x_{i'j})^2
+\end{equation}
+
+</div>
+</blockquote></li>
+<li><p>
+損失関数 \(W(C)\): クラスタ内の平均の近さを評価
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  W(C)
+  =
+  \sum_{l=1}^k\frac{1}{n_l}\sum_{i:C(i)=l}\sum_{i':C(i')=l}\|\boldsymbol{x}_i-\boldsymbol{x}_{i'}\|^2
+\end{equation}
+
+</div>
+</blockquote></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org960e183">
+<h3 id="org960e183">\(k\)-平均法の性質</h3>
+<ul>
+<li><p>
+クラスタ \(l\) に属する個体の平均:
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  \bar{\boldsymbol{x}}_l
+  =
+  \frac{1}{n_l}\sum_{i:C(i)=l}\boldsymbol{x}_i
+\end{equation}
+
+</div>
+</blockquote></li>
+<li><p>
+損失関数 \(W(C)\) の等価な表現:
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  W(C)
+  =
+  2\sum_{l=1}^k\sum_{i:C(i)=l}\|\boldsymbol{x}_i-\bar{\boldsymbol{x}}_{l}\|^2
+\end{equation}
+
+</div>
+</blockquote></li>
+<li>最適な対応 \(C\): クラスタ内変動の総和が最小</li>
+
+</ul>
+
+
+<div class="slide-footer"><br></div>
+</section>
+</section>
+<section>
+<section id="slide-org1d1414a">
+<h2 id="org1d1414a">近似的な最適化</h2>
+<div class="outline-text-2" id="text-org1d1414a">
+</div>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgbf28215">
+<h3 id="orgbf28215">クラスタ対応の最適化</h3>
+<ul>
+<li>最適化: 損失関数 \(W(C)\) を最小とする \(C\) を決定</li>
+<li>貪欲な \(C\) の探索:
+<ul>
+<li>原理的には全ての値を計算すればよい</li>
+<li>可能な \(C\) の数: \(k^n\) 通り (有限個のパターン)</li>
+<li>サンプル数 \(n\) が小さくない限り実時間での実行は不可能</li>
+
+</ul></li>
+<li>近似的な \(C\) の探索:
+<ul>
+<li>いくつかのアルゴリズムが提案されている</li>
+<li><p>
+基本的な考え方: <b>Lloyd-Forgyのアルゴリズム</b>
+</p>
+<blockquote>
+<p>
+標本平均と変動の平方和の性質を利用
+</p>
+<div>
+\begin{equation}
+  \bar{\boldsymbol{x}}_l
+  =\arg\min_{\mu}
+  \sum_{i:C(i)=l}\|\boldsymbol{x}_i-\boldsymbol{\mu}\|^2
+  \quad
+  \text{(クラスタ\(l\)の標本平均)}
+\end{equation}
+
+</div>
+</blockquote></li>
+
+</ul></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org13d2046">
+<h3 id="org13d2046">Lloyd-Forgyのアルゴリズム</h3>
+<ol>
+<li>クラスタ中心の初期値 
+\(\boldsymbol{\mu}_1,\boldsymbol{\mu}_2,\dots,\boldsymbol{\mu}_k\) を与える</li>
+<li><p>
+各データの所属クラスタ番号 \(C(i)\) を求める
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  C(i)
+  =
+  \arg\min_l\|\boldsymbol{x}_i-\boldsymbol{\mu}_l\|
+\end{equation}
+
+</div>
+</blockquote></li>
+<li><p>
+各クラスタ中心 \(\boldsymbol{\mu}_l\;(l=1,2,\dotsc,k)\) を更新する
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  \boldsymbol{\mu}_l
+  =
+  \frac{1}{n_l}\sum_{i:C(i)=l}\boldsymbol{x}_i,
+  \quad
+  n_l=|\{\boldsymbol{x}_i|C(i)=l\}|
+\end{equation}
+
+</div>
+</blockquote></li>
+<li>中心が変化しなくなるまで 2,3 を繰り返す</li>
 
 </ol>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org76c6989">
-<h3 id="org76c6989">データ間の距離</h3>
+<section id="slide-org18dfcdd">
+<h3 id="org18dfcdd">アルゴリズムの性質</h3>
 <ul>
-<li><p>
-データ: 変数の値を成分としてもつベクトル
-</p>
-
-<div>
-\begin{equation}
-  \boldsymbol{x}_{i}=(x_{i1},\dotsc,x_{ip})^{\top},
-  \boldsymbol{x}_{j}=(x_{j1},\dotsc,x_{jp})^{\top}\in\mathbb{R}^p
-\end{equation}
-
-</div></li>
-<li>距離: \(d(\boldsymbol{x}_{i},\boldsymbol{x}_{j})\)</li>
-<li>代表的なデータ間の距離:
+<li>結果は確率的
 <ul>
-<li>ユークリッド距離 (Euclidean distance)</li>
-<li>ミンコフスキー距離 (Minkowski distance)</li>
-<li>マンハッタン距離 (Manhattan distance)</li>
+<li>初期値 \(\boldsymbol{\mu}_1,\boldsymbol{\mu}_2,\dots,\boldsymbol{\mu}_k\) に依存</li>
+<li>アルゴリズムの成否は確率的 <br />
+(最適解が得られない場合もある)</li>
 
 </ul></li>
-
-</ul>
-
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-org5621d99">
-<h3 id="org5621d99">ユークリッド距離</h3>
-<ul>
-<li>最も一般的な距離</li>
+<li>一般には複数の初期値をランダムに試して損失を最小とする解を採用する</li>
 <li><p>
-各成分の差の2乗和の平方根 (2ノルム)
+平均の代わりにメドイド (medoid; 中心にある観測値) を用いる方法もある
 </p>
-
-<div>
-\begin{equation*}
-  d(\boldsymbol{x}_{i},\boldsymbol{x}_{j})
-  =\sqrt{(x_{i1}-x_{j1})^{2}+\dotsb+(x_{ip}-x_{jp})^{2}}
-\end{equation*}
-
-</div></li>
-
-</ul>
-
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-orgb7e6284">
-<h3 id="orgb7e6284">ミンコフスキー距離</h3>
-<ul>
-<li>ユークリッド距離を \(q\) 乗に一般化した距離</li>
-<li><p>
-各成分の差の \(q\) 乗和の \(q\) 乗根(\(q\) ノルム)
-</p>
-
-<div>
-\begin{equation*}
-  d(\boldsymbol{x}_{i},\boldsymbol{x}_{j})
-  =\bigl\{|x_{i1}-x_{j1}|^{q}+\dotsb+|x_{ip}-x_{jp}|^{q}\bigr\}^{1/q}
-\end{equation*}
-
-</div></li>
-
-</ul>
-
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-orgf480884">
-<h3 id="orgf480884">マンハッタン距離</h3>
-<ul>
-<li>\(q=1\) のミンコフスキー距離</li>
-<li><p>
-格子状に引かれた路に沿って移動するときの距離
-</p>
-
-<div>
-\begin{equation*}
-  d(\boldsymbol{x}_{i},\boldsymbol{x}_{j})
-  =|x_{i1}-x_{j1}|+\dotsb+|x_{ip}-x_{jp}|
-\end{equation*}
-
-</div></li>
-
-</ul>
-
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-orgfb7abef">
-<h3 id="orgfb7abef">クラスター間の距離</h3>
-<ul>
-<li>データ点同士の距離をどのように使うかで定義
-<ul>
-<li>データ点の距離から陽に定義する方法</li>
-<li>クラスターを統合したときに成り立つクラスター間の距離の関係を用いて再帰的に定義する方法</li>
-
-</ul></li>
-<li><p>
-クラスター: いくつかのデータ点からなる集合
-</p>
-
-<div>
-\begin{equation*}
-  C_{a}=\left\{\boldsymbol{x}_{i}|i\in\Lambda_{a}\right\},\quad
-  C_{b}=\left\{\boldsymbol{x}_{j}|j\in\Lambda_{b}\right\}
-\end{equation*}
-
-</div></li>
-<li>2つのクラスター間の距離: \(D(C_{a},C_{b})\)</li>
-<li>代表的なクラスター間の距離
-<ul>
-<li>最短距離法 (単連結法; single linkage method)</li>
-<li>最長距離法 (完全連結法; complete linkage method)</li>
-<li>群平均法 (average linkage method)</li>
-
-</ul></li>
-
-</ul>
-
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-orgbed55fc">
-<h3 id="orgbed55fc">最短距離法</h3>
-<ul>
-<li><p>
-最も近い対象間の距離を用いる方法:
-</p>
-
+<blockquote>
 <div>
 \begin{equation}
-  D(C_{a},C_{b})
-  =\min_{\boldsymbol{x}_{i}\in C_{a},\;\boldsymbol{x}_{j}\in C_{b}} d(\boldsymbol{x}_{i},\boldsymbol{x}_{j})
-\end{equation}
-
-</div></li>
-<li><p>
-統合前後のクラスター間の関係:
-</p>
-
-<div>
-\begin{equation}
-  D(C_{a}+ C_{b}, C_{c})
-  =\min\bigl\{D(C_{a},C_{c}), D(C_{b},C_{c})\bigr\}
-  % =\min\left\{D(C_{a},C_{c}), D(C_{b},C_{c})\right\}
-\end{equation}
-
-</div></li>
-
-</ul>
-
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-orgd7ccd39">
-<h3 id="orgd7ccd39">最長距離法</h3>
-<ul>
-<li><p>
-最も遠い対象間の距離を用いる方法:
-</p>
-
-<div>
-\begin{equation}
- D(C_{a},C_{b})
-  =\max_{\boldsymbol{x}_{i}\in C_{a},\;\boldsymbol{x}_{j}\in C_{b}} d(\boldsymbol{x}_{i},\boldsymbol{x}_{j})
-\end{equation}
-
-</div></li>
-<li><p>
-統合前後のクラスター間の関係:
-</p>
-
-<div>
-\begin{equation}
-  D(C_{a}+ C_{b}, C_{c})
-  =\max\bigl\{D(C_{a},C_{c}), D(C_{b},C_{c})\bigr\}
-  % =\max\left\{D(C_{a},C_{c}), D(C_{b},C_{c})\right\}
-\end{equation}
-
-</div></li>
-
-</ul>
-
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-org666409d">
-<h3 id="org666409d">群平均法</h3>
-<ul>
-<li><p>
-全ての対象間の平均距離を用いる方法:
-</p>
-
-<div>
-\begin{equation}
-  D(C_{a},C_{b})
-  =\frac{1}{|C_{a}||C_{b}|}
-  \sum_{\boldsymbol{x}_{i}\in C_{a},\;\boldsymbol{x}_{j}\in C_{b}} d(\boldsymbol{x}_{i},\boldsymbol{x}_{j})
+  \boldsymbol{x}^{medoid}_{l}
+  =\arg\min_{\boldsymbol{x}_{i}}
+  \sum_{i':C(i')=l}
+  \|\boldsymbol{x}_{i}-\boldsymbol{x}_{i'}\|^2
 \end{equation}
 
 </div>
+</blockquote></li>
 
-<p>
-ただし \(|C_{a}|\), \(|C_{b}|\) はクラスター内の要素の数を表す
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org5ddc607">
+<h3 id="org5ddc607">事例</h3>
+<ul>
+<li><p>
+都道府県別好きなおむすびの具(一部)での例
 </p></li>
-<li><p>
-統合前後のクラスター間の関係:
-</p>
 
+</ul>
+
+
+<div id="orgd68583b" class="figure">
+<p><img src="figs/11_nhclst0.png" alt="11_nhclst0.png" />
+</p>
+<p><span class="figure-number">Figure 2: </span>非階層的クラスタリング</p>
+</div>
+
+<div class="slide-footer"><br></div>
+</section>
+<section>
+
+<div id="org8673e34" class="figure">
+<p><img src="figs/11_nhclst1.png" alt="11_nhclst1.png" />
+</p>
+<p><span class="figure-number">Figure 3: </span>Lloyd-Forgyのアルゴリズム (その1)</p>
+</div>
+
+<div class="slide-footer"><br></div>
+</section>
+<section>
+
+<div id="org699883e" class="figure">
+<p><img src="figs/11_nhclst2.png" alt="11_nhclst2.png" />
+</p>
+<p><span class="figure-number">Figure 4: </span>Lloyd-Forgyのアルゴリズム (その2)</p>
+</div>
+
+<div class="slide-footer"><br></div>
+</section>
+<section>
+
+<div id="org9a0ba3e" class="figure">
+<p><img src="figs/11_nhclst3.png" alt="11_nhclst3.png" />
+</p>
+<p><span class="figure-number">Figure 5: </span>Lloyd-Forgyのアルゴリズム (その3)</p>
+</div>
+
+<div class="slide-footer"><br></div>
+</section>
+<section>
+
+<div id="org260259e" class="figure">
+<p><img src="figs/11_nhclst4.png" alt="11_nhclst4.png" />
+</p>
+<p><span class="figure-number">Figure 6: </span>Lloyd-Forgyのアルゴリズム (その4)</p>
+</div>
+
+<div class="slide-footer"><br></div>
+</section>
+<section>
+
+<div id="org962e4de" class="figure">
+<p><img src="figs/11_nhclst5.png" alt="11_nhclst5.png" />
+</p>
+<p><span class="figure-number">Figure 7: </span>Lloyd-Forgyのアルゴリズム (その5)</p>
+</div>
+
+<div class="slide-footer"><br></div>
+</section>
+<section>
+
+<div id="org64a6add" class="figure">
+<p><img src="figs/11_nhclst6.png" alt="11_nhclst6.png" />
+</p>
+<p><span class="figure-number">Figure 8: </span>Lloyd-Forgyのアルゴリズム (その6)</p>
+</div>
+
+<div class="slide-footer"><br></div>
+</section>
+<section>
+
+<div id="orgb1c4fc4" class="figure">
+<p><img src="figs/11_nhclst.png" alt="11_nhclst.png" />
+</p>
+<p><span class="figure-number">Figure 9: </span>クラスタリングの結果</p>
+</div>
+
+
+<div class="slide-footer"><br></div>
+</section>
+</section>
+<section>
+<section id="slide-org88d255d">
+<h2 id="org88d255d">実習</h2>
+<div class="outline-text-2" id="text-org88d255d">
+</div>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org183c8e5">
+<h3 id="org183c8e5">R: 関数 <code>kmeans()</code></h3>
+<ul>
+<li><p>
+\(k\)-平均法を実行するための標準的な関数
+</p>
+<div class="org-src-container">
+
+<pre><code class=" R" >kmeans(x, centers, iter.max = 10, nstart = 1,
+       valgorithm = "Hartigan-Wong")
+## x: データフレーム
+## centers: クラスタ数
+## iter.max: 最大繰り返し数
+## nstart: 初期値の候補数
+## algorithm: 最適化法の指定．他に "Lloyd", "Forgy", "MacQueen" が指定可
+</code></pre>
+</div></li>
+<li>結果は変数のスケールにも依存
+<ul>
+<li>例えば測定値の単位により異なる</li>
+<li>必要ならば主成分分析の場合と同様にデータの標準化を行う</li>
+
+</ul></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgf7c8db1" data-background="#fef4f4">
+<h3 id="orgf7c8db1">練習問題</h3>
+<ul>
+<li><p>
+データセット <code>japan_social.csv</code> を用いて
+以下を確認しなさい
+</p>
+<div class="org-src-container">
+
+<pre><code class=" R" >JS.data &lt;- read.csv("data/japan_social.csv", row.names=1)
+</code></pre>
+</div>
+<ul>
+<li>関数 <code>kmeans()</code> を用いて
+各変数平均0，絶対偏差1に標準化したデータを7クラスタに分割しなさい</li>
+<li>各クラスタ内の県名を表示しなさい</li>
+<li>関数 <code>clusplot()</code> を用いて
+2次元散布図に各クラスタを表示しなさい</li>
+
+</ul></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org45851c9">
+<h3 id="org45851c9">R: 関数 <code>cluster::pam()</code></h3>
+<ul>
+<li><p>
+\(k\)-メドイド法を実行するための関数
+</p>
+<div class="org-src-container">
+
+<pre><code class=" R" >pam(x, k, metric = "euclidean", stand = FALSE)
+## x: データフレーム，または距離行列 
+## k: クラスタの数
+## metric: 距離の指定(xがデータフレームの場合)．他に "manhattan" が指定可
+## stand: 標準化(平均0，絶対偏差1)
+</code></pre>
+</div>
+<ul>
+<li>詳細は <code>?cluster::pam</code> を参照</li>
+
+</ul></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orge7dbd32" data-background="#fef4f4">
+<h3 id="orge7dbd32">練習問題</h3>
+<ul>
+<li>データセット <code>japan_social.csv</code> を用いて
+以下を確認しなさい
+<ul>
+<li>関数 <code>pam()</code> を用いて
+各変数平均0，絶対偏差1に標準化したデータを7クラスタに分割しなさい</li>
+<li>各クラスタ内の県名を表示しなさい</li>
+<li>関数 <code>clusplot()</code> を用いて
+2次元散布図に各クラスタを表示しなさい</li>
+
+</ul></li>
+<li>余裕がある人はデータセット <code>omusubi.csv</code> でも確認しなさい</li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+</section>
+<section>
+<section id="slide-org17989f5">
+<h2 id="org17989f5">クラスタ構造の評価</h2>
+<div class="outline-text-2" id="text-org17989f5">
+</div>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org61543c7">
+<h3 id="org61543c7">階層的方法の評価</h3>
+<ul>
+<li>評価の対象
+<ul>
+<li><p>
+データ \(\boldsymbol{x}_i\) と最初に統合されたクラスタ \(C\) の距離:
+</p>
+<blockquote>
 <div>
 \begin{equation}
-  D(C_{a}+ C_{b}, C_{c})
-  =\frac{|C_{a}|D(C_{a},C_{c})+|C_{b}|D(C_{b},C_{c})}{|C_{a}|+|C_{b}|}
+  d_i
+  =
+  D({\boldsymbol{x}_i},C)
 \end{equation}
 
+</div>
+</blockquote></li>
+<li><p>
+最後に統合された2つのクラスタ \(C',C''\) の距離:
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  D
+  =
+  D(C',C'')
+\end{equation}
+
+</div>
+</blockquote></li>
+
+</ul></li>
+<li><p>
+<b>凝集係数</b> (agglomerative coefficient):
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  AC
+  =
+  \frac{1}{n}\sum_{i=1}^{n}\left(1-\frac{d_i}{D}\right)
+\end{equation}
+
+</div>
+</blockquote></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org0da485f">
+<h3 id="org0da485f">凝集係数の性質</h3>
+<ul>
+<li><p>
+定義より
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  0\le AC\le 1
+\end{equation}
+
+</div>
+</blockquote></li>
+<li>1に近いほどクラスタ構造が明瞭</li>
+<li>banner plot の面積比として視覚化 <br />
+(banner plot: \((1-{d_i}/{D})\) をデータ毎に並べた棒グラフ)</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org02e17fd">
+<h3 id="org02e17fd">非階層的方法の評価</h3>
+<ul>
+<li>評価の対象
+<ul>
+<li><p>
+\(\boldsymbol{x}_i\) を含むクラスタ \(C^1\) と \(\boldsymbol{x}_i\) の距離:
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  d^1_i=D({\boldsymbol{x}_i},C^1\setminus{\boldsymbol{x}_i})
+\end{equation}
+
+</div>
+</blockquote></li>
+<li><p>
+一番近いクラスタ \(C^2\) と \(\boldsymbol{x}_i\) の距離:
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  d^2_i=D({\boldsymbol{x}_i},C^2)
+\end{equation}
+
+</div>
+</blockquote></li>
+
+</ul></li>
+<li><p>
+<b>シルエット係数</b> (silhouette coefficient):
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  S_i
+  =
+  \frac{d^2_i-d^1_i}{\max(d^1_i,d^2_i)}
+\end{equation}
+
+</div>
+</blockquote></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org938ef58">
+<h3 id="org938ef58">シルエット係数の性質</h3>
+<ul>
+<li><p>
+定義より
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  -1\le S_i\le 1
+\end{equation}
+
+</div>
+</blockquote></li>
+<li>1に近いほど適切なクラスタリング</li>
+<li>全体の良さを評価するには \(S_i\) の平均を用いる</li>
+<li>距離の計算を適切に行えば階層的方法でも利用可</li>
+
+</ul>
+
+
+<div class="slide-footer"><br></div>
+</section>
+</section>
+<section>
+<section id="slide-org7198a98">
+<h2 id="org7198a98">実習</h2>
+<div class="outline-text-2" id="text-org7198a98">
+</div>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgf00fc6d">
+<h3 id="orgf00fc6d">R: 関数 <code>cluster::agnes()</code></h3>
+<ul>
+<li><p>
+関数 <code>agnes()</code> による凝集係数の取得
+</p>
+<div class="org-src-container">
+
+<pre><code class=" R" >### 凝集係数の取得
+summary(agnes(x, # データフレーム
+	      metric="euclidean", stand=TRUE, # 正規化・ユークリッド距離
+	      method="average") # 群平均法
+	)$ac 
+### 凝集係数の視覚化 (banner plot)
+plot(agnes(x), which.plots=1)
+## plot および cluster::bannerplot のオプションを参考
+</code></pre>
 </div></li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orge440ca5">
-<h3 id="orge440ca5">距離計算に関する注意</h3>
+<section id="slide-org780b592" data-background="#fef4f4">
+<h3 id="org780b592">練習問題</h3>
 <ul>
-<li>データの性質に応じて距離は適宜使い分ける
+<li>データセット <code>japan_social.csv</code> を用いて
+以下を検討しなさい．
 <ul>
-<li>データ間の距離の選択</li>
-<li>クラスター間の距離の選択</li>
+<li>関数 <code>agnes()</code> を用いて階層的クラスタリングを行いなさい
+<ul>
+<li>標準化: 行う</li>
+<li>データ距離: ユークリッド距離，およびマンハッタン距離</li>
+<li>クラスタ距離: 群平均法</li>
 
 </ul></li>
-<li>変数の正規化は必要に応じて行う
-<ul>
-<li>物理的な意味合いを積極的に利用する場合はそのまま</li>
-<li>単位の取り方などによる分析の不確定性を避ける場合は平均0，分散1に正規化</li>
+<li>凝集係数を用いて2つの距離の評価を行いなさい</li>
 
 </ul></li>
-<li>データの性質を鑑みて適切に前処理</li>
 
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgea94a8a" data-background="#EEEEFF">
-<h3 id="orgea94a8a">演習: 階層的クラスタリング</h3>
+<section id="slide-org5a7edbe">
+<h3 id="org5a7edbe">R: 関数 <code>cluster::pam()</code></h3>
 <ul>
-<li><a href="./code/11-hclust.r">11-hclust.r</a> を確認してみよう</li>
+<li><p>
+関数 <code>pam()</code> によるシルエット係数の取得
+</p>
+<div class="org-src-container">
+
+<pre><code class=" R" >### シルエット係数関連の情報取得
+summary(pam(x, k))$silinfo
+### 各データのシルエット係数
+summary(pam(x, k))$silinfo$widths
+### 各クラスタのシルエット係数の平均
+summary(pam(x, k))$silinfo$clus.avg.widths
+### シルエット係数の平均
+summary(pam(OM.dsy,k=k))$silinfo$avg.width
+### シルエット係数の視覚化 (silhouette plot)
+plot(pam(OM.dsy,k=k), which.plot=2)
+## plot および cluster::silhouette のオプションを参考
+</code></pre>
+</div></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org6aad9f7" data-background="#fef4f4">
+<h3 id="org6aad9f7">練習問題</h3>
+<ul>
+<li>データセット <code>omusubi.csv</code> を用いて
+以下を検討しなさい．
+<ul>
+<li><p>
+Hellinger距離を用いて距離行列を計算しなさい
+</p>
+<blockquote>
+<p>
+\(\boldsymbol{p},\boldsymbol{q}\)
+を確率ベクトルとして
+定義される確率分布の距離
+</p>
+<div>
+\begin{equation}
+  d_{hel}(\boldsymbol{p},\boldsymbol{q})
+  =
+  \frac{1}{\sqrt{2}}d_{euc}(\sqrt{\boldsymbol{p}},\sqrt{\boldsymbol{q}})
+\end{equation}
+
+</div>
+</blockquote></li>
+<li>クラスタ数4-10のシルエット係数を比較しなさい</li>
+<li>適当と思われるクラスタ数による分析を行いなささい</li>
+
+</ul></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+</section>
+<section>
+<section id="slide-org5674c3c">
+<h2 id="org5674c3c">次週の予定</h2>
+<ul>
+<li><b>第1日: 時系列の基本モデル</b></li>
+<li>第2日: モデルの推定と予測</li>
 
 </ul>
 <div class="slide-footer"><br></div>
@@ -393,7 +847,11 @@
 </section>
 </div>
 </div>
-<script src="./reveal.js/js/reveal.js"></script>
+<script src="./reveal.js/dist/reveal.js"></script>
+<script src="./reveal.js/plugin/notes/notes.js"></script>
+<script src="./reveal.js/plugin/search/search.js"></script>
+<script src="./reveal.js/plugin/zoom/zoom.js"></script>
+<script src="./reveal.js/plugin/highlight/highlight.js"></script>
 <script>
 // Full list of configuration options available here:
 // https://github.com/hakimel/reveal.js#configuration
@@ -406,84 +864,26 @@ center: true,
 slideNumber: 'c',
 rollingLinks: false,
 keyboard: true,
-mouseWheel: true,
+mouseWheel: false,
 fragmentInURL: true,
+hashOneBasedIndex: false,
 pdfSeparateFragments: false,
 
 overview: true,
 
-theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-transition: Reveal.getQueryHash().transition || 'fade', // default/cube/page/concave/zoom/linear/fade/none
+transition: 'fade',
 transitionSpeed: 'default',
-multiplex: {
-    secret: '', // null if client
-    id: '', // id, obtained from socket.io server
-    url: '' // Location of socket.io server
-},
+chalkboard: { toggleChalkboardButton: { left: '80px' }, toggleNotesButton: { left: '130px'}}, keyboard: { 69: function() { RevealChalkboard.toggleNotesCanvas() }, 87: function() { RevealChalkboard.toggleChalkboard() }, 67: function() { RevealChalkboard.clear() }, 82: function() { RevealChalkboard.reset() }, 68: function() { RevealChalkboard.download() }, 88: function() { RevealChalkboard.colorNext() }, 89: function() { RevealChalkboard.colorPrev() }},
 
-// Optional libraries used to extend on reveal.js
+// Plugins with reveal.js 4.x
+plugins: [ RevealNotes, RevealSearch, RevealZoom, RevealHighlight ],
+
+// Optional libraries used to extend reveal.js
 dependencies: [
-{ src: './reveal.js/plugin/coursemod/coursemod.js', async: true },
-{ src: './reveal.js/plugin/quiz/js/quiz.js', async: true, callback: function() { prepareQuizzes({preventUnanswered: true}); } },
-{ src: './reveal.js/plugin/jump/jump.js', async: true },
- { src: './reveal.js/plugin/toc-progress/toc-progress.js', async: true, callback: function() { toc_progress.initialize('reduce', 'rgba(120,138,130,0.2)'); toc_progress.create(); } },
- { src: './reveal.js/plugin/anything/anything.js' },
- { src: './reveal.js/plugin/audio-slideshow/audio-slideshow.js', condition: function( ) { return !!document.body.classList && !Reveal.isSpeakerNotes(); } },
- { src: './reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
- { src: './reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } },
- { src: './reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } }]
-,audio: {
-    advance: -1, autoplay: true, defaultDuration: 0, defaultAudios: false, playerOpacity: 0.3, playerStyle: 'position: fixed; bottom: 9.5vh; left: 0%; width: 30%; height:30px; z-index: 33;' },
-  anything: [
-	{className: "animate",  initialize: (function(container, options){
-		Reveal.addEventListener( 'fragmentshown', function( event ) {
-			if (typeof event.fragment.beginElement === "function" ) {
-				event.fragment.beginElement();
-			}
-		});
-		Reveal.addEventListener( 'fragmenthidden', function( event ) {
-			if (event.fragment.hasAttribute('data-reverse') ) {
-				var reverse = event.fragment.parentElement.querySelector('[id=\"' + event.fragment.getAttribute('data-reverse') + '\"]');
-				if ( reverse && typeof reverse.beginElement === "function" ) {
-					reverse.beginElement();
-				}
-			}
-		});
-		if ( container.getAttribute("data-svg-src") ) {
-			var xhr = new XMLHttpRequest();
-			xhr.onload = function() {
-				if (xhr.readyState === 4) {
-					var svg = container.querySelector('svg');
-					container.removeChild( svg );
-					container.innerHTML = xhr.responseText + container.innerHTML;
-					if ( svg ) {
-						container.querySelector('svg').innerHTML = container.querySelector('svg').innerHTML + svg.innerHTML;
-					}
-				}
-				else {
-					console.warn( "Failed to get file. ReadyState: " + xhr.readyState + ", Status: " + xhr.status);
-				}
-			};
-			xhr.open( 'GET', container.getAttribute("data-svg-src"), true );
-			xhr.send();
-		}
-	}) },
-	{className: "randomPic",
-	 defaults: {imgalt: "Dummy alt text",
-		    imgcaption: "Image by {name}",
-		    choices: [ {name: "dummyname", path: "dummypath"} ]},
-	 initialize: (function(container, options){
-	     var choice = Math.trunc( Math.random()*(options.choices.length) );
-	     var img = "<img data-src='" + options.choices[choice].path + "' alt='" + options.choices[choice].imgalt + "' />";
-	     var caption = options.imgcaption.replace(new RegExp('\{name\}', 'gm'), options.choices[choice].name);
-	     container.innerHTML = img + caption;
-	 }) },
-	{className: "notes",
-	 initialize: (function(container, options){
-	     container.addEventListener('click', function(e) { RevealNotes.open(); });
-	 }) }
-],
-  coursemod: { enabled: true, shown: false }});
+{ src: './reveal.js/plugin/menu/menu.js'},
+{ src: './reveal.js/plugin/chalkboard/chalkboard.js'}]
+
+});
 </script>
 </body>
 </html>
