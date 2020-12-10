@@ -9,7 +9,7 @@ JS.data <- read.csv(file="data/japan_social.csv", row.names=1)
 ## k-平均法の実行: 
 set.seed(1234) # 必要に応じて初期値の乱数のシード
 k <- 7 # 分割数を指定
-JS.km <- kmeans(daisy(JS.data, stand=TRUE), # 標準化
+JS.km <- kmeans(scale(JS.data), # 標準化
 		centers=k, # クラスタ数
 		nstart=20) # 初期値を20回変更して試す
 
@@ -27,7 +27,7 @@ clusplot(x=JS.data,
 	 lines=0, labels=3, # 表示の指定
 	 main=NULL, sub=NULL, cex=0.8, # タイトルなどの調整
 	 col.p=rainbow(k)[JS.km$cluster], # 虹色で色付け
-	 col.clus="orange", shade=FALSE)  # クラスタ囲みの指定
+	 col.clus="orange", shade=FALSE)	 # クラスタ囲みの指定
 
 ### 練習1.2
 ### 関数 pam による非階層的クラスタリング
@@ -37,7 +37,7 @@ JS.pam <- pam(JS.data,
 	      stand=TRUE,
 	      k=k)
 
-## 各クラスター内の県名を表示 (前問とは別の書き方)
+## 各クラスター内の県名を表示
 for(i in 1:k){
     cat("<< cluster",i,">>\n")
     print(names(which(JS.pam$clustering==i)))
@@ -84,7 +84,7 @@ JS.data <- read.csv("data/japan_social.csv", row.names=1)
 ## ユークリッド距離による階層的クラスタリング
 JS.agn.euc <- agnes(JS.data,
 		 metric="euclidean", # データ距離
-		 stand=TRUE,         # 標準化
+		 stand=TRUE,	    # 標準化
 		 method="average")   # クラスタ距離
 plot(JS.agn.euc, which.plots=2, # デンドログラムの表示
      main="euclidean") 
@@ -121,17 +121,17 @@ summary(agnes(JS.data[-c(1,13,45,46),],
 ## ユークリッド距離の方が凝集係数は大きいことがわかる
 ## 個別の係数の確認
 plot(agnes(JS.data[-c(1,13,45,46),],
-           metric="euclidean",
-           stand=TRUE,
-           method="average"),
+	   metric="euclidean",
+	   stand=TRUE,
+	   method="average"),
      which.plots=1,
      nmax.lab=50,  
      max.strlen=5,
      main="euclidean")
 plot(agnes(JS.data[-c(1,13,45,46),],
-           metric="manhattan",
-           stand=TRUE,
-           method="average"),
+	   metric="manhattan",
+	   stand=TRUE,
+	   method="average"),
      which.plots=1,
      nmax.lab=50,  
      max.strlen=5,

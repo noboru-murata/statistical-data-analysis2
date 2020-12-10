@@ -80,31 +80,31 @@
      pref <- read.csv(file="data/prefecture.csv", row.names=1)
      rownames(JS.data) <- pref$jp
      myPlot <- function(k) {
-         tmpa <- JS.data[8:14,]
-         tmpb <- list(c(1,2,3,4,1,6,7),
-                      c(1,2,3,1,1,6,7),
-                      c(1,2,2,1,1,6,7),
-                      c(1,2,2,1,1,6,1),
-                      c(1,1,1,1,1,6,1),
-                      c(1,1,1,1,1,1,1))
-         clusplot(x=tmpa,
-                  clus=c(1,2,3,4,5,6,7),
-                  diss=FALSE,
-                  stand=TRUE, lines=0, labels=3, 
-                  main=NULL, sub=NULL, cex=1,
-                  xlab="", ylab="", axes=FALSE,
-                  xlim=c(-2.5,1.5), ylim=c(-1.5,2.2),
-                  col.p="blue", col.clus="white", shade=FALSE)
-         box()
-         if(k>0) {
-             for(i in 1:k) {
-                 clusplot(x=tmpa,
-                          clus=tmpb[[i]],
-                          diss=FALSE,
-                          stand=TRUE, add=TRUE, span=FALSE,
-                          lines=0, lwd=2, col.p="blue", col.clus="orange")
-             }
-         }
+	 tmpa <- JS.data[8:14,]
+	 tmpb <- list(c(1,2,3,4,1,6,7),
+		      c(1,2,3,1,1,6,7),
+		      c(1,2,2,1,1,6,7),
+		      c(1,2,2,1,1,6,1),
+		      c(1,1,1,1,1,6,1),
+		      c(1,1,1,1,1,1,1))
+	 clusplot(x=tmpa,
+		  clus=c(1,2,3,4,5,6,7),
+		  diss=FALSE,
+		  stand=TRUE, lines=0, labels=3, 
+		  main=NULL, sub=NULL, cex=1,
+		  xlab="", ylab="", axes=FALSE,
+		  xlim=c(-2.5,1.5), ylim=c(-1.5,2.2),
+		  col.p="blue", col.clus="white", shade=FALSE)
+	 box()
+	 if(k>0) {
+	     for(i in 1:k) {
+		 clusplot(x=tmpa,
+			  clus=tmpb[[i]],
+			  diss=FALSE,
+			  stand=TRUE, add=TRUE, span=FALSE,
+			  lines=0, lwd=2, col.p="blue", col.clus="orange")
+	     }
+	 }
      }
      if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
      par(mfrow=c(4,2), mar=rep(0.5,4))
@@ -116,7 +116,7 @@
      myPlot(5)
      myPlot(6)
      plot(agnes(scale(JS.data[8:14,])), which.plots=2,
-          main="",sub="",xlab="")
+	  main="",sub="",xlab="")
      #+end_src
    #+CAPTION: 凝集的手続きの例
    #+NAME: fig:11_hclst
@@ -133,9 +133,9 @@
      #+begin_quote
      #+begin_src latex
        \begin{equation}
-         \{\boldsymbol{x}_{i}\}_{i=1}^{n}
-         =
-         \{(x_{i1},x_{i2},\dotsc,x_{ip})^{\mathsf{T}}\}_{i=1}^{n}
+	 \{\boldsymbol{x}_{i}\}_{i=1}^{n}
+	 =
+	 \{(x_{i1},x_{i2},\dotsc,x_{ip})^{\mathsf{T}}\}_{i=1}^{n}
        \end{equation}
      #+end_src
      #+end_quote
@@ -143,8 +143,8 @@
      #+begin_quote
      #+begin_src latex
        \begin{equation}
-         C(i)
-         =\text{(個体 $i$ が属するクラスタ番号)}
+	 C(i)
+	 =\text{(個体 $i$ が属するクラスタ番号)}
        \end{equation}
      #+end_src
      #+end_quote
@@ -160,9 +160,9 @@
      #+begin_quote
      #+begin_src latex
        \begin{equation}
-         \|\boldsymbol{x}_i-\boldsymbol{x}_{i'}\|^2
-         =
-         \sum_{j=1}^p(x_{ij}-x_{i'j})^2
+	 \|\boldsymbol{x}_i-\boldsymbol{x}_{i'}\|^2
+	 =
+	 \sum_{j=1}^p(x_{ij}-x_{i'j})^2
        \end{equation}
      #+end_src
      #+end_quote
@@ -170,9 +170,9 @@
      #+begin_quote
      #+begin_src latex
        \begin{equation}
-         W(C)
-         =
-         \sum_{l=1}^k\frac{1}{n_l}\sum_{i:C(i)=l}\sum_{i':C(i')=l}\|\boldsymbol{x}_i-\boldsymbol{x}_{i'}\|^2
+	 W(C)
+	 =
+	 \sum_{l=1}^k\frac{1}{n_l}\sum_{i:C(i)=l}\sum_{i':C(i')=l}\|\boldsymbol{x}_i-\boldsymbol{x}_{i'}\|^2
        \end{equation}
      #+end_src
      #+end_quote
@@ -183,9 +183,9 @@
      #+begin_quote
      #+begin_src latex
        \begin{equation}
-         \bar{\boldsymbol{x}}_l
-         =
-         \frac{1}{n_l}\sum_{i:C(i)=l}\boldsymbol{x}_i
+	 \bar{\boldsymbol{x}}_l
+	 =
+	 \frac{1}{n_l}\sum_{i:C(i)=l}\boldsymbol{x}_i
        \end{equation}
      #+end_src
      #+end_quote
@@ -193,9 +193,9 @@
      #+begin_quote
      #+begin_src latex
        \begin{equation}
-         W(C)
-         =
-         2\sum_{l=1}^k\sum_{i:C(i)=l}\|\boldsymbol{x}_i-\bar{\boldsymbol{x}}_{l}\|^2
+	 W(C)
+	 =
+	 2\sum_{l=1}^k\sum_{i:C(i)=l}\|\boldsymbol{x}_i-\bar{\boldsymbol{x}}_{l}\|^2
        \end{equation}
      #+end_src
      #+end_quote
@@ -211,23 +211,23 @@
      - 損失関数 $W(C)$ の等価な表現を示しなさい
        #+begin_quote
        #+begin_src latex
-         \begin{align}
-           W(C)
-           &=
-             \sum_{l=1}^k\frac{1}{n_l}\sum_{i:C(i)=l}\sum_{i':C(i')=l}\|\boldsymbol{x}_i-\boldsymbol{x}_{i'}\|^2\\
-           &=
-             2\sum_{l=1}^k\sum_{i:C(i)=l}\|\boldsymbol{x}_i-\bar{\boldsymbol{x}}_{l}\|^2
-         \end{align}
+	 \begin{align}
+	   W(C)
+	   &=
+	     \sum_{l=1}^k\frac{1}{n_l}\sum_{i:C(i)=l}\sum_{i':C(i')=l}\|\boldsymbol{x}_i-\boldsymbol{x}_{i'}\|^2\\
+	   &=
+	     2\sum_{l=1}^k\sum_{i:C(i)=l}\|\boldsymbol{x}_i-\bar{\boldsymbol{x}}_{l}\|^2
+	 \end{align}
        #+end_src
        #+end_quote
      - 以下の\(\hat{\boldsymbol{\mu}}\)を求めなさい
        #+begin_quote
        #+begin_src latex
-         \begin{equation}
-           \hat{\boldsymbol{\mu}}
-           =\arg\min_{\mu}
-           \sum_{i:C(i)=l}\|\boldsymbol{x}_i-\boldsymbol{\mu}\|^2
-         \end{equation}
+	 \begin{equation}
+	   \hat{\boldsymbol{\mu}}
+	   =\arg\min_{\mu}
+	   \sum_{i:C(i)=l}\|\boldsymbol{x}_i-\boldsymbol{\mu}\|^2
+	 \end{equation}
        #+end_src
        #+end_quote
 ** 解答例
@@ -238,18 +238,18 @@
      #+begin_quote
      #+begin_src latex
        \begin{align}
-         &\sum_{l=1}^k\frac{1}{n_l}\sum_{i:C(i)=l}\sum_{i':C(i')=l}
-           \|\boldsymbol{x}_i-\boldsymbol{x}_{i'}\|^2\\
-         &=
-           \sum_{l=1}^k\frac{1}{n_l}\sum_{i:C(i)=l}\sum_{i':C(i')=l}
-           \|\boldsymbol{x}_i-\bar{\boldsymbol{x}}_{l}+\bar{\boldsymbol{x}}_{l}-\boldsymbol{x}_{i'}\|^2\\
-         &=
-           \sum_{l=1}^k\frac{2}{n_l}\sum_{i:C(i)=l}\sum_{i':C(i')=l}
-           \|\boldsymbol{x}_i-\bar{\boldsymbol{x}}_{l}\|^2\\
-         &\quad-
-           \sum_{l=1}^k\frac{2}{n_l}\sum_{i:C(i)=l}\sum_{i':C(i')=l}
-           (\boldsymbol{x}_i-\bar{\boldsymbol{x}}_{l})^{\mathsf{T}}
-           (\boldsymbol{x}_{i'}-\bar{\boldsymbol{x}}_{l})
+	 &\sum_{l=1}^k\frac{1}{n_l}\sum_{i:C(i)=l}\sum_{i':C(i')=l}
+	   \|\boldsymbol{x}_i-\boldsymbol{x}_{i'}\|^2\\
+	 &=
+	   \sum_{l=1}^k\frac{1}{n_l}\sum_{i:C(i)=l}\sum_{i':C(i')=l}
+	   \|\boldsymbol{x}_i-\bar{\boldsymbol{x}}_{l}+\bar{\boldsymbol{x}}_{l}-\boldsymbol{x}_{i'}\|^2\\
+	 &=
+	   \sum_{l=1}^k\frac{2}{n_l}\sum_{i:C(i)=l}\sum_{i':C(i')=l}
+	   \|\boldsymbol{x}_i-\bar{\boldsymbol{x}}_{l}\|^2\\
+	 &\quad-
+	   \sum_{l=1}^k\frac{2}{n_l}\sum_{i:C(i)=l}\sum_{i':C(i')=l}
+	   (\boldsymbol{x}_i-\bar{\boldsymbol{x}}_{l})^{\mathsf{T}}
+	   (\boldsymbol{x}_{i'}-\bar{\boldsymbol{x}}_{l})
        \end{align}
      #+end_src
      #+end_quote
@@ -258,16 +258,16 @@
      #+begin_quote
      #+begin_src latex
        \begin{align}
-         &=
-           2\sum_{l=1}^k\sum_{i:C(i)=l}
-           \|\boldsymbol{x}_i-\bar{\boldsymbol{x}}_{l}\|^2\\
-         &\quad-
-           \sum_{l=1}^k\frac{2}{n_l}
-           \sum_{i:C(i)=l}(\boldsymbol{x}_i-\bar{\boldsymbol{x}}_{l})^{\mathsf{T}}
-           \sum_{i':C(i')=l}(\boldsymbol{x}_{i'}-\bar{\boldsymbol{x}}_{l})\\
-         &=
-           2\sum_{l=1}^k\sum_{i:C(i)=l}
-           \|\boldsymbol{x}_i-\bar{\boldsymbol{x}}_{l}\|^2
+	 &=
+	   2\sum_{l=1}^k\sum_{i:C(i)=l}
+	   \|\boldsymbol{x}_i-\bar{\boldsymbol{x}}_{l}\|^2\\
+	 &\quad-
+	   \sum_{l=1}^k\frac{2}{n_l}
+	   \sum_{i:C(i)=l}(\boldsymbol{x}_i-\bar{\boldsymbol{x}}_{l})^{\mathsf{T}}
+	   \sum_{i':C(i')=l}(\boldsymbol{x}_{i'}-\bar{\boldsymbol{x}}_{l})\\
+	 &=
+	   2\sum_{l=1}^k\sum_{i:C(i)=l}
+	   \|\boldsymbol{x}_i-\bar{\boldsymbol{x}}_{l}\|^2
        \end{align}
      #+end_src
      #+end_quote
@@ -276,30 +276,30 @@
      #+begin_quote
      #+begin_src latex
        \begin{align}
-         \sum_{i:C(i)=l}\|\boldsymbol{x}_{i}-\boldsymbol{\mu}\|^{2}
-         &=
-           \sum_{i:C(i)=l}
-           \|\boldsymbol{x}_{i}-\bar{\boldsymbol{x}}_{l}
-           +
-           \bar{\boldsymbol{x}}_{l}-\boldsymbol{\mu}\|^{2}\\
-         &=
-           \sum_{i:C(i)=l}
-           \|\boldsymbol{x}_{i}-\bar{\boldsymbol{x}}_{l}\|^{2}
-           +
-           \sum_{i:C(i)=l}
-           \|\bar{\boldsymbol{x}}_{l}-\boldsymbol{\mu}\|^{2}\\
-         &\quad+
-           2\sum_{i:C(i)=l}
-           (\boldsymbol{x}_{i}-\bar{\boldsymbol{x}}_{l})^{\mathsf{T}}
-           (\bar{\boldsymbol{x}}_{l}-\boldsymbol{\mu})\\
-         &=
-           \sum_{i:C(i)=l}
-           \|\boldsymbol{x}_{i}-\bar{\boldsymbol{x}}_{l}\|^{2}
-           +
-           n_{l}\|\bar{\boldsymbol{x}}_{l}-\boldsymbol{\mu}\|^{2}\\
-         &\ge
-           \sum_{i:C(i)=l}
-           \|\boldsymbol{x}_{i}-\bar{\boldsymbol{x}}_{l}\|^{2}
+	 \sum_{i:C(i)=l}\|\boldsymbol{x}_{i}-\boldsymbol{\mu}\|^{2}
+	 &=
+	   \sum_{i:C(i)=l}
+	   \|\boldsymbol{x}_{i}-\bar{\boldsymbol{x}}_{l}
+	   +
+	   \bar{\boldsymbol{x}}_{l}-\boldsymbol{\mu}\|^{2}\\
+	 &=
+	   \sum_{i:C(i)=l}
+	   \|\boldsymbol{x}_{i}-\bar{\boldsymbol{x}}_{l}\|^{2}
+	   +
+	   \sum_{i:C(i)=l}
+	   \|\bar{\boldsymbol{x}}_{l}-\boldsymbol{\mu}\|^{2}\\
+	 &\quad+
+	   2\sum_{i:C(i)=l}
+	   (\boldsymbol{x}_{i}-\bar{\boldsymbol{x}}_{l})^{\mathsf{T}}
+	   (\bar{\boldsymbol{x}}_{l}-\boldsymbol{\mu})\\
+	 &=
+	   \sum_{i:C(i)=l}
+	   \|\boldsymbol{x}_{i}-\bar{\boldsymbol{x}}_{l}\|^{2}
+	   +
+	   n_{l}\|\bar{\boldsymbol{x}}_{l}-\boldsymbol{\mu}\|^{2}\\
+	 &\ge
+	   \sum_{i:C(i)=l}
+	   \|\boldsymbol{x}_{i}-\bar{\boldsymbol{x}}_{l}\|^{2}
        \end{align}
      #+end_src
      #+end_quote
@@ -308,10 +308,10 @@
      #+begin_quote
      #+begin_src latex
        \begin{equation}
-         \hat{\boldsymbol{\mu}}
-         =\arg\min_{\mu}
-         \sum_{i:C(i)=l}\|\boldsymbol{x}_i-\boldsymbol{\mu}\|^2
-         =\bar{\boldsymbol{x}}_{l}
+	 \hat{\boldsymbol{\mu}}
+	 =\arg\min_{\mu}
+	 \sum_{i:C(i)=l}\|\boldsymbol{x}_i-\boldsymbol{\mu}\|^2
+	 =\bar{\boldsymbol{x}}_{l}
        \end{equation}
      #+end_src
      クラスタの標本平均を中心とすればよい
@@ -331,13 +331,13 @@
        #+begin_quote
        標本平均と変動の平方和の性質を利用
        #+begin_src latex
-         \begin{equation}
-           \bar{\boldsymbol{x}}_l
-           =\arg\min_{\mu}
-           \sum_{i:C(i)=l}\|\boldsymbol{x}_i-\boldsymbol{\mu}\|^2
-           \quad
-           \text{(クラスタ\(l\)の標本平均)}
-         \end{equation}
+	 \begin{equation}
+	   \bar{\boldsymbol{x}}_l
+	   =\arg\min_{\mu}
+	   \sum_{i:C(i)=l}\|\boldsymbol{x}_i-\boldsymbol{\mu}\|^2
+	   \quad
+	   \text{(クラスタ\(l\)の標本平均)}
+	 \end{equation}
        #+end_src
        #+end_quote
 
@@ -347,23 +347,23 @@
    2. 各データの所属クラスタ番号 $C(i)$ を求める
       #+begin_quote
       #+begin_src latex
-        \begin{equation}
-          C(i)
-          =
-          \arg\min_l\|\boldsymbol{x}_i-\boldsymbol{\mu}_l\|
-        \end{equation}
+	\begin{equation}
+	  C(i)
+	  =
+	  \arg\min_l\|\boldsymbol{x}_i-\boldsymbol{\mu}_l\|
+	\end{equation}
       #+end_src
       #+end_quote
    3. 各クラスタ中心 $\boldsymbol{\mu}_l\;(l=1,2,\dotsc,k)$ を更新する
       #+begin_quote
       #+begin_src latex
-        \begin{equation}
-          \boldsymbol{\mu}_l
-          =
-          \frac{1}{n_l}\sum_{i:C(i)=l}\boldsymbol{x}_i,
-          \quad
-          n_l=|\{\boldsymbol{x}_i|C(i)=l\}|
-        \end{equation}
+	\begin{equation}
+	  \boldsymbol{\mu}_l
+	  =
+	  \frac{1}{n_l}\sum_{i:C(i)=l}\boldsymbol{x}_i,
+	  \quad
+	  n_l=|\{\boldsymbol{x}_i|C(i)=l\}|
+	\end{equation}
       #+end_src
       # ($n_l$ は $C(i)=l$ となるデータの総数)
       #+end_quote
@@ -379,10 +379,10 @@
      #+begin_quote
      #+begin_src latex
        \begin{equation}
-         \boldsymbol{x}^{medoid}_{l}
-         =\arg\min_{\boldsymbol{x}_{i}}
-         \sum_{i':C(i')=l}
-         \|\boldsymbol{x}_{i}-\boldsymbol{x}_{i'}\|^2
+	 \boldsymbol{x}^{medoid}_{l}
+	 =\arg\min_{\boldsymbol{x}_{i}}
+	 \sum_{i':C(i')=l}
+	 \|\boldsymbol{x}_{i}-\boldsymbol{x}_{i'}\|^2
        \end{equation}
      #+end_src
      #+end_quote
@@ -425,7 +425,7 @@
 		     1,
 		     function(x){which.min(x)})
        plot(predict(OM.pca), col=clst, pch=clst, type="n",
-            xlab="Component 1", ylab="Component 2")
+	    xlab="Component 1", ylab="Component 2")
        text(predict(OM.pca), labels=clst, col=clst, cex=1.5)
        points(predict(OM.pca,newdata=cntr), col=1:k, pch=19, cex=2)
        cntr <- aggregate(. ~ clst,
@@ -507,13 +507,13 @@
      if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
      dsy <- daisy(rbind(OM.subset[,jdx],cntr))
      clst <- apply(as.matrix(dsy)[1:n,(1:k)+n],
-                  1,
-                  function(x){which.min(x)})
+		  1,
+		  function(x){which.min(x)})
      plot(predict(OM.pca),
-          col="blue", pch=19, cex=0.5,
-          xlab="Component 1", ylab="Component 2")
+	  col="blue", pch=19, cex=0.5,
+	  xlab="Component 1", ylab="Component 2")
      text(transform(predict(OM.pca), PC2=PC2+0.5),
-          labels=rownames(OM.subset), col=clst, cex=1)
+	  labels=rownames(OM.subset), col=clst, cex=1)
    #+end_src
    #+CAPTION: クラスタリングの結果
    #+NAME: fig:11_nhclst
@@ -527,7 +527,7 @@
    - \(k\)-平均法を実行するための標準的な関数
      #+begin_src R :eval no
        kmeans(x, centers, iter.max = 10, nstart = 1,
-              valgorithm = "Hartigan-Wong")
+	      algorithm = "Hartigan-Wong")
        ## x: データフレーム
        ## centers: クラスタ数
        ## iter.max: 最大繰り返し数
@@ -548,7 +548,9 @@
        JS.data <- read.csv("data/japan_social.csv", row.names=1)
      #+end_src
      - 関数 ~kmeans()~ を用いて
-       各変数平均0，絶対偏差1に標準化したデータを7クラスタに分割しなさい
+       各変数平均0，分散1に標準化
+       (関数 ~scale()~ を利用)
+       したデータを7クラスタに分割しなさい
      - 各クラスタ内の県名を表示しなさい
      - 関数 ~clusplot()~ を用いて
        2次元散布図に各クラスタを表示しなさい
@@ -562,7 +564,7 @@
        ## k-平均法の実行: 
        set.seed(1234) # 必要に応じて初期値の乱数のシード
        k <- 7 # 分割数を指定
-       JS.km <- kmeans(daisy(JS.data, stand=TRUE), # 標準化
+       JS.km <- kmeans(scale(JS.data), # 標準化
 		       centers=k, # クラスタ数
 		       nstart=20) # 初期値を20回変更して試す
 
@@ -580,7 +582,7 @@
 		lines=0, labels=3, # 表示の指定
 		main=NULL, sub=NULL, cex=0.8, # タイトルなどの調整
 		col.p=rainbow(k)[JS.km$cluster], # 虹色で色付け
-		col.clus="orange", shade=FALSE)  # クラスタ囲みの指定
+		col.clus="orange", shade=FALSE)	 # クラスタ囲みの指定
      #+end_src
 
 ** R: 関数 ~cluster::pam()~
@@ -622,8 +624,8 @@
 
        ## 各クラスター内の県名を表示
        for(i in 1:k){
-           cat("<< cluster",i,">>\n")
-           print(names(which(JS.pam$clustering==i)))
+	   cat("<< cluster",i,">>\n")
+	   print(names(which(JS.pam$clustering==i)))
        }
 
        ## クラスタの表示
@@ -645,8 +647,8 @@
 
        ## 各クラスター内の県名を表示
        for(i in 1:k){
-           cat("<< cluster",i,">>\n")
-           print(names(which(OM.pam$clustering==i)))
+	   cat("<< cluster",i,">>\n")
+	   print(names(which(OM.pam$clustering==i)))
        }
 
        ## クラスタの表示
@@ -749,11 +751,11 @@
    - データの属性
      #+begin_quote
      : Q2. おむすびの具では何が一番好きですか？
-     :     A.梅 B.鮭 C.昆布 D.かつお E.明太子 F.たらこ Ｇ.ツナ H.その他
+     :	   A.梅 B.鮭 C.昆布 D.かつお E.明太子 F.たらこ Ｇ.ツナ H.その他
      : 【回答者数】
-     : 男性     9,702人     32.0%
-     : 女性    20,616人     68.0%
-     : 総数    30,318人    100.0%
+     : 男性	9,702人	    32.0%
+     : 女性    20,616人	    68.0%
+     : 総数    30,318人	   100.0%
      に対する回答を県別に集計
      #+end_quote
    - Hellinger距離を利用
@@ -763,9 +765,9 @@
      定義される確率分布の距離
      #+begin_src latex
        \begin{equation}
-         d_{hel}(\boldsymbol{p},\boldsymbol{q})
-         =
-         \frac{1}{\sqrt{2}}d_{euc}(\sqrt{\boldsymbol{p}},\sqrt{\boldsymbol{q}})
+	 d_{hel}(\boldsymbol{p},\boldsymbol{q})
+	 =
+	 \frac{1}{\sqrt{2}}d_{euc}(\sqrt{\boldsymbol{p}},\sqrt{\boldsymbol{q}})
        \end{equation}
      #+end_src
      #+end_quote
@@ -795,12 +797,12 @@
    #+begin_src R :file figs/11_ompam.png :exports results :results graphics :tangle yes
      if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
      clusplot(x=OM.data,
-              clus=OM.pam$clustering,
-              diss=FALSE,
-              stand=TRUE, lines=0, labels=3, 
-              main=NULL, sub=NULL, cex=0.8,
-              col.p=brewer.pal(k,"Dark2")[OM.pam$clustering],
-              col.clus="orange", shade=FALSE)
+	      clus=OM.pam$clustering,
+	      diss=FALSE,
+	      stand=TRUE, lines=0, labels=3, 
+	      main=NULL, sub=NULL, cex=0.8,
+	      col.p=brewer.pal(k,"Dark2")[OM.pam$clustering],
+	      col.clus="orange", shade=FALSE)
    #+end_src
    #+CAPTION: Hellinger距離 + k-メドイド法 
    #+NAME: fig:11_ompam
@@ -815,30 +817,30 @@
      - データ $\boldsymbol{x}_i$ と最初に統合されたクラスタ $C$ の距離:
        #+begin_quote
        #+begin_src latex
-         \begin{equation}
-           d_i
-           =
-           D({\boldsymbol{x}_i},C)
-         \end{equation}
+	 \begin{equation}
+	   d_i
+	   =
+	   D({\boldsymbol{x}_i},C)
+	 \end{equation}
        #+end_src
        #+end_quote
      - 最後に統合された2つのクラスタ $C',C''$ の距離:
        #+begin_quote
        #+begin_src latex
-         \begin{equation}
-           D
-           =
-           D(C',C'')
-         \end{equation}
+	 \begin{equation}
+	   D
+	   =
+	   D(C',C'')
+	 \end{equation}
        #+end_src
        #+end_quote
    - *凝集係数* (agglomerative coefficient):
      #+begin_quote
      #+begin_src latex
        \begin{equation}
-         AC
-         =
-         \frac{1}{n}\sum_{i=1}^{n}\left(1-\frac{d_i}{D}\right)
+	 AC
+	 =
+	 \frac{1}{n}\sum_{i=1}^{n}\left(1-\frac{d_i}{D}\right)
        \end{equation}
      #+end_src
      #+end_quote
@@ -848,7 +850,7 @@
      #+begin_quote
      #+begin_src latex
        \begin{equation}
-         0\le AC\le 1
+	 0\le AC\le 1
        \end{equation}
      #+end_src
      #+end_quote
@@ -861,26 +863,26 @@
      - $\boldsymbol{x}_i$ を含むクラスタ $C^1$ と $\boldsymbol{x}_i$ の距離:
        #+begin_quote
        #+begin_src latex
-         \begin{equation}
-           d^1_i=D({\boldsymbol{x}_i},C^1\setminus{\boldsymbol{x}_i})
-         \end{equation}
+	 \begin{equation}
+	   d^1_i=D({\boldsymbol{x}_i},C^1\setminus{\boldsymbol{x}_i})
+	 \end{equation}
        #+end_src
        #+end_quote
      - 一番近いクラスタ $C^2$ と $\boldsymbol{x}_i$ の距離:
        #+begin_quote
        #+begin_src latex
-         \begin{equation}
-           d^2_i=D({\boldsymbol{x}_i},C^2)
-         \end{equation}
+	 \begin{equation}
+	   d^2_i=D({\boldsymbol{x}_i},C^2)
+	 \end{equation}
        #+end_src
        #+end_quote
    - *シルエット係数* (silhouette coefficient):
      #+begin_quote
      #+begin_src latex
        \begin{equation}
-         S_i
-         =
-         \frac{d^2_i-d^1_i}{\max(d^1_i,d^2_i)}
+	 S_i
+	 =
+	 \frac{d^2_i-d^1_i}{\max(d^1_i,d^2_i)}
        \end{equation}
      #+end_src
      #+end_quote
@@ -889,17 +891,17 @@
    # - $\boldsymbol{x}_i$ を除いたクラスタ $C^1$ とデータ $\boldsymbol{x}_i$ の距離:
    #   # #+begin_export latex
    #   \begin{equation}
-   #     d^1_i
-   #     =
-   #     D({\boldsymbol{x}_i},C^1\setminus{\boldsymbol{x}_i})
+   #	 d^1_i
+   #	 =
+   #	 D({\boldsymbol{x}_i},C^1\setminus{\boldsymbol{x}_i})
    #   \end{equation}
    #   # #+end_export
    # - $C^2$ と $\boldsymbol{x}_i$ の距離:
    #   # #+begin_export latex
    #   \begin{equation}
-   #     d^2_i
-   #     =
-   #     D({\boldsymbol{x}_i},C^2)
+   #	 d^2_i
+   #	 =
+   #	 D({\boldsymbol{x}_i},C^2)
    #   \end{equation}
    #   # #+end_export
 
@@ -908,7 +910,7 @@
      #+begin_quote
      #+begin_src latex
        \begin{equation}
-         -1\le S_i\le 1
+	 -1\le S_i\le 1
        \end{equation}
      #+end_src
      #+end_quote
@@ -926,17 +928,17 @@
      - 群平均法において凝集係数が以下を満たすことを示しなさい
        #+begin_quote
        #+begin_src latex
-         \begin{equation}
-           0\le AC\le 1
-         \end{equation}
+	 \begin{equation}
+	   0\le AC\le 1
+	 \end{equation}
        #+end_src
        #+end_quote
      - シルエット係数が以下を満たすことを示しなさい
        #+begin_quote
        #+begin_src latex
-         \begin{equation}
-           -1\le S_i\le 1
-         \end{equation}
+	 \begin{equation}
+	   -1\le S_i\le 1
+	 \end{equation}
        #+end_src
        #+end_quote
 ** 解答例
@@ -947,8 +949,8 @@
      #+begin_quote
      #+begin_src latex
        \begin{equation}
-         D(C_{c},C_{d})\ge D(C_{a},C_{b}),
-         \quad\forall c,d
+	 D(C_{c},C_{d})\ge D(C_{a},C_{b}),
+	 \quad\forall c,d
        \end{equation}
      #+end_src
      #+end_quote
@@ -957,12 +959,12 @@
      #+begin_quote
      #+begin_src latex
        \begin{align}
-         D(C_{a}+C_{b}, C_{c})
-         &=
-           \frac{|C_{a}|D(C_{a},C_{c})+|C_{b}|D(C_{b},C_{c})}{|C_{a}|+|C_{b}|}\\
-         &\ge
-           \frac{|C_{a}|D(C_{a},C_{b})+|C_{b}|D(C_{a},C_{b})}{|C_{a}|+|C_{b}|}\\
-         &=D(C_{a},C_{b})
+	 D(C_{a}+C_{b}, C_{c})
+	 &=
+	   \frac{|C_{a}|D(C_{a},C_{c})+|C_{b}|D(C_{b},C_{c})}{|C_{a}|+|C_{b}|}\\
+	 &\ge
+	   \frac{|C_{a}|D(C_{a},C_{b})+|C_{b}|D(C_{a},C_{b})}{|C_{a}|+|C_{b}|}\\
+	 &=D(C_{a},C_{b})
        \end{align}
      #+end_src
      統合した結果，それより短い距離が現れることはない
@@ -972,16 +974,16 @@
      #+begin_quote
      #+begin_src latex
        \begin{equation}
-         0\le d_{i}\le D
+	 0\le d_{i}\le D
        \end{equation}
        \begin{equation}
-         0\le 1-\frac{d_i}{D}\le 1
+	 0\le 1-\frac{d_i}{D}\le 1
        \end{equation}
      #+end_src
      よって
      #+begin_src latex
        \begin{equation}
-         0\le AC\le 1
+	 0\le AC\le 1
        \end{equation}
      #+end_src
      #+end_quote
@@ -990,13 +992,13 @@
      #+begin_quote
      #+begin_src latex
        \begin{equation}
-         -\max(d^{1}_{i},d^{2}_{i})\le d^{2}_{i}-d^{1}_{i}\le\max(d^{1}_{i},d^{2}_{i})
+	 -\max(d^{1}_{i},d^{2}_{i})\le d^{2}_{i}-d^{1}_{i}\le\max(d^{1}_{i},d^{2}_{i})
        \end{equation}
      #+end_src
      より
      #+begin_src latex
        \begin{equation}
-         -1\le S_i\le 1
+	 -1\le S_i\le 1
        \end{equation}
      #+end_src
      #+end_quote
@@ -1008,9 +1010,9 @@
      #+begin_src R :eval no
        ### 凝集係数の取得
        summary(agnes(x, # データフレーム
-                     metric="euclidean", stand=TRUE, # 正規化・ユークリッド距離
-                     method="average") # 群平均法
-               )$ac 
+		     metric="euclidean", stand=TRUE, # 正規化・ユークリッド距離
+		     method="average") # 群平均法
+	       )$ac 
        ### 凝集係数の視覚化 (banner plot)
        plot(agnes(x), which.plots=1)
        ## plot および cluster::bannerplot のオプションを参考
@@ -1037,10 +1039,10 @@
        ## ユークリッド距離による階層的クラスタリング
        JS.agn.euc <- agnes(JS.data,
 			metric="euclidean", # データ距離
-			stand=TRUE,         # 標準化
+			stand=TRUE,	    # 標準化
 			method="average")   # クラスタ距離
        plot(JS.agn.euc, which.plots=2, # デンドログラムの表示
-            main="euclidean") 
+	    main="euclidean") 
 
        ## マンハッタン距離による階層的クラスタリング
        JS.agn.man <- agnes(JS.data,
@@ -1054,12 +1056,12 @@
        plot(JS.agn.euc, which.plots=1, # banner plotの表示
 	    nmax.lab=50,   # 表示するラベルの上限 (標準は40)
 	    max.strlen=5,  # 表示するラベルの文字数の上限
-            main="euclidean")
+	    main="euclidean")
 
        plot(JS.agn.man, which.plots=1,
 	    nmax.lab=50,  
 	    max.strlen=5,
-            main="manhattan")
+	    main="manhattan")
 
        ## 一部のデータの距離が大きいと凝集係数は大きくなりがち (理由を考えてみよう)
        ## 北海道，東京，宮崎，鹿児島を除いて再計算する 
@@ -1074,21 +1076,21 @@
        ## ユークリッド距離の方が凝集係数は大きいことがわかる
        ## 個別の係数の確認
        plot(agnes(JS.data[-c(1,13,45,46),],
-                  metric="euclidean",
-                  stand=TRUE,
-                  method="average"),
-            which.plots=1,
+		  metric="euclidean",
+		  stand=TRUE,
+		  method="average"),
+	    which.plots=1,
 	    nmax.lab=50,  
 	    max.strlen=5,
-            main="euclidean")
+	    main="euclidean")
        plot(agnes(JS.data[-c(1,13,45,46),],
-                  metric="manhattan",
-                  stand=TRUE,
-                  method="average"),
-            which.plots=1,
+		  metric="manhattan",
+		  stand=TRUE,
+		  method="average"),
+	    which.plots=1,
 	    nmax.lab=50,  
 	    max.strlen=5,
-            main="manhattan")
+	    main="manhattan")
      #+end_src
 
 
@@ -1127,11 +1129,11 @@
        を確率ベクトルとして
        定義される確率分布の距離
        #+begin_src latex
-         \begin{equation}
-           d_{hel}(\boldsymbol{p},\boldsymbol{q})
-           =
-           \frac{1}{\sqrt{2}}d_{euc}(\sqrt{\boldsymbol{p}},\sqrt{\boldsymbol{q}})
-         \end{equation}
+	 \begin{equation}
+	   d_{hel}(\boldsymbol{p},\boldsymbol{q})
+	   =
+	   \frac{1}{\sqrt{2}}d_{euc}(\sqrt{\boldsymbol{p}},\sqrt{\boldsymbol{q}})
+	 \end{equation}
        #+end_src
        #+end_quote
      - クラスタ数4-10のシルエット係数を比較しなさい
@@ -1167,7 +1169,7 @@
        OM.pam <- pam(OM.dsy,k=k)
        plot(OM.pam, which.plot=1, 
 	    stand=TRUE,
-            lines=0, labels=3, 
+	    lines=0, labels=3, 
 	    main="", sub=NULL, cex=0.8, # タイトルと文字の大きさの調整
 	    col.p=rainbow(k)[OM.pam$clustering], # クラスタ番号ごとに色付け
 	    col.clus="orange", shade=FALSE) # クラスタを楕円で表示
@@ -1187,15 +1189,15 @@
    #+header: :width 720 :height 720 :res 100
    #+begin_src R :file figs/11_jsbannereuc.png :exports results :results graphics :tangle yes
      JS.agn.euc <- agnes(JS.data,
-                      metric="euclidean",
-                      stand=TRUE,
-                      method="average")
+		      metric="euclidean",
+		      stand=TRUE,
+		      method="average")
      if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
      plot(JS.agn.euc, which.plots=1,
-          nmax.lab=50, 
-          max.strlen=5, 
-          cex.names=0.5,
-          main="")
+	  nmax.lab=50, 
+	  max.strlen=5, 
+	  cex.names=0.5,
+	  main="")
    #+end_src
    #+CAPTION: 凝集係数 (ユークリッド距離)
    #+NAME: fig:11_jsbannereuc
@@ -1208,7 +1210,7 @@
    #+begin_src R :file figs/11_jsdendroeuc.png :exports results :results graphics :tangle yes
      if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
      plot(JS.agn.euc, which.plots=2,
-          cex=0.8, xlab="", main="")
+	  cex=0.8, xlab="", main="")
    #+end_src
    #+CAPTION: デンドログラム (ユークリッド距離)
    #+NAME: fig:11_jsdendroeuc
@@ -1220,15 +1222,15 @@
    #+header: :width 720 :height 720 :res 100
    #+begin_src R :file figs/11_jsbannerman.png :exports results :results graphics :tangle yes
      JS.agn.man <- agnes(JS.data,
-                      metric="manhattan",
-                      stand=TRUE,
-                      method="average")
+		      metric="manhattan",
+		      stand=TRUE,
+		      method="average")
      if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
      plot(JS.agn.man, which.plots=1,
-          nmax.lab=50, 
-          max.strlen=5, 
-          cex.names=0.5,
-          main="")
+	  nmax.lab=50, 
+	  max.strlen=5, 
+	  cex.names=0.5,
+	  main="")
    #+end_src
    #+CAPTION: 凝集係数 (マンハッタン距離)
    #+NAME: fig:11_jsbannerman
@@ -1241,7 +1243,7 @@
    #+begin_src R :file figs/11_jsdendroman.png :exports results :results graphics :tangle yes
      if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
      plot(JS.agn.man, which.plots=2,
-          cex=0.8, xlab="", main="")
+	  cex=0.8, xlab="", main="")
    #+end_src
    #+CAPTION: デンドログラム (マンハッタン距離)
    #+NAME: fig:11_jsdendroman
@@ -1275,8 +1277,8 @@
        OM.dsy <- daisy(sqrt(OM.data))
        cat("シルエット係数\n")
        for(k in 4:10){
-           cat("k =",k," ")
-           print(summary(pam(OM.dsy,k=k))$silinfo$avg.width)
+	   cat("k =",k," ")
+	   print(summary(pam(OM.dsy,k=k))$silinfo$avg.width)
        }
      #+end_src
 
@@ -1285,10 +1287,10 @@
    #+begin_src R :file figs/11_omsil7.png :exports results :results graphics :tangle yes
      if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
      plot(pam(OM.dsy,k=7), which.plot=2,
-          nmax.lab=50, 
-          max.strlen=5, 
-          cex.names=0.5,
-          main="")
+	  nmax.lab=50, 
+	  max.strlen=5, 
+	  cex.names=0.5,
+	  main="")
    #+end_src
    #+CAPTION: シルエット係数 (k=7)
    #+NAME: fig:11_omsil7
@@ -1301,10 +1303,10 @@
    #+begin_src R :file figs/11_omsil8.png :exports results :results graphics :tangle yes
      if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
      plot(pam(OM.dsy,k=8), which.plot=2,
-          nmax.lab=50, 
-          max.strlen=5, 
-          cex.names=0.5,
-          main="")
+	  nmax.lab=50, 
+	  max.strlen=5, 
+	  cex.names=0.5,
+	  main="")
    #+end_src
    #+CAPTION: シルエット係数 (k=8)
    #+NAME: fig:11_omsil8
@@ -1317,10 +1319,10 @@
    #+begin_src R :file figs/11_omsil9.png :exports results :results graphics :tangle yes
      if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
      plot(pam(OM.dsy,k=9), which.plot=2,
-          nmax.lab=50, 
-          max.strlen=5, 
-          cex.names=0.5,
-          main="")
+	  nmax.lab=50, 
+	  max.strlen=5, 
+	  cex.names=0.5,
+	  main="")
    #+end_src
    #+CAPTION: シルエット係数 (k=9)
    #+NAME: fig:11_omsil9
@@ -1336,10 +1338,10 @@
      k <- 8
      OM.pam <- pam(OM.dsy,k=k)
      plot(OM.pam, which.plot=1,
-          stand=TRUE, lines=0, labels=3,
-          main="", vsub=NULL, cex=0.8,
-          col.p=brewer.pal(k,"Dark2")[OM.pam$clustering],
-          col.clus="orange", shade=FALSE)
+	  stand=TRUE, lines=0, labels=3,
+	  main="", vsub=NULL, cex=0.8,
+	  col.p=brewer.pal(k,"Dark2")[OM.pam$clustering],
+	  col.clus="orange", shade=FALSE)
    #+end_src
    #+CAPTION: 非階層的クラスタリング (k=8)
    #+NAME: fig:11_omclusplot8
