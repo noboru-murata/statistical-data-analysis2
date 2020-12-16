@@ -2,38 +2,28 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<title>クラスター分析 - 非階層的方法</title>
+<title>時系列解析</title>
 <meta name="author" content="村田 昇"/>
 <style type="text/css">
 .underline { text-decoration: underline; }
 </style>
-<link rel="stylesheet" href="./reveal.js/css/reveal.css"/>
+<link rel="stylesheet" href="./reveal.js/dist/reveal.css"/>
 
-<link rel="stylesheet" href="./reveal.js/css/theme/oer-reveal.css" id="theme"/>
+<link rel="stylesheet" href="./reveal.js/dist/theme/oer-reveal.css" id="theme"/>
 
 <link rel="stylesheet" href="./reveal.js/plugin/toc-progress/toc-progress.css"/>
 
-<link rel="stylesheet" href="./reveal.js/css/theme/toc-style.css"/>
+<link rel="stylesheet" href="./reveal.js/dist/theme/toc-style.css"/>
 
-<link rel="stylesheet" href="./reveal.js/css/theme/oer-reveal.css"/>
+<link rel="stylesheet" href="./reveal.js/dist/theme/fonts/source-sans-pro/source-sans-pro.css"/>
 
-<link rel="stylesheet" href="./reveal.js/lib/font/source-sans-pro/source-sans-pro.css"/>
+<link rel="stylesheet" href="./reveal.js/plugin/accessibility/helper.css"/>
 
-<link rel="stylesheet" href="./myconf.css"/>
-
-<!-- If the query includes 'print-pdf', include the PDF print sheet -->
-<script>
-    if( window.location.search.match( /print-pdf/gi ) ) {
-        var link = document.createElement( 'link' );
-        link.rel = 'stylesheet';
-        link.type = 'text/css';
-        link.href = './reveal.js/css/print/pdf.css';
-        document.getElementsByTagName( 'head' )[0].appendChild( link );
-    }
-</script>
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<link rel="stylesheet" href="./reveal.js/dist/theme/mycourse.css"/>
+<link rel="stylesheet" href="./reveal.js/plugin/highlight/zenburn.css"/>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </head>
-<body prefix="dc: http://purl.org/dc/terms/ cc: http://creativecommons.org/ns#">
+<body>
 <div class="reveal">
 <div class="slides">
 <section id="sec-title-slide" data-state="no-toc-progress">
@@ -41,27 +31,89 @@
 <!-- Embed logos as necessary. -->
 <!-- <a class="nooutlink" href="url"><img class="state-background your-logo-class" src="whatever.png" alt="Whatever" /></a> -->
 <div class="talk-title">
-    <h1 class="no-toc-progress">クラスター分析 - 非階層的方法</h1>
+    <h1 class="no-toc-progress">時系列解析</h1>
 </div>
 <div class="talk-subtitle">
-    <p>数理科学続論J</p>
+    <p>基本的なモデル</p>
 </div>
 <div class="keyboard-usage">
     <p>(Press <code>?</code> for help, <code>n</code> and <code>p</code> for next and previous slide)</p>
 </div>
 <div class="talk-author">
   <p>村田 昇<br />
-  2019.12.13</p>
+  2020.12.18</p>
 </div>
 
 </section>
 
 <section>
-<section id="slide-orgb156b54">
-<h2 id="orgb156b54">講義の予定</h2>
+<section id="slide-orgfb8bc5c">
+<h2 id="orgfb8bc5c">講義の予定</h2>
 <ul>
-<li>第1日: クラスター分析と階層的クラスタリング</li>
-<li><b>第2日: 非階層的クラスタリング</b></li>
+<li><b>第1日: 時系列のモデル</b></li>
+<li>第2日: モデルの推定と予測</li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+</section>
+<section>
+<section id="slide-org47b6618">
+<h2 id="org47b6618">時系列解析の概要</h2>
+<div class="outline-text-2" id="text-org47b6618">
+</div>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgf3a5a54">
+<h3 id="orgf3a5a54">時系列解析とは</h3>
+<ul>
+<li>時系列データ
+<ul>
+<li>時間軸に沿って観測されたデータ</li>
+<li>観測の順序に意味がある</li>
+<li>異なる時点間での観測データの従属関係が重要</li>
+<li>独立性にもとづく解析は行えない <br />
+(そのままでは大数の法則や中心極限定理は使えない)</li>
+
+</ul></li>
+<li>時系列解析の目的
+<ul>
+<li>時系列データの特徴を効果的に記述すること</li>
+<li>時系列モデルの推定と評価</li>
+
+</ul></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org0df3c51">
+<h3 id="org0df3c51">時系列データ</h3>
+<ul>
+<li><p>
+統計学・確率論における表現: <b>確率過程</b>
+</p>
+<blockquote>
+<p>
+時間を添え字として持つ確率変数列
+</p>
+<div>
+\begin{equation}
+  X_{t},\;t=1,2,\dotsc,T
+  \quad(\text{あるいは}\;t=0,1,\dotsc,T)
+\end{equation}
+
+</div>
+</blockquote></li>
+<li>時系列解析で利用される代表的な確率過程
+<ul>
+<li>ホワイトノイズ</li>
+<li>ランダムウォーク</li>
+<li>自己回帰モデル (ARモデル)</li>
+<li>移動平均モデル (MAモデル)</li>
+<li>自己回帰移動平均モデル (ARMAモデル)</li>
+
+</ul></li>
 
 </ul>
 
@@ -69,279 +121,121 @@
 </section>
 </section>
 <section>
-<section id="slide-org77f157a">
-<h2 id="org77f157a">クラスター分析の復習</h2>
-<div class="outline-text-2" id="text-org77f157a">
+<section id="slide-orgef2d41b">
+<h2 id="orgef2d41b">基本的なモデル</h2>
+<div class="outline-text-2" id="text-orgef2d41b">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org5a4cbb1">
-<h3 id="org5a4cbb1">クラスター分析とは</h3>
+<section id="slide-orgae09ecf">
+<h3 id="orgae09ecf">ホワイトノイズ</h3>
 <ul>
-<li>個体の間に隠れている <b>集まり=クラスター</b> を発見する方法</li>
-<li>個体間の類似度・距離(非類似度)を定義:
-<ul>
-<li>同じクラスターに属する個体どうしは近い性質をもつ</li>
-<li>異なるクラスターに属する個体どうしは異なる性質をもつ</li>
+<li><p>
+定義
+</p>
+<blockquote>
+<p>
+平均\(0\)，分散\(\sigma^2\)
+である確率変数の
+確率分布\(P\)からの
+独立かつ同分布な確率変数列
+</p>
+<div>
+\begin{equation}
+  X_{t}
+  =
+  \epsilon_{t},
+  \quad
+  \epsilon_{t}
+  \overset{i.i.d.}{\sim} P
+\end{equation}
 
-</ul></li>
-<li>さらなるデータ解析やデータの可視化に利用</li>
-<li>教師なし学習の代表的な手法の一つ</li>
-
-</ul>
-
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-orgef1cdb9">
-<h3 id="orgef1cdb9">クラスター分析の考え方</h3>
-<ul>
-<li>階層的方法:
-<ul>
-<li>データ点およびクラスターの間に <b>距離</b> を定義</li>
-<li>距離に基づいてグループ化:
-<ul>
-<li>近いものから順にクラスターを <b>凝集</b></li>
-<li>近いもの同士が残るようにクラスターを <b>分割</b></li>
-
-</ul></li>
-
-</ul></li>
-<li>非階層的方法:
-<ul>
-<li>クラスターの数を事前に指定</li>
-<li>クラスターの <b>集まりの良さ</b> を評価する損失関数を定義</li>
-<li>損失関数を最小化するようにクラスターを形成</li>
-
-</ul></li>
-
-</ul>
-
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-orga6c0ee6">
-<h3 id="orga6c0ee6">凝集的方法の手続き</h3>
-<ol>
-<li>データ・クラスター間の距離を定義
-<ul>
-<li>データ点とデータ点の距離</li>
-<li>クラスターとクラスターの距離</li>
-
-</ul></li>
-<li>形成されているクラスターの間の距離を計算</li>
-<li>最も近い2つを統合し新たなクラスターを作成</li>
-<li>クラスター数が目的の数になるまで2,3の手続きを繰り返す</li>
-
-</ol>
-
-<div class="slide-footer"><br></div>
-</section>
-</section>
-<section>
-<section id="slide-org7c09c4f">
-<h2 id="org7c09c4f">非階層的クラスタリング</h2>
-<div class="outline-text-2" id="text-org7c09c4f">
 </div>
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-org1a1eb19">
-<h3 id="org1a1eb19">非階層的方法</h3>
-<ul>
-<li>対象とするデータ: \(p\) 次元変数 \(\boldsymbol{X}=(X_1,X_2,\dotsc,X_p)^\top\)</li>
-<li>観測データ: \(n\) 個の個体
-\(\boldsymbol{x}_i=(x_{i1},x_{i2},\dotsc,x_{ip})^\top\; (i=1,2,\dotsc,n)\)</li>
-<li>推定する関係式: 対応 \(C\) (個体 \(i\) が属するクラスター番号 \(C(i)\))</li>
-<li>非階層的クラスタリング: 
-<ul>
-<li>対応 \(C\) の <b>全体の良さ</b> を評価する損失関数を設定</li>
-<li>観測データ \(\boldsymbol{x}_1,\boldsymbol{x}_2,\dots,\boldsymbol{x}_n\) 
-の最適な対応関係 \(C(i)\) を決定</li>
+</blockquote></li>
+<li><p>
+記号 \(\mathrm{WN}(0,\sigma^2)\) で表記することが多い
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  X_{t}
+  \sim
+  \mathrm{WN}(0,\sigma^2)
+\end{equation}
 
-</ul></li>
+</div>
+</blockquote></li>
+<li>独立であるため系列としての予測は不可能</li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgd267da3">
-<h3 id="orgd267da3">\(k\) -平均法の損失関数</h3>
-<ul>
-<li>クラスターの個数 \(k\) を指定</li>
-<li><p>
-2つの個体 \(i,i'\) の <b>近さ=損失</b> を距離の二乗で評価
-</p>
-
-<div>
-\begin{equation}
-  \|\boldsymbol{x}_i-\boldsymbol{x}_{i'}\|^2
-  =
-  \sum_{j=1}^p(x_{ij}-x_{i'j})^2
-\end{equation}
-
-</div></li>
-<li><p>
-損失関数 \(W(C)\): クラスター内の平均の近さを評価
-</p>
-
-<div>
-\begin{equation}
-  W(C)
-  =
-  \sum_{l=1}^k\frac{1}{n_l}\sum_{i:C(i)=l}\sum_{i':C(i')=l}\|\boldsymbol{x}_i-\boldsymbol{x}_{i'}\|^2
-\end{equation}
-
-</div></li>
-
-</ul>
-
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-orga1e528a">
-<h3 id="orga1e528a">\(k\) -平均法の性質</h3>
+<section id="slide-orgbad75ae">
+<h3 id="orgbad75ae">トレンドのあるホワイトノイズ</h3>
 <ul>
 <li><p>
-クラスター \(l\) に属する個体の平均:
+定義
 </p>
-
+<blockquote>
+<p>
+\(\mu,\alpha\) を定数として
+</p>
 <div>
 \begin{equation}
-  \bar{\boldsymbol{x}}_l
-  =
-  \frac{1}{n_l}\sum_{i:C(i)=l}\boldsymbol{x}_i
-\end{equation}
-
-</div></li>
-<li><p>
-損失関数 \(W(C)\) の等価な表現:
-</p>
-
-<div>
-\begin{equation}
-  W(C)
-  =
-  2\sum_{l=1}^k\sum_{i:C(i)=l}\|\boldsymbol{x}_i-\bar{\boldsymbol{x}}_{l}\|^2
-\end{equation}
-
-</div></li>
-<li>最適な対応 \(C\): クラスター内変動の総和が最小</li>
-
-</ul>
-
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-orgf1700da">
-<h3 id="orgf1700da">クラスター対応の最適化</h3>
-<ul>
-<li>最適化: 損失関数 \(W(C)\) を最小とする \(C\) を決定</li>
-<li>貪欲な \(C\) の探索:
-<ul>
-<li>原理的には全ての値を計算すればよい</li>
-<li>可能な \(C\) の数: \(k^n\) 通り (有限個のパターン)</li>
-<li>サンプル数 \(n\) が小さくない限り実時間での実行は不可能</li>
-
-</ul></li>
-<li>近似的な \(C\) の探索:
-<ul>
-<li>いくつかのアルゴリズムが提案されている</li>
-<li><p>
-基本的な考え方: <b>Lloyd-Forgyのアルゴリズム</b>
-</p>
-
-<div>
-\begin{equation}
-  \bar{\boldsymbol{x}}_l
-  =\arg\min_{\mu}
-  \sum_{i:C(i)=l}\|\boldsymbol{x}_i-\boldsymbol{\mu}\|^2
+  X_{t}=\mu+\alpha t+\epsilon_{t},
+  \quad
+  \epsilon_{t}
+  \sim
+  \mathrm{WN}(0,\sigma^2)
 \end{equation}
 
 </div>
 
 <p>
-(標本平均と変動の平方和の性質を利用)
-</p></li>
+で定義される確率過程
+</p>
+</blockquote></li>
+<li><b>トレンド</b> \(\mu+\alpha t\) はより一般化されることもある
+<ul>
+<li>\(t\) の1次式 (上記の基本的な場合)</li>
+<li>高次の多項式</li>
+<li>非線形関数(指数関数, 三角関数など)</li>
 
 </ul></li>
+<li><b>平均</b> が時間とともに変動する時系列モデルの1つ</li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org54742c3">
-<h3 id="org54742c3">Lloyd-Forgyのアルゴリズム</h3>
-<ol>
-<li>クラスター中心の初期値 
-\(\boldsymbol{\mu}_1,\boldsymbol{\mu}_2,\dots,\boldsymbol{\mu}_k\) を与える</li>
+<section id="slide-org683e7ea">
+<h3 id="org683e7ea">ランダムウォーク</h3>
+<ul>
 <li><p>
-各データの所属クラスター番号 \(C(i)\) を求める
+定義
 </p>
-
+<blockquote>
+<p>
+\(X_0\) を定数もしくは確率変数として
+</p>
 <div>
 \begin{equation}
-  C(i)
-  =
-  \arg\min_l\|\boldsymbol{x}_i-\boldsymbol{\mu}_l\|
-\end{equation}
-
-</div></li>
-<li><p>
-各クラスター中心 \(\boldsymbol{\mu}_l\;(l=1,2,\dotsc,k)\) を更新する
-</p>
-
-<div>
-\begin{equation}
-  \boldsymbol{\mu}_l
-  =
-  \frac{1}{n_l}\sum_{i:C(i)=l}\boldsymbol{x}_i
+  X_{t}=X_{t-1}+\epsilon_{t},
+  \quad
+  \epsilon_{t}
+  \sim
+  \mathrm{WN}(0,\sigma^2)
 \end{equation}
 
 </div>
 
 <p>
-(\(n_l\) は \(C(i)=l\) となるデータの総数)
-</p></li>
-<li>中心が変化しなくなるまで 2,3 を繰り返す</li>
-
-</ol>
-
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-org289c050">
-<h3 id="org289c050">Lloyd-Forgyのアルゴリズムの性質</h3>
-<ul>
-<li>結果は確率的で初期値
-\(\boldsymbol{\mu}_1,\boldsymbol{\mu}_2,\dots,\boldsymbol{\mu}_k\)
-に依存</li>
-<li>アルゴリズムの成否は確率的 <br>
-(最適解が得られない場合もある)</li>
-<li>一般には複数の初期値をランダムに試して損失を最小とする解を採用</li>
-
-</ul>
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-orgdb3821e">
-<h3 id="orgdb3821e">R: 関数 <code>kmeans( )</code></h3>
-<ul>
-<li>\(k\) -平均法を実行するための標準的な関数
-<ul>
-<li>クラスターの数 \(k\) はオプション <code>centers</code> で指定</li>
-<li>オプション <code>algorithm</code> で最適化アルゴリズムを指定 <br>
-(既定値は Hartigan-Wong アルゴリズム)</li>
-<li>オプション <code>nstart</code> で初期値の候補の数を指定</li>
-
-</ul></li>
-<li>結果は変数のスケールにも依存
-<ul>
-<li>例えば測定値の単位により異なる</li>
-<li>必要ならば主成分分析の場合と同様に実行前にデータを標準化する</li>
-
-</ul></li>
-
-</ul>
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-org0b0a29f" data-background="#EEEEFF">
-<h3 id="org0b0a29f">演習: 非階層的クラスタリング</h3>
-<ul>
-<li><a href="./code/12-kmeans.r">12-kmeans.r</a> を確認してみよう</li>
+で帰納的に定義される確率過程
+</p>
+</blockquote></li>
+<li><b>分散</b> が時間とともに増加する時系列モデルの1つ</li>
+<li>最も単純な <b>記憶</b> のあるモデル</li>
 
 </ul>
 
@@ -350,110 +244,528 @@
 </section>
 </section>
 <section>
-<section id="slide-orgbf3787b">
-<h2 id="orgbf3787b">クラスター構造の評価指標</h2>
-<div class="outline-text-2" id="text-orgbf3787b">
+<section id="slide-org034c0fe">
+<h2 id="org034c0fe">実習</h2>
+<div class="outline-text-2" id="text-org034c0fe">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org44715c2">
-<h3 id="org44715c2">凝集係数 (agglomerative coefficient)</h3>
+<section id="slide-orgbcc1398">
+<h3 id="orgbcc1398">R: 時系列データの扱い</h3>
 <ul>
-<li>階層的方法の評価</li>
-<li><p>
-データ \(\boldsymbol{x}_i\) と最初に統合されたクラスター \(C\) の距離:
-</p>
+<li>時系列のためのクラス: <code>ts</code> クラス
+<ul>
+<li>ベクトル(1次元)データだが，時間に関する情報が付加される</li>
+<li>ベクトルからの変換:  関数 <code>ts()</code></li>
+<li>多次元時系列も扱うことは可能</li>
 
-<div>
-\begin{equation}
-  d_i
-  =
-  D({\boldsymbol{x}_i},C)
-\end{equation}
+</ul></li>
+<li>関数 <code>plot()</code> などの挙動はベクトルと異なる
+<ul>
+<li>プロットが既定値で折れ線</li>
+<li>x軸に時間の情報が表示</li>
+<li>通常は時間情報を利用して適切に処理してくれる</li>
 
-</div></li>
-<li><p>
-最後に統合された2つのクラスター \(C',C''\) の距離:
-</p>
-
-<div>
-\begin{equation}
-  D
-  =
-  D(C',C'')
-\end{equation}
-
-</div></li>
-<li><p>
-<b>凝集係数</b> \(AC\): 
-</p>
-
-<div>
-\begin{equation}
-  AC
-  =
-  \frac{1}{n}\sum_{i=1}^{n}\left(1-\frac{d_i}{D}\right)
-\end{equation}
-
-</div></li>
+</ul></li>
+<li>より複雑な時系列を記述するためには <code>zoo</code> や <code>xts</code> などのパッケージがある</li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org97b4044">
-<h3 id="org97b4044">凝集係数の性質</h3>
+<section id="slide-orge682dd6">
+<h3 id="orge682dd6">R: 関数 <code>ts()</code></h3>
 <ul>
-<li>定義より \(0\leq AC\leq1\)</li>
-<li>1に近いほどクラスター構造が明瞭</li>
-<li>banner plot の面積比 <br>
-(banner plot: \(l_i\) をデータ毎に並べた棒グラフ)</li>
+<li><p>
+時系列クラス <code>ts</code> を作成する関数
+</p>
+<div class="org-src-container">
+
+<pre><code class=" R" >ts(data = NA, start = 1, end = numeric(), frequency = 1)
+## data: ベクトル，または行列(データフレーム)
+## start: 開始時刻
+## end: 終了時刻
+## frequency: 単位時間あたりの観測回数
+ts(data = x, start = c(2020,1), frequency =12) # 月ごとのデータ
+ts(data = x, start = c(2020,3), frequency =4) # 四半期ごとのデータ
+</code></pre>
+</div>
+<ul>
+<li>その他の詳細は <code>?ts</code></li>
+
+</ul></li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgc22449a">
-<h3 id="orgc22449a">シルエット係数 (silhouette coefficient)</h3>
+<section id="slide-orga71bdc4" data-background="#fef4f4">
+<h3 id="orga71bdc4">練習問題</h3>
 <ul>
-<li>非階層的方法の評価 (階層的方法でも利用可)</li>
-<li>\(C^1,C^2\): \(\boldsymbol{x}_i\) を含む，および一番近いクラスター</li>
-<li>\(C^1\) と \(\boldsymbol{x}_i\) の距離:
-\(d^1_i=D({\boldsymbol{x}_i},C^1\setminus{\boldsymbol{x}_i})\)</li>
-<li>\(C^2\) と \(\boldsymbol{x}_i\) の距離:
-\(d^2_i=D({\boldsymbol{x}_i},C^2)\)</li>
-<li><p>
-<b>シルエット係数</b> \(S_i\):
-</p>
+<li>指定された確率過程を生成し，図示を行いなさい
+<ul>
+<li>平均0，分散4の正規分布に従うホワイトノイズ</li>
+<li>上記のホワイトノイズに
+初期値-1で単位時刻あたり1/20で増加するトレンドを持つ確率過程</li>
+<li>上記のホワイトノイズから生成されるランダムウォーク</li>
 
+</ul></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+</section>
+<section>
+<section id="slide-orgb02dd08">
+<h2 id="orgb02dd08">より一般的なモデル</h2>
+<div class="outline-text-2" id="text-orgb02dd08">
+</div>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgef3b897">
+<h3 id="orgef3b897">自己回帰過程</h3>
+<ul>
+<li><p>
+定義 (次数\(p\); AR(p), auto regressive の略)
+</p>
+<blockquote>
+<p>
+\(a_1,\dotsc,a_p\)を定数とし，
+\(X_1,\dotsc,X_p\)が初期値として与えられたとき，
+</p>
 <div>
 \begin{equation}
-  S_i
-  =
-  \frac{d^2_i-d^1_i}{\max(d^1_i,d^2_i)}
+  X_{t}=a_1X_{t-1}+\cdots+a_pX_{t-p}+\epsilon_{t},
+  \quad
+  \epsilon_{t}
+  \sim
+  \mathrm{WN}(0,\sigma^2)
 \end{equation}
 
-</div></li>
+</div>
+
+<p>
+で帰納的に定義される確率過程
+</p>
+</blockquote>
+<ul>
+<li>ランダムウォークの一般化
+<ul>
+<li>\(p=1, a_1=1\) かつ \(\epsilon_{t}\) が独立同分布ならランダムウォーク</li>
+
+</ul></li>
+<li><b>忘却</b> しながら記憶するモデル (\(|a_i|<1\) などの条件が必要)</li>
+
+</ul></li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgf46f191">
-<h3 id="orgf46f191">シルエット係数の性質</h3>
+<section id="slide-org794df21">
+<h3 id="org794df21">移動平均過程</h3>
 <ul>
-<li>定義より \(-1\leq S_i\leq1\)</li>
-<li>1に近いほど適切なクラスタリング</li>
-<li>全体の良さを評価するには \(S_i\) の平均を用いる</li>
+<li><p>
+定義 (次数\(q\); MA(q), moving average の略)
+</p>
+<blockquote>
+<p>
+\(b_1,\dotsc,b_q\)を定数とし，
+\(X_1,\dotsc,X_q\)が初期値として与えられたとき
+</p>
+<div>
+\begin{equation}
+  X_{t}
+  =
+  b_1\epsilon_{t-1}+\cdots+b_q\epsilon_{t-q}+\epsilon_{t},
+  \quad
+  \epsilon_{t}
+  \sim
+  \mathrm{WN}(0,\sigma^2)
+\end{equation}
+
+</div>
+
+<p>
+で定義される確率過程
+</p>
+</blockquote>
+<ul>
+<li>記憶のあるホワイトノイズ (構成する部品を記憶)</li>
+
+</ul></li>
 
 </ul>
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orga786d00" data-background="#EEEEFF">
-<h3 id="orga786d00">演習: クラスター分析の評価</h3>
+<section id="slide-orgdb8c2ca">
+<h3 id="orgdb8c2ca">自己回帰平均移動過程</h3>
 <ul>
-<li><a href="./code/12-eval.r">12-eval.r</a> を確認してみよう</li>
+<li><p>
+定義 (次数\((p,q)\); ARMA(\(p,q\)))
+</p>
+<blockquote>
+<p>
+\(a_1,\dotsc,a_p,b_1,\dotsc,b_q\) を定数とし，
+\(X_1,\dotsc,X_{\max\{p,q\}}\) が初期値として与えられたとき
+</p>
+<div>
+\begin{align}
+  X_{t}
+  &=
+    a_1X_{t-1}+\cdots+a_pX_{t-p}\\
+  &\quad+
+    b_1\epsilon_{t-1}+\cdots+b_q\epsilon_{t-q}
+    +\epsilon_{t},\\
+  &\quad
+    \epsilon_{t}
+    \sim
+    \mathrm{WN}(0,\sigma^2)
+\end{align}
+
+</div>
+
+<p>
+で帰納的に定まる確率過程
+</p>
+</blockquote>
+<ul>
+<li>AR(\(p\))モデルはARMA(\(p,0\))，MA(\(q\))モデルはARMA(\(0,q\))</li>
+<li>単純な形ながら異なる時点間の従属構造を柔軟に記述</li>
+<li>基本的な時系列モデルとして広く利用されている</li>
+
+</ul></li>
+
+</ul>
+
+
+<div class="slide-footer"><br></div>
+</section>
+</section>
+<section>
+<section id="slide-org7e05e72">
+<h2 id="org7e05e72">実習</h2>
+<div class="outline-text-2" id="text-org7e05e72">
+</div>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org3795f74" data-background="#fef4f4">
+<h3 id="org3795f74">練習問題</h3>
+<ul>
+<li>平均0，分散1のホワイトノイズを用いて，
+以下の指定された確率過程を生成し，図示を行いなさい
+<ul>
+<li>係数\(a_{1}=0.67,a_{2}=0.26\)を持つAR(2)過程</li>
+<li>係数\(b_{1}=0.44,b_{2}=0.08\)を持つMA(2)過程</li>
+<li>係数\(a_{1}=0.8,a_{2}=-0.64,b_{1}=-0.5\)を持つARMA(2,1)過程</li>
+
+</ul></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+</section>
+<section>
+<section id="slide-org8b709b9">
+<h2 id="org8b709b9">定常過程と非定常過程</h2>
+<div class="outline-text-2" id="text-org8b709b9">
+</div>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgc5b0725">
+<h3 id="orgc5b0725">弱定常性</h3>
+<ul>
+<li>確率過程\(X_{t},\;t=1,\dotsc,T\)が次の性質をもつ:
+<ul>
+<li><p>
+\(X_{t}\)の平均は時点\(t\)によらない
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  \mathbb{E}[X_{t}]=\mu
+  \quad
+  \text{(時間の添字を持たない)}
+\end{equation}
+
+</div>
+</blockquote></li>
+<li><p>
+\(X_{t}\)と\(X_{t+h}\)の共分散は時点\(t\)によらず時差\(h\)のみで定まる
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  \mathrm{Cov}(X_{t},X_{t+h})
+  =\gamma(h)
+  \quad
+  \text{(時間の添字を持たない)}
+\end{equation}
+
+</div>
+</blockquote></li>
+<li><p>
+特に\(X_{t}\)の分散は時点\(t\)によらない (\(h=0\)の場合)
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  \mathrm{Var}(X_{t})
+  =\gamma(0)
+\end{equation}
+
+</div>
+</blockquote></li>
+
+</ul></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgf6ac1c7">
+<h3 id="orgf6ac1c7">定常性と非定常性</h3>
+<ul>
+<li>定常でない確率過程は <b>非定常</b> であるという</li>
+<li>いろいろな確率過程の定常性
+<ul>
+<li>定常: ホワイトノイズ, MA</li>
+<li>非定常: トレンドのあるホワイトノイズ, ランダムウォーク</li>
+<li>定常にも非定常にもなりうる: AR, ARMA</li>
+
+</ul></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org8aed690">
+<h3 id="org8aed690">非定常過程の難しさ</h3>
+<ul>
+<li>性質を特徴付ける統計量が一般に観測値から得られない
+<ul>
+<li>平均や分散などの基本的な統計量が時間によって変動する</li>
+<li>1つの時系列から記述統計量の推測はできない</li>
+
+</ul></li>
+<li>擬似相関の問題
+<ul>
+<li>独立な時系列にも関わらず見掛けの相関が現れることがある</li>
+<li>2つの独立なランダムウォークは高い確率で&ldquo;相関&rdquo;を持つ</li>
+<li><a href="https://tylervigen.com/spurious-correlations">https://tylervigen.com/spurious-correlations</a></li>
+
+</ul></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgc521623">
+<h3 id="orgc521623">非定常過程の取り扱い</h3>
+<ul>
+<li>定常過程とみなせるように変換したあと分析を実行
+<ul>
+<li><p>
+階差をとる変換
+</p>
+<blockquote>
+<p>
+ランダムウォークは階差をとればホワイトノイズ(定常過程)となる
+</p>
+<div>
+\begin{equation}
+  X_{t}=X_{t-1}+\epsilon_{t}
+  \quad\Rightarrow\quad
+  Y_{t}=X_{t}-X_{t-1}=\epsilon_{t}
+\end{equation}
+
+</div>
+</blockquote></li>
+<li><p>
+対数変換
+</p>
+<blockquote>
+<p>
+対数変換と階差で微小な比率の変動を取り出すことができる
+</p>
+<div>
+\begin{equation}
+  X_{t}=(1+\epsilon_{t})X_{t-1}
+  \quad\Rightarrow\quad
+  Y_{t}=\log(X_{t})-\log(X_{t-1})
+	 =\log(1+\epsilon_{t})
+	 \simeq\epsilon_{t}
+\end{equation}
+
+</div>
+</blockquote></li>
+<li><p>
+トレンド成分+季節成分+変動成分への分解
+</p>
+<blockquote>
+<p>
+適当な仮説のもとに取り扱いやすい成分の和に分解する
+</p>
+</blockquote></li>
+
+</ul></li>
+
+</ul>
+
+
+<div class="slide-footer"><br></div>
+</section>
+</section>
+<section>
+<section id="slide-org4ae3e03">
+<h2 id="org4ae3e03">自己共分散・自己相関</h2>
+<div class="outline-text-2" id="text-org4ae3e03">
+</div>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org542bd76">
+<h3 id="org542bd76">自己共分散・自己相関</h3>
+<ul>
+<li>確率過程\(X_{t}\)が <b>定常過程</b> の場合
+<ul>
+<li><p>
+\(X_{t}\) と \(X_{t+h}\) の共分散は時点\(t\)によらずラグ\(h\)のみで定まる
+</p>
+<blockquote>
+<p>
+<b>自己共分散</b> (定常過程の性質よりラグは\(h\ge0\)を考えればよい)
+</p>
+<div>
+\begin{equation}
+  \mathrm{Cov}(X_{t},X_{t+h})
+  =\gamma(h)
+\end{equation}
+
+</div>
+</blockquote></li>
+<li><p>
+\(X_{t}\) と \(X_{t+h}\) の相関も\(t\)によらずラグ\(h\)のみで定まる
+</p>
+<blockquote>
+<p>
+<b>自己相関</b>
+</p>
+<div>
+\begin{equation}
+  \mathrm{Cov}(X_{t},X_{t+h})/\mathrm{Var}(X_{t})
+  =\gamma(h)/\gamma(0)
+\end{equation}
+
+</div>
+</blockquote></li>
+
+</ul></li>
+<li>異なる時点間での観測データの従属関係を要約するための最も基本的な統計量</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org72c223b">
+<h3 id="org72c223b">標本自己共分散・標本自己相関</h3>
+<ul>
+<li>観測データ \(X_1,\dotsc,X_{t}\) からの推定
+<ul>
+<li><p>
+ラグ\(h\)の自己共分散の推定: 標本自己共分散
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  \hat\gamma(h)
+  =
+  \frac{1}{T}\sum_{t=1}^{T-h}(X_{t}-\bar{X})(X_{t+h}-\bar{X})
+\end{equation}
+
+</div>
+</blockquote>
+<p>
+\(\bar{X}=\frac{1}{T}\sum_{t=1}^TX_{t}\) は標本平均
+</p></li>
+<li><p>
+ラグ\(h\)での自己相関の推定: 標本自己相関
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  \hat\gamma(h)/\hat\gamma(0)
+  =
+  \frac{\sum_{t=1}^{T-h}(X_{t}-\bar{X})(X_{t+h}-\bar{X})}{\sum_{t=1}^T(X_{t}-\bar{X})^2}
+\end{equation}
+
+</div>
+</blockquote></li>
+
+</ul></li>
+
+</ul>
+
+
+<div class="slide-footer"><br></div>
+</section>
+</section>
+<section>
+<section id="slide-orgd91f6a7">
+<h2 id="orgd91f6a7">実習</h2>
+<div class="outline-text-2" id="text-orgd91f6a7">
+</div>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgdcca954">
+<h3 id="orgdcca954">R: 関数 <code>acf()</code></h3>
+<ul>
+<li><p>
+自己相関・自己共分散の計算
+</p>
+<div class="org-src-container">
+
+<pre><code class=" R" >acf(x, lag.max = NULL,
+    type = c("correlation", "covariance", "partial"),
+    plot = TRUE, na.action = na.fail, demean = TRUE, ...)
+## x: 時系列データ
+## lag.max: 計算するラグの最大値
+## type: 標準は相関, 共分散と偏相関を選ぶこともできる
+## plot: 描画するか否か
+## na.action: 欠損値の処理，標準は欠損を含むと計算しない
+## demean: 共分散の計算において平均を引くか否か
+</code></pre>
+</div>
+<ul>
+<li>詳細は <code>?acf</code></li>
+
+</ul></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgd7fbea4" data-background="#fef4f4">
+<h3 id="orgd7fbea4">練習問題</h3>
+<ul>
+<li>以下の問に答えなさい
+<ul>
+<li>同じAR過程のモデルから生成した時系列の自己相関を比較しなさい<br />
+(前の練習問題を利用すればよい)</li>
+<li>MA過程についても同様な比較を行いなさい</li>
+<li>ARMA過程についても同様な比較を行いなさい</li>
+
+</ul></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+</section>
+<section>
+<section id="slide-org6102308">
+<h2 id="org6102308">次週の内容</h2>
+<ul>
+<li>第1日: 時系列のモデル</li>
+<li><b>第2日: モデルの推定と予測</b></li>
 
 </ul>
 <div class="slide-footer"><br></div>
@@ -461,7 +773,11 @@
 </section>
 </div>
 </div>
-<script src="./reveal.js/js/reveal.js"></script>
+<script src="./reveal.js/dist/reveal.js"></script>
+<script src="./reveal.js/plugin/notes/notes.js"></script>
+<script src="./reveal.js/plugin/search/search.js"></script>
+<script src="./reveal.js/plugin/zoom/zoom.js"></script>
+<script src="./reveal.js/plugin/highlight/highlight.js"></script>
 <script>
 // Full list of configuration options available here:
 // https://github.com/hakimel/reveal.js#configuration
@@ -474,84 +790,27 @@ center: true,
 slideNumber: 'c',
 rollingLinks: false,
 keyboard: true,
-mouseWheel: true,
+mouseWheel: false,
 fragmentInURL: true,
+hashOneBasedIndex: false,
 pdfSeparateFragments: false,
 
 overview: true,
 
-theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-transition: Reveal.getQueryHash().transition || 'fade', // default/cube/page/concave/zoom/linear/fade/none
+transition: 'fade',
 transitionSpeed: 'default',
-multiplex: {
-    secret: '', // null if client
-    id: '', // id, obtained from socket.io server
-    url: '' // Location of socket.io server
-},
+spotlight: { size: 90, initialPresentationMode: false }, chalkboard: { toggleChalkboardButton: { left: '80px' }, toggleNotesButton: { left: '130px'}}, keyboard: { 69: function() { RevealChalkboard.toggleNotesCanvas() }, 87: function() { RevealChalkboard.toggleChalkboard() }, 67: function() { RevealChalkboard.clear() }, 82: function() { RevealChalkboard.reset() }, 68: function() { RevealChalkboard.download() }, 88: function() { RevealChalkboard.colorNext() }, 89: function() { RevealChalkboard.colorPrev() }, 84: function() { RevealSpotlight.toggleSpotlight() }, 81: function() { RevealSpotlight.togglePresentationMode()}},
 
-// Optional libraries used to extend on reveal.js
+// Plugins with reveal.js 4.x
+plugins: [ RevealNotes, RevealSearch, RevealZoom, RevealHighlight ],
+
+// Optional libraries used to extend reveal.js
 dependencies: [
-{ src: './reveal.js/plugin/coursemod/coursemod.js', async: true },
-{ src: './reveal.js/plugin/quiz/js/quiz.js', async: true, callback: function() { prepareQuizzes({preventUnanswered: true}); } },
-{ src: './reveal.js/plugin/jump/jump.js', async: true },
- { src: './reveal.js/plugin/toc-progress/toc-progress.js', async: true, callback: function() { toc_progress.initialize('reduce', 'rgba(120,138,130,0.2)'); toc_progress.create(); } },
- { src: './reveal.js/plugin/anything/anything.js' },
- { src: './reveal.js/plugin/audio-slideshow/audio-slideshow.js', condition: function( ) { return !!document.body.classList && !Reveal.isSpeakerNotes(); } },
- { src: './reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
- { src: './reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } },
- { src: './reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } }]
-,audio: {
-    advance: -1, autoplay: true, defaultDuration: 0, defaultAudios: false, playerOpacity: 0.3, playerStyle: 'position: fixed; bottom: 9.5vh; left: 0%; width: 30%; height:30px; z-index: 33;' },
-  anything: [
-	{className: "animate",  initialize: (function(container, options){
-		Reveal.addEventListener( 'fragmentshown', function( event ) {
-			if (typeof event.fragment.beginElement === "function" ) {
-				event.fragment.beginElement();
-			}
-		});
-		Reveal.addEventListener( 'fragmenthidden', function( event ) {
-			if (event.fragment.hasAttribute('data-reverse') ) {
-				var reverse = event.fragment.parentElement.querySelector('[id=\"' + event.fragment.getAttribute('data-reverse') + '\"]');
-				if ( reverse && typeof reverse.beginElement === "function" ) {
-					reverse.beginElement();
-				}
-			}
-		});
-		if ( container.getAttribute("data-svg-src") ) {
-			var xhr = new XMLHttpRequest();
-			xhr.onload = function() {
-				if (xhr.readyState === 4) {
-					var svg = container.querySelector('svg');
-					container.removeChild( svg );
-					container.innerHTML = xhr.responseText + container.innerHTML;
-					if ( svg ) {
-						container.querySelector('svg').innerHTML = container.querySelector('svg').innerHTML + svg.innerHTML;
-					}
-				}
-				else {
-					console.warn( "Failed to get file. ReadyState: " + xhr.readyState + ", Status: " + xhr.status);
-				}
-			};
-			xhr.open( 'GET', container.getAttribute("data-svg-src"), true );
-			xhr.send();
-		}
-	}) },
-	{className: "randomPic",
-	 defaults: {imgalt: "Dummy alt text",
-		    imgcaption: "Image by {name}",
-		    choices: [ {name: "dummyname", path: "dummypath"} ]},
-	 initialize: (function(container, options){
-	     var choice = Math.trunc( Math.random()*(options.choices.length) );
-	     var img = "<img data-src='" + options.choices[choice].path + "' alt='" + options.choices[choice].imgalt + "' />";
-	     var caption = options.imgcaption.replace(new RegExp('\{name\}', 'gm'), options.choices[choice].name);
-	     container.innerHTML = img + caption;
-	 }) },
-	{className: "notes",
-	 initialize: (function(container, options){
-	     container.addEventListener('click', function(e) { RevealNotes.open(); });
-	 }) }
-],
-  coursemod: { enabled: true, shown: false }});
+{ src: './reveal.js/plugin/menu/menu.js'},
+{ src: './reveal.js/plugin/chalkboard/chalkboard.js'},
+{ src: './reveal.js/plugin/spotlight/spotlight.js'}]
+
+});
 </script>
 </body>
 </html>

@@ -180,13 +180,12 @@
   :EXPORT_FILE_NAME: lecture12
   :EXPORT_DATE: <2020-09-19 Sat>
   :END:
-  準備中
-** COMMENT スライド
+** スライド
    {{< myslide base="statistical-data-analysis2" name="slide12" >}}
-** COMMENT ハンドアウト
+** ハンドアウト
    - [[github:pdfs/slide12.pdf][PDF file]]
 
-** COMMENT 付録
+** 付録
    - [[github:code/slide12.R][RScript]]
 * 講義13
   :PROPERTIES:
