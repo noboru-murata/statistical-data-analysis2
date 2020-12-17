@@ -47,8 +47,8 @@
 </section>
 
 <section>
-<section id="slide-orgfb8bc5c">
-<h2 id="orgfb8bc5c">講義の予定</h2>
+<section id="slide-org047537f">
+<h2 id="org047537f">講義の予定</h2>
 <ul>
 <li><b>第1日: 時系列のモデル</b></li>
 <li>第2日: モデルの推定と予測</li>
@@ -58,14 +58,14 @@
 </section>
 </section>
 <section>
-<section id="slide-org47b6618">
-<h2 id="org47b6618">時系列解析の概要</h2>
-<div class="outline-text-2" id="text-org47b6618">
+<section id="slide-org8145bbc">
+<h2 id="org8145bbc">時系列解析の概要</h2>
+<div class="outline-text-2" id="text-org8145bbc">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgf3a5a54">
-<h3 id="orgf3a5a54">時系列解析とは</h3>
+<section id="slide-org5041f57">
+<h3 id="org5041f57">時系列解析とは</h3>
 <ul>
 <li>時系列データ
 <ul>
@@ -87,8 +87,8 @@
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org0df3c51">
-<h3 id="org0df3c51">時系列データ</h3>
+<section id="slide-orgec1a02d">
+<h3 id="orgec1a02d">時系列データ</h3>
 <ul>
 <li><p>
 統計学・確率論における表現: <b>確率過程</b>
@@ -121,14 +121,14 @@
 </section>
 </section>
 <section>
-<section id="slide-orgef2d41b">
-<h2 id="orgef2d41b">基本的なモデル</h2>
-<div class="outline-text-2" id="text-orgef2d41b">
+<section id="slide-orgad8966d">
+<h2 id="orgad8966d">基本的なモデル</h2>
+<div class="outline-text-2" id="text-orgad8966d">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgae09ecf">
-<h3 id="orgae09ecf">ホワイトノイズ</h3>
+<section id="slide-org1dc54c4">
+<h3 id="org1dc54c4">ホワイトノイズ</h3>
 <ul>
 <li><p>
 定義
@@ -171,8 +171,8 @@
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgbad75ae">
-<h3 id="orgbad75ae">トレンドのあるホワイトノイズ</h3>
+<section id="slide-orga14bc34">
+<h3 id="orga14bc34">トレンドのあるホワイトノイズ</h3>
 <ul>
 <li><p>
 定義
@@ -209,8 +209,8 @@
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org683e7ea">
-<h3 id="org683e7ea">ランダムウォーク</h3>
+<section id="slide-org5da1f15">
+<h3 id="org5da1f15">ランダムウォーク</h3>
 <ul>
 <li><p>
 定義
@@ -244,14 +244,14 @@
 </section>
 </section>
 <section>
-<section id="slide-org034c0fe">
-<h2 id="org034c0fe">実習</h2>
-<div class="outline-text-2" id="text-org034c0fe">
+<section id="slide-org25cc3d0">
+<h2 id="org25cc3d0">実習</h2>
+<div class="outline-text-2" id="text-org25cc3d0">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgbcc1398">
-<h3 id="orgbcc1398">R: 時系列データの扱い</h3>
+<section id="slide-orga93f896">
+<h3 id="orga93f896">R: 時系列データの扱い</h3>
 <ul>
 <li>時系列のためのクラス: <code>ts</code> クラス
 <ul>
@@ -273,8 +273,8 @@
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orge682dd6">
-<h3 id="orge682dd6">R: 関数 <code>ts()</code></h3>
+<section id="slide-org86e062a">
+<h3 id="org86e062a">R: 関数 <code>ts()</code></h3>
 <ul>
 <li><p>
 時系列クラス <code>ts</code> を作成する関数
@@ -286,8 +286,9 @@
 ## start: 開始時刻
 ## end: 終了時刻
 ## frequency: 単位時間あたりの観測回数
-ts(data = x, start = c(2020,1), frequency =12) # 月ごとのデータ
-ts(data = x, start = c(2020,3), frequency =4) # 四半期ごとのデータ
+ts(data = x) # t=1,2,... を添字とする時系列
+ts(data = x, start = c(2020,1), frequency =12) # 2020年1月からの月ごと
+ts(data = x, start = c(2020,3), frequency =4) # 四半期ごと
 </code></pre>
 </div>
 <ul>
@@ -299,8 +300,37 @@ ts(data = x, start = c(2020,3), frequency =4) # 四半期ごとのデータ
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orga71bdc4" data-background="#fef4f4">
-<h3 id="orga71bdc4">練習問題</h3>
+<section id="slide-orgf2628ce">
+<h3 id="orgf2628ce">R: 関数 <code>plot()</code></h3>
+<ul>
+<li><p>
+時系列クラスの描画
+</p>
+<div class="org-src-container">
+
+<pre><code class=" R" >## 基本的なplotの使い方
+x &lt;- rnorm(240) # 正規分布のホワイトノイズ
+plot(ts(x, start=c(2000,1), frequency=12)) # 2000年からの毎月のデータを想定
+## 複数の系列を表示する場合
+y &lt;- rt(240,df=4) # t-分布のホワイトノイズ
+z &lt;- ts(data.frame(x,y),
+	start=c(2000,1), frequency=12) 
+plot(z, col=c("red","blue"))
+plot(z, plot.type="single", col=c("red","blue"))
+</code></pre>
+</div>
+<ul>
+<li>その他の詳細は <code>?plot.ts</code></li>
+<li>表示の方法が異なる関数 <code>ts.plot()</code> もあるので調べてみよう</li>
+
+</ul></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org0b1ef15" data-background="#fef4f4">
+<h3 id="org0b1ef15">練習問題</h3>
 <ul>
 <li>指定された確率過程を生成し，図示を行いなさい
 <ul>
@@ -316,14 +346,14 @@ ts(data = x, start = c(2020,3), frequency =4) # 四半期ごとのデータ
 </section>
 </section>
 <section>
-<section id="slide-orgb02dd08">
-<h2 id="orgb02dd08">より一般的なモデル</h2>
-<div class="outline-text-2" id="text-orgb02dd08">
+<section id="slide-orgbb620bd">
+<h2 id="orgbb620bd">より一般的なモデル</h2>
+<div class="outline-text-2" id="text-orgbb620bd">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgef3b897">
-<h3 id="orgef3b897">自己回帰過程</h3>
+<section id="slide-orgcbfd7a8">
+<h3 id="orgcbfd7a8">自己回帰過程</h3>
 <ul>
 <li><p>
 定義 (次数\(p\); AR(p), auto regressive の略)
@@ -362,8 +392,8 @@ ts(data = x, start = c(2020,3), frequency =4) # 四半期ごとのデータ
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org794df21">
-<h3 id="org794df21">移動平均過程</h3>
+<section id="slide-org7e34488">
+<h3 id="org7e34488">移動平均過程</h3>
 <ul>
 <li><p>
 定義 (次数\(q\); MA(q), moving average の略)
@@ -399,8 +429,8 @@ ts(data = x, start = c(2020,3), frequency =4) # 四半期ごとのデータ
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgdb8c2ca">
-<h3 id="orgdb8c2ca">自己回帰平均移動過程</h3>
+<section id="slide-orged1da63">
+<h3 id="orged1da63">自己回帰平均移動過程</h3>
 <ul>
 <li><p>
 定義 (次数\((p,q)\); ARMA(\(p,q\)))
@@ -444,14 +474,14 @@ ts(data = x, start = c(2020,3), frequency =4) # 四半期ごとのデータ
 </section>
 </section>
 <section>
-<section id="slide-org7e05e72">
-<h2 id="org7e05e72">実習</h2>
-<div class="outline-text-2" id="text-org7e05e72">
+<section id="slide-org21d67d7">
+<h2 id="org21d67d7">実習</h2>
+<div class="outline-text-2" id="text-org21d67d7">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org3795f74" data-background="#fef4f4">
-<h3 id="org3795f74">練習問題</h3>
+<section id="slide-org17a5ff3" data-background="#fef4f4">
+<h3 id="org17a5ff3">練習問題</h3>
 <ul>
 <li>平均0，分散1のホワイトノイズを用いて，
 以下の指定された確率過程を生成し，図示を行いなさい
@@ -467,14 +497,14 @@ ts(data = x, start = c(2020,3), frequency =4) # 四半期ごとのデータ
 </section>
 </section>
 <section>
-<section id="slide-org8b709b9">
-<h2 id="org8b709b9">定常過程と非定常過程</h2>
-<div class="outline-text-2" id="text-org8b709b9">
+<section id="slide-orgd0c5a4b">
+<h2 id="orgd0c5a4b">定常過程と非定常過程</h2>
+<div class="outline-text-2" id="text-orgd0c5a4b">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgc5b0725">
-<h3 id="orgc5b0725">弱定常性</h3>
+<section id="slide-org3e3a3d0">
+<h3 id="org3e3a3d0">弱定常性</h3>
 <ul>
 <li>確率過程\(X_{t},\;t=1,\dotsc,T\)が次の性質をもつ:
 <ul>
@@ -524,8 +554,8 @@ ts(data = x, start = c(2020,3), frequency =4) # 四半期ごとのデータ
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgf6ac1c7">
-<h3 id="orgf6ac1c7">定常性と非定常性</h3>
+<section id="slide-org595bda2">
+<h3 id="org595bda2">定常性と非定常性</h3>
 <ul>
 <li>定常でない確率過程は <b>非定常</b> であるという</li>
 <li>いろいろな確率過程の定常性
@@ -540,8 +570,8 @@ ts(data = x, start = c(2020,3), frequency =4) # 四半期ごとのデータ
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org8aed690">
-<h3 id="org8aed690">非定常過程の難しさ</h3>
+<section id="slide-orgfbf10ab">
+<h3 id="orgfbf10ab">非定常過程の難しさ</h3>
 <ul>
 <li>性質を特徴付ける統計量が一般に観測値から得られない
 <ul>
@@ -561,8 +591,8 @@ ts(data = x, start = c(2020,3), frequency =4) # 四半期ごとのデータ
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgc521623">
-<h3 id="orgc521623">非定常過程の取り扱い</h3>
+<section id="slide-orgc7071f9">
+<h3 id="orgc7071f9">非定常過程の取り扱い</h3>
 <ul>
 <li>定常過程とみなせるように変換したあと分析を実行
 <ul>
@@ -618,14 +648,14 @@ ts(data = x, start = c(2020,3), frequency =4) # 四半期ごとのデータ
 </section>
 </section>
 <section>
-<section id="slide-org4ae3e03">
-<h2 id="org4ae3e03">自己共分散・自己相関</h2>
-<div class="outline-text-2" id="text-org4ae3e03">
+<section id="slide-orge3ab984">
+<h2 id="orge3ab984">自己共分散・自己相関</h2>
+<div class="outline-text-2" id="text-orge3ab984">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org542bd76">
-<h3 id="org542bd76">自己共分散・自己相関</h3>
+<section id="slide-org911f852">
+<h3 id="org911f852">自己共分散・自己相関</h3>
 <ul>
 <li>確率過程\(X_{t}\)が <b>定常過程</b> の場合
 <ul>
@@ -667,8 +697,8 @@ ts(data = x, start = c(2020,3), frequency =4) # 四半期ごとのデータ
 
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org72c223b">
-<h3 id="org72c223b">標本自己共分散・標本自己相関</h3>
+<section id="slide-orgd03e9fe">
+<h3 id="orgd03e9fe">標本自己共分散・標本自己相関</h3>
 <ul>
 <li>観測データ \(X_1,\dotsc,X_{t}\) からの推定
 <ul>
@@ -711,14 +741,14 @@ ts(data = x, start = c(2020,3), frequency =4) # 四半期ごとのデータ
 </section>
 </section>
 <section>
-<section id="slide-orgd91f6a7">
-<h2 id="orgd91f6a7">実習</h2>
-<div class="outline-text-2" id="text-orgd91f6a7">
+<section id="slide-org0de1d85">
+<h2 id="org0de1d85">実習</h2>
+<div class="outline-text-2" id="text-org0de1d85">
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgdcca954">
-<h3 id="orgdcca954">R: 関数 <code>acf()</code></h3>
+<section id="slide-orgd48b3ba">
+<h3 id="orgd48b3ba">R: 関数 <code>acf()</code></h3>
 <ul>
 <li><p>
 自己相関・自己共分散の計算
@@ -744,8 +774,8 @@ ts(data = x, start = c(2020,3), frequency =4) # 四半期ごとのデータ
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgd7fbea4" data-background="#fef4f4">
-<h3 id="orgd7fbea4">練習問題</h3>
+<section id="slide-org93adcb0" data-background="#fef4f4">
+<h3 id="org93adcb0">練習問題</h3>
 <ul>
 <li>以下の問に答えなさい
 <ul>
@@ -761,8 +791,8 @@ ts(data = x, start = c(2020,3), frequency =4) # 四半期ごとのデータ
 </section>
 </section>
 <section>
-<section id="slide-org6102308">
-<h2 id="org6102308">次週の内容</h2>
+<section id="slide-orgaa193eb">
+<h2 id="orgaa193eb">次週の内容</h2>
 <ul>
 <li>第1日: 時系列のモデル</li>
 <li><b>第2日: モデルの推定と予測</b></li>

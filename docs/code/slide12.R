@@ -1,5 +1,15 @@
 ### 第12回 練習問題解答例
 
+## 基本的なplotの使い方
+x <- rnorm(240) # 正規分布のホワイトノイズ
+plot(ts(x, start=c(2000,1), frequency=12)) # 2000年からの毎月のデータを想定
+## 複数の系列を表示する場合
+y <- rt(240,df=4) # t-分布のホワイトノイズ
+z <- ts(data.frame(x,y),
+        start=c(2000,1), frequency=12) 
+plot(z, col=c("red","blue"))
+plot(z, plot.type="single", col=c("red","blue"))
+
 ### 練習1
 ### 基本的な時系列モデル
 
@@ -103,6 +113,8 @@ for(i in 1:K) {
   lines(x, col=myCol[i])
 }
 ## bは1次元なので b*epsilon でも可
+
+## 関数 filter や arima.sim などを利用することもできる
 
 ### 練習3
 ### 自己相関
