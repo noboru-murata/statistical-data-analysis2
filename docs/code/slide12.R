@@ -6,7 +6,7 @@ plot(ts(x, start=c(2000,1), frequency=12)) # 2000年からの毎月のデータ�
 ## 複数の系列を表示する場合
 y <- rt(240,df=4) # t-分布のホワイトノイズ
 z <- ts(data.frame(x,y),
-        start=c(2000,1), frequency=12) 
+	start=c(2000,1), frequency=12) 
 plot(z, col="red") # 指定しなければ個別にグラフを描画
 plot(z, plot.type="single", col=c("red","blue"))
 
@@ -36,8 +36,8 @@ plot(x=ts(1:Tmax),
      main=expression(X[t] == epsilon[t]), # 数式で表示
      type="n") # 枠だけ作図
 for(i in 1:K) {
-  x <- ts(rnorm(Tmax))
-  lines(x, col=myCol[i])
+    x <- ts(rnorm(Tmax))
+    lines(x, col=myCol[i])
 }
 
 ## データフレーム化して表示する場合
@@ -68,7 +68,7 @@ plot(x=z, plot.type="single",
 ## 定義に則ってrecursiveに計算する
 x <- ts(rnorm(Tmax)) # はじめは epslion が入っている
 for(t in 2:Tmax) {
-  x[t] <- x[t-1] + x[t] # 順に足し合わせていく
+    x[t] <- x[t-1] + x[t] # 順に足し合わせていく
 }
 plot(x)
 
@@ -99,20 +99,20 @@ epsilon <- rnorm(Tmax) # epsilonを生成
 x <- double(Tmax)      # 変数を用意
 x[1:2] <- epsilon[1:2] # 初期値は(epsilon1, epsilon2)
 for(t in 3:Tmax) {
-  x[t] <- a %*% x[t-1:2] + epsilon[t] # %*% はベクトルの内積計算
+    x[t] <- a %*% x[t-1:2] + epsilon[t] # %*% はベクトルの内積計算
 }
 plot(ts(x)) # 時系列classに変換して表示
 
 ## 複数の系列を表示
 myAR <- function(a, epsilon){ # 以下に一連の手続きを記述して関数化しておく
-  p <- length(a) # 次数pを取得
-  Tmax <- length(epsilon) # 時系列の長さを取得
-  x <- double(Tmax)      # 変数を用意
-  x[1:p] <- epsilon[1:p] # 初期値は(epsilon1,...)
-  for(t in (p+1):Tmax) {
-    x[t] <- a %*% x[t-1:p] + epsilon[t]
-  }
-  return(x) # 計算結果のxを返す
+    p <- length(a) # 次数pを取得
+    Tmax <- length(epsilon) # 時系列の長さを取得
+    x <- double(Tmax)      # 変数を用意
+    x[1:p] <- epsilon[1:p] # 初期値は(epsilon1,...)
+    for(t in (p+1):Tmax) {
+        x[t] <- a %*% x[t-1:p] + epsilon[t]
+    }
+    return(x) # 計算結果のxを返す
 }
 ## 使い方は a と epsilon(ホワイトノイズ)を指定する
 x <- myAR(a=c(0.6, 0.3, 0.1), epsilon=rnorm(100))
@@ -121,8 +121,8 @@ plot(ts(x))
 ## 様々なホワイトノイズを試したい場合もあるのでそれを指定するように定義しておく
 
 ## データフレームを作成して表示
-z <- ts(replicate(K, myAR(a=a, epsilon=rnorm(Tmax))))
-plot(x=z, plot.type="single",
+df.ar <- ts(replicate(K, myAR(a=a, epsilon=rnorm(Tmax))))
+plot(x=df.ar, plot.type="single",
      ylab="value", col=myCol,
      main="AR(2)")
 
@@ -132,23 +132,23 @@ epsilon <- rnorm(Tmax)
 x <- ts(double(Tmax))
 x[1:2] <- epsilon[1:2]   
 for(t in 3:Tmax) {
-  x[t] <- b %*% epsilon[t-1:2] + epsilon[t]
+    x[t] <- b %*% epsilon[t-1:2] + epsilon[t]
 }
 plot(ts(x))
 
 ## 複数の系列を表示
 myMA <- function(b, epsilon){
-  q <- length(b) # 次数qを取得
-  Tmax <- length(epsilon) # 時系列の長さを取得
-  x <- double(Tmax)
-  x[1:q] <- epsilon[1:q]   
-  for(t in (q+1):Tmax) {
-    x[t] <- b %*% epsilon[t-1:q] + epsilon[t]
-  }
-  return(x)
+    q <- length(b) # 次数qを取得
+    Tmax <- length(epsilon) # 時系列の長さを取得
+    x <- double(Tmax)
+    x[1:q] <- epsilon[1:q]   
+    for(t in (q+1):Tmax) {
+        x[t] <- b %*% epsilon[t-1:q] + epsilon[t]
+    }
+    return(x)
 }
-z <- ts(replicate(K, myMA(b=b, epsilon=rnorm(Tmax))))
-plot(x=z, plot.type="single",
+df.ma <- ts(replicate(K, myMA(b=b, epsilon=rnorm(Tmax))))
+plot(x=df.ma, plot.type="single",
      ylab="value", col=myCol,
      main="MA(2)")
 
@@ -159,26 +159,26 @@ epsilon <- rnorm(Tmax)
 x <- double(Tmax)
 x[1:2] <- epsilon[1:2]
 for(t in 3:Tmax) {
-  x[t] <- a %*% x[t-1:2] + b %*% epsilon[t-1] + epsilon[t]
-  ## bは1次元なのでこの問題では b*epsilon でも可
+    x[t] <- a %*% x[t-1:2] + b %*% epsilon[t-1] + epsilon[t]
+    ## bは1次元なのでこの問題では b*epsilon でも可
 }
 plot(ts(x))
 
 ## 複数の系列を表示
 myARMA <- function(a, b, epsilon){
-  p <- length(a)
-  q <- length(b)
-  r <- max(p,q)
-  Tmax <- length(epsilon) # 時系列の長さを取得
-  x <- double(Tmax)
-  x[1:r] <- epsilon[1:r]
-  for(t in (r+1):Tmax) {
-    x[t] <- a %*% x[t-1:p] + b %*% epsilon[t-1:q] + epsilon[t]
-  }
-  return(x)
+    p <- length(a)
+    q <- length(b)
+    r <- max(p,q)
+    Tmax <- length(epsilon) # 時系列の長さを取得
+    x <- double(Tmax)
+    x[1:r] <- epsilon[1:r]
+    for(t in (r+1):Tmax) {
+        x[t] <- a %*% x[t-1:p] + b %*% epsilon[t-1:q] + epsilon[t]
+    }
+    return(x)
 }
-z <- ts(replicate(K, myARMA(a=a, b=b, epsilon=rnorm(Tmax))))
-plot(x=z, plot.type="single",
+df.arma <- ts(replicate(K, myARMA(a=a, b=b, epsilon=rnorm(Tmax))))
+plot(x=df.arma, plot.type="single",
      ylab="value", col=myCol,
      main="ARMA(2,1)")
 ## 関数 filter や arima.sim などを利用することもできる
@@ -186,26 +186,23 @@ plot(x=z, plot.type="single",
 ### 練習3
 ### 自己相関
 
-K <- 4 # 生成する時系列の数 (4つを並べて比較する)
-## myCol は K=5 で作ったものをそのまま利用，別途作成してもよい
+K <- 4 # 表示する時系列の数 (4つを並べて比較する)
+## myCol K=5 で作ったものをそのまま利用，別途作成してもよい
 
 ### AR(2)モデルの自己相関
 par(mfrow=c(2,2)) # グラフを2x2(行方向の順)に並べる
 for(i in 1:K) {
-  x <- myAR(a=c(0.67, 0.26), epsilon=rnorm(300)) # 長い系列で見てみる
-  acf(x, col=myCol[i])
+  acf(df.ar[,i], col=myCol[i], main=paste("AR series",i))
 }
 
 ### MA(2)モデルの自己相関
 par(mfrow=c(2,2))
 for(i in 1:K) {
-  x <- myMA(b=c(0.44, 0.08), epsilon=rnorm(300))
-  acf(x, col=myCol[i])
+  acf(df.ma[,i], col=myCol[i], main=paste("MA series",i))
 }
 
 ### ARMA(2,1)モデルの自己相関
 par(mfrow=c(2,2))
 for(i in 1:K) {
-  x <- myARMA(a=c(0.8, -0.64), b=-0.5, epsilon=rnorm(300))
-  acf(x, col=myCol[i])
+  acf(df.arma[,i], col=myCol[i], main=paste("ARMA series",i))
 }

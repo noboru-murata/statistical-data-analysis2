@@ -12,23 +12,23 @@
 :end:
 
 * 講義の予定
-#+begin_src R :eval no :exports none :tangle yes
-  ### 第12回 練習問題解答例
-#+end_src
-#+begin_src R :exports none
-  setwd("~/Desktop/lectures/u-tokyo/autumn/slide")
-#+end_src
+  #+begin_src R :eval no :exports none :tangle yes
+    ### 第12回 練習問題解答例
+  #+end_src
+  #+begin_src R :exports none
+    setwd("~/Desktop/lectures/u-tokyo/autumn/slide")
+  #+end_src
   - *第1日: 時系列のモデル*
   - 第2日: モデルの推定と予測
 * COMMENT 今週の内容
-#+begin_src R :eval no :exports none :tangle yes
-  ### 第12回 資料
-#+end_src
-#+begin_src R :exports none
-  setwd("~/Desktop/lectures/mva/slide")
-#+end_src
-  - *第1日: 時系列のモデル*
-  - 第2日: モデルの推定と予測
+  #+begin_src R :eval no :exports none :tangle yes
+    ### 第12回 資料
+  #+end_src
+  #+begin_src R :exports none
+    setwd("~/Desktop/lectures/mva/slide")
+  #+end_src
+      - *第1日: 時系列のモデル*
+      - 第2日: モデルの推定と予測
 
 
 * COMMENT レポートの講評
@@ -75,22 +75,22 @@
      - 時系列モデルの推定と評価
 
 ** 時系列データ
-   - 統計学・確率論における表現: *確率過程*
-     #+begin_quote
-     時間を添え字として持つ確率変数列
-     #+begin_src latex
-       \begin{equation}
-         X_{t},\;t=1,2,\dotsc,T
-         \quad(\text{あるいは}\;t=0,1,\dotsc,T)
-       \end{equation}
-     #+end_src
-     #+end_quote
-   - 時系列解析で利用される代表的な確率過程
-     - ホワイトノイズ
-     - ランダムウォーク
-     - 自己回帰モデル (ARモデル)
-     - 移動平均モデル (MAモデル)
-     - 自己回帰移動平均モデル (ARMAモデル)
+	  - 統計学・確率論における表現: *確率過程*
+	    #+begin_quote
+	    時間を添え字として持つ確率変数列
+	    #+begin_src latex
+	      \begin{equation}
+		X_{t},\;t=1,2,\dotsc,T
+		\quad(\text{あるいは}\;t=0,1,\dotsc,T)
+	      \end{equation}
+	    #+end_src
+	    #+end_quote
+	  - 時系列解析で利用される代表的な確率過程
+	    - ホワイトノイズ
+	    - ランダムウォーク
+	    - 自己回帰モデル (ARモデル)
+	    - 移動平均モデル (MAモデル)
+	    - 自己回帰移動平均モデル (ARMAモデル)
 
 ** COMMENT R: 時系列データの扱い
    - 時系列のためのクラス: ~ts~, ~zoo~ クラスなど
@@ -104,147 +104,147 @@
 
 * 基本的なモデル
 ** ホワイトノイズ
-   - 定義
-     #+begin_quote
-     平均\(0\)，分散\(\sigma^2\)
-     である確率変数の
-     確率分布\(P\)からの
-     独立かつ同分布な確率変数列
-     #+begin_src latex
-       \begin{equation}
-         X_{t}
-         =
-         \epsilon_{t},
-         \quad
-         \epsilon_{t}
-         \overset{i.i.d.}{\sim} P
-       \end{equation}
-     #+end_src
-     #+end_quote
-     # 平均 $0$ ，分散 $\sigma^2$ で互いに無相関な確率変数列
-   - 記号 $\mathrm{WN}(0,\sigma^2)$ で表記することが多い
-     #+begin_quote
-     #+begin_src latex
-       \begin{equation}
-         X_{t}
-         \sim
-         \mathrm{WN}(0,\sigma^2)
-       \end{equation}
-     #+end_src
-     #+end_quote
-   - 独立であるため系列としての予測は不可能
+	- 定義
+	  #+begin_quote
+	  平均\(0\)，分散\(\sigma^2\)
+	  である確率変数の
+	  確率分布\(P\)からの
+	  独立かつ同分布な確率変数列
+	  #+begin_src latex
+	    \begin{equation}
+	      X_{t}
+	      =
+	      \epsilon_{t},
+	      \quad
+	      \epsilon_{t}
+	      \overset{i.i.d.}{\sim} P
+	    \end{equation}
+	  #+end_src
+	  #+end_quote
+	  # 平均 $0$ ，分散 $\sigma^2$ で互いに無相関な確率変数列
+	- 記号 $\mathrm{WN}(0,\sigma^2)$ で表記することが多い
+	  #+begin_quote
+	  #+begin_src latex
+	    \begin{equation}
+	      X_{t}
+	      \sim
+	      \mathrm{WN}(0,\sigma^2)
+	    \end{equation}
+	  #+end_src
+	  #+end_quote
+	- 独立であるため系列としての予測は不可能
 
 ** トレンドのあるホワイトノイズ
-   - 定義
-     #+begin_quote
-     $\mu,\alpha$ を定数として
-     #+begin_src latex
-       \begin{equation}
-         X_{t}=\mu+\alpha t+\epsilon_{t},
-         \quad
-         \epsilon_{t}
-         \sim
-         \mathrm{WN}(0,\sigma^2)
-       \end{equation}
-     #+end_src
-     で定義される確率過程
-     #+end_quote
-     # で与えられる確率過程 $X_{t},\;t=1,\dotsc,T$
-   - *トレンド* \(\mu+\alpha t\) はより一般化されることもある
-     - \(t\) の1次式 (上記の基本的な場合)
-     - 高次の多項式
-     - 非線形関数(指数関数, 三角関数など)
-   - *平均* が時間とともに変動する時系列モデルの1つ
+	- 定義
+	  #+begin_quote
+	  $\mu,\alpha$ を定数として
+	  #+begin_src latex
+	    \begin{equation}
+	      X_{t}=\mu+\alpha t+\epsilon_{t},
+	      \quad
+	      \epsilon_{t}
+	      \sim
+	      \mathrm{WN}(0,\sigma^2)
+	    \end{equation}
+	  #+end_src
+	  で定義される確率過程
+	  #+end_quote
+	  # で与えられる確率過程 $X_{t},\;t=1,\dotsc,T$
+	- *トレンド* \(\mu+\alpha t\) はより一般化されることもある
+	  - \(t\) の1次式 (上記の基本的な場合)
+	  - 高次の多項式
+	  - 非線形関数(指数関数, 三角関数など)
+	- *平均* が時間とともに変動する時系列モデルの1つ
 
 ** ランダムウォーク
-   - 定義
-     #+begin_quote
-     $X_0$ を定数もしくは確率変数として
-     #+begin_src latex
-       \begin{equation}
-         X_{t}=X_{t-1}+\epsilon_{t},
-         \quad
-         \epsilon_{t}
-         \sim
-         \mathrm{WN}(0,\sigma^2)
-       \end{equation}
-     #+end_src
-     で帰納的に定義される確率過程
-     #+end_quote
-   - *分散* が時間とともに増加する時系列モデルの1つ
-   - 最も単純な *記憶* のあるモデル
+	- 定義
+	  #+begin_quote
+	  $X_0$ を定数もしくは確率変数として
+	  #+begin_src latex
+	    \begin{equation}
+	      X_{t}=X_{t-1}+\epsilon_{t},
+	      \quad
+	      \epsilon_{t}
+	      \sim
+	      \mathrm{WN}(0,\sigma^2)
+	    \end{equation}
+	  #+end_src
+	  で帰納的に定義される確率過程
+	  #+end_quote
+	- *分散* が時間とともに増加する時系列モデルの1つ
+	- 最も単純な *記憶* のあるモデル
 
 
 * COMMENT 人工データによる例
   - 同じモデルに従うパス(系列)を複数観測してみる
 
-   #+reveal: split
-   #+header: :width 720 :height 720 :res 100
-   #+begin_src R :file figs/12_wn.png :exports results :results graphics :tangle yes
-     ### ホワイトノイズの生成
-     require(RColorBrewer)
-     k <- 4 # 系列の数
-     myCol <- brewer.pal(k,"Dark2")
+    #+reveal: split
+    #+header: :width 720 :height 720 :res 100
+    #+begin_src R :file figs/12_wn.png :exports results :results graphics :tangle yes
+      ### ホワイトノイズの生成
+      require(RColorBrewer)
+      k <- 4 # 系列の数
+      myCol <- brewer.pal(k,"Dark2")
 
-     n <- 200 # 時系列の長さ
+      n <- 200 # 時系列の長さ
 
-     ## 正規分布を利用
-     set.seed(123)
-     plot(x=ts(1:n),
-          ylim=c(-3,3), ylab="value",
-          main=expression(X[t] == epsilon[t]),
-          type="n")
-     for(i in 1:k) {
-         x <- rnorm(n)
-         ## x <- ts(rt(n, df=4)) # 自由度4のt分布の場合
-         lines(x, col=myCol[i])
-     }
-   #+end_src
-   #+CAPTION: ホワイトノイズ
-   #+NAME: fig:12_wn
-   #+ATTR_HTML: height 100%
-   #+ATTR_LATEX: :width 0.6\linewidth
-   [[file:figs/12_wn.png]]
+      ## 正規分布を利用
+      set.seed(123)
+      plot(x=ts(1:n),
+	   ylim=c(-3,3), ylab="value",
+	   main=expression(X[t] == epsilon[t]),
+	   type="n")
+      for(i in 1:k) {
+	x <- rnorm(n)
+	## x <- ts(rt(n, df=4)) # 自由度4のt分布の場合
+	lines(x, col=myCol[i])
+      }
+    #+end_src
+    #+CAPTION: ホワイトノイズ
+    #+NAME: fig:12_wn
+    #+ATTR_HTML: height 100%
+    #+ATTR_LATEX: :width 0.6\linewidth
+    [[file:figs/12_wn.png]]
 
-   #+reveal: split
-   #+header: :width 720 :height 720 :res 100
-   #+begin_src R :file figs/12_trwn.png :exports results :results graphics :tangle yes
-     ### トレンドのあるホワイトノイズ
-     set.seed(123)
-     plot(x=ts(1:n),
-          ylim=c(-3,10), ylab="value",
-          main=expression(X[t] == -1 + 0.05 * t + epsilon[t]),
-          type="n")
-     for(i in 1:k) {
-         x <- rnorm(n) -1 + 0.05*(1:n)
-         lines(x, col=myCol[i])
-     }
-   #+end_src
-   #+CAPTION: トレンドのあるホワイトノイズ
-   #+NAME: fig:12_trwn
-   #+ATTR_HTML: height 100%
-   #+ATTR_LATEX: :width 0.6\linewidth
-   [[file:figs/12_trwn.png]]
+    #+reveal: split
+    #+header: :width 720 :height 720 :res 100
+    #+begin_src R :file figs/12_trwn.png :exports results :results graphics :tangle yes
+      ### トレンドのあるホワイトノイズ
+      set.seed(123)
+      plot(x=ts(1:n),
+	   ylim=c(-3,10), ylab="value",
+	   main=expression(X[t] == -1 + 0.05 * t + epsilon[t]),
+	   type="n")
+      for(i in 1:k) {
+	x <- rnorm(n) -1 + 0.05*(1:n)
+	lines(x, col=myCol[i])
+      }
+    #+end_src
+    #+CAPTION: トレンドのあるホワイトノイズ
+    #+NAME: fig:12_trwn
+    #+ATTR_HTML: height 100%
+    #+ATTR_LATEX: :width 0.6\linewidth
+    [[file:figs/12_trwn.png]]
    
-   #+reveal: split
-   #+header: :width 720 :height 720 :res 100
-   #+begin_src R :file figs/12_rw.png :exports results :results graphics :tangle yes
-     ### ランダムウォーク
-     set.seed(123)
-     plot(x=ts(1:n),
-          ylim=c(-15,15), ylab="value",
-          main=expression(X[t] == X[t-1] + epsilon[t]),
-          type="n")
-     for(i in 1:k) {
-         x <- cumsum(rnorm(n))
-         lines(x, col=myCol[i])
-     }
-   #+end_src
-   #+CAPTION: ランダムウォーク
-   #+NAME: fig:12_rw
-   #+ATTR_HTML: height 100%
-   #+ATTR_LATEX: :width 0.6\linewidth
-   [[file:figs/12_rw.png]]
+    #+reveal: split
+    #+header: :width 720 :height 720 :res 100
+    #+begin_src R :file figs/12_rw.png :exports results :results graphics :tangle yes
+      ### ランダムウォーク
+      set.seed(123)
+      plot(x=ts(1:n),
+	   ylim=c(-15,15), ylab="value",
+	   main=expression(X[t] == X[t-1] + epsilon[t]),
+	   type="n")
+      for(i in 1:k) {
+	x <- cumsum(rnorm(n))
+	lines(x, col=myCol[i])
+      }
+    #+end_src
+    #+CAPTION: ランダムウォーク
+    #+NAME: fig:12_rw
+    #+ATTR_HTML: height 100%
+    #+ATTR_LATEX: :width 0.6\linewidth
+    [[file:figs/12_rw.png]]
     
    
 * COMMENT 演習
@@ -336,20 +336,20 @@
      - その他の詳細は ~?ts~ 
 
 ** R: 関数 ~plot()~
-   - 時系列クラスの描画
-     #+begin_src R :eval no :tangle yes
-       ## 基本的なplotの使い方
-       x <- rnorm(240) # 正規分布のホワイトノイズ
-       plot(ts(x, start=c(2000,1), frequency=12)) # 2000年からの毎月のデータを想定
-       ## 複数の系列を表示する場合
-       y <- rt(240,df=4) # t-分布のホワイトノイズ
-       z <- ts(data.frame(x,y),
-               start=c(2000,1), frequency=12) 
-       plot(z, col="red") # 指定しなければ個別にグラフを描画
-       plot(z, plot.type="single", col=c("red","blue"))
-     #+end_src
-     - その他の詳細は ~?plot.ts~ 
-     - 表示の方法が異なる関数 ~ts.plot()~ もあるので調べてみよう
+	  - 時系列クラスの描画
+	    #+begin_src R :eval no :tangle yes
+	      ## 基本的なplotの使い方
+	      x <- rnorm(240) # 正規分布のホワイトノイズ
+	      plot(ts(x, start=c(2000,1), frequency=12)) # 2000年からの毎月のデータを想定
+	      ## 複数の系列を表示する場合
+	      y <- rt(240,df=4) # t-分布のホワイトノイズ
+	      z <- ts(data.frame(x,y),
+		      start=c(2000,1), frequency=12) 
+	      plot(z, col="red") # 指定しなければ個別にグラフを描画
+	      plot(z, plot.type="single", col=c("red","blue"))
+	    #+end_src
+	    - その他の詳細は ~?plot.ts~ 
+	    - 表示の方法が異なる関数 ~ts.plot()~ もあるので調べてみよう
 
 ** COMMENT 演習: ホワイトノイズを作ってみる
    :PROPERTIES:
@@ -409,8 +409,8 @@
             main=expression(X[t] == epsilon[t]), # 数式で表示
             type="n") # 枠だけ作図
        for(i in 1:K) {
-         x <- ts(rnorm(Tmax))
-         lines(x, col=myCol[i])
+           x <- ts(rnorm(Tmax))
+           lines(x, col=myCol[i])
        }
 
        ## データフレーム化して表示する場合
@@ -441,7 +441,7 @@
        ## 定義に則ってrecursiveに計算する
        x <- ts(rnorm(Tmax)) # はじめは epslion が入っている
        for(t in 2:Tmax) {
-         x[t] <- x[t-1] + x[t] # 順に足し合わせていく
+           x[t] <- x[t-1] + x[t] # 順に足し合わせていく
        }
        plot(x)
 
@@ -457,157 +457,157 @@
             ylab="value", col=myCol,
             main=expression(X[t] == X[t-1] + epsilon[t]))
      #+end_src
-
+     
 
 * より一般的なモデル
 ** 自己回帰過程
-   - 定義 (次数\(p\); AR(p), auto regressive の略)
-     #+begin_quote
-     \(a_1,\dotsc,a_p\)を定数とし，
-     \(X_1,\dotsc,X_p\)が初期値として与えられたとき，
-     #+begin_src latex
-       \begin{equation}
-         X_{t}=a_1X_{t-1}+\cdots+a_pX_{t-p}+\epsilon_{t},
-         \quad
-         \epsilon_{t}
-         \sim
-         \mathrm{WN}(0,\sigma^2)
-       \end{equation}
-     #+end_src
-     で帰納的に定義される確率過程
-     #+end_quote
-     - ランダムウォークの一般化
-       - $p=1, a_1=1$ かつ $\epsilon_{t}$ が独立同分布ならランダムウォーク
-     - *忘却* しながら記憶するモデル ($|a_i|<1$ などの条件が必要)
+	  - 定義 (次数\(p\); AR(p), auto regressive の略)
+	    #+begin_quote
+	    \(a_1,\dotsc,a_p\)を定数とし，
+	    \(X_1,\dotsc,X_p\)が初期値として与えられたとき，
+	    #+begin_src latex
+	      \begin{equation}
+		X_{t}=a_1X_{t-1}+\cdots+a_pX_{t-p}+\epsilon_{t},
+		\quad
+		\epsilon_{t}
+		\sim
+		\mathrm{WN}(0,\sigma^2)
+	      \end{equation}
+	    #+end_src
+	    で帰納的に定義される確率過程
+	    #+end_quote
+	    - ランダムウォークの一般化
+	      - $p=1, a_1=1$ かつ $\epsilon_{t}$ が独立同分布ならランダムウォーク
+	    - *忘却* しながら記憶するモデル ($|a_i|<1$ などの条件が必要)
 
 ** 移動平均過程
-   - 定義 (次数\(q\); MA(q), moving average の略)
-     #+begin_quote
-     \(b_1,\dotsc,b_q\)を定数とし，
-     \(X_1,\dotsc,X_q\)が初期値として与えられたとき
-     #+begin_src latex
-       \begin{equation}
-         X_{t}
-         =
-         b_1\epsilon_{t-1}+\cdots+b_q\epsilon_{t-q}+\epsilon_{t},
-         \quad
-         \epsilon_{t}
-         \sim
-         \mathrm{WN}(0,\sigma^2)
-       \end{equation}
-     #+end_src
-     で定義される確率過程
-     #+end_quote
-     - 記憶のあるホワイトノイズ (構成する部品を記憶)
+	  - 定義 (次数\(q\); MA(q), moving average の略)
+	    #+begin_quote
+	    \(b_1,\dotsc,b_q\)を定数とし，
+	    \(X_1,\dotsc,X_q\)が初期値として与えられたとき
+	    #+begin_src latex
+	      \begin{equation}
+		X_{t}
+		=
+		b_1\epsilon_{t-1}+\cdots+b_q\epsilon_{t-q}+\epsilon_{t},
+		\quad
+		\epsilon_{t}
+		\sim
+		\mathrm{WN}(0,\sigma^2)
+	      \end{equation}
+	    #+end_src
+	    で定義される確率過程
+	    #+end_quote
+	    - 記憶のあるホワイトノイズ (構成する部品を記憶)
 
 ** 自己回帰平均移動過程
-   - 定義 (次数\((p,q)\); ARMA(\(p,q\)))
-     #+begin_quote
-     $a_1,\dotsc,a_p,b_1,\dotsc,b_q$ を定数とし，
-     $X_1,\dotsc,X_{\max\{p,q\}}$ が初期値として与えられたとき
-     #+begin_src latex
-       \begin{align}
-         X_{t}
-         &=
-           a_1X_{t-1}+\cdots+a_pX_{t-p}\\
-         &\quad+
-           b_1\epsilon_{t-1}+\cdots+b_q\epsilon_{t-q}
-           +\epsilon_{t},\\
-         &\quad
-           \epsilon_{t}
-           \sim
-           \mathrm{WN}(0,\sigma^2)
-       \end{align}
-     #+end_src
-     で帰納的に定まる確率過程
-     #+end_quote
-     - AR($p$)モデルはARMA($p,0$)，MA($q$)モデルはARMA($0,q$)
-     - 単純な形ながら異なる時点間の従属構造を柔軟に記述
-     - 基本的な時系列モデルとして広く利用されている
+	  - 定義 (次数\((p,q)\); ARMA(\(p,q\)))
+	    #+begin_quote
+	    $a_1,\dotsc,a_p,b_1,\dotsc,b_q$ を定数とし，
+	    $X_1,\dotsc,X_{\max\{p,q\}}$ が初期値として与えられたとき
+	    #+begin_src latex
+	      \begin{align}
+		X_{t}
+		&=
+		  a_1X_{t-1}+\cdots+a_pX_{t-p}\\
+		&\quad+
+		  b_1\epsilon_{t-1}+\cdots+b_q\epsilon_{t-q}
+		  +\epsilon_{t},\\
+		&\quad
+		  \epsilon_{t}
+		  \sim
+		  \mathrm{WN}(0,\sigma^2)
+	      \end{align}
+	    #+end_src
+	    で帰納的に定まる確率過程
+	    #+end_quote
+	    - AR($p$)モデルはARMA($p,0$)，MA($q$)モデルはARMA($0,q$)
+	    - 単純な形ながら異なる時点間の従属構造を柔軟に記述
+	    - 基本的な時系列モデルとして広く利用されている
 
 
 * COMMENT 人工データによる例
-  - 同じモデルに従うパス(系列)を複数観測してみる
+   - 同じモデルに従うパス(系列)を複数観測してみる
 
-   #+reveal: split
-   #+header: :width 720 :height 720 :res 100
-   #+begin_src R :file figs/12_ar.png :exports results :results graphics :tangle yes
-     ### AR(2)モデルのシミュレーション
-     set.seed(123)
-     a <- c(0.669, 0.263) # ARの係数
-     plot(x=ts(1:n),
-          ylim=c(-5,5), ylab="value",
-          main="AR(2)",
-          type="n")
-     for(i in 1:k) {
-         epsilon <- rnorm(n)
-         x0 <- epsilon[1:2]
-         x <- ts(double(n))
-         x[1:2] <- x0
-         for(j in 3:n) x[j] <- a%*%x[j-1:2] + epsilon[j]
-         lines(x, col=myCol[i])
-     }
-   #+end_src
-   #+CAPTION: AR過程
-   #+NAME: fig:12_ar
-   #+ATTR_HTML: height 100%
-   #+ATTR_LATEX: :width 0.6\linewidth
-   [[file:figs/12_ar.png]]
-   
-   #+reveal: split
-   #+header: :width 720 :height 720 :res 100
-   #+begin_src R :file figs/12_ma.png :exports results :results graphics :tangle yes
-     ### MA(2)モデルのシミュレーション
-     set.seed(123)
-     b <- c(0.438, 0.078) # MAの係数
-     plot(x=ts(1:n),
-          ylim=c(-5,5), ylab="value",
-          main="MA(2)",
-          type="n")
-     for(i in 1:k) {
-         epsilon <- rnorm(n)
-         x0 <- epsilon[1:2]   # 初期値は(epsilon1, epsilon2)
-         x <- ts(double(n))
-         x[1:2] <- x0
-         for(j in 3:n) x[j] <- b %*% epsilon[j-1:2] + epsilon[j]
-         lines(x, col=myCol[i])
-     }
-   #+end_src
-   #+CAPTION: MA過程
-   #+NAME: fig:12_ma
-   #+ATTR_HTML: height 100%
-   #+ATTR_LATEX: :width 0.6\linewidth
-   [[file:figs/12_ma.png]]
+     #+reveal: split
+     #+header: :width 720 :height 720 :res 100
+     #+begin_src R :file figs/12_ar.png :exports results :results graphics :tangle yes
+       ### AR(2)モデルのシミュレーション
+       set.seed(123)
+       a <- c(0.669, 0.263) # ARの係数
+       plot(x=ts(1:n),
+	    ylim=c(-5,5), ylab="value",
+	    main="AR(2)",
+	    type="n")
+       for(i in 1:k) {
+	 epsilon <- rnorm(n)
+	 x0 <- epsilon[1:2]
+	 x <- ts(double(n))
+	 x[1:2] <- x0
+	 for(j in 3:n) x[j] <- a%*%x[j-1:2] + epsilon[j]
+	 lines(x, col=myCol[i])
+       }
+     #+end_src
+     #+CAPTION: AR過程
+     #+NAME: fig:12_ar
+     #+ATTR_HTML: height 100%
+     #+ATTR_LATEX: :width 0.6\linewidth
+     [[file:figs/12_ar.png]]
 
-   #+reveal: split
-   #+header: :width 720 :height 720 :res 100
-   #+begin_src R :file figs/12_arma.png :exports results :results graphics :tangle yes
-     ### ARMA(2,1)モデルのシミュレーション
-     set.seed(123)
-     a <- c(0.8, -0.64) # ARの係数
-     b <- -0.5          # MAの係数
-     plot(x=ts(1:n),
-          ylim=c(-5,5), ylab="value",
-          main="ARMA(2,1)",
-          type="n")
-     for(i in 1:k) {
-         epsilon <- rnorm(n)
-         x0 <- rnorm(2)     # 初期値
-         x <- ts(double(n))
-         x[1:2] <- x0
-         for(j in 3:n) x[j] <- a%*%x[j-1:2] + b*epsilon[j-1] + epsilon[j]
-         lines(x, col=myCol[i])
-     }
-   #+end_src
-   #+CAPTION: ARMA過程
-   #+NAME: fig:12_arma
-   #+ATTR_HTML: height 100%
-   #+ATTR_LATEX: :width 0.6\linewidth
-   [[file:figs/12_arma.png]]
-   
+     #+reveal: split
+     #+header: :width 720 :height 720 :res 100
+     #+begin_src R :file figs/12_ma.png :exports results :results graphics :tangle yes
+       ### MA(2)モデルのシミュレーション
+       set.seed(123)
+       b <- c(0.438, 0.078) # MAの係数
+       plot(x=ts(1:n),
+	    ylim=c(-5,5), ylab="value",
+	    main="MA(2)",
+	    type="n")
+       for(i in 1:k) {
+	 epsilon <- rnorm(n)
+	 x0 <- epsilon[1:2]   # 初期値は(epsilon1, epsilon2)
+	 x <- ts(double(n))
+	 x[1:2] <- x0
+	 for(j in 3:n) x[j] <- b %*% epsilon[j-1:2] + epsilon[j]
+	 lines(x, col=myCol[i])
+       }
+     #+end_src
+     #+CAPTION: MA過程
+     #+NAME: fig:12_ma
+     #+ATTR_HTML: height 100%
+     #+ATTR_LATEX: :width 0.6\linewidth
+     [[file:figs/12_ma.png]]
+
+     #+reveal: split
+     #+header: :width 720 :height 720 :res 100
+     #+begin_src R :file figs/12_arma.png :exports results :results graphics :tangle yes
+       ### ARMA(2,1)モデルのシミュレーション
+       set.seed(123)
+       a <- c(0.8, -0.64) # ARの係数
+       b <- -0.5          # MAの係数
+       plot(x=ts(1:n),
+	    ylim=c(-5,5), ylab="value",
+	    main="ARMA(2,1)",
+	    type="n")
+       for(i in 1:k) {
+	 epsilon <- rnorm(n)
+	 x0 <- rnorm(2)     # 初期値
+	 x <- ts(double(n))
+	 x[1:2] <- x0
+	 for(j in 3:n) x[j] <- a%*%x[j-1:2] + b*epsilon[j-1] + epsilon[j]
+	 lines(x, col=myCol[i])
+       }
+     #+end_src
+     #+CAPTION: ARMA過程
+     #+NAME: fig:12_arma
+     #+ATTR_HTML: height 100%
+     #+ATTR_LATEX: :width 0.6\linewidth
+     [[file:figs/12_arma.png]]
 
 
-   
+
+
 * COMMENT 演習
 ** 問題
    :PROPERTIES:
@@ -710,20 +710,20 @@
        x <- double(Tmax)      # 変数を用意
        x[1:2] <- epsilon[1:2] # 初期値は(epsilon1, epsilon2)
        for(t in 3:Tmax) {
-         x[t] <- a %*% x[t-1:2] + epsilon[t] # %*% はベクトルの内積計算
+           x[t] <- a %*% x[t-1:2] + epsilon[t] # %*% はベクトルの内積計算
        }
        plot(ts(x)) # 時系列classに変換して表示
 
        ## 複数の系列を表示
        myAR <- function(a, epsilon){ # 以下に一連の手続きを記述して関数化しておく
-         p <- length(a) # 次数pを取得
-         Tmax <- length(epsilon) # 時系列の長さを取得
-         x <- double(Tmax)      # 変数を用意
-         x[1:p] <- epsilon[1:p] # 初期値は(epsilon1,...)
-         for(t in (p+1):Tmax) {
-           x[t] <- a %*% x[t-1:p] + epsilon[t]
-         }
-         return(x) # 計算結果のxを返す
+           p <- length(a) # 次数pを取得
+           Tmax <- length(epsilon) # 時系列の長さを取得
+           x <- double(Tmax)      # 変数を用意
+           x[1:p] <- epsilon[1:p] # 初期値は(epsilon1,...)
+           for(t in (p+1):Tmax) {
+               x[t] <- a %*% x[t-1:p] + epsilon[t]
+           }
+           return(x) # 計算結果のxを返す
        }
        ## 使い方は a と epsilon(ホワイトノイズ)を指定する
        x <- myAR(a=c(0.6, 0.3, 0.1), epsilon=rnorm(100))
@@ -732,8 +732,8 @@
        ## 様々なホワイトノイズを試したい場合もあるのでそれを指定するように定義しておく
 
        ## データフレームを作成して表示
-       z <- ts(replicate(K, myAR(a=a, epsilon=rnorm(Tmax))))
-       plot(x=z, plot.type="single",
+       df.ar <- ts(replicate(K, myAR(a=a, epsilon=rnorm(Tmax))))
+       plot(x=df.ar, plot.type="single",
             ylab="value", col=myCol,
             main="AR(2)")
 
@@ -743,23 +743,23 @@
        x <- ts(double(Tmax))
        x[1:2] <- epsilon[1:2]   
        for(t in 3:Tmax) {
-         x[t] <- b %*% epsilon[t-1:2] + epsilon[t]
+           x[t] <- b %*% epsilon[t-1:2] + epsilon[t]
        }
        plot(ts(x))
 
        ## 複数の系列を表示
        myMA <- function(b, epsilon){
-         q <- length(b) # 次数qを取得
-         Tmax <- length(epsilon) # 時系列の長さを取得
-         x <- double(Tmax)
-         x[1:q] <- epsilon[1:q]   
-         for(t in (q+1):Tmax) {
-           x[t] <- b %*% epsilon[t-1:q] + epsilon[t]
-         }
-         return(x)
+           q <- length(b) # 次数qを取得
+           Tmax <- length(epsilon) # 時系列の長さを取得
+           x <- double(Tmax)
+           x[1:q] <- epsilon[1:q]   
+           for(t in (q+1):Tmax) {
+               x[t] <- b %*% epsilon[t-1:q] + epsilon[t]
+           }
+           return(x)
        }
-       z <- ts(replicate(K, myMA(b=b, epsilon=rnorm(Tmax))))
-       plot(x=z, plot.type="single",
+       df.ma <- ts(replicate(K, myMA(b=b, epsilon=rnorm(Tmax))))
+       plot(x=df.ma, plot.type="single",
             ylab="value", col=myCol,
             main="MA(2)")
 
@@ -770,31 +770,31 @@
        x <- double(Tmax)
        x[1:2] <- epsilon[1:2]
        for(t in 3:Tmax) {
-         x[t] <- a %*% x[t-1:2] + b %*% epsilon[t-1] + epsilon[t]
-         ## bは1次元なのでこの問題では b*epsilon でも可
+           x[t] <- a %*% x[t-1:2] + b %*% epsilon[t-1] + epsilon[t]
+           ## bは1次元なのでこの問題では b*epsilon でも可
        }
        plot(ts(x))
 
        ## 複数の系列を表示
        myARMA <- function(a, b, epsilon){
-         p <- length(a)
-         q <- length(b)
-         r <- max(p,q)
-         Tmax <- length(epsilon) # 時系列の長さを取得
-         x <- double(Tmax)
-         x[1:r] <- epsilon[1:r]
-         for(t in (r+1):Tmax) {
-           x[t] <- a %*% x[t-1:p] + b %*% epsilon[t-1:q] + epsilon[t]
-         }
-         return(x)
+           p <- length(a)
+           q <- length(b)
+           r <- max(p,q)
+           Tmax <- length(epsilon) # 時系列の長さを取得
+           x <- double(Tmax)
+           x[1:r] <- epsilon[1:r]
+           for(t in (r+1):Tmax) {
+               x[t] <- a %*% x[t-1:p] + b %*% epsilon[t-1:q] + epsilon[t]
+           }
+           return(x)
        }
-       z <- ts(replicate(K, myARMA(a=a, b=b, epsilon=rnorm(Tmax))))
-       plot(x=z, plot.type="single",
+       df.arma <- ts(replicate(K, myARMA(a=a, b=b, epsilon=rnorm(Tmax))))
+       plot(x=df.arma, plot.type="single",
             ylab="value", col=myCol,
             main="ARMA(2,1)")
        ## 関数 filter や arima.sim などを利用することもできる
      #+end_src
-
+     
 * 定常過程と非定常過程
 ** 弱定常性
    - 確率過程\(X_{t},\;t=1,\dotsc,T\)が次の性質をもつ:
@@ -846,35 +846,35 @@
      - https://tylervigen.com/spurious-correlations
 
 ** 非定常過程の取り扱い
-   - 定常過程とみなせるように変換したあと分析を実行
-     - 階差をとる変換
-       #+begin_quote
-       ランダムウォークは階差をとればホワイトノイズ(定常過程)となる
-       #+begin_src latex
-         \begin{equation}
-           X_{t}=X_{t-1}+\epsilon_{t}
-           \quad\Rightarrow\quad
-           Y_{t}=X_{t}-X_{t-1}=\epsilon_{t}
-         \end{equation}
-       #+end_src
-       #+end_quote
-     - 対数変換
-       #+begin_quote
-       対数変換と階差で微小な比率の変動を取り出すことができる
-       #+begin_src latex
-         \begin{equation}
-           X_{t}=(1+\epsilon_{t})X_{t-1}
-           \quad\Rightarrow\quad
-           Y_{t}=\log(X_{t})-\log(X_{t-1})
-                  =\log(1+\epsilon_{t})
-                  \simeq\epsilon_{t}
-         \end{equation}
-       #+end_src
-       #+end_quote
-     - トレンド成分+季節成分+変動成分への分解
-       #+begin_quote
-       適当な仮説のもとに取り扱いやすい成分の和に分解する
-       #+end_quote
+	  - 定常過程とみなせるように変換したあと分析を実行
+	    - 階差をとる変換
+	      #+begin_quote
+	      ランダムウォークは階差をとればホワイトノイズ(定常過程)となる
+	      #+begin_src latex
+		\begin{equation}
+		  X_{t}=X_{t-1}+\epsilon_{t}
+		  \quad\Rightarrow\quad
+		  Y_{t}=X_{t}-X_{t-1}=\epsilon_{t}
+		\end{equation}
+	      #+end_src
+	      #+end_quote
+	    - 対数変換
+	      #+begin_quote
+	      対数変換と階差で微小な比率の変動を取り出すことができる
+	      #+begin_src latex
+		\begin{equation}
+		  X_{t}=(1+\epsilon_{t})X_{t-1}
+		  \quad\Rightarrow\quad
+		  Y_{t}=\log(X_{t})-\log(X_{t-1})
+		  =\log(1+\epsilon_{t})
+		  \simeq\epsilon_{t}
+		\end{equation}
+	      #+end_src
+	      #+end_quote
+	    - トレンド成分+季節成分+変動成分への分解
+	      #+begin_quote
+	      適当な仮説のもとに取り扱いやすい成分の和に分解する
+	      #+end_quote
 
 
 * 自己共分散・自己相関
@@ -884,20 +884,20 @@
        #+begin_quote
        *自己共分散* (定常過程の性質よりラグは\(h\ge0\)を考えればよい)
        #+begin_src latex
-         \begin{equation}
-           \mathrm{Cov}(X_{t},X_{t+h})
-           =\gamma(h)
-         \end{equation}
+	 \begin{equation}
+	   \mathrm{Cov}(X_{t},X_{t+h})
+	   =\gamma(h)
+	 \end{equation}
        #+end_src
        #+end_quote
      - $X_{t}$ と $X_{t+h}$ の相関も\(t\)によらずラグ\(h\)のみで定まる
        #+begin_quote
        *自己相関*
        #+begin_src latex
-         \begin{equation}
-           \mathrm{Cov}(X_{t},X_{t+h})/\mathrm{Var}(X_{t})
-           =\gamma(h)/\gamma(0)
-         \end{equation}
+	 \begin{equation}
+	   \mathrm{Cov}(X_{t},X_{t+h})/\mathrm{Var}(X_{t})
+	   =\gamma(h)/\gamma(0)
+	 \end{equation}
        #+end_src
        #+end_quote
    - 異なる時点間での観測データの従属関係を要約するための最も基本的な統計量
@@ -928,76 +928,76 @@
 
 
 * COMMENT 人工データによる例
-  - 同じモデルに従うパス(系列)の自己相関を比較してみる
-    
-   #+reveal: split
-   #+header: :width 720 :height 720 :res 100
-   #+begin_src R :file figs/12_aracf.png :exports results :results graphics :tangle yes
-     ### AR(2)モデルの自己相関
-     set.seed(123)
-     a <- c(0.669, 0.263) # ARの係数
-     par(mfrow=c(2,2))
-     for(i in 1:k) {
-         epsilon <- rnorm(n)
-         x0 <- epsilon[1:2]
-         x <- ts(double(n))
-         x[1:2] <- x0
-         for(j in 3:n) x[j] <- a%*%x[j-1:2] + epsilon[j]
-         acf(x, col=myCol[i])
-     }
-   #+end_src
-   #+CAPTION: AR過程の自己相関
-   #+NAME: fig:12_aracf
-   #+ATTR_HTML: height 100%
-   #+ATTR_LATEX: :width 0.6\linewidth
-   [[file:figs/12_aracf.png]]
-   
-   #+reveal: split
-   #+header: :width 720 :height 720 :res 100
-   #+begin_src R :file figs/12_maacf.png :exports results :results graphics :tangle yes
-     ### MA(2)モデルの自己相関
-     set.seed(123)
-     b <- c(0.438, 0.078) # MAの係数
-     par(mfrow=c(2,2))
-     for(i in 1:k) {
-         epsilon <- rnorm(n)
-         x0 <- epsilon[1:2]   # 初期値は(epsilon1, epsilon2)
-         x <- ts(double(n))
-         x[1:2] <- x0
-         for(j in 3:n) x[j] <- b %*% epsilon[j-1:2] + epsilon[j]
-         acf(x, col=myCol[i])
-     }
-   #+end_src
-   #+CAPTION: MA過程の自己相関
-   #+NAME: fig:12_maacf
-   #+ATTR_HTML: height 100%
-   #+ATTR_LATEX: :width 0.6\linewidth
-   [[file:figs/12_maacf.png]]
+   - 同じモデルに従うパス(系列)の自己相関を比較してみる
 
-   #+reveal: split
-   #+header: :width 720 :height 720 :res 100
-   #+begin_src R :file figs/12_armaacf.png :exports results :results graphics :tangle yes
-     ### ARMA(2,1)モデルの自己相関
-     set.seed(123)
-     a <- c(0.8, -0.64) # ARの係数
-     b <- -0.5          # MAの係数
-     par(mfrow=c(2,2))
-     for(i in 1:k) {
-         epsilon <- rnorm(n)
-         x0 <- rnorm(2)     # 初期値
-         x <- ts(double(n))
-         x[1:2] <- x0
-         for(j in 3:n) x[j] <- a%*%x[j-1:2] + b*epsilon[j-1] + epsilon[j]
-         acf(x, col=myCol[i])
-     }
-   #+end_src
-   #+CAPTION: ARMA過程の自己相関
-   #+NAME: fig:12_armaacf
-   #+ATTR_HTML: height 100%
-   #+ATTR_LATEX: :width 0.6\linewidth
-   [[file:figs/12_armaacf.png]]
-   
-   
+     #+reveal: split
+     #+header: :width 720 :height 720 :res 100
+     #+begin_src R :file figs/12_aracf.png :exports results :results graphics :tangle yes
+       ### AR(2)モデルの自己相関
+       set.seed(123)
+       a <- c(0.669, 0.263) # ARの係数
+       par(mfrow=c(2,2))
+       for(i in 1:k) {
+	 epsilon <- rnorm(n)
+	 x0 <- epsilon[1:2]
+	 x <- ts(double(n))
+	 x[1:2] <- x0
+	 for(j in 3:n) x[j] <- a%*%x[j-1:2] + epsilon[j]
+	 acf(x, col=myCol[i])
+       }
+     #+end_src
+     #+CAPTION: AR過程の自己相関
+     #+NAME: fig:12_aracf
+     #+ATTR_HTML: height 100%
+     #+ATTR_LATEX: :width 0.6\linewidth
+     [[file:figs/12_aracf.png]]
+
+     #+reveal: split
+     #+header: :width 720 :height 720 :res 100
+     #+begin_src R :file figs/12_maacf.png :exports results :results graphics :tangle yes
+       ### MA(2)モデルの自己相関
+       set.seed(123)
+       b <- c(0.438, 0.078) # MAの係数
+       par(mfrow=c(2,2))
+       for(i in 1:k) {
+	 epsilon <- rnorm(n)
+	 x0 <- epsilon[1:2]   # 初期値は(epsilon1, epsilon2)
+	 x <- ts(double(n))
+	 x[1:2] <- x0
+	 for(j in 3:n) x[j] <- b %*% epsilon[j-1:2] + epsilon[j]
+	 acf(x, col=myCol[i])
+       }
+     #+end_src
+     #+CAPTION: MA過程の自己相関
+     #+NAME: fig:12_maacf
+     #+ATTR_HTML: height 100%
+     #+ATTR_LATEX: :width 0.6\linewidth
+     [[file:figs/12_maacf.png]]
+
+     #+reveal: split
+     #+header: :width 720 :height 720 :res 100
+     #+begin_src R :file figs/12_armaacf.png :exports results :results graphics :tangle yes
+       ### ARMA(2,1)モデルの自己相関
+       set.seed(123)
+       a <- c(0.8, -0.64) # ARの係数
+       b <- -0.5          # MAの係数
+       par(mfrow=c(2,2))
+       for(i in 1:k) {
+	 epsilon <- rnorm(n)
+	 x0 <- rnorm(2)     # 初期値
+	 x <- ts(double(n))
+	 x[1:2] <- x0
+	 for(j in 3:n) x[j] <- a%*%x[j-1:2] + b*epsilon[j-1] + epsilon[j]
+	 acf(x, col=myCol[i])
+       }
+     #+end_src
+     #+CAPTION: ARMA過程の自己相関
+     #+NAME: fig:12_armaacf
+     #+ATTR_HTML: height 100%
+     #+ATTR_LATEX: :width 0.6\linewidth
+     [[file:figs/12_armaacf.png]]
+
+
 * COMMENT 演習
 ** 問題
    :PROPERTIES:
@@ -1100,28 +1100,25 @@
        ### 練習3
        ### 自己相関
 
-       K <- 4 # 生成する時系列の数 (4つを並べて比較する)
-       ## myCol は K=5 で作ったものをそのまま利用，別途作成してもよい
+       K <- 4 # 表示する時系列の数 (4つを並べて比較する)
+       ## myCol K=5 で作ったものをそのまま利用，別途作成してもよい
 
        ### AR(2)モデルの自己相関
        par(mfrow=c(2,2)) # グラフを2x2(行方向の順)に並べる
        for(i in 1:K) {
-         x <- myAR(a=c(0.67, 0.26), epsilon=rnorm(300)) # 長い系列で見てみる
-         acf(x, col=myCol[i])
+	 acf(df.ar[,i], col=myCol[i], main=paste("AR series",i))
        }
 
        ### MA(2)モデルの自己相関
        par(mfrow=c(2,2))
        for(i in 1:K) {
-         x <- myMA(b=c(0.44, 0.08), epsilon=rnorm(300))
-         acf(x, col=myCol[i])
+	 acf(df.ma[,i], col=myCol[i], main=paste("MA series",i))
        }
 
        ### ARMA(2,1)モデルの自己相関
        par(mfrow=c(2,2))
        for(i in 1:K) {
-         x <- myARMA(a=c(0.8, -0.64), b=-0.5, epsilon=rnorm(300))
-         acf(x, col=myCol[i])
+	 acf(df.arma[,i], col=myCol[i], main=paste("ARMA series",i))
        }
      #+end_src
 
