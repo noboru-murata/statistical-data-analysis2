@@ -1104,22 +1104,25 @@
        ## myCol K=5 で作ったものをそのまま利用，別途作成してもよい
 
        ### AR(2)モデルの自己相関
-       par(mfrow=c(2,2)) # グラフを2x2(行方向の順)に並べる
+       orgpar <- par(mfrow=c(2,2)) # グラフを2x2(行方向の順)に並べる
        for(i in 1:K) {
 	 acf(df.ar[,i], col=myCol[i], main=paste("AR series",i))
        }
+       par(orgpar) # もとのparの内容に戻す
 
        ### MA(2)モデルの自己相関
-       par(mfrow=c(2,2))
+       orgpar <- par(mfrow=c(2,2))
        for(i in 1:K) {
 	 acf(df.ma[,i], col=myCol[i], main=paste("MA series",i))
        }
+       par(orgpar) # もとのparの内容に戻す
 
        ### ARMA(2,1)モデルの自己相関
-       par(mfrow=c(2,2))
+       orgpar <- par(mfrow=c(2,2))
        for(i in 1:K) {
 	 acf(df.arma[,i], col=myCol[i], main=paste("ARMA series",i))
        }
+       par(orgpar) # もとのparの内容に戻す
      #+end_src
 
    
