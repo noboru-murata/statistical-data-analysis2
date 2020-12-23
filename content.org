@@ -192,12 +192,13 @@
   :EXPORT_FILE_NAME: lecture13
   :EXPORT_DATE: <2020-09-19 Sat>
   :END:
-  準備中
-** COMMENT スライド
+** スライド
    {{< myslide base="statistical-data-analysis2" name="slide13" >}}
-** COMMENT ハンドアウト
+** ハンドアウト
    - [[github:pdfs/slide13.pdf][PDF file]]
-
+** 付録
+   - [[github:code/slide13.R][RScript]]
+     
 # * COMMENT 講義14
 #   :PROPERTIES:
 #   :EXPORT_FILE_NAME: lecture14
@@ -209,8 +210,7 @@
 # ** COMMENT ハンドアウト
 #    - [[github:pdfs/slide14.pdf][PDF file]]
 
-** COMMENT 付録
-   - [[github:code/slide13.R][RScript]]
+
 * COMMENT お知らせの雛形
   :PROPERTIES:
   :EXPORT_HUGO_SECTION: ./post
