@@ -1,5 +1,54 @@
 ### 第13回 練習問題解答例
 
+### 練習12.3
+### 自己相関
+
+## ARMA過程を生成する関数
+myARMA <- function(a, b, epsilon){
+    p <- length(a)
+    q <- length(b)
+    r <- max(p,q)
+    Tmax <- length(epsilon) # 時系列の長さを取得
+    x <- double(Tmax)
+    x[1:r] <- epsilon[1:r]
+    for(t in (r+1):Tmax) {
+        x[t] <- a %*% x[t-1:p] + b %*% epsilon[t-1:q] + epsilon[t]
+    }
+    return(x)
+}
+
+Tmax <- 200 # 時系列の長さ t=1,..,Tmax
+K <- 4 # 表示する時系列の数 (4つを並べて比較する)
+library(RColorBrewer)
+myCol <- brewer.pal(K,"Dark2") 
+df.ar <- ts(replicate(K, myARMA(a=c(0.67, 0.26), b=c(0),
+                                epsilon=rnorm(Tmax))))
+df.ma <- ts(replicate(K, myARMA(a=c(0), b=c(0.44, 0.08),
+                                epsilon=rnorm(Tmax))))
+df.arma <- ts(replicate(K, myARMA(a=c(0.8, -0.64), b=c(-0.5),
+                                  epsilon=rnorm(Tmax))))
+
+### AR(2)モデルの自己相関
+orgpar <- par(mfrow=c(2,2)) # グラフを2x2(行方向の順)に並べる
+for(i in 1:K) {
+  acf(df.ar[,i], col=myCol[i], main=paste("AR series",i))
+}
+par(orgpar) # もとのparの内容に戻す
+
+### MA(2)モデルの自己相関
+orgpar <- par(mfrow=c(2,2))
+for(i in 1:K) {
+  acf(df.ma[,i], col=myCol[i], main=paste("MA series",i))
+}
+par(orgpar) # もとのparの内容に戻す
+
+### ARMA(2,1)モデルの自己相関
+orgpar <- par(mfrow=c(2,2))
+for(i in 1:K) {
+  acf(df.arma[,i], col=myCol[i], main=paste("ARMA series",i))
+}
+par(orgpar) # もとのparの内容に戻す
+
 ### 練習1.1
 ### ARMAモデルの推定
 
@@ -69,10 +118,10 @@ TW.zoo <- with(TW.data,
 plot(TW.zoo, col="red",
      xlab="month", ylab="degree", main="Temperature in Tokyo")
 plot(window(TW.zoo, # 一部を切り出して視覚化する
-	    start=as.Date("2019-04-01"),
-	    end=as.Date("2019-05-31")),
+	    start=as.Date("2019-06-01"),
+	    end=as.Date("2019-07-31")),
      col="red",
-     xlab="date", ylab="degree", main="Temperature (April-May)")
+     xlab="date", ylab="degree", main="Temperature (June-July)")
 acf(TW.zoo)       # 減衰が遅いので差分をとった方が良さそう
 plot(diff(TW.zoo)) # 階差系列の視覚化
 acf(diff(TW.zoo))  # 階差系列の自己相関
@@ -107,8 +156,14 @@ TW.test  <- window(TW.zoo, # 7月のデータ (試験データ)
 plot(TW.fcst) # X軸が無粋 (1970-01-01からの日数)
 
 ## X軸の書き直し
-plot(TW.fcst, xaxt="n") 
-axis(1, at=index(TW.zoo), labels=index(TW.zoo), cex.axis=0.5)
+plot(TW.fcst, xaxt="n",
+     xlim=c(as.Date("2019-06-01"), as.Date("2019-07-31")))
+axis(side=1, # x軸を指定
+     at=index(TW.zoo), # 文字を書く座標軸上の位置
+     labels=index(TW.zoo), # ラベル
+     las=2, # 垂直に表示
+     cex.axis=0.7) # 文字の大きさを調整
+lines(TW.test, col="red") # 真値を重ね描き
 
 ## 別の書き方
 plot(window(TW.zoo, start="2019-06-01", end="2019-07-31"),
@@ -119,3 +174,20 @@ with(TW.fcst, lines(upper[,1], col="orange", lwd=3)) # +80%信頼区間
 with(TW.fcst, lines(upper[,2], col="orchid", lwd=3)) # +95%信頼区間
 with(TW.fcst, lines(lower[,1], col="orange", lwd=3)) # -80%信頼区間
 with(TW.fcst, lines(lower[,2], col="orchid", lwd=3)) # -95%信頼区間
+
+## StructTS による推定
+(TW.sts <- StructTS(TW.train, type="trend", fixed=c(0.1,NA,NA)))
+(TW.fsts <- forecast(TW.sts, h=length(TW.test)))
+
+## 分解結果の表示 
+plot(merge(TW.train, fitted(TW.sts)), col="blue")
+
+## 視覚化
+plot(TW.fsts, xaxt="n",
+     xlim=c(as.Date("2019-06-01"), as.Date("2019-07-31")))
+axis(side=1, # x軸を指定
+     at=index(TW.zoo), # 文字を書く座標軸上の位置
+     labels=index(TW.zoo), # ラベル
+     las=2, # 垂直に表示
+     cex.axis=0.7) # 文字の大きさを調整
+lines(TW.test, col="red") # 真値を重ね描き

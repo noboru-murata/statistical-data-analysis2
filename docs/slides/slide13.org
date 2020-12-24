@@ -92,7 +92,7 @@
 ** トレンドのあるホワイトノイズ
    - 定義
      #+begin_quote
-     $\mu,\alpha$ を定数として
+     \(\mu,\alpha\) を定数として
      #+begin_src latex
        \begin{equation}
          X_{t}=\mu+\alpha t+\epsilon_{t},
@@ -109,7 +109,7 @@
 ** ランダムウォーク
    - 定義
      #+begin_quote
-     $X_0$ を定数もしくは確率変数として
+     \(X_0\) を定数もしくは確率変数として
      #+begin_src latex
        \begin{equation}
 	 X_{t}=X_{t-1}+\epsilon_{t},
@@ -168,8 +168,8 @@
 ** 自己回帰移動平均過程
    - 定義 (次数\((p,q)\)のARMAモデル)
      #+begin_quote
-     $a_1,\dotsc,a_p,b_1,\dotsc,b_q$ を定数とし，
-     $X_1,\dotsc,X_{\max\{p,q\}}$ が初期値として与えられたとき
+     \(a_1,\dotsc,a_p,b_1,\dotsc,b_q\) を定数とし，
+     \(X_1,\dotsc,X_{\max\{p,q\}}\) が初期値として与えられたとき
      #+begin_src latex
        \begin{align}
 	 X_{t}
@@ -189,11 +189,113 @@
      - AR・MAモデルの一般化・基本的な時系列モデル
      - *定常にも非定常にもなる*
 
+** 自己共分散・自己相関
+   - 弱定常な確率過程: \(X_{t},\;t=1,\dotsc,T\)
+     - \(X_{t}\) と \(X_{t+h}\) の共分散は時点\(t\)によらずラグ\(h\)のみで定まる
+       #+begin_quote
+       *自己共分散* (定常過程の性質よりラグは\(h\ge0\)を考えればよい)
+       #+begin_src latex
+	 \begin{equation}
+	   \gamma(h)
+           =
+	   \mathrm{Cov}(X_{t},X_{t+h})
+	 \end{equation}
+       #+end_src
+       #+end_quote
+     - \(X_{t}\) と \(X_{t+h}\) の相関も\(t\)によらずラグ\(h\)のみで定まる
+       #+begin_quote
+       *自己相関*
+       #+begin_src latex
+	 \begin{equation}
+           \rho(h)
+	   =\gamma(h)/\gamma(0)
+           =
+	   \mathrm{Cov}(X_{t},X_{t+h})/\mathrm{Var}(X_{t})
+	 \end{equation}
+       #+end_src
+       #+end_quote
+   - 異なる時点間での観測データの従属関係を要約するための最も基本的な統計量
+     
+
+* 実習
+** R: 関数 ~acf()~
+   - 自己相関・自己共分散の計算
+     #+begin_src R :eval no
+       acf(x, lag.max = NULL,
+           type = c("correlation", "covariance", "partial"),
+           plot = TRUE, na.action = na.fail, demean = TRUE, ...)
+       ## x: 時系列データ
+       ## lag.max: 計算するラグの最大値
+       ## type: 標準は相関, 共分散と偏相関を選ぶこともできる
+       ## plot: 描画するか否か
+       ## na.action: 欠損値の処理，標準は欠損を含むと計算しない
+       ## demean: 共分散の計算において平均を引くか否か
+     #+end_src
+     - 詳細は ~?acf~
+** 練習問題
+   :PROPERTIES:
+   :reveal_background: #fef4f4
+   :END:
+   - 以下の問に答えなさい
+     - 同じAR過程のモデルから生成した時系列の自己相関を比較しなさい
+       (前の練習問題を利用すればよい)
+     - MA過程についても同様な比較を行いなさい
+     - ARMA過程についても同様な比較を行いなさい
+     #+begin_src R :eval no :exports none :tangle yes
+       ### 練習12.3
+       ### 自己相関
+
+       ## ARMA過程を生成する関数
+       myARMA <- function(a, b, epsilon){
+           p <- length(a)
+           q <- length(b)
+           r <- max(p,q)
+           Tmax <- length(epsilon) # 時系列の長さを取得
+           x <- double(Tmax)
+           x[1:r] <- epsilon[1:r]
+           for(t in (r+1):Tmax) {
+               x[t] <- a %*% x[t-1:p] + b %*% epsilon[t-1:q] + epsilon[t]
+           }
+           return(x)
+       }
+
+       Tmax <- 200 # 時系列の長さ t=1,..,Tmax
+       K <- 4 # 表示する時系列の数 (4つを並べて比較する)
+       library(RColorBrewer)
+       myCol <- brewer.pal(K,"Dark2") 
+       df.ar <- ts(replicate(K, myARMA(a=c(0.67, 0.26), b=c(0),
+                                       epsilon=rnorm(Tmax))))
+       df.ma <- ts(replicate(K, myARMA(a=c(0), b=c(0.44, 0.08),
+                                       epsilon=rnorm(Tmax))))
+       df.arma <- ts(replicate(K, myARMA(a=c(0.8, -0.64), b=c(-0.5),
+                                         epsilon=rnorm(Tmax))))
+       
+       ### AR(2)モデルの自己相関
+       orgpar <- par(mfrow=c(2,2)) # グラフを2x2(行方向の順)に並べる
+       for(i in 1:K) {
+	 acf(df.ar[,i], col=myCol[i], main=paste("AR series",i))
+       }
+       par(orgpar) # もとのparの内容に戻す
+
+       ### MA(2)モデルの自己相関
+       orgpar <- par(mfrow=c(2,2))
+       for(i in 1:K) {
+	 acf(df.ma[,i], col=myCol[i], main=paste("MA series",i))
+       }
+       par(orgpar) # もとのparの内容に戻す
+
+       ### ARMA(2,1)モデルの自己相関
+       orgpar <- par(mfrow=c(2,2))
+       for(i in 1:K) {
+	 acf(df.arma[,i], col=myCol[i], main=paste("ARMA series",i))
+       }
+       par(orgpar) # もとのparの内容に戻す
+     #+end_src
 
 * モデルの推定
 ** 自己共分散・自己相関
    - 平均\(0\)の弱定常な確率過程: \(X_{t},\;t=1,\dotsc,T\)
-     - $X_{t}$ と $X_{t+h}$ の共分散は時点\(t\)によらずラグ\(h\)のみで定まる
+     - \(X_{t}\) と \(X_{t+h}\) の共分散は時点\(t\)によらずラグ\(h\)のみで定まる
        #+begin_quote
        *自己共分散* 
        #+begin_src latex
@@ -206,7 +308,7 @@
 	 \end{equation}
        #+end_src
        #+end_quote
-     - $X_{t}$ と $X_{t+h}$ の相関も\(t\)によらずラグ\(h\)のみで定まる
+     - \(X_{t}\) と \(X_{t+h}$ の相関も\(t\)によらずラグ\(h\)のみで定まる
        #+begin_quote
        *自己相関係数*
        #+begin_src latex
@@ -294,7 +396,7 @@
      #+end_quote
      - ラグ\(p\)の *自己相関係数* (特殊な解釈)
        #+begin_quote
-       \(a_{1}=a_{2}=a_{p-1}=0\)のときの\(a_{p}\)
+       \(a_{1}=a_{2}=\dotsb=a_{p-1}=0\)のときの\(a_{p}\)
        #+begin_src latex
          \begin{equation}
            \mathbb{E}[X_{t}X_{t+p}]=a_{p}\mathbb{E}[X_{t}X_{t}]
@@ -327,7 +429,7 @@
        ## order.max: 計算すべき最大次数 (既定値は時系列の長さから規則的に計算)
        ## method: 計算方法，他に "burg", "ols", "mle" が指定できる
        est <- ar(x) # 時系列xの係数を推定する
-       acf(resid(est)) # 残差(esplioneの推定値に相当)がホワイトノイズか確認する
+       acf(resid(est)) # 残差(epsilonの定値に相当)がホワイトノイズか確認する
      #+end_src
      - AICを用いて次数を自動決定することができる
 ** COMMENT 演習: ARモデルの推定
@@ -356,7 +458,7 @@
        auto.arima(x, d=1, D=1)
        ## x: 時系列データ
        ## d: 階差回数
-       ## d: 周期性(季節性)を取り除くための階差回数
+       ## D: 周期性(季節性)を取り除くための階差回数
      #+end_src
      - 次数を自動決定することができる
 
@@ -464,14 +566,18 @@
    - 時系列クラス ~zoo~ を作成する関数
      #+begin_src R :eval no
        library(zoo) # forecast を利用すると自動的に読み込まれる
-       zoo(x = NULL, order.by = index(x))
+       zoo(x = NULL, order.by = index(x), frequency = NULL, ...)
        ## x: ベクトル，行列
        ## order.by: 成分の目盛
-       zoo(x, # データに日付の情報を付加する例 (Dateクラスで指定)
-           order.by = seq(from=as.Date("2020-01-01"), 
-                          to=as.Date("2020-12-31"), by=1)) 
+       ## frequency: 季節成分の周期
+       x.zoo <- zoo(x, # データに日付の情報を付加する例 (Dateクラスで指定)
+                    order.by = seq(from=as.Date("2020-01-01"), 
+                                   to=as.Date("2020-12-31"), by=1))
+       index(x.zoo)[1] # 最初の日付
+       index(x.zoo)[length(x.zoo)] # 最後の日付
      #+end_src
      - その他の詳細は ~?zoo~ 
+
 ** R: 関数 ~window()~
    - 時系列から部分系列を切り出す関数
      #+begin_src R :eval no
@@ -511,10 +617,10 @@
 	plot(TW.zoo, col="red",
 	     xlab="month", ylab="degree", main="Temperature in Tokyo")
 	plot(window(TW.zoo, # 一部を切り出して視覚化する
-		    start=as.Date("2019-04-01"),
-		    end=as.Date("2019-05-31")),
+		    start=as.Date("2019-06-01"),
+		    end=as.Date("2019-07-31")),
 	     col="red",
-	     xlab="date", ylab="degree", main="Temperature (April-May)")
+	     xlab="date", ylab="degree", main="Temperature (June-July)")
 	acf(TW.zoo)       # 減衰が遅いので差分をとった方が良さそう
 	plot(diff(TW.zoo)) # 階差系列の視覚化
 	acf(diff(TW.zoo))  # 階差系列の自己相関
@@ -527,26 +633,29 @@
 
 
 * モデルによる予測
-** COMMENT 時系列の分解
-   - トレンド成分+季節成分+ランダム成分への分解
-     #+begin_quote
-     #+begin_src latex
-       \begin{equation}
-         X=T+S+R
-       \end{equation}
-     #+end_src
-     - トレンド: 時間の関数を推定
-     - 季節成分: 周期的な関数を推定
-     #+end_quote
-
-** 時系列の予測
-   - 定常な成分: 推定したモデルを用いて\(n\)期先を予測
+** モデルによる予測
+   - 推定したモデルを用いて\(n\)期先を予測
      - ARモデル: 観測時点までの観測値を用いて回帰
      - MAモデル: 観測時点までのホワイトノイズで回帰
      - ARMAモデル: 上記の複合
    - いずれも \(n\)が大きいと不確定性が増大
    - 階差による変換は累積(階差の逆変換)により推定
-     
+** 分解による予測
+   - トレンド成分+季節成分+ランダム成分への分解
+     #+begin_quote
+     #+begin_src latex
+       \begin{equation}
+         X_{t}=T_{t}+S_{t}+R_{t}
+       \end{equation}
+     #+end_src
+     #+end_quote
+     - トレンド成分: 時間の関数やランダムウォークなどを想定
+     - 季節成分: 周期的な関数を想定
+     - ランダム成分: ARMAモデルなどを想定
+   - 分解の考え方
+     - ランダム成分: 適切な幅の移動平均が0
+     - 季節成分: 1周期の平均が0
+
 * 実習
 ** R: 時系列の予測 ~predict()~
    - 推定されたモデルによる予測
@@ -575,6 +684,22 @@
        plot(x.prd) # 全体を視覚化
      #+end_src
      - 詳細は ~?forecast~
+
+** R: 時系列の分解 ~StructTS()~
+   - トレンドの構造を仮定して分解する関数
+     #+begin_src R :eval no
+       StructTS(x, type = "level", fixed = NULL, ...)
+       ## x: 時系列データ
+       ## type: "level" 平均の変動をランダムウォークでモデル化
+       ##       "trend" 平均と傾きをランダムウォークでモデル化
+       ##       "BSM" 季節成分を含むモデル (frequencyが必要)
+       ## fixed: ホワイトノイズの分散の指定
+       x.sts <- StructTS(x, type = "trend", fixed = c(0.1,NA,NA))
+       ## 平均のホワイトノイズの分散を0.1，傾きとランダム成分の分散は推定
+       forecast(x.sts, h=10) # predictを使うことも可
+     #+end_src
+     - 詳細は ~?StructTS~
+     - 分解を行う関数は ~decompose, stl~ などもある
 
 ** COMMENT 演習: 時系列の予測
    :PROPERTIES:
@@ -621,8 +746,14 @@
 	plot(TW.fcst) # X軸が無粋 (1970-01-01からの日数)
 
 	## X軸の書き直し
-	plot(TW.fcst, xaxt="n") 
-	axis(1, at=index(TW.zoo), labels=index(TW.zoo), cex.axis=0.5)
+	plot(TW.fcst, xaxt="n",
+	     xlim=c(as.Date("2019-06-01"), as.Date("2019-07-31")))
+	axis(side=1, # x軸を指定
+	     at=index(TW.zoo), # 文字を書く座標軸上の位置
+	     labels=index(TW.zoo), # ラベル
+	     las=2, # 垂直に表示
+	     cex.axis=0.7) # 文字の大きさを調整
+	lines(TW.test, col="red") # 真値を重ね描き
 
 	## 別の書き方
 	plot(window(TW.zoo, start="2019-06-01", end="2019-07-31"),
@@ -633,6 +764,23 @@
 	with(TW.fcst, lines(upper[,2], col="orchid", lwd=3)) # +95%信頼区間
 	with(TW.fcst, lines(lower[,1], col="orange", lwd=3)) # -80%信頼区間
 	with(TW.fcst, lines(lower[,2], col="orchid", lwd=3)) # -95%信頼区間
+
+	## StructTS による推定
+	(TW.sts <- StructTS(TW.train, type="trend", fixed=c(0.1,NA,NA)))
+	(TW.fsts <- forecast(TW.sts, h=length(TW.test)))
+
+	## 分解結果の表示 
+	plot(merge(TW.train, fitted(TW.sts)), col="blue")
+
+	## 視覚化
+	plot(TW.fsts, xaxt="n",
+	     xlim=c(as.Date("2019-06-01"), as.Date("2019-07-31")))
+	axis(side=1, # x軸を指定
+	     at=index(TW.zoo), # 文字を書く座標軸上の位置
+	     labels=index(TW.zoo), # ラベル
+	     las=2, # 垂直に表示
+	     cex.axis=0.7) # 文字の大きさを調整
+	lines(TW.test, col="red") # 真値を重ね描き
      #+end_src
    
 * COMMENT ローカル変数
