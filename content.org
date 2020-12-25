@@ -198,6 +198,7 @@
    - [[github:pdfs/slide13.pdf][PDF file]]
 ** 付録
    - [[github:code/slide13.R][RScript]]
+   - [[github:code/slide13sup.R][補足のRScript]]
      
 # * COMMENT 講義14
 #   :PROPERTIES:

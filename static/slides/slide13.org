@@ -573,8 +573,8 @@
        x.zoo <- zoo(x, # データに日付の情報を付加する例 (Dateクラスで指定)
                     order.by = seq(from=as.Date("2020-01-01"), 
                                    to=as.Date("2020-12-31"), by=1))
-       index(x.zoo)[1] # 最初の日付
-       index(x.zoo)[length(x.zoo)] # 最後の日付
+       start(x.zoo) # index(x.zoo)[1] 最初の日付
+       end(x.zoo) # index(x.zoo)[length(x.zoo)] 最後の日付
      #+end_src
      - その他の詳細は ~?zoo~ 
 
