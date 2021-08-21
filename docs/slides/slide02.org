@@ -3,31 +3,39 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2021-08-14 18:39:53 mura>
-:reveal:
+# Time-stamp: <2021-08-21 18:40:12 mura>
+:REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+STARTUP: hidestars content indent
 # C-c C-x C-v でinlineを切り替え
 # <m C-i でlatex block (math env用)
 # C-c '
-:end:
+:END:
 
 * 講義の内容
 - データの取り扱い
 - 描画の基礎
 
 #+begin_src R :eval no :exports none :tangle yes
-  ### 第02回 練習問題解答例
+  ### 
+  ### 第2講 サンプルコード
+  ###
 #+end_src
 #+begin_src R :exports none
   setwd("~/Desktop/lectures/u-tokyo/autumn/slide")
 #+end_src
 
 * COMMENT メモ
+- 速習なので練習問題を多くしたい
+- データの見直し(covid-19の最新のデータに変えるべきか?)
 - 校正に関して記述
-
+  
 
 * データフレーム
+#+begin_src R :exports none :tangle yes
+  #### "データフレーム"
+#+end_src
+
 ** データ構造
 - Rに用意されている基本的なデータ構造
   - ベクトル (vector): 1次元配列
@@ -41,7 +49,7 @@
 - 複数の個体について，いくつかの属性を集計した表
   - 長さの等しい列ベクトルをまとめたもの
   - 各列のデータ型はバラバラでも良い
-- 例: ある小学校の1年生の身長・体重・性別・血液型のデータ
+- [[color:darkgreen][例: ある小学校の1年生の身長・体重・性別・血液型のデータ]]
 - 実データは表形式であることが多いため最も一般的な形式
 
 ** データフレームの作成
@@ -50,15 +58,15 @@
   - データフレームを結合する
   - マトリクスを変換する (全て数字の場合)
   #+begin_src R :eval no :exports none :tangle yes
-    ## データフレームの作成
+    ### データフレームの作成
   #+end_src
   #+begin_src R :eval no :tangle yes
     ## 同じ長さのベクトルを並べる
-    ## (x <- ...) は代入した結果を表示
-    (x <- data.frame(one=c(1,2,3),two=c("AB","CD","EF"))) 
-    (y <- data.frame(three=c("x","y","z"),four=c(0.9,0.5,-0.3)))
+    ## (... <- ...) は代入した結果を表示
+    (foo <- data.frame(one=c(1,2,3),two=c("AB","CD","EF"))) 
+    (bar <- data.frame(three=c("x","y","z"),four=c(0.9,0.5,-0.3)))
     ## データフレームを結合する
-    (z <- cbind(x,y)) # column bind
+    (baz <- cbind(foo,bar)) # column bind
   #+end_src
 
 ** 練習問題
@@ -77,9 +85,10 @@
   |---+------+------+------+-----|
 
 #+begin_src R :eval no :exports none :tangle yes
-  ### 練習1
-  ### データフレームの作成
-  
+  ### 
+  ### 練習問題 データフレームの作成
+  ###
+
   ## 各項目が同じ長さのベクトルを並べる
   (grade <- data.frame( # 変数名は自由に決めてよい
      math=c(90,80,70,60,50),
@@ -103,6 +112,10 @@
 
 
 * ファイルの操作
+#+begin_src R :exports none :tangle yes
+  #### "ファイルの操作"
+#+end_src
+
 ** ファイルを用いたデータの読み書き
 - 解析においてはデータファイルの操作が必要:
   - 整理したデータを保存する
@@ -162,29 +175,30 @@
   変数 ~pcr~ に読み込みなさい
 
 #+begin_src R :eval no :exports none :tangle yes
-  ### 練習2
-  ### ファイルの読み書き
-  ## 前の練習問題で作ったxを利用する
+  ### 
+  ### 練習問題 ファイルの読み書き
+  ###   前の練習問題で作ったデータフレームを利用する
+  ###
   
   ### csv形式の操作
   ## 関数 write.csv の使い方 (ファイルの書き出し)
   dim(grade) # 大きさを確認
-  write.csv(grade, file="mydata.csv")
+  write.csv(grade, file="data/mydata.csv")
   ## 関数 read.csv の使い方 (ファイルの読み込み)
-  (grade2 <- read.csv(file="mydata.csv", row.names=1)) 
+  (grade2 <- read.csv(file="data/mydata.csv", row.names=1)) 
   dim(grade2) # 大きさが一致していることを確認
   grade2["A","math"] <- 100 # データの一部を修正
   grade2 # 中身を確認しておく
   
   ### Rdata形式の操作
   ## 関数 save の使い方 (ファイルの書き出し)
-  save(grade, grade2, file="mydata.RData") 
+  save(grade, grade2, file="data/mydata.RData") 
   ## 関数 load の使い方 
   grade <- c(1,2,3) # 上書きしておく
   grade # 中身を確認しておく
   rm(grade2) # 消しておく
   grade2 # "オブジェクト 'grade2' がありません"というエラーになる 
-  load(file="mydata.RData") # RData形式の読み込み
+  load(file="data/mydata.RData") # RData形式の読み込み
   grade # save したときの grade が復元されている
   grade2 # save したときの grade2 が復元されている
 #+end_src
@@ -194,26 +208,30 @@
   pcr <- read.csv(file="data/pcr_case_daily.csv") # 一般的な読み込み方
   ## 読み込めない場合は文字コードを指定する
   ## read.csv(file="data/pcr_case_daily.csv")
-  ##          fileEncoding="shift-jis") # 文字コードの指定 (またはutf-8)
+  ##          fileEncoding="shift-jis") # 文字コードの指定 (shift-jis/utf-8)
   pcr_org <- names(pcr) # 機関名を保存しておく
-  names(pcr) <- c("date","a","b","c","d","e","f") # 英語に付け替える
+  names(pcr) <- c("date",letters[1:7]) # 英語に付け替える
   head(pcr) # 中身を確認する
   ## 読み込み時に列名を指定することも可能 (以下は上記と同じ結果)
   pcr2 <- read.csv(file="data/pcr_case_daily.csv",
-                   col.names=c("date","a","b","c","d","e","f"))
+                   col.names=c("date",letters[1:7]))
   head(pcr2) # 中身を確認する
-  ## Filesタブの操作で読み込みことも可能なので確認せよ
+  ## Filesタブの操作で読み込みことも可能なので確認しなさい
   ## ただし tibble+data.frame オブジェクトになるので若干扱いが異なる
 #+end_src
 
 
 * データフレームの操作
+#+begin_src R :exports none :tangle yes
+  #### "データフレームの操作"
+#+end_src
+
 ** 要素の選択
 - 添字の番号を指定する (マイナスは除外)
 - 論理値(TRUE/FALSE)で指定する
 - 要素の名前で指定する
   #+begin_src R :eval no :exports none :tangle yes
-    ## 要素の選択
+    ### 要素の選択
   #+end_src
   #+begin_src R :eval no :tangle yes
     z <- data.frame(one=c(1,2,3), two=c("AB","CD","EF"), three=6:8)
@@ -277,18 +295,12 @@
 :reveal_background: #fef4f4
 :END:
 - ~pcr_case_daily.csv~ から以下の条件を満たすデータを取り出しなさい
-  - 例: 国立感染症研究所(~a~)の検査件数が 0 でないデータ
-    #+begin_src R :eval no :exports none :tangle yes
+  - 関数 ~subset()~ の使用例
+    #+begin_src R :eval no :tangle yes
       ## 国立感染症研究所(a)の検査件数が 0 でないデータ
-    #+end_src
-    #+begin_src R :eval no :tangle yes
       subset(pcr, subset= a!=0) # subset オプションに条件を指定する
-    #+end_src
-  - 例: 検疫所(~b~)と民間検査会社(~d~)の検査件数データ
-    #+begin_src R :eval no :exports none :tangle yes
+
       ## 検疫所(b)と民間検査会社(d)の検査件数データ
-    #+end_src
-    #+begin_src R :eval no :tangle yes
       subset(pcr, select= c(b,d)) # select オプションに列名を指定する
     #+end_src
   - 医療機関(~f~)での検査件数が2000を越えたときの
@@ -296,8 +308,9 @@
   - 大学等(~e~)と医療機関(~f~)でともに検査件数が2000を越えたデータ
 
 #+begin_src R :eval no :exports none :tangle yes
-  ### 練習3
-  ### データフレームの操作
+  ### 
+  ### 練習問題 データフレームの操作
+  ###
   
   ## 関数subsetの使い方
   ## 医療機関(f)での検査数が2000を越えたときの国立感染症研究所(a)と医療機関(f)のデータ
@@ -311,6 +324,10 @@
 
 
 * データフレームの集約
+#+begin_src R :exports none :tangle yes
+  #### "データフレームの集約"
+#+end_src
+
 ** 統計量の計算
 - データを集約した値 = 統計量
   - 関数 ~sum()~: 総和を計算する
@@ -354,15 +371,25 @@
   #+begin_src R :eval no :exports none :tangle yes
     ### 関数 aggregate() の使用例
     ## 月毎の医療機関のPCR数の集計
+    library(lubridate)
     pcr$date # 日付を取り出す
-    months(as.Date(pcr$date)) # 月を取り出す
-    transform(pcr,month=months(as.Date(date))) # 列を追加
-    ## 注意: trasform は pcr の操作をしているので，dateだけで列名が指定できる
+    month(pcr$date) # 月を取り出す
+    transform(pcr,month=month(date)) # 列を追加
+    ## 注意:
+    ## transform は pcr の操作をしているので，dateだけで列名が指定できる
+    ## lubridate の関数 month() は月名での表示も可能
+    ## ただし名前は言語環境に依存するので注意
+    ## month(foo,label=TRUE) # 短縮形
+    ## month(foo,label=TRUE,abbr=FALSE) # 月名
+    ## 強制的に英語にするには
+    ## Sys.setlocale(category = "LC_TIME", locale="C")
+    ## などを指定すればよい．もとに戻すには
+    ## Sys.setlocale(category = "LC_TIME", locale="")
   #+end_src
   #+begin_src R :eval no :tangle yes
-    aggregate(f ~ month,
-              data=transform(pcr,month=months(as.Date(date))),
-              sum)
+    aggregate(formula= f ~ month,
+              data=transform(pcr,month=month(date)),
+              FUN=sum)
   #+end_src
 
 ** 練習問題
@@ -371,14 +398,15 @@
 :END:
 - ~pcr_case_daily.csv~ を以下の条件で整理しなさい
   - 各機関でのPCR検査件数の最大値
-  - 月ごとの各機関でのPCR検査件数の最大値
+  - 2020年の月ごとの各機関でのPCR検査件数の最大値
 - ~datasets::mtcars~ のデータを以下の条件で整理しなさい
   - 気筒数(~cyl~)ごとに排気量(~disp~)の最大値，最小値
   - 気筒数(~cyl~)とギア数(~gear~)ごとの燃費(~mpg~)の平均値
 
 #+begin_src R :eval no :exports none :tangle yes
-  ### 練習4
-  ### データフレームの集約
+  ### 
+  ### 練習問題 データフレームの集約
+  ###
   
   ## 関数applyの使い方
   ## 各機関でのPCR検査件数の最大値
@@ -387,14 +415,17 @@
         max, na.rm=TRUE) # max の計算で NA を除く
   
   ## 関数aggregateの使い方
-  ## 月ごとの各機関でのPCR検査件数の最大値
-  aggregate(cbind(a,b,c,d,e,f) ~ month,
-            transform(pcr, month=months(as.Date(date))),
-            max)
+  ## 2020年の月ごとの各機関でのPCR検査件数の最大値
+  aggregate(cbind(a,b,c,d,e,f,g) ~ month,
+            transform(subset(pcr, year(date)==2020),
+                      month=month(date)),
+            max,
+            na.action=na.pass) # NAだけの列があっても集計するための指定
   aggregate(. ~ date, # ちょっとした細工(上書き)で簡単になる
-            transform(pcr,date=months(as.Date(date))),
-            max)
-  
+            transform(subset(pcr, year(date)==2020),
+                      date=month(date)),
+            max, na.action=na.pass)
+
   ## datasets::mtcars での例
   ## 気筒数ごとに排気量の最大値，最小値
   aggregate(disp ~ cyl,
@@ -423,6 +454,10 @@
 
 
 * 描画の基礎
+#+begin_src R :exports none :tangle yes
+  #### "描画の基礎"
+#+end_src
+
 ** データの可視化
 - データ全体の特徴や傾向を把握するための直感的で効果的な方法
 - R言語には極めて多彩な作図機能が用意されている
@@ -558,9 +593,11 @@
     検査件数の関係(散布図)
 
 #+begin_src R :eval no :exports none :tangle yes
-  ### 練習5
-  ### 基本的なグラフの描画
-  ## 書き方はいろいろあるので，以下はあくまで一例
+  ### 
+  ### 練習問題 基本的なグラフの描画
+  ###  書き方はいろいろあるので，以下はあくまで一例
+  ###
+  
   
   ## 検疫所(b)，地方衛生研究所.保健所(c)，民間検査会社(d)における検査件数の推移
   apply(pcr[-1],2,max,na.rm=TRUE) # 最大値を確認しておく
@@ -585,6 +622,10 @@
        
 
 * さまざまなグラフ
+#+begin_src R :exports none :tangle yes
+  #### "さまざまなグラフ"
+#+end_src
+
 ** ヒストグラム
 - データの値の範囲をいくつかの区間に分割し，
   各区間に含まれるデータの個数を棒グラフにした図
@@ -759,6 +800,10 @@
 
 
 * 疑似乱数
+#+begin_src R :exports none :tangle yes
+  #### "疑似乱数"
+#+end_src
+
 ** 疑似乱数とは
 - コンピューターで生成された数列のこと
 - 完全にランダムに数字を発生されることは不可能
@@ -793,8 +838,9 @@
   - 4枚のコインを投げたときの表の枚数
 
 #+begin_src R :eval no :exports none :tangle yes
-  ### 練習6
-  ### 擬似乱数
+  ### 
+  ### 練習問題 擬似乱数
+  ###
   
   ## 関数sampleの使い方
   (x <- 1:10)   # サンプリング対象の集合を定義
@@ -828,6 +874,10 @@
 
 
 * モンテカルロ法
+#+begin_src R :exports none :tangle yes
+  #### "モンテカルロ法"
+#+end_src
+
 ** モンテカルロ法とは
 - 乱数を使った統計実験
 - 計算機上でランダムネスを実現 (擬似乱数)
@@ -943,11 +993,12 @@
   - さいころを振る回数の分布は?
 
 #+begin_src R :eval no :exports none :tangle yes
-  ### 練習7
-  ### 双六ゲーム
+  ### 
+  ### 練習問題 双六ゲーム
+  ###
   
   ## 双六の試行
-  mytrial <- function(){
+  myTrial <- function(){
     step <- 0 # 最初の位置
     num <- 0  # さいころを振る回数
     while(TRUE){ # 永久に回るループ
@@ -965,9 +1016,9 @@
   ## Monte-Carlo実験
   set.seed(12345)
   mc <- 10000 # 実験回数を設定 
-  mydata <- replicate(mc,mytrial()) 
-  hist(mydata) # ヒストグラムを出力
-  summary(mydata) # 簡単な集計
+  myData <- replicate(mc,myTrial()) 
+  hist(myData) # ヒストグラムを出力
+  summary(myData) # 簡単な集計
 #+end_src
 
 
