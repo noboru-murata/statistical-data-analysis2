@@ -1,10 +1,13 @@
 +++
-title = "講義7"
+title = "第7講"
 author = ["Noboru Murata"]
 date = 2020-09-19T00:00:00+09:00
 draft = false
 weight = 1008
 +++
+
+2020年度版
+
 
 ## スライド {#スライド}
 

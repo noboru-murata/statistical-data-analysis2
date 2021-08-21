@@ -292,6 +292,7 @@
        par(orgpar) # もとのparの内容に戻す
      #+end_src
 
+
 * モデルの推定
 ** 自己共分散・自己相関
    - 平均\(0\)の弱定常な確率過程: \(X_{t},\;t=1,\dotsc,T\)
@@ -308,7 +309,7 @@
 	 \end{equation}
        #+end_src
        #+end_quote
-     - \(X_{t}\) と \(X_{t+h}$ の相関も\(t\)によらずラグ\(h\)のみで定まる
+     - \(X_{t}\)と\(X_{t+h}\)の相関も\(t\)によらずラグ\(h\)のみで定まる
        #+begin_quote
        *自己相関係数*
        #+begin_src latex
@@ -400,7 +401,7 @@
        #+begin_src latex
          \begin{equation}
            \mathbb{E}[X_{t}X_{t+p}]=a_{p}\mathbb{E}[X_{t}X_{t}]
-           \;\Rightarrow\; \gamma(p)=a_{p}\gamma_{0}
+           \;\Rightarrow\; \gamma(p)=a_{p}\gamma(0)
            \;\Rightarrow\; \rho(p)=a_{p}
          \end{equation}
        #+end_src
