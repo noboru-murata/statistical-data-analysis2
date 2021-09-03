@@ -72,12 +72,12 @@ PCR.data <- read.csv(file="data/pcr_case_daily.csv") # 一般的な読み込み�
 ## 読み込めない場合は文字コードを指定する
 ## read.csv(file="data/pcr_case_daily.csv")
 ##          fileEncoding="shift-jis") # 文字コードの指定 (shift-jis/utf-8)
-PCR.org <- names(PCR.data) # 機関名を保存しておく
-names(PCR.data) <- c("date",letters[1:7]) # 英語に付け替える
+PCR.colname <- names(PCR.data) # 機関名などの列名を保存しておく
+names(PCR.data) <- c("date",letters[1:(length(PCR.colname)-1)]) # 英語に付け替える
 head(PCR.data) # 中身を確認する
 ## 読み込み時に列名を指定することも可能 (以下は上記と同じ結果)
 PCR.data2 <- read.csv(file="data/pcr_case_daily.csv",
-                 col.names=c("date",letters[1:7]))
+                 col.names=c("date",letters[1:(length(PCR.colname)-1)]))
 head(PCR.data2) # 中身を確認する
 ## Filesタブの操作で読み込みことも可能なので確認しなさい
 ## ただし tibble+data.frame オブジェクトになるので若干扱いが異なる
@@ -204,11 +204,11 @@ if(Sys.info()["sysname"]=="Darwin") { # MacOSかどうか調べて
   par(family="HiraginoSans-W4")}    # 日本語フォントを指定する
 plot(f ~ a, data=PCR.data, # y軸=f，x軸=a で散布図を作成
      col="blue", pch=19, # 色と形を指定
-     xlab=PCR.org[2], ylab=PCR.org[7]) # 軸の名前を指定
+     xlab=PCR.colname[2], ylab=PCR.colname[7]) # 軸の名前を指定
 ## x軸を日付とすることで日付と検査数の関係を表すことも可能
 plot(f ~ as.Date(date), data=PCR.data, # 線で描画する
      type="l", col="red", # 色と形を指定
-     xlab=PCR.org[1], ylab=PCR.org[7], # 軸の名前を指定
+     xlab=PCR.colname[1], ylab=PCR.colname[7], # 軸の名前を指定
      main="PCR検査件数の推移")
 
 ### 関数 plot() の使用例 (散布図行列) 
@@ -237,10 +237,10 @@ lines(c ~ as.Date(date), data=PCR.data, col="tomato")
 
 ## 民間検査会社(d)，大学等(e)，医療機関(f)での検査件数の関係(散布図)
 plot(PCR.data[c("d","e","f")], # 必要なデータフレームを抽出
-     labels=PCR.org[5:7], # 変数名を日本語に変更
+     labels=PCR.colname[5:7], # 変数名を日本語に変更
      col="blue", pch=18) # pch については help(points) を参照
 plot(~ d + e + f, data=PCR.data, # 式を使った指定の方法の例
-     labels=PCR.org[5:7], col="blue", pch=18)
+     labels=PCR.colname[5:7], col="blue", pch=18)
 
 #### "さまざまなグラフ"
 
@@ -250,7 +250,7 @@ plot(~ d + e + f, data=PCR.data, # 式を使った指定の方法の例
 if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
 hist(PCR.data$d, breaks=25, labels=TRUE, # ビンの数と度数表示を指定
      col="lightblue", border="blue", # 中と境界の色を指定
-     main="検査件数のヒストグラム", xlab=PCR.org[5]) # 軸の名前を指定
+     main="検査件数のヒストグラム", xlab=PCR.colname[5]) # 軸の名前を指定
 
 ### 関数 boxplot() の使用例
 ## 大学等(e)での検査件数の分布(2021年分)
@@ -266,11 +266,13 @@ boxplot(e ~ date,
 
 if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
 foo <- aggregate(. ~ date, # 集計したデータを保存
-                 transform(subset(PCR.data, year(date)==2021),
+                 transform(subset(PCR.data,
+                                  subset = year(date)==2021,
+                                  select = 1:7),
                            date=month(date)),
                  sum, na.action=na.pass)
 barplot(as.matrix(foo[-1]), col=rainbow(8), # 作成した月(1-8)の色を利用
-        names.arg=PCR.org[2:8], # 変数名を日本語で表示
+        names.arg=PCR.colname[2:7], # 変数名を日本語で表示
         beside=TRUE, space=c(.3,3), # 横並びの指定とスペースの設定
         legend.text=foo[,1], args.legend=list(ncol=2)) # 凡例の指定
 
