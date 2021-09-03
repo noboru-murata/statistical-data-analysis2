@@ -68,19 +68,21 @@ grade2 # save したときの grade2 が復元されている
 
 ### download したファイルの読み込み
 ## ファイル名 pcr_case_daily.csv として作業ディレクトリの data に保存
-pcr <- read.csv(file="data/pcr_case_daily.csv") # 一般的な読み込み方
+PCR.data <- read.csv(file="data/pcr_case_daily.csv") # 一般的な読み込み方
 ## 読み込めない場合は文字コードを指定する
 ## read.csv(file="data/pcr_case_daily.csv")
 ##          fileEncoding="shift-jis") # 文字コードの指定 (shift-jis/utf-8)
-pcr_org <- names(pcr) # 機関名を保存しておく
-names(pcr) <- c("date",letters[1:7]) # 英語に付け替える
-head(pcr) # 中身を確認する
+PCR.org <- names(PCR.data) # 機関名を保存しておく
+names(PCR.data) <- c("date",letters[1:7]) # 英語に付け替える
+head(PCR.data) # 中身を確認する
 ## 読み込み時に列名を指定することも可能 (以下は上記と同じ結果)
-pcr2 <- read.csv(file="data/pcr_case_daily.csv",
+PCR.data2 <- read.csv(file="data/pcr_case_daily.csv",
                  col.names=c("date",letters[1:7]))
-head(pcr2) # 中身を確認する
+head(PCR.data2) # 中身を確認する
 ## Filesタブの操作で読み込みことも可能なので確認しなさい
 ## ただし tibble+data.frame オブジェクトになるので若干扱いが異なる
+## URLを指定して読み込むこともできる (更新される情報を追い掛ける場合)
+## PCR.data <- read.csv("https://www.mhlw.go.jp/content/pcr_case_daily.csv")
 
 #### "データフレームの操作"
 
@@ -98,10 +100,10 @@ z[, c("one","three")] # 列名"one"と"three"を選択(データフレームに�
 z[c("one","three")]   # 上記と同様の結果となる
 
 ## 国立感染症研究所(a)の検査件数が 0 でないデータ
-subset(pcr, subset= a!=0) # subset オプションに条件を指定する
+subset(PCR.data, subset= a!=0) # subset オプションに条件を指定する
 
 ## 検疫所(b)と民間検査会社(d)の検査件数データ
-subset(pcr, select= c(b,d)) # select オプションに列名を指定する
+subset(PCR.data, select= c(b,d)) # select オプションに列名を指定する
 
 ### 
 ### 練習問題 データフレームの操作
@@ -109,11 +111,11 @@ subset(pcr, select= c(b,d)) # select オプションに列名を指定する
 
 ## 関数subsetの使い方
 ## 医療機関(f)での検査数が2000を越えたときの国立感染症研究所(a)と医療機関(f)のデータ
-subset(pcr,
+subset(PCR.data,
        subset= f>2000,
        select= c(a,f))
 ## 大学等(e)と医療機関(f)でともに検査件数が2000を越えたデータ
-subset(pcr,
+subset(PCR.data,
        subset= e>2000 & f>2000)
 
 #### "データフレームの集約"
@@ -126,12 +128,12 @@ apply(grade, 2, mean) # 上記と同じ(変数名は省略可能)
 
 ### 関数 aggregate() の使用例
 ## 月毎の医療機関のPCR数の集計
-library(lubridate)
-pcr$date # 日付を取り出す
-month(pcr$date) # 月を取り出す
-transform(pcr,month=month(date)) # 列を追加
+library(lubridate) # 関数 month() などを利用可能とする
+PCR.data$date # 日付を取り出す
+month(PCR.data$date) # 月を取り出す
+transform(PCR.data,month=month(date)) # 列を追加
 ## 注意:
-## transform は pcr の操作をしているので，dateだけで列名が指定できる
+## transform は PCR.data の操作をしているので，dateだけで列名が指定できる
 ## lubridate の関数 month() は月名での表示も可能
 ## ただし名前は言語環境に依存するので注意
 ## month(foo,label=TRUE) # 短縮形
@@ -142,7 +144,7 @@ transform(pcr,month=month(date)) # 列を追加
 ## Sys.setlocale(category = "LC_TIME", locale="")
 
 aggregate(formula= f ~ month,
-          data=transform(pcr,month=month(date)),
+          data=transform(PCR.data,month=month(date)),
           FUN=sum)
 
 ### 
@@ -151,19 +153,19 @@ aggregate(formula= f ~ month,
 
 ## 関数applyの使い方
 ## 各機関でのPCR検査件数の最大値
-apply(subset(pcr, select= -date), # date は文字列なので集計から除く
+apply(subset(PCR.data, select= -date), # date は文字列なので集計から除く
       2, # 列の計算
       max, na.rm=TRUE) # max の計算で NA を除く
 
 ## 関数aggregateの使い方
 ## 2020年の月ごとの各機関でのPCR検査件数の最大値
 aggregate(cbind(a,b,c,d,e,f,g) ~ month,
-          transform(subset(pcr, year(date)==2020),
+          transform(subset(PCR.data, year(date)==2020),
                     month=month(date)),
           max,
           na.action=na.pass) # NAだけの列があっても集計するための指定
 aggregate(. ~ date, # ちょっとした細工(上書き)で簡単になる
-          transform(subset(pcr, year(date)==2020),
+          transform(subset(PCR.data, year(date)==2020),
                     date=month(date)),
           max, na.action=na.pass)
 
@@ -188,11 +190,11 @@ aggregate(mpg ~ cyl + gear, # 条件を並べる場合は + を用いる
 ### 関数 plot() の使用例 (ベクトル) 
 ## 民間検査会社(d)と医療機関(f)の検査件数の関係
 
-plot(pcr$d, # データフレームからD列のベクトルを抽出
+plot(PCR.data$d, # データフレームからD列のベクトルを抽出
      type="l", col="blue") # 線での描画と色を指定
-lines(pcr$f, col="red") # 線を重ね描き
+lines(PCR.data$f, col="red") # 線を重ね描き
 ## 複数のデータを同時に描画する方法も用意されている
-matplot(pcr[-1], # データフレームから1列目を取り除いたデータフレームを作成
+matplot(PCR.data[-1], # データフレームから1列目を取り除いたデータフレームを作成
         type="l") # 線での描画を指定，色も個別に指定できる
 
 ### 関数 plot() の使用例 (散布図) 
@@ -200,19 +202,19 @@ matplot(pcr[-1], # データフレームから1列目を取り除いたデータ
 
 if(Sys.info()["sysname"]=="Darwin") { # MacOSかどうか調べて
   par(family="HiraginoSans-W4")}    # 日本語フォントを指定する
-plot(f ~ a, data=pcr, # y軸=f，x軸=a で散布図を作成
+plot(f ~ a, data=PCR.data, # y軸=f，x軸=a で散布図を作成
      col="blue", pch=19, # 色と形を指定
-     xlab=pcr_org[2], ylab=pcr_org[7]) # 軸の名前を指定
+     xlab=PCR.org[2], ylab=PCR.org[7]) # 軸の名前を指定
 ## x軸を日付とすることで日付と検査数の関係を表すことも可能
-plot(f ~ as.Date(date), data=pcr, # 線で描画する
+plot(f ~ as.Date(date), data=PCR.data, # 線で描画する
      type="l", col="red", # 色と形を指定
-     xlab=pcr_org[1], ylab=pcr_org[7], # 軸の名前を指定
+     xlab=PCR.org[1], ylab=PCR.org[7], # 軸の名前を指定
      main="PCR検査件数の推移")
 
 ### 関数 plot() の使用例 (散布図行列) 
 ## 各検査機関での件数の関係
 
-plot(pcr[-1], col="blue", pch=19) # データフレームから1列目を除いて描画
+plot(PCR.data[-1], col="blue", pch=19) # データフレームから1列目を除いて描画
 
 ### 
 ### 練習問題 基本的なグラフの描画
@@ -221,24 +223,24 @@ plot(pcr[-1], col="blue", pch=19) # データフレームから1列目を除い�
 
 
 ## 検疫所(b)，地方衛生研究所.保健所(c)，民間検査会社(d)における検査件数の推移
-apply(pcr[-1],2,max,na.rm=TRUE) # 最大値を確認しておく
-plot(d ~ as.Date(date), data=pcr, # 最大値を基準に描画を行う
+apply(PCR.data[-1],2,max,na.rm=TRUE) # 最大値を確認しておく
+plot(d ~ as.Date(date), data=PCR.data, # 最大値を基準に描画を行う
      type="l", col="orchid", xlab="日付",ylab="検査件数")
-lines(b ~ as.Date(date), data=pcr, col="orange")
-lines(c ~ as.Date(date), data=pcr, col="tomato")
+lines(b ~ as.Date(date), data=PCR.data, col="orange")
+lines(c ~ as.Date(date), data=PCR.data, col="tomato")
 ## y軸を対数表示する場合には以下のとおり
-plot(d ~ as.Date(date), data=pcr, log="y", # y軸を対数変換
+plot(d ~ as.Date(date), data=PCR.data, log="y", # y軸を対数変換
      type="l", col="orchid", xlab="日付",ylab="検査件数")
-lines(b ~ as.Date(date), data=pcr, col="orange")
-lines(c ~ as.Date(date), data=pcr, col="tomato")
+lines(b ~ as.Date(date), data=PCR.data, col="orange")
+lines(c ~ as.Date(date), data=PCR.data, col="tomato")
 ## log(0) の計算で警告が出る場合がある
 
 ## 民間検査会社(d)，大学等(e)，医療機関(f)での検査件数の関係(散布図)
-plot(pcr[c("d","e","f")], # 必要なデータフレームを抽出
-     labels=pcr_org[5:7], # 変数名を日本語に変更
+plot(PCR.data[c("d","e","f")], # 必要なデータフレームを抽出
+     labels=PCR.org[5:7], # 変数名を日本語に変更
      col="blue", pch=18) # pch については help(points) を参照
-plot(~ d + e + f, data=pcr, # 式を使った指定の方法の例
-     labels=pcr_org[5:7], col="blue", pch=18)
+plot(~ d + e + f, data=PCR.data, # 式を使った指定の方法の例
+     labels=PCR.org[5:7], col="blue", pch=18)
 
 #### "さまざまなグラフ"
 
@@ -246,26 +248,29 @@ plot(~ d + e + f, data=pcr, # 式を使った指定の方法の例
 ## 民間検査会社(d)での検査件数の分布
 
 if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
-hist(pcr$d, breaks=25, labels=TRUE, # ビンの数と度数表示を指定
+hist(PCR.data$d, breaks=25, labels=TRUE, # ビンの数と度数表示を指定
      col="lightblue", border="blue", # 中と境界の色を指定
-     main="検査件数のヒストグラム", xlab=pcr_org[5]) # 軸の名前を指定
+     main="検査件数のヒストグラム", xlab=PCR.org[5]) # 軸の名前を指定
 
 ### 関数 boxplot() の使用例
-## 大学等(e)での検査件数の分布
+## 大学等(e)での検査件数の分布(2021年分)
 
 if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
 boxplot(e ~ date,
-        data=transform(pcr,date=months(as.Date(date))),
+        data=transform(subset(PCR.data, year(date)==2021),
+                       date=month(date)),
         col="orange", main="月ごとの検査件数")
 
 ### 関数 barplot() の使用例
-## 機関ごとの月の検査件数の推移
+## 機関ごとの月の検査件数の推移 (2021年分)
 
 if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
 foo <- aggregate(. ~ date, # 集計したデータを保存
-                 transform(pcr,date=months(as.Date(date))), sum)
-barplot(as.matrix(foo[-1]), col=rainbow(7), # 作成した月ごとの色を利用
-        names.arg=pcr_org[2:7], # 変数名を日本語で表示
+                 transform(subset(PCR.data, year(date)==2021),
+                           date=month(date)),
+                 sum, na.action=na.pass)
+barplot(as.matrix(foo[-1]), col=rainbow(8), # 作成した月(1-8)の色を利用
+        names.arg=PCR.org[2:8], # 変数名を日本語で表示
         beside=TRUE, space=c(.3,3), # 横並びの指定とスペースの設定
         legend.text=foo[,1], args.legend=list(ncol=2)) # 凡例の指定
 

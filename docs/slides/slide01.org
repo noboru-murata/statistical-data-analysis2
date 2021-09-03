@@ -3,7 +3,7 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2021-08-21 15:47:16 mura>
+# Time-stamp: <2021-09-03 15:23:45 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+STARTUP: hidestars content indent
@@ -418,7 +418,7 @@
   - 拡張子は通常
     *.R* または
     *.r* を利用する
-  - *#* 以降の字列は実行されないのでコメントとして有用
+  - *#* 以降の文字列は実行されないのでコメントとして有用
 
 ** 関数の実行
 - 関数の取り扱いは一般的な計算機言語とほぼ同様
