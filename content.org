@@ -5,7 +5,7 @@
 #+LINK: github https://noboru-murata.github.io/statistical-data-analysis2/
 #+STARTUP: hidestars content indent
 
-# Time-stamp: <2021-09-23 14:17:28 mura>
+# Time-stamp: <2021-09-23 16:24:32 mura>
 # C-c C-e H A (generate MDs for all subtrees)
 
 
@@ -81,7 +81,7 @@
 :EXPORT_FILE_NAME: lecture04
 :EXPORT_DATE: <2020-09-19 Sat>
 :END:
-2020年度版
+<2021-09-23 Thu> 更新
 ** スライド
 {{< myslide base="statistical-data-analysis2" name="slide04" >}}
 ** ハンドアウト
