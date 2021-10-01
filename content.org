@@ -5,7 +5,7 @@
 #+LINK: github https://noboru-murata.github.io/statistical-data-analysis2/
 #+STARTUP: hidestars content indent
 
-# Time-stamp: <2021-10-01 16:57:20 mura>
+# Time-stamp: <2021-10-01 17:14:26 mura>
 # C-c C-e H A (generate MDs for all subtrees)
 
 
@@ -50,7 +50,7 @@
 ** 付録
 - [[github:code/slide01.R][RScript]]
 
-** 第2講
+* 第2講
 :PROPERTIES:
 :EXPORT_FILE_NAME: lecture02
 :EXPORT_DATE: <2020-09-19 Sat>
