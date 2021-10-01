@@ -3,7 +3,7 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2021-09-24 10:08:09 mura>
+# Time-stamp: <2021-10-01 16:25:43 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+STARTUP: hidestars content indent
@@ -1388,6 +1388,27 @@
   - datasets::LifeCycleSavings
 - 人工データを用いた数値実験によって
   推定量，\(t\)-統計量，\(F\)-統計量の分布を調べてみよう
+
+
+* 補足
+# 東京大学
+** R: 診断プロット
+- 回帰モデルのあてはまりを視覚的に評価
+  - *Residuals vs Fitted*: 
+    予測値(当て嵌め値)と残差の関係
+  - *Normal Q-Q*:
+    残差の正規性の確認
+  - *Scale-Location*:
+    予測値と標準誤差で正規化した残差の関係
+  - *Residuals vs Leverage*:
+    正規化した残差とテコ比の関係
+  などが用意されている
+  #+begin_src R :eval no :tangle yes
+    ### 関数 lm() による推定結果の診断プロットの使い方
+    est <- lm(temp ~ press + solar + rain, data=TW.subset)
+    plot(est) # 指示に従って <Return> キーを押すと順次表示される
+    ## help(plot.lm) を参照
+  #+end_src
 
 
 * COMMENT 解析の事例

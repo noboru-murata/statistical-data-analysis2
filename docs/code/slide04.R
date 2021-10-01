@@ -274,3 +274,8 @@ summary(lm(temp ~ press + solar + rain, data=TW.subset))
 ## rain を加えても press の係数に変化は見られないが
 ## solar の係数が変化し決定係数が大きくなること(自由度調整済みは若干下がるが)から
 ## solar と rain が相補的にモデルの精度を上げている可能性が示唆される
+
+### 関数 lm() による推定結果の診断プロットの使い方
+est <- lm(temp ~ press + solar + rain, data=TW.subset)
+plot(est) # 指示に従って <Return> キーを押すと順次表示される
+## help(plot.lm) を参照

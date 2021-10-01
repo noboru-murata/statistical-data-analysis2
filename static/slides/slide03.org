@@ -3,7 +3,7 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2021-09-24 10:05:53 mura>
+# Time-stamp: <2021-10-01 15:48:16 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+STARTUP: hidestars content indent
@@ -71,8 +71,6 @@
   #+end_src
   #+end_quote
 
-
-
 #+OPTIONS: reveal_mousewheel:nil
 #+begin_src R :eval no :exports none :tangle yes
   ### 第05回 資料
@@ -80,6 +78,7 @@
 #+begin_src R :exports none
   setwd("~/Desktop/lectures/mva/slide")
 #+end_src
+
 * COMMENT 演習 (東京大学雛型)
 :PROPERTIES:
 :reveal_background: #fef4f4
@@ -388,8 +387,7 @@
   \(S(\boldsymbol{\beta})\)
   をベクトル
   \(\boldsymbol{\beta}\)
-  で微分し，
-  解の条件を求めよ．
+  で微分して解の条件を求めなさい
 
 ** 解答例
 :PROPERTIES:
@@ -851,8 +849,8 @@
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
-- 最小二乗推定量について以下の問に答えなさい．
-  - 残差の標本平均が0となることを示しなさい．
+- 最小二乗推定量について以下を示しなさい
+  - 残差の標本平均が0となる
     #+begin_quote
     以下を示せばよい
     #+begin_src latex
@@ -864,7 +862,7 @@
     #+end_src
     ただし \(\boldsymbol{1}=(1,\dotsc,1)^{\mathsf{T}}\) とする
     #+end_quote
-  - 回帰式が標本平均を通ることを示しなさい．
+  - 回帰式が標本平均を通る
     #+begin_quote
     #+begin_src latex
       \begin{equation}
@@ -1075,8 +1073,8 @@
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
-- 以下の問に答えなさい．
-  - あてはめ値と残差のベクトルが直交することを示しなさい．
+- 以下の関係式を示しなさい
+  - あてはめ値と残差のベクトルが直交する
     #+begin_quote
     #+begin_src latex
       \begin{equation}
@@ -1087,7 +1085,7 @@
       \end{equation}
     #+end_src
     #+end_quote
-  - 残差平方和の分解が成り立つことを示しなさい．
+  - 残差平方和の分解が成り立つ
     #+begin_quote
     #+begin_src latex
       \begin{equation}
@@ -1430,9 +1428,9 @@
     with(TW.est3,
          points(y,fitted.values,col="blue",pch=21))  # 丸
     with(TW.est4,
-         points(y,fitted.values,col="cyan",pch=23))  # 菱形
+         points(y,fitted.values,col="brown",pch=23))  # 菱形
     legend("bottomright",inset=.05, # 凡例の作成
-           col=c("orange","green","blue","cyan"), pch=c(17,15,21,23), 
+           col=c("orange","green","blue","brown"), pch=c(17,15,21,23), 
            legend=c("モデル1","モデル2","モデル3","モデル4"))
   #+end_src
 #+CAPTION: モデルの比較
@@ -1443,7 +1441,7 @@
 
 #+reveal: split
 - 決定係数・自由度調整済み決定係数
-  - モデル1
+  - モデル1: 気温 = F(気圧)
     #+begin_src R :exports results :tangle yes
       ## モデル1
       print(
@@ -1452,7 +1450,7 @@
                 "; adj. R2:",
                 signif(summary(TW.est1)$adj.r.squared,digits=3)))
     #+end_src
-  - モデル2
+  - モデル2: 気温 = F(気圧, 日射)
     #+begin_src R :exports results :tangle yes
       ## モデル2
       print(
@@ -1461,7 +1459,7 @@
                 "; adj. R2:",
                 signif(summary(TW.est2)$adj.r.squared,digits=3)))
     #+end_src
-  - モデル3
+  - モデル3: 気温 = F(気圧, 日射, 湿度)
     #+begin_src R :exports results :tangle yes
       ## モデル3
       print(
@@ -1470,7 +1468,7 @@
                 "; adj. R2:",
                 signif(summary(TW.est3)$adj.r.squared,digits=3)))
     #+end_src
-  - モデル4
+  - モデル4: 気温 = F(気圧, 日射, 雲量)
     #+begin_src R :exports results :tangle yes
       ## モデル4
       print(

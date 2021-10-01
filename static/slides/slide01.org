@@ -3,7 +3,7 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2021-09-03 15:23:45 mura>
+# Time-stamp: <2021-10-01 16:52:17 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+STARTUP: hidestars content indent
@@ -13,6 +13,16 @@
 :END:
 
 * R言語の概要
+
+#+begin_src R :eval no :exports none :tangle yes
+  ### 
+  ### 第1講 サンプルコード
+  ###
+#+end_src
+#+begin_src R :exports none
+  setwd("~/Desktop/lectures/u-tokyo/autumn/slide")
+#+end_src
+
 ** R言語とは
 - 統計計算のための言語と環境の総称
 - オープンソース・フリーソフトウェア
@@ -305,7 +315,7 @@
 ** コンソール (左下)
 - コマンドを入力するためのペイン
 - 例えば，以下のような計算を行うことができる
-  #+begin_src R :eval no :exports code
+  #+begin_src R :eval no :exports code :tangle yes
     ## 一般的な数式を入力すれば計算機として使える
     ## "#" 以降はコメントとして無視される
     1 + 2 + 3 + 4 # 空白は無視される
@@ -313,7 +323,7 @@
   #+end_src
 - コンソール上で終了を指示する以下のコマンドを入力すれば
   R を終了させることができる
-  #+begin_src R :eval no :exports code
+  #+begin_src R :eval no :exports code :tangle yes
     ## R の終了には q() または quit() を用いる
     q()
   #+end_src
@@ -383,7 +393,7 @@
   - + (加算)，- (減算)，* (乗算)，/ (除算)，＾または** (ベキ乗)
   - sin, cos, tan (三角関数)，exp (指数関数)，log (対数関数)
 - [[color:darkgreen][コンソール上での計算例]]
-  #+begin_src R :exports both :results output
+  #+begin_src R :exports both :results output :tangle yes
     ## コンソールに以下のコマンドを入力してみる
     123 * 456 - 789
     (2^2^5 + 1) / 641
@@ -424,7 +434,7 @@
 - 関数の取り扱いは一般的な計算機言語とほぼ同様
 - 関数は引数とその値を指定して実行
 - [[color:darkgreen][正弦関数の計算]]
-  #+begin_src R :eval no :exports code
+  #+begin_src R :eval no :exports code :tangle yes
     sin(x = pi/2)
     ## 上と同値．関数の定義どおりの順序であれば引数の名前は省略可能
     sin(pi/2) 
@@ -452,7 +462,7 @@
 - オブジェクトの内容(情報)を別のオブジェクトに代入することができる
 - 計算結果や良く使う文字列の保存に利用できる
 - [[color:darkgreen][代入操作]]
-  #+begin_src R :exports both :results output
+  #+begin_src R :exports both :results output :tangle yes
     ## 数値を変数 foo に代入する
     (foo <- 3)
     ## 変数 foo を用いて計算し，結果を bar に代入する
