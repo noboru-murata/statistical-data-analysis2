@@ -3,7 +3,7 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2021-10-01 16:52:17 mura>
+# Time-stamp: <2021-10-01 17:25:28 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+STARTUP: hidestars content indent
@@ -323,7 +323,7 @@
   #+end_src
 - コンソール上で終了を指示する以下のコマンドを入力すれば
   R を終了させることができる
-  #+begin_src R :eval no :exports code :tangle yes
+  #+begin_src R :eval no :exports code :tangle no
     ## R の終了には q() または quit() を用いる
     q()
   #+end_src
@@ -376,7 +376,7 @@
 
 ** 終了時の注意
 - 終了時にコンソールに以下のメッセージが表示される場合がある
-  #+begin_src R :eval no :exports code
+  #+begin_src R :eval no :exports code :tangle no
     > q()
     Save workspace image? [y/n/c]:     
   #+end_src
