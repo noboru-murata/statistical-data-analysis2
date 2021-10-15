@@ -40,20 +40,19 @@
 </div>
 <div class="talk-author">
   <p>村田 昇<br />
-  2020.08.31</p>
+  </p>
 </div>
 
 </section>
 
 <section>
-<section id="slide-org37fadb6">
-<h2 id="org37fadb6">講義について</h2>
-<div class="outline-text-2" id="text-org37fadb6">
+<section id="slide-org6527d34">
+<h2 id="org6527d34">講義について</h2>
+<div class="outline-text-2" id="text-org6527d34">
 </div>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org32a75da">
-<h3 id="org32a75da">講義の概要</h3>
+<section id="slide-orgadf07ed">
+<h3 id="orgadf07ed">講義の概要</h3>
 <ul>
 <li>担当: 村田 昇</li>
 <li>講義題目: <b>数理科学続論J</b> / <b>知能社会情報学講義III</b></li>
@@ -72,23 +71,33 @@
 </ul></li>
 
 </ul>
-
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-org960b0ec">
-<h3 id="org960b0ec">受講にあたっての注意</h3>
+<section id="slide-org365a562">
+<h3 id="org365a562">受講にあたっての注意</h3>
 <ul>
 <li>微分積分学，線形代数学および確率統計学が既習であること(が望ましい)</li>
 <li>自身でRの環境を準備できること</li>
-<li>講義の資料はLMS/WEBを通して公開する</li>
-<li>成績評価は課題の提出による</li>
+<li>講義の資料はLMS/WEBを通して公開する
+<ul>
+<li><a href="https://noboru-murata.github.io/statistical-data-analysis2/">https://noboru-murata.github.io/statistical-data-analysis2/</a></li>
+
+</ul></li>
+<li>成績評価は課題の提出による
+<ul>
+<li>自身でデータを収集・整理</li>
+<li>適切な仮説のもと分析を実行</li>
+
+</ul></li>
+<li>講義中の質問は鈴木さん(共同ホスト)が対応します</li>
 
 </ul>
-
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-orgcbabf0b">
-<h3 id="orgcbabf0b">講義計画 (予定)</h3>
+<section id="slide-org2130b36">
+<h3 id="org2130b36">講義計画 (13回予定 10/8 - 1/7)</h3>
 <ul>
 <li>統計ソフトウェアRの使い方 (2回)
 <ul>
@@ -127,16 +136,15 @@ center: true,
 slideNumber: 'c',
 rollingLinks: false,
 keyboard: true,
-mouseWheel: true,
+mouseWheel: false,
 fragmentInURL: true,
 hashOneBasedIndex: false,
 pdfSeparateFragments: false,
-
 overview: true,
 
 transition: 'fade',
 transitionSpeed: 'default',
-chalkboard: { toggleChalkboardButton: { left: '80px' }, toggleNotesButton: { left: '130px'}}, keyboard: { 69: function() { RevealChalkboard.toggleNotesCanvas() }, 87: function() { RevealChalkboard.toggleChalkboard() }, 67: function() { RevealChalkboard.clear() }, 82: function() { RevealChalkboard.reset() }, 68: function() { RevealChalkboard.download() }, 88: function() { RevealChalkboard.colorNext() }, 89: function() { RevealChalkboard.colorPrev() }},
+spotlight: { size: 90, initialPresentationMode: false }, chalkboard: { toggleChalkboardButton: { left: '80px' }, toggleNotesButton: { left: '130px'}}, keyboard: { 69: function() { RevealChalkboard.toggleNotesCanvas() }, 87: function() { RevealChalkboard.toggleChalkboard() }, 67: function() { RevealChalkboard.clear() }, 82: function() { RevealChalkboard.reset() }, 68: function() { RevealChalkboard.download() }, 88: function() { RevealChalkboard.colorNext() }, 89: function() { RevealChalkboard.colorPrev() }, 84: function() { RevealSpotlight.toggleSpotlight() }, 81: function() { RevealSpotlight.togglePresentationMode()}},
 
 // Plugins with reveal.js 4.x
 plugins: [ RevealNotes, RevealSearch, RevealZoom, RevealHighlight ],
@@ -144,7 +152,8 @@ plugins: [ RevealNotes, RevealSearch, RevealZoom, RevealHighlight ],
 // Optional libraries used to extend reveal.js
 dependencies: [
 { src: './reveal.js/plugin/menu/menu.js'},
-{ src: './reveal.js/plugin/chalkboard/chalkboard.js'}]
+{ src: './reveal.js/plugin/chalkboard/chalkboard.js'},
+{ src: './reveal.js/plugin/spotlight/spotlight.js'}]
 
 });
 </script>

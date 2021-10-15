@@ -3,7 +3,7 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2021-09-03 17:05:57 mura>
+# Time-stamp: <2021-10-15 13:58:27 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+STARTUP: hidestars content indent
@@ -133,7 +133,7 @@
   - 作業ディレクトリ以外のファイルを扱う場合はパスを含めて指定する必要がある
 - 作業ディレクトリに関する操作:
   - 確認の仕方: コンソールの上部の表示
-  - 変更の仕方: *Session* メニューを利用
+  - 変更の仕方: 主に *Session* メニューを利用
 
 ** csv形式の操作 (テキスト)
 - 関数 ~write.csv()~: csvファイルの書き出し

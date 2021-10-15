@@ -41,58 +41,60 @@
 </div>
 <div class="talk-author">
   <p>村田 昇<br />
-  2020.10.30</p>
+  </p>
 </div>
 
 </section>
 
 <section>
-<section id="slide-org029fdeb">
-<h2 id="org029fdeb">講義の予定</h2>
+<section id="slide-org51f5b8e">
+<h2 id="org51f5b8e">講義概要</h2>
 <ul>
 <li><b>第1日: 主成分分析の考え方</b></li>
 <li>第2日: 分析の評価と視覚化</li>
 
 </ul>
-
-
 <div class="slide-footer"><br></div>
+
 </section>
 </section>
 <section>
-<section id="slide-org96be269">
-<h2 id="org96be269">主成分分析の考え方</h2>
-<div class="outline-text-2" id="text-org96be269">
+<section id="slide-orga82cb29">
+<h2 id="orga82cb29">主成分分析の考え方</h2>
+<div class="outline-text-2" id="text-orga82cb29">
 </div>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orga2f5d8e">
-<h3 id="orga2f5d8e">主成分分析</h3>
+<section id="slide-org361dba3">
+<h3 id="org361dba3">主成分分析</h3>
 <ul>
-<li><b>PCA</b> (Principal Component Analysis)</li>
 <li>多数の変量のもつ情報の分析・視覚化:
 <ul>
 <li>変量を効率的に縮約して少数の特徴量を構成する</li>
 <li>特徴量に関与する変量間の関係を明らかにする</li>
 
 </ul></li>
+<li><b>PCA</b> (Principal Component Analysis)
+<ul>
+<li>構成する特徴量: <b>主成分</b> (princial component)</li>
+
+</ul></li>
 
 </ul>
-
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-org179878f">
-<h3 id="org179878f">分析の枠組み</h3>
+<section id="slide-orga5a7ea2">
+<h3 id="orga5a7ea2">分析の枠組み</h3>
 <ul>
-<li>\(X_1,\dotsc,X_p\): <b>変数</b></li>
-<li>\(Z_1,\dotsc,Z_d\): <b>特徴量</b> ( \(d\leq p\) )</li>
+<li>\(X_{1},\dotsc,X_{p}\): <b>変数</b></li>
+<li>\(Z_{1},\dotsc,Z_{d}\): <b>特徴量</b> ( \(d\leq p\) )</li>
 <li><p>
 変数と特徴量の関係: (線形結合)
 </p>
 <blockquote>
 <div>
 \begin{equation}
-  Z_k=a_{1k}X_1+\cdots+a_{pk}X_p\quad(k=1,\dotsc,d)
+  Z_k=a_{1k}X_{1}+\cdots+a_{pk}X_{p}\quad(k=1,\dotsc,d)
 \end{equation}
 
 </div>
@@ -111,9 +113,10 @@
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-org2752a68">
-<h3 id="org2752a68">主成分分析の用語</h3>
+<section id="slide-org543c38b">
+<h3 id="org543c38b">主成分分析の用語</h3>
 <ul>
 <li>特徴量 \(Z_k\): <br />
 第 \(k\) <b>主成分得点</b> (principal component score) <br />
@@ -125,11 +128,11 @@
 第 \(k\) <b>主成分方向</b> (principal component direction)</li>
 
 </ul>
-
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-org809d547">
-<h3 id="org809d547">分析の目的</h3>
+<section id="slide-orgb08dba2">
+<h3 id="orgb08dba2">分析の目的</h3>
 <ul>
 <li><p>
 目的:
@@ -137,11 +140,11 @@
 <blockquote>
 <p>
 主成分得点
-\(Z_1,\dots,Z_d\)
+\(Z_{1},\dots,Z_{d}\)
 が変数
-\(X_1,\dotsc,X_p\)
+\(X_{1},\dotsc,X_{p}\)
 の情報を効率よく反映するように主成分負荷量
-\(\boldsymbol{a}_1,\dotsc,\boldsymbol{a}_d\)
+\(\boldsymbol{a}_{1},\dotsc,\boldsymbol{a}_{d}\)
 を観測データから <b>うまく</b> 決定する
 </p>
 </blockquote></li>
@@ -159,11 +162,18 @@
 </ul></li>
 
 </ul>
+<div class="slide-footer"><br></div>
 
+
+</section>
+</section>
+<section>
+<section id="slide-orgf3fe72a" data-background="#fef4f4">
+<h2 id="orgf3fe72a">演習</h2>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org32a1bb9">
-<h3 id="org32a1bb9">R: 主成分分析を実行する関数</h3>
+<section id="slide-org023020e" data-background="#fef4f4">
+<h3 id="org023020e">R: 主成分分析を実行する関数</h3>
 <ul>
 <li>Rの標準的な関数:
 <ul>
@@ -181,16 +191,17 @@
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-orgb34ec78">
-<h3 id="orgb34ec78">R: 関数 <code>prcomp()</code> の使い方</h3>
+<section id="slide-org66449ab" data-background="#fef4f4">
+<h3 id="org66449ab">R: 関数 <code>prcomp()</code> の使い方</h3>
 <ul>
 <li><p>
 データフレームの全ての列を用いる場合:
 </p>
 <div class="org-src-container">
 
-<pre><code class=" R" >prcomp(x = データフレーム)
+<pre><code class="R" >prcomp(x = データフレーム)
 ## x: 必要な変数を含むデータフレーム
 </code></pre>
 </div></li>
@@ -199,19 +210,23 @@
 </p>
 <div class="org-src-container">
 
-<pre><code class=" R" >prcomp(formula = ~ x1の変数名 + ... + xpの変数名,
+<pre><code class="R" >prcomp(formula = ~ x1の変数名 + ... + xpの変数名,
        data = データフレーム)
 ## formula: ~ 変数名 (解析の対象を + で並べる) 左辺はないので注意すること
 ## data: 必要な変数を含むデータフレーム
 </code></pre>
-</div></li>
+</div>
+<ul>
 <li>関数の返り値は <code>help(prcomp)</code> を参照</li>
+
+</ul></li>
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-orgb845ea4" data-background="#fef4f4">
-<h3 id="orgb845ea4">練習問題</h3>
+<section id="slide-org3163a90" data-background="#fef4f4">
+<h3 id="org3163a90">練習問題</h3>
 <ul>
 <li>数値実験により主成分分析の考え方を確認しなさい
 <ul>
@@ -220,7 +235,7 @@
 </p>
 <div class="org-src-container">
 
-<pre><code class=" R" >a &lt;- c(1, 2)/sqrt(5) # 主成分負荷量 (単位ベクトル)
+<pre><code class="R" >a &lt;- c(1, 2)/sqrt(5) # 主成分負荷量 (単位ベクトル)
 ## 観測データ (2次元) の作成 (aのスカラー倍に正規乱数を重畳)
 n &lt;- 100 # データ数
 myData &lt;- data.frame(runif(n,-1,1) %o% a + rnorm(2*n, sd=0.3))
@@ -232,7 +247,7 @@ myData &lt;- data.frame(runif(n,-1,1) %o% a + rnorm(2*n, sd=0.3))
 </p>
 <div class="org-src-container">
 
-<pre><code class=" R" >prcomp(myData) # 全ての主成分を計算する
+<pre><code class="R" >prcomp(myData) # 全ての主成分を計算する
 ahat &lt;- prcomp(myData)$rotation[,1] # 負荷量(rotation)の1列目が第1主成分
 </code></pre>
 </div></li>
@@ -241,31 +256,29 @@ ahat &lt;- prcomp(myData)$rotation[,1] # 負荷量(rotation)の1列目が第1主
 </p>
 <div class="org-src-container">
 
-<pre><code class=" R" >abline(切片,傾き) # 指定の直線を追加できる
+<pre><code class="R" >abline(切片,傾き) # 指定の直線を追加できる
 </code></pre>
 </div></li>
 
 </ul></li>
 
 </ul>
-
-
 <div class="slide-footer"><br></div>
+
 </section>
 </section>
 <section>
-<section id="slide-orgdfbfdfc">
-<h2 id="orgdfbfdfc">第1主成分の計算</h2>
-<div class="outline-text-2" id="text-orgdfbfdfc">
+<section id="slide-org2100333">
+<h2 id="org2100333">第1主成分の計算</h2>
+<div class="outline-text-2" id="text-org2100333">
 </div>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org3ad1e27">
-<h3 id="org3ad1e27">記号の準備</h3>
+<section id="slide-orgfbba5d5">
+<h3 id="orgfbba5d5">記号の準備</h3>
 <ul>
-<li>変数: \(x_1,\dotsc,x_p\) (p次元)</li>
+<li>変数: \(x_{1},\dotsc,x_{p}\) (p次元)</li>
 <li><p>
-観測データ: \(n\) 個の \((x_1,\dotsc,x_p)\) の組
+観測データ: \(n\) 個の \((x_{1},\dotsc,x_{p})\) の組
 </p>
 <blockquote>
 <div>
@@ -275,25 +288,25 @@ ahat &lt;- prcomp(myData)$rotation[,1] # 負荷量(rotation)の1列目が第1主
 
 </div>
 </blockquote></li>
-<li>\(\boldsymbol{x}_i=(x_{i1},\dots,x_{ip})^{\mathsf{T}}\) : <br />
+<li>\(\boldsymbol{x}_{i}=(x_{i1},\dots,x_{ip})^{\mathsf{T}}\) : <br />
 \(i\) 番目の観測データ (\(p\) 次元空間内の1点)</li>
-<li>\(\boldsymbol{a}=(a_1,\dots,a_p)^{\mathsf{T}}\) : <br />
+<li>\(\boldsymbol{a}=(a_{1},\dots,a_{p})^{\mathsf{T}}\) : <br />
 長さ1の \(p\) 次元ベクトル</li>
 
 </ul>
-
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-org5d3734b">
-<h3 id="org5d3734b">係数ベクトルによる射影</h3>
+<section id="slide-org840da73">
+<h3 id="org840da73">係数ベクトルによる射影</h3>
 <ul>
 <li><p>
-データ \(\boldsymbol{x}_i\) の \(\boldsymbol{a}\) 方向成分の長さ:
+データ \(\boldsymbol{x}_{i}\) の \(\boldsymbol{a}\) 方向成分の長さ:
 </p>
 <blockquote>
 <div>
 \begin{equation}
-  \boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_i
+  \boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_{i}
   \quad\text{(スカラー)}
 \end{equation}
 
@@ -301,49 +314,49 @@ ahat &lt;- prcomp(myData)$rotation[,1] # 負荷量(rotation)の1列目が第1主
 </blockquote></li>
 <li><p>
 方向ベクトル \(\boldsymbol{a}\)
-をもつ直線上への点 \(\boldsymbol{x}_i\)
+をもつ直線上への点 \(\boldsymbol{x}_{i}\)
 の直交射影
 </p>
 <blockquote>
 <div>
 \begin{equation}
-  (\boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_i)\,\boldsymbol{a}
-  \quad\text{(スカラー $\times$ ベクトル)}
+  (\boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_{i})\,\boldsymbol{a}
+  \quad\text{(スカラー \(\times\) ベクトル)}
 \end{equation}
 
 </div>
 </blockquote></li>
 
 </ul>
-
 <div class="slide-footer"><br></div>
-</section>
-<section id="slide-org1c29baa">
-<h3 id="org1c29baa">幾何学的描像</h3>
 
-<div id="org8e60d18" class="figure">
+</section>
+<section id="slide-orgdf54ef0">
+<h3 id="orgdf54ef0">幾何学的描像</h3>
+
+<div id="orge575f4d" class="figure">
 <p><img src="./figs/pca-figure.png" alt="pca-figure.png" width="100%" />
 </p>
 <p><span class="figure-number">Figure 1: </span>観測データの直交射影 (\(p=2,n=2\) の場合)</p>
 </div>
-
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-org739ce5b">
-<h3 id="org739ce5b">ベクトル \(\boldsymbol{a}\) の選択の指針</h3>
+<section id="slide-org4ee9b5c">
+<h3 id="org4ee9b5c">ベクトル \(\boldsymbol{a}\) の選択の指針</h3>
 <ul>
 <li><p>
-線形結合での見方
+射影による特徴量の構成
 </p>
 <blockquote>
 <p>
 ベクトル \(\boldsymbol{a}\) を <b>うまく</b> 選んで
-観測データ \(\boldsymbol{x}_1,\dots,\boldsymbol{x}_n\)
+観測データ \(\boldsymbol{x}_{1},\dots,\boldsymbol{x}_n\)
 の情報を最も保持する1変量データを構成:
 </p>
 <div>
 \begin{equation}
-  \boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_1,
+  \boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_{1},
   \boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_2,
   \dotsc,
   \boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_n
@@ -352,7 +365,7 @@ ahat &lt;- prcomp(myData)$rotation[,1] # 負荷量(rotation)の1列目が第1主
 </div>
 </blockquote></li>
 <li><p>
-座標軸での見方
+特徴量のばらつき
 </p>
 <blockquote>
 <p>
@@ -362,23 +375,23 @@ ahat &lt;- prcomp(myData)$rotation[,1] # 負荷量(rotation)の1列目が第1主
 <div>
 \begin{equation}
   \arg\max_{\boldsymbol{a}}
-  \sum_{i=1}^n(\boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_i
+  \sum_{i=1}^n(\boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_{i}
   -\boldsymbol{a}^{\mathsf{T}}\bar{\boldsymbol{x}})^2,
   \quad
   \bar{\boldsymbol{x}}
   =
-  \frac{1}{n}\sum_{i=1}^n\boldsymbol{x}_i,
+  \frac{1}{n}\sum_{i=1}^n\boldsymbol{x}_{i},
 \end{equation}
 
 </div>
 </blockquote></li>
 
 </ul>
-
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-org4737a62">
-<h3 id="org4737a62">ベクトル \(\boldsymbol{a}\) の最適化</h3>
+<section id="slide-org28340b4">
+<h3 id="org28340b4">ベクトル \(\boldsymbol{a}\) の最適化</h3>
 <ul>
 <li><p>
 最適化問題
@@ -392,7 +405,7 @@ ahat &lt;- prcomp(myData)$rotation[,1] # 負荷量(rotation)の1列目が第1主
 \begin{equation}
   f(\boldsymbol{a})
   =
-  \sum_{i=1}^n(\boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_i
+  \sum_{i=1}^n(\boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_{i}
   -\boldsymbol{a}^{\mathsf{T}}\bar{\boldsymbol{x}})^2
 \end{equation}
 
@@ -406,11 +419,19 @@ ahat &lt;- prcomp(myData)$rotation[,1] # 負荷量(rotation)の1列目が第1主
 </ul></li>
 
 </ul>
-
 <div class="slide-footer"><br></div>
+
+
 </section>
-<section id="slide-org430e853">
-<h3 id="org430e853">行列による表現</h3>
+</section>
+<section>
+<section id="slide-org32ea5a8">
+<h2 id="org32ea5a8">第1主成分の解</h2>
+<div class="outline-text-2" id="text-org32ea5a8">
+</div>
+</section>
+<section id="slide-orge1bc76a">
+<h3 id="orge1bc76a">行列による表現</h3>
 <ul>
 <li><p>
 中心化したデータ行列:
@@ -427,16 +448,16 @@ ahat &lt;- prcomp(myData)$rotation[,1] # 負荷量(rotation)の1列目が第1主
   \end{pmatrix}
   =
   \begin{pmatrix}
-    x_{11}-\bar{x}_1 & \cdots & x_{1p}-\bar{x}_p\\
+    x_{11}-\bar{x}_{1} & \cdots & x_{1p}-\bar{x}_{p}\\
     \vdots & & \vdots \\
-    x_{n1}-\bar{x}_1 & \cdots & x_{np}-\bar{x}_p
+    x_{n1}-\bar{x}_{1} & \cdots & x_{np}-\bar{x}_{p}
   \end{pmatrix}
 \end{equation}
 
 </div>
 
 <p>
-回帰分析のデザイン行列を参照
+(回帰分析のデザイン行列を参照)
 </p>
 </blockquote></li>
 <li><p>
@@ -454,16 +475,16 @@ ahat &lt;- prcomp(myData)$rotation[,1] # 負荷量(rotation)の1列目が第1主
 </div>
 
 <p>
-回帰分析の Gram 行列を参照
+(回帰分析の Gram 行列を参照)
 </p>
 </blockquote></li>
 
 </ul>
-
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-org38a964d">
-<h3 id="org38a964d">ベクトル \(\boldsymbol{a}\) の解</h3>
+<section id="slide-orge059e27">
+<h3 id="orge059e27">ベクトル \(\boldsymbol{a}\) の解</h3>
 <ul>
 <li><p>
 最適化問題
@@ -500,17 +521,17 @@ ahat &lt;- prcomp(myData)$rotation[,1] # 負荷量(rotation)の1列目が第1主
 </blockquote></li>
 
 </ul>
-
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-orgd6ca738">
-<h3 id="orgd6ca738">第1主成分</h3>
+<section id="slide-org9db92bb">
+<h3 id="org9db92bb">第1主成分</h3>
 <ul>
-<li>求める \(\boldsymbol{a}\) は
-行列 \(X^{\mathsf{T}}X\) の最大固有ベクトル (長さ1)</li>
+<li>求める \(\boldsymbol{a}\)
+は行列 \(X^{\mathsf{T}}X\) の最大固有ベクトル (長さ1)</li>
 <li><p>
-\(f(\boldsymbol{a})\) は
-行列 \(X^{\mathsf{T}}X\) の最大固有値
+このとき \(f(\boldsymbol{a})\)
+は行列 \(X^{\mathsf{T}}X\) の最大固有値
 </p>
 <blockquote>
 <div>
@@ -530,7 +551,10 @@ ahat &lt;- prcomp(myData)$rotation[,1] # 負荷量(rotation)の1列目が第1主
 <blockquote>
 <div>
 \begin{equation}
-  z_{i1}=a_1x_{i1}+\cdots+a_px_{ip}\quad(i=1,\dots,n)
+  z_{i1}
+  =a_{1}x_{i1}+\cdots+a_{p}x_{ip}
+  =\boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_{i},
+  \quad(i=1,\dots,n)
 \end{equation}
 
 </div>
@@ -538,9 +562,17 @@ ahat &lt;- prcomp(myData)$rotation[,1] # 負荷量(rotation)の1列目が第1主
 
 </ul>
 <div class="slide-footer"><br></div>
+
+
 </section>
-<section id="slide-org0c279da" data-background="#fef4f4">
-<h3 id="org0c279da">練習問題</h3>
+</section>
+<section>
+<section id="slide-orgbb2d3ba" data-background="#fef4f4">
+<h2 id="orgbb2d3ba">演習</h2>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org7af1aec" data-background="#fef4f4">
+<h3 id="org7af1aec">練習問題</h3>
 <ul>
 <li>第1主成分とGram行列の固有ベクトルの関係を調べなさい
 <ul>
@@ -551,7 +583,7 @@ Gram 行列を計算し固有値・固有ベクトルを求める
 </p>
 <div class="org-src-container">
 
-<pre><code class=" R" >## 中心化を行う
+<pre><code class="R" >## 中心化を行う
 X &lt;- scale(myData, scale=FALSE) # help(scale) でオプション scale を確認
 ## Gram 行列を計算する
 G &lt;- crossprod(X)
@@ -564,17 +596,17 @@ eig &lt;- eigen(G) # help(eigen) で返り値を確認
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
 </section>
 <section>
-<section id="slide-orgfc24516">
-<h2 id="orgfc24516">第2主成分以降の計算</h2>
-<div class="outline-text-2" id="text-orgfc24516">
+<section id="slide-org1cad3ef">
+<h2 id="org1cad3ef">Gram 行列の性質</h2>
+<div class="outline-text-2" id="text-org1cad3ef">
 </div>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgbc75df8">
-<h3 id="orgbc75df8">Gram行列の性質</h3>
+<section id="slide-org1d51204">
+<h3 id="org1d51204">Gram 行列の固有値</h3>
 <ul>
 <li>\(X^{\mathsf{T}}X\) は非負定値対称行列</li>
 <li>\(X^{\mathsf{T}}X\) の固有値は0以上の実数
@@ -585,7 +617,19 @@ eig &lt;- eigen(G) # help(eigen) で返り値を確認
 <blockquote>
 <div>
 \begin{equation}
-  \lambda_1\geq\dotsb\geq\lambda_p\quad(\geq0)
+  \lambda_{1}\geq\dotsb\geq\lambda_{p}\quad(\geq0)
+\end{equation}
+
+</div>
+</blockquote></li>
+<li><p>
+固有値 \(\lambda_{k}\) に対する固有ベクトルを \(\boldsymbol{a}_{k}\)(長さ1)とする
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  \|\boldsymbol{a}_{k}\|=1,
+  \quad (k=1,\dotsc,p)
 \end{equation}
 
 </div>
@@ -594,41 +638,27 @@ eig &lt;- eigen(G) # help(eigen) で返り値を確認
 </ul></li>
 
 </ul>
-<ul>
-<li><p>
-固有値 \(\lambda_j\) に対する固有ベクトルを \(\boldsymbol{a}_j\)(長さ1)とする
-</p>
-<blockquote>
-<div>
-\begin{equation}
-  \|\boldsymbol{a}_j\|=1\quad
-  (j=1,\dotsc,p)
-\end{equation}
-
-</div>
-</blockquote></li>
-
-</ul>
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-org9e55cf8">
-<h3 id="org9e55cf8">Gram行列のスペクトル分解</h3>
+<section id="slide-orgeda90d0">
+<h3 id="orgeda90d0">Gram 行列のスペクトル分解</h3>
 <ul>
 <li><p>
-\(\boldsymbol{a}_1,\dotsc,\boldsymbol{a}_p\) は <b>互いに直交</b> するようとることができる
+\(\boldsymbol{a}_{1},\dotsc,\boldsymbol{a}_{p}\) は <b>互いに直交</b> するようとることができる
 </p>
 <blockquote>
 <div>
 \begin{equation}
   j\neq k
   \quad\Rightarrow\quad
-  \boldsymbol{a}_j^{\mathsf{T}}\boldsymbol{a}_k=0
+  \boldsymbol{a}_{j}^{\mathsf{T}}\boldsymbol{a}_k=0
 \end{equation}
 
 </div>
 </blockquote></li>
 <li><p>
-行列 \(X^{\mathsf{T}}X\) (非負値正定対称行列) のスペクトル分解:
+行列 \(X^{\mathsf{T}}X\) (非負定値対称行列) のスペクトル分解:
 </p>
 <blockquote>
 <div>
@@ -648,16 +678,24 @@ eig &lt;- eigen(G) # help(eigen) で返り値を確認
 </blockquote></li>
 
 </ul>
-
 <div class="slide-footer"><br></div>
+
+
 </section>
-<section id="slide-org4a87ec7">
-<h3 id="org4a87ec7">第2主成分の考え方</h3>
+</section>
+<section>
+<section id="slide-org3b6ff9c">
+<h2 id="org3b6ff9c">第2主成分以降の計算</h2>
+<div class="outline-text-2" id="text-org3b6ff9c">
+</div>
+</section>
+<section id="slide-orgd3eb047">
+<h3 id="orgd3eb047">第2主成分の考え方</h3>
 <ul>
 <li>第1主成分:
 <ul>
-<li>主成分負荷量: ベクトル \(\boldsymbol{a}_1\)</li>
-<li>主成分得点: \(\boldsymbol{a}_1^{\mathsf{T}}\boldsymbol{x}_i\) (\(i=1,\dotsc,n\))</li>
+<li>主成分負荷量: ベクトル \(\boldsymbol{a}_{1}\)</li>
+<li>主成分得点: \(\boldsymbol{a}_{1}^{\mathsf{T}}\boldsymbol{x}_{i}\) (\(i=1,\dotsc,n\))</li>
 
 </ul></li>
 <li><p>
@@ -666,7 +704,7 @@ eig &lt;- eigen(G) # help(eigen) で返り値を確認
 <blockquote>
 <div>
 \begin{equation}
-  (\boldsymbol{a}_1^{\mathsf{T}}\boldsymbol{x}_i)\,\boldsymbol{a}_1
+  (\boldsymbol{a}_{1}^{\mathsf{T}}\boldsymbol{x}_{i})\,\boldsymbol{a}_{1}
   \quad(i=1,\dotsc,n)
 \end{equation}
 
@@ -678,10 +716,10 @@ eig &lt;- eigen(G) # help(eigen) で返り値を確認
 <blockquote>
 <div>
 \begin{equation}
-  \tilde{\boldsymbol{x}}_i
+  \tilde{\boldsymbol{x}}_{i}
   =
-  \boldsymbol{x}_i
-  -(\boldsymbol{a}_1^{\mathsf{T}}\boldsymbol{x}_i)\,\boldsymbol{a}_1
+  \boldsymbol{x}_{i}
+  -(\boldsymbol{a}_{1}^{\mathsf{T}}\boldsymbol{x}_{i})\,\boldsymbol{a}_{1}
   \quad(i=1,\dotsc,n)
 \end{equation}
 
@@ -689,11 +727,11 @@ eig &lt;- eigen(G) # help(eigen) で返り値を確認
 </blockquote></li>
 
 </ul>
-
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-org61ec406">
-<h3 id="org61ec406">第2主成分の最適化</h3>
+<section id="slide-org4e2c5f9">
+<h3 id="org4e2c5f9">第2主成分の最適化</h3>
 <ul>
 <li><p>
 最適化問題
@@ -707,23 +745,31 @@ eig &lt;- eigen(G) # help(eigen) で返り値を確認
 \begin{equation}
   \tilde{f}(\boldsymbol{a})
   =
-  \sum_{i=1}^n(\boldsymbol{a}^{\mathsf{T}}\tilde{\boldsymbol{x}}_i
+  \sum_{i=1}^n(\boldsymbol{a}^{\mathsf{T}}\tilde{\boldsymbol{x}}_{i}
   -\boldsymbol{a}^{\mathsf{T}}\bar{\tilde{\boldsymbol{x}}})^2
   \quad\text{ただし}\quad
   \bar{\tilde{\boldsymbol{x}}}
   =
-  \frac{1}{n}\sum_{i=1}^n\tilde{\boldsymbol{x}}_i
+  \frac{1}{n}\sum_{i=1}^n\tilde{\boldsymbol{x}}_{i}
 \end{equation}
 
 </div>
 </blockquote></li>
 
 </ul>
-
 <div class="slide-footer"><br></div>
+
+
 </section>
-<section id="slide-org927c1b1">
-<h3 id="org927c1b1">行列による表現</h3>
+</section>
+<section>
+<section id="slide-org6c31282">
+<h2 id="org6c31282">第2主成分以降の解</h2>
+<div class="outline-text-2" id="text-org6c31282">
+</div>
+</section>
+<section id="slide-org9330d00">
+<h3 id="org9330d00">行列による表現</h3>
 <ul>
 <li><p>
 中心化したデータ行列:
@@ -755,8 +801,8 @@ Gram 行列
     (X-X\boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}})^{\mathsf{T}}
     (X-X\boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}})\\
   &=
-    X^{\mathsf{T}}X-\lambda_{1}\boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}}\\
-  &=
+    X^{\mathsf{T}}X-\lambda_{1}\boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}}
+    =
     \sum_{k=2}^{p}\lambda_{k}\boldsymbol{a}_{k}\boldsymbol{a}_{k}^{\mathsf{T}}
 \end{align}
 
@@ -765,9 +811,10 @@ Gram 行列
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-org1c32268">
-<h3 id="org1c32268">第2主成分の解</h3>
+<section id="slide-orgd2cba92">
+<h3 id="orgd2cba92">第2主成分</h3>
 <ul>
 <li>Gram 行列 \(\tilde{X}^{\mathsf{T}}\tilde{X}\)
 の固有ベクトル \(\boldsymbol{a}_{1}\) の固有値は 0</li>
@@ -782,9 +829,17 @@ Gram 行列
 
 </ul>
 <div class="slide-footer"><br></div>
+
+
 </section>
-<section id="slide-org4e2610f" data-background="#fef4f4">
-<h3 id="org4e2610f">データセットの準備</h3>
+</section>
+<section>
+<section id="slide-orge5e65db" data-background="#fef4f4">
+<h2 id="orge5e65db">演習</h2>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org8b24288" data-background="#fef4f4">
+<h3 id="org8b24288">データセットの準備</h3>
 <ul>
 <li>主成分分析では以下のデータセットを使用します
 <ul>
@@ -812,11 +867,11 @@ Gram 行列
 </ul></li>
 
 </ul>
-
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-org2769057" data-background="#fef4f4">
-<h3 id="org2769057">練習問題</h3>
+<section id="slide-orgb5363cd" data-background="#fef4f4">
+<h3 id="orgb5363cd">練習問題</h3>
 <ul>
 <li>前掲のデータを用いて主成分分析を行いなさい
 <ul>
@@ -825,7 +880,7 @@ Gram 行列
 </p>
 <div class="org-src-container">
 
-<pre><code class=" R" >JS.data &lt;- read.csv("data/japan_social.csv", row.names=1)
+<pre><code class="R" >JS.data &lt;- read.csv("data/japan_social.csv", row.names=1)
 </code></pre>
 </div></li>
 <li>データの散布図行列を描く</li>
@@ -835,12 +890,24 @@ Gram 行列
 </p>
 <div class="org-src-container">
 
-<pre><code class=" R" >JS.pca &lt;- prcomp(JS.data, scale=TRUE)
+<pre><code class="R" >JS.pca &lt;- prcomp(JS.data, scale=TRUE)
 ## scale=TRUE とすると変数を正規化してから解析する
 </code></pre>
 </div></li>
 
 </ul></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+
+</section>
+</section>
+<section>
+<section id="slide-orgee4eed6">
+<h2 id="orgee4eed6">次週の予定</h2>
+<ul>
+<li>第1日: 主成分分析の考え方</li>
+<li><b>第2日: 分析の評価と視覚化</b></li>
 
 </ul>
 <div class="slide-footer"><br></div>
@@ -869,12 +936,11 @@ mouseWheel: false,
 fragmentInURL: true,
 hashOneBasedIndex: false,
 pdfSeparateFragments: false,
-
 overview: true,
 
 transition: 'fade',
 transitionSpeed: 'default',
-chalkboard: { toggleChalkboardButton: { left: '80px' }, toggleNotesButton: { left: '130px'}}, keyboard: { 69: function() { RevealChalkboard.toggleNotesCanvas() }, 87: function() { RevealChalkboard.toggleChalkboard() }, 67: function() { RevealChalkboard.clear() }, 82: function() { RevealChalkboard.reset() }, 68: function() { RevealChalkboard.download() }, 88: function() { RevealChalkboard.colorNext() }, 89: function() { RevealChalkboard.colorPrev() }},
+spotlight: { size: 90, initialPresentationMode: false }, chalkboard: { toggleChalkboardButton: { left: '80px' }, toggleNotesButton: { left: '130px'}}, keyboard: { 69: function() { RevealChalkboard.toggleNotesCanvas() }, 87: function() { RevealChalkboard.toggleChalkboard() }, 67: function() { RevealChalkboard.clear() }, 82: function() { RevealChalkboard.reset() }, 68: function() { RevealChalkboard.download() }, 88: function() { RevealChalkboard.colorNext() }, 89: function() { RevealChalkboard.colorPrev() }, 84: function() { RevealSpotlight.toggleSpotlight() }, 81: function() { RevealSpotlight.togglePresentationMode()}},
 
 // Plugins with reveal.js 4.x
 plugins: [ RevealNotes, RevealSearch, RevealZoom, RevealHighlight ],
@@ -882,7 +948,8 @@ plugins: [ RevealNotes, RevealSearch, RevealZoom, RevealHighlight ],
 // Optional libraries used to extend reveal.js
 dependencies: [
 { src: './reveal.js/plugin/menu/menu.js'},
-{ src: './reveal.js/plugin/chalkboard/chalkboard.js'}]
+{ src: './reveal.js/plugin/chalkboard/chalkboard.js'},
+{ src: './reveal.js/plugin/spotlight/spotlight.js'}]
 
 });
 </script>
