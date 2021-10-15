@@ -3,7 +3,7 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2021-10-15 18:06:51 mura>
+# Time-stamp: <2021-10-15 18:42:50 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+STARTUP: hidestars content indent
@@ -794,8 +794,8 @@
 :reveal_background: #fef4f4
 :END:
 - 適当なデータに対してグラフの作成を行ってみよう
-  - PCR検査件数データ ([[./data/pcr_case_daily.csv][~pcr_case_daily.csv~]])
-  - 東京都の気候データ ([[./data/tokyo_weather.csv][~tokyo_weather.csv~]])
+  - PCR検査件数データ ([[../data/pcr_case_daily.csv][~pcr_case_daily.csv~]])
+  - 東京都の気候データ ([[../data/tokyo_weather.csv][~tokyo_weather.csv~]])
   - R言語に用意されているデータ (関数 ~data()~ で一覧表示)
 
     
