@@ -1,16 +1,25 @@
-### 第07回 練習問題解答例
+### 
+### 第7講 サンプルコード
+###
 
-### 練習1
-### 寄与率・累積寄与率
+### 
+### 練習問題 寄与率・累積寄与率
+###
 
 ### 総務省統計局の都道府県別の社会生活統計指標データ
-## - Pref: 都道府県名
-## - Forest: 森林面積割合 (%) 2014年
-## - Agri: 就業者１人当たり農業産出額(販売農家）(万円) 2014年
-## - Ratio: 全国総人口に占める人口割合 (%) 2015年
-## - Land: 土地生産性（耕地面積１ヘクタール当たり）(万円) 2014年
-## - Goods: 商業年間商品販売額［卸売業＋小売業］（事業所当たり）(百万円) 2013年
+### - Pref: 都道府県名
+### - Forest: 森林面積割合 (%) 2014年
+### - Agri: 就業者１人当たり農業産出額(販売農家）(万円) 2014年
+### - Ratio: 全国総人口に占める人口割合 (%) 2015年
+### - Land: 土地生産性（耕地面積１ヘクタール当たり）(万円) 2014年
+### - Goods: 商業年間商品販売額［卸売業＋小売業］（事業所当たり）(百万円) 2013年
 JS.data <- read.csv("data/japan_social.csv", row.names=1)
+## 視覚化の例 (データの性質を見ておくことは重要)
+plot(JS.data,col="blue") # 散布図
+plot(Forest ~ Agri, data=JS.data, col="blue") # 特定の要素
+text(Forest -1 ~ Agri, data=JS.data, # 県名を付与
+     labels=rownames(JS.data), col="orange")
+## 主成分分析
 JS.pca0 <- prcomp(JS.data) # 正規化なし
 JS.pca1 <- prcomp(JS.data, scale.=TRUE) # 正規化あり
 ## 正規化しない場合
@@ -25,7 +34,8 @@ JS.pca1$rotation
 ### UScereal
 ## 各変数の内容についてはhelpを参照
 library(MASS)
-UC.data <- UScereal[sapply(UScereal, is.double)]
+UC.data <- UScereal[sapply(UScereal, is.double)] 
+## 適当な方法で視覚化をすることを推奨
 UC.pca0 <- prcomp(UC.data)
 UC.pca1 <- prcomp(UC.data, scale.=TRUE)
 summary(UC.pca0)
@@ -35,16 +45,17 @@ summary(UC.pca1)
 plot(UC.pca1)
 UC.pca1$rotation
 
-### 練習2
-### 主成分分析の視覚化
+### 
+### 練習問題 主成分分析の視覚化
+### 
 
-## 総務省統計局の都道府県別の社会生活統計指標データ
-## - Pref: 都道府県名
-## - Forest: 森林面積割合 (%) 2014年
-## - Agri: 就業者１人当たり農業産出額(販売農家）(万円) 2014年
-## - Ratio: 全国総人口に占める人口割合 (%) 2015年
-## - Land: 土地生産性（耕地面積１ヘクタール当たり）(万円) 2014年
-## - Goods: 商業年間商品販売額［卸売業＋小売業］（事業所当たり）(百万円) 2013年
+### 総務省統計局の都道府県別の社会生活統計指標データ
+### - Pref: 都道府県名
+### - Forest: 森林面積割合 (%) 2014年
+### - Agri: 就業者１人当たり農業産出額(販売農家）(万円) 2014年
+### - Ratio: 全国総人口に占める人口割合 (%) 2015年
+### - Land: 土地生産性（耕地面積１ヘクタール当たり）(万円) 2014年
+### - Goods: 商業年間商品販売額［卸売業＋小売業］（事業所当たり）(百万円) 2013年
 JS.data <- read.csv("data/japan_social.csv", row.names=1)
 JS.pca <- prcomp(JS.data, scale.=TRUE) # データを正規化      
 biplot(JS.pca, # バイプロット(既定値: 第1 vs 第2主成分)
@@ -58,7 +69,7 @@ biplot(JS.pca, # バイプロット(既定値: 第1 vs 第2主成分)
 ## 気になるデータをいくつか見てみる
 ## 並べ替えるためにデータフレームの列をベクトルとして取り出す
 JS.agri <- # １人当たり農業産出額に行名を付ける
-  setNames(JS.data$Agri, row.names(JS.data))
+    setNames(JS.data$Agri, row.names(JS.data))
 head(sort(JS.agri, decreasing=TRUE)) # 降順に並べてみる
 
 ## 第2,3主成分を確認する
@@ -67,7 +78,7 @@ biplot(JS.pca, choices=c(2,3), # バイプロット(第2 vs 第3主成分)
        col=c("blue","red")) 
 ## 第3主成分方向の負の向きには土地生産性の上位県が集中
 JS.land <- # 土地生産性に行名を付けて取出
-  setNames(JS.data$Land, row.names(JS.data))
+    setNames(JS.data$Land, row.names(JS.data))
 head(sort(JS.land, decreasing=TRUE))
 head(sort(JS.land))
 ## 北海道の土地生産性は低いことがわかる

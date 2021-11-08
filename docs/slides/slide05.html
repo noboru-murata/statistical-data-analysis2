@@ -47,8 +47,8 @@
 </section>
 
 <section>
-<section id="slide-org0332042">
-<h2 id="org0332042">講義概要</h2>
+<section id="slide-org35b5752">
+<h2 id="org35b5752">講義概要</h2>
 <ul>
 <li>第1回: 回帰モデルの考え方と推定</li>
 <li>第2回: モデルの評価</li>
@@ -60,13 +60,13 @@
 </section>
 </section>
 <section>
-<section id="slide-orgf032095">
-<h2 id="orgf032095">回帰分析の復習</h2>
-<div class="outline-text-2" id="text-orgf032095">
+<section id="slide-orgb201d54">
+<h2 id="orgb201d54">回帰分析の復習</h2>
+<div class="outline-text-2" id="text-orgb201d54">
 </div>
 </section>
-<section id="slide-org6c46789">
-<h3 id="org6c46789">線形回帰モデル</h3>
+<section id="slide-org1a30ac6">
+<h3 id="org1a30ac6">線形回帰モデル</h3>
 <ul>
 <li><b>目的変数</b> を <b>説明変数</b> で説明する関係式を構成:
 <ul>
@@ -102,8 +102,8 @@
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org8716fd9">
-<h3 id="org8716fd9">問題設定</h3>
+<section id="slide-org638ecd6">
+<h3 id="org638ecd6">問題設定</h3>
 <ul>
 <li><p>
 確率モデル:
@@ -135,8 +135,8 @@
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-orgc37bd69">
-<h3 id="orgc37bd69">解</h3>
+<section id="slide-org7a0fc63">
+<h3 id="org7a0fc63">解</h3>
 <ul>
 <li><p>
 解の条件: <b>正規方程式</b>
@@ -169,53 +169,14 @@
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org1cca09b">
-<h3 id="org1cca09b">寄与率</h3>
-<ul>
-<li><p>
-<b>決定係数</b> (R-squared):
-</p>
-<blockquote>
-<div>
-\begin{equation}
-  R^2
-  =
-  1-\frac{\sum_{i=1}^n\hat{\epsilon}_i^2}{\sum_{i=1}^n(y_i-\bar{y})^2}
-\end{equation}
-
-</div>
-</blockquote></li>
-<li><p>
-<b>自由度調整済み決定係数</b> (adjusted R-squared):
-</p>
-<blockquote>
-<div>
-\begin{equation}
-  \bar{R}^2
-  =
-  1-\frac{\frac{1}{n{-}p{-}1}\sum_{i=1}^n\hat{\epsilon}_i^2}
-  {\frac{1}{n{-}1}\sum_{i=1}^n(y_i-\bar{y})^2}
-\end{equation}
-
-</div>
-</blockquote>
-<ul>
-<li>不偏分散で補正</li>
-
-</ul></li>
-
-</ul>
-<div class="slide-footer"><br></div>
-
-</section>
-<section id="slide-org98d4676">
-<h3 id="org98d4676">実データによる例</h3>
+<section id="slide-org5992b20">
+<h3 id="org5992b20">実データによる例</h3>
 <ul>
 <li><p>
 東京の8月の気候 (気温,降雨,日射,降雪,風速,気圧,湿度,雲量)
 に関するデータ(の一部)
 </p>
-<pre class="example" id="orge675eda">
+<pre class="example" id="org55b9e4c">
     month day day_of_week temp rain solar snow wdir wind  press humid cloud
 214     8   1         Sat 26.1  0.5 19.79    0   NE  2.6 1009.3    77   7.8
 215     8   2         Sun 26.3  0.0 19.53    0  SSE  2.4 1011.0    75   5.5
@@ -261,7 +222,7 @@
 </ul>
 
 
-<div id="orgb858724" class="figure">
+<div id="org9a1a934" class="figure">
 <p><img src="figs/05_variables.png" alt="05_variables.png" />
 </p>
 <p><span class="figure-number">Figure 1: </span>説明変数と目的変数の散布図</p>
@@ -278,15 +239,53 @@
 </ul>
 
 
-<div id="org634b562" class="figure">
+<div id="org84ef3be" class="figure">
 <p><img src="figs/05_models.png" alt="05_models.png" />
 </p>
 <p><span class="figure-number">Figure 2: </span>モデルの比較</p>
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org3658fd2">
-<h3 id="org3658fd2">モデルの評価</h3>
+<section id="slide-org7dbaf22">
+<h3 id="org7dbaf22">寄与率</h3>
+<ul>
+<li><p>
+<b>決定係数</b> (R-squared):
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  R^2
+  =
+  1-\frac{\sum_{i=1}^n\hat{\epsilon}_i^2}{\sum_{i=1}^n(y_i-\bar{y})^2}
+\end{equation}
+
+</div>
+</blockquote></li>
+<li><p>
+<b>自由度調整済み決定係数</b> (adjusted R-squared):
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  \bar{R}^2
+  =
+  1-\frac{\frac{1}{n{-}p{-}1}\sum_{i=1}^n\hat{\epsilon}_i^2}
+  {\frac{1}{n{-}1}\sum_{i=1}^n(y_i-\bar{y})^2}
+\end{equation}
+
+</div>
+</blockquote>
+<ul>
+<li>不偏分散で補正</li>
+
+</ul></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgc42dbe4">
+<h3 id="orgc42dbe4">モデルの評価</h3>
 <ul>
 <li>決定係数
 <ul>
@@ -324,8 +323,8 @@
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org9928bc7">
-<h3 id="org9928bc7">\(F\)-統計量による検定</h3>
+<section id="slide-org336f711">
+<h3 id="org336f711">\(F\)-統計量による検定</h3>
 <ul>
 <li>説明変数のうち1つでも役に立つか否かを検定する
 <ul>
@@ -351,8 +350,8 @@
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-orgeaa4be7">
-<h3 id="orgeaa4be7">モデルの評価</h3>
+<section id="slide-orgde37c86">
+<h3 id="orgde37c86">モデルの評価</h3>
 <ul>
 <li>決定係数と\(F\)-統計量
 <ul>
@@ -390,8 +389,8 @@
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-orge9543f8">
-<h3 id="orge9543f8">\(t\)-統計量による検定</h3>
+<section id="slide-org32bad5c">
+<h3 id="org32bad5c">\(t\)-統計量による検定</h3>
 <ul>
 <li>回帰係数 \(\beta_j\) が回帰式に寄与するか否かを検定する
 <ul>
@@ -416,8 +415,8 @@
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-orgc331a6f">
-<h3 id="orgc331a6f">モデルの評価</h3>
+<section id="slide-org983fd5a">
+<h3 id="org983fd5a">モデルの評価</h3>
 <ul>
 <li>回帰係数の推定量と\(t\)-統計量
 <ul>
@@ -497,13 +496,13 @@ cloud          0.013     0.1250   0.104  0.91800
 </section>
 </section>
 <section>
-<section id="slide-orgad2b87d">
-<h2 id="orgad2b87d">回帰モデルによる予測</h2>
-<div class="outline-text-2" id="text-orgad2b87d">
+<section id="slide-orgcf563e3">
+<h2 id="orgcf563e3">回帰モデルによる予測</h2>
+<div class="outline-text-2" id="text-orgcf563e3">
 </div>
 </section>
-<section id="slide-org522f661">
-<h3 id="org522f661">予測</h3>
+<section id="slide-orgf68cae8">
+<h3 id="orgf68cae8">予測</h3>
 <ul>
 <li><p>
 新しいデータ (説明変数) \(\boldsymbol{x}\) に対する <b>予測値</b>
@@ -555,8 +554,8 @@ cloud          0.013     0.1250   0.104  0.91800
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org825a582">
-<h3 id="org825a582">予測値の性質</h3>
+<section id="slide-org9a604cb">
+<h3 id="org9a604cb">予測値の性質</h3>
 <ul>
 <li><p>
 推定量は以下の性質をもつ多変量正規分布
@@ -600,13 +599,13 @@ cloud          0.013     0.1250   0.104  0.91800
 </section>
 </section>
 <section>
-<section id="slide-orgb401b88">
-<h2 id="orgb401b88">信頼区間</h2>
-<div class="outline-text-2" id="text-orgb401b88">
+<section id="slide-org4e72081">
+<h2 id="org4e72081">信頼区間</h2>
+<div class="outline-text-2" id="text-org4e72081">
 </div>
 </section>
-<section id="slide-orgd83261b">
-<h3 id="orgd83261b">最適な予測値との差</h3>
+<section id="slide-orgc6bfb42">
+<h3 id="orgc6bfb42">最適な予測値との差</h3>
 <ul>
 <li><p>
 差の分布は以下の平均・分散をもつ正規分布に従う
@@ -643,8 +642,8 @@ cloud          0.013     0.1250   0.104  0.91800
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org2314f99">
-<h3 id="org2314f99">信頼区間</h3>
+<section id="slide-orgcf598fc">
+<h3 id="orgcf598fc">信頼区間</h3>
 <ul>
 <li><p>
 未知の分散を不偏分散で推定
@@ -696,13 +695,13 @@ cloud          0.013     0.1250   0.104  0.91800
 </section>
 </section>
 <section>
-<section id="slide-org3726ab9">
-<h2 id="org3726ab9">予測区間</h2>
-<div class="outline-text-2" id="text-org3726ab9">
+<section id="slide-orgebe801e">
+<h2 id="orgebe801e">予測区間</h2>
+<div class="outline-text-2" id="text-orgebe801e">
 </div>
 </section>
-<section id="slide-org36f0395">
-<h3 id="org36f0395">観測値との差</h3>
+<section id="slide-org66b0a2c">
+<h3 id="org66b0a2c">観測値との差</h3>
 <ul>
 <li><p>
 差の分布は以下の平均・分散をもつ正規分布に従う
@@ -744,8 +743,8 @@ cloud          0.013     0.1250   0.104  0.91800
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org6fa7da1">
-<h3 id="org6fa7da1">予測区間</h3>
+<section id="slide-orgfd0b9cf">
+<h3 id="orgfd0b9cf">予測区間</h3>
 <ul>
 <li><p>
 未知の分散を不偏分散で推定
@@ -800,12 +799,12 @@ cloud          0.013     0.1250   0.104  0.91800
 </section>
 </section>
 <section>
-<section id="slide-orgd7a5b91" data-background="#fef4f4">
-<h2 id="orgd7a5b91">演習</h2>
+<section id="slide-org07c9cbd" data-background="#fef4f4">
+<h2 id="org07c9cbd">演習</h2>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org1d26ad4" data-background="#fef4f4">
-<h3 id="org1d26ad4">R: 予測値と区間推定</h3>
+<section id="slide-org1ba12ff" data-background="#fef4f4">
+<h3 id="org1ba12ff">R: 予測値と区間推定</h3>
 <ul>
 <li><p>
 関数 <code>predict()</code> を用いた予測
@@ -832,8 +831,8 @@ pint &lt;- predict(est, newdata=test,
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-orgad2da14" data-background="#fef4f4">
-<h3 id="orgad2da14">R: モデルからの予測</h3>
+<section id="slide-org7198eb9" data-background="#fef4f4">
+<h3 id="org7198eb9">R: モデルからの予測</h3>
 <ul>
 <li><p>
 東京の気候データによる例
@@ -885,8 +884,8 @@ legend("bottomright",inset=.05, pch=15, # 凡例の作成
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org7c2dcf2" data-background="#fef4f4">
-<h3 id="org7c2dcf2">練習問題</h3>
+<section id="slide-orgbd7b2a4" data-background="#fef4f4">
+<h3 id="orgbd7b2a4">練習問題</h3>
 <ul>
 <li><p>
 東京の気候データを用いて以下の実験を試みなさい
@@ -911,13 +910,13 @@ TW.test  &lt;- subset(TW.data, subset= month %in% 9) # 予測用データ
 </section>
 </section>
 <section>
-<section id="slide-org1b47109">
-<h2 id="org1b47109">発展的なモデル</h2>
-<div class="outline-text-2" id="text-org1b47109">
+<section id="slide-orgec059c5">
+<h2 id="orgec059c5">発展的なモデル</h2>
+<div class="outline-text-2" id="text-orgec059c5">
 </div>
 </section>
-<section id="slide-orgffec250">
-<h3 id="orgffec250">非線形性を含むモデル</h3>
+<section id="slide-org200aa42">
+<h3 id="org200aa42">非線形性を含むモデル</h3>
 <ul>
 <li>目的変数 \(Y\)</li>
 <li>説明変数 \(X_1,\dotsc,X_p\)</li>
@@ -932,8 +931,8 @@ TW.test  &lt;- subset(TW.data, subset= month %in% 9) # 予測用データ
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org8e2a673">
-<h3 id="org8e2a673">カテゴリカル変数を含むモデル</h3>
+<section id="slide-org96fe32b">
+<h3 id="org96fe32b">カテゴリカル変数を含むモデル</h3>
 <ul>
 <li>数値ではないデータ
 <ul>
@@ -967,12 +966,12 @@ TW.test  &lt;- subset(TW.data, subset= month %in% 9) # 予測用データ
 </section>
 </section>
 <section>
-<section id="slide-orge4adf18" data-background="#fef4f4">
-<h2 id="orge4adf18">演習</h2>
+<section id="slide-orgd440713" data-background="#fef4f4">
+<h2 id="orgd440713">演習</h2>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org842aeb8" data-background="#fef4f4">
-<h3 id="org842aeb8">R: 線形でないモデル式の書き方</h3>
+<section id="slide-orgd0fe314" data-background="#fef4f4">
+<h3 id="orgd0fe314">R: 線形でないモデル式の書き方</h3>
 <ul>
 <li>交互作用を記述するためには特殊な記法がある</li>
 <li>非線形変換はそのまま関数を記述すればよい</li>
@@ -995,8 +994,8 @@ Y ~ X1 + I(X2^2)     # X1 + X2^2
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgde261e7" data-background="#fef4f4">
-<h3 id="orgde261e7">R: カテゴリカル変数の取り扱い</h3>
+<section id="slide-org99afc30" data-background="#fef4f4">
+<h3 id="org99afc30">R: カテゴリカル変数の取り扱い</h3>
 <ul>
 <li>何も宣言しなくても通常は適切に対応してくれる</li>
 <li><p>
@@ -1024,8 +1023,8 @@ str(dat4) # 条件の真偽で2値に類別される
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org9ecb5b1" data-background="#fef4f4">
-<h3 id="org9ecb5b1">練習問題</h3>
+<section id="slide-orgbe46307" data-background="#fef4f4">
+<h3 id="orgbe46307">練習問題</h3>
 <ul>
 <li>東京の気候データ(9-11月)を用いて
 気温を回帰する以下のモデルを検討しなさい
@@ -1051,12 +1050,12 @@ str(dat4) # 条件の真偽で2値に類別される
 </section>
 </section>
 <section>
-<section id="slide-orgc41f44c">
-<h2 id="orgc41f44c">補足</h2>
+<section id="slide-org60cce92">
+<h2 id="org60cce92">補足</h2>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgf288db9">
-<h3 id="orgf288db9">R: モデルの探索</h3>
+<section id="slide-orgdcf2868">
+<h3 id="orgdcf2868">R: モデルの探索</h3>
 <ul>
 <li>変数が増えるとモデルの比較が困難</li>
 <li><p>
@@ -1071,7 +1070,7 @@ summary(lm(sales ~ radio, data=Adv.data))
 summary(lm(sales ~ TV + radio, data=Adv.data))
 summary(lm(sales ~ TV + radio + newspaper, data=Adv.data))
 summary(init &lt;- lm(sales ~ TV * radio * newspaper, data=Adv.data))
-opt &lt;- step(init)
+opt &lt;- step(init) # step関数による探索 (最大のモデルから削減増加を行う)
 summary(opt)
 </code></pre>
 </div>
@@ -1084,8 +1083,8 @@ summary(opt)
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-orgdd946d8">
-<h3 id="orgdd946d8">R: car package</h3>
+<section id="slide-org825efc0">
+<h3 id="org825efc0">R: car package</h3>
 <ul>
 <li>回帰モデルの評価
 <ul>
@@ -1116,8 +1115,8 @@ summary(opt)
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-orgd4e0fcb">
-<h3 id="orgd4e0fcb">例題</h3>
+<section id="slide-orgd3834f9">
+<h3 id="orgd3834f9">例題</h3>
 <ul>
 <li>これまでに用いたデータでモデルを更新して評価してみよう
 <ul>
@@ -1139,8 +1138,8 @@ summary(opt)
 </section>
 </section>
 <section>
-<section id="slide-org9a0fbfb">
-<h2 id="org9a0fbfb">次週の予定</h2>
+<section id="slide-orgff7eb69">
+<h2 id="orgff7eb69">次週の予定</h2>
 <ul>
 <li><b>第1回: 主成分分析の考え方</b></li>
 <li>第2回: 分析の評価と視覚化</li>
