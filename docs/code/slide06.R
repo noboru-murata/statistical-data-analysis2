@@ -21,7 +21,7 @@ abline(0, a[2]/a[1], # 切片と傾きを指定
 ## 主成分負荷量の推定
 est <- prcomp(myData)
 ahat <- est$rotation[,1]
-## 第１主成分負荷量がaに非常に近い (符号は反対)
+## 第１主成分負荷量がaに非常に近い (乱数によっては符号が反対になることもある)
 abline(0, ahat[2]/ahat[1],
        col="orange", lty="dotted", lwd=2)
 ## 主成分得点の計算
