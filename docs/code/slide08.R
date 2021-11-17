@@ -9,9 +9,7 @@
 ### 東京の気象データによる判別分析
 library(MASS)
 ## データの整理
-TW.data <- transform(read.csv("data/tokyo_weather_reg.csv"),
-                     month=as.numeric(months(as.Date(date), 
-                                             abbreviate=TRUE)))
+TW.data <- read.csv("data/tokyo_weather.csv")
 TW.subset  <- subset(TW.data,
                      subset= month %in% c(10,11),
                      select=c(temp,humid,month))
@@ -52,16 +50,14 @@ with(TW.train,
             pch=month, col=month+3))
 abline(myLine(TW.lda), col="blue", lwd=2)
 
-###
+### 
 ### 練習問題 2次判別
-###
+### 
 
 ### 東京の気象データによる判別分析
 library(MASS)
 ## データの整理 (前に実行している場合は不要)
-TW.data <- transform(read.csv("data/tokyo_weather_reg.csv"),
-                     month=as.numeric(months(as.Date(date), 
-                                             abbreviate=TRUE)))
+TW.data <- read.csv("data/tokyo_weather.csv")
 TW.subset  <- subset(TW.data,
                      subset= month %in% c(10,11),
                      select=c(temp,humid,month))
@@ -88,14 +84,12 @@ with(TW.test,
 
 ### 
 ### 練習問題 多値判別
-###
+### 
 
 ### 東京の気象データによる判別分析
 library(MASS)
 ## データの整理 (前に実行している場合は不要)
-TW.data <- transform(read.csv("data/tokyo_weather_reg.csv"),
-                     month=as.numeric(months(as.Date(date), 
-                                             abbreviate=TRUE)))
+TW.data <- read.csv("data/tokyo_weather.csv")
 TW.subset  <- subset(TW.data,
                      subset= month %in% c(9,10,11),
                      select=c(temp,humid,month))
