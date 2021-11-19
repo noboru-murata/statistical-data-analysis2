@@ -2,6 +2,17 @@
 ### 第7講 サンプルコード
 ###
 
+## 散布図 (正規化なし)
+JS.data <- read.csv("data/japan_social.csv", row.names=1)
+pairs(JS.data, col="orchid") # 座標に注意
+
+boxplot(JS.data, col="orchid") # 箱ひげ図．変数のばらつきに大きな違いがある
+
+## データの視覚化
+pairs(scale(JS.data), col="blue") # いくつかの変数は相関が強い
+
+boxplot(scale(JS.data), col="blue") # 箱ひげ図．変数のばらつきに大きな違いがある
+
 ### 
 ### 練習問題 寄与率・累積寄与率
 ###
