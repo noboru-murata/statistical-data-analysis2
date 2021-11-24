@@ -3,7 +3,7 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2021-11-17 11:54:43 mura>
+# Time-stamp: <2021-11-24 21:17:49 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+STARTUP: hidestars content indent
@@ -410,7 +410,7 @@
   #+begin_quote
   #+begin_src latex
     \begin{align}
-      &p_{k}(\boldsymbol{x}) < p_{k}(\boldsymbol{x})\\
+      &p_{k}(\boldsymbol{x}) < p_{l}(\boldsymbol{x})\\
       &\Leftrightarrow
 	f_{k}(\boldsymbol{x})\pi_{k} < f_l(\boldsymbol{x})\pi_l\\
       &\Leftrightarrow
