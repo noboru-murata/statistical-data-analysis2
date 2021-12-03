@@ -3,7 +3,7 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2021-11-17 11:56:57 mura>
+# Time-stamp: <2021-12-03 19:06:25 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+STARTUP: hidestars content indent
@@ -629,7 +629,7 @@
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
-- 前回と同様に東京の機構データの線形判別を行い，
+- 前回と同様に東京の気候データの線形判別を行い，
   以下を確認しなさい
   - 10月と11月の気温と湿度のデータを抽出する
     #+begin_src R :eval no
