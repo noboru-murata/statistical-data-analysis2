@@ -1,7 +1,8 @@
-### 第10回 練習問題解答例
+### 第10講 資料
 
-### 練習1
-### 距離の計算
+### 
+### 練習問題 距離の計算
+### 
 
 ### パッケージの読み込み 
 library(cluster) # require(cluster)
@@ -37,7 +38,7 @@ as.matrix(dsy.man)[8:14, 8:14]
 ## 大阪と四国の間の距離
 as.matrix(dsy.euc)[27, 36:39, drop=FALSE] # 行列として表示
 as.matrix(dsy.man)["Osaka", # 1行なので標準ではベクトルとして扱われる
-		   c("Tokushima","Kagawa","Ehime","Kochi")]
+                   c("Tokushima","Kagawa","Ehime","Kochi")]
 
 ## ユークリッド距離とマンハッタン距離の散布図
 plot(dsy.euc, dsy.man,
@@ -47,8 +48,9 @@ plot(dsy.euc, dsy.man,
      xlab="Euclid dist.", ylab="Manhattan dist.")
 ## いくつか順序が入れ替わっていることがわかる
 
-### 練習2.1
-### 階層的クラスタリング
+### 
+### 練習問題 階層的クラスタリング
+### 
 
 ## クラスタリングの実行
 JS.dst <- dist(scale(JS.data)) # 正規化してユークリッド距離を測る
@@ -87,8 +89,9 @@ plot(predict(JS.pca), col=m)
 text(predict(JS.pca),
      labels=rownames(JS.data[JS.clst==m,]), col="orchid", cex=0.8)
 
-### 練習2.2
-### 階層的クラスタリング
+### 
+### 練習問題 階層的クラスタリング
+### 
 
 ## パッケージの読み込み
 library(cluster) # 既に読み込んでいれば不要

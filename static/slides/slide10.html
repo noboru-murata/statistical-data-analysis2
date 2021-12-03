@@ -41,31 +41,31 @@
 </div>
 <div class="talk-author">
   <p>村田 昇<br />
-  2020.12.04</p>
+  </p>
 </div>
 
 </section>
 
 <section>
-<section id="slide-org10e8200">
-<h2 id="org10e8200">講義の予定</h2>
+<section id="slide-orgf099ce4">
+<h2 id="orgf099ce4">講義概要</h2>
 <ul>
 <li><b>第1日: クラスタ分析の考え方と階層的方法</b></li>
 <li>第2日: 非階層的方法と分析の評価</li>
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
 </section>
 <section>
-<section id="slide-orgb7969a2">
-<h2 id="orgb7969a2">クラスタ分析の考え方</h2>
-<div class="outline-text-2" id="text-orgb7969a2">
+<section id="slide-orgd25dbd7">
+<h2 id="orgd25dbd7">クラスタ分析の考え方</h2>
+<div class="outline-text-2" id="text-orgd25dbd7">
 </div>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org0bb3e25">
-<h3 id="org0bb3e25">クラスタ分析</h3>
+<section id="slide-orgcd2f84b">
+<h3 id="orgcd2f84b">クラスタ分析</h3>
 <ul>
 <li><p>
 <b>cluster analysis</b>
@@ -87,11 +87,11 @@
 <li>教師なし学習の代表的な手法の一つ</li>
 
 </ul>
-
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-org24bba51">
-<h3 id="org24bba51">クラスタ分析の考え方</h3>
+<section id="slide-org68849af">
+<h3 id="org68849af">クラスタ分析の考え方</h3>
 <ul>
 <li>階層的方法:
 <ul>
@@ -113,11 +113,11 @@
 </ul></li>
 
 </ul>
-
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-orga8e36f4">
-<h3 id="orga8e36f4">事例</h3>
+<section id="slide-org02bc728">
+<h3 id="org02bc728">事例</h3>
 <ul>
 <li>総務省統計局より取得した都道府県別の社会生活統計指標の一部
 <ul>
@@ -140,6 +140,7 @@
 </ul></li>
 
 </ul>
+
 <div class="slide-footer"><br></div>
 </section>
 <section>
@@ -147,7 +148,7 @@
 <li><p>
 データの内容
 </p>
-<pre class="example">
+<pre class="example" id="org169f564">
 	  Forest   Agri Ratio  Land  Goods
 Hokkaido    67.9 1150.6  4.23  96.8  283.3
 Aomori      63.8  444.7  1.03 186.0  183.0
@@ -204,35 +205,44 @@ Okinawa     46.1  452.4  1.13 232.8  145.4
 </section>
 <section>
 
-<div id="orgca29e1d" class="figure">
+<div id="orgfa919c6" class="figure">
+<p><img src="figs/10_pairs.png" alt="10_pairs.png" />
+</p>
+<p><span class="figure-number">Figure 1: </span>データの散布図</p>
+</div>
+
+<div class="slide-footer"><br></div>
+</section>
+<section>
+
+<div id="org380a256" class="figure">
 <p><img src="figs/10_pcaplot.png" alt="10_pcaplot.png" />
 </p>
-<p><span class="figure-number">Figure 1: </span>主成分得点の散布図</p>
+<p><span class="figure-number">Figure 2: </span>主成分得点の散布図</p>
 </div>
 
 <div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="org0dd51df" class="figure">
+<div id="orgaea5e70" class="figure">
 <p><img src="figs/10_clusplot.png" alt="10_clusplot.png" />
 </p>
-<p><span class="figure-number">Figure 2: </span>散布図上のクラスタ構造 (クラスタ分析の概念図)</p>
+<p><span class="figure-number">Figure 3: </span>散布図上のクラスタ構造 (クラスタ分析の概念図)</p>
 </div>
-
-
 <div class="slide-footer"><br></div>
+
+
 </section>
 </section>
 <section>
-<section id="slide-orge056116">
-<h2 id="orge056116">階層的方法</h2>
-<div class="outline-text-2" id="text-orge056116">
+<section id="slide-org724a1b3">
+<h2 id="org724a1b3">階層的方法</h2>
+<div class="outline-text-2" id="text-org724a1b3">
 </div>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org478b08f">
-<h3 id="org478b08f">凝集的手続き</h3>
+<section id="slide-org9d68f10">
+<h3 id="org9d68f10">凝集的手続き</h3>
 <ol>
 <li>データ・クラスタ間の距離を定義する
 <ul>
@@ -251,11 +261,11 @@ Okinawa     46.1  452.4  1.13 232.8  145.4
 <li>クラスタ数が1つになるまで2-3の手続きを繰り返す</li>
 
 </ol>
-
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-orga2b370b">
-<h3 id="orga2b370b">事例</h3>
+<section id="slide-orge1e873e">
+<h3 id="orge1e873e">事例</h3>
 <ul>
 <li><p>
 社会生活統計指標の一部(関東)での例
@@ -264,95 +274,96 @@ Okinawa     46.1  452.4  1.13 232.8  145.4
 </ul>
 
 
-<div id="org3c306c3" class="figure">
+<div id="orga8f76a1" class="figure">
 <p><img src="figs/10_hclst0.png" alt="10_hclst0.png" />
 </p>
-<p><span class="figure-number">Figure 3: </span>凝集的クラスタリング</p>
+<p><span class="figure-number">Figure 4: </span>凝集的クラスタリング</p>
 </div>
 
 <div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="orga098eb7" class="figure">
+<div id="org613f98b" class="figure">
 <p><img src="figs/10_hclst1.png" alt="10_hclst1.png" />
 </p>
-<p><span class="figure-number">Figure 4: </span>クラスタリングの手続き (その1)</p>
+<p><span class="figure-number">Figure 5: </span>クラスタリングの手続き (その1)</p>
 </div>
 
 <div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="orge0af0ce" class="figure">
+<div id="orgdf57fba" class="figure">
 <p><img src="figs/10_hclst2.png" alt="10_hclst2.png" />
 </p>
-<p><span class="figure-number">Figure 5: </span>クラスタリングの手続き (その2)</p>
+<p><span class="figure-number">Figure 6: </span>クラスタリングの手続き (その2)</p>
 </div>
 
 <div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="org25b1428" class="figure">
+<div id="org792bf87" class="figure">
 <p><img src="figs/10_hclst3.png" alt="10_hclst3.png" />
 </p>
-<p><span class="figure-number">Figure 6: </span>クラスタリングの手続き (その3)</p>
+<p><span class="figure-number">Figure 7: </span>クラスタリングの手続き (その3)</p>
 </div>
 
 <div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="org9fec881" class="figure">
+<div id="org821fae2" class="figure">
 <p><img src="figs/10_hclst4.png" alt="10_hclst4.png" />
 </p>
-<p><span class="figure-number">Figure 7: </span>クラスタリングの手続き (その4)</p>
+<p><span class="figure-number">Figure 8: </span>クラスタリングの手続き (その4)</p>
 </div>
+
 
 <div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="org53d2c58" class="figure">
+<div id="org583412d" class="figure">
 <p><img src="figs/10_hclst5.png" alt="10_hclst5.png" />
 </p>
-<p><span class="figure-number">Figure 8: </span>クラスタリングの手続き (その5)</p>
+<p><span class="figure-number">Figure 9: </span>クラスタリングの手続き (その5)</p>
 </div>
+
 
 <div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="orge92bd59" class="figure">
+<div id="org0c63576" class="figure">
 <p><img src="figs/10_hclst6.png" alt="10_hclst6.png" />
 </p>
-<p><span class="figure-number">Figure 9: </span>クラスタリングの手続き (その6)</p>
+<p><span class="figure-number">Figure 10: </span>クラスタリングの手続き (その6)</p>
 </div>
 
 <div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="orge0d7f0e" class="figure">
+<div id="orgd220933" class="figure">
 <p><img src="figs/10_dendro.png" alt="10_dendro.png" />
 </p>
-<p><span class="figure-number">Figure 10: </span>デンドログラムによるクラスタ構造の表示</p>
+<p><span class="figure-number">Figure 11: </span>デンドログラムによるクラスタ構造の表示</p>
 </div>
-
-
 <div class="slide-footer"><br></div>
+
+
 </section>
 </section>
 <section>
-<section id="slide-org27b3a38">
-<h2 id="org27b3a38">データ間の距離</h2>
-<div class="outline-text-2" id="text-org27b3a38">
+<section id="slide-org7bc6731">
+<h2 id="org7bc6731">データ間の距離</h2>
+<div class="outline-text-2" id="text-org7bc6731">
 </div>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgb33b02e">
-<h3 id="orgb33b02e">データ間の距離</h3>
+<section id="slide-org864f3d9">
+<h3 id="org864f3d9">データ間の距離</h3>
 <ul>
 <li><p>
 データ: 変数の値を成分としてもつベクトル
@@ -376,11 +387,11 @@ Okinawa     46.1  452.4  1.13 232.8  145.4
 </ul></li>
 
 </ul>
-
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-org8f164a1">
-<h3 id="org8f164a1">ユークリッド距離</h3>
+<section id="slide-orgc267a0d">
+<h3 id="orgc267a0d">ユークリッド距離</h3>
 <ul>
 <li>最も一般的な距離</li>
 <li><p>
@@ -397,11 +408,11 @@ Okinawa     46.1  452.4  1.13 232.8  145.4
 </blockquote></li>
 
 </ul>
-
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-org3542d60">
-<h3 id="org3542d60">マンハッタン距離</h3>
+<section id="slide-orgdd2a747">
+<h3 id="orgdd2a747">マンハッタン距離</h3>
 <ul>
 <li>後述するミンコフスキー距離の \(q=1\) の場合</li>
 <li><p>
@@ -418,11 +429,11 @@ Okinawa     46.1  452.4  1.13 232.8  145.4
 </blockquote></li>
 
 </ul>
-
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-orgb868426">
-<h3 id="orgb868426">ミンコフスキー距離</h3>
+<section id="slide-org080d2ef">
+<h3 id="org080d2ef">ミンコフスキー距離</h3>
 <ul>
 <li>ユークリッド距離を \(q\) 乗に一般化した距離</li>
 <li><p>
@@ -439,11 +450,11 @@ Okinawa     46.1  452.4  1.13 232.8  145.4
 </blockquote></li>
 
 </ul>
-
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-org9c0a707">
-<h3 id="org9c0a707">その他の距離</h3>
+<section id="slide-orgbe82757">
+<h3 id="orgbe82757">その他の距離</h3>
 <ul>
 <li>類似度や乖離度などデータ間に自然に定義されるものを用いることは可能
 <ul>
@@ -454,27 +465,25 @@ Okinawa     46.1  452.4  1.13 232.8  145.4
 <li>擬似的な距離でもアルゴリズムは動く</li>
 
 </ul>
-
-
 <div class="slide-footer"><br></div>
+
+
 </section>
 </section>
 <section>
-<section id="slide-org9591b59">
-<h2 id="org9591b59">実習</h2>
-<div class="outline-text-2" id="text-org9591b59">
-</div>
+<section id="slide-orgb222ab6" data-background="#fef4f4">
+<h2 id="orgb222ab6">演習</h2>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org55695a9">
-<h3 id="org55695a9">R: 関数 <code>dist()</code></h3>
+<section id="slide-org3104913" data-background="#fef4f4">
+<h3 id="org3104913">R: 関数 <code>dist()</code></h3>
 <ul>
 <li><p>
 データフレームを用いた基本的な計算方法
 </p>
 <div class="org-src-container">
 
-<pre><code class=" R" >### 距離の計算，返値は dist class (特殊なベクトル)
+<pre><code class="R" >### 距離の計算，返値は dist class (特殊なベクトル)
 dst &lt;- dist(x, method = "euclidean", diag = FALSE, upper = FALSE)
 ## x: データフレーム
 ## method: 距離 (標準はユークリッド距離，他は"manhattan","minkowski"など)
@@ -492,9 +501,10 @@ as.matrix(dst)[i，j]
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-orga832066">
-<h3 id="orga832066">R: 関数 <code>cluster::daisy()</code></h3>
+<section id="slide-org38c0440" data-background="#fef4f4">
+<h3 id="org38c0440">R: 関数 <code>cluster::daisy()</code></h3>
 <ul>
 <li><code>cluster</code>: クラスタ分析用のパッケージ</li>
 <li><p>
@@ -502,7 +512,7 @@ as.matrix(dst)[i，j]
 </p>
 <div class="org-src-container">
 
-<pre><code class=" R" >### パッケージの読み込み (標準で含まれているのでinstallは不要)
+<pre><code class="R" >### パッケージの読み込み (標準で含まれているのでinstallは不要)
 library(cluster) # require(cluster)
 ### 距離の計算，返値は dissimilarity class (distとほぼ互換)
 dsy &lt;- daisy(x, metric = "euclidean", stand = FALSE)
@@ -519,18 +529,18 @@ as.matrix(dsy)[i，j]
 </div></li>
 
 </ul>
-
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-orga7b0882" data-background="#fef4f4">
-<h3 id="orga7b0882">練習問題</h3>
+<section id="slide-org96c8cc9" data-background="#fef4f4">
+<h3 id="org96c8cc9">練習問題</h3>
 <ul>
 <li><p>
 都道府県別の社会生活統計指標を用いて以下を確認しなさい
 </p>
 <div class="org-src-container">
 
-<pre><code class=" R" >### データの読み込み 
+<pre><code class="R" >### データの読み込み 
 JS.data &lt;- read.csv(file="data/japan_social.csv", row.names=1)
 </code></pre>
 </div>
@@ -539,23 +549,23 @@ JS.data &lt;- read.csv(file="data/japan_social.csv", row.names=1)
 <li>正規化して上記と同様の計算を行いなさい</li>
 <li>関東の都県同士の距離を表示しなさい (daisyによる正規化を用いなさい)</li>
 <li>大阪と四国の間の距離を表示しなさい</li>
-<li>ユークリッド距離とマンハッタン距離の散布図を描き，比較しなさい．</li>
+<li>ユークリッド距離とマンハッタン距離の散布図を描き比較しなさい</li>
 
 </ul></li>
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
 </section>
 <section>
-<section id="slide-org8e1e999">
-<h2 id="org8e1e999">クラスタ間の距離</h2>
-<div class="outline-text-2" id="text-org8e1e999">
+<section id="slide-org2f0353f">
+<h2 id="org2f0353f">クラスタ間の距離</h2>
+<div class="outline-text-2" id="text-org2f0353f">
 </div>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org283ba5b">
-<h3 id="org283ba5b">クラスタ間の距離</h3>
+<section id="slide-orgfe4b86e">
+<h3 id="orgfe4b86e">クラスタ間の距離</h3>
 <ul>
 <li><p>
 クラスタ: いくつかのデータ点からなる集合
@@ -584,11 +594,11 @@ JS.data &lt;- read.csv(file="data/japan_social.csv", row.names=1)
 </ul></li>
 
 </ul>
-
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-orge16cbfd">
-<h3 id="orge16cbfd">最短距離法</h3>
+<section id="slide-org4a6fa58">
+<h3 id="org4a6fa58">最短距離法</h3>
 <ul>
 <li><p>
 最も近い対象間の距離を用いる方法:
@@ -617,11 +627,11 @@ JS.data &lt;- read.csv(file="data/japan_social.csv", row.names=1)
 </blockquote></li>
 
 </ul>
-
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-org91632ba">
-<h3 id="org91632ba">最長距離法</h3>
+<section id="slide-org3f6fc9d">
+<h3 id="org3f6fc9d">最長距離法</h3>
 <ul>
 <li><p>
 最も遠い対象間の距離を用いる方法:
@@ -650,11 +660,11 @@ JS.data &lt;- read.csv(file="data/japan_social.csv", row.names=1)
 </blockquote></li>
 
 </ul>
-
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-org8a0e227">
-<h3 id="org8a0e227">群平均法</h3>
+<section id="slide-orgcb07e2e">
+<h3 id="orgcb07e2e">群平均法</h3>
 <ul>
 <li><p>
 全ての対象間の平均距離を用いる方法:
@@ -686,11 +696,11 @@ JS.data &lt;- read.csv(file="data/japan_social.csv", row.names=1)
 </blockquote></li>
 
 </ul>
-
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-org28a8b89">
-<h3 id="org28a8b89">距離計算に関する注意</h3>
+<section id="slide-org7c6d896">
+<h3 id="org7c6d896">距離計算に関する注意</h3>
 <ul>
 <li>データの性質に応じて距離は適宜使い分ける
 <ul>
@@ -707,27 +717,25 @@ JS.data &lt;- read.csv(file="data/japan_social.csv", row.names=1)
 <li>データの性質を鑑みて適切に前処理</li>
 
 </ul>
-
-
 <div class="slide-footer"><br></div>
+
+
 </section>
 </section>
 <section>
-<section id="slide-org3bd84b5">
-<h2 id="org3bd84b5">実習</h2>
-<div class="outline-text-2" id="text-org3bd84b5">
-</div>
+<section id="slide-org2bb1229" data-background="#fef4f4">
+<h2 id="org2bb1229">演習</h2>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgbdd3a7e">
-<h3 id="orgbdd3a7e">R: 関数 <code>hclust()</code></h3>
+<section id="slide-org9499d89" data-background="#fef4f4">
+<h3 id="org9499d89">R: 関数 <code>hclust()</code></h3>
 <ul>
 <li><p>
 距離行列を用いた階層的クラスタリング
 </p>
 <div class="org-src-container">
 
-<pre><code class=" R" >hclst &lt;- hclust(d, method = "complete")
+<pre><code class="R" >hclst &lt;- hclust(d, method = "complete")
 ## d: 距離行列
 ## method: 分析法 (標準は最長距離法，他は"single","average"など)
 
@@ -747,9 +755,10 @@ rect.hclust(tree = hclst, k = NULL, h = NULL)
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-orgfe50da0" data-background="#fef4f4">
-<h3 id="orgfe50da0">練習問題</h3>
+<section id="slide-orgde4d294" data-background="#fef4f4">
+<h3 id="orgde4d294">練習問題</h3>
 <ul>
 <li>都道府県別の社会生活統計指標を用いて以下の分析を行いなさい
 <ul>
@@ -761,17 +770,18 @@ rect.hclust(tree = hclst, k = NULL, h = NULL)
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-org05bbc68">
-<h3 id="org05bbc68">R: 関数 <code>cluster::agnes()</code></h3>
+<section id="slide-orga83a633" data-background="#fef4f4">
+<h3 id="orga83a633">R: 関数 <code>cluster::agnes()</code></h3>
 <ul>
 <li><p>
 <code>cluster</code> パッケージによる階層的クラスタリング
 </p>
 <div class="org-src-container">
 
-<pre><code class=" R" >agns &lt;- agnes(x, metric = "euclidean", stand = FALSE,
-	       method = "average")
+<pre><code class="R" >agns &lt;- agnes(x, metric = "euclidean", stand = FALSE,
+	      method = "average")
 ## x: データフレーム，または距離行列
 ## metric: 距離 (標準はユークリッド距離，他は"manhattan"など)
 ## stand: 正規化(平均と絶対偏差の平均による)の有無
@@ -785,18 +795,18 @@ plot(agns, which.plots=2)
 <li>関数 <code>cutree()</code>, <code>rect.hclust()</code> も利用可能</li>
 
 </ul>
-
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-orgde40a0b">
-<h3 id="orgde40a0b">R: 関数 <code>cluster::clusplot()</code></h3>
+<section id="slide-org70596d3" data-background="#fef4f4">
+<h3 id="org70596d3">R: 関数 <code>cluster::clusplot()</code></h3>
 <ul>
 <li><p>
 2次元でのクラスタ表示
 </p>
 <div class="org-src-container">
 
-<pre><code class=" R" >clusplot(x, clus, stand =FALSE, 
+<pre><code class="R" >clusplot(x, clus, stand =FALSE, 
 	 lines = 2, shade = FALSE, labels= 0, 
 	 col.p = "dark green", col.txt = col.p, col.clus = 5)
 ## x: データフレーム
@@ -810,11 +820,11 @@ plot(agns, which.plots=2)
 </div></li>
 
 </ul>
-
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-orgc4ece68" data-background="#fef4f4">
-<h3 id="orgc4ece68">データセットの準備</h3>
+<section id="slide-org6299179" data-background="#fef4f4">
+<h3 id="org6299179">データセットの準備</h3>
 <ul>
 <li>Webアンケート (都道府県別好きなおむすびの具)
 <ul>
@@ -825,6 +835,7 @@ plot(agns, which.plots=2)
 </ul></li>
 
 </ul>
+
 <div class="slide-footer"><br></div>
 </section>
 <section data-background="#fef4f4">
@@ -853,18 +864,18 @@ Q4. おむすびといえば、どういう形ですか？
 </pre></li>
 
 </ul>
-
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-orgf89e012" data-background="#fef4f4">
-<h3 id="orgf89e012">練習問題</h3>
+<section id="slide-orgd739ee5" data-background="#fef4f4">
+<h3 id="orgd739ee5">練習問題</h3>
 <ul>
 <li><p>
 上記のデータを用いて以下の分析を行いなさい
 </p>
 <div class="org-src-container">
 
-<pre><code class=" R" >### データの読み込み 
+<pre><code class="R" >### データの読み込み 
 OM.data &lt;- read.csv(file="data/omusubi.csv", row.names=1)
 </code></pre>
 </div>
@@ -894,11 +905,12 @@ Hellinger距離を用いて距離行列を作成しなさい
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
 </section>
 <section>
-<section id="slide-org56bcae1">
-<h2 id="org56bcae1">次週の予定</h2>
+<section id="slide-orgdeb46e7">
+<h2 id="orgdeb46e7">次週の予定</h2>
 <ul>
 <li>第1日: クラスタ分析の考え方と階層的方法</li>
 <li><b>第2日: 非階層的方法と分析の評価</b></li>
@@ -930,12 +942,11 @@ mouseWheel: false,
 fragmentInURL: true,
 hashOneBasedIndex: false,
 pdfSeparateFragments: false,
-
 overview: true,
 
 transition: 'fade',
 transitionSpeed: 'default',
-chalkboard: { toggleChalkboardButton: { left: '80px' }, toggleNotesButton: { left: '130px'}}, keyboard: { 69: function() { RevealChalkboard.toggleNotesCanvas() }, 87: function() { RevealChalkboard.toggleChalkboard() }, 67: function() { RevealChalkboard.clear() }, 82: function() { RevealChalkboard.reset() }, 68: function() { RevealChalkboard.download() }, 88: function() { RevealChalkboard.colorNext() }, 89: function() { RevealChalkboard.colorPrev() }},
+spotlight: { size: 90, initialPresentationMode: false }, chalkboard: { toggleChalkboardButton: { left: '80px' }, toggleNotesButton: { left: '130px'}}, keyboard: { 69: function() { RevealChalkboard.toggleNotesCanvas() }, 87: function() { RevealChalkboard.toggleChalkboard() }, 67: function() { RevealChalkboard.clear() }, 82: function() { RevealChalkboard.reset() }, 68: function() { RevealChalkboard.download() }, 88: function() { RevealChalkboard.colorNext() }, 89: function() { RevealChalkboard.colorPrev() }, 84: function() { RevealSpotlight.toggleSpotlight() }, 81: function() { RevealSpotlight.togglePresentationMode()}},
 
 // Plugins with reveal.js 4.x
 plugins: [ RevealNotes, RevealSearch, RevealZoom, RevealHighlight ],
@@ -943,7 +954,8 @@ plugins: [ RevealNotes, RevealSearch, RevealZoom, RevealHighlight ],
 // Optional libraries used to extend reveal.js
 dependencies: [
 { src: './reveal.js/plugin/menu/menu.js'},
-{ src: './reveal.js/plugin/chalkboard/chalkboard.js'}]
+{ src: './reveal.js/plugin/chalkboard/chalkboard.js'},
+{ src: './reveal.js/plugin/spotlight/spotlight.js'}]
 
 });
 </script>
