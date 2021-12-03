@@ -3,7 +3,7 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2021-11-26 15:08:56 mura>
+# Time-stamp: <2021-12-03 15:56:41 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+STARTUP: hidestars content
@@ -12,7 +12,7 @@
 # C-c '
 :END:
 
-* 講義の内容
+* COMMENT 講義の内容
 # 早稲田大学
 - 第1日: クラスタ分析の考え方と階層的方法
 - *第2日: 非階層的方法と分析の評価*
@@ -24,7 +24,7 @@
   setwd("~/Desktop/lectures/mva/slide")
 #+end_src
 
-* COMMENT 講義概要
+* 講義概要
 # 東京大学
 - 第1日: クラスタ分析の考え方と階層的方法
 - *第2日: 非階層的方法と分析の評価*
@@ -301,7 +301,7 @@
 - 最適な対応 \(C\): クラスタ内変動の総和が最小
 
 
-* 演習
+* COMMENT 演習
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
@@ -633,7 +633,7 @@
 [[file:figs/11_nhclst.png]]
  
 
-* COMMENT 演習
+* 演習
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
@@ -786,7 +786,8 @@
 #+end_src
 
 
-* 解析事例
+* COMMENT 解析事例
+# 早稲田大学
 ** 都道府県別の社会生活統計指標
 - データの属性
   #+begin_quote
@@ -1045,7 +1046,7 @@
 - 距離の計算を適切に行えば階層的方法でも利用可
 
 
-* 演習
+* COMMENT 演習
 ** 問題
 :PROPERTIES:
 :reveal_background: #fef4f4
@@ -1134,7 +1135,7 @@
   #+end_quote
   
 
-* COMMENT 演習
+* 演習
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
@@ -1318,7 +1319,8 @@
 #+end_src
 
 
-* 解析事例
+* COMMENT 解析事例
+# 早稲田大学
 ** 都道府県別の社会生活統計指標
 - 凝集係数を用いて階層的方法の距離を検討
 - ユークリッド距離とマンハッタン距離を比較
