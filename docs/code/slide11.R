@@ -2,8 +2,9 @@
 ### 第11講 サンプルコード
 ###
 
-### 練習1.1
-### 関数 kmeans による非階層的クラスタリング
+### 
+### 練習問題 関数 kmeans による非階層的クラスタリング
+### 
 
 ## データの読み込み
 JS.data <- read.csv(file="data/japan_social.csv", row.names=1)
@@ -31,8 +32,9 @@ clusplot(x=JS.data,
 	 col.p=rainbow(k)[JS.km$cluster], # 虹色で色付け
 	 col.clus="orange", shade=FALSE)	 # クラスタ囲みの指定
 
-### 練習1.2
-### 関数 pam による非階層的クラスタリング
+### 
+### 練習問題 関数 pam による非階層的クラスタリング
+### 
 
 ## k-medoids の実行
 JS.pam <- pam(JS.data,
@@ -77,8 +79,9 @@ clusplot(x=OM.data,
          col.p=rainbow(k)[OM.pam$clustering],
          col.clus="orange", shade=FALSE)
 
-### 練習2.1
-### 凝集係数による距離の検討
+### 
+### 練習問題 凝集係数による距離の検討
+### 
 
 ## データの読み込み (既に読み込んでいれば不要)
 JS.data <- read.csv("data/japan_social.csv", row.names=1)
@@ -139,8 +142,9 @@ plot(agnes(JS.data[-c(1,13,45,46),],
 	  max.strlen=5,
 	  main="manhattan")
 
-### 練習2.2
-### シルエット係数によるクラスタ数の検討
+### 
+### 練習問題 シルエット係数によるクラスタ数の検討
+### 
 
 ## データの読み込み (既に読み込んでいれば不要)
 OM.data <- read.csv(file="data/omusubi.csv", row.names=1)

@@ -3,7 +3,7 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2021-12-03 15:56:41 mura>
+# Time-stamp: <2021-12-03 16:05:00 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+STARTUP: hidestars content
@@ -674,8 +674,9 @@
     2次元散布図に各クラスタを表示しなさい
 
 #+begin_src R :eval no :exports none :tangle yes
-  ### 練習1.1
-  ### 関数 kmeans による非階層的クラスタリング
+  ### 
+  ### 練習問題 関数 kmeans による非階層的クラスタリング
+  ### 
   
   ## データの読み込み
   JS.data <- read.csv(file="data/japan_social.csv", row.names=1)
@@ -738,8 +739,9 @@
 - 余裕がある人はデータセット ~omusubi.csv~ でも確認しなさい
 
 #+begin_src R :eval no :exports none :tangle yes
-  ### 練習1.2
-  ### 関数 pam による非階層的クラスタリング
+  ### 
+  ### 練習問題 関数 pam による非階層的クラスタリング
+  ### 
 
   ## k-medoids の実行
   JS.pam <- pam(JS.data,
@@ -982,9 +984,9 @@
   #+end_quote
 - 1に近いほどクラスタ構造が明瞭
 - banner plot の面積比として視覚化 \\ 
-  (banner plot: \((1-{d_i}/{D})\) をデータ毎に並べた棒グラフ)
+  (banner plot: 各データの \((1-{d_i}/{D})\) の棒グラフ)
 
-** COMMENT 非階層的方法の評価
+** 非階層的方法の評価
 - 評価の対象
   - \(\boldsymbol{x}_i\) を含むクラスタ \(C^1\) と \(\boldsymbol{x}_i\) の距離:
     #+begin_quote
@@ -1169,8 +1171,9 @@
   - 凝集係数を用いて2つの距離の評価を行いなさい
 
 #+begin_src R :eval no :exports none :tangle yes
-  ### 練習2.1
-  ### 凝集係数による距離の検討
+  ### 
+  ### 練習問題 凝集係数による距離の検討
+  ### 
 
   ## データの読み込み (既に読み込んでいれば不要)
   JS.data <- read.csv("data/japan_social.csv", row.names=1)
@@ -1280,8 +1283,9 @@
   - 適当と思われるクラスタ数による分析を行いなささい
 
 #+begin_src R :eval no :exports none :tangle yes
-  ### 練習2.2
-  ### シルエット係数によるクラスタ数の検討
+  ### 
+  ### 練習問題 シルエット係数によるクラスタ数の検討
+  ### 
 
   ## データの読み込み (既に読み込んでいれば不要)
   OM.data <- read.csv(file="data/omusubi.csv", row.names=1)
