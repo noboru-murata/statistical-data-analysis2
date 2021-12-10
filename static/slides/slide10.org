@@ -3,7 +3,7 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2021-12-10 14:08:15 mura>
+# Time-stamp: <2021-12-10 16:09:51 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+STARTUP: hidestars content indent
@@ -31,7 +31,7 @@
 
 #+begin_src R :eval no :exports none :tangle yes
   ### 
-  ### 第9講 サンプルコード
+  ### 第10講 サンプルコード
   ###
 #+end_src
 #+begin_src R :exports none

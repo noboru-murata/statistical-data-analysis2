@@ -1,5 +1,5 @@
 ### 
-### 第9講 サンプルコード
+### 第10講 サンプルコード
 ###
 
 ### 
@@ -95,7 +95,9 @@ text(predict(JS.pca),
 table(JS.clst) # 最大を確認
 m <- which.max(table(JS.clst)) # 最大クラスタの番号を取り出す
 JS.pca <- prcomp(JS.data[JS.clst==m,], scale.=TRUE) # 最大クラスタのみ処理
-plot(predict(JS.pca))
+plot(predict(JS.pca),
+     pch=m, # クラスタの形を指定
+     col="gray") 
 text(predict(JS.pca),
      labels=paste0("  ",rownames(JS.data[JS.clst==m,])),
      adj=c(0,0.5), 
