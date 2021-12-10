@@ -36,6 +36,10 @@ str(dsy.euc) # 距離行列のもつ情報を見る
 attr(dsy.euc, "Labels") # 県名を確認 (rownames(JS.data)でも良い)
 as.matrix(dsy.euc)[8:14, 8:14]
 as.matrix(dsy.man)[8:14, 8:14]
+## dist/dissimilarity オブジェクトは距離以外の様々な属性 (attributes) を持つ
+## str(obj) : オブジェクトの構造(structure)を見る
+## attributes(obj) : 属性を表示(変更)する
+## attr(obj,属性名) : 特定の属性を表示(変更)する
 
 ## 大阪と四国の間の距離
 as.matrix(dsy.euc)[27, 36:39, drop=FALSE] # 行列として表示
@@ -73,23 +77,30 @@ rect.hclust(JS.est, k=k, border="orange")
 JS.clst <- cutree(JS.est, k=k) # デンドログラムを分割
 JS.pref <- rownames(JS.data) # 県名の取得
 for(i in 1:k){
-    cat("<<cluster ",i,">>\n")
+    cat("=== cluster",i,"===\n")
     print(JS.pref[JS.clst==i])
 }
 
 ## 主成分分析を併用して表示 (参考)
 JS.pca <- prcomp(JS.data, scale.=TRUE) # データを正規化      
 plot(predict(JS.pca),
-     pch=JS.clst, col=JS.clst) # クラスタ毎に色と形を変える
-text(predict(JS.pca),
-     labels=rownames(JS.data), col="orchid", cex=0.8) # 県名を表示
+     pch=JS.clst, # クラスタ毎に形を変える
+     col="gray") 
+text(predict(JS.pca), 
+     labels=paste0("  ",rownames(JS.data)), # 空白を加えて県名を表示
+     adj=c(0,0.5), # ラベルの位置をxは右寄せ(0)，yは真中(0.5)に指定
+     col=JS.clst, # クラスタ毎に色を変える
+     cex=0.8) # 文字の大きさを調整
 ## 最大クラスタを再評価
 table(JS.clst) # 最大を確認
 m <- which.max(table(JS.clst)) # 最大クラスタの番号を取り出す
-JS.pca <- prcomp(JS.data[JS.clst==m,], scale.=TRUE) 
-plot(predict(JS.pca), col=m)
+JS.pca <- prcomp(JS.data[JS.clst==m,], scale.=TRUE) # 最大クラスタのみ処理
+plot(predict(JS.pca))
 text(predict(JS.pca),
-     labels=rownames(JS.data[JS.clst==m,]), col="orchid", cex=0.8)
+     labels=paste0("  ",rownames(JS.data[JS.clst==m,])),
+     adj=c(0,0.5), 
+     col=m, # クラスタの色を指定
+     cex=0.8)
 
 ### 
 ### 練習問題 階層的クラスタリング
