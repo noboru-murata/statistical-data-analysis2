@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>講義の概要</title>
+<meta name="author" content="村田 昇"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="./reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="./reveal.js/dist/theme/oer-reveal.css" id="theme"/>
+
+<link rel="stylesheet" href="./reveal.js/plugin/toc-progress/toc-progress.css"/>
+
+<link rel="stylesheet" href="./reveal.js/dist/theme/toc-style.css"/>
+
+<link rel="stylesheet" href="./reveal.js/dist/theme/fonts/source-sans-pro/source-sans-pro.css"/>
+
+<link rel="stylesheet" href="./reveal.js/plugin/accessibility/helper.css"/>
+
+<link rel="stylesheet" href="./reveal.js/dist/theme/mycourse.css"/>
+<link rel="stylesheet" href="./reveal.js/plugin/highlight/zenburn.css"/>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide" data-state="no-toc-progress">
+<!-- This is an HTML template for the title slide. -->
+<!-- Embed logos as necessary. -->
+<!-- <a class="nooutlink" href="url"><img class="state-background your-logo-class" src="whatever.png" alt="Whatever" /></a> -->
+<div class="talk-title">
+    <h1 class="no-toc-progress">講義の概要</h1>
+</div>
+<div class="talk-subtitle">
+    <p>統計データ解析II</p>
+</div>
+<div class="keyboard-usage">
+    <p>(Press <code>?</code> for help, <code>n</code> and <code>p</code> for next and previous slide)</p>
+</div>
+<div class="talk-author">
+  <p>村田 昇<br />
+  </p>
+</div>
+
+</section>
+
+<section>
+<section id="slide-org6527d34">
+<h2 id="org6527d34">講義について</h2>
+<div class="outline-text-2" id="text-org6527d34">
+</div>
+</section>
+<section id="slide-orgadf07ed">
+<h3 id="orgadf07ed">講義の概要</h3>
+<ul>
+<li>担当: 村田 昇</li>
+<li>講義題目: <b>数理科学続論J</b> / <b>知能社会情報学講義III</b></li>
+<li>授業の目標 
+<ul>
+<li>統計ソフトウェアRの基本的な扱いを習得する</li>
+<li>統計解析手法である <b>多変量解析</b> の基本的な解析法に習熟する
+<ul>
+<li>大規模データから効果的に情報を抽出する</li>
+<li>データの背後に潜む統計的構造を分析する</li>
+
+</ul></li>
+<li>解析法の数理科学的側面を確率シミュレーションで理解する</li>
+<li>Rを用いて実データに多変量解析を適用する</li>
+
+</ul></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+
+</section>
+<section id="slide-org365a562">
+<h3 id="org365a562">受講にあたっての注意</h3>
+<ul>
+<li>微分積分学，線形代数学および確率統計学が既習であること(が望ましい)</li>
+<li>自身でRの環境を準備できること</li>
+<li>講義の資料はLMS/WEBを通して公開する
+<ul>
+<li><a href="https://noboru-murata.github.io/statistical-data-analysis2/">https://noboru-murata.github.io/statistical-data-analysis2/</a></li>
+
+</ul></li>
+<li>成績評価は課題の提出による
+<ul>
+<li>自身でデータを収集・整理</li>
+<li>適切な仮説のもと分析を実行</li>
+
+</ul></li>
+<li>講義中の質問は鈴木さん(共同ホスト)が対応します</li>
+
+</ul>
+<div class="slide-footer"><br></div>
+
+</section>
+<section id="slide-org2130b36">
+<h3 id="org2130b36">講義計画 (13回予定 10/8 - 1/7)</h3>
+<ul>
+<li>統計ソフトウェアRの使い方 (2回)
+<ul>
+<li>Rの基礎</li>
+<li>データの取り扱い</li>
+<li>グラフの描き方</li>
+<li>確率的シミュレーション</li>
+
+</ul></li>
+<li>回帰分析 (3回)</li>
+<li>主成分分析 (2回)</li>
+<li>判別分析 (2回)</li>
+<li>クラスタ分析 (2回)</li>
+<li>時系列解析入門 (2回)</li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+</section>
+</div>
+</div>
+<script src="./reveal.js/dist/reveal.js"></script>
+<script src="./reveal.js/plugin/notes/notes.js"></script>
+<script src="./reveal.js/plugin/search/search.js"></script>
+<script src="./reveal.js/plugin/zoom/zoom.js"></script>
+<script src="./reveal.js/plugin/highlight/highlight.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: true,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: false,
+overview: true,
+
+transition: 'fade',
+transitionSpeed: 'default',
+spotlight: { size: 90, initialPresentationMode: false }, chalkboard: { toggleChalkboardButton: { left: '80px' }, toggleNotesButton: { left: '130px'}}, keyboard: { 69: function() { RevealChalkboard.toggleNotesCanvas() }, 87: function() { RevealChalkboard.toggleChalkboard() }, 67: function() { RevealChalkboard.clear() }, 82: function() { RevealChalkboard.reset() }, 68: function() { RevealChalkboard.download() }, 88: function() { RevealChalkboard.colorNext() }, 89: function() { RevealChalkboard.colorPrev() }, 84: function() { RevealSpotlight.toggleSpotlight() }, 81: function() { RevealSpotlight.togglePresentationMode()}},
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealNotes, RevealSearch, RevealZoom, RevealHighlight ],
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+{ src: './reveal.js/plugin/menu/menu.js'},
+{ src: './reveal.js/plugin/chalkboard/chalkboard.js'},
+{ src: './reveal.js/plugin/spotlight/spotlight.js'}]
+
+});
+</script>
+</body>
+</html>

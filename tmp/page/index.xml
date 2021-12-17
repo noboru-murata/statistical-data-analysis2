@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Pages on 統計データ解析II</title>
+    <link>https://noboru-murata.github.io/statistical-data-analysis2/page/</link>
+    <description>Recent content in Pages on 統計データ解析II</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <lastBuildDate>Mon, 21 Sep 2020 00:00:00 +0900</lastBuildDate><atom:link href="https://noboru-murata.github.io/statistical-data-analysis2/page/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>第1講</title>
+      <link>https://noboru-murata.github.io/statistical-data-analysis2/page/lecture01/</link>
+      <pubDate>Mon, 21 Sep 2020 00:00:00 +0900</pubDate>
+      
+      <guid>https://noboru-murata.github.io/statistical-data-analysis2/page/lecture01/</guid>
+      <description>&amp;lt;2021-08-21 Sat&amp;gt;  更新
+スライド    full size  ハンドアウト  PDF file  付録  RScript  </description>
+    </item>
+    
+    <item>
+      <title>第2講</title>
+      <link>https://noboru-murata.github.io/statistical-data-analysis2/page/lecture02/</link>
+      <pubDate>Sat, 19 Sep 2020 00:00:00 +0900</pubDate>
+      
+      <guid>https://noboru-murata.github.io/statistical-data-analysis2/page/lecture02/</guid>
+      <description>&amp;lt;2021-09-10 Fri&amp;gt;  更新
+スライド    full size  ハンドアウト  PDF file  付録  RScript PCR検査件数データ (pcr_case_daily.csv をzip化) ダウンロードして unzip すると文字コード utf-8 のファイルになります．  </description>
+    </item>
+    
+    <item>
+      <title>第3講</title>
+      <link>https://noboru-murata.github.io/statistical-data-analysis2/page/lecture03/</link>
+      <pubDate>Sat, 19 Sep 2020 00:00:00 +0900</pubDate>
+      
+      <guid>https://noboru-murata.github.io/statistical-data-analysis2/page/lecture03/</guid>
+      <description>&amp;lt;2021-09-23 Thu&amp;gt;  更新
+スライド    full size  ハンドアウト  PDF file  付録  RScript 東京の気候データ  </description>
+    </item>
+    
+    <item>
+      <title>第4講</title>
+      <link>https://noboru-murata.github.io/statistical-data-analysis2/page/lecture04/</link>
+      <pubDate>Sat, 19 Sep 2020 00:00:00 +0900</pubDate>
+      
+      <guid>https://noboru-murata.github.io/statistical-data-analysis2/page/lecture04/</guid>
+      <description>&amp;lt;2021-09-23 Thu&amp;gt;  更新
+スライド    full size  ハンドアウト  PDF file  付録  RScript  </description>
+    </item>
+    
+    <item>
+      <title>第5講</title>
+      <link>https://noboru-murata.github.io/statistical-data-analysis2/page/lecture05/</link>
+      <pubDate>Sat, 19 Sep 2020 00:00:00 +0900</pubDate>
+      
+      <guid>https://noboru-murata.github.io/statistical-data-analysis2/page/lecture05/</guid>
+      <description>&amp;lt;2021-10-01 Fri&amp;gt;  更新
+スライド    full size  ハンドアウト  PDF file  付録  RScript  </description>
+    </item>
+    
+    <item>
+      <title>第6講</title>
+      <link>https://noboru-murata.github.io/statistical-data-analysis2/page/lecture06/</link>
+      <pubDate>Sat, 19 Sep 2020 00:00:00 +0900</pubDate>
+      
+      <guid>https://noboru-murata.github.io/statistical-data-analysis2/page/lecture06/</guid>
+      <description>&amp;lt;2021-10-15 Fri&amp;gt;  更新
+スライド    full size  ハンドアウト  PDF file  付録  RScript 都道府県別の社会生活指標データ  </description>
+    </item>
+    
+    <item>
+      <title>第7講</title>
+      <link>https://noboru-murata.github.io/statistical-data-analysis2/page/lecture07/</link>
+      <pubDate>Sat, 19 Sep 2020 00:00:00 +0900</pubDate>
+      
+      <guid>https://noboru-murata.github.io/statistical-data-analysis2/page/lecture07/</guid>
+      <description>&amp;lt;2021-11-19 Fri&amp;gt;  更新
+スライド    full size  ハンドアウト  PDF file  付録  RScript  </description>
+    </item>
+    
+    <item>
+      <title>第8講</title>
+      <link>https://noboru-murata.github.io/statistical-data-analysis2/page/lecture08/</link>
+      <pubDate>Sat, 19 Sep 2020 00:00:00 +0900</pubDate>
+      
+      <guid>https://noboru-murata.github.io/statistical-data-analysis2/page/lecture08/</guid>
+      <description>&amp;lt;2021-11-17 Wed&amp;gt;  更新
+スライド    full size  ハンドアウト  PDF file  付録  RScript  </description>
+    </item>
+    
+    <item>
+      <title>第9講</title>
+      <link>https://noboru-murata.github.io/statistical-data-analysis2/page/lecture09/</link>
+      <pubDate>Sat, 19 Sep 2020 00:00:00 +0900</pubDate>
+      
+      <guid>https://noboru-murata.github.io/statistical-data-analysis2/page/lecture09/</guid>
+      <description>&amp;lt;2021-11-17 Wed&amp;gt;  更新
+スライド    full size  ハンドアウト  PDF file  付録  RScript  </description>
+    </item>
+    
+    <item>
+      <title>第10講</title>
+      <link>https://noboru-murata.github.io/statistical-data-analysis2/page/lecture10/</link>
+      <pubDate>Sat, 19 Sep 2020 00:00:00 +0900</pubDate>
+      
+      <guid>https://noboru-murata.github.io/statistical-data-analysis2/page/lecture10/</guid>
+      <description>&amp;lt;2021-12-10 Fri&amp;gt;  更新
+スライド    full size  ハンドアウト  PDF file  付録  RScript 都道府県別のおむすびの具の好み  </description>
+    </item>
+    
+    <item>
+      <title>第11講</title>
+      <link>https://noboru-murata.github.io/statistical-data-analysis2/page/lecture11/</link>
+      <pubDate>Sat, 19 Sep 2020 00:00:00 +0900</pubDate>
+      
+      <guid>https://noboru-murata.github.io/statistical-data-analysis2/page/lecture11/</guid>
+      <description>&amp;lt;2021-12-17 Fri&amp;gt;  更新
+スライド    full size  ハンドアウト  PDF file  付録  RScript  </description>
+    </item>
+    
+    <item>
+      <title>第12講</title>
+      <link>https://noboru-murata.github.io/statistical-data-analysis2/page/lecture12/</link>
+      <pubDate>Sat, 19 Sep 2020 00:00:00 +0900</pubDate>
+      
+      <guid>https://noboru-murata.github.io/statistical-data-analysis2/page/lecture12/</guid>
+      <description>&amp;lt;2021-12-17 Fri&amp;gt;  更新
+スライド    full size  ハンドアウト  PDF file  付録  RScript  </description>
+    </item>
+    
+    <item>
+      <title>第13講</title>
+      <link>https://noboru-murata.github.io/statistical-data-analysis2/page/lecture13/</link>
+      <pubDate>Sat, 19 Sep 2020 00:00:00 +0900</pubDate>
+      
+      <guid>https://noboru-murata.github.io/statistical-data-analysis2/page/lecture13/</guid>
+      <description>2020年度版
+スライド    full size  ハンドアウト  PDF file  付録  RScript 補足のRScript  </description>
+    </item>
+    
+  </channel>
+</rss>
