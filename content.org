@@ -5,7 +5,7 @@
 #+LINK: github https://noboru-murata.github.io/statistical-data-analysis2/
 #+STARTUP: hidestars content indent
 
-# Time-stamp: <2021-12-17 16:06:52 mura>
+# Time-stamp: <2021-12-17 16:13:31 mura>
 # C-c C-e H A (generate MDs for all subtrees)
 
 
@@ -169,7 +169,6 @@
 {{< myslide base="statistical-data-analysis2" name="slide10" >}}
 ** ハンドアウト
 - [[github:pdfs/slide10.pdf][PDF file]]
-
 ** 付録
 - [[github:code/slide10.R][RScript]]
 - [[github:data/omusubi.csv][都道府県別のおむすびの具の好み]]
@@ -184,9 +183,9 @@
 {{< myslide base="statistical-data-analysis2" name="slide11" >}}
 ** ハンドアウト
 - [[github:pdfs/slide11.pdf][PDF file]]
-
 ** 付録
 - [[github:code/slide11.R][RScript]]
+
 * 第12講
 :PROPERTIES:
 :EXPORT_FILE_NAME: lecture12
@@ -197,9 +196,9 @@
 {{< myslide base="statistical-data-analysis2" name="slide12" >}}
 ** ハンドアウト
 - [[github:pdfs/slide12.pdf][PDF file]]
-
 ** 付録
 - [[github:code/slide12.R][RScript]]
+
 * 第13講
 :PROPERTIES:
 :EXPORT_FILE_NAME: lecture13
