@@ -18,7 +18,7 @@ JS.km <- kmeans(scale(JS.data), # 標準化
 
 ## 各クラスター内の県名を表示
 for(i in 1:k){
-  cat("<< cluster",i,">>\n")
+  cat("=== cluster",i,"===\n")
   print(names(which(JS.km$cluster==i)))
 }
 
@@ -43,7 +43,7 @@ JS.pam <- pam(JS.data,
 
 ## 各クラスター内の県名を表示
 for(i in 1:k){
-    cat("<< cluster",i,">>\n")
+    cat("=== cluster",i,"===\n")
     print(names(which(JS.pam$clustering==i)))
 }
 
@@ -66,7 +66,7 @@ OM.pam <- pam(daisy(sqrt(OM.data)), # Hellinger距離 (スケールをさぼっ�
 
 ## 各クラスター内の県名を表示
 for(i in 1:k){
-    cat("<< cluster",i,">>\n")
+    cat("=== cluster",i,"===\n")
     print(names(which(OM.pam$clustering==i)))
 }
 
@@ -79,7 +79,7 @@ clusplot(x=OM.data,
          col.p=rainbow(k)[OM.pam$clustering],
          col.clus="orange", shade=FALSE)
 
-### 
+###
 ### 練習問題 凝集係数による距離の検討
 ### 
 

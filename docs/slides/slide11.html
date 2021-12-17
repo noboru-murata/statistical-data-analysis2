@@ -47,8 +47,8 @@
 </section>
 
 <section>
-<section id="slide-org0f3147e">
-<h2 id="org0f3147e">講義概要</h2>
+<section id="slide-orgdfee71e">
+<h2 id="orgdfee71e">講義概要</h2>
 <ul>
 <li>第1日: クラスタ分析の考え方と階層的方法</li>
 <li><b>第2日: 非階層的方法と分析の評価</b></li>
@@ -59,13 +59,13 @@
 </section>
 </section>
 <section>
-<section id="slide-orgcbaeb59">
-<h2 id="orgcbaeb59">クラスタ分析の復習</h2>
-<div class="outline-text-2" id="text-orgcbaeb59">
+<section id="slide-org1d99e48">
+<h2 id="org1d99e48">クラスタ分析の復習</h2>
+<div class="outline-text-2" id="text-org1d99e48">
 </div>
 </section>
-<section id="slide-orgf502856">
-<h3 id="orgf502856">クラスタ分析</h3>
+<section id="slide-org8461114">
+<h3 id="org8461114">クラスタ分析</h3>
 <ul>
 <li><p>
 <b>cluster analysis</b>
@@ -77,7 +77,7 @@
 を個体間の&ldquo;距離&rdquo;にもとづいて発見する方法
 </p>
 </blockquote></li>
-<li>個体間の類似度・距離(非類似度)を定義:
+<li>個体間の類似度・距離(非類似度)を定義 :
 <ul>
 <li>同じクラスタに属する個体どうしは似通った性質</li>
 <li>異なるクラスタに属する個体どうしは異なる性質</li>
@@ -90,10 +90,10 @@
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org47295d1">
-<h3 id="org47295d1">クラスタ分析の考え方</h3>
+<section id="slide-org67eb881">
+<h3 id="org67eb881">クラスタ分析の考え方</h3>
 <ul>
-<li>階層的方法:
+<li>階層的方法 :
 <ul>
 <li>データ点およびクラスタの間に <b>距離</b> を定義</li>
 <li>距離に基づいてグループ化:
@@ -104,7 +104,7 @@
 </ul></li>
 
 </ul></li>
-<li>非階層的方法:
+<li>非階層的方法 :
 <ul>
 <li>クラスタの数を事前に指定</li>
 <li>クラスタの <b>集まりの良さ</b> を評価する損失関数を定義</li>
@@ -116,9 +116,11 @@
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org1c80428">
-<h3 id="org1c80428">階層的方法における凝集的手続き</h3>
-<div class="leftcol60" id="org3d1643a">
+<section id="slide-org903d452">
+<h3 id="org903d452">階層的クラスタリング</h3>
+<div class="leftcol" id="orgaf6f7db">
+<ul>
+<li>凝集的手続き
 <ol>
 <li>データ・クラスタ間の距離を定義
 <ul>
@@ -130,12 +132,14 @@
 <li>最も近い2つを統合し新たなクラスタを形成</li>
 <li>クラスタ数が1つになるまで2-3の手続きを繰り返す</li>
 
-</ol>
+</ol></li>
+
+</ul>
 
 </div>
-<div class="rightcol40" id="org692bcb1">
+<div class="rightcol" id="org333c855">
 
-<div id="orgef0979b" class="figure">
+<div id="orgcf70f4e" class="figure">
 <p><img src="figs/11_hclst.png" alt="11_hclst.png" />
 </p>
 <p><span class="figure-number">Figure 1: </span>凝集的手続きの例</p>
@@ -148,30 +152,30 @@
 </section>
 </section>
 <section>
-<section id="slide-org958d23f">
-<h2 id="org958d23f">非階層的方法</h2>
-<div class="outline-text-2" id="text-org958d23f">
+<section id="slide-org451cea9">
+<h2 id="org451cea9">非階層的方法</h2>
+<div class="outline-text-2" id="text-org451cea9">
 </div>
 </section>
-<section id="slide-orgd99f59c">
-<h3 id="orgd99f59c">非階層的方法の手続き</h3>
+<section id="slide-orgc58fe6e">
+<h3 id="orgc58fe6e">非階層的方法の手続き</h3>
 <ul>
-<li>対象の変数: \(\boldsymbol{X}=(X_1,X_2,\dotsc,X_p)^{\mathsf{T}}\) (\(p\)次元)</li>
+<li>対象の変数 : \(\boldsymbol{X}=(X_1,X_2,\dotsc,X_{d})^{\mathsf{T}}\) (\(d\)次元)</li>
 <li><p>
-観測データ: \(n\) 個の個体の組
+観測データ : \(n\) 個の個体の組
 </p>
 <blockquote>
 <div>
 \begin{equation}
   \{\boldsymbol{x}_{i}\}_{i=1}^{n}
   =
-  \{(x_{i1},x_{i2},\dotsc,x_{ip})^{\mathsf{T}}\}_{i=1}^{n}
+  \{(x_{i1},x_{i2},\dotsc,x_{id})^{\mathsf{T}}\}_{i=1}^{n}
 \end{equation}
 
 </div>
 </blockquote></li>
 <li><p>
-個体とクラスタの対応 \(C\) を推定:
+個体とクラスタの対応 \(C\) を推定 :
 </p>
 <blockquote>
 <div>
@@ -195,8 +199,8 @@
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org0391413">
-<h3 id="org0391413">\(k\)-平均法の損失関数</h3>
+<section id="slide-org273ceca">
+<h3 id="org273ceca">\(k\)-平均法の損失関数</h3>
 <ul>
 <li>クラスタの個数 \(k\) を指定</li>
 <li><p>
@@ -207,13 +211,13 @@
 \begin{equation}
   \|\boldsymbol{x}_i-\boldsymbol{x}_{i'}\|^2
   =
-  \sum_{j=1}^p(x_{ij}-x_{i'j})^2
+  \sum_{j=1}^{d}(x_{ij}-x_{i'j})^2
 \end{equation}
 
 </div>
 </blockquote></li>
 <li><p>
-損失関数 \(W(C)\): クラスタ内の平均の近さを評価
+損失関数 \(W(C)\) : クラスタ内の平均の近さを評価
 </p>
 <blockquote>
 <div>
@@ -230,11 +234,11 @@
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-orga2426d1">
-<h3 id="orga2426d1">\(k\)-平均法の性質</h3>
+<section id="slide-org8b2f746">
+<h3 id="org8b2f746">\(k\)-平均法の性質</h3>
 <ul>
 <li><p>
-クラスタ \(l\) に属する個体の平均:
+クラスタ \(l\) に属する個体の平均 :
 </p>
 <blockquote>
 <div>
@@ -247,7 +251,7 @@
 </div>
 </blockquote></li>
 <li><p>
-損失関数 \(W(C)\) の等価な表現:
+損失関数 \(W(C)\) の等価な表現 :
 </p>
 <blockquote>
 <div>
@@ -259,7 +263,7 @@
 
 </div>
 </blockquote></li>
-<li>最適な対応 \(C\): クラスタ内変動の総和が最小</li>
+<li>最適な対応 \(C\) : クラスタ内変動の総和が最小</li>
 
 </ul>
 <div class="slide-footer"><br></div>
@@ -268,13 +272,13 @@
 </section>
 </section>
 <section>
-<section id="slide-org4a28a3c">
-<h2 id="org4a28a3c">近似的な最適化</h2>
-<div class="outline-text-2" id="text-org4a28a3c">
+<section id="slide-orgc6f9cd1">
+<h2 id="orgc6f9cd1">近似的な最適化</h2>
+<div class="outline-text-2" id="text-orgc6f9cd1">
 </div>
 </section>
-<section id="slide-org7b25cdc">
-<h3 id="org7b25cdc">クラスタ対応の最適化</h3>
+<section id="slide-orgb74947d">
+<h3 id="orgb74947d">クラスタ対応の最適化</h3>
 <ul>
 <li>最適化: 損失関数 \(W(C)\) を最小とする \(C\) を決定</li>
 <li>貪欲な \(C\) の探索:
@@ -312,8 +316,8 @@
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org45dc676">
-<h3 id="org45dc676">Lloyd-Forgyのアルゴリズム</h3>
+<section id="slide-org8971a32">
+<h3 id="org8971a32">Lloyd-Forgyのアルゴリズム</h3>
 <ol>
 <li>クラスタ中心の初期値 
 \(\boldsymbol{\mu}_1,\boldsymbol{\mu}_2,\dots,\boldsymbol{\mu}_k\) を与える</li>
@@ -351,10 +355,10 @@
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org33a858f">
-<h3 id="org33a858f">アルゴリズムの性質</h3>
+<section id="slide-org7befdb8">
+<h3 id="org7befdb8">アルゴリズムの性質</h3>
 <ul>
-<li>結果は確率的
+<li>結果は <b>確率的</b>
 <ul>
 <li>初期値 \(\boldsymbol{\mu}_1,\boldsymbol{\mu}_2,\dots,\boldsymbol{\mu}_k\) に依存</li>
 <li>アルゴリズムの成否は確率的 <br />
@@ -368,7 +372,7 @@
 <blockquote>
 <div>
 \begin{equation}
-  \boldsymbol{x}^{medoid}_{l}
+  \boldsymbol{x}^{\mathrm{medoid}}_{l}
   =\arg\min_{\boldsymbol{x}_{i}}
   \sum_{i':C(i')=l}
   \|\boldsymbol{x}_{i}-\boldsymbol{x}_{i'}\|^2
@@ -381,8 +385,8 @@
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-orgddb0af9">
-<h3 id="orgddb0af9">事例</h3>
+<section id="slide-org676f23d">
+<h3 id="org676f23d">事例</h3>
 <ul>
 <li><p>
 都道府県別好きなおむすびの具(一部)での例
@@ -391,7 +395,7 @@
 </ul>
 
 
-<div id="org6689d10" class="figure">
+<div id="org1cbe563" class="figure">
 <p><img src="figs/11_nhclst0.png" alt="11_nhclst0.png" />
 </p>
 <p><span class="figure-number">Figure 2: </span>非階層的クラスタリング</p>
@@ -401,7 +405,7 @@
 </section>
 <section>
 
-<div id="org568e36c" class="figure">
+<div id="org09a60dd" class="figure">
 <p><img src="figs/11_nhclst1.png" alt="11_nhclst1.png" />
 </p>
 <p><span class="figure-number">Figure 3: </span>Lloyd-Forgyのアルゴリズム (その1)</p>
@@ -411,7 +415,7 @@
 </section>
 <section>
 
-<div id="org7f6c828" class="figure">
+<div id="org974f974" class="figure">
 <p><img src="figs/11_nhclst2.png" alt="11_nhclst2.png" />
 </p>
 <p><span class="figure-number">Figure 4: </span>Lloyd-Forgyのアルゴリズム (その2)</p>
@@ -421,7 +425,7 @@
 </section>
 <section>
 
-<div id="orgded4329" class="figure">
+<div id="org3872cfc" class="figure">
 <p><img src="figs/11_nhclst3.png" alt="11_nhclst3.png" />
 </p>
 <p><span class="figure-number">Figure 5: </span>Lloyd-Forgyのアルゴリズム (その3)</p>
@@ -431,7 +435,7 @@
 </section>
 <section>
 
-<div id="org88f61e5" class="figure">
+<div id="orgc17ae9d" class="figure">
 <p><img src="figs/11_nhclst4.png" alt="11_nhclst4.png" />
 </p>
 <p><span class="figure-number">Figure 6: </span>Lloyd-Forgyのアルゴリズム (その4)</p>
@@ -441,7 +445,7 @@
 </section>
 <section>
 
-<div id="org650c7c4" class="figure">
+<div id="org9a34b93" class="figure">
 <p><img src="figs/11_nhclst5.png" alt="11_nhclst5.png" />
 </p>
 <p><span class="figure-number">Figure 7: </span>Lloyd-Forgyのアルゴリズム (その5)</p>
@@ -451,7 +455,7 @@
 </section>
 <section>
 
-<div id="org34e3351" class="figure">
+<div id="org8b42171" class="figure">
 <p><img src="figs/11_nhclst6.png" alt="11_nhclst6.png" />
 </p>
 <p><span class="figure-number">Figure 8: </span>Lloyd-Forgyのアルゴリズム (その6)</p>
@@ -461,7 +465,7 @@
 </section>
 <section>
 
-<div id="orgb54b832" class="figure">
+<div id="org8249ca7" class="figure">
 <p><img src="figs/11_nhclst.png" alt="11_nhclst.png" />
 </p>
 <p><span class="figure-number">Figure 9: </span>クラスタリングの結果</p>
@@ -472,12 +476,12 @@
 </section>
 </section>
 <section>
-<section id="slide-org04b3bd2" data-background="#fef4f4">
-<h2 id="org04b3bd2">演習</h2>
+<section id="slide-org90ffbcb" data-background="#fef4f4">
+<h2 id="org90ffbcb">演習</h2>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org460abac" data-background="#fef4f4">
-<h3 id="org460abac">R: 関数 <code>kmeans()</code></h3>
+<section id="slide-orge7b7637" data-background="#fef4f4">
+<h3 id="orge7b7637">R: 関数 <code>kmeans()</code></h3>
 <ul>
 <li><p>
 \(k\)-平均法を実行するための標準的な関数
@@ -504,8 +508,8 @@
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org051ec1c" data-background="#fef4f4">
-<h3 id="org051ec1c">練習問題</h3>
+<section id="slide-org45af0a1" data-background="#fef4f4">
+<h3 id="org45af0a1">練習問題</h3>
 <ul>
 <li><p>
 データセット <code>japan_social.csv</code> を用いて
@@ -531,8 +535,8 @@
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-orgf9079d8" data-background="#fef4f4">
-<h3 id="orgf9079d8">R: 関数 <code>cluster::pam()</code></h3>
+<section id="slide-org2d4b21f" data-background="#fef4f4">
+<h3 id="org2d4b21f">R: 関数 <code>cluster::pam()</code></h3>
 <ul>
 <li><p>
 \(k\)-メドイド法を実行するための関数
@@ -555,8 +559,8 @@
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org541e921" data-background="#fef4f4">
-<h3 id="org541e921">練習問題</h3>
+<section id="slide-org6cf1e08" data-background="#fef4f4">
+<h3 id="org6cf1e08">練習問題</h3>
 <ul>
 <li>データセット <code>japan_social.csv</code> を用いて
 以下を確認しなさい
@@ -576,13 +580,13 @@
 </section>
 </section>
 <section>
-<section id="slide-org679b27d">
-<h2 id="org679b27d">クラスタ構造の評価</h2>
-<div class="outline-text-2" id="text-org679b27d">
+<section id="slide-org650a442">
+<h2 id="org650a442">クラスタ構造の評価</h2>
+<div class="outline-text-2" id="text-org650a442">
 </div>
 </section>
-<section id="slide-org38f574d">
-<h3 id="org38f574d">階層的方法の評価</h3>
+<section id="slide-org192075b">
+<h3 id="org192075b">階層的方法の評価</h3>
 <ul>
 <li>評価の対象
 <ul>
@@ -632,8 +636,8 @@
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org23d4640">
-<h3 id="org23d4640">凝集係数の性質</h3>
+<section id="slide-org5ac26b1">
+<h3 id="org5ac26b1">凝集係数の性質</h3>
 <ul>
 <li><p>
 定義より
@@ -647,15 +651,15 @@
 </div>
 </blockquote></li>
 <li>1に近いほどクラスタ構造が明瞭</li>
-<li>banner plot の面積比として視覚化 <br />
-(banner plot: 各データの \((1-{d_i}/{D})\) の棒グラフ)</li>
+<li>banner plot: 各 \((1-{d_i}/{D})\) を並べた棒グラフ</li>
+<li>banner plot の面積比として視覚化</li>
 
 </ul>
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-orge3e2b0c">
-<h3 id="orge3e2b0c">非階層的方法の評価</h3>
+<section id="slide-org17f061a">
+<h3 id="org17f061a">非階層的方法の評価</h3>
 <ul>
 <li>評価の対象
 <ul>
@@ -701,8 +705,8 @@
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org74aa6a3">
-<h3 id="org74aa6a3">シルエット係数の性質</h3>
+<section id="slide-org065a35b">
+<h3 id="org065a35b">シルエット係数の性質</h3>
 <ul>
 <li><p>
 定義より
@@ -726,12 +730,12 @@
 </section>
 </section>
 <section>
-<section id="slide-org5fbc541" data-background="#fef4f4">
-<h2 id="org5fbc541">演習</h2>
+<section id="slide-org04d0683" data-background="#fef4f4">
+<h2 id="org04d0683">演習</h2>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org4a03ac6" data-background="#fef4f4">
-<h3 id="org4a03ac6">R: 関数 <code>cluster::agnes()</code></h3>
+<section id="slide-orgf86572c" data-background="#fef4f4">
+<h3 id="orgf86572c">R: 関数 <code>cluster::agnes()</code></h3>
 <ul>
 <li><p>
 関数 <code>agnes()</code> による凝集係数の取得
@@ -740,11 +744,13 @@
 
 <pre><code class="R" >### 凝集係数の取得
 summary(agnes(x, # データフレーム
-	      metric="euclidean", stand=TRUE, # 正規化・ユークリッド距離
-	      method="average") # 群平均法
+	      stand = TRUE, # 正規化
+	      metric = "euclidean", # ユークリッド距離
+	      method = "average") # 群平均法
 	)$ac 
 ### 凝集係数の視覚化 (banner plot)
-plot(agnes(x), which.plots=1)
+plot(agnes(x), # 階層的クラスタリングの結果
+     which.plots=1) # banner plot を選択
 ## plot および cluster::bannerplot のオプションを参考
 </code></pre>
 </div></li>
@@ -753,11 +759,11 @@ plot(agnes(x), which.plots=1)
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-orgccba613" data-background="#fef4f4">
-<h3 id="orgccba613">練習問題</h3>
+<section id="slide-orgd7c31ac" data-background="#fef4f4">
+<h3 id="orgd7c31ac">練習問題</h3>
 <ul>
 <li>データセット <code>japan_social.csv</code> を用いて
-以下を検討しなさい．
+以下を検討しなさい
 <ul>
 <li>関数 <code>agnes()</code> を用いて階層的クラスタリングを行いなさい
 <ul>
@@ -774,8 +780,8 @@ plot(agnes(x), which.plots=1)
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-orge62f7dd" data-background="#fef4f4">
-<h3 id="orge62f7dd">R: 関数 <code>cluster::pam()</code></h3>
+<section id="slide-orga16559a" data-background="#fef4f4">
+<h3 id="orga16559a">R: 関数 <code>cluster::pam()</code></h3>
 <ul>
 <li><p>
 関数 <code>pam()</code> によるシルエット係数の取得
@@ -800,11 +806,11 @@ plot(pam(OM.dsy,k=k), which.plot=2)
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-orgbbe27f1" data-background="#fef4f4">
-<h3 id="orgbbe27f1">練習問題</h3>
+<section id="slide-org797f546" data-background="#fef4f4">
+<h3 id="org797f546">練習問題</h3>
 <ul>
 <li>データセット <code>omusubi.csv</code> を用いて
-以下を検討しなさい．
+以下を検討しなさい
 <ul>
 <li><p>
 Hellinger距離を用いて距離行列を計算しなさい
@@ -817,15 +823,15 @@ Hellinger距離を用いて距離行列を計算しなさい
 </p>
 <div>
 \begin{equation}
-  d_{hel}(\boldsymbol{p},\boldsymbol{q})
+  d_{\mathrm{hel}}(\boldsymbol{p},\boldsymbol{q})
   =
-  \frac{1}{\sqrt{2}}d_{euc}(\sqrt{\boldsymbol{p}},\sqrt{\boldsymbol{q}})
+  \frac{1}{\sqrt{2}}d_{\mathrm{euc}}(\sqrt{\boldsymbol{p}},\sqrt{\boldsymbol{q}})
 \end{equation}
 
 </div>
 </blockquote></li>
 <li>クラスタ数4-10のシルエット係数を比較しなさい</li>
-<li>適当と思われるクラスタ数による分析を行いなささい</li>
+<li>適当と思われるクラスタ数による分析を行いなさい</li>
 
 </ul></li>
 
@@ -835,8 +841,8 @@ Hellinger距離を用いて距離行列を計算しなさい
 </section>
 </section>
 <section>
-<section id="slide-orgd53d9f6">
-<h2 id="orgd53d9f6">次週の予定</h2>
+<section id="slide-org4ff135f">
+<h2 id="org4ff135f">次週の予定</h2>
 <ul>
 <li><b>第1日: 時系列の基本モデル</b></li>
 <li>第2日: モデルの推定と予測</li>

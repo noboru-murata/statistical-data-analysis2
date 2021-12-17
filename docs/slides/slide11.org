@@ -3,7 +3,7 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2021-12-03 16:05:00 mura>
+# Time-stamp: <2021-12-17 15:02:38 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+STARTUP: hidestars content
@@ -136,19 +136,19 @@
   *集まり=クラスタ*
   を個体間の"距離"にもとづいて発見する方法
   #+end_quote
-- 個体間の類似度・距離(非類似度)を定義:
+- 個体間の類似度・距離(非類似度)を定義 :
   - 同じクラスタに属する個体どうしは似通った性質
   - 異なるクラスタに属する個体どうしは異なる性質
 - さらなるデータ解析やデータの可視化に利用
 - 教師なし学習の代表的な手法の一つ
 
 ** クラスタ分析の考え方
-- 階層的方法:
+- 階層的方法 :
   - データ点およびクラスタの間に *距離* を定義
   - 距離に基づいてグループ化:
     - 近いものから順にクラスタを *凝集*
     - 近いものが同じクラスタに残るように *分割*
-- 非階層的方法:
+- 非階層的方法 :
   - クラスタの数を事前に指定
   - クラスタの *集まりの良さ* を評価する損失関数を定義
   - 損失関数を最小化するようにクラスタを形成
@@ -161,7 +161,7 @@
 3. 最も近い2つを統合し新たなクラスタを形成する
 4. クラスタ数が1つになるまで2-3の手続きを繰り返す
 
-** 階層的方法における凝集的手続き
+** COMMENT 階層的方法における凝集的手続き
 #+begin_leftcol60
 1. データ・クラスタ間の距離を定義
    - データ点間の距離
@@ -173,7 +173,7 @@
 #+begin_rightcol40
 #+header: :width 600 :height 1000 :res 100
 #+begin_src R :file figs/11_hclst.png :exports results :results graphics
-  require(cluster)
+  library(cluster)
   JS.data <- read.csv("data/japan_social.csv", row.names=1)
   pref <- read.csv(file="data/prefecture.csv", row.names=1)
   rownames(JS.data) <- pref$jp
@@ -224,21 +224,85 @@
 [[file:figs/11_hclst.png]]
 #+end_rightcol40    
 
-   
+** 階層的クラスタリング
+#+begin_leftcol
+- 凝集的手続き
+  1. データ・クラスタ間の距離を定義
+     - データ点間の距離
+     - クラスタ間の距離
+  2. データ点およびクラスタ間の距離を計算
+  3. 最も近い2つを統合し新たなクラスタを形成
+  4. クラスタ数が1つになるまで2-3の手続きを繰り返す
+#+end_leftcol
+#+begin_rightcol
+#+header: :width 600 :height 1000 :res 100
+#+begin_src R :file figs/11_hclst.png :exports results :results graphics
+  library(cluster)
+  JS.data <- read.csv("data/japan_social.csv", row.names=1)
+  pref <- read.csv(file="data/prefecture.csv", row.names=1)
+  rownames(JS.data) <- pref$jp
+  myPlot <- function(k) {
+    tmpa <- JS.data[8:14,]
+    tmpb <- list(c(1,2,3,4,1,6,7),
+		 c(1,2,3,1,1,6,7),
+		 c(1,2,2,1,1,6,7),
+		 c(1,2,2,1,1,6,1),
+		 c(1,1,1,1,1,6,1),
+		 c(1,1,1,1,1,1,1))
+    clusplot(x=tmpa,
+	     clus=c(1,2,3,4,5,6,7),
+	     diss=FALSE,
+	     stand=TRUE, lines=0, labels=3, 
+	     main=NULL, sub=NULL, cex=1,
+	     xlab="", ylab="", axes=FALSE,
+	     xlim=c(-2.5,1.5), ylim=c(-1.5,2.2),
+	     col.p="blue", col.clus="white", shade=FALSE)
+    box()
+    if(k>0) {
+      for(i in 1:k) {
+	clusplot(x=tmpa,
+		 clus=tmpb[[i]],
+		 diss=FALSE,
+		 stand=TRUE, add=TRUE, span=FALSE,
+		 lines=0, lwd=2, col.p="blue", col.clus="orange")
+      }
+    }
+  }
+  if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
+  par(mfrow=c(4,2), mar=rep(0.5,4))
+  myPlot(0)
+  myPlot(1)
+  myPlot(2)
+  myPlot(3)
+  myPlot(4)
+  myPlot(5)
+  myPlot(6)
+  plot(agnes(scale(JS.data[8:14,])), which.plots=2,
+       main="",sub="",xlab="")
+#+end_src
+
+#+CAPTION: 凝集的手続きの例
+#+NAME: fig:11_hclst
+#+ATTR_HTML: height 100%
+#+ATTR_LATEX: :width 0.6\linewidth
+[[file:figs/11_hclst.png]]
+#+end_rightcol
+
+
 * 非階層的方法
 ** 非階層的方法の手続き
-- 対象の変数: \(\boldsymbol{X}=(X_1,X_2,\dotsc,X_p)^{\mathsf{T}}\) (\(p\)次元)
-- 観測データ: \(n\) 個の個体の組
+- 対象の変数 : \(\boldsymbol{X}=(X_1,X_2,\dotsc,X_{d})^{\mathsf{T}}\) (\(d\)次元)
+- 観測データ : \(n\) 個の個体の組
   #+begin_quote
   #+begin_src latex
     \begin{equation}
       \{\boldsymbol{x}_{i}\}_{i=1}^{n}
       =
-      \{(x_{i1},x_{i2},\dotsc,x_{ip})^{\mathsf{T}}\}_{i=1}^{n}
+      \{(x_{i1},x_{i2},\dotsc,x_{id})^{\mathsf{T}}\}_{i=1}^{n}
     \end{equation}
   #+end_src
   #+end_quote
-- 個体とクラスタの対応 \(C\) を推定:
+- 個体とクラスタの対応 \(C\) を推定 :
   #+begin_quote
   #+begin_src latex
     \begin{equation}
@@ -261,11 +325,11 @@
     \begin{equation}
       \|\boldsymbol{x}_i-\boldsymbol{x}_{i'}\|^2
       =
-      \sum_{j=1}^p(x_{ij}-x_{i'j})^2
+      \sum_{j=1}^{d}(x_{ij}-x_{i'j})^2
     \end{equation}
   #+end_src
   #+end_quote
-- 損失関数 \(W(C)\): クラスタ内の平均の近さを評価
+- 損失関数 \(W(C)\) : クラスタ内の平均の近さを評価
   #+begin_quote
   #+begin_src latex
     \begin{equation}
@@ -278,7 +342,7 @@
   # (\(n_l\) はクラスタ \(l\) に属する個体の総数)
 
 ** \(k\)-平均法の性質
-- クラスタ \(l\) に属する個体の平均:
+- クラスタ \(l\) に属する個体の平均 :
   #+begin_quote
   #+begin_src latex
     \begin{equation}
@@ -288,7 +352,7 @@
     \end{equation}
   #+end_src
   #+end_quote
-- 損失関数 \(W(C)\) の等価な表現:
+- 損失関数 \(W(C)\) の等価な表現 :
   #+begin_quote
   #+begin_src latex
     \begin{equation}
@@ -298,7 +362,7 @@
     \end{equation}
   #+end_src
   #+end_quote
-- 最適な対応 \(C\): クラスタ内変動の総和が最小
+- 最適な対応 \(C\) : クラスタ内変動の総和が最小
 
 
 * COMMENT 演習
@@ -310,7 +374,7 @@
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
-- 以下の問に答えなさい．
+- 以下の問に答えなさい
   - 損失関数 \(W(C)\) の等価な表現を示しなさい
     #+begin_quote
     #+begin_src latex
@@ -334,7 +398,7 @@
     #+end_src
     #+end_quote
 
-** COMMENT 解答例
+** 解答例
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
@@ -477,7 +541,7 @@
 4. 中心が変化しなくなるまで 2,3 を繰り返す
 
 ** アルゴリズムの性質
-- 結果は確率的
+- 結果は *確率的*
   - 初期値 \(\boldsymbol{\mu}_1,\boldsymbol{\mu}_2,\dots,\boldsymbol{\mu}_k\) に依存
   - アルゴリズムの成否は確率的 \\
     (最適解が得られない場合もある)
@@ -486,7 +550,7 @@
   #+begin_quote
   #+begin_src latex
     \begin{equation}
-      \boldsymbol{x}^{medoid}_{l}
+      \boldsymbol{x}^{\mathrm{medoid}}_{l}
       =\arg\min_{\boldsymbol{x}_{i}}
       \sum_{i':C(i')=l}
       \|\boldsymbol{x}_{i}-\boldsymbol{x}_{i'}\|^2
@@ -690,7 +754,7 @@
   
   ## 各クラスター内の県名を表示
   for(i in 1:k){
-    cat("<< cluster",i,">>\n")
+    cat("=== cluster",i,"===\n")
     print(names(which(JS.km$cluster==i)))
   }
   
@@ -750,7 +814,7 @@
 
   ## 各クラスター内の県名を表示
   for(i in 1:k){
-      cat("<< cluster",i,">>\n")
+      cat("=== cluster",i,"===\n")
       print(names(which(JS.pam$clustering==i)))
   }
 
@@ -773,7 +837,7 @@
 
   ## 各クラスター内の県名を表示
   for(i in 1:k){
-      cat("<< cluster",i,">>\n")
+      cat("=== cluster",i,"===\n")
       print(names(which(OM.pam$clustering==i)))
   }
 
@@ -792,21 +856,21 @@
 # 早稲田大学
 ** 都道府県別の社会生活統計指標
 - データの属性
-  #+begin_quote
-  - Forest: 森林面積割合 (%) 2014年
-  - Agri: 就業者１人当たり農業産出額(販売農家）(万円) 2014年
-  - Ratio: 全国総人口に占める人口割合 (%) 2015年
-  - Land: 土地生産性（耕地面積１ヘクタール当たり）(万円) 2014年
-  - Goods: 商業年間商品販売額［卸売業＋小売業］（事業所当たり）(百万円) 2013年
-  #+end_quote
+  #+begin_example
+  Forest : 森林面積割合 (%) 2014年
+  Agri : 就業者１人当たり農業産出額(販売農家）(万円) 2014年
+  Ratio : 全国総人口に占める人口割合 (%) 2015年
+  Land : 土地生産性（耕地面積１ヘクタール当たり）(万円) 2014年
+  Goods : 商業年間商品販売額［卸売業＋小売業］（事業所当たり）(百万円) 2013年
+  #+end_example
 - 平均0，分散1に正規化して解析
 
 #+reveal: split
 - ユークリッド距離 + k-平均法 
   #+begin_src R :exports results :tangle yes
     ### 総務省統計局の統計データによる例
-    require(cluster)
-    require(RColorBrewer)
+    library(cluster)
+    library(RColorBrewer)
     JS.data <- read.csv(file="data/japan_social.csv", row.names=1)
     pref <- read.csv(file="data/prefecture.csv", row.names=1)
     rownames(JS.data) <- pref$jp
@@ -818,7 +882,7 @@
 
     ## 結果の確認 (各クラスター内の県名を表示)
     for(i in 1:k){
-	   cat("<< cluster",i,">>\n")
+	   cat("=== cluster",i,"===\n")
 	   print(pref$jp[JS.km$cluster==i])
     }
   #+end_src
@@ -851,7 +915,7 @@
 
     ## 結果の確認 (各クラスター内の県名を表示)
     for(i in 1:k){
-	 cat("<< cluster",i,">>\n")
+	 cat("=== cluster",i,"===\n")
 	 print(pref$jp[JS.pam$clustering==i])
     }
   #+end_src
@@ -876,15 +940,15 @@
 
 ** 都道府県別好きなおむすびの具
 - データの属性
-  #+begin_quote
-  : Q2. おむすびの具では何が一番好きですか？
-  :	   A.梅 B.鮭 C.昆布 D.かつお E.明太子 F.たらこ Ｇ.ツナ H.その他
-  : 【回答者数】
-  : 男性	9,702人	    32.0%
-  : 女性    20,616人	    68.0%
-  : 総数    30,318人	   100.0%
+  #+begin_example
+  Q2. おむすびの具では何が一番好きですか？
+     A.梅 B.鮭 C.昆布 D.かつお E.明太子 F.たらこ Ｇ.ツナ H.その他
+  【回答者数】
+   男性	9,702人	    32.0%
+   女性    20,616人	    68.0%
+   総数    30,318人	   100.0%
+  #+end_example
   に対する回答を県別に集計
-  #+end_quote
 - Hellinger距離を利用
   #+begin_quote
   \(\boldsymbol{p},\boldsymbol{q}\)
@@ -892,9 +956,9 @@
   定義される確率分布の距離
   #+begin_src latex
     \begin{equation}
-      d_{hel}(\boldsymbol{p},\boldsymbol{q})
+      d_{\mathrm{hel}}(\boldsymbol{p},\boldsymbol{q})
       =
-      \frac{1}{\sqrt{2}}d_{euc}(\sqrt{\boldsymbol{p}},\sqrt{\boldsymbol{q}})
+      \frac{1}{\sqrt{2}}d_{\mathrm{euc}}(\sqrt{\boldsymbol{p}},\sqrt{\boldsymbol{q}})
     \end{equation}
   #+end_src
   #+end_quote
@@ -914,7 +978,7 @@
 
     ## 結果の確認 (各クラスター内の県名を表示)
     for(i in 1:k){
-        cat("<< cluster",i,">>\n")
+        cat("=== cluster",i,"===\n")
         print(pref$jp[OM.pam$clustering==i])
     }
   #+end_src
@@ -938,7 +1002,7 @@
 #+ATTR_LATEX: :width 0.6\linewidth
 [[file:figs/11_ompam.png]]
    
-   
+
 * クラスタ構造の評価
 ** 階層的方法の評価
 - 評価の対象
@@ -983,8 +1047,8 @@
   #+end_src
   #+end_quote
 - 1に近いほどクラスタ構造が明瞭
-- banner plot の面積比として視覚化 \\ 
-  (banner plot: 各データの \((1-{d_i}/{D})\) の棒グラフ)
+- banner plot: 各 \((1-{d_i}/{D})\) を並べた棒グラフ
+- banner plot の面積比として視覚化 
 
 ** 非階層的方法の評価
 - 評価の対象
@@ -1049,11 +1113,15 @@
 
 
 * COMMENT 演習
+:PROPERTIES:
+:reveal_background: #fef4f4
+:END:
+# 早稲田大学
 ** 問題
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
-- 以下の問に答えなさい．
+- 以下の問に答えなさい
   - 群平均法において凝集係数が以下を満たすことを示しなさい
     #+begin_quote
     #+begin_src latex
@@ -1071,7 +1139,7 @@
     #+end_src
     #+end_quote
 
-** COMMENT 解答例
+** 解答例
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
@@ -1150,11 +1218,13 @@
   #+begin_src R :eval no
     ### 凝集係数の取得
     summary(agnes(x, # データフレーム
-		  metric="euclidean", stand=TRUE, # 正規化・ユークリッド距離
-		  method="average") # 群平均法
+                  stand = TRUE, # 正規化
+		  metric = "euclidean", # ユークリッド距離
+		  method = "average") # 群平均法
 	    )$ac 
     ### 凝集係数の視覚化 (banner plot)
-    plot(agnes(x), which.plots=1)
+    plot(agnes(x), # 階層的クラスタリングの結果
+         which.plots=1) # banner plot を選択
     ## plot および cluster::bannerplot のオプションを参考
   #+end_src
 
@@ -1163,7 +1233,7 @@
 :reveal_background: #fef4f4
 :END:
 - データセット ~japan_social.csv~ を用いて
-  以下を検討しなさい．
+  以下を検討しなさい
   - 関数 ~agnes()~ を用いて階層的クラスタリングを行いなさい
     - 標準化: 行う
     - データ距離: ユークリッド距離，およびマンハッタン距離
@@ -1171,7 +1241,7 @@
   - 凝集係数を用いて2つの距離の評価を行いなさい
 
 #+begin_src R :eval no :exports none :tangle yes
-  ### 
+  ###
   ### 練習問題 凝集係数による距離の検討
   ### 
 
@@ -1265,7 +1335,7 @@
 :reveal_background: #fef4f4
 :END:
 - データセット ~omusubi.csv~ を用いて
-  以下を検討しなさい．
+  以下を検討しなさい
   - Hellinger距離を用いて距離行列を計算しなさい
     #+begin_quote
     \(\boldsymbol{p},\boldsymbol{q}\)
@@ -1273,14 +1343,14 @@
     定義される確率分布の距離
     #+begin_src latex
       \begin{equation}
-	d_{hel}(\boldsymbol{p},\boldsymbol{q})
+	d_{\mathrm{hel}}(\boldsymbol{p},\boldsymbol{q})
 	=
-	\frac{1}{\sqrt{2}}d_{euc}(\sqrt{\boldsymbol{p}},\sqrt{\boldsymbol{q}})
+	\frac{1}{\sqrt{2}}d_{\mathrm{euc}}(\sqrt{\boldsymbol{p}},\sqrt{\boldsymbol{q}})
       \end{equation}
     #+end_src
     #+end_quote
   - クラスタ数4-10のシルエット係数を比較しなさい
-  - 適当と思われるクラスタ数による分析を行いなささい
+  - 適当と思われるクラスタ数による分析を行いなさい
 
 #+begin_src R :eval no :exports none :tangle yes
   ### 
@@ -1493,7 +1563,7 @@ file:figs/11_omsil9.png
   plot(OM.pam, which.plot=1,
 	  stand=TRUE, lines=0, labels=3,
 	  main="", vsub=NULL, cex=0.8,
-	  col.p=brewer.pal(k,"Dark2")[OM.pam$vclustering],
+	  col.p=brewer.pal(k,"Dark2")[OM.pam$clustering],
 	  col.clus="orange", shade=FALSE)
 #+end_src
 
