@@ -43,7 +43,6 @@
 {{< myslide base="statistical-data-analysis2" name="slide01" >}}
 ** ハンドアウト
 - [[github:pdfs/slide01.pdf][PDF file]]
-
 ** 付録
 - [[github:code/slide01.R][RScript]]
 
@@ -139,9 +138,9 @@
 {{< myslide base="statistical-data-analysis2" name="slide08" >}}
 ** ハンドアウト
 - [[github:pdfs/slide08.pdf][PDF file]]
-
 ** 付録
 - [[github:code/slide08.R][RScript]]
+
 * 第9講
 :PROPERTIES:
 :EXPORT_FILE_NAME: lecture09
@@ -152,7 +151,6 @@
 {{< myslide base="statistical-data-analysis2" name="slide09" >}}
 ** ハンドアウト
 - [[github:pdfs/slide09.pdf][PDF file]]
-
 ** 付録
 - [[github:code/slide09.R][RScript]]
 
@@ -183,7 +181,7 @@
 ** 付録
 - [[github:code/slide11.R][RScript]]
 
-* COMMENT 第12講
+* 第12講
 :PROPERTIES:
 :EXPORT_FILE_NAME: lecture12
 :EXPORT_DATE: <2020-09-19 Sat>
