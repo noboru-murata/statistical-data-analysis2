@@ -6,9 +6,6 @@ draft = false
 weight = 1013
 +++
 
-<span class="timestamp-wrapper"><span class="timestamp">&lt;2021-12-17 Fri&gt; </span></span> 更新
-
-
 ## スライド {#スライド}
 
 {{< myslide base="statistical-data-analysis2" name="slide12" >}}
