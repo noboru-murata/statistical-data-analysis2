@@ -5,7 +5,7 @@
 #+LINK: github https://noboru-murata.github.io/statistical-data-analysis2/
 #+STARTUP: hidestars content indent
 
-# Time-stamp: <2021-12-17 16:00:04 mura>
+# Time-stamp: <2021-12-17 16:06:52 mura>
 # C-c C-e H A (generate MDs for all subtrees)
 
 
