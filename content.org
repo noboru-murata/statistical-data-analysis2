@@ -4,8 +4,7 @@
 #+AUTHOR: Noboru Murata
 #+LINK: github https://noboru-murata.github.io/statistical-data-analysis2/
 #+STARTUP: hidestars content indent
-
-# Time-stamp: <2021-12-17 17:24:41 mura>
+# Time-stamp: <2021-12-17 18:53:00 mura>
 # C-c C-e H A (generate MDs for all subtrees)
 
 
