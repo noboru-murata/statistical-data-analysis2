@@ -1,6 +1,6 @@
 baseURL = "https://noboru-murata.github.io/statistical-data-analysis2"
 disablePathToLower = true
-languageCode = "en-us"
+languageCode = "ja-jp"
 title = "統計データ解析II"
 theme = "docter"
 publishDir = "docs"
