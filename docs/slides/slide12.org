@@ -3,7 +3,7 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2021-12-17 21:36:04 mura>
+# Time-stamp: <2021-12-17 21:38:35 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+STARTUP: hidestars content indent
@@ -1029,7 +1029,7 @@
     #+end_src
     #+end_quote
 
-** 数値例
+** COMMENT 数値例
 - 同じモデルに従うパス(系列)の自己相関を比較してみる
   - 自己回帰過程 (AR過程)
   - 移動平均過程 (MA過程)
