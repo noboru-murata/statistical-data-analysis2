@@ -1,4 +1,6 @@
-### 第12回 練習問題解答例
+### 
+### 第12講 サンプルコード
+###
 
 ## 基本的なplotの使い方
 x <- rnorm(240) # 正規分布のホワイトノイズ
@@ -10,8 +12,9 @@ z <- ts(data.frame(x,y),
 plot(z, col="red") # 指定しなければ個別にグラフを描画
 plot(z, plot.type="single", col=c("red","blue"))
 
-### 練習1
-### 基本的な時系列モデル
+### 
+### 練習問題 基本的な時系列モデル
+### 
 
 Tmax <- 200 # 時系列の長さ t=1,..,Tmax
 K <- 5 # 生成する時系列の数
@@ -26,7 +29,7 @@ myCol <- brewer.pal(K,"Dark2") # 暗めの色合いのパレットを利用
 
 ## set.seed(123) # 必要なら乱数のシードを指定する
 ## ホワイトノイズの生成と図示
-x <- ts(rnorm(Tmax))
+x <- ts(rnorm(Tmax, sd=2)) # 分散4=標準偏差2
 plot(x)
 ## x <- ts(rt(n, df=4)) # 正規分布ではなく，例えば自由度4のt分布の場合
 
@@ -36,13 +39,13 @@ plot(x=ts(1:Tmax),
      main=expression(X[t] == epsilon[t]), # 数式で表示
      type="n") # 枠だけ作図
 for(i in 1:K) {
-    x <- ts(rnorm(Tmax))
+    x <- ts(rnorm(Tmax, sd=2))
     lines(x, col=myCol[i])
 }
 
 ## データフレーム化して表示する場合
 z <- ts(replicate(K, # K回以下の関数を実行する
-                  rnorm(Tmax)))
+                  rnorm(Tmax, sd=2)))
 ## 個別に作図
 plot(x=z, # 既定値は plot.type="multiple"
      ylab="value", col="blue",
@@ -54,38 +57,39 @@ plot(x=z, plot.type="single",
      main=expression(X[t] == epsilon[t]))
 
 ### トレンドのあるホワイトノイズ
-x <- ts(rnorm(Tmax) -1 + 0.05*(1:Tmax))
+x <- ts(rnorm(Tmax, sd=2) -1 + 0.05*(1:Tmax))
 plot(x)
 
 ## 複数の系列を表示
 z <- ts(replicate(K,
-                  rnorm(Tmax) -1 + 0.05*(1:Tmax)))
+                  rnorm(Tmax, sd=2) -1 + 0.05*(1:Tmax)))
 plot(x=z, plot.type="single",
      ylab="value", col=myCol,
      main=expression(X[t] == -1 + 0.05 * t + epsilon[t]))
 
 ### ランダムウォーク
 ## 定義に則ってrecursiveに計算する
-x <- ts(rnorm(Tmax)) # はじめは epslion が入っている
+x <- ts(rnorm(Tmax, sd=2)) # はじめは epslion が入っている
 for(t in 2:Tmax) {
     x[t] <- x[t-1] + x[t] # 順に足し合わせていく
 }
 plot(x)
 
 ## 同じ演算をする関数が用意されている
-x <- ts(cumsum(rnorm(Tmax))) # 逐次的に加算を行う関数
+x <- ts(cumsum(rnorm(Tmax, sd=2))) # 逐次的に加算を行う関数
 plot(x)
 ## 書き方はいろいろあるので考えてみて下さい
 
 ## 複数の系列を表示
 z <- ts(replicate(K,
-                  cumsum(rnorm(Tmax))))
+                  cumsum(rnorm(Tmax, sd=2))))
 plot(x=z, plot.type="single",
      ylab="value", col=myCol,
      main=expression(X[t] == X[t-1] + epsilon[t]))
 
-### 練習2
-### より一般の時系列モデル
+###
+### 練習問題 より一般の時系列モデル
+###
 
 ## 設定は前の練習問題と同じ
 Tmax <- 200 # 時系列の長さ t=1,..,Tmax
@@ -183,8 +187,9 @@ plot(x=df.arma, plot.type="single",
      main="ARMA(2,1)")
 ## 関数 filter や arima.sim などを利用することもできる
 
-### 練習3
-### 自己相関
+### 
+### 練習問題 自己相関
+### 
 
 K <- 4 # 表示する時系列の数 (4つを並べて比較する)
 ## myCol K=5 で作ったものをそのまま利用，別途作成してもよい
@@ -192,20 +197,20 @@ K <- 4 # 表示する時系列の数 (4つを並べて比較する)
 ### AR(2)モデルの自己相関
 orgpar <- par(mfrow=c(2,2)) # グラフを2x2(行方向の順)に並べる
 for(i in 1:K) {
-  acf(df.ar[,i], col=myCol[i], main=paste("AR series",i))
+    acf(df.ar[,i], col=myCol[i], main=paste("AR series",i))
 }
 par(orgpar) # もとのparの内容に戻す
 
 ### MA(2)モデルの自己相関
 orgpar <- par(mfrow=c(2,2))
 for(i in 1:K) {
-  acf(df.ma[,i], col=myCol[i], main=paste("MA series",i))
+    acf(df.ma[,i], col=myCol[i], main=paste("MA series",i))
 }
 par(orgpar) # もとのparの内容に戻す
 
 ### ARMA(2,1)モデルの自己相関
 orgpar <- par(mfrow=c(2,2))
 for(i in 1:K) {
-  acf(df.arma[,i], col=myCol[i], main=paste("ARMA series",i))
+    acf(df.arma[,i], col=myCol[i], main=paste("ARMA series",i))
 }
 par(orgpar) # もとのparの内容に戻す
