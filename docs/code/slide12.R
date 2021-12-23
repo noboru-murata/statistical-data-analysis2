@@ -22,6 +22,7 @@ K <- 5 # 生成する時系列の数
 ## 系列を異なる色で表示するための準備
 ## 右下ペインの package タブから RColorBrewer をインストール
 ## install.packages("RColorBrewer") 
+library(RColorBrewer)
 myCol <- brewer.pal(K,"Dark2") # 暗めの色合いのパレットを利用
 ## 色合いの例は関数 display.brewer.all()
 ## myCol <- rainbow(K) # いわゆるレインボーカラーを使う場合

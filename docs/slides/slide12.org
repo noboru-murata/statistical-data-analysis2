@@ -3,7 +3,7 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2021-12-23 13:19:17 mura>
+# Time-stamp: <2021-12-23 13:54:41 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+STARTUP: hidestars content indent
@@ -243,7 +243,7 @@
 #+header: :width 720 :height 720 :res 100
 #+begin_src R :file figs/12_wn.png :exports results :results graphics :tangle no
   ### ホワイトノイズの生成
-  require(RColorBrewer)
+  library(RColorBrewer)
   k <- 4 # 系列の数
   myCol <- brewer.pal(k,"Dark2")
   
@@ -478,6 +478,7 @@
   ## 系列を異なる色で表示するための準備
   ## 右下ペインの package タブから RColorBrewer をインストール
   ## install.packages("RColorBrewer") 
+  library(RColorBrewer)
   myCol <- brewer.pal(K,"Dark2") # 暗めの色合いのパレットを利用
   ## 色合いの例は関数 display.brewer.all()
   ## myCol <- rainbow(K) # いわゆるレインボーカラーを使う場合
@@ -1043,7 +1044,7 @@
   ### AR(2)モデルの自己相関
   set.seed(123)
   a <- c(0.669, 0.263) # ARの係数
-  par(mfrow=c(2,2))
+  orgpar <- par(mfrow=c(2,2)) # グラフを2x2(行方向の順)に並べる
   for(i in 1:k) {
       epsilon <- rnorm(n)
       x0 <- epsilon[1:2]
@@ -1052,6 +1053,7 @@
       for(j in 3:n) x[j] <- a%*%x[j-1:2] + epsilon[j]
       acf(x, col=myCol[i])
   }
+  par(orgpar)
 #+end_src
 
 #+CAPTION: AR過程の自己相関
@@ -1066,7 +1068,7 @@
   ### MA(2)モデルの自己相関
   set.seed(123)
   b <- c(0.438, 0.078) # MAの係数
-  par(mfrow=c(2,2))
+  orgpar <- par(mfrow=c(2,2)) # グラフを2x2(行方向の順)に並べる
   for(i in 1:k) {
       epsilon <- rnorm(n)
       x0 <- epsilon[1:2]   # 初期値は(epsilon1, epsilon2)
@@ -1075,6 +1077,7 @@
       for(j in 3:n) x[j] <- b %*% epsilon[j-1:2] + epsilon[j]
       acf(x, col=myCol[i])
   }
+  par(orgpar)
 #+end_src
 
 #+CAPTION: MA過程の自己相関
@@ -1090,7 +1093,7 @@
   set.seed(123)
   a <- c(0.8, -0.64) # ARの係数
   b <- -0.5          # MAの係数
-  par(mfrow=c(2,2))
+  orgpar <- par(mfrow=c(2,2)) # グラフを2x2(行方向の順)に並べる
   for(i in 1:k) {
       epsilon <- rnorm(n)
       x0 <- rnorm(2)     # 初期値
@@ -1099,6 +1102,7 @@
       for(j in 3:n) x[j] <- a%*%x[j-1:2] + b*epsilon[j-1] + epsilon[j]
       acf(x, col=myCol[i])
   }
+  par(orgpar)
 #+end_src
 
 #+CAPTION: ARMA過程の自己相関

@@ -37,6 +37,7 @@ orgpar <- par(mfrow=c(2,2)) # グラフを2x2(行方向の順)に並べる
 for(i in 1:K) {
   acf(df.ar[,i], col=myCol[i], main=paste("AR series",i))
 }
+par(orgpar)
 
 plot(x=df.ma, plot.type="single",
      ylab="value", col=myCol,
@@ -47,6 +48,7 @@ orgpar <- par(mfrow=c(2,2))
 for(i in 1:K) {
     acf(df.ma[,i], col=myCol[i], main=paste("MA series",i))
 }
+par(orgpar)
 
 plot(x=df.arma, plot.type="single",
      ylab="value", col=myCol,
@@ -57,24 +59,28 @@ orgpar <- par(mfrow=c(2,2))
 for(i in 1:K) {
     acf(df.arma[,i], col=myCol[i], main=paste("ARMA series",i))
 }
+par(orgpar)
 
 ### AR(2)モデルの偏自己相関
 orgpar <- par(mfrow=c(2,2)) # グラフを2x2(行方向の順)に並べる
 for(i in 1:K) {
     pacf(df.ar[,i], col=myCol[i], main=paste("AR series",i))
 }
+par(orgpar)
 
 ### MA(2)モデルの偏自己相関
 orgpar <- par(mfrow=c(2,2))
 for(i in 1:K) {
     pacf(df.ma[,i], col=myCol[i], main=paste("MA series",i))
 }
+par(orgpar)
 
 ### ARMA(2,1)モデルの偏自己相関
 orgpar <- par(mfrow=c(2,2))
 for(i in 1:K) {
     pacf(df.arma[,i], col=myCol[i], main=paste("ARMA series",i))
 }
+par(orgpar)
 
 ### 
 ### 練習問題 ARMAモデルの推定
@@ -136,19 +142,20 @@ acf(resid(est.arma))  # 推定されたモデルの残差の自己相関
 ### 練習問題 東京の気温データの時系列モデル
 ### 
 
-## パッケージの読み込み
-library(forecast) # 既に読み込んでいれば不要 
-TW.data <- read.csv("data/tokyo_weather_reg.csv")
+## パッケージの読み込み (既に読み込んでいれば不要 )
+library(zoo) 
+library(forecast)
+TW.data <- read.csv("data/tokyo_weather.csv")
 TW.zoo <- with(TW.data,
                zoo(temp,
-                   order.by = as.Date(date)))
+                   order.by = as.Date(paste(year,month,day,sep="-"))))
 
 ## データの視覚化を行う
 plot(TW.zoo, col="red",
      xlab="month", ylab="degree", main="Temperature in Tokyo")
 plot(window(TW.zoo, # 一部を切り出して視覚化する
-            start=as.Date("2019-06-01"),
-            end=as.Date("2019-07-31")),
+            start=as.Date("2020-06-01"),
+            end=as.Date("2020-07-31")),
      col="red",
      xlab="date", ylab="degree", main="Temperature (June-July)")
 acf(TW.zoo)       # 減衰が遅いので差分をとった方が良さそう
@@ -165,18 +172,19 @@ acf(resid(TW.fit)) # そこそこあてはまりは良さそう
 ### 
 
 ## パッケージの読み込み (既に読み込んでいれば不要)
+library(zoo) 
 library(forecast) 
 
 ## データの読み込み (既に行っていれば不要)
-TW.data <- read.csv("data/tokyo_weather_reg.csv")
+TW.data <- read.csv("data/tokyo_weather.csv")
 TW.zoo <- with(TW.data,
                zoo(temp,
-                   order.by = as.Date(date)))
+                   order.by = as.Date(paste(year,month,day,sep="-"))))
 ## データの整理
 TW.train <- window(TW.zoo, # 6月までのデータ (訓練データ)
-                   end="2019-06-30")  
+                   end="2020-06-30")  
 TW.test  <- window(TW.zoo, # 7月のデータ (試験データ)
-                   start="2019-07-01", end="2019-07-31") 
+                   start="2020-07-01", end="2020-07-31") 
 
 ## auto.arima による推定
 (TW.auto <- auto.arima(TW.train, d=1, D=0)) 
@@ -187,7 +195,7 @@ plot(TW.fcst) # X軸が無粋 (1970-01-01からの日数)
 
 ## X軸の書き直し
 plot(TW.fcst, xaxt="n",
-     xlim=c(as.Date("2019-06-01"), as.Date("2019-07-31")))
+     xlim=c(as.Date("2020-06-01"), as.Date("2020-07-31")))
 axis(side=1, # x軸を指定
      at=index(TW.zoo), # 文字を書く座標軸上の位置
      labels=index(TW.zoo), # ラベル
@@ -196,7 +204,7 @@ axis(side=1, # x軸を指定
 lines(TW.test, col="red") # 真値を重ね描き
 
 ## 別の書き方
-plot(window(TW.zoo, start="2019-06-01", end="2019-07-31"),
+plot(window(TW.zoo, start="2020-06-01", end="2020-07-31"),
      col="darkgray",
      xlab="date", ylab="temperature")
 with(TW.fcst, lines(mean, col="red", lwd=3))    # 予測値
@@ -214,7 +222,7 @@ plot(merge(TW.train, fitted(TW.sts)), col="blue")
 
 ## 視覚化
 plot(TW.fsts, xaxt="n",
-     xlim=c(as.Date("2019-06-01"), as.Date("2019-07-31")))
+     xlim=c(as.Date("2020-06-01"), as.Date("2020-07-31")))
 axis(side=1, # x軸を指定
      at=index(TW.zoo), # 文字を書く座標軸上の位置
      labels=index(TW.zoo), # ラベル
@@ -285,6 +293,7 @@ lines(AP.test, col="red") # 真の値
 AP.pred <- predict(AP.auto, n.ahead=length(AP.test))
 
 ## 対数データにおける予測+/-標準偏差の表示
+library(tseries)
 seqplot.ts(x=AP.train, y=AP.test,
            colx="gray", coly="red", 
            ylab="passengers/month (log)")
@@ -345,7 +354,7 @@ CP.zoo <- with(myData,zoo(x=patients, order.by=date))
 plot(CP.zoo, col="blue")
 
 ## 対象を限定する
-CP.sub <- (window(CP.zoo, start="2020-09-01"))
+CP.sub <- window(CP.zoo, start="2021-04-01")
 
 plot(diff(CP.sub), col="blue") 
 acf(diff(CP.sub))  # 自己相関
@@ -379,7 +388,7 @@ tsdiag(CP.auto)
 plot(CP.log, col="blue", ylab="log(patients)")
 lines(fitted(CP.auto), col="orange")
 ## 50日先まで予測してみる
-CP.date <- seq(from=start(CP.zoo), to=as.Date("2021-03-31"), by=1)
+CP.date <- seq(from=start(CP.zoo), to=as.Date("2022-03-31"), by=1)
 plot(forecast(CP.auto, h=50), xaxt="n")
 axis(side=1, 
      at=CP.date, labels=CP.date, las=2, 
