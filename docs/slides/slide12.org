@@ -3,7 +3,7 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2021-12-17 21:48:31 mura>
+# Time-stamp: <2021-12-23 13:19:17 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+STARTUP: hidestars content indent
@@ -926,8 +926,10 @@
     #+begin_quote
     #+begin_src latex
       \begin{equation}
-	\mathrm{Var}(X_{t})
-	=\gamma(0)
+        \mathrm{Var}(X_{t})
+        =\gamma(0),
+        \quad
+        \text{(\(X_{t}\)は二乗可積分であることを仮定)}
       \end{equation}
     #+end_src
     #+end_quote

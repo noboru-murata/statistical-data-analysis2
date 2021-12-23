@@ -3,4 +3,29 @@
 講義ノートとコードの公開用 [[https://noboru-murata.github.io/statistical-data-analysis2/]]
 
 * 課題
-  - 講義資料の整理
+- 講義資料の整理
+
+* error 対応
+2021/12/18に以下の build error が発生
+#+begin_example
+The page build failed  with the following error:
+Page build failed.
+For information on troubleshooting Jekyll see:
+  https://docs.github.com/articles/troubleshooting-jekyll-builds
+If you have any questions you can submit a request at https://support.github.com/contact?tags=dotcom-pages&repo_id=296773288&page_build_id=301213243
+#+end_example
+github上のlogから原因を特定
+#+begin_example
+/usr/bin/git submodule sync
+/usr/bin/git -c protocol.version=2 submodule update --init --force --depth=1
+  Error: fatal: No url found for submodule path 'themes/docter' in .gitmodules
+  Error: The process '/usr/bin/git' failed with exit code 128
+#+end_example
+以下で対応
+#+begin_src shell
+  git rm --cached -- themes/docter
+#+end_src
+submoduleの構成情報が何故唐突に変わったのかは謎
+
+
+

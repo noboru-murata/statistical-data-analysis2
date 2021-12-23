@@ -6,7 +6,7 @@ draft = false
 weight = 1014
 +++
 
-2020年度版
+<span class="timestamp-wrapper"><span class="timestamp">&lt;2021-12-23 Thu&gt; </span></span> 更新
 
 
 ## スライド {#スライド}
@@ -22,4 +22,3 @@ weight = 1014
 ## 付録 {#付録}
 
 -   [RScript](https://noboru-murata.github.io/statistical-data-analysis2/code/slide13.R)
--   [補足のRScript](https://noboru-murata.github.io/statistical-data-analysis2/code/slide13sup.R)
