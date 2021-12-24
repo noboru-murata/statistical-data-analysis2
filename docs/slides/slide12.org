@@ -3,7 +3,7 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2021-12-23 13:54:41 mura>
+# Time-stamp: <2021-12-24 16:18:40 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+STARTUP: hidestars content indent
@@ -387,9 +387,9 @@
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
-- 時系列のためのクラス: ~ts~ クラス
-  - ベクトル(1次元)データだが，時間に関する情報が付加される
-  - ベクトルからの変換:  関数 ~ts()~ 
+- 時系列のためのクラス : ~ts~ クラス
+  - ベクトル(1次元)データに時間に関する情報が付加される
+  - 関数 ~ts()~ を用いてベクトルから変換
   - 多次元時系列も扱うことは可能
 - 関数 ~plot()~ などの挙動はベクトルと異なる
   - プロットが既定値で折れ線
@@ -1009,7 +1009,7 @@
 - 異なる時点間での観測データの従属関係を要約するための最も基本的な統計量
 
 ** 標本自己共分散・標本自己相関
-- 観測データ \(X_1,\dotsc,X_{t}\) からの推定
+- 観測データ \(X_1,\dotsc,X_{T}\) からの推定
   - ラグ\(h\)の自己共分散の推定: 標本自己共分散
     #+begin_quote
     #+begin_src latex

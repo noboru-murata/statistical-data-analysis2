@@ -3,7 +3,7 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2021-12-23 14:10:04 mura>
+# Time-stamp: <2021-12-24 19:04:50 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+STARTUP: hidestars content indent
@@ -1218,7 +1218,7 @@
 - 以下の問に答えなさい
   - ~AirPassengers~ データを用いて分析・予測を行いなさい
   - COVID-19のデータを用いて分析・予測を行いなさい
-    https://www.mhlw.go.jp/content/pcr_positive_daily.csv
+    [[https://covid19.mhlw.go.jp/public/opendata/newly_confirmed_cases_daily.csv]]
 
 #+begin_src R :eval no :exports none :tangle yes
   ### 
@@ -1337,7 +1337,9 @@
   ### 
 
   ## データの取得と整理 
-  myData <- read.csv("https://www.mhlw.go.jp/content/pcr_positive_daily.csv")
+  myData <- subset(
+      x = read.csv("https://covid19.mhlw.go.jp/public/opendata/newly_confirmed_cases_daily.csv"),
+      select = 1:2)
   names(myData) <- c("date","patients")
   myData$date <- as.Date(myData$date)
   head(myData)

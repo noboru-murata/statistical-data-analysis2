@@ -344,7 +344,9 @@ with(AP.psts, lines(exp(pred-1.96*se), col="darkblue"))
 ### 
 
 ## データの取得と整理 
-myData <- read.csv("https://www.mhlw.go.jp/content/pcr_positive_daily.csv")
+myData <- subset(
+    x = read.csv("https://covid19.mhlw.go.jp/public/opendata/newly_confirmed_cases_daily.csv"),
+    select = 1:2)
 names(myData) <- c("date","patients")
 myData$date <- as.Date(myData$date)
 head(myData)
