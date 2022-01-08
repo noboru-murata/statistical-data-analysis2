@@ -6,7 +6,7 @@ draft = false
 weight = 1014
 +++
 
-<span class="timestamp-wrapper"><span class="timestamp">&lt;2021-12-24 Fri&gt; </span></span> 更新
+<span class="timestamp-wrapper"><span class="timestamp">&lt;2022-01-08 Sat&gt; </span></span> 更新
 
 
 ## スライド {#スライド}

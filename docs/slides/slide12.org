@@ -1,9 +1,9 @@
 #+TITLE: 時系列解析
-#+SUBTITLE: 基本的なモデル
+#+SUBTITLE: 時系列の基本モデル
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2021-12-24 16:18:40 mura>
+# Time-stamp: <2022-01-07 16:32:41 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+STARTUP: hidestars content indent

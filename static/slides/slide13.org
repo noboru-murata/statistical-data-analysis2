@@ -1,9 +1,9 @@
 #+TITLE: 時系列解析
-#+SUBTITLE: 推定と予測
+#+SUBTITLE: モデルの推定と予測
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2021-12-24 19:04:50 mura>
+# Time-stamp: <2022-01-07 16:33:10 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+STARTUP: hidestars content indent
@@ -153,7 +153,7 @@
     \end{equation}
   #+end_src
   #+end_quote
-- *弱定常過程*: 以下の性質をもつ確率過程 \(X_t\)
+- *弱定常過程* : 以下の性質をもつ確率過程 \(X_t\)
   - \(X_{t}\)の平均は時点\(t\)によらない
   - \(X_{t}\)と\(X_{t+h}\)の共分散は時点\(t\)によらず時差\(h\)のみで定まる
   - 特に\(X_{t}\)の分散は時点\(t\)によらない (\(h=0\)の場合)
@@ -198,6 +198,7 @@
   で定義される確率過程
   #+end_quote
   - *非定常* な確率過程
+  - [[color:gray][トレンド項(平均値の変化)は現象に応じて一般化される]]
 
 ** ランダムウォーク
 - 定義
@@ -283,7 +284,7 @@
   - *定常にも非定常にもなる*
 
 ** 自己共分散・自己相関
-- 弱定常な確率過程: \(X_{t},\;t=1,\dotsc,T\)
+- 弱定常な確率過程 : \(X_{t},\;t=1,\dotsc,T\)
   - \(X_{t}\) と \(X_{t+h}\) の共分散は時点\(t\)によらずラグ\(h\)のみで定まる
     #+begin_quote
     *自己共分散* (定常過程の性質よりラグは\(h\ge0\)を考えればよい)
@@ -608,7 +609,7 @@
   - 行列が正則ならばARの係数は一意に求まる
 
 ** 偏自己相関
-- AR(p)モデル: 
+- AR(p)モデル : 
   #+begin_quote
   #+begin_src latex
     \begin{equation}
@@ -618,9 +619,9 @@
     \end{equation}
   #+end_src
   #+end_quote
-  - ラグ\(p\)の *自己相関係数* (特殊な解釈)
+  - ラグ\(p\)の *自己相関係数* 
     #+begin_quote
-    \(a_{1}=a_{2}=\dotsb=a_{p-1}=0\)のときの\(a_{p}\)
+    \(a_{1}=a_{2}=\dotsb=a_{p-1}=0\)のときの\(a_{p}\) (*特殊な解釈*)
     #+begin_src latex
       \begin{equation}
 	\mathbb{E}[X_{t}X_{t+p}]=a_{p}\mathbb{E}[X_{t}X_{t}]
@@ -977,7 +978,7 @@
     start(x.zoo) # index(x.zoo)[1] 最初の日付
     end(x.zoo) # index(x.zoo)[length(x.zoo)] 最後の日付
   #+end_src
-  - その他の詳細は ~?zoo~ 
+  - その他の詳細は ~?zoo~ を参照
 
 ** R: 関数 ~window()~
 :PROPERTIES:
@@ -993,7 +994,7 @@
 	   start="2020-12-01", # Dateクラスの標準の書き方
 	   end="2020/12/31") # Dateクラスはこちらでも解釈可能
   #+end_src
-  - その他の詳細は ~?stats::window~ 
+  - その他の詳細は ~?stats::window~ を参照
 
 ** 練習問題
 :PROPERTIES:
@@ -1042,9 +1043,9 @@
 * モデルによる予測
 ** モデルによる予測
 - 推定したモデルを用いて\(n\)期先を予測
-  - ARモデル: 観測時点までの観測値を用いて回帰
-  - MAモデル: 観測時点までのホワイトノイズで回帰
-  - ARMAモデル: 上記の複合
+  - ARモデル : 観測時点までの観測値を用いて回帰
+  - MAモデル : 観測時点までのホワイトノイズで回帰
+  - ARMAモデル : 上記の複合
 - いずれも \(n\)が大きいと不確定性が増大
 - 階差による変換は累積(階差の逆変換)により推定
 
@@ -1057,12 +1058,12 @@
     \end{equation}
   #+end_src
   #+end_quote
-  - トレンド成分: 時間の関数やランダムウォークなどを想定
-  - 季節成分: 周期的な関数を想定
-  - ランダム成分: ARMAモデルなどを想定
+  - トレンド成分 : 時間の関数やランダムウォークなどを想定
+  - 季節成分 : 周期的な関数を想定
+  - ランダム成分 : ARMAモデルなどを想定
 - 分解の考え方
-  - ランダム成分: 適切な幅の移動平均が0
-  - 季節成分: 1周期の平均が0
+  - ランダム成分 : 適切な幅の移動平均が0
+  - 季節成分 : 1周期の平均が0
 
 
 * COMMENT 解析事例
@@ -1089,7 +1090,7 @@
     x.prd <- predict(x.fit, n.ahead=10)
     x.prd$pred # 予測値 (標準誤差は $se)
   #+end_src
-  - 詳細は ~?predict.ar, ?precidt.Arima~
+  - 詳細は ~?predict.ar, ?precidt.Arima~ を参照
 
 ** R: 時系列の予測 ~forecast()~
 :PROPERTIES:
@@ -1105,7 +1106,7 @@
     x.prd$mean # 予測値 (信頼区間は $upper/$lower)
     plot(x.prd) # 全体を視覚化
   #+end_src
-  - 詳細は ~?forecast~
+  - 詳細は ~?forecast~ を参照
 
 ** R: 時系列の分解 ~StructTS()~
 :PROPERTIES:
@@ -1123,7 +1124,7 @@
     ## 平均のホワイトノイズの分散を0.1，傾きとランダム成分の分散は推定
     forecast(x.sts, h=10) # predictを使うことも可
   #+end_src
-  - 詳細は ~?StructTS~
+  - 詳細は ~?StructTS~ を参照
   - 分解を行う関数は ~decompose, stl~ などもある
 
 ** COMMENT 演習: 時系列の予測
