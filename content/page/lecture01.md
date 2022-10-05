@@ -6,7 +6,7 @@ draft = false
 weight = 1002
 +++
 
-<span class="timestamp-wrapper"><span class="timestamp">&lt;2021-08-21 Sat&gt; </span></span> 更新
+<span class="timestamp-wrapper"><span class="timestamp">&lt;2022-10-05 Wed&gt; </span></span> 更新
 
 
 ## スライド {#スライド}
@@ -22,3 +22,5 @@ weight = 1002
 ## 付録 {#付録}
 
 -   [RScript](https://noboru-murata.github.io/statistical-data-analysis2/code/slide01.R)
+-   [練習問題用データセット](https://noboru-murata.github.io/statistical-data-analysis2/data/sample_data.zip) <br />
+    ダウンロードして unzip すると文字コード utf-8 のファイルになります．

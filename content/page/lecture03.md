@@ -22,4 +22,4 @@ weight = 1004
 ## 付録 {#付録}
 
 -   [RScript](https://noboru-murata.github.io/statistical-data-analysis2/code/slide03.R)
--   [東京の気候データ](https://noboru-murata.github.io/statistical-data-analysis2/data/tokyo%5Fweather.csv)
+-   [東京の気候データ](https://noboru-murata.github.io/statistical-data-analysis2/data/tokyo_weather.csv)

@@ -22,4 +22,4 @@ weight = 1014
 ## 付録 {#付録}
 
 -   [RScript](https://noboru-murata.github.io/statistical-data-analysis2/code/slide13.R)
--   [補足のRScript](https://noboru-murata.github.io/statistical-data-analysis2/code/slide13%5Fsupplement.R)
+-   [補足のRScript](https://noboru-murata.github.io/statistical-data-analysis2/code/slide13_supplement.R)
