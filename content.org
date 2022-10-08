@@ -219,6 +219,40 @@
 # ** COMMENT ハンドアウト
 #    - [[github:pdfs/slide14.pdf][PDF file]]
 
+* 記録
+:PROPERTIES:
+:EXPORT_FILE_NAME: record
+:EXPORT_DATE: <2022-10-09 Sun>
+:END:
+<2022-10-09 Sun> 更新
+- [[https://u-tokyo-ac-jp.zoom.us/rec/share/i7MJgFbB5sjRHfGDhPTHaB_UJI63xhZrIpFB9jLlI1AI4qTA4V_tV6f8nLLYzibw.MwUeY1ATEEexDbU0?startTime=1665129002000][第1講 (2022年10月7日)]]
+
+# * COMMENT 講義13
+#   :PROPERTIES:
+#   :EXPORT_FILE_NAME: lecture13
+#   :EXPORT_DATE: <2020-09-19 Sat>
+#   :END:
+#   準備中
+# ** COMMENT スライド
+#    #+html: {{< myslide base="statistical-data-analysis1" name="slide13" >}}
+# ** COMMENT ハンドアウト
+#    - [[github:pdfs/slide13.pdf][PDF file]]
+# ** COMMENT 解答例
+#    - [[github:code/slide13.R][RScript]]
+
+# * COMMENT 講義14
+#   :PROPERTIES:
+#   :EXPORT_FILE_NAME: lecture14
+#   :EXPORT_DATE: <2020-09-19 Sat>
+#   :END:
+#   準備中
+# ** COMMENT スライド
+#    #+html: {{< myslide base="statistical-data-analysis1" name="slide14" >}}
+# ** COMMENT ハンドアウト
+#    - [[github:pdfs/slide14.pdf][PDF file]]
+# ** COMMENT 解答例
+#    - [[github:code/slide14.R][RScript]]
+
 
 * COMMENT お知らせの雛形
 :PROPERTIES:
