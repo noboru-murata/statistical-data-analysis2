@@ -145,7 +145,7 @@ transform(pcr_data,month=month(date)) # 列を追加
 ## などを指定すればよい．もとに戻すには
 ## Sys.setlocale(category = "LC_TIME", locale="")
 
-aggregate(formula= f ~ month,      # 式による集計の指定
+aggregate(f ~ month, # 式による集計の指定 x = f ~ month と書いても良い
           data=transform(pcr_data, # データフレームの書き換え
                          month=month(date)),
           FUN=sum)                 # 集計内容の指定 (関数)

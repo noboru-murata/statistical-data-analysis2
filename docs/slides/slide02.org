@@ -3,7 +3,7 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2022-10-05 16:41:42 mura>
+# Time-stamp: <2022-10-10 10:14:28 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+STARTUP: hidestars content indent
@@ -365,9 +365,9 @@
 ** グループごとの操作
 - 関数 ~aggregate()~ : 各行をいくつかのグループにまとめて計算を行う
   #+begin_src R :eval no
-    aggregate(formula, data, FUN, ...,
+    aggregate(x, data, FUN, ...,
               subset, na.action = na.omit)
-    ## formula: 条件式
+    ## x: 条件式
     ## data: データフレーム
     ## FUN: 求めたい統計量を計算するための関数
     ## subset: データフレームの行に関する条件
@@ -393,7 +393,7 @@
     ## Sys.setlocale(category = "LC_TIME", locale="")
   #+end_src
   #+begin_src R :eval no :tangle yes
-    aggregate(formula= f ~ month,      # 式による集計の指定
+    aggregate(f ~ month, # 式による集計の指定 x = f ~ month と書いても良い
               data=transform(pcr_data, # データフレームの書き換え
                              month=month(date)),
               FUN=sum)                 # 集計内容の指定 (関数)
@@ -1078,6 +1078,13 @@
       などの実装例がある
   - 統計データ解析I スライド 
     - 第5講 確率シミュレーション
+
+      
+* 次回の予定
+- *第1回: 回帰モデルの考え方と推定*
+- 第2回: モデルの評価
+- 第3回: モデルによる予測と発展的なモデル
+
 
 * Footnotes
 * COMMENT ローカル変数
