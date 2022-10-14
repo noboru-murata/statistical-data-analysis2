@@ -6,7 +6,7 @@ draft = false
 weight = 1004
 +++
 
-<span class="timestamp-wrapper"><span class="timestamp">&lt;2021-09-23 Thu&gt; </span></span> 更新
+<span class="timestamp-wrapper"><span class="timestamp">&lt;2022-10-14 Fri&gt; </span></span> 更新
 
 
 ## スライド {#スライド}
@@ -22,4 +22,3 @@ weight = 1004
 ## 付録 {#付録}
 
 -   [RScript](https://noboru-murata.github.io/statistical-data-analysis2/code/slide03.R)
--   [東京の気候データ](https://noboru-murata.github.io/statistical-data-analysis2/data/tokyo_weather.csv)

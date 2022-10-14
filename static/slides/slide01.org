@@ -3,7 +3,7 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2022-10-05 14:59:41 mura>
+# Time-stamp: <2022-10-11 14:20:39 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+STARTUP: hidestars content indent
@@ -12,6 +12,14 @@
 # C-c '
 :END:
 
+* COMMENT メモ
+- 校正に関して記述
+- ペインとタブはきちんと使い分ける
+- プロジェクトの説明の位置は要検討
+- データの読み込みを練習問題に加えるべきかも
+- データセットは整理して最初に配付するのが良いかもしれない
+  data.zip とすればそのまま使える
+  
 * R言語の概要
 
 #+begin_src R :eval no :exports none :tangle yes
@@ -20,7 +28,7 @@
   ###
 #+end_src
 #+begin_src R :exports none
-  setwd("~/Desktop/lectures/u-tokyo/autumn/slide")
+  setwd("~/Desktop/lectures/u-tokyo/autumn/course")
 #+end_src
 
 ** R言語とは
