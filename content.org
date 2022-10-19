@@ -225,6 +225,7 @@
 :END:
 <2022-10-09 Sun> 更新
 - [[https://u-tokyo-ac-jp.zoom.us/rec/share/i7MJgFbB5sjRHfGDhPTHaB_UJI63xhZrIpFB9jLlI1AI4qTA4V_tV6f8nLLYzibw.MwUeY1ATEEexDbU0?startTime=1665129002000][第1講 (2022年10月7日)]]
+- 第2講 (2022年10月14日) 録画ミスのため公開動画はありません
 
 # * COMMENT 講義13
 #   :PROPERTIES:
