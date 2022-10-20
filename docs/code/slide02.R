@@ -66,6 +66,25 @@ load(file="data/mydata.RData") # RData形式の読み込み
 grade # save したときの grade が復元されている
 grade2 # save したときの grade2 が復元されている
 
+### package::readr を用いる場合
+
+## "readr" を Package タブからインストールしておく
+## コンソールからインストールする場合は以下を実行する
+## install.packages("readr")
+library("readr")
+write_csv(grade, file="data/mydata3.csv") # 行名は保存されない
+## File タブから中身を確認しておくとよい
+(grade3 <- read_csv(file="data/mydata3.csv")) # 行名がない data.frame になる
+## data.frame および tbl という性質を持つオブジェクトになる
+
+## 行名を保存する場合には "tibble" をインストールしておく
+## install.packages("tibble")
+library("tibble")
+(grade4 <- rownames_to_column(grade,var="name")) # "name" という列が追加される．既定値は"rowname"
+write_csv(grade4, file="data/mydata4.csv")
+(grade5 <- read_csv(file="data/mydata4.csv")) # "grade4" の内容が "grade5" に代入される
+(grade6 <- column_to_rownames(grade5,var="name")) # "name" という列を行名に変換して削除する．既定値は"rowname"
+
 ### download したファイルの読み込み
 ## ファイル名 pcr_case_daily.csv として作業ディレクトリの data に保存
 pcr_data <- read.csv(file="data/pcr_case_daily.csv") # 一般的な読み込み方
@@ -80,7 +99,7 @@ pcr2_data <- read.csv(file="data/pcr_case_daily.csv",
                  col.names=c("date",letters[1:(length(pcr_colname)-1)]))
 head(pcr2_data) # 中身を確認する
 ## Filesタブの操作で読み込みことも可能なので確認しなさい
-## ただし tibble+data.frame オブジェクトになるので若干扱いが異なる
+## ただし data.frame+tbl オブジェクトになるので若干扱いが異なる
 ## URLを指定して読み込むこともできる (更新される情報を追い掛ける場合に利用を推奨)
 ## pcr_data <- read.csv("https://www.mhlw.go.jp/content/pcr_case_daily.csv")
 

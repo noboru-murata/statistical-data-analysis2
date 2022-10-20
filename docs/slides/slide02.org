@@ -3,7 +3,7 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2022-10-10 10:14:28 mura>
+# Time-stamp: <2022-10-20 14:30:52 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+STARTUP: hidestars content indent
@@ -152,6 +152,21 @@
   #+end_src
 - 他の細かいオプションはヘルプを参照
 
+** csv形式の操作 (~package::readr~ )
+- 日本語などの扱いに問題がある場合に推奨
+  #+begin_src R :eval no
+    install.packages("readr") # package タブを使ってもよい
+  #+end_src
+- 関数 ~write_csv()~ : csvファイルの書き出し
+  #+begin_src R :eval no
+    write_csv(x, file="ファイル名") # 行名は書き出されない
+  #+end_src
+- 関数 ~read_csv()~ : csvファイルの読み込み
+  #+begin_src R :eval no
+    y <- read_csv(file="ファイル名") # 行名を列から付けるオプションはない
+  #+end_src
+- 行名の扱いに違いがあるので注意
+
 ** RData形式の操作 (バイナリ)
 - 関数 ~save()~ : RDataファイルの書き出し
   #+begin_src R :eval no
@@ -203,6 +218,28 @@
   grade # save したときの grade が復元されている
   grade2 # save したときの grade2 が復元されている
 #+end_src
+
+#+begin_src R :eval no :exports none :tangle yes
+  ### package::readr を用いる場合
+
+  ## "readr" を Package タブからインストールしておく
+  ## コンソールからインストールする場合は以下を実行する
+  ## install.packages("readr")
+  library("readr")
+  write_csv(grade, file="data/mydata3.csv") # 行名は保存されない
+  ## File タブから中身を確認しておくとよい
+  (grade3 <- read_csv(file="data/mydata3.csv")) # 行名がない data.frame になる
+  ## data.frame および tbl という性質を持つオブジェクトになる
+  
+  ## 行名を保存する場合には "tibble" をインストールしておく
+  ## install.packages("tibble")
+  library("tibble")
+  (grade4 <- rownames_to_column(grade,var="name")) # "name" という列が追加される．既定値は"rowname"
+  write_csv(grade4, file="data/mydata4.csv")
+  (grade5 <- read_csv(file="data/mydata4.csv")) # "grade4" の内容が "grade5" に代入される
+  (grade6 <- column_to_rownames(grade5,var="name")) # "name" という列を行名に変換して削除する．既定値は"rowname"
+#+end_src
+  
 #+begin_src R :exports none :tangle yes
   ### download したファイルの読み込み
   ## ファイル名 pcr_case_daily.csv として作業ディレクトリの data に保存
@@ -218,10 +255,10 @@
                    col.names=c("date",letters[1:(length(pcr_colname)-1)]))
   head(pcr2_data) # 中身を確認する
   ## Filesタブの操作で読み込みことも可能なので確認しなさい
-  ## ただし tibble+data.frame オブジェクトになるので若干扱いが異なる
+  ## ただし data.frame+tbl オブジェクトになるので若干扱いが異なる
   ## URLを指定して読み込むこともできる (更新される情報を追い掛ける場合に利用を推奨)
   ## pcr_data <- read.csv("https://www.mhlw.go.jp/content/pcr_case_daily.csv")
-#+End_src
+#+end_src
 
 
 * データフレームの操作
