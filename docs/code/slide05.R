@@ -3,178 +3,214 @@
 ###
 
 ## データの読み込み
-TW.data <- read.csv("data/tokyo_weather.csv")
-TW.subset <- subset(TW.data, # 8月のデータの抽出
+tw_data <- read.csv("data/tokyo_weather.csv")
+tw_subset <- subset(tw_data, # 8月のデータの抽出
                     subset= month==8)
-head(TW.subset[,-1], 14) # 2週間分を表示
+head(tw_subset[,-1], 14) # 2週間分を表示
 
 ### モデル式
-TW.model0 <- temp ~ press + solar + humid + cloud
-TW.model1 <- temp ~ press
-TW.model2 <- temp ~ press + solar
-TW.model3 <- temp ~ press + solar + humid
-TW.model4 <- temp ~ press + solar + cloud
+tw_model0 <- temp ~ press + solar + humid + cloud
+tw_model1 <- temp ~ press
+tw_model2 <- temp ~ solar
+tw_model3 <- temp ~ press + solar
+tw_model4 <- temp ~ press + solar + humid
+tw_model5 <- temp ~ press + solar + cloud
 
 ## 推定
-TW.est0 <- lm(TW.model0, data=TW.subset, y=TRUE)
-TW.est1 <- lm(TW.model1, data=TW.subset, y=TRUE)
-TW.est2 <- lm(TW.model2, data=TW.subset, y=TRUE)
-TW.est3 <- lm(TW.model3, data=TW.subset, y=TRUE)
-TW.est4 <- lm(TW.model4, data=TW.subset, y=TRUE)
+tw_est0 <- lm(tw_model0, data=tw_subset, y=TRUE)
+tw_est1 <- lm(tw_model1, data=tw_subset, y=TRUE)
+tw_est2 <- lm(tw_model2, data=tw_subset, y=TRUE)
+tw_est3 <- lm(tw_model3, data=tw_subset, y=TRUE)
+tw_est4 <- lm(tw_model4, data=tw_subset, y=TRUE)
+tw_est5 <- lm(tw_model5, data=tw_subset, y=TRUE)
 
 ## 説明変数と目的変数の散布図
 if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
-plot(model.frame(TW.est0),
+plot(model.frame(tw_est0),
      labels=c("気温","気圧","日射","湿度","雲量"),
      col="blue", pch=20)
 
 ## 観測値とあてはめ値の比較
 if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
-with(TW.est1,
+with(tw_est1,
      plot(y,fitted.values,col="orange",pch=17, # 三角
           xlab="気温",
           ylab="あてはめ値",ylim=range(y)))   
 abline(0,1,col="red",lwd=2)
-with(TW.est2,
+with(tw_est2,
      points(y,fitted.values,col="green",pch=15)) # 四角
-with(TW.est3,
+with(tw_est3,
      points(y,fitted.values,col="blue",pch=21))  # 丸
-with(TW.est4,
+with(tw_est4,
      points(y,fitted.values,col="brown",pch=23))  # 菱形
+with(tw_est5,
+     points(y,fitted.values,col="cyan",pch=25))  # 三角
 legend("bottomright",inset=.05, # 凡例の作成
-       col=c("orange","green","blue","brown"), pch=c(17,15,21,23), 
-       legend=c("モデル1","モデル2","モデル3","モデル4"))
+       col=c("orange","green","blue","brown","cyan"), pch=c(17,15,21,23,25), 
+       legend=c("モデル1","モデル2","モデル3","モデル4","モデル5"))
 
 ## モデル1
 print(
     paste("R2:",
-          signif(summary(TW.est1)$r.squared,digits=3),
+          signif(summary(tw_est1)$r.squared,digits=3),
           "; adj. R2:",
-          signif(summary(TW.est1)$adj.r.squared,digits=3)
+          signif(summary(tw_est1)$adj.r.squared,digits=3)
           ))
 
-## モデル2
+## モデル1
 print(
     paste("R2:",
-          signif(summary(TW.est2)$r.squared,digits=3),
+          signif(summary(tw_est2)$r.squared,digits=3),
           "; adj. R2:",
-          signif(summary(TW.est2)$adj.r.squared,digits=3)
+          signif(summary(tw_est2)$adj.r.squared,digits=3)
           ))
 
 ## モデル3
 print(
     paste("R2:",
-          signif(summary(TW.est3)$r.squared,digits=3),
+          signif(summary(tw_est3)$r.squared,digits=3),
           "; adj. R2:",
-          signif(summary(TW.est3)$adj.r.squared,digits=3)
+          signif(summary(tw_est3)$adj.r.squared,digits=3)
           ))
 
 ## モデル4
 print(
     paste("R2:",
-          signif(summary(TW.est4)$r.squared,digits=3),
+          signif(summary(tw_est4)$r.squared,digits=3),
           "; adj. R2:",
-          signif(summary(TW.est4)$adj.r.squared,digits=3)
+          signif(summary(tw_est4)$adj.r.squared,digits=3)
+          ))
+
+## モデル4
+print(
+    paste("R2:",
+          signif(summary(tw_est5)$r.squared,digits=3),
+          "; adj. R2:",
+          signif(summary(tw_est5)$adj.r.squared,digits=3)
           ))
 
 ## モデル1
-TW.sum <- summary(TW.est1)
-TW.r2 <- TW.sum$r.squared
-TW.ar2 <- TW.sum$adj.r.squared
-TW.fstat <- TW.sum$fstat
+tw_sum <- summary(tw_est1)
+tw_r2 <- tw_sum$r.squared
+tw_ar2 <- tw_sum$adj.r.squared
+tw_fstat <- tw_sum$fstat
 print(
     paste("R2:",
-          signif(TW.r2,digits=3),
+          signif(tw_r2,digits=3),
           "; adj. R2:",
-          signif(TW.ar2,digits=3),
+          signif(tw_ar2,digits=3),
           "; F-stat:",
-          signif(TW.fstat[1],digits=3),
+          signif(tw_fstat[1],digits=3),
           "; p-val:",
-          signif(1-pf(TW.fstat[1],TW.fstat[2],TW.fstat[3]),digits=3)
+          signif(1-pf(tw_fstat[1],tw_fstat[2],tw_fstat[3]),digits=3)
           ))
 
 ## モデル2
-TW.sum <- summary(TW.est2)
-TW.r2 <- TW.sum$r.squared
-TW.ar2 <- TW.sum$adj.r.squared
-TW.fstat <- TW.sum$fstat
+tw_sum <- summary(tw_est2)
+tw_r2 <- tw_sum$r.squared
+tw_ar2 <- tw_sum$adj.r.squared
+tw_fstat <- tw_sum$fstat
 print(
     paste("R2:",
-          signif(TW.r2,digits=3),
+          signif(tw_r2,digits=3),
           "; adj. R2:",
-          signif(TW.ar2,digits=3),
+          signif(tw_ar2,digits=3),
           "; F-stat:",
-          signif(TW.fstat[1],digits=3),
+          signif(tw_fstat[1],digits=3),
           "; p-val:",
-          signif(1-pf(TW.fstat[1],TW.fstat[2],TW.fstat[3]),digits=3)
+          signif(1-pf(tw_fstat[1],tw_fstat[2],tw_fstat[3]),digits=3)
           ))
 
 ## モデル3
-TW.sum <- summary(TW.est3)
-TW.r2 <- TW.sum$r.squared
-TW.ar2 <- TW.sum$adj.r.squared
-TW.fstat <- TW.sum$fstat
+tw_sum <- summary(tw_est3)
+tw_r2 <- tw_sum$r.squared
+tw_ar2 <- tw_sum$adj.r.squared
+tw_fstat <- tw_sum$fstat
 print(
     paste("R2:",
-          signif(TW.r2,digits=3),
+          signif(tw_r2,digits=3),
           "; adj. R2:",
-          signif(TW.ar2,digits=3),
+          signif(tw_ar2,digits=3),
           "; F-stat:",
-          signif(TW.fstat[1],digits=3),
+          signif(tw_fstat[1],digits=3),
           "; p-val:",
-          signif(1-pf(TW.fstat[1],TW.fstat[2],TW.fstat[3]),digits=3)
+          signif(1-pf(tw_fstat[1],tw_fstat[2],tw_fstat[3]),digits=3)
           ))
 
 ## モデル4
-TW.sum <- summary(TW.est4)
-TW.r2 <- TW.sum$r.squared
-TW.ar2 <- TW.sum$adj.r.squared
-TW.fstat <- TW.sum$fstat
+tw_sum <- summary(tw_est4)
+tw_r2 <- tw_sum$r.squared
+tw_ar2 <- tw_sum$adj.r.squared
+tw_fstat <- tw_sum$fstat
 print(
     paste("R2:",
-          signif(TW.r2,digits=3),
+          signif(tw_r2,digits=3),
           "; adj. R2:",
-          signif(TW.ar2,digits=3),
+          signif(tw_ar2,digits=3),
           "; F-stat:",
-          signif(TW.fstat[1],digits=3),
+          signif(tw_fstat[1],digits=3),
           "; p-val:",
-          signif(1-pf(TW.fstat[1],TW.fstat[2],TW.fstat[3]),digits=3)
+          signif(1-pf(tw_fstat[1],tw_fstat[2],tw_fstat[3]),digits=3)
+          ))
+
+## モデル5
+tw_sum <- summary(tw_est5)
+tw_r2 <- tw_sum$r.squared
+tw_ar2 <- tw_sum$adj.r.squared
+tw_fstat <- tw_sum$fstat
+print(
+    paste("R2:",
+          signif(tw_r2,digits=3),
+          "; adj. R2:",
+          signif(tw_ar2,digits=3),
+          "; F-stat:",
+          signif(tw_fstat[1],digits=3),
+          "; p-val:",
+          signif(1-pf(tw_fstat[1],tw_fstat[2],tw_fstat[3]),digits=3)
           ))
 
 ## モデル1
-signif(summary(TW.est1)$coef,digits=3)
+signif(summary(tw_est1)$coef,digits=3)
 
 ## モデル2
-signif(summary(TW.est2)$coef,digits=3)
+signif(summary(tw_est2)$coef,digits=3)
 
 ## モデル3
-signif(summary(TW.est3)$coef,digits=3)
+signif(summary(tw_est3)$coef,digits=3)
 
 ## モデル4
-signif(summary(TW.est4)$coef,digits=3)
+signif(summary(tw_est4)$coef,digits=3)
+
+## モデル5
+signif(summary(tw_est5)$coef,digits=3)
+
+## 診断プロット
+library(tidyverse)
+library(ggfortify)
+autoplot(tw_est4)
 
 ### 9,10月のデータでモデルを構築し，8,11月のデータを予測
-TW.data <- read.csv("data/tokyo_weather.csv")
-TW.train <- subset(TW.data, # モデル推定用データ
+tw_data <- read.csv("data/tokyo_weather.csv")
+tw_train <- subset(tw_data, # モデル推定用データ
                    subset= month %in% c(9,10)) # %in% は集合に含むか
-TW.test  <- subset(TW.data, # 予測用データ
+tw_test  <- subset(tw_data, # 予測用データ
                    subset= month %in% c(8,11))
 
-TW.model <- temp ~ solar + press # モデルの定義 
-TW.est <- lm(TW.model, data=TW.train) # モデルの推定
-summary(TW.est) # モデルの評価
-TW.fit  <- predict(TW.est) # データのあてはめ値
-TW.pred <- predict(TW.est, # 新規データの予測値
-                   newdata=TW.test)
+tw_model <- temp ~ solar + press # モデルの定義 
+tw_est <- lm(tw_model, data=tw_train) # モデルの推定
+summary(tw_est) # モデルの評価
+tw_fit  <- predict(tw_est) # データのあてはめ値
+tw_pred <- predict(tw_est, # 新規データの予測値
+                   newdata=tw_test)
 
 ## 予測結果を図示
 myColor <- rep("black",12) 
 myColor[8:11] <- c("red","orange","violet","blue") # 色の定義
-with(TW.train,
-     plot(temp ~ TW.fit, pch=1, col=myColor[month],
+with(tw_train,
+     plot(temp ~ tw_fit, pch=1, col=myColor[month],
           xlab="fitted", ylab="observed"))
-with(TW.test,
-     points(temp ~ TW.pred, pch=4, col=myColor[month]))
+with(tw_test,
+     points(temp ~ tw_pred, pch=4, col=myColor[month]))
 abline(0,1,col="gray") # 予測が完全に正しい場合のガイド線
 legend("bottomright",inset=.05, pch=15, # 凡例の作成
        legend=c("Aug","Sep","Oct","Nov"), col=myColor[8:11])
@@ -187,27 +223,27 @@ legend("bottomright",inset=.05, pch=15, # 凡例の作成
 
 ## 信頼区間と予測区間の計算
 library(plotrix) # 区間付きのグラフを利用するため
-TW.data <- read.csv("data/tokyo_weather.csv")
-TW.train <- subset(TW.data, subset= month %in% 8) # 推定用データ
-TW.test  <- subset(TW.data, subset= month %in% 9) # 予測用データ
-TW.model <- temp ~ solar + press + cloud # モデルの定義 
-TW.est <- lm(TW.model, data=TW.train) # モデルの推定
+tw_data <- read.csv("data/tokyo_weather.csv")
+tw_train <- subset(tw_data, subset= month %in% 8) # 推定用データ
+tw_test  <- subset(tw_data, subset= month %in% 9) # 予測用データ
+tw_model <- temp ~ solar + press + cloud # モデルの定義 
+tw_est <- lm(tw_model, data=tw_train) # モデルの推定
 
 ## 信頼区間
-TW.fit <- data.frame(TW.train,
-                     predict(TW.est, # 回帰式によるあてはめ値を付加
+tw_fit <- data.frame(tw_train,
+                     predict(tw_est, # 回帰式によるあてはめ値を付加
                              interval="confidence")) 
-TW.cint <- data.frame(TW.test,
-                      predict(TW.est, newdata=TW.test,
+tw_cint <- data.frame(tw_test,
+                      predict(tw_est, newdata=tw_test,
                               interval="confidence"))
 
 ## 予測区間
-TW.pint <- data.frame(TW.test,
-                      predict(TW.est, newdata=TW.test,
+tw_pint <- data.frame(tw_test,
+                      predict(tw_est, newdata=tw_test,
                               interval="prediction"))
 
 ## 8月のデータで推定したモデルで8月をあてはめた信頼区間
-with(TW.fit, { # 2つのプロットをまとめて実行
+with(tw_fit, { # 2つのプロットをまとめて実行
     plotCI(day, fit, ui=upr, li=lwr, # それぞれの列名に注意
            col="blue", scol="steelblue", lwd=2,
            xlab="August", ylab="temperature")
@@ -215,7 +251,7 @@ with(TW.fit, { # 2つのプロットをまとめて実行
 })
 
 ## 8月のモデルで9月をあてはめた信頼区間
-with(TW.cint, {
+with(tw_cint, {
     plotCI(day, fit, ui=upr, li=lwr, ylim=c(20,32), 
            col="blue", scol="steelblue", lwd=2,
            xlab="September", ylab="temperature")
@@ -223,7 +259,7 @@ with(TW.cint, {
 })
 
 ## 8月のモデルで9月をあてはめた予測区間
-with(TW.pint, {
+with(tw_pint, {
     plotCI(day, fit, ui=upr, li=lwr, ylim=c(20,32),
            col="blue", scol="lightblue", lwd=2,
            xlab="September", ylab="temperature")
@@ -301,42 +337,42 @@ str(dat4) # 条件の真偽で2値に類別される
 ### 9月から11月のデータによる分析 (交互作用と非線形性)
 
 ## データの整形
-TW.subset <- subset(TW.data, subset= month %in% 9:11)
+tw_subset <- subset(tw_data, subset= month %in% 9:11)
 
 ## 日射量，気圧，湿度の線形回帰モデル
-summary(lm(temp ~ solar + press + humid, data=TW.subset))
+summary(lm(temp ~ solar + press + humid, data=tw_subset))
 ## 湿度の対数を考えた線形回帰モデル
-summary(lm(temp ~ solar + press + log(humid), data=TW.subset))
+summary(lm(temp ~ solar + press + log(humid), data=tw_subset))
 ## 最初のモデルにそれぞれの交互作用を加えたモデル (書き方はいろいろある)
-summary(lm(temp ~ (solar + press + humid)^2, data=TW.subset))
+summary(lm(temp ~ (solar + press + humid)^2, data=tw_subset))
 ## 更に3つの変数の積を加えたモデル
-summary(lm(temp ~ solar * press * humid, data=TW.subset))
+summary(lm(temp ~ solar * press * humid, data=tw_subset))
 
 ## 用いた変数の散布図
-plot(~ temp + solar + press + humid, data=TW.subset)
+plot(~ temp + solar + press + humid, data=tw_subset)
 ## 最後のモデルの視覚的な評価 (診断プロット)
-plot(lm(temp ~ solar * press * humid, data=TW.subset))
+plot(lm(temp ~ solar * press * humid, data=tw_subset))
 
 ### 雨と気温の関係の分析 (カテゴリカル変数)
 
 ## 雨の有無をダミー化(因子化)する
-TW.data <- transform(TW.data,
+tw_data <- transform(tw_data,
                      rain=factor(rain > 0)) 
-summary(lm(temp ~ rain, data=TW.data))
+summary(lm(temp ~ rain, data=tw_data))
 ## 通年では雨と気温の関係は積極的に支持されない
 
 ## 月毎の気温の差を考慮して月を表す変数(整数値)をダミー化する
-TW.data <- transform(TW.data, 
+tw_data <- transform(tw_data, 
                      month=factor(month))
-summary(lm(temp ~ rain + month, data=TW.data))
+summary(lm(temp ~ rain + month, data=tw_data))
 ## 月毎に比較すると雨の日の方が気温が低いことが支持される
 
 ## モデルの探索
-Adv.data <- read.csv('https://www.statlearning.com/s/Advertising.csv',
+adv_data <- read.csv('https://www.statlearning.com/s/Advertising.csv',
                      row.names=1) 
-summary(lm(sales ~ radio, data=Adv.data))
-summary(lm(sales ~ TV + radio, data=Adv.data))
-summary(lm(sales ~ TV + radio + newspaper, data=Adv.data))
-summary(init <- lm(sales ~ TV * radio * newspaper, data=Adv.data))
-opt <- step(init)
+summary(lm(sales ~ radio, data=adv_data))
+summary(lm(sales ~ TV + radio, data=adv_data))
+summary(lm(sales ~ TV + radio + newspaper, data=adv_data))
+summary(init <- lm(sales ~ TV * radio * newspaper, data=adv_data))
+opt <- step(init) # step関数による探索 (最大のモデルから削減増加を行う)
 summary(opt)
