@@ -62,21 +62,21 @@ sqrt(eig$values/(n-1)) # 固有値と主成分の標準偏差の関係
 
 ### 実データによる確認
 ## データの読み込み
-JS.data <- read.csv("data/japan_social.csv", row.names=1)
+js_data <- read.csv("data/japan_social.csv", row.names=1)
 ## データの視覚化
-plot(JS.data, col="blue") # いくつかの変数は相関強い
-boxplot(JS.data, col="green") # 箱ひげ図．変数のばらつきに大きな違いがある
-(JS.pca <- prcomp(JS.data, scale=TRUE))
+plot(js_data, col="blue") # いくつかの変数は相関強い
+boxplot(js_data, col="green") # 箱ひげ図．変数のばらつきに大きな違いがある
+(js_pca <- prcomp(js_data, scale=TRUE))
 ## 主成分方向から読み取れること:
 ## 第1: 人の多さに関する成分(正の向きほど人が多い)
 ## 第2: 農業生産力に関する成分(正の向きほど高い)
-summary(JS.pca) # 寄与率の表示．来週詳しく説明する
+summary(js_pca) # 寄与率の表示．来週詳しく説明する
 ## 2変数での解析例 (AgriとLandを取り上げる，その他の組み合わせでも試みよ)
 ## 多変数での視覚化は来週詳しく説明する
-JS.subset <- scale(subset(JS.data, select=c(Agri,Land))) # 正規化
-JS.pca2 <- prcomp(JS.subset)
-ahat <- JS.pca2$rotation[,1]
-pc1 <- predict(JS.pca2)[,1] 
-plot(JS.subset, asp=1, pch=4, col="blue") 
+js_subset <- scale(subset(js_data, select=c(Agri,Land))) # 正規化
+js_pca2 <- prcomp(js_subset)
+ahat <- js_pca2$rotation[,1]
+pc1 <- predict(js_pca2)[,1] 
+plot(js_subset, asp=1, pch=4, col="blue") 
 abline(0, ahat[2]/ahat[1], col="orange", lty="dotted", lwd=2)
 points(pc1 %o% ahat, pch=18, col="purple")
