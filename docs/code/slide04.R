@@ -124,6 +124,17 @@ beta_est <- lm(y ~ x, data=my_data) # 回帰係数の推定
 coef(beta_est) # 回帰係数の取得
 summary(beta_est) # 分析結果の概要の表示
 
+mc <- 5000 # 実験回数を指定
+my_trial <- function(){
+    # ここに試行の内容を書く     
+    return()} # 最後に返り値を指定する
+my_data <- as.data.frame(t( # 実験結果を転置してデータフレームに変換
+    replicate(mc, my_trial()))) # Monte-Carlo実験
+## 適切な統計・視覚化処理 (下記は例)
+apply(my_data,2,var) # 各列の分散の計算
+plot(my_data) # 散布図行列の描画
+hist(my_data[[k]]) # k列目のデータのヒストグラム
+
 ### 
 ### 練習問題 推定量の性質
 ### 
@@ -133,9 +144,9 @@ set.seed(2468) # 乱数のシード (適宜変更せよ)
 
 ## 試行の設定
 x_obs <- c(1, 20, 13, 9, 5, 15, 19, 8, 3, 4) # 説明変数の観測値
-beta0 <- -1 # 切片
-beta1 <-  2 # xの係数
-sigma <-  sqrt(2) # 誤差の標準偏差(分散の平方根)
+beta0 <- -1 # 切片(真値)を指定
+beta1 <-  2 # xの係数(真値)を指定
+sigma <-  sqrt(2) # 誤差の標準偏差(分散の平方根)を設定
 my_trial <- function(){ 
     epsilon <- rnorm(length(x_obs),sd=sigma) # 誤差項の生成
     y_obs <- beta0 + beta1*x_obs + epsilon # 目的変数の観測値
@@ -252,6 +263,67 @@ tw_est3 <- lm(tw_model3, data=tw_subset, y=TRUE)
 summary(tw_est1)$coef[,c("Estimate","Std. Error")]
 summary(tw_est2)$coef[,1:2] # 名前ではなく列番号で指定する場合
 summary(tw_est3)$coef[,1:2] # cloud の標準誤差が大きく精度が悪いことが示唆される
+
+### 
+### 練習問題 t統計量の性質
+###
+
+### 人工データによる確認
+set.seed(2525) # 乱数のシード (適宜変更せよ)
+
+## 試行の設定 (重回帰，以下適宜変更せよ)
+x_obs1 <- c(1, 20, 13, 9, 5, 15, 19, 8, 3, 4) # 説明変数1
+x_obs2 <- c(3, 19, 1, 4, 18, 7, 2, 10, 6, 12) # 説明変数2
+beta0 <- -1 # 切片 
+beta1 <-  2 # x1の係数 < 帰無仮説に従わない
+beta2 <-  0 # x2の係数 < 帰無仮説に従う 
+sigma <-  sqrt(2) # 誤差の標準偏差(分散の平方根)
+my_trial <- function(){ 
+    epsilon <- rnorm(length(x_obs1),sd=sigma) # 誤差項
+    y_obs <- beta0 + beta1*x_obs1 + beta2*x_obs2 + epsilon # 目的変数
+    dat <- data.frame(x1=x_obs1,x2=x_obs2,y=y_obs) # データフレームの作成
+    est <- lm(y ~ x1 + x2, data=dat) # 回帰係数の推定
+    return(summary(est)$coef[,"t value"]) # t統計量を返す
+}
+
+## 数値実験
+mc <- 5000 # 実験回数
+my_data <- as.data.frame(t( # データフレームの作成
+    replicate(mc, my_trial()))) # mc回の試行
+names(my_data) <- c("beta0.tval","beta1.tval","beta2.tval") 
+
+## 各回帰係数のt統計量の分布
+n <- length(x_obs1) # データ数 n
+p <- 2 # 説明変数の次元
+## beta0 (k=1), beta1 (k=2), beta2 (k=3)
+for(k in 1:3){
+    hist(my_data[[k]], # 実験により得られた分布
+         breaks=30, freq=FALSE, # 密度で表示
+         border="blue", col="lightblue",
+         xlab=names(my_data)[k], main="t values")
+    curve(dt(x,df=n-p-1), # 自由度 n-p-1 のt分布
+          col="orchid", lwd=2, add=TRUE)
+}
+
+### 広告費と売上データによる分析
+
+## 全てを用いたモデルと newspaper を除いたモデルを比較する
+summary(lm(sales ~ ., data=adv_data)) # "." は全て
+summary(lm(sales ~ . -newspaper, data=adv_data)) # "-" は除外
+
+## newspaperの係数のt統計量から有意性は低いと考えられる
+## 自由度調整済決定係数も除いた方が高くなることが確認できる
+
+### 東京の気候データによる分析
+
+## solarとpressを用いたモデルを比較する
+summary(lm(temp ~ press, data=tw_subset))
+summary(lm(temp ~ solar + press, data=tw_subset))
+summary(lm(temp ~ solar, data=tw_subset))
+
+## press単体では係数の推定精度も決定係数も低いが
+## solarと組み合わせることにより精度が上がり説明力も高くなる
+## また組み合わせた方が自由度調整済決定係数はsolar単体より大きくなる
 
 ### 
 ### 練習問題 F統計量の性質

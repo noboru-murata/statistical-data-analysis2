@@ -3,7 +3,7 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2022-10-14 15:38:12 mura>
+# Time-stamp: <2022-10-28 15:39:34 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+STARTUP: hidestars content indent
@@ -19,9 +19,9 @@
 
 * COMMENT 講義の内容
 # 早稲田大学
-- *第1回: 回帰モデルの考え方と推定*
-- 第2回: モデルの評価
-- 第3回: モデルによる予測と発展的なモデル
+- *第1回 : 回帰モデルの考え方と推定*
+- 第2回 : モデルの評価
+- 第3回 : モデルによる予測と発展的なモデル
 
 #+begin_src R :eval no :exports none :tangle yes
   ### 第3講 資料
@@ -32,9 +32,9 @@
 
 * 講義概要
 # 東京大学
-- *第1回: 回帰モデルの考え方と推定*
-- 第2回: モデルの評価
-- 第3回: モデルによる予測と発展的なモデル
+- *第1回 : 回帰モデルの考え方と推定*
+- 第2回 : モデルの評価
+- 第3回 : モデルによる予測と発展的なモデル
 
 #+begin_src R :eval no :exports none :tangle yes
   ### 
@@ -76,7 +76,7 @@
   ### 第05回 資料
 #+end_src
 #+begin_src R :exports none
-  setwd("~/Desktop/lectures/mva/slide")
+  setwd("~/Desktop/lectures/mva/course")
 #+end_src
 
 * COMMENT 実習 (東京大学雛型)
@@ -524,14 +524,14 @@
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
-- データフレームを用いる方法: *(こちらを推奨)*
+- データフレームを用いる方法 *(こちらを推奨)*
   #+begin_src R :eval no
     lm(formula = yの変数名 ~ x1の変数名 + ... + xpの変数名,
        data = データフレーム)
     ## formula: 目的変数名 ~ 説明変数名
     ## data: 目的変数，説明変数を含むデータフレーム
   #+end_src
-- ベクトルを用いた場合の使い方:
+- ベクトルを用いた場合の使い方
   #+begin_src R :eval no
     lm(formula = y ~ x1 + ... + xp)
     ## formula: 目的変数 ~ 説明変数 (複数ある場合は + で並べる)
@@ -1514,9 +1514,9 @@
   
 
 * 次回の予定
-- 第1回: 回帰モデルの考え方と推定
-- *第2回: モデルの評価*
-- 第3回: モデルによる予測と発展的なモデル
+- 第1回 : 回帰モデルの考え方と推定
+- *第2回 : モデルの評価*
+- 第3回 : モデルによる予測と発展的なモデル
 
 
 * Footnotes
