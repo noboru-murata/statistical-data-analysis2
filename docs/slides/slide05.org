@@ -3,7 +3,7 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2022-10-27 16:18:26 mura>
+# Time-stamp: <2022-11-04 14:51:50 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+STARTUP: hidestars content indent
@@ -898,9 +898,6 @@
 :END:
 # 東京大学
 ** R : 予測値と区間推定
-:PROPERTIES:
-:reveal_background: #fef4f4
-:END:
 - 関数 ~predict()~ を用いた予測
   #+begin_src R :eval no
     ## モデルの作成
@@ -919,9 +916,6 @@
   #+end_src
 
 ** R : モデルからの予測
-:PROPERTIES:
-:reveal_background: #fef4f4
-:END:
 - 東京の気候データによる例
   #+begin_src R :eval no :tangle yes
     ### 9,10月のデータでモデルを構築し，8,11月のデータを予測
@@ -955,6 +949,20 @@
            legend=c("Aug","Sep","Oct","Nov"), col=myColor[8:11])
   #+end_src
 
+** R : 区間表示のための関数
+- 関数 ~plotrix::plotCI()~
+  #+begin_src R :eval no :tangle no
+    library(plotrix) # 標準のplotを拡張した関数が用意されている
+    plotCI(x,y=NULL,uiw,liw=uiw,ui=NULL,li=NULL,err="y",...)
+    ## x: データのx座標
+    ## y: データのy座標
+    ## uiw,liw: 区間の上下の幅 
+    ## ui,li: 区間の上下の値 (幅か値のどちらかを指定する)
+    ## err: 区間を付加する座標
+  #+end_src
+  - 関数 ~predict()~ の返り値 (lwr/upr) を用いる場合は ui/li を利用すればよい
+  - 標準誤差の定数倍を計算して用いる場合は uiw/liw を利用すればよい
+    
 ** 練習問題
 :PROPERTIES:
 :reveal_background: #fef4f4
