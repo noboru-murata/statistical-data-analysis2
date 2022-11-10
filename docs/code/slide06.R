@@ -10,16 +10,16 @@
 set.seed(123123)
 n <- 100 # データ数
 a <- c(1, 2)/sqrt(5) # 主成分負荷量(単位ベクトル)の設定 (適宜変更せよ)
-myData <- data.frame( # aのスカラー倍に正規乱数を重畳
+my_data <- data.frame( # aのスカラー倍に正規乱数を重畳
   runif(n,-1,1) %o% a + rnorm(2*n, sd=0.3))
-names(myData) <- paste0("x",1:2) # 列名を付与
-plot(myData, asp=1, # 縦横比を1とした散布図
+names(my_data) <- paste0("x",1:2) # 列名を付与
+plot(my_data, asp=1, # 縦横比を1とした散布図
      pch=4, col="blue") 
 ## a方向に本質的な情報が集約されていることがわかる
 abline(0, a[2]/a[1], # 切片と傾きを指定
        col="red", lwd=2) # 主成分負荷量の図示
 ## 主成分負荷量の推定
-est <- prcomp(myData)
+est <- prcomp(my_data)
 ahat <- est$rotation[,1]
 ## 第１主成分負荷量がaに非常に近い (乱数によっては符号が反対になることもある)
 abline(0, ahat[2]/ahat[1],
@@ -40,17 +40,17 @@ n <- 50 # データ数
 d <- 3
 a <- rnorm(d)
 (a <- a/sqrt(sum(a^2))) # 主成分負荷量(単位ベクトル)を生成
-myData <- data.frame(runif(n,-1,1) %o% a + rnorm(d*n, sd=0.1))
-names(myData) <- paste0("x",1:d) # 観測データ
-plot(myData, pch=4, col="blue") # 散布図行列
-s3d <- scatterplot3d(myData, type="h", asp=1,
+my_data <- data.frame(runif(n,-1,1) %o% a + rnorm(d*n, sd=0.1))
+names(my_data) <- paste0("x",1:d) # 観測データ
+plot(my_data, pch=4, col="blue") # 散布図行列
+s3d <- scatterplot3d(my_data, type="h", asp=1,
                      highlight.3d=TRUE)
-est <- prcomp(myData)
+est <- prcomp(my_data)
 pc1 <- predict(est)[,1]
 s3d$points3d(pc1 %o% a, col="blue")
 
 ## 主成分負荷量の推定を固有値分解と比較
-eig <- eigen(crossprod(scale(myData,scale=FALSE))) # 固有値分解
+eig <- eigen(crossprod(scale(my_data,scale=FALSE))) # 固有値分解
 est$rotation # 主成分負荷量
 eig$vectors  # 固有ベクトル (符号を除いて主成分負荷量と一致)
 est$sdev               # 主成分の標準偏差

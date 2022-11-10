@@ -3,7 +3,7 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2022-11-04 14:51:50 mura>
+# Time-stamp: <2022-11-04 18:17:27 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+STARTUP: hidestars content indent
@@ -17,6 +17,7 @@
 - 同じタイトルの項目にはメモを入れる
 - 演習の内容が異なるので演習は2つ作る形で対応
 - ggplotで全部書き直したいが ggpairs の色が寂しい
+- 交互作用の件はもう少し良い例で診断プロットを付けるのが良さそう
 
 * COMMENT 講義の内容
 # 早稲田大学
