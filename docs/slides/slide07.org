@@ -3,7 +3,7 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2021-11-19 15:35:00 mura>
+# Time-stamp: <2022-11-11 12:23:08 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+STARTUP: hidestars content indent
@@ -12,6 +12,10 @@
 # C-c '
 :END:
 
+* COMMENT メモ
+- 第3講以降は同じファイルを使うように整理する
+- 同じタイトルの項目にはメモを入れる
+- 演習の内容が異なるので演習は2つ作る形で対応
 * COMMENT 講義の内容
 # 早稲田大学
 - 第1日: 主成分分析の考え方
@@ -21,7 +25,7 @@
   ### 第7講 資料
 #+end_src
 #+begin_src R :exports none
-  setwd("~/Desktop/lectures/mva/slide")
+  setwd("~/Desktop/lectures/mva/course")
 #+end_src
 
 * 講義概要
@@ -35,13 +39,17 @@
   ###
 #+end_src
 #+begin_src R :exports none
-  setwd("~/Desktop/lectures/u-tokyo/autumn/slide")
+  setwd("~/Desktop/lectures/u-tokyo/autumn/course")
 #+end_src
-
-* COMMENT メモ
-- 第3講以降は同じファイルを使うように整理する
-- 同じタイトルの項目にはメモを入れる
-- 演習の内容が異なるので演習は2つ作る形で対応
+* COMMENT 雛型の編集
+#+begin_src R :eval no :exports none :tangle yes
+  ### 
+  ### 第7講 サンプルコード
+  ###
+#+end_src
+#+begin_src R :exports none
+  setwd("~/Desktop/lectures/u-tokyo/autumn/template")
+#+end_src
 
 * COMMENT 演習 (早稲田大学雛型)
 :PROPERTIES:
@@ -68,6 +76,14 @@
   #+begin_src latex
   #+end_src
   #+end_quote
+
+#+OPTIONS: reveal_mousewheel:nil
+#+begin_src R :eval no :exports none :tangle yes
+  ### 第05回 資料
+#+end_src
+#+begin_src R :exports none
+  setwd("~/Desktop/lectures/mva/course")
+#+end_src
 
 * COMMENT 演習 (東京大学雛型)
 :PROPERTIES:
@@ -123,7 +139,7 @@
   ### 第06回 資料
 #+end_src
 #+begin_src R :exports none
-  setwd("~/Desktop/lectures/mva/slide")
+  setwd("~/Desktop/lectures/mva/course")
 #+end_src
 
 
@@ -133,13 +149,13 @@
 - 多数の変量のもつ情報の分析・視覚化
   - 変量を効率的に縮約して少数の特徴量を構成する
   - 変量の間の関係を明らかにする
-- 分析の方針:
+- 分析の方針
   - データの情報を最大限保持する変量の線形結合を構成
   - データの情報を最大限反映する座標(方向)を探索
   - *データの情報を保持する* = *データを区別することができる*
 
 ** 分析の考え方
-- 1変量データ
+- 1変量の特徴量
   \(\boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_1,\dotsc,\boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_n\)
   を構成
   - 観測データ \(\boldsymbol{x}_1,\dots,\boldsymbol{x}_n\)
@@ -225,11 +241,12 @@
     \end{equation}
   #+end_src
   #+end_quote
-
+  - 未定係数法を用いている
+    
 ** 主成分負荷量と主成分得点
-- \(\boldsymbol{a}\):
+- \(\boldsymbol{a}\) :
   *主成分負荷量* (principal component loading)
-- \(\boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_i\):
+- \(\boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_i\) :
   *主成分得点* (principal component score)
 - 第1主成分負荷量
   #+begin_quote
@@ -279,7 +296,7 @@
     を
     \(X\)と\(\boldsymbol{a}_{k}\)で表せ
     
-** COMMENT 解答例
+** 解答例
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
@@ -349,7 +366,7 @@
   #+end_quote
 
 ** Gram行列のスペクトル分解
-- 行列 \(X^{\mathsf{T}}X\) (非負値正定対称行列) のスペクトル分解
+- 行列 \(X^{\mathsf{T}}X\) (非負定値対称行列) のスペクトル分解
   #+begin_quote
   #+begin_src latex
     \begin{equation}
@@ -419,7 +436,7 @@
 #  - 第1から第 \(k\) までの寄与率の総和
 
 
-* 演習
+* 実習
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
@@ -828,7 +845,7 @@
     と書くとき，
     \(X'^{\mathsf{T}}X'\)の対角成分を求めよ
     
-** COMMENT 解答例
+** 解答例
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
@@ -1069,7 +1086,7 @@
   - 行列\(X\)の主成分負荷量を求めなさい
   - それぞれの負荷量に対応する主成分得点を求めなさい
 
-** COMMENT 解答例
+** 解答例
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
@@ -1243,7 +1260,7 @@
 - \(X\) の変動を最大限保持する近似は \(k=1,l=2\)
 
 
-* 演習
+* 実習
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
@@ -1432,7 +1449,7 @@
 [[file:figs/07_biplot32e.png]]
 
 
-* 次週の予定
+* 次回の予定
 - *第1日: 判別分析の考え方*
 - 第2日: 分析の評価
 

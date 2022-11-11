@@ -105,7 +105,7 @@
 :EXPORT_FILE_NAME: lecture06
 :EXPORT_DATE: <2020-09-19 Sat>
 :END:
-<2021-10-15 Fri> 更新
+<2022-11-11 Fri> 更新
 ** スライド
 #+hugo: {{< myslide base="statistical-data-analysis2" name="slide06" >}}
 ** ハンドアウト
@@ -119,7 +119,7 @@
 :EXPORT_FILE_NAME: lecture07
 :EXPORT_DATE: <2020-09-19 Sat>
 :END:
-<2021-11-19 Fri> 更新
+<2022-11-11 Fri> 更新
 ** スライド
 #+hugo: {{< myslide base="statistical-data-analysis2" name="slide07" >}}
 ** ハンドアウト
@@ -223,7 +223,7 @@
 :EXPORT_FILE_NAME: record
 :EXPORT_DATE: <2022-10-09 Sun>
 :END:
-<2022-10-29 Sat> 更新
+<2022-11-11 Fri> 更新
 - [[https://u-tokyo-ac-jp.zoom.us/rec/share/i7MJgFbB5sjRHfGDhPTHaB_UJI63xhZrIpFB9jLlI1AI4qTA4V_tV6f8nLLYzibw.MwUeY1ATEEexDbU0?startTime=1665129002000][第1講 (2022年10月7日)]]
 - 第2講 (2022年10月14日) 録画ミスのため公開動画はありません
 - [[https://u-tokyo-ac-jp.zoom.us/rec/share/kJSj3YH2jX_GH_W2QCGU230BuE7yaH1HDvaSDHZFlQxFnUn06Wk6oB3A0xpLPMGG.HiRjV5CHhKlm-VzZ?startTime=1666338598000][第3講 (2022年10月21日)]]
