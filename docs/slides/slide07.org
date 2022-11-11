@@ -3,7 +3,7 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2022-11-11 12:23:08 mura>
+# Time-stamp: <2022-11-11 14:35:35 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+STARTUP: hidestars content indent
@@ -487,8 +487,8 @@
   #+header: :width 720 :height 720 :res 100
   #+begin_src R :file figs/07_pairs_raw.png :exports results :results graphics :tangle yes
     ## 散布図 (正規化なし)
-    JS.data <- read.csv("data/japan_social.csv", row.names=1)
-    pairs(JS.data, col="orchid") # 座標に注意
+    js_data <- read.csv("data/japan_social.csv", row.names=1)
+    pairs(js_data, col="orchid") # 座標に注意
   #+end_src
 
 #+CAPTION: データの散布図
@@ -501,7 +501,7 @@
 - 変数のばらつきに大きな違いがある
   #+header: :width 720 :height 720 :res 100
   #+begin_src R :file figs/07_boxplot_raw.png :exports results :results graphics :tangle yes
-    boxplot(JS.data, col="orchid") # 箱ひげ図．変数のばらつきに大きな違いがある
+    boxplot(js_data, col="orchid") # 箱ひげ図．変数のばらつきに大きな違いがある
   #+end_src
 
 #+CAPTION: 各変数の箱ひげ図
@@ -518,7 +518,7 @@
   #+header: :width 720 :height 720 :res 100
   #+begin_src R :file figs/07_pairs.png :exports results :results graphics :tangle yes
     ## データの視覚化
-    pairs(scale(JS.data), col="blue") # いくつかの変数は相関が強い
+    pairs(scale(js_data), col="blue") # いくつかの変数は相関が強い
   #+end_src
 
 #+CAPTION: 正規化したデータの散布図
@@ -531,7 +531,7 @@
 - 変数のばらつきをそろえる
   #+header: :width 720 :height 720 :res 100
   #+begin_src R :file figs/07_boxplot.png :exports results :results graphics :tangle yes
-    boxplot(scale(JS.data), col="blue") # 箱ひげ図．変数のばらつきに大きな違いがある
+    boxplot(scale(js_data), col="blue") # 箱ひげ図．変数のばらつきに大きな違いがある
   #+end_src
 
 #+CAPTION: 各変数の箱ひげ図
@@ -553,7 +553,7 @@
   #+end_src
   - ~japan_social.csv~ の読み込み方の例
     #+begin_src R :eval no
-      JS.data <- read.csv("data/japan_social.csv", row.names=1)
+      js_data <- read.csv("data/japan_social.csv", row.names=1)
     #+end_src
   - ~MASS::UScereal~ の整理の仕方の例
     #+begin_src R :eval no
@@ -574,23 +574,23 @@
   ### - Ratio: 全国総人口に占める人口割合 (%) 2015年
   ### - Land: 土地生産性（耕地面積１ヘクタール当たり）(万円) 2014年
   ### - Goods: 商業年間商品販売額［卸売業＋小売業］（事業所当たり）(百万円) 2013年
-  JS.data <- read.csv("data/japan_social.csv", row.names=1)
+  js_data <- read.csv("data/japan_social.csv", row.names=1)
   ## 視覚化の例 (データの性質を見ておくことは重要)
-  plot(JS.data,col="blue") # 散布図
-  plot(Forest ~ Agri, data=JS.data, col="blue") # 特定の要素
-  text(Forest -1 ~ Agri, data=JS.data, # 県名を付与
-       labels=rownames(JS.data), col="orange")
+  plot(js_data,col="blue") # 散布図
+  plot(Forest ~ Agri, data=js_data, col="blue") # 特定の要素
+  text(Forest -1 ~ Agri, data=js_data, # 県名を付与
+       labels=rownames(js_data), col="orange")
   ## 主成分分析
-  JS.pca0 <- prcomp(JS.data) # 正規化なし
-  JS.pca1 <- prcomp(JS.data, scale.=TRUE) # 正規化あり
+  js_pca0 <- prcomp(js_data) # 正規化なし
+  js_pca1 <- prcomp(js_data, scale.=TRUE) # 正規化あり
   ## 正規化しない場合
-  summary(JS.pca0) # 第1,2主成分でほとんど説明できることが示唆される
-  plot(JS.pca0) # 分散の棒グラフを表示 (寄与率の定数倍)
-  JS.pca0$rotation # 負荷量が偏る傾向があり，各主成分はほぼ1つの変数に対応している
+  summary(js_pca0) # 第1,2主成分でほとんど説明できることが示唆される
+  plot(js_pca0) # 分散の棒グラフを表示 (寄与率の定数倍)
+  js_pca0$rotation # 負荷量が偏る傾向があり，各主成分はほぼ1つの変数に対応している
   ## 正規化した場合
-  summary(JS.pca1)
-  plot(JS.pca1)
-  JS.pca1$rotation
+  summary(js_pca1)
+  plot(js_pca1)
+  js_pca1$rotation
 
   ### UScereal
   ## 各変数の内容についてはhelpを参照
@@ -640,8 +640,8 @@
     - データの一部
     #+begin_src R :exports results :tangle yes
       ## データの読み込み
-      JS.data <- read.csv("data/japan_social.csv", row.names=1)
-      head(JS.data, 18)
+      js_data <- read.csv("data/japan_social.csv", row.names=1)
+      head(js_data, 18)
     #+end_src
 
 ** 各変数の分布
@@ -649,7 +649,7 @@
   #+header: :width 720 :height 720 :res 100
   #+begin_src R :file figs/07_pairs_raw.png :exports results :results graphics :tangle yes
     ## 散布図 (正規化なし)
-    pairs(JS.data, col="orchid") # 座標に注意
+    pairs(js_data, col="orchid") # 座標に注意
   #+end_src
 
 #+CAPTION: データの散布図
@@ -662,7 +662,7 @@
 - 変数のばらつきに大きな違いがある
   #+header: :width 720 :height 720 :res 100
   #+begin_src R :file figs/07_boxplot_raw.png :exports results :results graphics :tangle yes
-    boxplot(JS.data, col="orchid") # 箱ひげ図．変数のばらつきに大きな違いがある
+    boxplot(js_data, col="orchid") # 箱ひげ図．変数のばらつきに大きな違いがある
   #+end_src
 
 #+CAPTION: 各変数の箱ひげ図
@@ -676,7 +676,7 @@
   #+header: :width 720 :height 720 :res 100
   #+begin_src R :file figs/07_pairs.png :exports results :results graphics :tangle yes
     ## データの視覚化
-    pairs(scale(JS.data), col="blue") # いくつかの変数は相関が強い
+    pairs(scale(js_data), col="blue") # いくつかの変数は相関が強い
   #+end_src
 
 #+CAPTION: 正規化したデータの散布図
@@ -689,7 +689,7 @@
 - 変数のばらつきをそろえる
   #+header: :width 720 :height 720 :res 100
   #+begin_src R :file figs/07_boxplot.png :exports results :results graphics :tangle yes
-    boxplot(scale(JS.data), col="blue") # 箱ひげ図．変数のばらつきに大きな違いがある
+    boxplot(scale(js_data), col="blue") # 箱ひげ図．変数のばらつきに大きな違いがある
   #+end_src
 
 #+CAPTION: 各変数の箱ひげ図
@@ -701,27 +701,27 @@
 ** 主成分分析
 - 主成分負荷量 (正規化なし)
   #+begin_src R :exports results :tangle yes
-    JS.pca <- prcomp(JS.data, scale.=FALSE)
-    JS.pca$rot
+    js_pca <- prcomp(js_data, scale.=FALSE)
+    js_pca$rot
   #+end_src
   - 第1: 分散が大きく関連している Agri と Land が支配的
   - 第2: 次に分散が大きな Goods が支配的
 - 寄与率
   #+begin_src R :exports results :tangle yes
-    summary(JS.pca)
+    summary(js_pca)
   #+end_src
   
 #+reveal: split
 - 第1,2主成分得点の表示
   #+header: :width 720 :height 720 :res 100
   #+begin_src R :file figs/07_pcaplot12_raw.png :exports results :results graphics :tangle yes
-    xrange <- 1.1*range(predict(JS.pca)[,"PC1"])
+    xrange <- 1.1*range(predict(js_pca)[,"PC1"])
     yrange <- xrange-mean(xrange)
-    plot(PC2 ~ PC1, data=predict(JS.pca),
+    plot(PC2 ~ PC1, data=predict(js_pca),
 	 type="n",
 	 xlim=xrange, ylim=yrange)
-    text(PC2 ~ PC1, data=predict(JS.pca),
-	 labels=row.names(JS.data),
+    text(PC2 ~ PC1, data=predict(js_pca),
+	 labels=row.names(js_data),
 	 col="orchid", cex=1.0)
    #+end_src
 
@@ -735,11 +735,11 @@
 - 第3,2主成分得点の表示
   #+header: :width 720 :height 720 :res 100
   #+begin_src R :file figs/07_pcaplot32_raw.png :exports results :results graphics :tangle yes
-    plot(PC2 ~ PC3, data=predict(JS.pca),
+    plot(PC2 ~ PC3, data=predict(js_pca),
          type="n",
          xlim=yrange, ylim=yrange)
-    text(PC2 ~ PC3, data=predict(JS.pca),
-         labels=row.names(JS.data),
+    text(PC2 ~ PC3, data=predict(js_pca),
+         labels=row.names(js_data),
          col="orchid", cex=1.0)
   #+end_src
 
@@ -752,27 +752,27 @@
 #+reveal: split
 - 主成分負荷量 (正規化あり)
   #+begin_src R :exports results :tangle yes
-    JS.pca <- prcomp(JS.data, scale.=TRUE)
-    JS.pca$rot
+    js_pca <- prcomp(js_data, scale.=TRUE)
+    js_pca$rot
   #+end_src
   - 第1: 人の多さに関する成分(正の向きほど人が多い)
   - 第2: 農業生産力に関する成分(正の向きほど高い)
 - 寄与率
   #+begin_src R :exports results :tangle yes
-    summary(JS.pca)
+    summary(js_pca)
   #+end_src
   
 #+reveal: split
 - 第1,2主成分得点の表示
   #+header: :width 720 :height 720 :res 100
   #+begin_src R :file figs/07_pcaplot12.png :exports results :results graphics :tangle yes
-    xrange <- 1.1*range(predict(JS.pca)[,"PC1"])
+    xrange <- 1.1*range(predict(js_pca)[,"PC1"])
     yrange <- xrange-mean(xrange)
-    plot(PC2 ~ PC1, data=predict(JS.pca),
+    plot(PC2 ~ PC1, data=predict(js_pca),
 	 type="n",
 	 xlim=xrange, ylim=yrange)
-    text(PC2 ~ PC1, data=predict(JS.pca),
-	 labels=row.names(JS.data),
+    text(PC2 ~ PC1, data=predict(js_pca),
+	 labels=row.names(js_data),
 	 col="blue", cex=1.0)
    #+end_src
 
@@ -786,11 +786,11 @@
 - 第3,2主成分得点の表示
   #+header: :width 720 :height 720 :res 100
   #+begin_src R :file figs/07_pcaplot32.png :exports results :results graphics :tangle yes
-    plot(PC2 ~ PC3, data=predict(JS.pca),
+    plot(PC2 ~ PC3, data=predict(js_pca),
          type="n",
          xlim=yrange, ylim=yrange)
-    text(PC2 ~ PC3, data=predict(JS.pca),
-         labels=row.names(JS.data),
+    text(PC2 ~ PC3, data=predict(js_pca),
+         labels=row.names(js_data),
          col="blue", cex=1.0)
   #+end_src
 
@@ -1306,9 +1306,9 @@
   ### - Ratio: 全国総人口に占める人口割合 (%) 2015年
   ### - Land: 土地生産性（耕地面積１ヘクタール当たり）(万円) 2014年
   ### - Goods: 商業年間商品販売額［卸売業＋小売業］（事業所当たり）(百万円) 2013年
-  JS.data <- read.csv("data/japan_social.csv", row.names=1)
-  JS.pca <- prcomp(JS.data, scale.=TRUE) # データを正規化      
-  biplot(JS.pca, # バイプロット(既定値: 第1 vs 第2主成分)
+  js_data <- read.csv("data/japan_social.csv", row.names=1)
+  js_pca <- prcomp(js_data, scale.=TRUE) # データを正規化      
+  biplot(js_pca, # バイプロット(既定値: 第1 vs 第2主成分)
          cex=c(0.6, 0.8), # 文字の大きさを調整
          col=c("blue","red")) # 色の指定 (データ，変数)
   ## 第1主成分方向の正の向きには大都市をもつ県が集中
@@ -1318,19 +1318,19 @@
 
   ## 気になるデータをいくつか見てみる
   ## 並べ替えるためにデータフレームの列をベクトルとして取り出す
-  JS.agri <- # １人当たり農業産出額に行名を付ける
-      setNames(JS.data$Agri, row.names(JS.data))
-  head(sort(JS.agri, decreasing=TRUE)) # 降順に並べてみる
+  js_agri <- # １人当たり農業産出額に行名を付ける
+      setNames(js_data$Agri, row.names(js_data))
+  head(sort(js_agri, decreasing=TRUE)) # 降順に並べてみる
 
   ## 第2,3主成分を確認する
-  biplot(JS.pca, choices=c(2,3), # バイプロット(第2 vs 第3主成分)
+  biplot(js_pca, choices=c(2,3), # バイプロット(第2 vs 第3主成分)
          cex=c(0.6, 0.8), 
          col=c("blue","red")) 
   ## 第3主成分方向の負の向きには土地生産性の上位県が集中
-  JS.land <- # 土地生産性に行名を付けて取出
-      setNames(JS.data$Land, row.names(JS.data))
-  head(sort(JS.land, decreasing=TRUE))
-  head(sort(JS.land))
+  js_land <- # 土地生産性に行名を付けて取出
+      setNames(js_data$Land, row.names(js_data))
+  head(sort(js_land, decreasing=TRUE))
+  head(sort(js_land))
   ## 北海道の土地生産性は低いことがわかる
 
   ### UScereal
@@ -1376,19 +1376,19 @@
 ** バイプロット
 - 主成分負荷量
   #+begin_src R :exports results :tangle yes
-    JS.pca <- prcomp(JS.data, scale=TRUE)
-    JS.pca$rot
+    js_pca <- prcomp(js_data, scale=TRUE)
+    js_pca$rot
   #+end_src
 - 寄与率
   #+begin_src R :exports results :tangle yes
-    summary(JS.pca)
+    summary(js_pca)
   #+end_src
 
 #+reveal: split
 - 第1,2主成分によるバイプロット
   #+header: :width 720 :height 720 :res 100
   #+begin_src R :file figs/07_biplot12.png :exports results :results graphics :tangle yes
-    biplot(JS.pca, scale=0,# バイプロット(既定値: 第1 vs 第2主成分)
+    biplot(js_pca, scale=0,# バイプロット(既定値: 第1 vs 第2主成分)
 	   xlim=xrange, ylim=yrange,
 	   cex=c(1, 0.8), # 文字の大きさを調整
 	   col=c("blue","red")) # 色の指定 (データ，変数)
@@ -1404,7 +1404,7 @@
 - 第3,2主成分によるバイプロット
   #+header: :width 720 :height 720 :res 100
   #+begin_src R :file figs/07_biplot32.png :exports results :results graphics :tangle yes
-    biplot(JS.pca, scale=0, choices=c(3,2), # バイプロット(第2 vs 第3主成分)
+    biplot(js_pca, scale=0, choices=c(3,2), # バイプロット(第2 vs 第3主成分)
 	   xlim=yrange, ylim=yrange,
 	   cex=c(1, 0.8), 
 	   col=c("blue","red")) 
@@ -1420,7 +1420,7 @@
 - 中心部の拡大 (第1,2主成分)
   #+header: :width 720 :height 720 :res 100
   #+begin_src R :file figs/07_biplot12e.png :exports results :results graphics :tangle yes
-    biplot(JS.pca, scale=0, choices=c(1,2), # バイプロット(第1 vs 第2主成分)
+    biplot(js_pca, scale=0, choices=c(1,2), # バイプロット(第1 vs 第2主成分)
 	   xlim=c(-2,2), ylim=c(-2,2),
 	   cex=c(1, 0.8), 
 	   col=c("blue","red")) 
@@ -1436,7 +1436,7 @@
 - 中心部の拡大 (第3,2主成分)
   #+header: :width 720 :height 720 :res 100
   #+begin_src R :file figs/07_biplot32e.png :exports results :results graphics :tangle yes
-    biplot(JS.pca, scale=0, choices=c(3,2), # バイプロット(第1 vs 第2主成分)
+    biplot(js_pca, scale=0, choices=c(3,2), # バイプロット(第1 vs 第2主成分)
 	   xlim=c(-2,2), ylim=c(-2,2),
 	   cex=c(1, 0.8), 
 	   col=c("blue","red")) 

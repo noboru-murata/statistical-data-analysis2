@@ -3,15 +3,15 @@
 ###
 
 ## 散布図 (正規化なし)
-JS.data <- read.csv("data/japan_social.csv", row.names=1)
-pairs(JS.data, col="orchid") # 座標に注意
+js_data <- read.csv("data/japan_social.csv", row.names=1)
+pairs(js_data, col="orchid") # 座標に注意
 
-boxplot(JS.data, col="orchid") # 箱ひげ図．変数のばらつきに大きな違いがある
+boxplot(js_data, col="orchid") # 箱ひげ図．変数のばらつきに大きな違いがある
 
 ## データの視覚化
-pairs(scale(JS.data), col="blue") # いくつかの変数は相関が強い
+pairs(scale(js_data), col="blue") # いくつかの変数は相関が強い
 
-boxplot(scale(JS.data), col="blue") # 箱ひげ図．変数のばらつきに大きな違いがある
+boxplot(scale(js_data), col="blue") # 箱ひげ図．変数のばらつきに大きな違いがある
 
 ### 
 ### 練習問題 寄与率・累積寄与率
@@ -24,23 +24,23 @@ boxplot(scale(JS.data), col="blue") # 箱ひげ図．変数のばらつきに大
 ### - Ratio: 全国総人口に占める人口割合 (%) 2015年
 ### - Land: 土地生産性（耕地面積１ヘクタール当たり）(万円) 2014年
 ### - Goods: 商業年間商品販売額［卸売業＋小売業］（事業所当たり）(百万円) 2013年
-JS.data <- read.csv("data/japan_social.csv", row.names=1)
+js_data <- read.csv("data/japan_social.csv", row.names=1)
 ## 視覚化の例 (データの性質を見ておくことは重要)
-plot(JS.data,col="blue") # 散布図
-plot(Forest ~ Agri, data=JS.data, col="blue") # 特定の要素
-text(Forest -1 ~ Agri, data=JS.data, # 県名を付与
-     labels=rownames(JS.data), col="orange")
+plot(js_data,col="blue") # 散布図
+plot(Forest ~ Agri, data=js_data, col="blue") # 特定の要素
+text(Forest -1 ~ Agri, data=js_data, # 県名を付与
+     labels=rownames(js_data), col="orange")
 ## 主成分分析
-JS.pca0 <- prcomp(JS.data) # 正規化なし
-JS.pca1 <- prcomp(JS.data, scale.=TRUE) # 正規化あり
+js_pca0 <- prcomp(js_data) # 正規化なし
+js_pca1 <- prcomp(js_data, scale.=TRUE) # 正規化あり
 ## 正規化しない場合
-summary(JS.pca0) # 第1,2主成分でほとんど説明できることが示唆される
-plot(JS.pca0) # 分散の棒グラフを表示 (寄与率の定数倍)
-JS.pca0$rotation # 負荷量が偏る傾向があり，各主成分はほぼ1つの変数に対応している
+summary(js_pca0) # 第1,2主成分でほとんど説明できることが示唆される
+plot(js_pca0) # 分散の棒グラフを表示 (寄与率の定数倍)
+js_pca0$rotation # 負荷量が偏る傾向があり，各主成分はほぼ1つの変数に対応している
 ## 正規化した場合
-summary(JS.pca1)
-plot(JS.pca1)
-JS.pca1$rotation
+summary(js_pca1)
+plot(js_pca1)
+js_pca1$rotation
 
 ### UScereal
 ## 各変数の内容についてはhelpを参照
@@ -67,9 +67,9 @@ UC.pca1$rotation
 ### - Ratio: 全国総人口に占める人口割合 (%) 2015年
 ### - Land: 土地生産性（耕地面積１ヘクタール当たり）(万円) 2014年
 ### - Goods: 商業年間商品販売額［卸売業＋小売業］（事業所当たり）(百万円) 2013年
-JS.data <- read.csv("data/japan_social.csv", row.names=1)
-JS.pca <- prcomp(JS.data, scale.=TRUE) # データを正規化      
-biplot(JS.pca, # バイプロット(既定値: 第1 vs 第2主成分)
+js_data <- read.csv("data/japan_social.csv", row.names=1)
+js_pca <- prcomp(js_data, scale.=TRUE) # データを正規化      
+biplot(js_pca, # バイプロット(既定値: 第1 vs 第2主成分)
        cex=c(0.6, 0.8), # 文字の大きさを調整
        col=c("blue","red")) # 色の指定 (データ，変数)
 ## 第1主成分方向の正の向きには大都市をもつ県が集中
@@ -79,19 +79,19 @@ biplot(JS.pca, # バイプロット(既定値: 第1 vs 第2主成分)
 
 ## 気になるデータをいくつか見てみる
 ## 並べ替えるためにデータフレームの列をベクトルとして取り出す
-JS.agri <- # １人当たり農業産出額に行名を付ける
-    setNames(JS.data$Agri, row.names(JS.data))
-head(sort(JS.agri, decreasing=TRUE)) # 降順に並べてみる
+js_agri <- # １人当たり農業産出額に行名を付ける
+    setNames(js_data$Agri, row.names(js_data))
+head(sort(js_agri, decreasing=TRUE)) # 降順に並べてみる
 
 ## 第2,3主成分を確認する
-biplot(JS.pca, choices=c(2,3), # バイプロット(第2 vs 第3主成分)
+biplot(js_pca, choices=c(2,3), # バイプロット(第2 vs 第3主成分)
        cex=c(0.6, 0.8), 
        col=c("blue","red")) 
 ## 第3主成分方向の負の向きには土地生産性の上位県が集中
-JS.land <- # 土地生産性に行名を付けて取出
-    setNames(JS.data$Land, row.names(JS.data))
-head(sort(JS.land, decreasing=TRUE))
-head(sort(JS.land))
+js_land <- # 土地生産性に行名を付けて取出
+    setNames(js_data$Land, row.names(js_data))
+head(sort(js_land, decreasing=TRUE))
+head(sort(js_land))
 ## 北海道の土地生産性は低いことがわかる
 
 ### UScereal
