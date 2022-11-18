@@ -3,7 +3,7 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2022-11-18 13:08:58 mura>
+# Time-stamp: <2022-11-18 14:50:55 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+STARTUP: hidestars content indent
@@ -1241,7 +1241,8 @@
 - 主成分分析の結果に対して表示
   #+BEGIN_SRC R :eval no
     ## データフレームを分析
-    est <- prcomp( ~ x1の変数名 + ... + xpの変数名, data = データフレーム)
+    est <- prcomp(data = データフレーム)
+    est <- prcomp( ~ 変数名1 + ... + 変数名p, data = データフレーム)
     ## 第1と第2主成分を利用した散布図
     biplot(est)
     ## 第2と第3主成分を利用した散布図
