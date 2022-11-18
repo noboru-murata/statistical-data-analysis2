@@ -3,7 +3,7 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2022-11-10 14:44:06 mura>
+# Time-stamp: <2022-11-11 16:25:39 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+STARTUP: hidestars content indent
@@ -16,6 +16,7 @@
 - 第3講以降は同じファイルを使うように整理する
 - 同じタイトルの項目にはメモを入れる
 - 演習の内容が異なるので演習は2つ作る形で対応
+- 東大は2次元，3次元の実験をするので，4次元などを考えてもらえばよい
 
 * COMMENT 講義の内容
 # 早稲田大学
@@ -540,7 +541,8 @@
   (回帰分析の Gram 行列を参照)
   #+end_quote
 
-** ベクトル \(\boldsymbol{a}\) の解
+** COMMENT ベクトル \(\boldsymbol{a}\) の解
+# 早稲田大学
 - 最適化問題
   #+begin_quote
   #+begin_src latex
@@ -567,9 +569,64 @@
   #+end_src
   #+end_quote
 
+** ベクトル \(\boldsymbol{a}\) の解
+# 東京
+- 最適化問題
+  #+begin_quote
+  #+begin_src latex
+    \begin{equation}
+      \text{maximize}\quad
+      f(\boldsymbol{a})
+      =
+      \boldsymbol{a}^{\mathsf{T}}X^{\mathsf{T}}X\boldsymbol{a}
+      \quad\text{s.t.}\quad
+      \boldsymbol{a}^{\mathsf{T}}\boldsymbol{a}=1
+    \end{equation}
+  #+end_src
+  #+end_quote
+
+#+reveal: split
+- 制約付き最適化なので未定係数法を用いればよい
+  #+begin_quote
+  #+begin_src latex
+    \begin{equation}
+      L(\boldsymbol{a},\lambda)
+      =f(\boldsymbol{a})+\lambda(1-\boldsymbol{a}^{\mathsf{T}}\boldsymbol{a})
+    \end{equation}
+    の鞍点
+    \begin{equation}
+      \frac{\partial}{\partial\boldsymbol{a}}L(\boldsymbol{a},\lambda)
+      =0
+    \end{equation}
+    を求めればよいので
+    \begin{align}
+      2X^{\mathsf{T}}X\boldsymbol{a}-2\lambda\boldsymbol{a}
+      &=0\\
+      X^{\mathsf{T}}X\boldsymbol{a}
+      &=\lambda\boldsymbol{a}
+        \quad\text{(固有値問題)}
+    \end{align}
+  #+end_src
+  #+end_quote
+
+
+#+reveal: split
+- 解の条件
+  #+begin_quote
+  \(f(\boldsymbol{a})\) の極大値を与える \(\boldsymbol{a}\) は
+  \(X^{\mathsf{T}}X\) の固有ベクトルとなる
+  #+begin_src latex
+    \begin{equation}
+      X^{\mathsf{T}}X\boldsymbol{a}
+      =
+      \lambda\boldsymbol{a}
+    \end{equation}
+  #+end_src
+  #+end_quote
+
 ** 第1主成分
 - 固有ベクトル\(\boldsymbol{a}\)に対する\(f(\boldsymbol{a})\)
-  は行列 \(X^{\mathsf{T}}X\) の固有値
+  の値は行列 \(X^{\mathsf{T}}X\) の固有値
   #+begin_quote
   #+begin_src latex
     \begin{equation}

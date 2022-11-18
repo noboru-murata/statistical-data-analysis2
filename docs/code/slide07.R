@@ -45,16 +45,16 @@ js_pca1$rotation
 ### UScereal
 ## 各変数の内容についてはhelpを参照
 library(MASS)
-UC.data <- UScereal[sapply(UScereal, is.double)] 
+uc_data <- UScereal[sapply(UScereal, is.double)] 
 ## 適当な方法で視覚化をすることを推奨
-UC.pca0 <- prcomp(UC.data)
-UC.pca1 <- prcomp(UC.data, scale.=TRUE)
-summary(UC.pca0)
-plot(UC.pca0) 
-UC.pca0$rotation
-summary(UC.pca1)
-plot(UC.pca1)
-UC.pca1$rotation
+uc_pca0 <- prcomp(uc_data)
+uc_pca1 <- prcomp(uc_data, scale.=TRUE)
+summary(uc_pca0)
+plot(uc_pca0) 
+uc_pca0$rotation
+summary(uc_pca1)
+plot(uc_pca1)
+uc_pca1$rotation
 
 ### 
 ### 練習問題 主成分分析の視覚化
@@ -97,20 +97,20 @@ head(sort(js_land))
 ### UScereal
 ## 各変数の内容についてはhelpを参照
 library(MASS)
-UC.data <- UScereal[sapply(UScereal, is.double)]
-UC.pca <- prcomp(UC.data, scale.=TRUE)
-biplot(UC.pca, 
+uc_data <- UScereal[sapply(UScereal, is.double)]
+uc_pca <- prcomp(uc_data, scale.=TRUE)
+biplot(uc_pca, 
        cex=c(0.6, 0.8), 
        col=c("black","orange"))
-biplot(UC.pca, choices=c(2,3),
+biplot(uc_pca, choices=c(2,3),
        cex=c(0.6, 0.8), 
        col=c("black","orange"))
 
 ## 第1,2主成分得点で散布図を描く (上と比較せよ)
-plot(PC2 ~ PC1, data=predict(UC.pca), type="n")
-text(PC2 ~ PC1, data=predict(UC.pca),
-     labels=rownames(UC.data), cex=0.5)
-biplot(UC.pca,
+plot(PC2 ~ PC1, data=predict(uc_pca), type="n")
+text(PC2 ~ PC1, data=predict(uc_pca),
+     labels=rownames(uc_data), cex=0.5)
+biplot(uc_pca,
        scale=0, # s=0とするとデータの座標は主成分得点となる
        cex=c(0.6, 0.8), 
        col=c("black","orange"))

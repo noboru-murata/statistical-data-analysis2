@@ -3,7 +3,7 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2022-11-11 14:35:35 mura>
+# Time-stamp: <2022-11-18 13:08:58 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+STARTUP: hidestars content indent
@@ -18,8 +18,8 @@
 - 演習の内容が異なるので演習は2つ作る形で対応
 * COMMENT 講義の内容
 # 早稲田大学
-- 第1日: 主成分分析の考え方
-- *第2日: 分析の評価と視覚化*
+- 第1日 : 主成分分析の考え方
+- *第2日 : 分析の評価と視覚化*
 
 #+begin_src R :eval no :exports none :tangle yes
   ### 第7講 資料
@@ -30,8 +30,8 @@
 
 * 講義概要
 # 東京大学
-- 第1日: 主成分分析の考え方
-- *第2日: 分析の評価と視覚化*
+- 第1日 : 主成分分析の考え方
+- *第2日 : 分析の評価と視覚化*
 
 #+begin_src R :eval no :exports none :tangle yes
   ### 
@@ -41,16 +41,6 @@
 #+begin_src R :exports none
   setwd("~/Desktop/lectures/u-tokyo/autumn/course")
 #+end_src
-* COMMENT 雛型の編集
-#+begin_src R :eval no :exports none :tangle yes
-  ### 
-  ### 第7講 サンプルコード
-  ###
-#+end_src
-#+begin_src R :exports none
-  setwd("~/Desktop/lectures/u-tokyo/autumn/template")
-#+end_src
-
 * COMMENT 演習 (早稲田大学雛型)
 :PROPERTIES:
 :reveal_background: #fef4f4
@@ -241,7 +231,7 @@
     \end{equation}
   #+end_src
   #+end_quote
-  - 未定係数法を用いている
+  - 未定係数法を用いて制約付き最適化問題を解いている
     
 ** 主成分負荷量と主成分得点
 - \(\boldsymbol{a}\) :
@@ -420,7 +410,7 @@
   #+end_quote
 
 ** 累積寄与率
-- *累積寄与率* (cumulative proportion) :
+- *累積寄与率* (cumulative proportion)
   #+begin_quote
   第 \(k\) 主成分までの変動の累計
   #+begin_src latex
@@ -441,32 +431,27 @@
 :reveal_background: #fef4f4
 :END:
 # 東京大学
-** R: 主成分分析の評価
-:PROPERTIES:
-:reveal_background: #fef4f4
-:END:
-- 分析結果の評価を行う関数:
+** R : 主成分分析の評価
+- 分析結果の評価を行う関数
   - ~summary()~: 主成分負荷量や寄与率を表示 
   - ~plot()~: 寄与率を図示
-  #+BEGIN_SRC R :eval no
+  #+begin_src R :eval no
     ## データフレームを分析
-    est <- prcomp( ~ x1の変数名 + ... + xpの変数名, data = データフレーム)
+    est <- prcomp(data = データフレーム) # データフレーム全部を用いる場合
+    est <- prcomp( ~ 変数名1 + ... + 変数名p, data = データフレーム)
     ## 主成分負荷量と寄与率を確認する
     summary(est)
     ## 寄与率を図示する
     plot(est)
-  #+END_SRC
+  #+end_src
 
 ** データセットの準備
-:PROPERTIES:
-:reveal_background: #fef4f4
-:END:
 - 以下の2つのデータセットを使用する
   - ~japan_social.csv~ (先週から使用)
     #+begin_quote
     総務省統計局より取得した都道府県別の社会生活統計指標の一部
     #+end_quote
-  - ~MASS::UScereal~ \\
+  - ~MASS::UScereal~
     #+begin_quote
     *Nutritional and Marketing Information on US Cereals* \\
     The UScereal data frame has 65 rows and 11 columns. The data
@@ -480,11 +465,7 @@
     #+end_src
 
 ** 各変数の分布 (~japan_social.csv~)
-:PROPERTIES:
-:reveal_background: #fef4f4
-:END:
 - 変数間の散布図
-  #+header: :width 720 :height 720 :res 100
   #+begin_src R :file figs/07_pairs_raw.png :exports results :results graphics :tangle yes
     ## 散布図 (正規化なし)
     js_data <- read.csv("data/japan_social.csv", row.names=1)
@@ -499,7 +480,6 @@
   
 #+reveal: split
 - 変数のばらつきに大きな違いがある
-  #+header: :width 720 :height 720 :res 100
   #+begin_src R :file figs/07_boxplot_raw.png :exports results :results graphics :tangle yes
     boxplot(js_data, col="orchid") # 箱ひげ図．変数のばらつきに大きな違いがある
   #+end_src
@@ -511,11 +491,7 @@
 [[file:figs/07_boxplot_raw.png]]
    
 ** データの正規化
-:PROPERTIES:
-:reveal_background: #fef4f4
-:END:
 - 各変数の標本平均を0，不偏分散を1に規格化する
-  #+header: :width 720 :height 720 :res 100
   #+begin_src R :file figs/07_pairs.png :exports results :results graphics :tangle yes
     ## データの視覚化
     pairs(scale(js_data), col="blue") # いくつかの変数は相関が強い
@@ -529,7 +505,6 @@
 
 #+reveal: split
 - 変数のばらつきをそろえる
-  #+header: :width 720 :height 720 :res 100
   #+begin_src R :file figs/07_boxplot.png :exports results :results graphics :tangle yes
     boxplot(scale(js_data), col="blue") # 箱ひげ図．変数のばらつきに大きな違いがある
   #+end_src
@@ -559,7 +534,7 @@
     #+begin_src R :eval no
       ## UScereal にはカテゴリカル変数が含まれるので以下のように処理すると良い
       str(UScereal) # 各変数の属性を確認する．factor/intが不要
-      UC.data <- UScereal[sapply(UScereal, is.double)]
+      uc_data <- UScereal[sapply(UScereal, is.double)]
     #+end_src
     
 #+begin_src R :eval no :exports none :tangle yes
@@ -595,16 +570,16 @@
   ### UScereal
   ## 各変数の内容についてはhelpを参照
   library(MASS)
-  UC.data <- UScereal[sapply(UScereal, is.double)] 
+  uc_data <- UScereal[sapply(UScereal, is.double)] 
   ## 適当な方法で視覚化をすることを推奨
-  UC.pca0 <- prcomp(UC.data)
-  UC.pca1 <- prcomp(UC.data, scale.=TRUE)
-  summary(UC.pca0)
-  plot(UC.pca0) 
-  UC.pca0$rotation
-  summary(UC.pca1)
-  plot(UC.pca1)
-  UC.pca1$rotation
+  uc_pca0 <- prcomp(uc_data)
+  uc_pca1 <- prcomp(uc_data, scale.=TRUE)
+  summary(uc_pca0)
+  plot(uc_pca0) 
+  uc_pca0$rotation
+  summary(uc_pca1)
+  plot(uc_pca1)
+  uc_pca1$rotation
 #+end_src
 
 ** COMMENT 演習: 寄与率による分析の評価
@@ -636,17 +611,17 @@
     - Land: 土地生産性（耕地面積１ヘクタール当たり）(万円) 2014年
     - Goods: 商業年間商品販売額［卸売業＋小売業］（事業所当たり）(百万円) 2013年
     #+end_quote
-    #+reveal: split
-    - データの一部
-    #+begin_src R :exports results :tangle yes
-      ## データの読み込み
-      js_data <- read.csv("data/japan_social.csv", row.names=1)
-      head(js_data, 18)
-    #+end_src
+
+#+reveal: split
+- データ(の一部)の内容
+  #+begin_src R :exports results :tangle yes
+    ## データの読み込み
+    js_data <- read.csv("data/japan_social.csv", row.names=1)
+    head(js_data, 18)
+  #+end_src
 
 ** 各変数の分布
 - 変数間の散布図
-  #+header: :width 720 :height 720 :res 100
   #+begin_src R :file figs/07_pairs_raw.png :exports results :results graphics :tangle yes
     ## 散布図 (正規化なし)
     pairs(js_data, col="orchid") # 座標に注意
@@ -660,7 +635,6 @@
   
 #+reveal: split
 - 変数のばらつきに大きな違いがある
-  #+header: :width 720 :height 720 :res 100
   #+begin_src R :file figs/07_boxplot_raw.png :exports results :results graphics :tangle yes
     boxplot(js_data, col="orchid") # 箱ひげ図．変数のばらつきに大きな違いがある
   #+end_src
@@ -673,7 +647,7 @@
    
 ** データの正規化
 - 各変数の標本平均を0，不偏分散を1に規格化する
-  #+header: :width 720 :height 720 :res 100
+
   #+begin_src R :file figs/07_pairs.png :exports results :results graphics :tangle yes
     ## データの視覚化
     pairs(scale(js_data), col="blue") # いくつかの変数は相関が強い
@@ -687,7 +661,6 @@
 
 #+reveal: split
 - 変数のばらつきをそろえる
-  #+header: :width 720 :height 720 :res 100
   #+begin_src R :file figs/07_boxplot.png :exports results :results graphics :tangle yes
     boxplot(scale(js_data), col="blue") # 箱ひげ図．変数のばらつきに大きな違いがある
   #+end_src
@@ -713,7 +686,6 @@
   
 #+reveal: split
 - 第1,2主成分得点の表示
-  #+header: :width 720 :height 720 :res 100
   #+begin_src R :file figs/07_pcaplot12_raw.png :exports results :results graphics :tangle yes
     xrange <- 1.1*range(predict(js_pca)[,"PC1"])
     yrange <- xrange-mean(xrange)
@@ -733,7 +705,6 @@
 
 #+reveal: split
 - 第3,2主成分得点の表示
-  #+header: :width 720 :height 720 :res 100
   #+begin_src R :file figs/07_pcaplot32_raw.png :exports results :results graphics :tangle yes
     plot(PC2 ~ PC3, data=predict(js_pca),
          type="n",
@@ -764,7 +735,6 @@
   
 #+reveal: split
 - 第1,2主成分得点の表示
-  #+header: :width 720 :height 720 :res 100
   #+begin_src R :file figs/07_pcaplot12.png :exports results :results graphics :tangle yes
     xrange <- 1.1*range(predict(js_pca)[,"PC1"])
     yrange <- xrange-mean(xrange)
@@ -784,7 +754,6 @@
 
 #+reveal: split
 - 第3,2主成分得点の表示
-  #+header: :width 720 :height 720 :res 100
   #+begin_src R :file figs/07_pcaplot32.png :exports results :results graphics :tangle yes
     plot(PC2 ~ PC3, data=predict(js_pca),
          type="n",
@@ -912,18 +881,18 @@
 
 * 主成分負荷量
 ** 主成分負荷量と主成分得点
-- 負荷量(得点係数)の大きさ: 変数の貢献度
-- *問題点*:
+- 負荷量(得点係数)の大きさ : 変数の貢献度
+- *問題点*
   - 変数のスケールによって係数の大きさは変化する
   - 変数の正規化(平均0，分散1)がいつも妥当とは限らない
-- スケールによらない変数と主成分の関係: \\
+- スケールによらない変数と主成分の関係 \\
   *相関係数* を考えればよい
 
 ** 相関係数
 - \(\boldsymbol{e}_{j}\): 第 \(j\) 成分は1，それ以外は0のベクトル
 - \(X\boldsymbol{e}_{j}\): 第 \(j\) 変数ベクトル
 - \(X\boldsymbol{a}_{k}\): 第 \(k\) 主成分得点ベクトル
-- 主成分と変数の相関係数:
+- 主成分と変数の相関係数
   #+begin_quote
   #+begin_src latex
     \begin{align}
@@ -941,8 +910,8 @@
   #+end_quote
 
 ** 正規化データの場合
-- \(X^{\mathsf{T}}X\) の対角成分は全て\(n-1\)
-  (\((X^{\mathsf{T}}X)_{jj}=n-1\))
+- \(X^{\mathsf{T}}X\) の対角成分は全て\(n{-}1\)
+  (\((X^{\mathsf{T}}X)_{jj}=n{-}1\))
   # - 第 \(k\) 主成分に対する第 \(j\) 変数の相関係数:
   #   #+begin_quote
   #   #+begin_src latex
@@ -952,15 +921,15 @@
   #     \end{equation}
   #   #+end_src
   #   #+end_quote
-  - 第 \(k\) 主成分に対する相関係数ベクトル:
+  - 第 \(k\) 主成分に対する相関係数ベクトル
     #+begin_quote
     #+begin_src latex
       \begin{equation}
 	\boldsymbol{r}_{k}
-	=\sqrt{\lambda_{k}/(n-1)}\cdot\boldsymbol{a}_{k},
+	=\sqrt{\lambda_{k}/(n{-}1)}\cdot\boldsymbol{a}_{k},
 	\quad
 	(\boldsymbol{r}_{k})_{j}
-	=\sqrt{\lambda_{k}/(n-1)}\cdot(\boldsymbol{a}_{k})_{j}
+	=\sqrt{\lambda_{k}/(n{-}1)}\cdot(\boldsymbol{a}_{k})_{j}
       \end{equation}
     #+end_src
     #+end_quote
@@ -973,7 +942,7 @@
 
 * データ行列の分解表現
 ** 特異値分解
-- 階数 \(r\) の \(n\times p\) 型行列 \(X\) の分解:
+- 階数 \(r\) の \(n\times p\) 型行列 \(X\) の分解
   #+begin_quote
   #+begin_src latex
     \begin{equation}
@@ -1019,7 +988,7 @@
 - \(D\) の対角成分: \(X\) の *特異値* (singular value)
 
 ** 特異値分解によるGram行列の表現
-- Gram行列の展開:
+- Gram行列の展開
   #+begin_quote
   #+begin_src latex
     \begin{align*}
@@ -1242,6 +1211,8 @@
     \end{align}
   #+end_src
   #+end_quote
+  - 行列 \(G\) はデータ数\(\times\)2型の行列
+  - 行列 \(H\) は変量の数\(\times\)2型の行列
 
 ** バイプロット
 - 関連がある2枚の散布図を1つの画面に表示する散布図を一般に
@@ -1265,12 +1236,9 @@
 :reveal_background: #fef4f4
 :END:
 # 東京大学
-** R: 関数 ~biplot()~ の使い方
-:PROPERTIES:
-:reveal_background: #fef4f4
-:END:
-- Rの標準関数: ~biplot()~ 
-- 主成分分析の結果に対して表示:
+** R : 関数 ~biplot()~ の使い方
+- Rの標準関数 : ~biplot()~ 
+- 主成分分析の結果に対して表示
   #+BEGIN_SRC R :eval no
     ## データフレームを分析
     est <- prcomp( ~ x1の変数名 + ... + xpの変数名, data = データフレーム)
@@ -1336,20 +1304,20 @@
   ### UScereal
   ## 各変数の内容についてはhelpを参照
   library(MASS)
-  UC.data <- UScereal[sapply(UScereal, is.double)]
-  UC.pca <- prcomp(UC.data, scale.=TRUE)
-  biplot(UC.pca, 
+  uc_data <- UScereal[sapply(UScereal, is.double)]
+  uc_pca <- prcomp(uc_data, scale.=TRUE)
+  biplot(uc_pca, 
          cex=c(0.6, 0.8), 
          col=c("black","orange"))
-  biplot(UC.pca, choices=c(2,3),
+  biplot(uc_pca, choices=c(2,3),
          cex=c(0.6, 0.8), 
          col=c("black","orange"))
 
   ## 第1,2主成分得点で散布図を描く (上と比較せよ)
-  plot(PC2 ~ PC1, data=predict(UC.pca), type="n")
-  text(PC2 ~ PC1, data=predict(UC.pca),
-       labels=rownames(UC.data), cex=0.5)
-  biplot(UC.pca,
+  plot(PC2 ~ PC1, data=predict(uc_pca), type="n")
+  text(PC2 ~ PC1, data=predict(uc_pca),
+       labels=rownames(uc_data), cex=0.5)
+  biplot(uc_pca,
          scale=0, # s=0とするとデータの座標は主成分得点となる
          cex=c(0.6, 0.8), 
          col=c("black","orange"))
@@ -1386,7 +1354,6 @@
 
 #+reveal: split
 - 第1,2主成分によるバイプロット
-  #+header: :width 720 :height 720 :res 100
   #+begin_src R :file figs/07_biplot12.png :exports results :results graphics :tangle yes
     biplot(js_pca, scale=0,# バイプロット(既定値: 第1 vs 第2主成分)
 	   xlim=xrange, ylim=yrange,
@@ -1402,7 +1369,6 @@
 
 #+reveal: split
 - 第3,2主成分によるバイプロット
-  #+header: :width 720 :height 720 :res 100
   #+begin_src R :file figs/07_biplot32.png :exports results :results graphics :tangle yes
     biplot(js_pca, scale=0, choices=c(3,2), # バイプロット(第2 vs 第3主成分)
 	   xlim=yrange, ylim=yrange,
@@ -1418,7 +1384,6 @@
 
 #+reveal: split
 - 中心部の拡大 (第1,2主成分)
-  #+header: :width 720 :height 720 :res 100
   #+begin_src R :file figs/07_biplot12e.png :exports results :results graphics :tangle yes
     biplot(js_pca, scale=0, choices=c(1,2), # バイプロット(第1 vs 第2主成分)
 	   xlim=c(-2,2), ylim=c(-2,2),
@@ -1434,7 +1399,6 @@
 
 #+reveal: split
 - 中心部の拡大 (第3,2主成分)
-  #+header: :width 720 :height 720 :res 100
   #+begin_src R :file figs/07_biplot32e.png :exports results :results graphics :tangle yes
     biplot(js_pca, scale=0, choices=c(3,2), # バイプロット(第1 vs 第2主成分)
 	   xlim=c(-2,2), ylim=c(-2,2),
@@ -1450,8 +1414,8 @@
 
 
 * 次回の予定
-- *第1日: 判別分析の考え方*
-- 第2日: 分析の評価
+- *第1日 : 判別分析の考え方*
+- 第2日 : 分析の評価
 
 * COMMENT ローカル変数
 # Local Variables:
