@@ -47,11 +47,11 @@
 </section>
 
 <section>
-<section id="slide-org05c7429">
-<h2 id="org05c7429">講義概要</h2>
+<section id="slide-org6ab3c22">
+<h2 id="org6ab3c22">講義概要</h2>
 <ul>
-<li>第1日: 判別分析の考え方</li>
-<li><b>第2日: 分析の評価</b></li>
+<li>第1日 : 判別分析の考え方</li>
+<li><b>第2日 : 分析の評価</b></li>
 
 </ul>
 <div class="slide-footer"><br></div>
@@ -59,22 +59,22 @@
 </section>
 </section>
 <section>
-<section id="slide-org18c918f">
-<h2 id="org18c918f">判別分析の復習</h2>
-<div class="outline-text-2" id="text-org18c918f">
+<section id="slide-orgb8acbea">
+<h2 id="orgb8acbea">判別分析の復習</h2>
+<div class="outline-text-2" id="text-orgb8acbea">
 </div>
 </section>
-<section id="slide-orgfd64293">
-<h3 id="orgfd64293">判別分析</h3>
+<section id="slide-org6f30222">
+<h3 id="org6f30222">判別分析</h3>
 <ul>
 <li>個体の特徴量から
 その個体の属するクラスを予測する関係式を構成</li>
-<li><b>事前確率</b>: \(\pi_k=P(Y=k)\) (prior probability)
+<li><b>事前確率</b> : \(\pi_k=P(Y=k)\) (prior probability)
 <ul>
 <li>\(X=\boldsymbol{x}\) が与えられる前に予測されるクラス</li>
 
 </ul></li>
-<li><b>事後確率</b>: \(p_k(\boldsymbol{x})\) (posterior probability)
+<li><b>事後確率</b> : \(p_k(\boldsymbol{x})\) (posterior probability)
 <ul>
 <li><p>
 \(X=\boldsymbol{x}\) が与えられた後に予測されるクラス
@@ -82,7 +82,7 @@
 <blockquote>
 <div>
 \begin{equation}
-  p_k(\boldsymbol{x}):=P(Y=k|X=\boldsymbol{x})
+  p_k(\boldsymbol{x})=P(Y=k|X=\boldsymbol{x})
 \end{equation}
 
 </div>
@@ -95,8 +95,8 @@
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org250e5fa">
-<h3 id="org250e5fa">判別関数</h3>
+<section id="slide-org327327a">
+<h3 id="org327327a">判別関数</h3>
 <ul>
 <li>判別の手続き
 <ul>
@@ -106,7 +106,7 @@
 
 </ul></li>
 <li><p>
-<b>判別関数</b>: \(\delta_k(\boldsymbol{x})\) (\(k=1,\dots,K\))
+<b>判別関数</b> : \(\delta_k(\boldsymbol{x})\) (\(k=1,\dots,K\))
 </p>
 <blockquote>
 <div>
@@ -131,15 +131,15 @@
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-orgee7c06d">
-<h3 id="orgee7c06d">線形判別</h3>
+<section id="slide-org7cea4e0">
+<h3 id="org7cea4e0">線形判別</h3>
 <ul>
-<li>\(f_k(\boldsymbol{x})\) の仮定:
+<li>\(f_k(\boldsymbol{x})\) の仮定
 <ul>
 <li>\(q\) 変量正規分布の密度関数</li>
-<li>平均ベクトル \(\boldsymbol{\mu}_k\): クラスごとに異なる</li>
+<li>平均ベクトル \(\boldsymbol{\mu}_k\) : クラスごとに異なる</li>
 <li><p>
-共分散行列 \(\Sigma\): <b>すべてのクラスで共通</b>
+共分散行列 \(\Sigma\) : <b>すべてのクラスで共通</b>
 </p>
 <blockquote>
 <div>
@@ -156,7 +156,7 @@
 
 </ul></li>
 <li><p>
-線形判別関数: \(\boldsymbol{x}\) の1次式
+線形判別関数 : \(\boldsymbol{x}\) の1次式
 </p>
 
 <blockquote>
@@ -176,15 +176,15 @@
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org785514e">
-<h3 id="org785514e">2次判別</h3>
+<section id="slide-org4a0c7c1">
+<h3 id="org4a0c7c1">2次判別</h3>
 <ul>
-<li>\(f_k(\boldsymbol{x})\) の仮定:
+<li>\(f_k(\boldsymbol{x})\) の仮定
 <ul>
 <li>\(q\) 変量正規分布の密度関数</li>
-<li>平均ベクトル \(\boldsymbol{\mu}_k\): クラスごとに異なる</li>
+<li>平均ベクトル \(\boldsymbol{\mu}_k\) : クラスごとに異なる</li>
 <li><p>
-共分散行列 \(\Sigma_k\): <b>クラスごとに異なる</b>
+共分散行列 \(\Sigma_k\) : <b>クラスごとに異なる</b>
 </p>
 <blockquote>
 <div>
@@ -201,7 +201,7 @@
 
 </ul></li>
 <li><p>
-2次判別関数: \(\boldsymbol{x}\) の2次式
+2次判別関数 : \(\boldsymbol{x}\) の2次式
 </p>
 <blockquote>
 <div>
@@ -221,18 +221,18 @@
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-orga7a198b">
-<h3 id="orga7a198b">Fisherの線形判別</h3>
+<section id="slide-org3b3c81b">
+<h3 id="org3b3c81b">Fisherの線形判別</h3>
 <ul>
 <li>新しい特徴量 \(Z=\boldsymbol{\alpha}^{\mathsf{T}} X\) を考える</li>
-<li>良い \(Z\) の基準:
+<li>良い \(Z\) の基準
 <ul>
 <li>クラス内では集まっているほど良い (\(\boldsymbol{\alpha}^{\mathsf{T}} W\boldsymbol{\alpha}\)は小)</li>
 <li>クラス間では離れているほど良い (\(\boldsymbol{\alpha}^{\mathsf{T}} B\boldsymbol{\alpha}\)は大)</li>
 
 </ul></li>
 <li><p>
-Fisherの基準:
+Fisherの基準
 </p>
 <blockquote>
 <div>
@@ -258,16 +258,16 @@ Fisherの基準:
 </section>
 </section>
 <section>
-<section id="slide-orgd149c9e">
-<h2 id="orgd149c9e">2値判別分析の評価</h2>
-<div class="outline-text-2" id="text-orgd149c9e">
+<section id="slide-org87c6c73">
+<h2 id="org87c6c73">2値判別分析の評価</h2>
+<div class="outline-text-2" id="text-org87c6c73">
 </div>
 </section>
-<section id="slide-org0f1aebb">
-<h3 id="org0f1aebb">誤り率</h3>
+<section id="slide-org05262f3">
+<h3 id="org05262f3">誤り率</h3>
 <ul>
 <li><p>
-単純な誤り:
+単純な誤り
 </p>
 <blockquote>
 <div>
@@ -279,12 +279,12 @@ Fisherの基準:
 
 </div>
 </blockquote></li>
-<li>判別したいラベル: 陽性 (positive)
+<li>判別したいラベル : 陽性 (positive)
 <ul>
-<li><b>真陽性</b>: 正しく陽性と判定 (true positive; TP)</li>
-<li><b>偽陽性</b>: 誤って陽性と判定 (false positive; FP) (<b>第I種過誤</b>)</li>
-<li><b>偽陰性</b>: 誤って陰性と判定 (false negative; FN) (<b>第II種過誤</b>)</li>
-<li><b>真陰性</b>: 正しく陰性と判定 (true negative; TN)</li>
+<li><b>真陽性</b> : 正しく陽性と判定 (true positive; TP)</li>
+<li><b>偽陽性</b> : 誤って陽性と判定 (false positive; FP) (<b>第I種過誤</b>)</li>
+<li><b>偽陰性</b> : 誤って陰性と判定 (false negative; FN) (<b>第II種過誤</b>)</li>
+<li><b>真陰性</b> : 正しく陰性と判定 (true negative; TN)</li>
 
 </ul></li>
 
@@ -292,8 +292,8 @@ Fisherの基準:
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org7d8727e">
-<h3 id="org7d8727e">混同行列</h3>
+<section id="slide-org417aec6">
+<h3 id="org417aec6">混同行列</h3>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -333,8 +333,8 @@ Fisherの基準:
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org0c6b99c">
-<h3 id="org0c6b99c">混同行列</h3>
+<section id="slide-org1becc4d">
+<h3 id="org1becc4d">混同行列</h3>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -374,8 +374,8 @@ Fisherの基準:
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-orgd73f361">
-<h3 id="orgd73f361">基本的な評価基準</h3>
+<section id="slide-org0c883fe">
+<h3 id="org0c883fe">基本的な評価基準</h3>
 <ul>
 <li><p>
 定義
@@ -405,7 +405,7 @@ Fisherの基準:
 <li>別名 (分野で異なるので注意)
 <ul>
 <li><p>
-感度 (sensitivity) あるいは 再現率 (recall):
+感度 (sensitivity) あるいは 再現率 (recall)
 </p>
 <blockquote>
 <div>
@@ -417,7 +417,7 @@ Fisherの基準:
 </div>
 </blockquote></li>
 <li><p>
-特異度 (specificity):
+特異度 (specificity)
 </p>
 <blockquote>
 <div>
@@ -429,7 +429,7 @@ Fisherの基準:
 </div>
 </blockquote></li>
 <li><p>
-精度:
+精度
 </p>
 <blockquote>
 <div>
@@ -447,8 +447,8 @@ Fisherの基準:
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org3376bdb">
-<h3 id="org3376bdb">F-値</h3>
+<section id="slide-orgcc019b2">
+<h3 id="orgcc019b2">F-値</h3>
 <ul>
 <li><b>F-measure, F-score</b></li>
 <li><p>
@@ -458,7 +458,7 @@ Fisherの基準:
 <div>
 \begin{align}
   F_{1}&=\frac{2}{{1}/{\text{(再現率)}}+{1}/{\text{(適合率)}}}\\
-  F_{\beta}&=\frac{\beta^{2}+1}{{\beta^{2}}/{\text{((再現率)}}+{1}/{\text{(適合率)}}}
+  F_{\beta}&=\frac{\beta^{2}+1}{{\beta^{2}}/{\text{(再現率)}}+{1}/{\text{(適合率)}}}
 \end{align}
 
 </div>
@@ -472,8 +472,8 @@ Fisherの基準:
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org1b749c8">
-<h3 id="org1b749c8">Cohen の kappa 値</h3>
+<section id="slide-org9f032f3">
+<h3 id="org9f032f3">Cohen の kappa 値</h3>
 <ul>
 <li>Cohen&rsquo;s <b>kappa measure</b></li>
 <li><p>
@@ -509,12 +509,12 @@ Fisherの基準:
 </section>
 </section>
 <section>
-<section id="slide-orgf137198" data-background="#fef4f4">
-<h2 id="orgf137198">演習</h2>
+<section id="slide-orgb71d875" data-background="#fef4f4">
+<h2 id="orgb71d875">実習</h2>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgdcf5c3d" data-background="#fef4f4">
-<h3 id="orgdcf5c3d">データセットの準備</h3>
+<section id="slide-orgd7bac84" data-background="#fef4f4">
+<h3 id="orgd7bac84">データセットの準備</h3>
 <ul>
 <li>以下のデータセットを使用します
 <ul>
@@ -535,12 +535,12 @@ Wine Quality Data Set の一部
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >WQ.org &lt;- read.csv("https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-red.csv",
-		   sep=";") # データの区切りが ";" となっている
-WQ.data &lt;- transform(WQ.org,
-		     quality=as.factor( # qualityを再分類
-			 ifelse(quality %in% 7:10, "A",
-			 ifelse(quality %in% 5:6, "B" ,"C"))))
+<pre><code class="R" >wq_org &lt;- read.csv("https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-red.csv",
+                   sep=";") # データの区切りが ";" となっている
+wq_data &lt;- transform(wq_org,
+                     quality=as.factor( # qualityを再分類
+                         ifelse(quality %in% 7:10, "A",
+                         ifelse(quality %in% 5:6, "B" ,"C"))))
 </code></pre>
 </div></li>
 
@@ -550,8 +550,8 @@ WQ.data &lt;- transform(WQ.org,
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-orgef9769f" data-background="#fef4f4">
-<h3 id="orgef9769f">R: 混同行列 <code>caret::confusionMatrix()</code></h3>
+<section id="slide-orgb1cb0df" data-background="#fef4f4">
+<h3 id="orgb1cb0df">R : 混同行列 <code>caret::confusionMatrix()</code></h3>
 <ul>
 <li><code>caret</code>: 評価のためのパッケージ</li>
 <li><p>
@@ -571,8 +571,8 @@ confusionMatrix(data, reference)
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org959d851" data-background="#fef4f4">
-<h3 id="org959d851">練習問題</h3>
+<section id="slide-org13db74b" data-background="#fef4f4">
+<h3 id="org13db74b">練習問題</h3>
 <ul>
 <li>前回と同様に東京の気候データの線形判別を行い，
 以下を確認しなさい
@@ -582,11 +582,11 @@ confusionMatrix(data, reference)
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >TW.data &lt;- read.csv("data/tokyo_weather.csv")
-TW.subset  &lt;- transform(subset(TW.data,
-			       subset= month %in% c("10","11"),
-			       select=c(temp,humid,month)),
-			month=as.factor(month)) # 因子にする
+<pre><code class="R" >tw_data &lt;- read.csv("data/tokyo_weather.csv")
+tw_subset  &lt;- transform(subset(tw_data,
+                               subset= month %in% c("10","11"),
+                               select=c(temp,humid,month)),
+                        month=as.factor(month)) # 因子にする
 </code></pre>
 </div></li>
 <li>全てデータを用いて線形判別関数を構成する</li>
@@ -598,8 +598,8 @@ TW.subset  &lt;- transform(subset(TW.data,
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org6d11a39" data-background="#fef4f4">
-<h3 id="org6d11a39">練習問題</h3>
+<section id="slide-org35d9260" data-background="#fef4f4">
+<h3 id="org35d9260">練習問題</h3>
 <ul>
 <li>Wine Quality Data Set を用いて
 以下を確認しなさい
@@ -615,17 +615,17 @@ TW.subset  &lt;- transform(subset(TW.data,
 </section>
 </section>
 <section>
-<section id="slide-orga987dde">
-<h2 id="orga987dde">予測誤差</h2>
-<div class="outline-text-2" id="text-orga987dde">
+<section id="slide-org2e440bf">
+<h2 id="org2e440bf">予測誤差</h2>
+<div class="outline-text-2" id="text-org2e440bf">
 </div>
 </section>
-<section id="slide-org0fbd5c8">
-<h3 id="org0fbd5c8">訓練誤差と予測誤差</h3>
+<section id="slide-org156caa2">
+<h3 id="org156caa2">訓練誤差と予測誤差</h3>
 <ul>
-<li><b>訓練誤差</b>:
+<li><b>訓練誤差</b> :
 既知データに対する誤り (training error)</li>
-<li><b>予測誤差</b>:
+<li><b>予測誤差</b> :
 未知データに対する誤り (predictive error)</li>
 <li>訓練誤差は予測誤差より良くなることが多い</li>
 <li>既知データの判別に特化している可能性がある
@@ -639,14 +639,14 @@ TW.subset  &lt;- transform(subset(TW.data,
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-orgd941882">
-<h3 id="orgd941882">交叉検証</h3>
+<section id="slide-org54698ff">
+<h3 id="org54698ff">交叉検証</h3>
 <ul>
 <li>データを訓練データと試験データに分割して用いる
 <ul>
-<li><b>訓練データ</b>:
+<li><b>訓練データ</b> :
 判別関数を構成する (training data)</li>
-<li><b>試験データ</b>:
+<li><b>試験データ</b> :
 予測精度を評価する (test data)</li>
 
 </ul></li>
@@ -658,8 +658,8 @@ TW.subset  &lt;- transform(subset(TW.data,
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-orgaa0cf2b">
-<h3 id="orgaa0cf2b">交叉検証法</h3>
+<section id="slide-org0cac2b1">
+<h3 id="org0cac2b1">交叉検証法</h3>
 <ul>
 <li><b>cross-validation (CV)</b></li>
 <li>\(k\)-重交叉検証法 (\(k\)-fold cross-validation; \(k\)-fold CV)
@@ -683,12 +683,12 @@ TW.subset  &lt;- transform(subset(TW.data,
 </section>
 </section>
 <section>
-<section id="slide-orgfb8bb81" data-background="#fef4f4">
-<h2 id="orgfb8bb81">演習</h2>
+<section id="slide-orgff38bbe" data-background="#fef4f4">
+<h2 id="orgff38bbe">実習</h2>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org108fa4e" data-background="#fef4f4">
-<h3 id="org108fa4e">R: LOO交叉検証法</h3>
+<section id="slide-org3d38c8b" data-background="#fef4f4">
+<h3 id="org3d38c8b">R : LOO交叉検証法</h3>
 <ul>
 <li>関数 <code>lda()</code> と <code>qda()</code> はオプションで LOO交叉検証を行うことができる</li>
 <li><p>
@@ -709,8 +709,8 @@ est$class # LOO CV による予測結果
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-orgd2e9ea1" data-background="#fef4f4">
-<h3 id="orgd2e9ea1">R: k-重交叉検証法 <code>caret::train()</code></h3>
+<section id="slide-org2841579" data-background="#fef4f4">
+<h3 id="org2841579">R : k-重交叉検証法 <code>caret::train()</code></h3>
 <ul>
 <li><p>
 <code>caret</code> パッケージの関数 <code>train()</code> で実行可能
@@ -734,8 +734,8 @@ est$class # LOO CV による予測結果
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-orge85cac1" data-background="#fef4f4">
-<h3 id="orge85cac1">練習問題</h3>
+<section id="slide-org6bb60a1" data-background="#fef4f4">
+<h3 id="org6bb60a1">練習問題</h3>
 <ul>
 <li>Wine Quality Data Set を用いた
 線形判別と2次判別に関して，以下を行いなさい
@@ -751,16 +751,14 @@ est$class # LOO CV による予測結果
 </section>
 </section>
 <section>
-<section id="slide-orgdceb80b">
-<h2 id="orgdceb80b">次週の予定</h2>
+<section id="slide-org777ee6e">
+<h2 id="org777ee6e">次週の予定</h2>
 <ul>
-<li><b>第1日: クラスタ分析の考え方と階層的方法</b></li>
-<li>第2日: 非階層的方法と分析の評価</li>
+<li><b>第1日 : クラスタ分析の考え方と階層的方法</b></li>
+<li>第2日 : 非階層的方法と分析の評価</li>
 
 </ul>
 <div class="slide-footer"><br></div>
-</section>
-</section>
 </div>
 </div>
 <script src="./reveal.js/dist/reveal.js"></script>
