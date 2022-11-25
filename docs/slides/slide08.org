@@ -3,9 +3,14 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2022-11-18 15:23:14 mura>
+# Time-stamp: <2022-11-25 14:20:37 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
+#+PROPERTY: header-args:R :cache yes :session *R*
+# #+PROPERTY: header-args:R+ :exports both :results output
+#+PROPERTY: header-args:R+ :width 800 :height 800 :res 100
+#+PROPERTY: header-args:R+ :tangle no
+#+PROPERTY: header-args:latex :exports results :results raw
 #+STARTUP: hidestars content indent
 # C-c C-x C-v でinlineを切り替え
 # <m C-i でlatex block (math env用)
@@ -26,10 +31,10 @@
   ### 第8講 資料
 #+end_src
 #+begin_src R :exports none
-  setwd("~/Desktop/lectures/mva/slide")
+  setwd("~/Desktop/lectures/mva/course")
 #+end_src
 
-* COMMENT 講義概要
+* 講義概要
 # 東京大学
 - *第1日 : 判別分析の考え方*
 - 第2日 : 分析の評価
@@ -40,7 +45,7 @@
   ###
 #+end_src
 #+begin_src R :exports none
-  setwd("~/Desktop/lectures/u-tokyo/autumn/slide")
+  setwd("~/Desktop/lectures/u-tokyo/autumn/course")
 #+end_src
 
 * COMMENT 演習 (早稲田大学雛型)
@@ -119,18 +124,10 @@
 :END:
 - [[./code/bar.r][bar.r]] を確認してみよう
 
-#+begin_src R :eval no :exports none :tangle yes
-  ### 第06回 資料
-#+end_src
-#+begin_src R :exports none
-  setwd("~/Desktop/lectures/mva/slide")
-#+end_src
-
-
 
 * 判別分析の考え方
 ** 判別分析
-- *discriminant analysis*
+- 判別分析 (*discriminant analysis*) の目的
   #+begin_quote
   個体の特徴量からその個体の属する
   *クラス*
@@ -265,7 +262,7 @@
       =
       P(Y=k|X=\boldsymbol{x})
       =
-      \frac{f_{k}(\boldsymbol{x})P(Y=k)}{\sum_{l=1}^{k}f_l(\boldsymbol{x})P(Y=l)}
+      \frac{f_{k}(\boldsymbol{x})P(Y=k)}{\sum_{l=1}^{K}f_l(\boldsymbol{x})P(Y=l)}
     \end{equation}
   #+end_src
   #+end_quote
@@ -303,9 +300,9 @@
     \begin{align}
       P(X=\boldsymbol{x})
       &=
-	\sum_{l=1}^{k}P(X=\boldsymbol{x},Y=l)\\
+        \sum_{l=1}^{K}P(X=\boldsymbol{x},Y=l)\\
       &=
-	\sum_{l=1}^{k}f_l(\boldsymbol{x})P(Y=l)
+        \sum_{l=1}^{K}f_l(\boldsymbol{x})P(Y=l)
     \end{align}
   #+end_src
   #+end_quote
@@ -315,15 +312,15 @@
   - \(X=\boldsymbol{x}\) が与えられる前に予測されるクラス確率
 - *事後確率* : \(p_{k}(\boldsymbol{x})\) (posterior probability)
   - \(X=\boldsymbol{x}\) が与えられた後に予測されるクラス確率
-- Bayes の公式による書き換え:
+- Bayes の公式による書き換え
   #+begin_quote
   #+begin_src latex
     \begin{equation}
       p_{k}(\boldsymbol{x})
       =
-      \frac{f_{k}(\boldsymbol{x})\pi_{k}}{\sum_{l=1}^{k}f_l(\boldsymbol{x})\pi_l}
+      \frac{f_{k}(\boldsymbol{x})\pi_{k}}{\sum_{l=1}^{K}f_l(\boldsymbol{x})\pi_l}
       =
-      \frac{f_{k}(\boldsymbol{x})}{\sum_{l=1}^{k}f_l(\boldsymbol{x})\pi_l}
+      \frac{f_{k}(\boldsymbol{x})}{\sum_{l=1}^{K}f_l(\boldsymbol{x})\pi_l}
       \cdot\pi_{k}
     \end{equation}
   #+end_src
@@ -706,6 +703,7 @@
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
+# 早稲田大学
 ** 問題
 :PROPERTIES:
 :reveal_background: #fef4f4
@@ -827,7 +825,7 @@
 #+end_src
   
 
-* 多値判別
+* さまざまな多値判別
 ** 多値判別の構成方法
 - 判別関数の比較
   - 判別関数 \(\delta_{k}\) を比較
@@ -837,16 +835,17 @@
   - グループでの比較 : 最大の組合せ数 \(2^{K}-2\)
 - \(K{-}1\) 個の特徴量への変換
   - 説明変数の線形結合による特徴量の構成
+  - 異なる\(K\)個の点(かたまり)を\(K{-}1\)次元空間に配置
   - *Fisher の線形判別*
 
 ** 変動の分解
 - 3種類の変動
   - \(A=\sum_{i=1}^{n}(\boldsymbol{x}_{i}-\boldsymbol{\mu})(\boldsymbol{x}_{i}-\boldsymbol{\mu})^{\mathsf{T}}\) :
-    全変動
+    *全変動*
   - \(W=\sum_{i=1}^{n}(\boldsymbol{x}_{i}-\boldsymbol{\mu}_{y_{i}})(\boldsymbol{x}_{i}-\boldsymbol{\mu}_{y_{i}})^{\mathsf{T}}\) :
-    群内変動
+    *群内変動*
   - \(B=\sum_{k=1}^{K}n_{k}(\boldsymbol{\mu}_{k}-\boldsymbol{\mu})(\boldsymbol{\mu}_{k}-\boldsymbol{\mu})^{\mathsf{T}}\) :
-    群間変動 \\
+    *群間変動* \\
     (\(n_{k}\) はクラス \(k\) のデータ数)
 - 変動の関係
   #+begin_quote
@@ -869,6 +868,7 @@
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
+# 早稲田大学
 ** 問題
 :PROPERTIES:
 :reveal_background: #fef4f4
@@ -978,6 +978,8 @@
 * Fisher の判別分析
 ** Fisherの線形判別
 - 判別のための特徴量 \(Z=\boldsymbol{\alpha}^{\mathsf{T}} X\)
+  - 特徴量\(Z\)のばらつきの計算は主成分分析と同様
+  - 変動 \(A,W,B\) を Gram 行列とみなせばよい
 - 良い \(Z\) の基準
   - クラス内では集まっているほど良い (\(\boldsymbol{\alpha}^{\mathsf{T}} W\boldsymbol{\alpha}\)は小)
   - クラス間では離れているほど良い (\(\boldsymbol{\alpha}^{\mathsf{T}} B\boldsymbol{\alpha}\)は大)
@@ -1010,7 +1012,7 @@
     2. 最小の \(d_{k}\) となるクラス \(k\) に判別
 
 
-* 演習
+* 実習
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
@@ -1110,7 +1112,6 @@
 
 ** 気温と湿度による月の判別
 - 10,11月のデータの散布図
-  #+header: :width 720 :height 720 :res 100
   #+begin_src R :file figs/08_pairs.png :exports results :results graphics :tangle yes
     ### 東京の気象データによる判別分析
     library(MASS)
@@ -1141,7 +1142,6 @@
 
 #+reveal: split
 - 線形判別 (2値)
-  #+header: :width 720 :height 720 :res 100
   #+begin_src R :file figs/08_lda.png :exports results :results graphics :tangle yes
     ## 線形判別関数を作成
     tw_lda <- lda(month ~ temp + humid, data=tw_subset)
@@ -1174,7 +1174,6 @@
 
 #+reveal: split
 - 2次判別 (2値)
-  #+header: :width 720 :height 720 :res 100
   #+begin_src R :file figs/08_qda.png :exports results :results graphics :tangle yes
     ## 2次判別関数を作成
     tw_qda <- qda(month ~ temp + humid, data=tw_subset)
@@ -1201,7 +1200,6 @@
 
 #+reveal: split
 - Fisherの線形判別 (多値)
-  #+header: :width 720 :height 720 :res 100
   #+begin_src R :file figs/08_multi.png :exports results :results graphics :tangle yes
     ### 多値判別
     target <- c(9,10,11)
