@@ -35,11 +35,13 @@ table(true=tw_test$month, pred=tw_pred$class) # 真値と予測値の比較
 tw_pred$class 
 tw_test$month 
 ## 判別結果の図示
-myLine <- function(z) { # 判別境界を引くための関数
+my_lda_border <- function(z) { # 判別境界を引くための関数 
     a0<-as.vector(colMeans(z$means) %*% z$scaling)
     a<-c(a0/z$scaling[2],-z$scaling[1]/z$scaling[2])
     return(a)
 }
+## scale * (x-mu) = 0 を変形している
+## ただし x は説明変数のベクトルで，x2 に関して解いている
 with(tw_test, 
      plot(temp, humid, # 試験データの散布図
           pch=month, col=month,
@@ -48,7 +50,37 @@ with(tw_test,
 with(tw_train, 
      points(temp, humid, # 訓練データの散布図
             pch=month, col=month+3))
-abline(myLine(tw_lda), col="blue", lwd=2)
+abline(my_lda_border(tw_lda), col="blue", lwd=2)
+## もう少し凝った図の作り方の例
+## 全データで線形判別関数を作成して誤ったデータを表示
+my_color <- rainbow(12)[c(2,5,8)]
+tw_lda <- lda(month ~ temp + humid, data=tw_subset)
+tw_lest <- predict(tw_lda)
+tw_lerr <- which(tw_lest$class!=tw_subset$month)
+## 判別結果の図示
+my_lda_border <- function(z) { # 判別境界を引くための関数
+  a0<-as.vector(colMeans(z$means) %*% z$scaling)
+  a<-c(a0/z$scaling[2],-z$scaling[1]/z$scaling[2])
+  return(a)
+}
+with(tw_subset, 
+     plot(temp, humid, # 全データの散布図
+          pch=month+6, col=my_color[month-8],
+          xlab="temperature",ylab="humidity",
+          main="linear discriminant"))
+with(tw_subset[tw_lerr,], 
+     points(temp, humid, # 誤ったデータの散布図
+            pch=1, col="orchid", cex=2, lwd=2))
+abline(my_lda_border(tw_lda), col="orange", lwd=2)
+rx <- with(tw_subset,range(temp))
+ry <- with(tw_subset,range(humid))
+sx <- pretty(rx,100)
+sy <- pretty(ry,100)
+my_grid <- expand.grid(temp=sx,humid=sy)
+ldesc <- predict(tw_lda,newdata=my_grid)
+image(sx,sy,add=TRUE,
+      matrix(as.numeric(ldesc$class),length(sx),length(sy)),
+        col=c(rgb(1,0,0,0.2),rgb(0,1,0,0.2)))
 
 ### 
 ### 練習問題 2次判別
@@ -81,6 +113,22 @@ with(tw_test,
           col=month,
           xlab="temperature",ylab="humidity",
           main="Oct. & Nov"))
+## 同様に少し凝った図の作り方の例
+tw_qda <- qda(month ~ temp + humid, data=tw_subset) 
+tw_qest <- predict(tw_qda) # 判別関数によるクラス分類結果の取得
+tw_qerr <- which(tw_qest$class!=tw_subset$month)
+with(tw_subset, 
+     plot(temp, humid, # データ全体の散布図
+          pch=month+6, col=my_color[month-8],
+          xlab="temperature",ylab="humidity",
+          main="quadratic discriminant"))
+with(tw_subset[tw_qerr,], 
+     points(temp, humid, # 誤ったデータ
+            pch=1, col="orchid", cex=2, lwd=2))
+qdesc <- predict(tw_qda,newdata=my_grid)
+image(sx,sy,add=TRUE,
+      matrix(as.numeric(qdesc$class),length(sx),length(sy)),
+      col=c(rgb(1,0,0,0.2),rgb(0,1,0,0.2)))
 
 ### 
 ### 練習問題 多値判別

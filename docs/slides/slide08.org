@@ -3,7 +3,7 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2022-11-25 14:20:37 mura>
+# Time-stamp: <2022-11-25 15:31:41 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+PROPERTY: header-args:R :cache yes :session *R*
@@ -566,7 +566,7 @@
   ### 
   ### 練習問題 線形判別
   ###
-  
+
   ### 東京の気象データによる判別分析
   library(MASS)
   ## データの整理
@@ -596,11 +596,13 @@
   tw_pred$class 
   tw_test$month 
   ## 判別結果の図示
-  myLine <- function(z) { # 判別境界を引くための関数
+  my_lda_border <- function(z) { # 判別境界を引くための関数 
       a0<-as.vector(colMeans(z$means) %*% z$scaling)
       a<-c(a0/z$scaling[2],-z$scaling[1]/z$scaling[2])
       return(a)
   }
+  ## scale * (x-mu) = 0 を変形している
+  ## ただし x は説明変数のベクトルで，x2 に関して解いている
   with(tw_test, 
        plot(temp, humid, # 試験データの散布図
             pch=month, col=month,
@@ -609,7 +611,37 @@
   with(tw_train, 
        points(temp, humid, # 訓練データの散布図
               pch=month, col=month+3))
-  abline(myLine(tw_lda), col="blue", lwd=2)
+  abline(my_lda_border(tw_lda), col="blue", lwd=2)
+  ## もう少し凝った図の作り方の例
+  ## 全データで線形判別関数を作成して誤ったデータを表示
+  my_color <- rainbow(12)[c(2,5,8)]
+  tw_lda <- lda(month ~ temp + humid, data=tw_subset)
+  tw_lest <- predict(tw_lda)
+  tw_lerr <- which(tw_lest$class!=tw_subset$month)
+  ## 判別結果の図示
+  my_lda_border <- function(z) { # 判別境界を引くための関数
+    a0<-as.vector(colMeans(z$means) %*% z$scaling)
+    a<-c(a0/z$scaling[2],-z$scaling[1]/z$scaling[2])
+    return(a)
+  }
+  with(tw_subset, 
+       plot(temp, humid, # 全データの散布図
+            pch=month+6, col=my_color[month-8],
+            xlab="temperature",ylab="humidity",
+            main="linear discriminant"))
+  with(tw_subset[tw_lerr,], 
+       points(temp, humid, # 誤ったデータの散布図
+              pch=1, col="orchid", cex=2, lwd=2))
+  abline(my_lda_border(tw_lda), col="orange", lwd=2)
+  rx <- with(tw_subset,range(temp))
+  ry <- with(tw_subset,range(humid))
+  sx <- pretty(rx,100)
+  sy <- pretty(ry,100)
+  my_grid <- expand.grid(temp=sx,humid=sy)
+  ldesc <- predict(tw_lda,newdata=my_grid)
+  image(sx,sy,add=TRUE,
+        matrix(as.numeric(ldesc$class),length(sx),length(sy)),
+          col=c(rgb(1,0,0,0.2),rgb(0,1,0,0.2)))
 #+end_src
 
 
@@ -822,6 +854,22 @@
             col=month,
             xlab="temperature",ylab="humidity",
             main="Oct. & Nov"))
+  ## 同様に少し凝った図の作り方の例
+  tw_qda <- qda(month ~ temp + humid, data=tw_subset) 
+  tw_qest <- predict(tw_qda) # 判別関数によるクラス分類結果の取得
+  tw_qerr <- which(tw_qest$class!=tw_subset$month)
+  with(tw_subset, 
+       plot(temp, humid, # データ全体の散布図
+            pch=month+6, col=my_color[month-8],
+            xlab="temperature",ylab="humidity",
+            main="quadratic discriminant"))
+  with(tw_subset[tw_qerr,], 
+       points(temp, humid, # 誤ったデータ
+              pch=1, col="orchid", cex=2, lwd=2))
+  qdesc <- predict(tw_qda,newdata=my_grid)
+  image(sx,sy,add=TRUE,
+        matrix(as.numeric(qdesc$class),length(sx),length(sy)),
+        col=c(rgb(1,0,0,0.2),rgb(0,1,0,0.2)))
 #+end_src
   
 
@@ -1115,7 +1163,7 @@
   #+begin_src R :file figs/08_pairs.png :exports results :results graphics :tangle yes
     ### 東京の気象データによる判別分析
     library(MASS)
-    myCol <- rainbow(12)[c(2,5,8)]
+    my_color <- rainbow(12)[c(2,5,8)]
     ## データの整理
     target <- c(10,11)
     tw_data <- read.csv("data/tokyo_weather.csv")
@@ -1126,11 +1174,11 @@
     if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
     with(tw_subset, 
          plot(temp, humid, # 散布図の作成
-              pch=month+6, col=myCol[month-8],
+              pch=month+6, col=my_color[month-8],
               xlab="気温",ylab="湿度",
               main="東京の機構"))
     legend("bottomright",inset=.05, # 凡例の作成
-	   pch=target+6, col=myCol[target-8], legend=c("10月","11月"))
+	   pch=target+6, col=my_color[target-8], legend=c("10月","11月"))
   #+end_src
 
 
@@ -1148,21 +1196,21 @@
     tw_lest <- predict(tw_lda)
     tw_lerr <- which(tw_lest$class!=tw_subset$month)
     ## 判別結果の図示
-    myLine <- function(z) { # 判別境界を引くための関数
-	a0<-as.vector(colMeans(z$means) %*% z$scaling)
-	a<-c(a0/z$scaling[2],-z$scaling[1]/z$scaling[2])
-	return(a)
+    my_lda_border <- function(z) { # 判別境界を引くための関数
+        a0<-as.vector(colMeans(z$means) %*% z$scaling)
+        a<-c(a0/z$scaling[2],-z$scaling[1]/z$scaling[2])
+        return(a)
     }
     if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
     with(tw_subset, 
-	 plot(temp, humid, # 試験データの散布図
-	      pch=month+6, col=myCol[month-8],
-	      xlab="気温",ylab="湿度",
-	      main="linear discriminant"))
+         plot(temp, humid, # 試験データの散布図
+              pch=month+6, col=my_color[month-8],
+              xlab="気温",ylab="湿度",
+              main="linear discriminant"))
     with(tw_subset[tw_lerr,], 
-	 points(temp, humid, # 訓練データの散布図
-		pch=1, col="orchid", cex=2, lwd=2))
-    abline(myLine(tw_lda), col="orange", lwd=2)
+         points(temp, humid, # 訓練データの散布図
+                pch=1, col="orchid", cex=2, lwd=2))
+    abline(my_lda_border(tw_lda), col="orange", lwd=2)
   #+end_src
 
 
@@ -1184,7 +1232,7 @@
     if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
     with(tw_subset, 
          plot(temp, humid, # 試験データの散布図
-              pch=month+6, col=myCol[month-8],
+              pch=month+6, col=my_color[month-8],
               xlab="気温",ylab="湿度",
               main="quadratic discriminant"))
     with(tw_subset[tw_qerr,], 
@@ -1212,7 +1260,7 @@
     tw_merr <- which(tw_mest$class!=tw_subset$month)
     with(tw_subset,
          plot(tw_mda,
-              col=myCol[month-8],
+              col=my_color[month-8],
               main="multi label discriminant")) # 判別関数値の図示
     tw_mld <- predict(tw_mda)$x
     with(as.data.frame(tw_mld[tw_merr,]), 
