@@ -15,3 +15,4 @@ weight = 1015
 -   [第5講 (2022年11月4日)](https://u-tokyo-ac-jp.zoom.us/rec/share/KHnWqPh1ZcgXfAzSwewctirJMnl0Pc17xTgE1ETMATJGnH9_MQgmkTfxoXG7VVhb._UYmQl0_gViuYgHc?startTime=1667548207000)
 -   [第6講 (2022年11月11日)](https://u-tokyo-ac-jp.zoom.us/rec/share/6ZVnYgUan37gOkxOQqzAAiXqtJ-WVnsYxsM_1ak7iD4DaKJmTgtKWLfpwQGSDnhd.qlHs2CUoU4GYfsuf?startTime=1668153301000)
 -   [第7講 (2022年11月18日)](https://u-tokyo-ac-jp.zoom.us/rec/share/EbkVXzokpLV6qyj_5olP9vrXoX-ImxlvlzvBL5ZXIaji3zUPBjdLL6C0YYzRABS9.quRMMflb5bhBsOsL?startTime=1668758092000)
+-   [第8講 (2022年11月25日)](https://u-tokyo-ac-jp.zoom.us/rec/share/jR1m1wTEesEAJSq7VHLOJgGuy6vPD2yfDBsVpTlbhG7DcO_q6EPXlSqXyM39cT3C.FJcEzjhVinzOZvui?startTime=1669362902000)
