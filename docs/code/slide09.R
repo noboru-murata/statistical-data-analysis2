@@ -56,6 +56,37 @@ confusionMatrix(predict(wq_qda)$class, wq_data$quality)
 ### 練習問題 予測誤差の評価
 ###
 
+### MASS::biopsy による誤差の評価
+library(MASS)  # 既に読み込んでいれば不要
+library(caret) # 既に読み込んでいれば不要
+
+## データの整理
+head(biopsy)
+tail(biopsy)
+bio_data <- na.omit(biopsy)[-1] # NA および ID を除く
+
+plot(~ ., data=bio_data , pch=20, col=class) # 散布図の表示
+
+## LOO CV の例 (ldaは標準で装備している．qdaも同様)
+## 線形判別
+bio_lda <- lda(class ~ ., data=bio_data) 
+bio_ldloo <- lda(class ~ ., data=bio_data, CV=TRUE)
+## 訓練誤差の評価
+confusionMatrix(predict(bio_lda)$class, bio_data$class)$table
+## LOO CV による予測誤差の推測
+confusionMatrix(bio_ldloo$class, bio_data$class)$table
+## 様々な評価指標の比較する場合
+## confusionMatrix(predict(bio_lda)$class, bio_data$class)
+## confusionMatrix(bio_ldloo$class, bio_data$class)
+
+## caret package を利用した場合
+## LOO CV
+(bio_loocv <- train(class ~., data=bio_data, method="lda",
+                    trControl=trainControl(method="LOOCV")))
+## k-重交叉検証 (5-fold)
+(bio_kfold <- train(class ~., data=bio_data, method="lda",
+                    trControl=trainControl(method="cv", number=5)))
+
 ### Wine Quality Data Set による誤差の評価
 library(MASS)  # 既に読み込んでいれば不要
 library(caret) # 既に読み込んでいれば不要

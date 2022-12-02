@@ -3,7 +3,7 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2022-11-25 14:27:09 mura>
+# Time-stamp: <2022-12-02 16:14:05 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+PROPERTY: header-args:R :cache yes :session *R*
@@ -22,7 +22,8 @@
 - 第3講以降は同じファイルを使うように整理する
 - 同じタイトルの項目にはメモを入れる
 - 演習の内容が異なるので演習は2つ作る形で対応
-
+- Fisherの判別の図があると判りやすい
+  
 * COMMENT 講義の内容
 # 早稲田大学
 - 第1日 : 判別分析の考え方
@@ -271,9 +272,10 @@
 | 判別は陰性 | 偽陰性 (False Negative) | 真陰性 (True Negative)  |
 |------------+-------------------------+-------------------------|
 - *confusion matrix*
+- 各条件にあてはまるデータ数を記載
 - 転置で書く流儀もあるので注意
 
-** 混同行列
+** 混同行列 (転置したもの)
 |------------+-------------------------+-------------------------|
 |            | 判別は陽性              | 判別は陰性              |
 |------------+-------------------------+-------------------------|
@@ -503,12 +505,12 @@
 :END:
 - 以下の問に答えなさい
   - F-値，再現率，適合率の大小関係はどのようになるか
-  - 2値判別(\(P=1,N=0\)とする)において
+  - 2値判別(陽性 \(=1\),陰性 \(=0\) とする)において
     正解ラベル\(Y\)と予測ラベル\(\hat{Y}\)の相関係数を
     \(TP,FP,TN,FN\)およびデータ数\(N\)
     を用いて表せ
 
-** COMMENT 解答例
+** 解答例
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
@@ -552,17 +554,17 @@
     \begin{align}
       \mathrm{Cov}(Y,\hat{Y})
       &=
-	\mathbb{E}[(Y-\mathbb{E}[Y])(\hat{Y}-\mathbb{E}[\hat{Y}])]\\
+        \mathbb{E}[(Y-\mathbb{E}[Y])(\hat{Y}-\mathbb{E}[\hat{Y}])]\\
       &=
-	\mathbb{E}[Y\hat{Y}]-\mathbb{E}[Y]\mathbb{E}[\hat{Y}]\\
+        \mathbb{E}[Y\hat{Y}]-\mathbb{E}[Y]\mathbb{E}[\hat{Y}]\\
       &=
-	\frac{TP}{N}-\frac{TP+FN}{N}\frac{TP+FP}{N}\\
+        \frac{TP}{N}-\frac{TP+FN}{N}\frac{TP+FP}{N}\\
       &=
-	\frac{TP(TP+FN+FP+TN)}{N^{2}}\\
+        \frac{TP(TP+FN+FP+TN)}{N^{2}}\\
       &\qquad-
-	\frac{(TP+FN)(TP+FP)}{N^{2}}\\
+        \frac{(TP+FN)(TP+FP)}{N^{2}}\\
       &=
-	\frac{TP\cdot TN - FP\cdot FN}{N^{2}}
+        \frac{TP\cdot TN - FP\cdot FN}{N^{2}}
     \end{align}
   #+end_src
   #+end_quote
@@ -575,14 +577,14 @@
     \begin{align}
       \mathrm{Var}(Y)
       &=
-	\mathbb{E}[Y^{2}]-\mathbb{E}[Y]^{2}\\
+        \mathbb{E}[Y^{2}]-\mathbb{E}[Y]^{2}\\
       &=
-	\frac{(TP+FN)(TN+FP)}{N^{2}}\\
+        \frac{(TP+FN)(TN+FP)}{N^{2}}\\
       \mathrm{Var}(\hat{Y})
       &=
-	\mathbb{E}[\hat{Y}^{2}]-\mathbb{E}[\hat{Y}]^{2}\\
+        \mathbb{E}[\hat{Y}^{2}]-\mathbb{E}[\hat{Y}]^{2}\\
       &=
-	\frac{(TP+FP)(TN+FN)}{N^{2}}
+        \frac{(TP+FP)(TN+FN)}{N^{2}}
     \end{align}
   #+end_src
   #+end_quote
@@ -592,7 +594,8 @@
   #+begin_quote
   #+begin_src latex
     \begin{equation}
-      \rho=
+      \rho
+      =
       \frac{TP\cdot TN-FP\cdot FN}
       {\sqrt{(TP+FP)(TP+FN)(TN+FP)(TN+FN)}}       
     \end{equation}
@@ -804,8 +807,7 @@
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
-- Wine Quality Data Set を用いた
-  線形判別と2次判別に関して，以下を行いなさい
+- MASS::biopsy を用いた線形判別に関して，以下を行いなさい
   - LOO交叉検証法を用いて予測誤差の評価を行いなさい
   - k-重交叉検証法を用いて予測誤差の評価を行いなさい
 
@@ -814,6 +816,48 @@
   ### 練習問題 予測誤差の評価
   ###
 
+  ### MASS::biopsy による誤差の評価
+  library(MASS)  # 既に読み込んでいれば不要
+  library(caret) # 既に読み込んでいれば不要
+
+  ## データの整理
+  head(biopsy)
+  tail(biopsy)
+  bio_data <- na.omit(biopsy)[-1] # NA および ID を除く
+
+  plot(~ ., data=bio_data , pch=20, col=class) # 散布図の表示
+
+  ## LOO CV の例 (ldaは標準で装備している．qdaも同様)
+  ## 線形判別
+  bio_lda <- lda(class ~ ., data=bio_data) 
+  bio_ldloo <- lda(class ~ ., data=bio_data, CV=TRUE)
+  ## 訓練誤差の評価
+  confusionMatrix(predict(bio_lda)$class, bio_data$class)$table
+  ## LOO CV による予測誤差の推測
+  confusionMatrix(bio_ldloo$class, bio_data$class)$table
+  ## 様々な評価指標の比較する場合
+  ## confusionMatrix(predict(bio_lda)$class, bio_data$class)
+  ## confusionMatrix(bio_ldloo$class, bio_data$class)
+
+  ## caret package を利用した場合
+  ## LOO CV
+  (bio_loocv <- train(class ~., data=bio_data, method="lda",
+                      trControl=trainControl(method="LOOCV")))
+  ## k-重交叉検証 (5-fold)
+  (bio_kfold <- train(class ~., data=bio_data, method="lda",
+                      trControl=trainControl(method="cv", number=5)))
+#+end_src
+
+** 練習問題
+:PROPERTIES:
+:reveal_background: #fef4f4
+:END:
+- Wine Quality Data Set を用いた
+  線形判別と2次判別に関して，以下を行いなさい
+  - LOO交叉検証法を用いて予測誤差の評価を行いなさい
+  - k-重交叉検証法を用いて予測誤差の評価を行いなさい
+
+#+begin_src R :eval no :exports none :tangle yes
   ### Wine Quality Data Set による誤差の評価
   library(MASS)  # 既に読み込んでいれば不要
   library(caret) # 既に読み込んでいれば不要
