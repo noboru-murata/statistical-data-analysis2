@@ -3,7 +3,7 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2022-12-08 18:29:20 mura>
+# Time-stamp: <2022-12-09 14:32:50 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+STARTUP: hidestars content indent
@@ -16,7 +16,8 @@
 - 第3講以降は同じファイルを使うように整理する
 - 同じタイトルの項目にはメモを入れる
 - 演習の内容が異なるので演習は2つ作る形で対応
-
+- 色合いは変えた方が良いかも
+  
 * COMMENT 講義の内容
 # 早稲田大学
 - *第1日 : 基本的な考え方と階層的方法*
@@ -551,8 +552,8 @@
 - ~cluster~: クラスタ分析用のパッケージ
 - 関数 ~dist()~ とほぼ同様
   #+begin_src R :eval no
-    ### パッケージの読み込み (標準で含まれているのでinstallは不要)
-    library(cluster) # require(cluster)
+    ### パッケージの読み込み
+    library(cluster)
     ### 距離の計算，返値は dissimilarity class (distとほぼ互換)
     dsy <- daisy(x, metric = "euclidean", stand = FALSE)
     ## x: データフレーム
@@ -587,7 +588,7 @@
   ### 
 
   ### パッケージの読み込み 
-  library(cluster) # require(cluster)
+  library(cluster)
 
   ## データの読み込み
   js_data <- read.csv(file="data/japan_social.csv", row.names=1)
@@ -941,10 +942,10 @@
     ## x: データフレーム
     ## clus: クラスタ分割
     ## stand: 正規化の有無
-    ## lines: クラスタ間の繋がりの表示 (0:無，1:外，2:中心)
+    ## lines: クラスタ間の繋がりの表示 (0:無，1:中心，2:外)
     ## shade: 網掛けの有無
     ## labels: ラベルの表示 (0:無，2:データとクラスタ, 3:データ, 4:クラスタ, など)
-    ## col.p/txt/clue: データ点・文字・クラスタの色指定
+    ## col.p/txt/clus: データ点・文字・クラスタの色指定
   #+end_src
 
 ** データセットの準備
