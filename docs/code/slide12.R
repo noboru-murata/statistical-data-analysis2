@@ -23,9 +23,9 @@ K <- 5 # 生成する時系列の数
 ## 右下ペインの package タブから RColorBrewer をインストール
 ## install.packages("RColorBrewer") 
 library(RColorBrewer)
-myCol <- brewer.pal(K,"Dark2") # 暗めの色合いのパレットを利用
+my_col <- brewer.pal(K,"Dark2") # 暗めの色合いのパレットを利用
 ## 色合いの例は関数 display.brewer.all()
-## myCol <- rainbow(K) # いわゆるレインボーカラーを使う場合
+## my_col <- rainbow(K) # いわゆるレインボーカラーを使う場合
 ## 黄色などが見えにくい場合もあるので，スライドなどに使う場合は注意が必要
 
 ## set.seed(123) # 必要なら乱数のシードを指定する
@@ -41,7 +41,7 @@ plot(x=ts(1:Tmax),
      type="n") # 枠だけ作図
 for(i in 1:K) {
     x <- ts(rnorm(Tmax, sd=2))
-    lines(x, col=myCol[i])
+    lines(x, col=my_col[i])
 }
 
 ## データフレーム化して表示する場合
@@ -54,7 +54,7 @@ plot(x=z, # 既定値は plot.type="multiple"
 
 ## まとめて一枚
 plot(x=z, plot.type="single",
-     ylab="value", col=myCol,
+     ylab="value", col=my_col,
      main=expression(X[t] == epsilon[t]))
 
 ### トレンドのあるホワイトノイズ
@@ -65,7 +65,7 @@ plot(x)
 z <- ts(replicate(K,
                   rnorm(Tmax, sd=2) -1 + 0.05*(1:Tmax)))
 plot(x=z, plot.type="single",
-     ylab="value", col=myCol,
+     ylab="value", col=my_col,
      main=expression(X[t] == -1 + 0.05 * t + epsilon[t]))
 
 ### ランダムウォーク
@@ -85,7 +85,7 @@ plot(x)
 z <- ts(replicate(K,
                   cumsum(rnorm(Tmax, sd=2))))
 plot(x=z, plot.type="single",
-     ylab="value", col=myCol,
+     ylab="value", col=my_col,
      main=expression(X[t] == X[t-1] + epsilon[t]))
 
 ###
@@ -95,7 +95,7 @@ plot(x=z, plot.type="single",
 ## 設定は前の練習問題と同じ
 Tmax <- 200 # 時系列の長さ t=1,..,Tmax
 K <- 5 # 生成する時系列の数
-myCol <- brewer.pal(K,"Dark2") 
+my_col <- brewer.pal(K,"Dark2") 
 ## 書き方は以下に示したもの以外にもいろいろあるので考えてみて下さい
 
 ### AR(2)モデルのシミュレーション
@@ -128,7 +128,7 @@ plot(ts(x))
 ## データフレームを作成して表示
 df.ar <- ts(replicate(K, myAR(a=a, epsilon=rnorm(Tmax))))
 plot(x=df.ar, plot.type="single",
-     ylab="value", col=myCol,
+     ylab="value", col=my_col,
      main="AR(2)")
 
 ### MA(2)モデルのシミュレーション
@@ -154,7 +154,7 @@ myMA <- function(b, epsilon){
 }
 df.ma <- ts(replicate(K, myMA(b=b, epsilon=rnorm(Tmax))))
 plot(x=df.ma, plot.type="single",
-     ylab="value", col=myCol,
+     ylab="value", col=my_col,
      main="MA(2)")
 
 ### ARMA(2,1)モデルのシミュレーション
@@ -184,7 +184,7 @@ myARMA <- function(a, b, epsilon){
 }
 df.arma <- ts(replicate(K, myARMA(a=a, b=b, epsilon=rnorm(Tmax))))
 plot(x=df.arma, plot.type="single",
-     ylab="value", col=myCol,
+     ylab="value", col=my_col,
      main="ARMA(2,1)")
 ## 関数 filter や arima.sim などを利用することもできる
 
@@ -193,25 +193,25 @@ plot(x=df.arma, plot.type="single",
 ### 
 
 K <- 4 # 表示する時系列の数 (4つを並べて比較する)
-## myCol K=5 で作ったものをそのまま利用，別途作成してもよい
+## my_col K=5 で作ったものをそのまま利用，別途作成してもよい
 
 ### AR(2)モデルの自己相関
 orgpar <- par(mfrow=c(2,2)) # グラフを2x2(行方向の順)に並べる
 for(i in 1:K) {
-    acf(df.ar[,i], col=myCol[i], main=paste("AR series",i))
+    acf(df.ar[,i], col=my_col[i], main=paste("AR series",i))
 }
 par(orgpar) # もとのparの内容に戻す
 
 ### MA(2)モデルの自己相関
 orgpar <- par(mfrow=c(2,2))
 for(i in 1:K) {
-    acf(df.ma[,i], col=myCol[i], main=paste("MA series",i))
+    acf(df.ma[,i], col=my_col[i], main=paste("MA series",i))
 }
 par(orgpar) # もとのparの内容に戻す
 
 ### ARMA(2,1)モデルの自己相関
 orgpar <- par(mfrow=c(2,2))
 for(i in 1:K) {
-    acf(df.arma[,i], col=myCol[i], main=paste("ARMA series",i))
+    acf(df.arma[,i], col=my_col[i], main=paste("ARMA series",i))
 }
 par(orgpar) # もとのparの内容に戻す

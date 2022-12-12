@@ -20,7 +20,7 @@ set.seed(1234) # 乱数のシード
 Tmax <- 500 # 時系列の長さ t=1,..,Tmax
 K <- 4 # 表示する時系列の数 (4つを並べて比較する)
 library(RColorBrewer)
-myCol <- brewer.pal(K,"Dark2")
+my_col <- brewer.pal(K,"Dark2")
 df.ar <- ts(replicate(K, myARMA(a=c(0.67, 0.26), b=c(0),
 				epsilon=rnorm(Tmax))))
 df.ma <- ts(replicate(K, myARMA(a=c(0), b=c(0.44, 0.08),
@@ -29,56 +29,56 @@ df.arma <- ts(replicate(K, myARMA(a=c(0.8, -0.64), b=c(-0.5),
 				  epsilon=rnorm(Tmax))))
 
 plot(x=df.ar, plot.type="single",
-     ylab="value", col=myCol,
-     main="AR(2)")
+     ylab="value", col=my_col,
+     main=expression(X[t] == 0.67*X[t-1] + 0.26*X[t-2] + epsilon[t]))
 
 ### AR(2)モデルの自己相関
 orgpar <- par(mfrow=c(2,2)) # グラフを2x2(行方向の順)に並べる
 for(i in 1:K) {
-  acf(df.ar[,i], col=myCol[i], main=paste("AR series",i))
+  acf(df.ar[,i], col=my_col[i], main=paste("AR series",i))
 }
 par(orgpar)
 
 plot(x=df.ma, plot.type="single",
-     ylab="value", col=myCol,
-     main="MA(2)")
+     ylab="value", col=my_col,
+     main=expression(X[t] == 0.44*epsilon[t-1] + 0.08*epsilon[t-2] + epsilon[t]))
 
 ### MA(2)モデルの自己相関
 orgpar <- par(mfrow=c(2,2))
 for(i in 1:K) {
-    acf(df.ma[,i], col=myCol[i], main=paste("MA series",i))
+    acf(df.ma[,i], col=my_col[i], main=paste("MA series",i))
 }
 par(orgpar)
 
 plot(x=df.arma, plot.type="single",
-     ylab="value", col=myCol,
-     main="ARMA(2,1)")
+     ylab="value", col=my_col,
+     main=expression(X[t] == 0.8*X[t-1] - 0.64*X[t-2] - 0.5*epsilon[t-1] + epsilon[t]))
 
 ### ARMA(2,1)モデルの自己相関
 orgpar <- par(mfrow=c(2,2))
 for(i in 1:K) {
-    acf(df.arma[,i], col=myCol[i], main=paste("ARMA series",i))
+    acf(df.arma[,i], col=my_col[i], main=paste("ARMA series",i))
 }
 par(orgpar)
 
 ### AR(2)モデルの偏自己相関
 orgpar <- par(mfrow=c(2,2)) # グラフを2x2(行方向の順)に並べる
 for(i in 1:K) {
-    pacf(df.ar[,i], col=myCol[i], main=paste("AR series",i))
+    pacf(df.ar[,i], col=my_col[i], main=paste("AR series",i))
 }
 par(orgpar)
 
 ### MA(2)モデルの偏自己相関
 orgpar <- par(mfrow=c(2,2))
 for(i in 1:K) {
-    pacf(df.ma[,i], col=myCol[i], main=paste("MA series",i))
+    pacf(df.ma[,i], col=my_col[i], main=paste("MA series",i))
 }
 par(orgpar)
 
 ### ARMA(2,1)モデルの偏自己相関
 orgpar <- par(mfrow=c(2,2))
 for(i in 1:K) {
-    pacf(df.arma[,i], col=myCol[i], main=paste("ARMA series",i))
+    pacf(df.arma[,i], col=my_col[i], main=paste("ARMA series",i))
 }
 par(orgpar)
 

@@ -34,7 +34,7 @@
     <h1 class="no-toc-progress">時系列解析</h1>
 </div>
 <div class="talk-subtitle">
-    <p>基本的なモデル</p>
+    <p>時系列の基本モデル</p>
 </div>
 <div class="keyboard-usage">
     <p>(Press <code>?</code> for help, <code>n</code> and <code>p</code> for next and previous slide)</p>
@@ -47,11 +47,11 @@
 </section>
 
 <section>
-<section id="slide-orgd612a27">
-<h2 id="orgd612a27">講義概要</h2>
+<section id="slide-orgc7a93a7">
+<h2 id="orgc7a93a7">講義概要</h2>
 <ul>
-<li><b>第1日: 時系列の基本モデル</b></li>
-<li>第2日: モデルの推定と予測</li>
+<li><b>第1日 : 時系列の基本モデル</b></li>
+<li>第2日 : モデルの推定と予測</li>
 
 </ul>
 <div class="slide-footer"><br></div>
@@ -59,21 +59,24 @@
 </section>
 </section>
 <section>
-<section id="slide-org898bb1a">
-<h2 id="org898bb1a">時系列解析の概要</h2>
-<div class="outline-text-2" id="text-org898bb1a">
+<section id="slide-org96f120b">
+<h2 id="org96f120b">時系列解析の概要</h2>
+<div class="outline-text-2" id="text-org96f120b">
 </div>
 </section>
-<section id="slide-org76ede98">
-<h3 id="org76ede98">時系列解析とは</h3>
+<section id="slide-orgaae033a">
+<h3 id="orgaae033a">時系列解析とは</h3>
 <ul>
 <li>時系列データ
 <ul>
 <li>時間軸に沿って観測されたデータ</li>
 <li>観測の順序に意味がある</li>
 <li>異なる時点間での観測データの従属関係が重要</li>
-<li><b>独立性にもとづく解析は行えない</b> <br />
-(そのままでは大数の法則や中心極限定理は使えない)</li>
+<li><b>独立性にもとづく解析は行えない</b>
+<ul>
+<li>そのままでは大数の法則や中心極限定理は使えない</li>
+
+</ul></li>
 
 </ul></li>
 <li>時系列解析の目的
@@ -87,11 +90,11 @@
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-orgfb45bed">
-<h3 id="orgfb45bed">時系列データ</h3>
+<section id="slide-orgd8a3911">
+<h3 id="orgd8a3911">時系列データ</h3>
 <ul>
 <li><p>
-統計学・確率論における表現: <b>確率過程</b>
+統計学・確率論における表現 : <b>確率過程</b>
 </p>
 <blockquote>
 <p>
@@ -122,22 +125,22 @@
 </section>
 </section>
 <section>
-<section id="slide-org1f6319c">
-<h2 id="org1f6319c">基本的なモデル</h2>
-<div class="outline-text-2" id="text-org1f6319c">
+<section id="slide-org2b10896">
+<h2 id="org2b10896">基本的なモデル</h2>
+<div class="outline-text-2" id="text-org2b10896">
 </div>
 </section>
-<section id="slide-org7ba5534">
-<h3 id="org7ba5534">ホワイトノイズ</h3>
+<section id="slide-org7ad3214">
+<h3 id="org7ad3214">ホワイトノイズ</h3>
 <ul>
 <li><p>
 定義
 </p>
 <blockquote>
 <p>
-平均\(0\)，分散\(\sigma^2\)
+平均 \(0\) 分散 \(\sigma^2\)
 である確率変数の
-確率分布\(P\)からの
+確率分布 \(P\) からの
 独立かつ同分布な確率変数列
 </p>
 <div>
@@ -171,8 +174,8 @@
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-orgcb12a6e">
-<h3 id="orgcb12a6e">トレンドのあるホワイトノイズ</h3>
+<section id="slide-org35d4280">
+<h3 id="org35d4280">トレンドのあるホワイトノイズ</h3>
 <ul>
 <li><p>
 定義
@@ -206,8 +209,8 @@
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-orge2e4e10">
-<h3 id="orge2e4e10">ランダムウォーク</h3>
+<section id="slide-org5898737">
+<h3 id="org5898737">ランダムウォーク</h3>
 <ul>
 <li><p>
 定義
@@ -235,8 +238,8 @@
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org34c9200">
-<h3 id="org34c9200">数値例</h3>
+<section id="slide-orgaefefc5">
+<h3 id="orgaefefc5">数値例</h3>
 <ul>
 <li>同じモデルに従うパス(系列)を複数観測してみる
 <ul>
@@ -252,17 +255,17 @@
 </section>
 <section>
 
-<div id="org222419d" class="figure">
+<div id="orgdba3347" class="figure">
 <p><img src="figs/12_wn.png" alt="12_wn.png" />
 </p>
-<p><span class="figure-number">Figure 1: </span>ホワイトノイズ</p>
+<p><span class="figure-number">Figure 1: </span>ホワイトノイズ (標準正規分布)</p>
 </div>
 
 <div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="org8ee0bcd" class="figure">
+<div id="org3852d48" class="figure">
 <p><img src="figs/12_trwn.png" alt="12_trwn.png" />
 </p>
 <p><span class="figure-number">Figure 2: </span>トレンドのあるホワイトノイズ</p>
@@ -272,10 +275,10 @@
 </section>
 <section>
 
-<div id="orgbaa1611" class="figure">
+<div id="org4a6ec02" class="figure">
 <p><img src="figs/12_rw.png" alt="12_rw.png" />
 </p>
-<p><span class="figure-number">Figure 3: </span>ランダムウォーク</p>
+<p><span class="figure-number">Figure 1: </span>ランダムウォーク</p>
 </div>
 <div class="slide-footer"><br></div>
 
@@ -283,12 +286,12 @@
 </section>
 </section>
 <section>
-<section id="slide-org9c19ff3" data-background="#fef4f4">
-<h2 id="org9c19ff3">演習</h2>
+<section id="slide-orgd06aae4" data-background="#f4fef4">
+<h2 id="orgd06aae4">実習</h2>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org30adeca" data-background="#fef4f4">
-<h3 id="org30adeca">R: 時系列データの扱い</h3>
+<section id="slide-org4998734">
+<h3 id="org4998734">R : 時系列データの扱い</h3>
 <ul>
 <li>時系列のためのクラス : <code>ts</code> クラス
 <ul>
@@ -310,8 +313,8 @@
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-orgf8e0185" data-background="#fef4f4">
-<h3 id="orgf8e0185">R: 関数 <code>ts()</code></h3>
+<section id="slide-orgafbd2f2">
+<h3 id="orgafbd2f2">R : 関数 <code>ts()</code></h3>
 <ul>
 <li><p>
 時系列クラス <code>ts</code> を作成する関数
@@ -337,8 +340,8 @@ ts(data = x, start = c(2020,3), frequency =4) # 四半期ごと
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org2233afb" data-background="#fef4f4">
-<h3 id="org2233afb">R: 関数 <code>plot()</code></h3>
+<section id="slide-org38095bd">
+<h3 id="org38095bd">R : 関数 <code>plot()</code></h3>
 <ul>
 <li><p>
 時系列クラスの描画
@@ -351,7 +354,7 @@ plot(ts(x, start=c(2000,1), frequency=12)) # 2000年からの毎月のデータ�
 ## 複数の系列を表示する場合
 y &lt;- rt(240,df=4) # t-分布のホワイトノイズ
 z &lt;- ts(data.frame(x,y),
-	start=c(2000,1), frequency=12) 
+        start=c(2000,1), frequency=12) 
 plot(z, col="red") # 指定しなければ個別にグラフを描画
 plot(z, plot.type="single", col=c("red","blue"))
 </code></pre>
@@ -366,8 +369,8 @@ plot(z, plot.type="single", col=c("red","blue"))
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org013ce77" data-background="#fef4f4">
-<h3 id="org013ce77">練習問題</h3>
+<section id="slide-orgb44340a" data-background="#f4fef4">
+<h3 id="orgb44340a">練習問題</h3>
 <ul>
 <li>指定された確率過程を生成して図示しなさい
 <ul>
@@ -384,16 +387,16 @@ plot(z, plot.type="single", col=c("red","blue"))
 </section>
 </section>
 <section>
-<section id="slide-org14e0f3e">
-<h2 id="org14e0f3e">より一般的なモデル</h2>
-<div class="outline-text-2" id="text-org14e0f3e">
+<section id="slide-org23fd1a7">
+<h2 id="org23fd1a7">より一般的なモデル</h2>
+<div class="outline-text-2" id="text-org23fd1a7">
 </div>
 </section>
-<section id="slide-orgd306abd">
-<h3 id="orgd306abd">自己回帰過程</h3>
+<section id="slide-orgbfa7bf1">
+<h3 id="orgbfa7bf1">自己回帰過程</h3>
 <ul>
 <li><p>
-定義 (次数\(p\); AR(p), auto regressive の略)
+定義 (AR(p); 次数 \(p\) の auto regressive の略)
 </p>
 <blockquote>
 <p>
@@ -426,17 +429,17 @@ plot(z, plot.type="single", col=c("red","blue"))
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org7677159">
-<h3 id="org7677159">移動平均過程</h3>
+<section id="slide-orgbc7c59c">
+<h3 id="orgbc7c59c">移動平均過程</h3>
 <ul>
 <li><p>
-定義 (次数\(q\); MA(q), moving average の略)
+定義 (MA(q); 次数 \(q\) の moving average の略)
 </p>
 <blockquote>
 <p>
 \(b_1,\dotsc,b_q\)を定数とし，
 \(X_1,\dotsc,X_q\)が初期値として与えられたとき
-以下で定義される確率過程
+以下で帰納的に定義される確率過程
 </p>
 <div>
 \begin{equation}
@@ -460,11 +463,11 @@ plot(z, plot.type="single", col=c("red","blue"))
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org86912f2">
-<h3 id="org86912f2">自己回帰移動平均過程</h3>
+<section id="slide-org6d94382">
+<h3 id="org6d94382">自己回帰移動平均過程</h3>
 <ul>
 <li><p>
-定義 (次数\((p,q)\); ARMA(\(p,q\)))
+定義 (ARMA(\(p,q\)); 次数 \((p,q)\))
 </p>
 <blockquote>
 <p>
@@ -499,8 +502,8 @@ plot(z, plot.type="single", col=c("red","blue"))
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org9877332">
-<h3 id="org9877332">数値例</h3>
+<section id="slide-orgee0424d">
+<h3 id="orgee0424d">数値例</h3>
 <ul>
 <li>同じモデルに従うパス(系列)を複数観測してみる
 <ul>
@@ -516,30 +519,30 @@ plot(z, plot.type="single", col=c("red","blue"))
 </section>
 <section>
 
-<div id="org5631886" class="figure">
+<div id="org68a196a" class="figure">
 <p><img src="figs/12_ar.png" alt="12_ar.png" />
 </p>
-<p><span class="figure-number">Figure 4: </span>AR過程</p>
+<p><span class="figure-number">Figure 1: </span>AR過程</p>
 </div>
 
 <div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="orgc48c883" class="figure">
+<div id="org8568b49" class="figure">
 <p><img src="figs/12_ma.png" alt="12_ma.png" />
 </p>
-<p><span class="figure-number">Figure 5: </span>MA過程</p>
+<p><span class="figure-number">Figure 1: </span>MA過程</p>
 </div>
 
 <div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="org3a030f6" class="figure">
+<div id="orgc1e5e9c" class="figure">
 <p><img src="figs/12_arma.png" alt="12_arma.png" />
 </p>
-<p><span class="figure-number">Figure 6: </span>ARMA過程</p>
+<p><span class="figure-number">Figure 1: </span>ARMA過程</p>
 </div>
 <div class="slide-footer"><br></div>
 
@@ -547,15 +550,15 @@ plot(z, plot.type="single", col=c("red","blue"))
 </section>
 </section>
 <section>
-<section id="slide-orgab99501" data-background="#fef4f4">
-<h2 id="orgab99501">演習</h2>
+<section id="slide-orgff17168" data-background="#f4fef4">
+<h2 id="orgff17168">実習</h2>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org192bfaa" data-background="#fef4f4">
-<h3 id="org192bfaa">練習問題</h3>
+<section id="slide-org0010d5f" data-background="#f4fef4">
+<h3 id="org0010d5f">練習問題</h3>
 <ul>
 <li>平均0，分散1のホワイトノイズを用いて，
-以下の指定された確率過程を生成し，図示を行いなさい
+以下の指定された確率過程を生成し，図示しなさい
 <ul>
 <li>係数\(a_{1}=0.67,a_{2}=0.26\)を持つAR(2)過程</li>
 <li>係数\(b_{1}=0.44,b_{2}=0.08\)を持つMA(2)過程</li>
@@ -569,15 +572,15 @@ plot(z, plot.type="single", col=c("red","blue"))
 </section>
 </section>
 <section>
-<section id="slide-org9122238">
-<h2 id="org9122238">定常過程と非定常過程</h2>
-<div class="outline-text-2" id="text-org9122238">
+<section id="slide-org49b8407">
+<h2 id="org49b8407">定常過程と非定常過程</h2>
+<div class="outline-text-2" id="text-org49b8407">
 </div>
 </section>
-<section id="slide-org2efaa85">
-<h3 id="org2efaa85">弱定常性</h3>
+<section id="slide-orgc3b3772">
+<h3 id="orgc3b3772">弱定常性</h3>
 <ul>
-<li>確率過程\(X_{t},\;t=1,\dotsc,T\)が次の性質をもつ :
+<li>確率過程\(X_{t},\;t=1,\dotsc,T\)が次の性質をもつ 
 <ul>
 <li><p>
 \(X_{t}\)の平均は時点\(t\)によらない
@@ -627,8 +630,8 @@ plot(z, plot.type="single", col=c("red","blue"))
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org87abb78">
-<h3 id="org87abb78">定常性と非定常性</h3>
+<section id="slide-orgb48639c">
+<h3 id="orgb48639c">定常性と非定常性</h3>
 <ul>
 <li>定常でない確率過程は <b>非定常</b> であるという</li>
 <li>いろいろな確率過程の定常性
@@ -643,20 +646,20 @@ plot(z, plot.type="single", col=c("red","blue"))
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-orge357c1d">
-<h3 id="orge357c1d">非定常過程の難しさ</h3>
+<section id="slide-org1fa1fa4">
+<h3 id="org1fa1fa4">非定常過程の難しさ</h3>
 <ul>
 <li>性質を特徴付ける統計量が観測値から得られない
 <ul>
 <li>平均や分散などの基本的な統計量が時間によって変動する</li>
-<li>1つの時系列から記述統計量の推測はできない</li>
+<li>1つの時系列から記述統計量の推測は一般にできない</li>
 
 </ul></li>
 <li>擬似相関の問題
 <ul>
 <li>独立な時系列にも関わらず見掛けの相関が現れることがある</li>
 <li>2つの独立なランダムウォークは高い確率で&ldquo;相関&rdquo;を持つ</li>
-<li><a href="https://tylervigen.com/spurious-correlations">https://tylervigen.com/spurious-correlations</a></li>
+<li><a href="http://tylervigen.com/spurious-correlations">http://tylervigen.com/spurious-correlations</a></li>
 
 </ul></li>
 
@@ -664,8 +667,8 @@ plot(z, plot.type="single", col=c("red","blue"))
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org83010d4">
-<h3 id="org83010d4">非定常過程の取り扱い</h3>
+<section id="slide-orgdc84244">
+<h3 id="orgdc84244">非定常過程の取り扱い</h3>
 <ul>
 <li>定常過程とみなせるように変換して分析を実行
 <ul>
@@ -721,13 +724,13 @@ plot(z, plot.type="single", col=c("red","blue"))
 </section>
 </section>
 <section>
-<section id="slide-orga38e3f0">
-<h2 id="orga38e3f0">自己共分散・自己相関</h2>
-<div class="outline-text-2" id="text-orga38e3f0">
+<section id="slide-orga3c28c2">
+<h2 id="orga3c28c2">自己共分散・自己相関</h2>
+<div class="outline-text-2" id="text-orga3c28c2">
 </div>
 </section>
-<section id="slide-org57b822e">
-<h3 id="org57b822e">自己共分散・自己相関</h3>
+<section id="slide-org771451b">
+<h3 id="org771451b">自己共分散・自己相関</h3>
 <ul>
 <li>確率過程\(X_{t}\)が <b>定常過程</b> の場合
 <ul>
@@ -769,8 +772,8 @@ plot(z, plot.type="single", col=c("red","blue"))
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org4c9a038">
-<h3 id="org4c9a038">標本自己共分散・標本自己相関</h3>
+<section id="slide-orga7975a5">
+<h3 id="orga7975a5">標本自己共分散・標本自己相関</h3>
 <ul>
 <li>観測データ \(X_1,\dotsc,X_{T}\) からの推定
 <ul>
@@ -810,10 +813,10 @@ plot(z, plot.type="single", col=c("red","blue"))
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org9f22964">
-<h3 id="org9f22964">数値例</h3>
+<section id="slide-org8b18496">
+<h3 id="org8b18496">数値例</h3>
 <ul>
-<li>同じモデルに従うパス(系列)の自己相関を比較してみる
+<li>同じモデルに従うパス(系列)の自己相関を比較する
 <ul>
 <li>自己回帰過程 (AR過程)</li>
 <li>移動平均過程 (MA過程)</li>
@@ -827,30 +830,30 @@ plot(z, plot.type="single", col=c("red","blue"))
 </section>
 <section>
 
-<div id="orga5a6019" class="figure">
+<div id="orga995e98" class="figure">
 <p><img src="figs/12_aracf.png" alt="12_aracf.png" />
 </p>
-<p><span class="figure-number">Figure 7: </span>AR過程の自己相関</p>
+<p><span class="figure-number">Figure 1: </span>AR過程の自己相関</p>
 </div>
 
 <div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="orgc783310" class="figure">
+<div id="orgbddf72e" class="figure">
 <p><img src="figs/12_maacf.png" alt="12_maacf.png" />
 </p>
-<p><span class="figure-number">Figure 8: </span>MA過程の自己相関</p>
+<p><span class="figure-number">Figure 1: </span>MA過程の自己相関</p>
 </div>
 
 <div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="org90fafbe" class="figure">
+<div id="orge065d86" class="figure">
 <p><img src="figs/12_armaacf.png" alt="12_armaacf.png" />
 </p>
-<p><span class="figure-number">Figure 9: </span>ARMA過程の自己相関</p>
+<p><span class="figure-number">Figure 1: </span>ARMA過程の自己相関</p>
 </div>
 <div class="slide-footer"><br></div>
 
@@ -858,12 +861,12 @@ plot(z, plot.type="single", col=c("red","blue"))
 </section>
 </section>
 <section>
-<section id="slide-orgf89e9dc" data-background="#fef4f4">
-<h2 id="orgf89e9dc">演習</h2>
+<section id="slide-org774128c" data-background="#f4fef4">
+<h2 id="org774128c">実習</h2>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgf38413c">
-<h3 id="orgf38413c">R: 関数 <code>acf()</code></h3>
+<section id="slide-orge72c665">
+<h3 id="orge72c665">R : 関数 <code>acf()</code></h3>
 <ul>
 <li><p>
 自己相関・自己共分散の計算
@@ -890,8 +893,8 @@ plot(z, plot.type="single", col=c("red","blue"))
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org29b4717" data-background="#fef4f4">
-<h3 id="org29b4717">練習問題</h3>
+<section id="slide-org5f29b82" data-background="#f4fef4">
+<h3 id="org5f29b82">練習問題</h3>
 <ul>
 <li>以下の問に答えなさい
 <ul>
@@ -908,16 +911,14 @@ plot(z, plot.type="single", col=c("red","blue"))
 </section>
 </section>
 <section>
-<section id="slide-org96f674d">
-<h2 id="org96f674d">次週の内容</h2>
+<section id="slide-org1bc47c0">
+<h2 id="org1bc47c0">次回の内容</h2>
 <ul>
-<li>第1日: 時系列の基本モデル</li>
-<li><b>第2日: モデルの推定と予測</b></li>
+<li>第1日 : 時系列の基本モデル</li>
+<li><b>第2日 : モデルの推定と予測</b></li>
 
 </ul>
 <div class="slide-footer"><br></div>
-</section>
-</section>
 </div>
 </div>
 <script src="./reveal.js/dist/reveal.js"></script>
