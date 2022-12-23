@@ -3,7 +3,7 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2022-12-08 18:31:40 mura>
+# Time-stamp: <2022-12-16 16:12:59 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+STARTUP: hidestars content indent
@@ -16,7 +16,10 @@
 - 第3講以降は同じファイルを使うように整理する
 - 同じタイトルの項目にはメモを入れる
 - 演習の内容が異なるので演習は2つ作る形で対応
-
+- kmeansなどの引数・返り値についてはhelpを参照するように誘導
+- 関数の紹介の書き方を少し整理して整合性をもたせるようにする
+- 例文・雛型を作るべきかもしれない (template.orgとか)
+  
 * COMMENT 講義の内容
 # 早稲田大学
 - 第1日 : クラスタ分析の考え方と階層的方法
@@ -29,7 +32,7 @@
   setwd("~/Desktop/lectures/mva/course")
 #+end_src
 
-* COMMENT 講義概要
+* 講義概要
 # 東京大学
 - 第1日 : クラスタ分析の考え方と階層的方法
 - *第2日 : 非階層的方法と分析の評価*

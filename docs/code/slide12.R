@@ -18,6 +18,31 @@ plot(z, plot.type="single", col=c("red","blue"))
 
 Tmax <- 200 # 時系列の長さ t=1,..,Tmax
 K <- 5 # 生成する時系列の数
+## set.seed(123) # 必要なら乱数のシードを指定する
+
+## ホワイトノイズの生成と図示
+x <- ts(rnorm(Tmax, sd=2)) # 分散4=標準偏差2
+plot(x)
+## x <- ts(rt(n, df=4)) # 正規分布ではなく，例えば自由度4のt分布の場合
+
+### トレンドのあるホワイトノイズ
+x <- ts(rnorm(Tmax, sd=2) -1 + 0.05*(1:Tmax))
+plot(x)
+
+### ランダムウォーク
+## 定義に則ってrecursiveに計算する
+x <- ts(rnorm(Tmax, sd=2)) # はじめは epslion が入っている
+for(t in 2:Tmax) {
+    x[t] <- x[t-1] + x[t] # 順に足し合わせていく
+}
+plot(x)
+
+## 同じ演算をする関数が用意されている
+x <- ts(cumsum(rnorm(Tmax, sd=2))) # 逐次的に加算を行う関数
+plot(x)
+## 書き方はいろいろあるので考えてみて下さい
+
+### 複数の系列を表示する場合
 
 ## 系列を異なる色で表示するための準備
 ## 右下ペインの package タブから RColorBrewer をインストール
@@ -28,13 +53,7 @@ my_col <- brewer.pal(K,"Dark2") # 暗めの色合いのパレットを利用
 ## my_col <- rainbow(K) # いわゆるレインボーカラーを使う場合
 ## 黄色などが見えにくい場合もあるので，スライドなどに使う場合は注意が必要
 
-## set.seed(123) # 必要なら乱数のシードを指定する
 ## ホワイトノイズの生成と図示
-x <- ts(rnorm(Tmax, sd=2)) # 分散4=標準偏差2
-plot(x)
-## x <- ts(rt(n, df=4)) # 正規分布ではなく，例えば自由度4のt分布の場合
-
-## 複数の系列を表示
 plot(x=ts(1:Tmax),
      ylim=c(-5,5), ylab="value", # yの範囲は適宜調整すること
      main=expression(X[t] == epsilon[t]), # 数式で表示
@@ -58,10 +77,6 @@ plot(x=z, plot.type="single",
      main=expression(X[t] == epsilon[t]))
 
 ### トレンドのあるホワイトノイズ
-x <- ts(rnorm(Tmax, sd=2) -1 + 0.05*(1:Tmax))
-plot(x)
-
-## 複数の系列を表示
 z <- ts(replicate(K,
                   rnorm(Tmax, sd=2) -1 + 0.05*(1:Tmax)))
 plot(x=z, plot.type="single",
@@ -69,19 +84,6 @@ plot(x=z, plot.type="single",
      main=expression(X[t] == -1 + 0.05 * t + epsilon[t]))
 
 ### ランダムウォーク
-## 定義に則ってrecursiveに計算する
-x <- ts(rnorm(Tmax, sd=2)) # はじめは epslion が入っている
-for(t in 2:Tmax) {
-    x[t] <- x[t-1] + x[t] # 順に足し合わせていく
-}
-plot(x)
-
-## 同じ演算をする関数が用意されている
-x <- ts(cumsum(rnorm(Tmax, sd=2))) # 逐次的に加算を行う関数
-plot(x)
-## 書き方はいろいろあるので考えてみて下さい
-
-## 複数の系列を表示
 z <- ts(replicate(K,
                   cumsum(rnorm(Tmax, sd=2))))
 plot(x=z, plot.type="single",
