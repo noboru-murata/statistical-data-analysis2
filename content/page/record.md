@@ -6,7 +6,7 @@ draft = false
 weight = 1015
 +++
 
-<span class="timestamp-wrapper"><span class="timestamp">&lt;2022-12-19 Mon&gt; </span></span> 更新
+<span class="timestamp-wrapper"><span class="timestamp">&lt;2023-01-04 Wed&gt; </span></span> 更新
 
 -   [第1講 (2022年10月7日)](https://u-tokyo-ac-jp.zoom.us/rec/share/i7MJgFbB5sjRHfGDhPTHaB_UJI63xhZrIpFB9jLlI1AI4qTA4V_tV6f8nLLYzibw.MwUeY1ATEEexDbU0?startTime=1665129002000)
 -   第2講 (2022年10月14日) 録画ミスのため公開動画はありません
@@ -19,3 +19,4 @@ weight = 1015
 -   [第9講 (2022年12月2日)](https://u-tokyo-ac-jp.zoom.us/rec/share/D4fOVdaOG-Bwm3jqQVGkor3rNC9BmOEM6Yzf0IUMxyz5HFQb6RvZfYrUg94YCID_.XXpPTolmbPj9q1Ch?startTime=1669967699000)
 -   [第10講 (2022年12月9日)](https://u-tokyo-ac-jp.zoom.us/rec/share/2bjqctXC4rh7lAZM9XNBJJ-5gk7reLMMtskt5Dro218CZx5QlSjWrHkk4s2Dk5S7.L-qu0mvv4BlxSXvs?startTime=1670572506000)
 -   [第11講 (2022年12月16日)](https://u-tokyo-ac-jp.zoom.us/rec/share/ox8Oue4adq9WsAcI86SMwYApCvNzAWBJ5nWaQ4RNxx1D2gtFht4HW0DPO4JW_0tx.cJJdD4oNSCBRVFio?startTime=1671177296000)
+-   [第12講 (2022年12月23日)](https://u-tokyo-ac-jp.zoom.us/rec/share/4gBA7hIxoAS9iinpT6yVrXZ5Bn3STH9Pry5vrh9tedxi_72y-VXRLjiir1kZqmKo.ZLk7n6__jWlO5FTZ?startTime=1671782094000)
