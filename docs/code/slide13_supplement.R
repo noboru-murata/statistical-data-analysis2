@@ -45,13 +45,17 @@ myPlot <- function(est,test){
 }
 
 ## データの取得と整理 
-patients <-
+raw_data <-
     read.csv("https://covid19.mhlw.go.jp/public/opendata/newly_confirmed_cases_daily.csv") %>%
     dplyr::rename(date=1, patients=2) %>% 
     dplyr::mutate(date=as.Date(date))
 ## 時系列データ(zooクラス)への変更
-patients <- with(patients,
+patients <- with(raw_data,
                  zoo(x=patients, order.by=date))
+## raw_data は県別に集計されているので，例えば東京都を調べたい場合は
+## patients <- with(raw_data,
+##                  zoo(x=Tokyo, order.by=date))
+## として，期間やモデルの次数を適宜修正して以下を実行すれば良い
 
 ## データの視覚化
 p <-
@@ -77,7 +81,6 @@ test <- window(patients,
                end="2021-01-31")
 ## drift付きのARIMAモデルを推定
 (est <- forecast::auto.arima(log(train)))
-print(est)
 myPlot(est,test)
 
 ## 第4波
@@ -88,8 +91,7 @@ test <- window(patients,
 	       start="2021-04-11",
                end="2021-06-01")
 ## 第3波で推定された次数のARIMAモデルを利用
-est <- forecast::Arima(log(train),c(2,1,2),include.drift=TRUE)
-print(est)
+(est <- forecast::Arima(log(train),c(2,1,2),include.drift=TRUE))
 myPlot(est,test)
 
 ## 第5波
@@ -100,11 +102,10 @@ test <- window(patients,
 	       start="2021-07-21",
                end="2021-09-30")
 ## 第3波で推定された次数のARIMAモデルを利用
-est <- forecast::Arima(log(train),c(2,1,2),include.drift=TRUE)
-print(est)
+(est <- forecast::Arima(log(train),c(2,1,2),include.drift=TRUE))
 myPlot(est,test)
 
-## 第5波 (その2)
+## 第5波 (その2) 
 train <- window(patients,
 		start="2021-06-15",
 		end="2021-07-31")
@@ -112,6 +113,40 @@ test <- window(patients,
 	       start="2021-08-01",
                end="2021-08-30")
 ## 第3波で推定された次数のARIMAモデルを利用
-est <- forecast::Arima(log(train),c(2,1,2),include.drift=TRUE)
-print(est)
+(est <- forecast::Arima(log(train),c(2,1,2),include.drift=TRUE))
+myPlot(est,test)
+## 推定に利用した期間で結果が大きく異なる
+## 現実の問題では弱定常の仮定が満されているとは限らない
+
+## 第7波
+train <- window(patients,
+		start="2022-06-13",
+		end="2022-07-15")
+test <- window(patients,
+	       start="2022-07-15",
+               end="2022-08-15")
+## 傾向の変化を見るためモデルを再度推定
+## drift付きのARIMAモデルが推定される
+(est <- forecast::auto.arima(log(train)))
+myPlot(est,test)
+## 第3波で推定された次数のARIMAモデルを利用
+(est <- forecast::Arima(log(train),c(2,1,2),include.drift=TRUE))
+myPlot(est,test)
+
+## 第8波 (傾向の変化を見るためモデルを再度推定)
+train <- window(patients,
+		start="2022-10-10",
+		end="2022-11-10")
+test <- window(patients,
+	       start="2022-11-11",
+               end="2022-12-31")
+## 傾向の変化を見るためモデルを再度推定
+## driftなしのARIMAモデルが推定される
+(est <- forecast::auto.arima(log(train)))
+myPlot(est,test)
+## 第3波で推定された次数のARIMAモデルを利用
+(est <- forecast::Arima(log(train),c(2,1,2),include.drift=TRUE))
+myPlot(est,test)
+## 第7波で推定された次数のARIMAモデルを利用
+(est <- forecast::Arima(log(train),c(0,1,1),include.drift=TRUE))
 myPlot(est,test)
