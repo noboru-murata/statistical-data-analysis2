@@ -2,14 +2,6 @@
 ### 第13講 サンプルコード
 ###
 
-###
-### 練習問題 
-###
-
-## 
-## 分析
-##
-
 ## ARMA過程を生成する関数
 myARMA <- function(a, b, epsilon){
   p <- length(a)
@@ -68,56 +60,6 @@ for(i in 1:K) {
     acf(df.arma[,i], col=my_col[i], main=paste("ARMA series",i))
 }
 par(orgpar)
-
-### 
-### 練習問題 自己相関
-### 
-
-## ARMA過程を生成する関数
-myARMA <- function(a, b, epsilon){
-    p <- length(a)
-    q <- length(b)
-    r <- max(p,q)
-    Tmax <- length(epsilon) # 時系列の長さを取得
-    x <- double(Tmax)
-    x[1:r] <- epsilon[1:r]
-    for(t in (r+1):Tmax) {
-        x[t] <- a %*% x[t-1:p] + b %*% epsilon[t-1:q] + epsilon[t]
-    }
-    return(x)
-}
-
-Tmax <- 200 # 時系列の長さ t=1,..,Tmax
-K <- 4 # 表示する時系列の数 (4つを並べて比較する)
-library(RColorBrewer)
-my_col <- brewer.pal(K,"Dark2") 
-df.ar <- ts(replicate(K, myARMA(a=c(0.67, 0.26), b=c(0),
-                                epsilon=rnorm(Tmax))))
-df.ma <- ts(replicate(K, myARMA(a=c(0), b=c(0.44, 0.08),
-                                epsilon=rnorm(Tmax))))
-df.arma <- ts(replicate(K, myARMA(a=c(0.8, -0.64), b=c(-0.5),
-                                  epsilon=rnorm(Tmax))))
-
-### AR(2)モデルの自己相関
-orgpar <- par(mfrow=c(2,2)) # グラフを2x2(行方向の順)に並べる
-for(i in 1:K) {
-    acf(df.ar[,i], col=my_col[i], main=paste("AR series",i))
-}
-par(orgpar) # もとのparの内容に戻す
-
-### MA(2)モデルの自己相関
-orgpar <- par(mfrow=c(2,2))
-for(i in 1:K) {
-    acf(df.ma[,i], col=my_col[i], main=paste("MA series",i))
-}
-par(orgpar) # もとのparの内容に戻す
-
-### ARMA(2,1)モデルの自己相関
-orgpar <- par(mfrow=c(2,2))
-for(i in 1:K) {
-    acf(df.arma[,i], col=my_col[i], main=paste("ARMA series",i))
-}
-par(orgpar) # もとのparの内容に戻す
 
 ### AR(2)モデルの偏自己相関
 orgpar <- par(mfrow=c(2,2)) # グラフを2x2(行方向の順)に並べる

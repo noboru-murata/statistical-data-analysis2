@@ -3,7 +3,7 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2023-01-04 11:47:12 mura>
+# Time-stamp: <2023-01-06 15:46:18 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+STARTUP: hidestars content indent
@@ -1008,6 +1008,58 @@
   - ARMAモデル : 上記の複合
 - いずれも \(n\)が大きいと不確定性が増大
 - 階差による変換は累積(階差の逆変換)により推定
+
+#+reveal: split
+
+#+name: fig:13_pred_wn
+#+begin_src R :file figs/13_pred_wn.png :exports results :results graphics
+  library(forecast)
+  library(tidyverse)
+  library(ggfortify)
+  ## ARMA過程を生成する関数
+  myARMA <- function(a, b, epsilon){
+    p <- length(a)
+    q <- length(b)
+    r <- max(p,q)
+    Tmax <- length(epsilon) # 時系列の長さを取得
+    x <- double(Tmax)
+    x[1:r] <- epsilon[1:r]
+    for(t in (r+1):Tmax) {
+      x[t] <- a %*% x[t-1:p] + b %*% epsilon[t-1:q] + epsilon[t]
+    }
+    return(x)
+  }
+  ## ホワイトノイズの予測
+  autoplot(forecast(myARMA(a=c(0),b=c(0),rnorm(180)),h=20),col=2)
+#+end_src
+#+caption: ホワイトノイズの予測
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/13_pred_wn.png]]
+
+#+reveal: split
+
+#+name: fig:13_pred_rw
+#+begin_src R :file figs/13_pred_rw.png :exports results :results graphics
+  ## ランダムウォークの予測
+  autoplot(forecast(myARMA(a=c(1),b=c(0),rnorm(180)),h=20),col=2)
+#+end_src
+#+caption: ランダムウォークの予測
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/13_pred_rw.png]]
+
+#+reveal: split
+
+#+name: fig:13_pred_arma
+#+begin_src R :file figs/13_pred_arma.png :exports results :results graphics
+  ## ARMA 過程の予測
+  autoplot(forecast(myARMA(a=c(0.8, -0.64),b=c(-0.5),rnorm(180)),h=20),col=2)
+#+end_src
+#+caption: ARMA 過程の予測
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/13_pred_arma.png]]
 
 ** 分解による予測
 - トレンド成分+季節成分+ランダム成分への分解
