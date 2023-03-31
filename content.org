@@ -295,12 +295,12 @@
 :PROPERTIES:
 :EXPORT_HUGO_SECTION: ./post
 :EXPORT_FILE_NAME: post1
-:EXPORT_DATE: <2020-09-21 Mon>
+:EXPORT_DATE: <2023-03-31 Fri>
 :END:
 ** スライド
 #+hugo: {{< myslide base="statistical-data-analysis2" name="install" >}}
 ** ハンドアウト   
-- [[github:pdfs/slide01.pdf][PDF file]]
+- [[github:pdfs/install.pdf][PDF file]]
 
 * スライドの使い方
 :PROPERTIES:

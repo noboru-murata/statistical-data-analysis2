@@ -1,7 +1,7 @@
 +++
 title = "R/RStudioの導入方法"
 author = ["Noboru Murata"]
-date = 2020-09-21T00:00:00+09:00
+date = 2023-03-31T00:00:00+09:00
 draft = false
 weight = 1018
 +++
@@ -13,4 +13,4 @@ weight = 1018
 
 ## ハンドアウト {#ハンドアウト}
 
--   [PDF file](https://noboru-murata.github.io/statistical-data-analysis2/pdfs/slide01.pdf)
+-   [PDF file](https://noboru-murata.github.io/statistical-data-analysis2/pdfs/install.pdf)
