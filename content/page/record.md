@@ -6,7 +6,25 @@ draft = false
 weight = 1016
 +++
 
-<span class="timestamp-wrapper"><span class="timestamp">&lt;2023-01-09 Mon&gt; </span></span> 更新
+<span class="timestamp-wrapper"><span class="timestamp">&lt;2023-09-30 Sat&gt; </span></span> 更新
+
+-   第1講 (2023年10月6日)
+-   第2講 (2023年10月13日)
+-   第3講 (2023年10月20日)
+-   第4講 (2023年10月27日)
+-   第5講 (2023年11月10日)
+-   第6講 (2023年11月17日)
+-   第7講 (2023年12月1日)
+-   第8講 (2023年12月8日)
+-   第9講 (2023年12月15日)
+-   第10講 (2023年12月22日)
+-   第11講 (2024年1月5日)
+-   第12講 (2024年1月19日)
+-   第13講 (2024年1月26日)
+
+---
+
+昨年度の記録
 
 -   [第1講 (2022年10月7日)](https://u-tokyo-ac-jp.zoom.us/rec/share/i7MJgFbB5sjRHfGDhPTHaB_UJI63xhZrIpFB9jLlI1AI4qTA4V_tV6f8nLLYzibw.MwUeY1ATEEexDbU0?startTime=1665129002000)
 -   第2講 (2022年10月14日) 録画ミスのため公開動画はありません

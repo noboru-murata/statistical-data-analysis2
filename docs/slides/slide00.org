@@ -1,12 +1,16 @@
 #+TITLE: 講義の概要
 #+SUBTITLE: 統計データ解析II
 #+AUTHOR: 村田 昇
-#+EMAIL: noboru.murata@eb.waseda.ac.jp
-#+DATE: 2022年度
-# Time-stamp: <2022-10-05 14:37:04 mura>
+#+EMAIL: noboru.murata@gmail.com
+#+DATE: 2023年度
+#+STARTUP: hidestars content indent
+# Time-stamp: <2023-09-30 15:02:57 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
-#+STARTUP: hidestars content indent
+#+PROPERTY: header-args:R :cache yes :session *R*
+#+PROPERTY: header-args:R+ :exports both :results output
+#+PROPERTY: header-args:R+ :width 800 :height 800 :res 100
+#+PROPERTY: header-args:R+ :tangle yes
 # C-c C-x C-v でinlineを切り替え
 # <m C-i でlatex block (math env用)
 # C-c '
@@ -14,22 +18,22 @@
 
 * 講義について
 ** 講義の概要
-- 担当: 村田 昇
-- 講義題目: *数理科学続論J* / *知能社会情報学講義III* 
+- 担当 : 村田 昇
+- 講義名 : *数理科学続論J* / *知能社会情報学講義III* 
 - 授業の目標 
-  - 統計ソフトウェアRの基本的な扱いを習得する
-  - 統計解析手法である *多変量解析* の基本的な解析法に習熟する
+  - 統計解析手法である *多変量解析* の基本的な方法に習熟する
     - 大規模データから効果的に情報を抽出する
     - データの背後に潜む統計的構造を分析する
-  - 解析法の数理科学的側面を確率シミュレーションで理解する
-  - Rを用いて実データに多変量解析を適用する
+  - *統計ソフトウェア R* の基本的な扱いを習得する
+    - 解析法の数理科学的側面を確率シミュレーションで理解する
+    - 実世界のデータに多変量解析を適用する
 
 # - 授業の目標 (詳しくはシラバス参照)
 # 月曜 5 限・水曜 5 限に開講される「統計データ解析 II」も同内容の 講義講義題目: 統計データ解析 II
 
 ** 受講にあたっての注意
 - 微分積分学，線形代数学および確率統計学が既習である(ことが望ましい)
-- 自身でR/RStudioの環境を準備する
+- 自身で R/RStudio の環境を準備する
 - 講義の資料はLMS/WEBを通して公開する
   - https://noboru-murata.github.io/statistical-data-analysis2/
 - 成績評価は課題の提出による
@@ -42,8 +46,8 @@
 #   - tabletなら持ち込める人
 #   - 何も持ち込めない人
 
-** 講義計画 (13回 10/7 - 1/6)
-- 統計ソフトウェアRの使い方 (2回)
+** 講義計画 (13回を予定)
+- 統計ソフトウェア R 速習 (2回)
   - Rの基礎
   - データの取り扱い
   - グラフの描き方
@@ -56,6 +60,7 @@
 
 # ** 講義内容の注意
 #    講義の最初の数回は，Rを使用したことがない人向けにRの使用方法を講義するため，Sセメスター講義「数理科学続論I」と内容が重なります
+
 
 * Footnotes
 * COMMENT ローカル変数

@@ -38,15 +38,13 @@
 :EXPORT_FILE_NAME: lecture01
 :EXPORT_DATE: <2020-09-21 Mon>
 :END:
-<2023-03-31 Fri> 更新 
+<2023-09-30 Sat> 更新 
 ** スライド
 #+hugo: {{< myslide base="statistical-data-analysis2" name="slide01" >}}
 ** ハンドアウト
 - [[github:pdfs/slide01.pdf][PDF file]]
 ** 付録
 - [[github:code/slide01.R][RScript]]
-- [[github:data/sample_data.zip][練習問題用データセット]] \\
-  ダウンロードして unzip すると文字コード utf-8 のファイルになります．
 
 * 第2講
 :PROPERTIES:
@@ -60,6 +58,8 @@
 - [[github:pdfs/slide02.pdf][PDF file]]
 ** 付録
 - [[github:code/slide02.R][RScript]]
+- [[github:data/sample_data.zip][練習問題用データセット]] \\
+  ダウンロードして unzip すると文字コード utf-8 のファイルになります．
 
 * 第3講
 :PROPERTIES:
@@ -242,7 +242,22 @@
 :EXPORT_FILE_NAME: record
 :EXPORT_DATE: <2022-10-09 Sun>
 :END:
-<2023-01-09 Mon> 更新
+<2023-09-30 Sat> 更新
+- 第1講 (2023年10月6日)
+- 第2講 (2023年10月13日)
+- 第3講 (2023年10月20日)
+- 第4講 (2023年10月27日)
+- 第5講 (2023年11月10日)
+- 第6講 (2023年11月17日)
+- 第7講 (2023年12月1日)
+- 第8講 (2023年12月8日)
+- 第9講 (2023年12月15日)
+- 第10講 (2023年12月22日)
+- 第11講 (2024年1月5日)
+- 第12講 (2024年1月19日)
+- 第13講 (2024年1月26日)
+-----
+昨年度の記録
 - [[https://u-tokyo-ac-jp.zoom.us/rec/share/i7MJgFbB5sjRHfGDhPTHaB_UJI63xhZrIpFB9jLlI1AI4qTA4V_tV6f8nLLYzibw.MwUeY1ATEEexDbU0?startTime=1665129002000][第1講 (2022年10月7日)]]
 - 第2講 (2022年10月14日) 録画ミスのため公開動画はありません
 - [[https://u-tokyo-ac-jp.zoom.us/rec/share/kJSj3YH2jX_GH_W2QCGU230BuE7yaH1HDvaSDHZFlQxFnUn06Wk6oB3A0xpLPMGG.HiRjV5CHhKlm-VzZ?startTime=1666338598000][第3講 (2022年10月21日)]]
@@ -256,7 +271,8 @@
 - [[https://u-tokyo-ac-jp.zoom.us/rec/share/ox8Oue4adq9WsAcI86SMwYApCvNzAWBJ5nWaQ4RNxx1D2gtFht4HW0DPO4JW_0tx.cJJdD4oNSCBRVFio?startTime=1671177296000][第11講 (2022年12月16日)]]
 - [[https://u-tokyo-ac-jp.zoom.us/rec/share/4gBA7hIxoAS9iinpT6yVrXZ5Bn3STH9Pry5vrh9tedxi_72y-VXRLjiir1kZqmKo.ZLk7n6__jWlO5FTZ?startTime=1671782094000][第12講 (2022年12月23日)]]
 - [[https://u-tokyo-ac-jp.zoom.us/rec/share/-h0WsX8rXLJy6gkBYFwhiWoH6GglL7_zlCPjih7IsWTrehHslLnlFbuOPexjjv16.XBqcucl1ztSmikQV?startTime=1672991694000][第13講 (2023年1月6日)]]
-  
+
+
 # * COMMENT 講義13
 #   :PROPERTIES:
 #   :EXPORT_FILE_NAME: lecture13

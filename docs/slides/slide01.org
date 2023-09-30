@@ -1,12 +1,17 @@
 #+TITLE: Rによるデータ解析
 #+SUBTITLE: 第1講 - さまざまな多変量解析とR言語の使い方
 #+AUTHOR: 村田 昇
-#+EMAIL: noboru.murata@eb.waseda.ac.jp
+#+EMAIL: noboru.murata@gmail.com
 #+DATE: 
-# Time-stamp: <2022-10-11 14:20:39 mura>
+#+STARTUP: hidestars content indent
+# Time-stamp: <2023-09-30 15:49:23 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
-#+STARTUP: hidestars content indent
+#+PROPERTY: header-args:R :cache yes :session *R*
+#+PROPERTY: header-args:R+ :exports both :results output
+#+PROPERTY: header-args:R+ :width 800 :height 800 :res 100
+#+PROPERTY: header-args:R+ :tangle yes
+#+PROPERTY: header-args:latex :exports results :results raw
 # C-c C-x C-v でinlineを切り替え
 # <m C-i でlatex block (math env用)
 # C-c '
@@ -22,13 +27,21 @@
   
 * R言語の概要
 
-#+begin_src R :eval no :exports none :tangle yes
-  ### 
-  ### 第1講 サンプルコード
-  ###
+#+begin_src R :exports none :tangle no
+  setwd("~/Desktop/lectures/u-tokyo/autumn/course")
 #+end_src
 #+begin_src R :exports none
-  setwd("~/Desktop/lectures/u-tokyo/autumn/course")
+  ### 第1講 サンプルコード
+  #' 
+  #' このファイルには資料の中の例題や演習問題の解答例があります
+  #' コメント行は "#'" で開始され，RStudio では緑(既定値)で表示されます
+  #' コメント内の "@..." は
+  #'   @exercise 例題 (スライドの説明と並行して実習)
+  #'   @practice 演習 (時間を取って各自で実習)
+  #'   @notes 注意 (講義の補足説明)
+  #'   @appendix 補遺 (講義では扱い切れなかった付加的な事柄)
+  #' のタグで，RStudio では青(既定値)でハイライトされます
+  #'
 #+end_src
 
 ** R言語とは
@@ -45,16 +58,21 @@
   - OSに依存しない対話型操作環境を提供
 - 本講義ではRStudioを用いて説明を行う
 - https://www.rstudio.com/ (RStudio社のサイト)
-
-** Rの得意分野
+** R言語の得意分野
 - *データの分類・集計・整理*
   - 記述統計量 (基本・要約統計量) の計算
   - グラフによる視覚化
-  - さまざまな統計分析 (*多変量解析* を含む)
-- プログラムによる処理の自動化
-- 擬似乱数による不確定性を含む現象の模擬 \\
-  (確率的シミュレーション・モンテカルロ法)
+  - さまざまな統計分析 (多変量解析を含む)
+- プログラムによる *処理の自動化*
+ *確率的シミュレーション* (モンテカルロ法) \\
+  擬似乱数による不確定性を含む現象の模擬 
 
+** 参考 : R言語のオンラインコース
+- RStudio Cloudの自習コース
+  https://rstudio.cloud/learn/primers
+- Data Campの自習コース
+  https://www.datacamp.com/onboarding
+  
 
 * 多変量解析
 ** 多変量解析とは
@@ -64,21 +82,24 @@
   - 判別分析 : 特徴量の違いでカテゴリ分けを行う
   - クラスタ分析 : 特徴量の違いに着目してクラスタを構成する
   - 時系列解析 : 時間とともに変化する現象を記述する
-
+- 機械学習で使われる手法の基礎
+  - 教師あり問題 : 回帰分析(量的データ)・判別分析(質的データ)
+  - 教師なし問題 : 主成分分析・クラスタ分析
+    
 ** 回帰分析の考え方
-- ある変数を別の変数によって説明・予測するための関係式(回帰式)を構成する
+- ある変数(目的変数)を別の変数によって説明・予測するための関係式(回帰式)を構成する
   - 単回帰 : 一つの変数で目的変数を説明する
   - 重回帰 : 複数の変数で目的変数を説明する
 - [[color:green][分析の事例]]
-  - 身長から体重を予測する式を作り，ある身長の人がある体重だったときに，それが普通かどうか判定する
+  - 広告宣伝費と商品の売上を予測する式を作り，広告効果があるかどうか判定する
   - 築年数・駅からの距離・広さ・間取りで家賃を説明する式を作り，新規に家賃を設定する際に利用する
 
 # ある1種類の変数/データを別の変数/データ(1種類もしくは複数)によって説明もしくは予測するための関係式(回帰方程式)を構成することを目的とする分析法
 # ある量(説明変数)を用いて注目する量(目的変数)を説明する
 
 ** 単回帰の例 (~MASS::Animals~)
-#+CAPTION: 体重と脳の重さ 
-#+NAME:   tbl:brainbody
+#+caption: 体重と脳の重さ
+#+name:   tbl:brainbody
 |                 | body [kg] | brain [g] |
 |-----------------+-----------+-----------|
 | Mountain beaver |     1.350 |       8.1 |
@@ -89,18 +110,18 @@
 | Dipliodocus     | 11700.000 |      50.0 |
 | Asian elephant  |  2547.000 |    4603.0 |
 | Donkey          |   187.100 |     419.0 |
-| ...             |        .. |        .. |
+| ...             |       ... |       ... |
 
 #+reveal: split
-#+CAPTION: 体重と脳の重さの関係 (単回帰)
-#+NAME:   fig:r-brainbody05
-#+ATTR_HTML: :width 55% :height 55%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: 体重と脳の重さの関係 (単回帰)
+#+name:   fig:r-brainbody05
+#+attr_html: :width 55% :height 55%
+#+attr_latex: :width 0.6\linewidth
 [[file:./figs/r-brainbody05.png]]
 
 ** 重回帰の例 (~wine.csv~)
-#+CAPTION: ワインの価格と生産環境
-#+NAME:   tbl:wine
+#+caption: ワインの価格と生産環境
+#+name:   tbl:wine
 | 年号 | 価格(対数) | 冬の降雨 |    気温 | 秋の降雨 | 経過年 |
 |------+------------+----------+---------+----------+--------|
 | 1952 |   -0.99868 |      600 | 17.1167 |      160 |     31 |
@@ -114,17 +135,17 @@
 |  ... |            |          |         |          |        |
 
 #+reveal: split
-#+CAPTION: ワインの価格と生産環境の関係
-#+NAME:   fig:r-wine01
-#+ATTR_HTML: :width 55% :height 55%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: ワインの価格と生産環境の関係
+#+name:   fig:r-wine01
+#+attr_html: :width 55% :height 55%
+#+attr_latex: :width 0.6\linewidth
 [[file:./figs/r-wine01.png]]
 
 #+reveal: split
-#+CAPTION: 生産環境によるワイン価格の予測 (重回帰)
-#+NAME:   fig:r-wine05
-#+ATTR_HTML: :width 55% :height 55%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: 生産環境によるワイン価格の予測 (重回帰)
+#+name:   fig:r-wine05
+#+attr_html: :width 55% :height 55%
+#+attr_latex: :width 0.6\linewidth
 [[file:./figs/r-wine05.png]]
 
 ** 主成分分析の考え方
@@ -136,8 +157,8 @@
 # 全体を説明する少数の特徴量を構成する
 
 ** 主成分分析の例 (~jpamenity.csv~)
-#+CAPTION: 県別の生活環境(一部)
-#+NAME:   tbl:jpamenity
+#+caption: 県別の生活環境(一部)
+#+name:   tbl:jpamenity
 |        | 昼夜人口比 | 年少人口比 | 老年人口比 | 人口増減率 |
 |--------+------------+------------+------------+------------|
 | 北海道 |      100.0 |       11.7 |       26.0 |      -0.47 |
@@ -151,44 +172,45 @@
 | ...    |         .. |         .. |         .. |         .. |
 
 #+reveal: split
-#+CAPTION: 県別の生活環境(人口動態)の散布図 
-#+NAME:   fig:p-jpamenity01
-#+ATTR_HTML: :width 55% :height 55%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: 県別の生活環境(人口動態)の散布図 
+#+name:   fig:p-jpamenity01
+#+attr_html: :width 55% :height 55%
+#+attr_latex: :width 0.6\linewidth
 [[file:./figs/p-jpamenity01.png]]
 
 #+reveal: split
-#+CAPTION: 県別の生活環境(教育・労働)の散布図 
-#+NAME:   fig:p-jpamenity02
-#+ATTR_HTML: :width 55% :height 55%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: 県別の生活環境(教育・労働)の散布図 
+#+name:   fig:p-jpamenity02
+#+attr_html: :width 55% :height 55%
+#+attr_latex: :width 0.6\linewidth
 [[file:./figs/p-jpamenity02.png]]
 
 #+reveal: split
-#+CAPTION: 県別の生活環境(貯蓄・余暇)の散布図 
-#+NAME:   fig:p-jpamenity03
-#+ATTR_HTML: :width 55% :height 55%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: 県別の生活環境(貯蓄・余暇)の散布図 
+#+name:   fig:p-jpamenity03
+#+attr_html: :width 55% :height 55%
+#+attr_latex: :width 0.6\linewidth
 [[file:./figs/p-jpamenity03.png]]
 
 #+reveal: split
-#+CAPTION: 県別の生活環境の主成分分析
-#+NAME:   fig:p-jpamenity06
-#+ATTR_HTML: :width 55% :height 55%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: 県別の生活環境の主成分分析
+#+name:   fig:p-jpamenity06
+#+attr_html: :width 55% :height 55%
+#+attr_latex: :width 0.6\linewidth
 [[file:./figs/p-jpamenity06.png]]
 
 ** 判別分析の考え方
-- ある個体が複数のクラスのいずれかに属するとき，その個体の特徴量からどのクラスに属するか予測するモデルを構築する
+- ある個体が複数のクラスのいずれかに属するとき，その個体の特徴量からどのクラスに属するかを予測するモデルを構築する
 - [[color:green][分析の事例]]
-  - 花の種類を，その花の花弁の幅・長さおよび萼片(がくへん)の幅・長さから判別する
   - 食道がんを患っている人とそうでない人を，年齢・飲酒量・喫煙度から判別する
+  - 銀行が融資判断をするために，企業の財務データから，その企業が期間内に債務不履行となるか否かを予測する
 
+# - 花の種類を，その花の花弁の幅・長さおよび萼片(がくへん)の幅・長さから判別する
 # 特徴量の違いでカテゴリ分けを行う
 
 ** 判別分析の例 (~MASS::biopsy~)
-#+CAPTION: 乳癌患者の生研検査
-#+NAME:   tbl:biopsy
+#+caption: 乳癌患者の生研検査
+#+name:   tbl:biopsy
 |      ID | V1 | V2 | V3 | V4 | V5 | V6 | V7 | V8 | V9 | class     |
 |---------+----+----+----+----+----+----+----+----+----+-----------|
 | 1000025 |  5 |  1 |  1 |  1 |  2 |  1 |  3 |  1 |  1 | benign    |
@@ -202,24 +224,24 @@
 |     ... | .. | .. | .. | .. | .. | .. | .. | .. | .. | ...       |
 
 #+reveal: split
-#+CAPTION: 乳癌患者(良性・悪性)の生研検査の散布図
-#+NAME:   fig:d-biopsy01
-#+ATTR_HTML: :width 55% :height 55%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: 乳癌患者(良性・悪性)の生研検査の散布図
+#+name:   fig:d-biopsy01
+#+attr_html: :width 55% :height 55%
+#+attr_latex: :width 0.6\linewidth
 [[file:./figs/d-biopsy01.png]]
 
 #+reveal: split
-#+CAPTION: 生研検査の主成分分析
-#+NAME:   fig:d-biopsy02
-#+ATTR_HTML: :width 55% :height 55%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: 生研検査の主成分分析
+#+name:   fig:d-biopsy02
+#+attr_html: :width 55% :height 55%
+#+attr_latex: :width 0.6\linewidth
 [[file:./figs/d-biopsy02.png]]
 
 #+reveal: split
-#+CAPTION: 生研検査による乳癌患者の判別分析
-#+NAME:   fig:d-biopsy03
-#+ATTR_HTML: :width 55% :height 55%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: 生研検査による乳癌患者の判別分析
+#+name:   fig:d-biopsy03
+#+attr_html: :width 55% :height 55%
+#+attr_latex: :width 0.6\linewidth
 [[file:./figs/d-biopsy03.png]]
 
 ** クラスタ分析の考え方
@@ -231,8 +253,8 @@
   - 顧客の購買履歴から，嗜好の異なる顧客グループに分類し，グループごとの販売戦略を立てる
 
 ** クラスタ分析の例 (~omusubi.csv~)
-#+CAPTION: おむすびの具に関するアンケート
-#+NAME:   tbl:omusubi
+#+caption: おむすびの具に関するアンケート
+#+name:   tbl:omusubi
 |        |    梅 |    鮭 | 昆布 |   鰹 |  明太 |  鱈子 |  ツナ |    他 |
 |--------+-------+-------+------+------+-------+-------+-------+-------|
 | 北海道 | 13.86 | 27.94 | 5.58 | 5.26 |  9.26 | 15.06 | 11.61 | 11.39 |
@@ -246,17 +268,17 @@
 | ...    |    .. |    .. |   .. |   .. |    .. |    .. |    .. |    .. |
 
 #+reveal: split
-#+CAPTION: おむすびの具に関するアンケート分析 (県別の集計)
-#+NAME:   fig:c-omusubi01
-#+ATTR_HTML: :width 55% :height 55%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: おむすびの具に関するアンケート分析 (県別の集計)
+#+name:   fig:c-omusubi01
+#+attr_html: :width 55% :height 55%
+#+attr_latex: :width 0.6\linewidth
 [[file:./figs/c-omusubi01.png]]
 
 #+reveal: split
-#+CAPTION: アンケート結果にもとづく県のクラスタ分析
-#+NAME:   fig:c-omusubi02
-#+ATTR_HTML: :width 55% :height 55%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: アンケート結果にもとづく県のクラスタ分析
+#+name:   fig:c-omusubi02
+#+attr_html: :width 55% :height 55%
+#+attr_latex: :width 0.6\linewidth
 [[file:./figs/c-omusubi02.png]]
 
 ** 時系列解析の考え方
@@ -264,12 +286,12 @@
   - 自己回帰 (ARモデル) : 過去の影響の記述
   - 移動平均 (MAモデル) : 記憶のある不確定性
 - [[color:green][分析の事例]]
-  - 市町村の過去の年齢別の人口変動から将来の人口比率を予測する
-  - 食品・飲料の季節ごとの販売履歴から将来の需要量を予測する
+  - 市町村の過去の年齢別の人口変動から将来の人口比率の推移を予測する
+  - 食品・飲料の季節ごとの販売履歴から，将来の需要量を予測して生産計画を立てる
         
 ** 時系列解析の例 (~datasets::AirPassengers~)
-#+CAPTION: 航空機旅客量の変遷
-#+NAME:   tbl:airpass
+#+caption: 米国航空機旅客量の変遷
+#+name:   tbl:airpass
 |      | Jan | Feb | Mar | Apr | May | Jun | Jul | Aug | Sep | ... |
 |------+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----|
 | 1949 | 112 | 118 | 132 | 129 | 121 | 135 | 148 | 148 | 136 | ... |
@@ -293,93 +315,74 @@
 # |  ... |     |     |     |     |     |     |     |     |     |     |     |     |
 
 #+reveal: split
-#+CAPTION: 航空機旅客量の変遷
-#+NAME:   fig:t-airpass01
-#+ATTR_HTML: :width 55% :height 55%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: 米国航空機旅客量の変遷
+#+name:   fig:t-airpass01
+#+attr_html: :width 55% :height 55%
+#+attr_latex: :width 0.6\linewidth
 [[file:./figs/t-airpass01.png]]
 
 #+reveal: split
-#+CAPTION: 階差時系列の自己相関分析
-#+NAME:   fig:t-airpass04
-#+ATTR_HTML: :width 55% :height 55%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: 階差時系列の自己相関分析
+#+name:   fig:t-airpass04
+#+attr_html: :width 55% :height 55%
+#+attr_latex: :width 0.6\linewidth
 [[file:./figs/t-airpass04.png]]
 
 #+reveal: split
-#+CAPTION: 航空機旅客量の予測 (SARIMAモデルによる)
-#+NAME:   fig:t-airpass12
-#+ATTR_HTML: :width 55% :height 55%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: 航空機旅客量の予測 (SARIMAモデルによる)
+#+name:   fig:t-airpass12
+#+attr_html: :width 55% :height 55%
+#+attr_latex: :width 0.6\linewidth
 [[file:./figs/t-airpass12.png]]
 
 
-* RStudio の基礎
+* RStudio の構成
 ** 起動画面
-- *以下 RStudio を用いて説明する*
-- 起動すると4つのペイン(pane)を持つウィンドウが立ち上がる
-  - 左上 : エディタ (開いていない場合もある)
-  - 左下 : コンソール
-  - 右上 : 作業環境内の変数・コマンド履歴
-  - 右下 : パッケージ・グラフィックス・ヘルプ
-- [[color:orange][ペインの配置や数は個別に設定することもできる]]
+- 以下 *RStudio* を用いて説明する
+- 複数の *タブ* (tab; つまみ) を含む4つの *ペイン* (pane; 枠) が立ち上がる
+  - 左上 : エディタ・表など (開いていない場合もある)
+  - 左下 : コンソール・ターミナルなど
+  - 右上 : 作業環境内の変数・コマンド履歴など
+  - 右下 : パッケージ・グラフィックス・ヘルプなど
+- ペインの配置や数は個別に設定することができる
+  - メニュー : *Tools > Global Options* で設定
 
-** コンソール (左下)
-- コマンドを入力するためのペイン
-- 例えば以下のような計算を行うことができる
-  #+begin_src R :eval no :exports code :tangle yes
-    ## 一般的な数式を入力すれば計算機として使える
-    ## "#" 以降はコメントとして無視される
-    1 + 2 + 3 + 4 # 空白は無視される
-    sin(pi/3) / cos(pi/3) # tan(pi/3) になるはず
-  #+end_src
-- コンソール上で終了を指示する以下のコマンドを入力すれば
-  R を終了させることができる
-  #+begin_src R :eval no :exports code :tangle no
-    ## R の終了には q() または quit() を用いる
-    q()
-  #+end_src
-  - メニューの *Quit RStudio* も利用可能
-  - [[color:orange][終了できない場合はOSの機能で強制終了]]
+** コンソール (左下ペイン)
+- R言語で記述されたコマンドを入力する
+  - 例えば以下のような計算を行うことができる
+    #+begin_src R :eval no :tangle no
+      #' 一般的な数式を入力すれば計算機として使える
+      #' "#" 以降はコメントとして無視される
+      1 + 2 + 3 + 4 # 空白は無視される
+      sin(pi/3) / cos(pi/3) # tan(pi/3) になるはず
+    #+end_src
+  - コンソール上で終了を指示する以下のコマンドを入力すれば
+    R を終了させることができる
+    #+begin_src R :eval no :tangle no
+      #' R の終了には q() または quit() を用いる
+      q()
+    #+end_src
+    - メニューの *Quit RStudio* も利用可能
+    - 終了できない場合はOSの機能で強制終了する必要がある
     
-** 作業ディレクトリ
-- プログラムが実行されるディレクトリ(フォルダ)
-- 作業ディレクトリにあるファイルの読み書きはパスを指定する必要がない
-- 現在の作業ディレクトリはコンソールタブで確認
-- *Session* メニューの *Set Working Directory* で指定
-  - 読み込んだファイルの場所を選択
-  - *Files* タブ (右下ペイン) の場所を選択 (*More* からも選択可)
-  - ディレクトリを直接選択
-
-** プロジェクト
-- 作業環境をまとめて設定
-  - 作成したプロジェクトは *Project* メニューから選択可能
-  - いつでもプロジェクトを中断可能
-  - プロジェクト毎に履歴や変数を保存可能
-  - 複数のプロジェクトを定義可能    
-- 一般的なプロジェクトの作成手順
-  - 右上の *Project* メニューから *New Project* を選択
-  - *Create Project* ダイアログで *New Directory* を選択
-  - *Project Type* ダイアログで *New Project* を選択
-  - *Directry Name* とその親ディレクトリを指定
-  - 中断するときは *Close Project* を選択
-  
-** エディタ (左上)
-- コマンドを記述したファイルを扱うためのペイン
+** エディタ (左上ペイン)
+- コマンドを記述したファイルを扱う
 - 一連のコマンドをまとめたり，修正しながら実行するための機能
   - [[color:orange][コンソールに入力したコマンドは直ちに実行されてしまう]]
-  - コマンドを実行順に記述したファイル *RScript* を作成 
+  - コマンドを実行順に記述したファイル *R Script* を作成 
+  - ファイル(の一部)を実行
   - ファイルを保存
-  - ファイルを実行
+- 同一ファイル内でプログラムと文書を記述する機能もあるが，本講義では扱わない (R Markdown, Quarto など)
 
-** ヘルプ機能 (右下)
-- 各関数の詳細(機能，引数名，引数の既定値，実行例など)を記述した
-  ヘルプが用意されている
-- 右下ペイン *Help* タブ右上の検索窓で参照可能
+** ヘルプ (右下ペイン)
+- 各関数の詳細を記述したヘルプが利用できる
+  - 機能，引数名，引数の既定値，実行例などが参照できる
+- 右下ペイン *Help* タブ右上の検索窓から探索
 - ヘルプ内の検索はその下の *Find in Topic* で可能
+- コンソール内では関数 ~help()~ や ~?~ などを利用
 
-** パッケージの操作 (右下)
-- 機能を拡張するために多数のパッケージが用意されている  
+** パッケージ (右下ペイン)
+- パッケージを用いて機能を拡張する
 - RStudio でのインストール手順
   - 右下ペイン *Package* タブをクリック
   - 左上の *Install* をクリック
@@ -387,9 +390,33 @@
 - 利用可能なパッケージの情報は
   右下ペイン *Package* タブで確認できる
 
+** 作業ディレクトリ
+- プログラムが実行されるディレクトリ(フォルダ)
+- 作業ディレクトリにあるファイルの読み書きはパスを指定する必要がない
+- 現在の作業ディレクトリは *Console* タブで確認
+- メニュー : *Session > Set Working Directory* で指定
+  - 読み込んだファイルの場所を選択
+  - *Files* タブ (右下ペイン) の場所を選択 (*More* からも選択可)
+  - ディレクトリを直接選択
+    
+** プロジェクト
+- 作業環境をまとめて設定・保存する機能
+  - 作成したプロジェクトは *Project* ボタン(右上)から選択可能
+  - いつでもプロジェクトを中断可能
+  - プロジェクト毎に履歴や変数を保存可能
+  - 複数のプロジェクトを定義可能    
+- 一般的なプロジェクトの作成手順
+  - *Project* ボタンから *New Project* を選択
+  - *Create Project* ダイアログで *New Directory* を選択
+    - 既にあるディレクトリを用いる場合は *Existing Directory* 
+    - Github などを利用する場合は *Version Control* 
+  - *Project Type* ダイアログで *New Project* を選択
+  - *Directry Name* とその親ディレクトリを指定
+# - 中断するときは *Close Project* を選択
+  
 ** 終了時の注意
 - 終了時にコンソールに以下のメッセージが表示される場合がある
-  #+begin_src R :eval no :exports code :tangle no
+  #+begin_src R :eval no :tangle no
     > q()
     Save workspace image? [y/n/c]:     
   #+end_src
@@ -403,18 +430,50 @@
 * 基本的な使い方
 ** 式の入力
 - 四則演算や数学関数は直感的な文法で計算可能
-  - + (加算)，- (減算)，* (乗算)，/ (除算)，＾または** (ベキ乗)
-  - sin, cos, tan (三角関数)，exp (指数関数)，log (対数関数)
+
+#+caption: 基本的な演算と関数
+|----------+--------------------------|
+| 加減乗除   | ~+, -, *, /~             |
+| 羃乗      | ~^~ または ~**~            |
+| 三角関数   | ~sin(), cos(), tan()~    |
+| 逆三角関数 | ~asin(), acos(), atan()~ |
+| 指数関数   | ~exp()~                  |
+| 対数関数   | ~log(), log10(), log2()~ |
+| 双曲線関数 | ~sinh(), cosh(), tanh()~ |
+| 平方根     | ~sqrt()~                 |
+| 絶対値     | ~abs()~                  |
+|----------+--------------------------|
+
+#  - + (加算)，- (減算)，* (乗算)，/ (除算)，＾または** (ベキ乗)
+#  - sin, cos, tan (三角関数)，exp (指数関数)，log (対数関数)
+
+** 電卓として使う
 - [[color:green][コンソール上での計算例]]
-  #+begin_src R :exports both :results output :tangle yes
-    ## コンソールに以下のコマンドを入力してみる
-    123 * 456 - 789
-    (2^2^5 + 1) / 641
-    sin(pi/3)^2 + cos(pi/3)^2
+  #+begin_src R :exports none
+    #' @exercise コンソール上での計算
+  #+end_src
+  #+begin_src R
+    #' 与えられた式の計算をコンソール上で実行してみよう
+    #' 1 x 2 + 3^2 の計算
+    1 * 2 + 3^2
+    #' sin(2π) の計算
+    sin(2*pi)
+    #' √2 + |-0.6| の計算
+    sqrt(2) + abs(-0.6)
+  #+end_src
+  #+begin_src R :exports none
+    #' @notes
+    #' 演算子の前後に空白があっても良い(空白は可読性のために適宜利用する)
+    #' 2文字以上の演算子の途中には空白は入れられない(例: 羃乗の別記法の"**")
+    #' πは "pi" として定義されている
+    #' "e-16" は10の-16乗の意味
+    #' 計算結果は数値誤差のため厳密に0にならないことがある
+    #' 利用環境下で扱うことのできる数値については ".Machine" に保存されている
+    #' 特に上記の丸め誤差については ".Machine$double.eps" を参照
   #+end_src
 - 入力内容は右上の *History* タブで確認可能
   
-** エディタからの実行
+** エディタから実行する
 - 新規ファイルの作成 (以下のいずれか)
   - 左上の *+* から
     *R Script* を選択
@@ -431,8 +490,8 @@
     *Selected Line(s)* を選択
     (Ctrl/Command+Enter)
 
-** ファイルの保存
-- ファイルの保存 (以下のいずれか)
+** R Script ファイルを保存する
+- 以下のいずれかで保存することができる
   - 左上のディスクのマークをクリック
   - *File* から 
     *Save* を選択 (Ctrl/Command+S)
@@ -443,17 +502,62 @@
     *.r* を利用する
   - *#* 以降の文字列は実行されないのでコメントとして有用
 
-** 関数の実行
+** 関数
+- 関数の取り扱いは一般的な計算機言語とほぼ同様
+  - 関数は引数とその値を指定して実行(引数がない場合もある)
+  - 引数名は順序を守れば省略可能
+- 関数の呼び出し方 (関数名を ~f~ とする)
+  #+begin_src R :eval no :tangle no
+    f(arg1=value1, arg2=value2) # 擬似コード
+    #' arg1, arg2 は引数の名前，value1, value2 は引数に渡す値を表す
+    f(value1, value2) # 上と同値．順序に注意
+  #+end_src
+  - *擬似コード* = 実行しても動かないコード
+- 実装されている関数の使い方は ~help(関数名)~ または ~?関数名~ で
+  ヘルプが表示される
+
+  # - 引数が存在しない，
+  #  もしくはすべての引数に対し既定値が設定されている関数もある．
+  #  例えば ~f~ がそのような関数だった場合，
+  #  コンソール上で
+  #  #+begin_src R :exports code
+  #  f()    
+  #  #+end_src
+  #  を実行すると引数=既定値として関数の内容が実行される
+  # - 典型例はRを終了する関数 ~q()~
+
+** 関数の実行例
+- [[color:green][正弦関数の計算]]
+  #+begin_src R :exports none
+    #' @exercise 関数の実行
+  #+end_src
+  #+begin_src R :eval no
+    #' 正弦関数(引数が1つ)の計算例
+    sin(x = pi/2) 
+    sin(pi/2) # 引数名は省略でき，前の行とこの行は同じ結果になる
+  #+end_src
+- [[color:green][対数関数の計算]]
+  #+begin_src R :eval no
+    #' 対数関数(引数が2つ)の計算例
+    #' 以下は擬似コード．a, b を適当な数値に置き換えて実行しなさい
+    log(a, b) # 底を b とする a の対数 
+    log(x=a, base=b) #上と同値
+    log(base=b, x=a) #上と同値(引数名があれば順序は自由に変えられる)
+    log(b, a) # = log(x=b,base=a) (引数名がなければ規定の順序で解釈される)
+    log(a) # 自然対数 =log(a,base=exp(1))
+  #+end_src
+  
+** COMMENT 関数の実行
 - 関数の取り扱いは一般的な計算機言語とほぼ同様
 - 関数は引数とその値を指定して実行
 - [[color:green][正弦関数の計算]]
-  #+begin_src R :eval no :exports code :tangle yes
+  #+begin_src R :eval no
     sin(x = pi/2)
     ## 上と同値．関数の定義どおりの順序であれば引数の名前は省略可能
     sin(pi/2) 
   #+end_src
 - [[color:green][対数関数の計算]]
-  #+begin_src R :eval no :exports code
+  #+begin_src R :eval no
     ## xやbに具体的な数値を代入して実行しなさい
     log(x, b) # 底をbとする対数
     log(x=x, base=b) #上と同値
@@ -462,29 +566,145 @@
     log(x) # base を省略すると自然対数 =log(x,base=exp(1))
   #+end_src
 
-** オブジェクト
+** ヘルプ機能
+- 各関数の詳細を記述したヘルプが用意されている
+  - Description (機能の概要)
+  - Usage (関数の呼び出し方)
+  - Arguments (関数の引数)
+  - Value (関数の返り値)
+  - Examples (実行例)
+- ヘルプに関連する関数
+  - ~help()~ (使い方や例の表示)
+  - ~example()~ (例を実際に実行してくれる)
+  - ~help.search()~ (キーワード検索)
+- 右下ペイン *Help* タブの利用
+  - 右上にある検索窓でヘルプを参照可能
+  - 左上にある検索窓はヘルプ内を検索可能
+
+  # - 関数の正確な名前が分からない場合，
+  #   キーワードを渡すことで関連するトピックをもつ関数を検索できる
+  # - {{{example(例)}}} 
+  #   三角関数を計算する関数の名前がわからない場合, 
+  #   三角関数は英語でtrigonometric functionであることから
+  #   #+begin_src R :exports both :results none
+  #   help.search(trigonometric)
+  #   #+end_src
+  #   または
+  #   #+begin_src R :exports both :results none
+  #   ??trigonometric
+  #   #+end_src
+  #   を実行してみればよい
+
+** ヘルプ機能の利用例
+- [[color:green][ヘルプの使い方]] 
+  #+begin_src R :exports none
+    #' @exercise ヘルプの使い方
+  #+end_src
+  #+begin_src R :eval no
+    #' 関数 log() に関するヘルプの例
+    help(log) # Helpタブに結果は表示される
+    ?log # 上と同値
+    example(log) # ヘルプ内の例を実行
+    help.search("log") # "log"に関連する項目は？
+    ??"log" # 上と同値
+  #+end_src
+  - 右下ペインの *Help* タブに表示される
+
+** データ型
 - Rではさまざまな数値を扱うことができる
   - 実数および複素数 (指数表記にも対応)
   - 無限大や不定な数など特殊なものにも対応
+
+#+caption: 代表的なデータ型
+| 型の名称      | 役割             | 例                       |
+|-------------+-----------------+-------------------------|
+| ~numeric~   | (広義の)実数を表す | ~1, pi, NaN~            |
+| ~complex~   | 複素数を表す       | ~1i, 3-4i~              |
+| ~character~ | 文字列を表す       | ~"foo", "Hello World!"~ |
+| ~logical~   | 論理値(真偽)を表す | ~TRUE, FALSE, 3<4, NA~  |
+
+** オブジェクト
 - 変数，関数，計算結果などを *オブジェクト* と呼ぶ
 - 文字列を変数名としてオブジェクトを保持することができる
+- オブジェクトの内容を別のオブジェクトに代入することができる
 - 保持しているオブジェクトの情報は右上ペインの
   *Environment* タブで確認できる
 
-** オブジェクトの代入
-- オブジェクトの内容(情報)を別のオブジェクトに代入することができる
-- 計算結果や良く使う文字列の保存に利用できる
-- [[color:green][代入操作]]
-  #+begin_src R :exports both :results output :tangle yes
-    ## 数値を変数 foo に代入する
-    (foo <- 3)
-    ## 変数 foo を用いて計算し，結果を bar に代入する
-    bar <- sin(2/3*pi) + cos(foo * pi/4)
-    ## 変数 bar の内容を表示する
-    print(bar) 
+** オブジェクトの代入の例
+- [[color:green][代入操作の例]]
+  #+begin_src R
+    #' 数値を変数 foo に代入する
+    (foo <- 3) # foo <- 3; print(foo) と等価
+    #' 変数 foo を用いて計算し，結果を bar に代入する
+    bar <- sin(2/3*pi) + cos(foo * pi/4) # 計算結果は表示されない
+    #' 変数 bar の内容を表示する
+    print(bar)
+  #+end_src
+  - 計算結果や良く使う文字列の保存に利用できる
+  - 変数名は自由に決められるが，
+    予約語 ~c, q, t, C, D, F, I, T~ には注意が必要
+** 自作関数
+- 他の言語と同様にRでも関数を定義できる   
+- 関数の定義には関数 ~function()~ を利用する 
+  #+begin_src R :eval no :tangle no
+    #' 関数 function() の使い方 (擬似コード)
+    関数名 <- function(引数){ # 計算ブロックの開始
+      ## このブロック内に必要な手続きを記述する．複数行に渡って構わない
+      return(返値) # 計算結果を明示的に示す
+    } # ブロックの終了
   #+end_src
 
-** データの読み込み
+** 自作関数の例
+- [[color:green][縦と横の長さを与えて長方形の面積を計算]]
+  #+begin_src R :exports none
+    #' @exercise 自作関数の定義
+  #+end_src
+  #+begin_src R
+    #' 縦の長さ a, 横の長さ b (既定値は1) の長方形の面積
+    foo <- function(a, b = 1){ 
+      out <- a * b 
+      return(out) # 計算結果を外に返却
+    }
+    #' 実行例
+    foo(2, 3) # foo(a = 2, b = 3) と同義
+    foo(2) # foo(a = 2, b = 1) と同義
+  #+end_src
+
+#+reveal: split
+- [[color:green][無名関数 (anonymous function) の作り方]]
+  #+begin_src R
+    #' 変数や関数を定義して計算する方法
+    (x <- 1:10/10)
+    foo <- function(x) sin(x)/x # 式の計算結果を返却(returnを省略可)
+    foo(x)
+    #' 変数や関数を定義せずに計算する方法
+    (function(x) sin(x)/x)(1:10/10)
+    (\(x) sin(x)/x)(1:10/10) # R 4.1 以降の短縮表現
+  #+end_src
+  - オブジェクト(変数や関数)を作成する必要がない場合に有用
+
+#+reveal: split
+- [[color:green][練習問題]]
+  #+begin_quote
+  - R の関数 integrate() についてヘルプを調べなさい．
+  - 以下の関数の定積分を求めなさい．
+    \begin{align}
+      f(x)&=\frac{1}{1+x^{2}},\quad x\in[0,1]\\
+      g(x)&=\exp\left( -\frac{x^{2}}{2} \right),\quad x\in\mathbb{R}
+    \end{align}
+  #+end_quote
+
+#+reveal: split
+- [[color:green][関数 integrate() を利用して定積分を計算]]
+  #+begin_src R
+    #' 関数 1/(1+x^2) を区間 [0,1] で積分 (関数オブジェクトを渡す書き方)
+    f <- function(x) 1/(1+x^2) # 関数を定義
+    integrate(f, 0, 1) # pi/4 
+    #' 関数 e^(-x^2/2) を実軸全体で積分(Gauss積分) (関数を定義しない書き方)
+    integrate(\(x)exp(-x^2/2), -Inf, Inf) # sqrt(2*pi)
+  #+end_src
+    
+** COMMENT データの読み込み
 - ファイルにまとめられたデータを読み込むことができる
 - 対応する形式は csv・excel など
 - 右下ペインの *Files* を利用する
@@ -493,9 +713,12 @@
   - *View File* (見るだけ) か *Import Dataset* (読み込み) を選択
 - この機能は次回以降のデータの整理で活躍する
 
+
 * 次回の予定
 - データの取り扱い
 - 描画の基礎
+- 確率シミュレーション
+
 
 * Footnotes
 * COMMENT ローカル変数
