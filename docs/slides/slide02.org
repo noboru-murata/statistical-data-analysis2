@@ -1,12 +1,16 @@
 #+TITLE: R言語速習
-#+SUBTITLE: データの取り扱いと可視化
+#+SUBTITLE: 第2講 - データの扱い・可視化・確率シミュレーション
 #+AUTHOR: 村田 昇
-#+EMAIL: noboru.murata@eb.waseda.ac.jp
+#+EMAIL: noboru.murata@gmail.com
 #+DATE: 
-# Time-stamp: <2022-10-20 14:30:52 mura>
+#+STARTUP: hidestars content indent
+# Time-stamp: <2023-10-05 16:34:36 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
-#+STARTUP: hidestars content indent
+#+PROPERTY: header-args:R :cache yes :session *R*
+#+PROPERTY: header-args:R+ :exports both :results output
+#+PROPERTY: header-args:R+ :width 800 :height 800 :res 100
+#+PROPERTY: header-args:R+ :tangle yes
 # C-c C-x C-v でinlineを切り替え
 # <m C-i でlatex block (math env用)
 # C-c '
@@ -18,25 +22,22 @@
 - 校正に関して記述
   
 * 講義の内容
+:PROPERTIES:
+:ID:       8CF66DA0-CF09-4354-BF0F-D1E7ABF69CE1
+:END:
 - データの取り扱い
 - 描画の基礎
+- 確率シミュレーション
 
-#+begin_src R :eval no :exports none :tangle yes
-  ### 
-  ### 第2講 サンプルコード
-  ###
+#+begin_src R :exports none :tangle no
+  setwd("~/Desktop/lectures/u-tokyo/autumn/course")
 #+end_src
 #+begin_src R :exports none
-  setwd("~/Desktop/lectures/u-tokyo/autumn/slide")
-  library(lubridate)
+  ### 第2講 サンプルコード
 #+end_src
 
 
 * データフレーム
-#+begin_src R :exports none :tangle yes
-  #### "データフレーム"
-#+end_src
-
 ** データ構造
 - Rに用意されている基本的なデータ構造
   - ベクトル (vector) : 1次元配列
@@ -50,83 +51,134 @@
 - 複数の個体について，いくつかの属性を集計した表
   - 長さの等しい列ベクトルをまとめたもの
   - 各列のデータ型はバラバラでも良い
-- 実データは表形式であることが多いため最も一般的な形式
-- [[color:green][例 : ある小学校の1年生の身長・体重・性別・血液型のデータ]]
+- 実データの最も一般的な形式
+- [[color:green][データフレームの例]]
+  #+begin_quote
+  ある小学校の1年生の身長・体重・性別・血液型のデータ
+  | 名前 | 身長 [cm] | 体重 [kg] | 性別 | 血液型 |
+  |-----+----------+----------+-----+------|
+  | 太郎 |      108 |       19 | 男   | B    |
+  | 花子 |      116 |       21 | 女   | O    |
+  | 次郎 |      130 |       25 | 男   | AB   |
+  | ... |      ... |      ... | ... | ...  |
+  #+end_quote
 
-** データフレームの作成
-- 方法はいくつか用意されている
-  - 同じ長さのベクトル (同じ型の配列) を並べる
-  - データフレームを結合する
-  - マトリクスを変換する (全て同じ型の場合)
-  #+begin_src R :eval no :exports none :tangle yes
-    ### データフレームの作成
+** "base R" vs "tidyverse"
+:PROPERTIES:
+:ID:       0F9C3650-1651-4600-B396-EE0836686CA7
+:END:
+- データ操作とグラフィクスの枠組
+  - *base R* : R の標準環境
+  - *tidyverse* : Hadley Wickham @RStudio による拡張パッケージ集
+    - https://www.tidyverse.org/packages/
+    - https://tidyverse.tidyverse.org/
+- 本講義では tidyverse を中心に説明
+- パッケージ集の利用には以下が必要
+  #+begin_src R :exports code
+    #' 最初に一度だけ以下のいずれかを実行しておく
+    #'  - Package タブから tidyverse をインストール
+    #'  - コンソール上で次のコマンドを実行 'install.packages("tidyverse")'
+    #' tidyverse パッケージの読み込み
+    library(tidyverse)
   #+end_src
-  #+begin_src R :eval no :tangle yes
-    ## 同じ長さのベクトルを並べる
-    ## (... <- ...) は代入した結果を表示
-    (foo <- data.frame(one=c(1,2,3),two=c("AB","CD","EF"))) 
-    (bar <- data.frame(three=c("x","y","z"),four=c(0.9,0.5,-0.3)))
-    ## データフレームを結合する
-    (baz <- cbind(foo,bar)) # column bind
+  #+begin_src R :exports none
+    #' @notes
+    #' library(tidyverse) を実行すると読み込まれたパッケージが表示される
+    #' 同名の関数が存在する場合には "Conflicts" として衝突する関数名が表示される
+    #' 衝突する場合はパッケージ名を明示的に付ける
+    #' dplyer::filter() # データフレームの抽出のための関数
+    #' stats::filter() # 時系列処理のための線形フィルタ関数
+    #' 名前の衝突による不具合を避けたい場合は conflicted パッケージの利用を推奨
+    #' library(conflicted)
+  #+end_src
+  
+** データフレームの作成
+:PROPERTIES:
+:ID:       6D200BF2-2585-45C0-B33A-6C7D87C29F7A
+:END:
+- 作成方法はいくつか用意されている
+  - 同じ長さのベクトルを並べる(関数 ~tibble::tibble()~)
+  - データフレームを結合する(関数 ~dplyr::bind_cols()~)
+  - マトリクスを変換する (全て同じ型の場合)
+  - ファイルを読み込む (CSV形式を主に扱う)
+- [[color:green][データフレームの作成の例]]
+  #+begin_src R :exports none
+    #' @exercise データフレームの作成
+  #+end_src
+  #+begin_src R :eval no
+    #' 同じ長さのベクトルを並べる (関数 tibble::tible())
+    #' (... <- ...) は代入した結果を表示
+    (foo <- tibble(one = c(1,2,3),two = c("AB","CD","EF"))) 
+    (bar <- tibble(three = c("x","y","z"),four = c(0.9,0.5,-0.3)))
+    #' データフレームを結合する (関数 dplyr::bind_cols())
+    (baz <- bind_cols(foo,bar)) # bind columns
+  #+end_src
+  #+begin_src R :exports none
+    #' @notes
+    #' "foo", "bar", "baz" は使い捨ての変数名として良く用いられる
+    #' その他 "tmp", "temp" なども用いられることが多い
   #+end_src
 
 ** 練習問題
 :PROPERTIES:
 :reveal_background: #fef4f4
+:ID:       362D89E7-2FA6-4AB5-ADE6-7F6D402A1B6B
 :END:
 - 次の表に対応するデータフレームを作成しなさい
-  |---+------+------+------+-----|
-  |   | math | phys | chem | bio |
-  |---+------+------+------+-----|
-  | A |   90 |   25 |   65 |  70 |
-  | B |   80 |   50 |  100 |  50 |
-  | C |   70 |   75 |   70 |  30 |
-  | D |   60 |  100 |   40 |  80 |
-  | E |   50 |   80 |   75 | 100 |
-  |---+------+------+------+-----|
+  |------+------+------+------+-----|
+  | name | math | phys | chem | bio |
+  |------+------+------+------+-----|
+  | A    |   90 |   25 |   65 |  70 |
+  | B    |   80 |   50 |  100 |  50 |
+  | C    |   70 |   75 |   70 |  30 |
+  | D    |   60 |  100 |   40 |  80 |
+  | E    |   50 |   80 |   75 | 100 |
+  |------+------+------+------+-----|
 
-#+begin_src R :eval no :exports none :tangle yes
-  ### 
-  ### 練習問題 データフレームの作成
-  ###
+#+begin_src R :eval no :exports none
+  #' ---------------------------------------------------------------------------
+  #' @practice データフレームの作成
 
-  ## 各項目が同じ長さのベクトルを並べる
-  (grade <- data.frame( # 変数名は自由に決めてよい
-     math=c(90,80,70,60,50),
-     phys=c(25,50,75,100,80),
-     chem=c(65,100,70,40,75),
-     bio =c(70,50,30,80,100)))
-  
-  ## 行・列の名前の操作
-  rownames(grade) # 行の名前を表示する
-  rownames(grade) <- c("A","B","C","D","E") # 行の名前を変更する
-  names(grade)    # 列の名前を表示する
-  grade # 変更されたデータフレームを表示する
-  ## データの取り出し方 (後ほど詳しく)
-  grade["B","phys"] # 特定の要素を名前で参照する
-  grade["C",] # 特定の行を表示
-  grade["bio"] # 特定の列を表示 (データフレームになる)
-  grade[,"bio"] # 特定の列を表示 (ベクトルになる)
-  grade[["bio"]] # 上記と同じ操作 (リストと同様な扱い)
-  grade$bio # 上記と同じ操作
+  #' 各項目が同じ長さのベクトルを並べる
+  (grade_data <- tibble( # 変数名は自由に決めてよい
+     name = c("A", "B", "C", "D", "E"),
+     math = c(90, 80, 70, 60, 50),
+     phys = c(25, 50, 75,100, 80),
+     chem = c(65,100, 70, 40, 75),
+     bio  = c(70, 50, 30, 80,100)))
+  #' 行・列の名前の操作
+  names(grade_data)    # 列の名前を表示する
+  View(grade_data) # データフレームの内容を左上ペインで表示
+  glimpse(grade_data) # データフレームの内容を別の形式で表示
+  #' データの取り出し方 (後ほど詳しく)
+  grade_data[2,3] # 特定の要素を数値で参照する
+  grade_data[2,"phys"] # 列を名前で参照する (上記と同じ結果)
+  grade_data[3,] # 特定の行を表示 (データフレームになる)
+  grade_data["bio"] # 特定の列を表示 (データフレームになる)
+  grade_data[,"bio"] # 上記と同じ結果
+  grade_data[["bio"]] # ベクトルとして取り出す (リストとしての処理)
+  grade_data$bio # 上記と同じ結果
+
+  #' @notes
+  #' 変数や関数の名称については各自で命名規則を決めておくと良い
+  #' 以下のサイトなどが参考になる
+  #' - https://style.tidyverse.org/index.html
+  #' - https://google.github.io/styleguide/Rguide.html
+  #' ---------------------------------------------------------------------------
 #+end_src
 
 
 * ファイルの操作
-#+begin_src R :exports none :tangle yes
-  #### "ファイルの操作"
-#+end_src
-
 ** ファイルを用いたデータの読み書き
 - 解析においてはデータファイルの操作が必要
   - 整理したデータを保存する
   - 収集されたデータを読み込む
 - Rで利用可能なデータファイル
-  - csv形式 (comma separated values) : テキストファイル
-  - RData形式 : Rの内部表現を用いたバイナリーファイル
-  - Excel形式 : Microsoft Excel ファイル (Filesタブから読み込み)
+  - CSV 形式 (comma separated values) : テキストファイル
+  - RData 形式 : Rの内部表現を用いたバイナリーファイル
+  - Excel 形式 : Microsoft Excel ファイル (Filesタブから読み込み)
 
-** 作業ディレクトリの確認と変更
+** 作業ディレクトリ
 - 作業ディレクトリとファイルに関する注意
   - Rの処理は特定のフォルダ(*作業ディレクトリ*)内で実行される
   - ファイルは作業ディレクトリにあるものとして扱われる
@@ -135,238 +187,195 @@
   - 確認の仕方 : コンソールの上部の表示
   - 変更の仕方 : 主に *Session* メニューを利用
 
-** csv形式の操作 (テキスト)
-- 関数 ~write.csv()~ : csvファイルの書き出し
-  #+begin_src R :eval no
-    write.csv(x, file="ファイル名")
-    ## x: 書き出すデータフレーム
-    ## file: 書き出すファイルの名前 (作業ディレクトリ下，またはパスを指定)
+** CSV ファイルの操作
+- 関数 ~readr::write_csv()~ : ファイルの書き出し
+  #+begin_src R :eval no :tangle no
+    write_csv(x, file = "ファイル名") # データフレームxをファイルに書き出す
   #+end_src
-- 関数 ~read.csv()~ : csvファイルの読み込み
-  #+begin_src R :eval no
-    y <- read.csv(file="ファイル名", header=TRUE, row.names=1)      
-    ## y: 読み込む変数
-    ## file: 書き出すファイルの名前 (作業ディレクトリ下，またはパスを指定)
-    ## header: 1行目を列名として使うか否か
-    ## row.names: 行名の指定 (行名を含む列番号/列名または行名のベクトル)
+- 関数 ~readr::read_csv()~ : ファイルの読み込み
+  #+begin_src R :eval no :tangle no
+    y <- read_csv(file = "ファイル名") # 変数yにCSVファイルの内容を読み込む
   #+end_src
-- 他の細かいオプションはヘルプを参照
-
-** csv形式の操作 (~package::readr~ )
-- 日本語などの扱いに問題がある場合に推奨
-  #+begin_src R :eval no
-    install.packages("readr") # package タブを使ってもよい
-  #+end_src
-- 関数 ~write_csv()~ : csvファイルの書き出し
-  #+begin_src R :eval no
-    write_csv(x, file="ファイル名") # 行名は書き出されない
-  #+end_src
-- 関数 ~read_csv()~ : csvファイルの読み込み
-  #+begin_src R :eval no
-    y <- read_csv(file="ファイル名") # 行名を列から付けるオプションはない
-  #+end_src
-- 行名の扱いに違いがあるので注意
-
-** RData形式の操作 (バイナリ)
-- 関数 ~save()~ : RDataファイルの書き出し
-  #+begin_src R :eval no
-    save(..., file="ファイル名")
-    ## ...: 保存するオブジェクト名 (複数指定可，データフレーム以外も可)
-    ## file: 書き出すファイルの名前 (作業ディレクトリ下，またはパスを指定)
-  #+end_src
-- 関数 ~load()~ : RDataファイルの読み込む
-  #+begin_src R :exports code
-    load(file="ファイル名")
-    ## file: 読み込むファイルの名前 (作業ディレクトリ下，またはパスを指定)
-  #+end_src
-- 複数のデータフレームを同時に扱うことができる
+- Rの標準関数 base::data.frame() とは行名の扱いに違いがあるので注意
 
 ** 練習問題
 :PROPERTIES:
 :reveal_background: #fef4f4
+:ID:       330911E2-2FAD-4B39-A6CB-A2512E269E62
 :END:
 - 前の演習で作成したデータフレームを適当なファイルに書き出しなさい
 - 書き出したファイルから別の変数に読み込みなさい
-- 厚労省からダウンロードしたファイル (~pcr_case_daily.csv~) を
+- ~pcr_case_daily.csv~ (厚労省からダウンロードしたファイル)を
   変数 ~pcr_data~ に読み込みなさい
 
-#+begin_src R :eval no :exports none :tangle yes
-  ### 
-  ### 練習問題 ファイルの読み書き
-  ###   前の練習問題で作ったデータフレームを利用する
-  ###
-  
-  ### csv形式の操作
-  ## 関数 write.csv の使い方 (ファイルの書き出し)
-  dim(grade) # 大きさを確認
-  write.csv(grade, file="data/mydata.csv")
-  ## 関数 read.csv の使い方 (ファイルの読み込み)
-  (grade2 <- read.csv(file="data/mydata.csv", row.names=1)) 
-  dim(grade2) # 大きさが一致していることを確認
-  grade2["A","math"] <- 100 # データの一部を修正
-  grade2 # 中身を確認しておく
-  
-  ### Rdata形式の操作
-  ## 関数 save の使い方 (ファイルの書き出し)
-  save(grade, grade2, file="data/mydata.RData") 
-  ## 関数 load の使い方 
-  grade <- c(1,2,3) # 上書きしておく
-  grade # 中身を確認しておく
-  rm(grade2) # 消しておく
-  grade2 # "オブジェクト 'grade2' がありません"というエラーになる 
-  load(file="data/mydata.RData") # RData形式の読み込み
-  grade # save したときの grade が復元されている
-  grade2 # save したときの grade2 が復元されている
-#+end_src
+#+begin_src R :eval no :exports none
+  #' ---------------------------------------------------------------------------
+  #' @practice ファイルの読み書き
 
-#+begin_src R :eval no :exports none :tangle yes
-  ### package::readr を用いる場合
-
-  ## "readr" を Package タブからインストールしておく
-  ## コンソールからインストールする場合は以下を実行する
-  ## install.packages("readr")
-  library("readr")
-  write_csv(grade, file="data/mydata3.csv") # 行名は保存されない
-  ## File タブから中身を確認しておくとよい
-  (grade3 <- read_csv(file="data/mydata3.csv")) # 行名がない data.frame になる
-  ## data.frame および tbl という性質を持つオブジェクトになる
-  
-  ## 行名を保存する場合には "tibble" をインストールしておく
-  ## install.packages("tibble")
-  library("tibble")
-  (grade4 <- rownames_to_column(grade,var="name")) # "name" という列が追加される．既定値は"rowname"
-  write_csv(grade4, file="data/mydata4.csv")
-  (grade5 <- read_csv(file="data/mydata4.csv")) # "grade4" の内容が "grade5" に代入される
-  (grade6 <- column_to_rownames(grade5,var="name")) # "name" という列を行名に変換して削除する．既定値は"rowname"
+  #' 前の練習問題で作ったデータフレームを利用する
+  write_csv(grade_data, file = "data/grade_data.csv")
+  #' File タブからファイルの中身を確認することができる
+  #' 以下を実行すると grade_copy というオブジェクトにファイルの内容が代入される
+  (grade_copy <- read_csv(file = "data/grade_data.csv")) 
 #+end_src
-  
-#+begin_src R :exports none :tangle yes
-  ### download したファイルの読み込み
-  ## ファイル名 pcr_case_daily.csv として作業ディレクトリの data に保存
-  pcr_data <- read.csv(file="data/pcr_case_daily.csv") # 一般的な読み込み方
-  ## 読み込めない場合は文字コードを指定する
-  ## read.csv(file="data/pcr_case_daily.csv")
-  ##          fileEncoding="shift-jis") # 文字コードの指定 (shift-jis/utf-8)
-  pcr_colname <- names(pcr_data) # 機関名などの列名を保存しておく
-  names(pcr_data) <- c("date",letters[1:(length(pcr_colname)-1)]) # 英語に付け替える
-  head(pcr_data) # 中身を確認する
-  ## 読み込み時に列名を指定することも可能 (以下は上記と同じ結果)
-  pcr2_data <- read.csv(file="data/pcr_case_daily.csv",
-                   col.names=c("date",letters[1:(length(pcr_colname)-1)]))
-  head(pcr2_data) # 中身を確認する
-  ## Filesタブの操作で読み込みことも可能なので確認しなさい
-  ## ただし data.frame+tbl オブジェクトになるので若干扱いが異なる
-  ## URLを指定して読み込むこともできる (更新される情報を追い掛ける場合に利用を推奨)
-  ## pcr_data <- read.csv("https://www.mhlw.go.jp/content/pcr_case_daily.csv")
+#+begin_src R :exports none
+  #' ダウンロードしたファイルの読み込み
+  #' ファイル名 pcr_case_daily.csv として作業ディレクトリの data 以下に保存
+  pcr_data <- read_csv("data/pcr_case_daily.csv") # 一般的な読み込み方
+  View(pcr_data) # 中身を表示
+  (pcr_names <- names(pcr_data)) # 機関名などの列名を保存しておく
+  (names(pcr_names) <- # 列名に文字列(英語)を対応づける
+    c("date", letters[1:(length(pcr_names)-1)]))
+  View(pcr_names) # 中身を表示
+  pcr_data <- rename(pcr_data, all_of(pcr_names)) # 列名を変更
+  pcr_data # 中身を確認(10行だけ表示される)
+  #' 以降の処理のために date 列を date 型に変換しておく
+  #' 列の変換・追加などには関数 dplyr::mutate() を用いる
+  (pcr_data <- mutate(pcr_data, date = date(date))) 
+#+end_src
+#+begin_src R :eval no :exports none
+  #' @notes
+  #' Files タブの操作で読み込みことも可能なので確認せよ
+  #' 関数 print() を用いると表示する行数を指定できる
+  print(pcr_data, n = 5) # 全ては n = Inf
+  #' 読み込み時に列名を指定することも可能
+  pcr_data <- # 以下は上記と同じ結果
+    read_csv("data/pcr_case_daily.csv",
+             skip = 1, # 1行目の名前を読み飛ばす
+             col_names = c("date",letters[1:(length(pcr_names)-1)]))
+  #' 日本語を含むファイルでは文字化けが起こった場合は以下で対応する
+  #' 関数 readr::guess_encoding() でファイルの文字コードを推測する
+  guess_encoding("data/pcr_case_daily.csv")
+  #' "UTF-8" であると 1 の信頼度で認識される
+  #' 文字コードを指定して読み込む場合は以下のように記述する
+  pcr_data <- # 文字コードとして UTF-8 を指定
+    read_csv(file = "data/pcr_case_daily.csv",
+             locale = locale(encoding = "utf-8"))
+  #' その他の文字コードとしては "sjis", "shift-jis", "shift_jis", 
+  #' "cp932"(拡張文字を含む)などを大文字小文字は区別せず指定できる
+  #' URLを指定して読み込むこともできる 
+  pcr_data <- # 更新される情報を追跡する場合に利用を推奨
+    read_csv("https://www.mhlw.go.jp/content/pcr_case_daily.csv")
+  #' ---------------------------------------------------------------------------
 #+end_src
 
 
 * データフレームの操作
-#+begin_src R :exports none :tangle yes
-  #### "データフレームの操作"
-#+end_src
-
 ** 要素の選択
-- 添字の番号を指定する (マイナスは除外)
-- 論理値 (TRUE/FALSE) で指定する
-- 要素の名前で指定する
-  #+begin_src R :eval no :exports none :tangle yes
-    ### 要素の選択
+:PROPERTIES:
+:ID:       435CB628-6F0C-4D8F-8EBE-090BF619F04B
+:END:
+- 選択方法はいくつか用意されている
+  - 添字の番号を指定する (マイナスは除外)
+  - 論理値 (TRUE/FALSE) で指定する
+  - 要素の名前で指定する
+- [[color:green][データフレームの要素の選択]]
+  #+begin_src R :exports none
+    #' @exercise 要素の選択
   #+end_src
-  #+begin_src R :eval no :tangle yes
-    z <- data.frame(one=c(1,2,3), two=c("AB","CD","EF"), three=6:8)
+  #+begin_src R :exports code
+    z <- tibble(one = c(1,2,3),
+                    two = c("AB","CD","EF"),
+                    three = 6:8)
     z[1,2] # 1行2列の要素を選択
     z[-c(1,3),] # 1,3行を除外
     z[c(TRUE,FALSE,TRUE),] # 1,3行を選択
-    z[,"two"]  # 列名"two"を選択(ベクトルになる)
-    z[["two"]] # 上記と同様の結果となる(1列の場合しか使えない)
-    z$two      # 上記と同様の結果となる(1列の場合しか使えない)
-    z["two"]   # 列名"two"を選択(1列のデータフレームになる)
+    z[,"two"] # 列名"two"を選択(1列のデータフレームになる)
+    z["two"]  # 上記と同様の結果
     z[,c("one","three")] # 列名"one"と"three"を選択(データフレームになる)
-    z[c("one","three")]   # 上記と同様の結果となる
+    z[c("one","three")]  # 上記と同様の結果
+    z[["two"]] # 列名"two"のベクトルを選択(1列の場合しか使えない)
+    z$two      # 上記と同様の結果
   #+end_src
 
-** 部分集合の取得
-- 関数 ~subset()~ : 条件を指定して行と列を選択
-  #+begin_src R :eval no
-    subset(x, subset, select, drop=FALSE)
-    ## x: データフレーム 
-    ## subset: 行に関する条件
-    ## select: 列に関する条件(未指定の場合は全ての列)
-    ## drop: 結果が1行または1列となる場合にベクトルとして返すか否か
+** 部分集合(行)の選択
+- 関数 ~dplyr::filter()~ : 条件を指定して行を選択
+  #+begin_src R :eval no :tangle no
+    filter(.data, ..., .by = NULL, .preserve = FALSE)
+    #' .data: データフレーム 
+    #' ...: 行に関する条件
+    #' .by: グループ化を指定(実験的な実装)
+    #' .preserve: グループ化を維持するか指定(実験的な実装)
+    #' 詳細は"?dplyr::filter"を参照
   #+end_src
-- オプション ~subset~ の条件指定には以下を用いることができる
+- 行に関する条件指定には以下を用いることができる
   - 等号 : ~==~ (否定は ~!=~)
   - 不等号 : ~<,>,<=,>=~
   - 論理式 : ~&~ (かつ), ~|~ (または)
 
-** COMMENT 練習問題
-:PROPERTIES:
-:reveal_background: #fef4f4
-:END:
-- ~datasets::mtcars~ から以下の条件を満たすデータを取り出しなさい
-  - 例: オートマチック車 (~am~ が0) のデータ
-    #+begin_src R :eval no
-      subset(mtcars, subset= am==0) # subset オプションに条件を指定する
-    #+end_src
-  - 例: 燃費 (~mpg~) と重さ (~wt~) のデータ
-    #+begin_src R :eval no
-      subset(mtcars, select= c(mpg,wt)) # select オプションに列名を指定する
-    #+end_src
-  - 4気筒車 (~cyl~ =4) の燃費 (~mpg~) と排気量 (~disp~) のデータ
-  - 馬力 (~hp~) が110(馬力)以上で重さ (~wt~) が3(1000lbs)以下のデータ
-  #+begin_src R :eval no :exports none :tangle yes
-    ### 練習3
-    ### データフレームの操作
-    ## datasets::mtcars の内容を確認する
-    help(mtcars)
-    
-    ## 関数subsetの使い方
-    ## 4気筒車の燃費と排気量
-    subset(mtcars,
-           subset= cyl==4,
-           select= c(mpg,disp))
-    ## 馬力が110[hp]以上で重さが3[1000lbs]以下のデータ
-    subset(mtcars,
-           subset= hp>=110 & wt<=3)
+** 部分集合(列)の選択
+- 関数 ~dplyr::select()~ : 条件を指定して列を選択
+  #+begin_src R :eval no :tangle no
+    select(.data, ...)
+    #' .data: データフレーム 
+    #' ...: 列に関する条件(列の番号，名前，名前に関する条件式を利用する)
+    #' 詳細は"?dplyr::select"を参照
   #+end_src
+- 条件指定には例えば以下のような方法がある
+  - 含めない : ~!列名~, ~!c(列名,列名,...)~, ~!(列名:列名)~
+  - 特定の文字列で始まる : ~starts_with("文字列")~
+  - 特定の文字列で終わる : ~ends_with("文字列")~,
+  - 組み合わせ : ~&~ (かつ), ~|~ (または)
 
+** パイプ演算子
+:PROPERTIES:
+:ID:       36177152-9EFA-4A9F-954C-0B4980B5EE3A
+:END:
+- 処理を順次結合する演算子 (いくつか定義がある)
+  - ~|>~ (base R で定義; この講義ではこちらで記述する) 
+  - ~%>%~ (~package::magrittr~)
+- [[color:green][データフレームの部分集合の取得]]
+  #+begin_src R :exports none
+    #' @exercise 部分集合の選択
+  #+end_src
+  #+begin_src R :exports code
+    #' 前に作成したデータフレーム z を用いた例
+    (foo <- filter(z, three >= 7)) # 列 three の値が7以上の行を選択
+    (bar <- select(foo, c(one, three))) # 列 one,three を選択
+    #' パイプを用いると以下のように書ける
+    z |> filter(three >= 7) |> select(one, three)
+    #' 別の例
+    z |> 
+      filter(one != 2) |>        # 列 one の値が2でない行を選択
+      select(starts_with("t")) # 列 "t"wo,"t"hree を選択
+  #+end_src
+    
 ** 練習問題
 :PROPERTIES:
 :reveal_background: #fef4f4
+:ID:       5B4F4E4D-DE89-4FEA-94DA-002DCF48C18E
 :END:
 - ~pcr_case_daily.csv~ から以下の条件を満たすデータを取り出しなさい
-  - [[color:green][関数 ~subset()~ の使用例]]
-    #+begin_src R :eval no :tangle yes
-      ## 国立感染症研究所(a)の検査件数が 0 でないデータ
-      subset(pcr_data, subset= a!=0) # subset オプションに条件を指定する
-
-      ## 検疫所(b)と民間検査会社(d)の検査件数データ
-      subset(pcr_data, select= c(b,d)) # select オプションに列名を指定する
-    #+end_src
   - 医療機関 (~f~) での検査件数が2000を越えたときの
     国立感染症研究所 (~a~) と医療機関 (~f~) のデータ
   - 大学等 (~e~) と医療機関 (~f~) でともに検査件数が2000を越えたデータ
+  - 2020年3月の各機関(~g,i~ は集計なので除く)の検査件数データ
 
-#+begin_src R :eval no :exports none :tangle yes
-  ### 
-  ### 練習問題 データフレームの操作
-  ###
-  
-  ## 関数subsetの使い方
-  ## 医療機関(f)での検査数が2000を越えたときの国立感染症研究所(a)と医療機関(f)のデータ
-  subset(pcr_data,       # データフレーム
-         subset= f>2000, # 条件による絞り込み
-         select= c(a,f)) # 列の選択
-  ## 大学等(e)と医療機関(f)でともに検査件数が2000を越えたデータ
-  subset(pcr_data,                # データフレーム
-         subset= e>2000 & f>2000) # 複合的な条件の指定
+#+begin_src R :eval no :exports none
+  #' ---------------------------------------------------------------------------
+  #' @practice データフレームの操作
+
+  #' 医療機関(f)での検査数が2000を越えたときの国立感染症研究所(a)と医療機関(f)のデータ
+  pcr_data |>           # データフレーム
+    filter(f > 2000) |> # 行の条件による絞り込み
+    select(c(a,f))      # 列の選択
+  #' 大学等(e)と医療機関(f)でともに検査件数が2000を越えたデータ
+  pcr_data |>
+    filter(e > 2000 & f > 2000) # 複合的な条件の指定
+  #' 2020年3月の各機関(g,iは除く)の検査件数データ
+  pcr_data |>
+    filter(date >= "2020-03-01" & date < "2020-04-01") |> # 日付の範囲の指定
+    select(-c(g,i))
+  #' ---------------------------------------------------------------------------
 #+end_src
 
 
 * データフレームの集約
+:PROPERTIES:
+:ID:       9C040247-E01F-444E-94DA-8700C7B7ABE9
+:END:
 #+begin_src R :exports none :tangle yes
-  #### "データフレームの集約"
+  #'#' "データフレームの集約"
 #+end_src
 
 ** 統計量の計算
@@ -379,289 +388,448 @@
   - 関数 ~quantile()~ : 分位点
 - これ以外にも沢山あるので調べてみよう
 
-** 行・列ごとの操作
-- 関数 ~apply()~ : 列または行ごとに計算を行う
-  #+begin_src R :eval no
-    apply(X, MARGIN, FUN) # 変数名が大文字で定義されている
-    ## X: データフレーム
-    ## MARGIN: 行(1)か列(2)かを指定
-    ## FUN: 求めたい統計量を計算するための関数
+** 列ごとの集約
+:PROPERTIES:
+:ID:       B5F374A9-79E5-47B9-9474-291677764C18
+:END:
+- 関数 ~dplyr::summarise()~ : 行ごとに計算する
+  #+begin_src R :eval no :tangle no
+    summarise(.data, ..., .by = NULL, .groups = NULL)
+    #' .data: データフレーム
+    #' ...: 求めたい統計量を計算するための処理を記述
+    #' .by: グループ化を指定(実験的な実装)
+    #' .groups: グループ化の結果を指定(実験的な実装)
   #+end_src
-- [[color:green][例 : 学生の成績表 grade の各教科の平均を計算する]]
-  #+begin_src R :eval no :exports none :tangle yes
-    ### 関数 apply() の使用例
-    ## 学生の成績表 grade の各教科の平均値
+- [[color:green][平均の算出]]
+  #+begin_src R :exports none
+    #' @exercise 列ごとの集計
   #+end_src
-  #+begin_src R :eval no :tangle yes
-    apply(X=grade,  # データフレーム
-          MARGIN=2, # 列ごとの処理
-          FUN=mean) # 処理内容の指定 (関数)
-    apply(grade, 2, mean) # 上記と同じ(変数名は省略可能)
+  #+begin_src R :exports code
+    #' 練習問題のデータフレームを用いた例
+    grade_data |>
+      summarise(math_mean = mean(math), nums = n()) # 数学の平均を求める
+    grade_data |>
+      summarise(across(!name, mean)) # 名前の列以外の平均を求める
   #+end_src
 
 ** グループごとの操作
-- 関数 ~aggregate()~ : 各行をいくつかのグループにまとめて計算を行う
-  #+begin_src R :eval no
-    aggregate(x, data, FUN, ...,
-              subset, na.action = na.omit)
-    ## x: 条件式
-    ## data: データフレーム
-    ## FUN: 求めたい統計量を計算するための関数
-    ## subset: データフレームの行に関する条件
-    ## na.action: 欠損値の扱い
+:PROPERTIES:
+:ID:       86DCB7C0-9186-49A2-896B-309DE950DB0C
+:END:
+- 関数 ~dplyr::group_by()~ : グループ化を行う
+  #+begin_src R :eval no :tangle no
+    group_by(.data, ..., .add = FALSE, .drop = group_by_drop_default(.data))
+    #' .data: データフレーム
+    #' ...: グループ化を行う項目を含む列や条件を記述
+    #' .add: グループ化の上書きを制御(既定値FALSEは上書き)
+    #' .drop: グループ化に関与しない因子の扱い方
   #+end_src
-- [[color:green][例 : 医療機関 (~f~) のPCR件数を各月で集計する]]
-  #+begin_src R :eval no :exports none :tangle yes
-    ### 関数 aggregate() の使用例
-    ## 月毎の医療機関のPCR数の集計
-    library(lubridate) # 関数 month() などを利用可能とする
-    pcr_data$date # 日付を取り出す
-    month(pcr_data$date) # 月を取り出す
-    transform(pcr_data,month=month(date)) # 列を追加
-    ## 注意:
-    ## transform は pcr_data の操作をしているので，dateだけで列名が指定できる
-    ## lubridate の関数 month() は月名での表示も可能
-    ## ただし名前は言語環境に依存するので注意
-    ## month(foo,label=TRUE) # 短縮形
-    ## month(foo,label=TRUE,abbr=FALSE) # 月名
-    ## 強制的に英語にするには
-    ## Sys.setlocale(category = "LC_TIME", locale="C")
-    ## などを指定すればよい．もとに戻すには
-    ## Sys.setlocale(category = "LC_TIME", locale="")
+- [[color:green][グループごとに集計]]
+  #+begin_src R :exports none
+    #' @exercise グループごとの集計
   #+end_src
-  #+begin_src R :eval no :tangle yes
-    aggregate(f ~ month, # 式による集計の指定 x = f ~ month と書いても良い
-              data=transform(pcr_data, # データフレームの書き換え
-                             month=month(date)),
-              FUN=sum)                 # 集計内容の指定 (関数)
+  #+begin_src R :exports code
+    #' pcr_data を用いた例
+    #' 医療機関 (~f~) のPCR件数を各月で集計する
+    #' 日付の扱いに関数 lubridate::year(), lubridate::month() を利用
+    pcr_data |>
+      group_by(year(date), month(date)) |> # 年と月でグループ化する
+      summarise(total_nums = sum(f))         # f の合計値を計算する
+  #+end_src
+  #+begin_src R :eval no :exports none
+    #' @notes
+    #' 関数 dplyr::mutate() で新たな列を加えておくと
+    #' 上記の処理は関数 summarise() のみでも可能(実験的な実装 .by)
+    pcr_data |>
+      mutate(year = year(date), month = month(date)) |>
+      summarise(total_nums = sum(f), .by = c(year, month))
+    #' 関数 lubridate::month() は月名での表示も可能
+    pcr_data |> # 短縮形
+      mutate(year = year(date), month = month(date, label = TRUE)) |>
+      summarise(total_nums = sum(f), .by = c(year, month))
+    pcr_data |> # 月名
+      mutate(year = year(date), month = month(date, label = TRUE, abbr = FALSE)) |>
+      summarise(total_nums = sum(f), .by = c(year, month))
+    #' ただし名前は言語環境に依存するので注意
+    #' 強制的に英語にするには
+    #' Sys.setlocale(category = "LC_TIME", locale = "C")
+    #' などを指定すればよい．もとに戻すには
+    #' Sys.setlocale(category = "LC_TIME", locale = "")
   #+end_src
 
 ** 練習問題
 :PROPERTIES:
 :reveal_background: #fef4f4
+:ID:       756B2950-0EAF-4B88-9C13-7DCC8A5FA5C6
 :END:
-- ~pcr_case_daily.csv~ を以下の条件で整理しなさい
+- ~pcr_case_daily.csv~ を集計しなさい
   - 各機関でのPCR検査件数の最大値
-  - 2020年の月ごとの各機関でのPCR検査件数の最大値
-- ~datasets::mtcars~ のデータを以下の条件で整理しなさい
+  - 2021年の各機関でのPCR検査件数の月ごとの最大値
+- ~datasets::mtcars~ を集計しなさい
   - 気筒数 (~cyl~) ごとに排気量 (~disp~) の最大値，最小値
   - 気筒数 (~cyl~) とギア数 (~gear~) ごとの燃費 (~mpg~) の平均値
 
-#+begin_src R :eval no :exports none :tangle yes
-  ### 
-  ### 練習問題 データフレームの集約
-  ###
-  
-  ## 関数applyの使い方
-  ## 各機関でのPCR検査件数の最大値
-  apply(subset(pcr_data, select= -date), # date は文字列なので集計から除く
-        2, # 列の計算
-        max, na.rm=TRUE) # max の計算で NA を除く
-  
-  ## 関数aggregateの使い方
-  ## 2020年の月ごとの各機関でのPCR検査件数の最大値
-  aggregate(cbind(a,b,c,d,e,f,g) ~ month,
-            transform(subset(pcr_data, year(date)==2020),
-                      month=month(date)),
-            max,
-            na.action=na.pass) # NAだけの列があっても集計するための指定
-  aggregate(. ~ date, # ちょっとした細工(上書き)で簡単になる
-            transform(subset(pcr_data, year(date)==2020),
-                      date=month(date)),
-            max, na.action=na.pass)
+#+begin_src R :eval no :exports none
+  #' ---------------------------------------------------------------------------
+  #' @practice データフレームの集約
 
-  ## datasets::mtcars での例
-  ## 気筒数ごとに排気量の最大値，最小値
-  aggregate(disp ~ cyl,
-            mtcars,
-            max) 
-  aggregate(disp ~ cyl,
-            mtcars,
-            min)
-  aggregate(disp ~ cyl, # まとめて計算することも可能
-            mtcars,
-            function(x){return(c(max=max(x),min=min(x)))})
-  ## 気筒数とギア数ごとの燃費の平均値
-  aggregate(mpg ~ cyl + gear, # 条件を並べる場合は + を用いる
-            mtcars,
-            mean)
+  #' pcr_case_daily.csv の集計
+  #' 各機関でのPCR検査件数の最大値
+  pcr_data |> summarise(across(!date, max))
+  #' max の計算で NA を除く
+  pcr_data |> # max の無名関数を利用する
+    summarise(across(!date, \(x) max(x, na.rm = TRUE)))
+  pcr_data |> # package::purrr の lambda 式を利用する
+    summarise(across(!date, ~ max(.x, na.rm = TRUE)))
+  #' 2021年の月ごとの各機関でのPCR検査件数の最大値
+  pcr_data |>
+    filter(year(date) == 2021) |>
+    group_by(month(date)) |>
+    summarise(across(!date, max))
+
+  #' datasets::mtcars の集計
+  #' 気筒数ごとに排気量の最大値，最小値
+  mtcars |>
+    group_by(cyl) |>
+    summarise(max_disp = max(disp))
+  mtcars |>
+    group_by(cyl) |>
+    summarise(min_disp = min(disp))
+  mtcars |> # まとめて計算することも可能
+    group_by(cyl) |> # 列名の作られ方に注意
+    summarise(across(disp, list(max = max, min = min)))
+  #' 気筒数とギア数ごとの燃費の平均値
+  mtcars |>
+    group_by(cyl, gear) |>
+    summarise(mpg = mean(mpg))
+
+  #' @notes
+  #' グループは既定値では順次解除されるので以下のような集計も可能
+  mtcars |> 
+    group_by(cyl, gear) |>
+    summarise(mpg = mean(mpg)) |> # cyl のグループは残っている
+    summarise(mpg = max(mpg)) # cyl ごとに平均値の最大値を求める
+  #' ---------------------------------------------------------------------------
 #+end_src
 
 
-* 補足
-- より詳細なデータの取り扱いについては以下を参照して下さい
+* 参考
+** その他の資料
+- 詳細なデータの取り扱いについては以下を参照
   - 講義ノート
     - R言語の基礎 第3章 (pp29-52)
-  - 統計データ解析I スライド 
+  - 統計データ解析I スライド (base R での記述)
     - 第1講 Rの基本的な操作
     - 第3講 データの整理と集計
+- RStudio 製の cheat sheet 集
+  - https://rstudio.github.io/cheatsheets/
+    - [[https://rstudio.github.io/cheatsheets/html/rstudio-ide.html][rstudio]] [[https://rstudio.github.io/cheatsheets/rstudio-ide.pdf][cheatsheet]]
+    - [[https://rstudio.github.io/cheatsheets/html/data-import.html][readr]] [[https://rstudio.github.io/cheatsheets/data-import.pdf][cheatsheet]]
+    - [[https://rstudio.github.io/cheatsheets/html/data-transformation.html][dplyr]] [[https://rstudio.github.io/cheatsheets/data-transformation.pdf][cheatsheet]]
 
 
 * 描画の基礎
-#+begin_src R :exports none :tangle yes
-  #### "描画の基礎"
-#+end_src
-
 ** データの可視化
 - データ全体の特徴や傾向を把握するための直感的で効果的な方法
 - R言語には極めて多彩な作図機能が用意されている
-- 基本となるのは関数 ~plot()~ 
+  - *base R* : ~package::graphics~ (標準で読み込まれる)
+  - *tidyverse* : ~package::ggplot2~
 - 描画関連の関数は色，
   線種や線の太さ，
   図中の文字の大きさなどを指定することができる
 
-** 基本的な描画 (ベクトル)
-- ベクトルデータを左から等間隔で描画
-  #+begin_src R :eval no
-    plot(x, type="p", xlim=NULL, ylim=NULL,
-         main=NULL, xlab=NULL, ylab=NULL, ...)
-    ## x: ベクトル
-    ## type: 描画タイプ．既定値は "p"(点プロット)．"l"(折れ線)など指定可
-    ## xlim: x軸の範囲．既定値は自動的に決定
-    ## ylim: y軸の範囲．既定値は自動的に決定
-    ## main: 図のタイトル．既定値はタイトルなし
-    ## xlab: x軸のラベル名．既定値は"Index"
-    ## ylab: y軸のラベル名．既定値はxのオブジェクト名
-    ## ...: 他のオプション．以下に例示．詳細は help(par) を参照
-    ## col: 色の指定．"red"や"blue"など．指定可能な色は colors() を参照
-    ## pch: 点の形．詳細は help(points) を参照
-    ## cex: 文字の大きさ．既定値の何倍にするかを指定
-    ## lty: 線のタイプ．実線・破線などを記号・数字で指定．詳細は help(par) を参照
-    ## lwd: 線の太さ．数字で指定
+** 描画の初期化
+:PROPERTIES:
+:ID:       F1459A2F-DFAD-45CC-A084-A37B66011B7F
+:END:
+- ~package::ggplot2~ ではさまざまな作図関数を追加しながら描画する
+  #+begin_src R :eval no :tangle no
+    初期化のための関数 + 
+      作図のための関数 + ... +
+      装飾のための関数 + ... # 関数が生成するオブジェクトに変更分を随時追加する
+  #+end_src
+- 関数 ~ggplot2::ggplot()~ : 初期化
+  #+begin_src R :eval no :tangle no
+    ggplot(data = NULL, mapping = aes(), ..., environment = parent.frame())
+    #' data: データフレーム
+    #' mapping: 描画の基本となる"審美的マップ"(xy軸，色，形，塗り潰しなど)の設定
+    #' environment: 互換性のための変数(廃止)
+    #' 詳細は"?ggplot2::ggplot"を参照
+  #+end_src
+** 基本的な描画 (折線グラフ)
+:PROPERTIES:
+:ID:       F1459A2F-DFAD-45CC-A084-A37B66011B7F
+:END:
+- 関数 ~ggplot2::geom_line()~ : 線の描画
+  #+begin_src R :eval no :tangle no
+    geom_line(
+      mapping = NULL,
+      data = NULL,
+      stat = "identity",
+      position = "identity",
+      ...,
+      na.rm = FALSE, orientation = NA, show.legend = NA, inherit.aes = TRUE
+    )
+    #' mapping: "審美的"マップの設定
+    #' data: データフレーム
+    #' stat: 統計的な処理の指定
+    #' position: 描画位置の調整
+    #' ...: その他の描画オプション
+    #' na.rm: NA(欠損値)の削除(既定値は削除しない)
+    #' show.legend: 凡例の表示(既定値は表示)
+    #' 詳細は"?ggplot2::geom_line"を参照
   #+end_src
 
 #+reveal: split
-- [[color:green][例 : 民間検査会社 (~d~) と医療機関 (~f~) の検査件数の推移を視覚化する]]
-  #+begin_src R :eval no :exports none :tangle yes
-    ### 関数 plot() の使用例 (ベクトル) 
-    ## 民間検査会社(d)と医療機関(f)の検査件数の関係
+- [[color:green][民間検査会社と医療機関の検査件数の推移]]
+  #+begin_src R :exports none
+    #' @exercise 折れ線グラフの描画
+    
+    #' 民間検査会社(d)と医療機関(f)の検査件数の推移の視覚化
   #+end_src
-  #+begin_src R :file figs/02-plot.png :results graphics :tangle yes
-    plot(pcr_data$d, # データフレームからD列のベクトルを抽出
-         type="l", col="blue") # 線での描画と色を指定
-    lines(pcr_data$f, col="red") # 線を重ね描き
+  #+begin_src R :file figs/02-geomline-geomline.png :results graphics
+    pcr_data |> # パイプ演算子でデータフレームを関数 ggplot2::ggplot() に渡す
+      ggplot(aes(x = date)) + # date をx軸に指定
+      geom_line(aes(y = d), colour = "blue") + # 民間検査会社を青
+      geom_line(aes(y = f), colour = "red") +  # 医療機関を赤
+      labs(y = "number of tests") # y軸のラベルを変更
   #+end_src
-  #+NAME:   fig:02-plot
-  #+ATTR_HTML: :width 50%
-  #+ATTR_LATEX: :width 0.6\linewidth
-  [[file:figs/02-plot.png]]
+  #+begin_src R :exports none
+    #' @notes
+    #' パイプ演算子を使わずに
+    #' ggplot(pcr_data, aes(x = date)) + ...
+    #' としても良い．
+  #+end_src
+  #+name:   fig:02-geomline-geomline
+  #+attr_html: :width 50%
+  #+attr_latex: :width 0.6\linewidth
+  [[file:figs/02-geomline-geomline.png]]
 
 #+reveal: split
-- [[color:green][例 : 検査件数の推移を視覚化する]] 
-  #+begin_src R :file figs/02-matplot.png :results graphics :tangle yes
-    ## 複数のデータを同時に描画する方法も用意されている
-    matplot(pcr_data[-1], # データフレームから1列目を取り除いたデータフレームを作成
-            type="l") # 線での描画を指定，色も個別に指定できる
+- [[color:green][全ての機関の検査件数の推移]] 
+  #+begin_src R :exports none
+    #' 全ての機関の検査件数の推移の視覚化
+    #' 複数のデータを描画するためにはデータフレームを適切に書き換える必要がある
   #+end_src
-  #+NAME:   fig:02-plot
-  #+ATTR_HTML: :width 50%
-  #+ATTR_LATEX: :width 0.6\linewidth
-  [[file:figs/02-matplot.png]]
+  #+begin_src R :file figs/02-geomline.png :results graphics
+    pcr_data |> select(-c(g,i)) |> # 集計値を除く
+      pivot_longer(!date, names_to = "organ", values_to = "nums") |> 
+      ggplot(aes(x = date, y = nums, colour = organ)) + geom_line() +
+      labs(title = "PCR Tests in Various Organizatios",
+           x = "Date", y = "Number of Tests") # xy軸のラベルを変更
+  #+end_src
+  #+begin_src R :exports none
+    #' @notes
+    #' 関数 tidyr::pivot_longer() はデータフレームを縦長に変更する
+    #' pivot_longer(!date,              # date 列以外をまとめる
+    #'              names_to = "organ", # organ に元の列の名前を保存
+    #'              values_to = "nums") # nums に値を保存
+  #+end_src
+  #+name:   fig:02-geomline
+  #+attr_html: :width 50%
+  #+attr_latex: :width 0.6\linewidth
+  [[file:figs/02-geomline.png]]
 
+#+reveal: split
+- [[color:green][別の形式での描画]]
+  #+begin_src R :exports none
+    #' それぞれを別のグラフとする場合には
+    #' 関数 ggplot2::facet_wrap() や関数 ggplot2::facet_grid() を用いると良い
+  #+end_src
+  #+begin_src R :file figs/02-geomline-facetgrid.png :results graphics
+    pcr_data |> select(-c(g,i)) |> 
+      pivot_longer(!date, names_to = "organ", values_to = "nums") |> 
+      ggplot(aes(x = date, y = nums, colour = organ)) +
+      labs(title = "PCR Tests in Various Organizatios", x = "Date", y = "Number of Tests") +
+      geom_line(show.legend  =  FALSE) + # 凡例を消す
+      facet_grid(vars(organ)) # "organ" ごとに異なる図を並べる
+  #+end_src
+  #+name:   fig:02-geomline-facetgrid
+  #+attr_html: :width 50%
+  #+attr_latex: :width 0.6\linewidth
+  [[file:figs/02-geomline-facetgrid.png]]
 
 ** COMMENT 基本的な描画 (関数)
 - 1変数関数の範囲を指定して描画
   #+BEGIN_SRC R :exports code
     curve(fun,from=NULL,to=NULL, ...)
-    ## fun: 1変数関数
-    ## from: x軸の左端
-    ## to: x軸の右端
-    ## ...: "ベクトルの描画"と同じオプションが利用可能
+    #' fun: 1変数関数
+    #' from: x軸の左端
+    #' to: x軸の右端
+    #' ...: "ベクトルの描画"と同じオプションが利用可能
     
     plot(fun, y=0, to=1, ...)
-    ## curveとほぼ同様
-    ## y: x軸の左端 (from=と書いても良い)
+    #' curveとほぼ同様
+    #' y: x軸の左端 (from=と書いても良い)
     
-    ## 別の関数 f を重ね書きする場合
+    #' 別の関数 f を重ね書きする場合
     curve(...,add=TRUE, ...)            
     plot(...,add=TRUE, ...)            
   #+END_SRC
 
 ** 基本的な描画 (散布図)
-- 点 \((x_1,y_1),\dotsc,(x_N,y_N)\) を平面上に描画
-  - 2つの同じ長さのベクトル 
-    \(x_1,\dotsc,x_N\) と
-    \(y_1,\dotsc,y_N\) を与える
-  - \(x_1,\dotsc,x_N\) と
-    \(y_1,\dotsc,y_N\) を持つデータフレームを与える
-  #+begin_src R :eval no
-    plot(x, y, ...)
-    ## x: 1種類目のデータ x_1,...,x_N
-    ## y: 2種類目のデータ y_1,...,y_N
-    ## ...: "ベクトルの描画"と同じオプションが利用可能
-    
-    ## データフレームxの変数A，Bの散布図を作成する場合 (こちらの書き方を推奨)
-    plot(B ~ A, data=x, ...)
+:PROPERTIES:
+:ID:       E8AFEF95-4881-4872-A2EB-435C220102D0
+:END:
+- 関数 ~ggplot2::geom_point()~ : 点の描画
+  #+begin_src R :eval no :tangle no
+    geom_point(
+      mapping = NULL,
+      data = NULL,
+      stat = "identity",
+      position = "identity",
+      ...,
+      na.rm = FALSE, show.legend = NA, inherit.aes = TRUE
+    )
+    #' mapping: 審美的マップの設定
+    #' data: データフレーム
+    #' stat: 統計的な処理の指定
+    #' position: 描画位置の調整
+    #' ...: その他の描画オプション
+    #' na.rm: NA(欠損値)の削除(既定値は削除しない)
+    #' show.legend: 凡例の表示(既定値は表示)
+    #' 詳細は"?ggplot2::geom_point"を参照
   #+end_src
 
 #+reveal: split
-- [[color:green][例 : 国立感染症研究所 (~a~) と医療機関 (~f~) の検査件数の関係を視覚化する]]
-  #+begin_src R :eval no :exports none :tangle yes
-    ### 関数 plot() の使用例 (散布図) 
-    ## 国立感染症研究所(a)と医療機関(f)の検査件数の関係
+- [[color:green][国立感染症研究所と医療機関の検査件数の関係]]
+  #+begin_src R :exports none
+    #' @exercise 散布図の描画
+
+    #' 国立感染症研究所(a)と医療機関(f)の検査件数の関係
   #+end_src
-  #+begin_src R :file figs/02-scatterplot.png :results graphics :tangle yes
-    ## MacOSかどうか調べて日本語フォントを指定する
-    if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
-    plot(f ~ a, data=pcr_data, # y軸=f，x軸=a で散布図を作成
-         col="blue", pch=19, # 色と形を指定
-         xlab=pcr_colname[2], ylab=pcr_colname[7]) # 軸の名前を指定
+  #+begin_src R :file figs/02-geompoint.png :results graphics :tangle yes
+    if(Sys.info()["sysname"] == "Darwin") { # MacOSか調べて日本語フォントを指定
+      theme_update(text = element_text(family = "HiraginoSans-W4"))}
+    pcr_data |> 
+      ggplot(aes(x = a, y = f)) + # x軸を a，y軸を f に設定
+      geom_point(colour = "blue", shape = 19) + # 色と形を指定(点の形は"?points"を参照)
+      labs(x = pcr_names["a"], y = pcr_names["f"]) # 軸の名前を指定
   #+end_src
-  #+NAME:   fig:02-scatterplot
-  #+ATTR_HTML: :width 50%
-  #+ATTR_LATEX: :width 0.6\linewidth
-  [[file:figs/02-scatterplot.png]]
+  #+begin_src R :exports none
+    #' @notes
+    #' テーマ (theme) は ggplot の背景や色の既定値を設定する機能である
+    #' 関数 ggplot2::theme_update() は設定の書き換えを行う関数で，
+    #' 書き換えられた設定はテーマを変更しない限り有効となる
+  #+end_src
+  #+name:   fig:02-geompoint
+  #+attr_html: :width 50%
+  #+attr_latex: :width 0.6\linewidth
+  [[file:figs/02-geompoint.png]]
+
 #+reveal: split
-- [[color:green][例 : 医療機関 (~f~) の検査件数の推移を視覚化する]]
-  #+begin_src R :file figs/02-dailyplot.png :results graphics :tangle yes
-    if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
-    ## x軸を日付とすることで日付と検査数の関係を表すことも可能
-    plot(f ~ as.Date(date), data=pcr_data, # 線で描画する
-         type="l", col="red", # 色と形を指定
-         xlab=pcr_colname[1], ylab=pcr_colname[7], # 軸の名前を指定
-         main="PCR検査件数の推移") 
+- [[color:green][各軸を対数表示]]
+  #+begin_src R :exports none
+    #' 各軸を対数表示に変更
   #+end_src
-  #+NAME:   fig:02-dailyplot
-  #+ATTR_HTML: :width 50%
-  #+ATTR_LATEX: :width 0.6\linewidth
-  [[file:figs/02-dailyplot.png]]
+  #+begin_src R :file figs/02-geompoint-scalelog.png :results graphics :tangle yes
+    pcr_data |> 
+      ggplot(aes(x = a, y = f)) + # x軸を a，y軸を f に設定
+      geom_point(colour = "blue", shape = 19) + # 色と形を指定
+      scale_x_log10() + scale_y_log10() + # 各軸を対数で表示
+      labs(x = pcr_names["a"], y = pcr_names["f"]) # 軸の名前を指定
+  #+end_src
+  #+name:   fig:02-geompoint-scalelog
+  #+attr_html: :width 50%
+  #+attr_latex: :width 0.6\linewidth
+  [[file:figs/02-geompoint-scalelog.png]]
 
 ** 基本的な描画 (散布図行列)
-- データフレームの2つの列同士の散布図を描画
-  #+begin_src R :eval no
-    plot(x, ...)
-    ## x: データフレーム (数値データのみにすること)
-    ## ...: "ベクトルの描画"と同じオプションが利用可能
+:PROPERTIES:
+:ID:       67F7D346-1A96-43F6-8E5C-263BBEEBE364
+:END:
+- 散布図行列は複数の散布図を行列状に配置したもの
+- 関数 GGally::ggpairs() : 散布図行列の描画
+  #+begin_src R :eval no :tangle no
+    #' install.packages("GGally") # パッケージのインストール(必要な場合)
+    library(GGally) # パッケージのロード
+    ggpairs(
+      data, mapping = NULL,
+      columns = 1:ncol(data),
+      upper = list(continuous = "cor", combo = "box_no_facet", discrete = "count", na = "na"),
+      lower = list(continuous = "points", combo = "facethist", discrete = "facetbar", na = "na"),
+      diag = list(continuous = "densityDiag", discrete = "barDiag", na = "naDiag"),
+      ...,
+      axisLabels = c("show", "internal", "none"),
+      columnLabels = colnames(data[columns]),
+      legend = NULL
+    )
+    #' columns: 表示するデータフレームの列を指定
+    #' upper/lower/diag: 行列の上三角・下三角・対角の表示内容を設定
+    #' axisLabels: 各グラフの軸名の扱い方を指定
+    #' columnLabels: 表示する列のラベルを設定(既定値はデータフレームの列名)
+    #' legend: 凡例の設定(どの成分を使うか指定)
+    #' 詳細は"?GGally::ggpairs"を参照
   #+end_src
 
 #+reveal: split
-- [[color:green][例 : 各検査機関での件数の関係を視覚化する]]
-  #+begin_src R :eval no :exports none :tangle yes
-    ### 関数 plot() の使用例 (散布図行列) 
-    ## 各検査機関での件数の関係
+- [[color:green][各検査機関での検査件数の関係を視覚化]]
+  #+begin_src R :exports none
+    #' @exercise 散布図行列の描画
+
+    #' 各検査機関での検査件数の関係
+    library(GGally)
   #+end_src
-  #+begin_src R :file figs/02-pairsplot.png :results graphics :tangle yes
-    plot(pcr_data[-1], col="blue", pch=19) # データフレームから1列目を除いて描画
+  #+begin_src R :file figs/02-ggpairs.png :results graphics
+    pcr_data |>
+      select(!c(date,g,i)) |> # 日付と集計値を除いて必要なデータフレームに整形
+      ggpairs() # 標準の散布図行列
   #+end_src
-  #+NAME:   fig:02-pairsplot
-  #+ATTR_HTML: :width 50%
-  #+ATTR_LATEX: :width 0.6\linewidth
-  [[file:figs/02-pairsplot.png]]
+  #+name:   fig:02-ggpairs
+  #+attr_html: :width 50%
+  #+attr_latex: :width 0.6\linewidth
+  [[file:figs/02-ggpairs.png]]
+
+#+reveal: split
+- [[color:green][日付の情報を付加]]
+  #+begin_src R :exports none
+    #' 四半期ごとに分類して色分けして表示する
+  #+end_src
+  #+begin_src R :file figs/02-ggpairs-quarter.png :results graphics
+    pcr_data |> select(-c(g,i)) |> # 日付から四半期の因子を作成
+      mutate(quarter = as_factor(quarter(date, with_year = TRUE))) |>
+      ggpairs(columns = 2:8, columnLabels = pcr_names[-c(1,8,10)], axisLabels = "none",
+              aes(colour = quarter), legend = c(2,1), # 四半期ごとに色づけて(1,1)の凡例を使用
+              upper = "blank", diag = list(continuous = "barDiag")) +
+      theme(legend.position = "top") # 凡例を上に表示
+  #+end_src
+  #+begin_src R :exports none
+    #' @notes
+    #' 上記の列や列名の選択を要素の名称で行う場合には例えば以下のように書くことができる
+    #'   columns = which(!(names(pcr_data) %in% c("date","g","i")))
+    #'   columnLabels = pcr_names[!(names(pcr_data) %in% c("date","g","i"))]
+  #+end_src
+  #+name:   fig:02-ggpairs-quarter
+  #+attr_html: :width 50%
+  #+attr_latex: :width 0.6\linewidth
+  [[file:figs/02-ggpairs-quarter.png]]
+
 
 ** 図の保存
 - RStudioの機能を使う (少数の場合はこちらが簡便)
   - 右下ペイン *Plots* タブから *Export* をクリック
   - 形式やサイズを指定する
   - クリップボードにコピーもできる
-- コマンドで実行する (多数の場合はこちらで処理)
-  - 関数 ~pdf()~
-  - 関数 ~png()~
-  - 関数 ~dev.copy()~
-  などを参照
+- 関数 ~ggsave()~ : 図の保存
+  #+begin_src R :eval no :tangle no
+    ggsave(
+      filename,
+      plot = last_plot(),
+      device = NULL,
+      path = NULL, scale = 1, width = NA, height = NA,
+      units = c("in", "cm", "mm", "px"), dpi = 300, limitsize = TRUE, bg = NULL,
+      ...
+    )
+    #' filename: ファイル名
+    #' plot: 保存する描画オブジェクト
+    #' device: 保存する形式("pdf","jpeg","png"など)
+    #' 詳細は"?ggplot2::ggsave"を参照
+  #+end_src
 
 ** 練習問題
 :PROPERTIES:
 :reveal_background: #fef4f4
+:ID:       2D3E0D02-8142-423C-9683-1F8CC925991F
 :END:
 - ~pcr_case_daily.csv~ を用いて以下の描画を行いなさい
   - 検疫所 (~b~)，地方衛生研究所.保健所 (~c~)，民間検査会社 (~d~) における
@@ -670,155 +838,182 @@
     検査件数の関係 (散布図)
 
 #+begin_src R :eval no :exports none :tangle yes
-  ### 
-  ### 練習問題 基本的なグラフの描画
-  ###  書き方はいろいろあるので，以下はあくまで一例
-  ###
-  
-  ## 検疫所(b)，地方衛生研究所.保健所(c)，民間検査会社(d)における検査件数の推移
-  apply(pcr_data[-1],2,max,na.rm=TRUE) # 最大値を確認しておく
-  plot(d ~ as.Date(date), data=pcr_data, # 最大値を基準に描画は行われる
-       type="l", col="orchid", xlab="日付",ylab="検査件数")
-  lines(b ~ as.Date(date), data=pcr_data, col="orange")
-  lines(c ~ as.Date(date), data=pcr_data, col="tomato")
-  ## y軸を対数表示する場合には以下のとおり
-  plot(d ~ as.Date(date), data=pcr_data, log="y", # y軸を対数変換
-       type="l", col="orchid", xlab="日付",ylab="検査件数")
-  lines(b ~ as.Date(date), data=pcr_data, col="orange")
-  lines(c ~ as.Date(date), data=pcr_data, col="tomato")
-  ## log(0) の計算で警告が出る場合がある
-  
-  ## 民間検査会社(d)，大学等(e)，医療機関(f)での検査件数の関係(散布図)
-  plot(pcr_data[c("d","e","f")], # 必要なデータフレームを抽出
-       labels=pcr_colname[5:7], # 変数名を日本語に変更
-       col="blue", pch=18) # pch については help(points) を参照
-  plot(~ d + e + f, data=pcr_data, # 式を使った指定の方法の例
-       labels=pcr_colname[5:7], col="blue", pch=18) 
+  #' @practice 基本的なグラフの描画
+  #' (書き方はいろいろあるので，以下はあくまで一例)
+
+  #' 検疫所(b)，地方衛生研究所.保健所(c)，民間検査会社(d)における検査件数の推移
+  pcr_data |>
+    select(c(date,b,c,d)) |> # 描画対象の列を抽出
+    pivot_longer(!date, names_to = "organ", values_to = "nums") |> # 
+    ggplot(aes(x = date, y = nums, colour = organ)) +
+    geom_line() +
+    labs(x = "日付", y = "検査件数")
+  #' y軸を対数表示にする場合は以下のとおり
+  pcr_data |>
+    select(c(date,b,c,d)) |> # 描画対象の列を抽出
+    pivot_longer(!date, names_to = "organ", values_to = "nums") |> # 
+    ggplot(aes(x = date, y = nums, colour = organ)) +
+    geom_line() +
+    scale_y_log10() + # y軸を対数表示 (log10(0)=-Inf の警告が出る場合がある)
+    labs(x = "日付", y = "検査件数")
+  #' 民間検査会社(d)，大学等(e)，医療機関(f)での検査件数の関係(散布図)
+  pcr_data |>
+    select(c(d,e,f)) |> # 描画対象の列を抽出
+    ggpairs(columnLabels = pcr_names[c("d","e","f")]) # ラベルを渡す
 #+end_src
        
 
 * さまざまなグラフ
-#+begin_src R :exports none :tangle yes
-  #### "さまざまなグラフ"
-#+end_src
-
 ** ヒストグラム
+:PROPERTIES:
+:ID:       011F7281-6002-43B9-9893-479D5DD5CB3C
+:END:
 - データの値の範囲をいくつかの区間に分割し，
   各区間に含まれるデータの個数を棒グラフにした図
-- 棒グラフの幅が区間, 面積が区間に含まれるデータの個数に比例するようにグラフを作成
-- データの分布を可視化するのに有効(値の集中とばらつきを調べる)
-  #+begin_src R :eval no
-    hist(x, breaks="Sturges", freq=NULL)
-    ## x: ベクトル
-    ## breaks: 区間の分割の仕方を指定．数字を指定するとそれに近い個数に等分割
-    ## freq: TRUEを指定すると縦軸はデータ数，
-    ##       FALSEを指定すると縦軸はデータ数/全データ数．既定値はTRUE
-    ## ...: plotで指定できるオプションが利用可能
+  - 棒グラフの幅が区間, 面積が区間に含まれるデータの個数に比例するようにグラフを作成
+  - データ分布の可視化に有効(値の集中とばらつきを調べる)
+  #+begin_src R :eval no :tangle no
+    geom_histogram(
+      mapping = NULL, data = NULL, stat = "bin", position = "stack",
+      ...,
+      binwidth = NULL,
+      bins = NULL,
+      na.rm = FALSE, orientation = NA, show.legend = NA, inherit.aes = TRUE
+    )
+    #' binwidth: ヒストグラムのビンの幅を指定
+    #' bins: ヒストグラムのビンの数を指定
+    #' 詳細は"?ggplot2::geom_histogram"を参照
   #+end_src
 
 #+reveal: split
-- [[color:green][例 : 民間検査会社 (~d~) での検査件数の分布を視覚化する]]
-  #+begin_src R :eval no :exports none :tangle yes
-    ### 関数 hist() の使用例
-    ## 民間検査会社(d)での検査件数の分布
+- [[color:green][民間検査会社での検査件数の分布]]
+  #+begin_src R :exports none
+    #' @exercise 散布図の描画
+
+    #' 民間検査会社(d)での検査件数の分布
   #+end_src
-  #+begin_src R :file figs/02-hist.png :results graphics :tangle yes
-    if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
-    hist(pcr_data$d, breaks=25, labels=TRUE, # ビンの数と度数表示を指定
-         col="lightblue", border="blue", # 中と境界の色を指定
-         main="検査件数のヒストグラム", xlab=pcr_colname[5]) # 軸の名前を指定
+  #+begin_src R :file figs/02-geomhistogram.png :results graphics
+    pcr_data |>
+      ggplot(aes(x = d)) + # 分布を描画する列を指定
+      geom_histogram(bins = 30, fill = "lightblue", colour = "blue") +
+      labs(x = pcr_names["d"], y = "頻度", title = "検査件数のヒストグラム")
   #+end_src
-  #+NAME:   fig:02-hist
-  #+ATTR_HTML: :width 50%
-  #+ATTR_LATEX: :width 0.6\linewidth
-  [[file:figs/02-hist.png]]
+  #+begin_src R :eval no :exports none
+    #' @notes
+    #' 各ビンの頻度を表示するためには例えば以下のようにすればよい
+    pcr_data |>
+      ggplot(aes(x = d)) + # 分布を描画する列を指定
+      geom_histogram(bins = 30, fill = "lightblue", colour = "blue") +
+      geom_text(stat="bin", bins = 30, colour = "darkblue", size = 3, 
+                aes(label = after_stat(count), y = after_stat(count) + 2)) +
+      labs(x = pcr_names["d"], y = "頻度", title = "検査件数のヒストグラム")
+  #+end_src
+  #+name:   fig:02-geomhistogram
+  #+attr_html: :width 50%
+  #+attr_latex: :width 0.6\linewidth
+  [[file:figs/02-geomhistogram.png]]
   
 ** 箱ひげ図
+:PROPERTIES:
+:ID:       D83D77F9-3BDC-432E-97E3-B22B9C8772F4
+:END:
 - データ散らばり具合を考察するための図
-  - 太線で表示された中央値(第2四分位点)
-  - 第1四分位点を下端・第3四分位点を上端とする長方形(箱)
+  - 長方形の辺は四分位点(下端が第1，中央が第2，上端が第3)
   - 中央値から第1四分位点・第3四分位点までの1.5倍以内にあるデータの
     最小の値・最大の値を下端・上端とする線(ひげ)
-  - ひげの外側のデータは点で表示
-- 複数のデータの分布の比較の際に有効
-  #+begin_src R :eval no
-    boxplot(x, ...)      
-    ## x: ベクトルまたはデータフレーム
-    ##      ベクトルに対しては単一の箱ひげ図
-    ##      データフレーム対しては列ごとの箱ひげ図
-    ## ...: plotと同様のオプションを指定可能
-    
-    ## xの変数Bを変数A(質的変数; 性別, 植物の種類など)で分類する場合
-    boxplot(B ~ A, data=x, ...)
+  - ひげの外側の点は外れ値
+  # - 複数のデータの分布の比較の際に有効
+  #+begin_src R :eval no :tangle no
+    geom_boxplot(
+      mapping = NULL, data = NULL, stat = "boxplot", position = "dodge2",
+      ...,
+      outlier.colour = NULL, outlier.color = NULL, outlier.fill = NULL,
+      outlier.shape = 19, outlier.size = 1.5, outlier.stroke = 0.5, outlier.alpha = NULL,
+      notch = FALSE, notchwidth = 0.5, varwidth = FALSE,
+      na.rm = FALSE, orientation = NA, show.legend = NA, inherit.aes = TRUE
+    )
+    #' ourlier.*: 外れ値の描画方法の指定
+    #' notch*: ボックスの切れ込みの設定
+    #' varwidth: ボックスの幅でデータ数を表示
+    #' 詳細は"?ggplot2::geom_boxplot"を参照
   #+end_src
 
 #+reveal: split
-- [[color:green][例 : 月ごとの大学等 (~e~) での検査件数の分布(分位点)を視覚化する]]
-  #+begin_src R :eval no :exports none :tangle yes
-    ### 関数 boxplot() の使用例
-    ## 大学等(e)での検査件数の分布(2021年分)
+- [[color:green][月ごとの大学等での検査件数の分布(分位点)]]
+  #+begin_src R :exports none
+    #' @exercise 散布図の描画
+
+    #' 大学等(e)での検査件数の分布(2021年分)
   #+end_src
-  #+begin_src R :file figs/02-boxplot.png :results graphics :tangle yes
-    if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
-    boxplot(e ~ date,
-            data=transform(subset(pcr_data, year(date)==2021),
-                           date=month(date)),
-            col="orange", main="月ごとの検査件数")
+  #+begin_src R :file figs/02-geomboxplot.png :results graphics
+    pcr_data |>
+      filter(year(date) == 2021) |> # 2021年を抽出
+      mutate(date = as_factor(month(date))) |> # 月を因子化する
+      ggplot(aes(x = date, y = e)) + # 月毎に集計する
+      geom_boxplot(fill = "orange") + # 塗り潰しの色を指定
+      labs(title = "月ごとの検査件数 (2021年)", x = "月", y = pcr_names["e"])
   #+end_src
-  #+NAME:   fig:02-boxplot
+  #+NAME:   fig:02-geomboxplot
   #+ATTR_HTML: :width 50%
   #+ATTR_LATEX: :width 0.6\linewidth
-  [[file:figs/02-boxplot.png]]
+  [[file:figs/02-geomboxplot.png]]
 
 ** 棒グラフ
+:PROPERTIES:
+:ID:       DEC92865-F6AD-4030-BAA5-C461ABC047CA
+:END:
 - 項目ごとの量を並べて表示した図
-- 縦にも横にも並べられる
-  #+begin_src R :eval no
-    barplot(x, width=1, space=NULL, beside=FALSE,
-            legend.text=NULL, args.legend=NULL, ...)
-    ## x: ベクトルまたは行列 (データフレームは不可)
-    ## width: 棒の幅
-    ## space: 棒グラフ間・変数間のスペース
-    ## legend.text: 凡例
-    ## beside: 複数の変数を縦に並べるか・横に並べるか
-    ## args.legend: legendに渡す引数
-    ## ...: plotで指定できるオプションが利用可能
+  - 並べ方はいくつか用意されている
+    - 積み上げ (stack)
+    - 横並び (dodge)
+    - 比率の表示 (fill)
+  #+begin_src R :eval no :tangle no
+    geom_bar(
+      mapping = NULL, data = NULL, stat = "count", position = "stack",
+      ...,
+      just = 0.5,
+      width = NULL,
+      na.rm = FALSE, orientation = NA, show.legend = NA, inherit.aes = TRUE
+    )
+    #' just: 目盛と棒の位置の調整(既定値は真中)
+    #' width: 棒の幅の調整(既定値は目盛の間隔の90%)
+    #' 詳細は"?ggplot2::geom_bar"を参照
   #+end_src
 
 #+reveal: split
-- [[color:green][例 : 機関(医療機関まで)ごとの月の検査件数の推移を視覚化する]]
-  #+begin_src R :eval no :exports none :tangle yes
-    ### 関数 barplot() の使用例
-    ## 機関ごとの月の検査件数の推移 (2021年分)
+- [[color:green][機関(医療機関まで)ごとの月の検査件数の推移]]
+  #+begin_src R :exports none
+    #' @exercise 散布図の描画
+
+    #' 機関ごとの月の検査件数の推移 (2021年分)
   #+end_src
-  #+begin_src R :file figs/02-barplot.png :results graphics :tangle yes
-    if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
-    foo <- aggregate(. ~ date, # 集計したデータを保存
-                     transform(subset(pcr_data,
-                                      subset = year(date)==2021,
-                                      select = 1:7),
-                               date=month(date)),
-                     sum, na.action=na.pass)
-    barplot(as.matrix(foo[-1]), col=rainbow(12), # 作成した月の色を利用
-            names.arg=pcr_colname[2:7], # 変数名を日本語で表示
-            beside=TRUE, space=c(.3,3), # 横並びの指定とスペースの設定
-            legend.text=foo[,1], args.legend=list(ncol=2)) # 凡例の指定
+  #+begin_src R :file figs/02-geombar.png :results graphics
+    pcr_data |>
+      filter(year(date) == 2021) |>
+      mutate(month = as_factor(month(date))) |> # 月を作成
+      select(-c(date,g,i)) |> # 機関に限定
+      group_by(month) |> # 月でグループ化
+      summarize(across(everything(), sum)) |> # 全て(月以外)を集計
+      pivot_longer(!month, names_to = "organ", values_to = "nums") |> 
+      ggplot(aes(x = organ, y = nums, fill = month)) +
+      geom_bar(stat = "identity", position = "dodge", na.rm = TRUE) +
+      theme(legend.position = "top") + guides(fill = guide_legend(nrow = 1))
   #+end_src
 
 #+reveal: split
-  #+NAME:   fig:02-barplot
-  #+ATTR_HTML: :width 50%
-  #+ATTR_LATEX: :width 0.6\linewidth
-  [[file:figs/02-barplot.png]]
+  #+name:   fig:02-geombar
+  #+attr_html: :width 50%
+  #+attr_latex: :width 0.6\linewidth
+  [[file:figs/02-geombar.png]]
 
 ** COMMENT 円グラフ
 - 項目ごとの比率を円の分割で表示した図
 - 時計回りにも反時計回りにも配置できる
   #+BEGIN_SRC R :exports code
     pie(x, clockwise=FALSE, ...)
-    ## x: ベクトル
-    ## clockwise: 時計回りに書くか否か
-    ## ...: plotで指定できるオプションが利用可能
+    #' x: ベクトル
+    #' clockwise: 時計回りに書くか否か
+    #' ...: plotで指定できるオプションが利用可能
   #+END_SRC
 
 ** COMMENT 散布図行列
@@ -827,34 +1022,34 @@
   #+BEGIN_SRC R :exports code
     pairs(x, ...)
     plot(x,...) # pairsと同じ結果となる
-    ## x: データフレーム 
+    #' x: データフレーム 
     
     pairs(~ A1 + ... + Ak, data=x, ...)
     plot(~ A1 + ... + Ak, data=x, ...)
-    ## 変数A1,...,Akのみ考える場合
+    #' 変数A1,...,Akのみ考える場合
   #+END_SRC
 
 ** COMMENT 俯瞰図
 - 3次元のグラフを2次元に射影した図
   #+BEGIN_SRC R :exports code
     persp(x, y, z, theta=0, phi=15, expand=1)      
-    ## x,y,z: x,y,z座標
-    ##        (zは行列で，z[i,j]は点(x[i],y[j])に対応する値を与える)
-    ## theta,phi: 俯瞰の方向を指定する極座標
-    ## expand: z軸の拡大度
-    ## ...: plotで指定できるオプションが利用可能
+    #' x,y,z: x,y,z座標
+    #'        (zは行列で，z[i,j]は点(x[i],y[j])に対応する値を与える)
+    #' theta,phi: 俯瞰の方向を指定する極座標
+    #' expand: z軸の拡大度
+    #' ...: plotで指定できるオプションが利用可能
     
-    ## 多様な3次元のグラフのためのパッケージがある．
-    ## 以下はscatterplot3dパッケージの例
+    #' 多様な3次元のグラフのためのパッケージがある．
+    #' 以下はscatterplot3dパッケージの例
     scatterplot3d(x, color, angle=40)      
-    ## x: x,y,z座標を指定するデータフレーム
-    ##    (perspのように直接指定することも可能)
-    ## color: 色を指定(colではないので注意). 既定値は黒
-    ## angle: x軸とy軸の間の角度
-    ## ...: plotで指定できるオプションが利用可能
+    #' x: x,y,z座標を指定するデータフレーム
+    #'    (perspのように直接指定することも可能)
+    #' color: 色を指定(colではないので注意). 既定値は黒
+    #' angle: x軸とy軸の間の角度
+    #' ...: plotで指定できるオプションが利用可能
   #+END_SRC
 
-** グラフィクス環境の設定
+** COMMENT グラフィクス環境の設定
 - グラフィクス関数には様々なオプションがある
 - 共通の環境設定のためには関数 ~par()~ を用いる
   - 複数の図の配置: ~mrow~, ~mcol~
@@ -873,20 +1068,20 @@
   - 東京都の気候データ (~tokyo_weather.csv~)
   - R言語に用意されているデータ (関数 ~data()~ で一覧表示)
 
-    
-* 補足
+
+* 参考
+** その他の資料
 - より詳細なグラフの描画については以下を参照して下さい
   - 講義ノート
     - R言語の基礎 第4章 (pp53-70)
   - 統計データ解析I スライド 
     - 第4講 データの可視化
+- RStudio 製の cheat sheet 集
+  - https://rstudio.github.io/cheatsheets/
+    - [[https://rstudio.github.io/cheatsheets/html/data-visualization.html][ggplot2]] [[https://rstudio.github.io/cheatsheets/data-visualization.pdf][cheatsheet]]
 
 
 * 疑似乱数
-#+begin_src R :exports none :tangle yes
-  #### "疑似乱数"
-#+end_src
-
 ** 疑似乱数とは
 - コンピューターで生成された数列のこと
 - 完全にランダムに数字を発生されることは不可能
@@ -909,6 +1104,7 @@
 ** 練習問題
 :PROPERTIES:
 :reveal_background: #fef4f4
+:ID:       7CCFDD4A-11BD-4580-AD92-81782DF02ECE
 :END:
 - ヘルプを用いて以下の関数を調べよ
   - 関数 ~sample()~
@@ -921,46 +1117,42 @@
   - 4枚のコインを投げたときの表の枚数
 
 #+begin_src R :eval no :exports none :tangle yes
-  ### 
-  ### 練習問題 擬似乱数
-  ###
+  #' ---------------------------------------------------------------------------
+  #' @practice 擬似乱数
   
-  ## 関数sampleの使い方
+  #' 関数sampleの使い方
   (x <- 1:10)   # サンプリング対象の集合を定義
   set.seed(123) # 乱数のシード値(任意に決めてよい)を指定
-  sample(x, 5)               # xから5つの要素を重複なしでランダムに抽出
-  sample(x, 5, replace=TRUE) # xから5つの要素を重複ありでランダムに抽出
-  sample(x, length(x))       # xの要素のランダムな並べ替え
-  sample(1:6, 10, replace=TRUE)           # サイコロを10回振る実験の再現
-  sample(1:6, 10, prob=6:1, replace=TRUE) # 出る目の確率に偏りがある場合
+  sample(x, 5)                 # xから5つの要素を重複なしでランダムに抽出
+  sample(x, 5, replace = TRUE) # xから5つの要素を重複ありでランダムに抽出
+  sample(x, length(x))         # xの要素のランダムな並べ替え
+  sample(1:6, 10, replace = TRUE)             # サイコロを10回振る実験の再現
+  sample(1:6, 10, prob = 6:1, replace = TRUE) # 出る目の確率に偏りがある場合
   
-  ## 関数rbinomの使い方
-  rbinom(10, size=4, prob=0.5) # 表(1)の出る確率が0.5にコインを4枚投げる試行を10回
-  rbinom(20, size=4, prob=0.2) # 個数を20, 確率を0.2に変更
+  #' 関数rbinomの使い方
+  rbinom(10, size = 4, prob = 0.5) # 表(1)の出る確率が0.5にコインを4枚投げる試行を10回
+  rbinom(20, size = 4, prob = 0.2) # 個数を20, 確率を0.2に変更
   
-  ## 関数runifの使い方
-  runif(5, min=-1, max=2) # 区間(-1,2)上の一様乱数を5個発生
-  runif(5)                # 指定しない場合は区間(0,1)が既定値
+  #' 関数runifの使い方
+  runif(5, min = -1, max = 2) # 区間(-1,2)上の一様乱数を5個発生
+  runif(5)                    # 指定しない場合は区間(0,1)が既定値
   
-  ## 関数rnormの使い方
-  rnorm(10, mean=5, sd=3) # 平均5，分散3^2の正規乱数を10個発生
-  rnorm(10)               # 指定しない場合は mu=0, sd=1 が既定値
+  #' 関数rnormの使い方
+  rnorm(10, mean = 5, sd = 3) # 平均5，分散3^2の正規乱数を10個発生
+  rnorm(10)                   # 指定しない場合は mu=0, sd=1 が既定値
   
-  ## 関数set.seedについて
+  #' 関数set.seedについて
   set.seed(1) # 乱数の初期値をseed=1で指定
   runif(5) 
   set.seed(2) # 乱数の初期値をseed=2で指定
   runif(5)    # seed=1の場合と異なる結果
   set.seed(1) # 乱数の初期値をseed=1で指定
   runif(5)    # 初めのseed=1の場合と同じ結果
+  #' ---------------------------------------------------------------------------
 #+end_src
 
 
 * モンテカルロ法
-#+begin_src R :exports none :tangle yes
-  #### "モンテカルロ法"
-#+end_src
-
 ** モンテカルロ法とは
 - 乱数を使った統計実験
 - 計算機上でランダムネスを実現 (擬似乱数)
@@ -986,88 +1178,108 @@
 - 標本平均は平均 \(\mu\) ，分散 \(\sigma^2/n\) の正規分布に従う．
 
 ** 例 : 中心極限定理
+:PROPERTIES:
+:ID:       74479DA4-F1A4-45B8-8D92-334E915E625B
+:END:
 - 定理
   #+begin_quote
   \(X_1,X_2,\dotsc\) を独立同分布な確率変数列とし，
   その平均を \(\mu\) ，標準偏差を \(\sigma\) とする．
   このとき，すべての実数 \(a< b\) に対して
-  #+begin_src latex
-    \begin{equation}
-      P\Bigl(a\leq\frac{\sqrt{n}(\bar{X}_n-\mu)}{\sigma}\leq b \Bigr)
-      \to\frac{1}{\sqrt{2\pi}}\int_a^be^{-\frac{x^2}{2}}dx\quad
-      (n\to\infty)
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    P\Bigl(a\leq\frac{\sqrt{n}(\bar{X}_n-\mu)}{\sigma}\leq b \Bigr)
+    \to\frac{1}{\sqrt{2\pi}}\int_a^be^{-\frac{x^2}{2}}dx\quad
+    (n\to\infty)
+  \end{equation}
   が成り立つ．
   #+end_quote
 - 直感的には "多数の独立な確率変数の和はほぼ正規分布に従う" ことを主張している
 
 #+reveal: split
-#+begin_src R :eval no :exports none :tangle yes
-  ### 中心極限定理
+#+begin_src R :exports none
+  #' @exercise 中心極限定理
+#+end_src
+#+begin_src R :eval no
+  #' 確率変数の分布の設定 (例 : 区間[-1,1]の一様乱数)
+  my_rand <- function(n) { # n個の乱数を生成
+    return(runif(n,min = -1,max = 1))
+  }
+  #' 標本平均の計算
+  my_mean <- function(n) { # n個のデータで計算
+    return(mean(my_rand(n)))
+  }
 #+end_src
 #+begin_src R :eval no :tangle yes
-  ## 確率変数の分布の設定 (例 : 区間[-1,1]の一様乱数)
-  myrand <- function(n) { # n個の乱数を生成
-    return(runif(n,min=-1,max=1))
-  }
-  ## 標本平均の計算
-  mymean <- function(n) { # n個のデータで計算
-    return(mean(myrand(n)))
-  }
-#+end_src
-#+begin_src R :eval no :tangle yes
-  ## Monte-Carlo実験
-  set.seed(123) # 実験を再現したい場合はシードを指定する
+  #' Monte-Carlo実験
+  set.seed(123) # 実験を再現したい場合はシード値を指定する
   mu <- 0; sigma <- sqrt(1/3) # 理論平均と標準偏差
   mc <- 5000 # 実験の繰り返し回数
   for(n in c(1,2,4,8,16)){ # nを変えて実験
-    xbars <- replicate(mc, mymean(n)) # mc回実験し標本平均を記録
-    hist(xbars, breaks=25, freq=FALSE, # 分布を表示
-         col="orchid", border="slateblue",
-         xlab=expression(bar(X)), main=paste0("n=",n))
-    thdist <- function(x){dnorm(x,mean=mu,sd=sigma/sqrt(n))}
-    curve(thdist, add=TRUE, col="orange", lwd=2) # 理論曲線を重ねる
+    p <- tibble(x = replicate(mc, my_mean(n))) |> # mc回実験し標本平均を記録
+      ggplot(aes(x)) + 
+      geom_histogram(aes(y = after_stat(density)), # 密度表示
+                     fill = "orchid", alpha = 0.5, # 塗り潰しの色
+                     colour = "purple") + # 境界線の色
+      geom_function(fun = \(x) dnorm(x, mean = mu, sd = sigma/sqrt(n)),
+                    colour = "orange", linewidth = 1.5) + # 理論曲線を重ねる
+      labs(x = expression(bar(X)), # x軸の表示
+           title = paste0("n=",n)) # タイトルにnを記載
+    print(p) # for 文の中では明示的に print する必要がある
   }
 #+end_src
    
 ** 例 : コイン投げの賭け
+:PROPERTIES:
+:ID:       0D50C807-0B72-45A3-B7BC-6902BE966789
+:END:
 - AとBの二人で交互にコインを投げる．
   最初に表が出た方を勝ちとするとき，
   AとBそれぞれの勝率はいくつとなるか？
 - コイン投げは関数 ~sample()~, ~rbinom()~ などを用いて模擬できる
-  #+begin_src R :eval no
+  #+begin_src R :eval no :tangle no
     sample(0:1,1) # 0と1が入った壺からから1つ選ぶ
-    rbinom(1,size=1,prob=0.5) # 表裏が等確率で出る1枚のコインを1回投げる
+    rbinom(1,size = 1,prob = 0.5) # 表裏が等確率で出る1枚のコインを1回投げる
   #+end_src
 
 #+reveal: split
-#+begin_src R :eval no :exports none :tangle yes
-  ### コイン投げの賭け
+#+begin_src R :exports none :tangle no
+  #' コイン投げの賭け
 #+end_src
-#+begin_src R :eval no :tangle yes
-  ## コイン投げの試行 (いろいろな書き方があるので以下は一例)
+#+begin_src R :eval no
+  #' コイン投げの試行 (いろいろな書き方があるので以下は一例)
   my_trial <- function(){
     while(TRUE){ # 永久に回るループ
-      if(rbinom(1,size=1,prob=0.5)==1){return("A")} # Aが表で終了
-      if(rbinom(1,size=1,prob=0.5)==1){return("B")} # Bが表で終了
-      ## どちらも裏ならもう一度ループ
+      if(rbinom(1,size = 1,prob = 0.5)==1){return("A")} # Aが表で終了
+      if(rbinom(1,size = 1,prob = 0.5)==1){return("B")} # Bが表で終了
+      #' どちらも裏ならもう一度ループ
     }
   }
 #+end_src
-#+begin_src R :eval no :tangle yes
-  ## Monte-Carlo実験
-  set.seed(8888) # 実験を再現したい場合はシードを指定する
+#+begin_src R :eval no
+  #' Monte-Carlo実験
+  set.seed(8888) # 実験を再現したい場合はシード値を指定する
   mc <- 10000 # 実験回数を設定 
   my_data <- replicate(mc,my_trial()) 
-  ## 簡単な集計
+  #' 簡単な集計
   table(my_data)    # 頻度
   table(my_data)/mc # 確率(推定値)
 #+end_src
 
+** 参考資料
+- より詳細な確率シミュレーションについては以下を参照して下さい
+  - 講義ノート
+    - R言語の基礎 第5章 (pp71-82)
+      - Buffon の針
+      - Monty Hall 問題
+      - 秘書問題 (最適停止問題)
+      などの実装例がある
+  - 統計データ解析I スライド 
+    - 第5講 確率シミュレーション
+
 ** 練習問題
 :PROPERTIES:
 :reveal_background: #fef4f4
+:ID:       495C7DF9-B1E5-4F74-863F-C0A13F615798
 :END:
 - 以下の簡単な双六ゲームの実験を行ってみよう
   - ゴールまでのます目は100
@@ -1075,12 +1287,11 @@
   - ゴールに辿り着くまで繰り返す
   - さいころを振る回数の分布は?
 
-#+begin_src R :eval no :exports none :tangle yes
-  ### 
-  ### 練習問題 双六ゲーム
-  ###
-  
-  ## 双六の試行
+#+begin_src R :eval no :exports none
+  #' ---------------------------------------------------------------------------
+  #' @practice 双六ゲーム
+
+  #' 双六の試行
   my_trial <- function(){
     step <- 0 # 最初の位置
     num <- 0  # さいころを振る回数
@@ -1092,35 +1303,1058 @@
       }
     }
   }
-  
-  ## 試行を行ってみる
+  #' 試行を行ってみる
   for(i in 1:10) print(my_trial())
-  
-  ## Monte-Carlo実験
+  #' Monte-Carlo実験
   set.seed(12345)
   mc <- 10000 # 実験回数を設定 
   my_data <- replicate(mc,my_trial()) 
-  hist(my_data) # ヒストグラムを出力
+  hist(my_data) 
   summary(my_data) # 簡単な集計
+  tibble(x = my_data) |> # ヒストグラムを出力
+    ggplot(aes(x)) + 
+    geom_histogram(binwidth = 1,
+                   fill = "slateblue", alpha = 0.5, # 塗り潰しの色
+                   colour = "slateblue") # 塗り潰しの色
+  #' ---------------------------------------------------------------------------
 #+end_src
-
-
-* 補足
-- より詳細な確率シミュレーションについては以下を参照して下さい
-  - 講義ノート
-    - R言語の基礎 第5章 (pp71-82)
-      - Buffon の針
-      - Monty Hall 問題
-      - 秘書問題 (最適停止問題)
-      などの実装例がある
-  - 統計データ解析I スライド 
-    - 第5講 確率シミュレーション
 
       
 * 次回の予定
 - *第1回: 回帰モデルの考え方と推定*
 - 第2回: モデルの評価
 - 第3回: モデルによる予測と発展的なモデル
+
+
+* 補遺                                                               :ignore:
+#+begin_src R :eval no :exports none :tangle no
+  #' ===========================================================================
+  #' @appendix
+  #' Base R におけるデータの扱い
+  #'
+  #' R の標準環境でも tidyverse と同様の扱いは可能である
+  #' 参考として上記の内容と同様な操作を以下にまとめる
+
+  #' @exercise データフレームの作成
+  #' 同じ長さのベクトルを並べる
+  #' (... <- ...) は代入した結果を表示
+  (foo <- data.frame(one=c(1,2,3),two=c("AB","CD","EF"))) 
+  (bar <- data.frame(three=c("x","y","z"),four=c(0.9,0.5,-0.3)))
+  #' データフレームを結合する
+  (baz <- cbind(foo,bar)) # column bind
+
+  #' 練習問題 データフレームの作成
+  #' 各項目が同じ長さのベクトルを並べる
+  (grade <- data.frame( # 変数名は自由に決めてよい
+     math = c(90, 80, 70, 60, 50),
+     phys = c(25, 50, 75,100, 80),
+     chem = c(65,100, 70, 40, 75),
+     bio  = c(70, 50, 30, 80,100)))
+  #' 行・列の名前の操作
+  rownames(grade) # 行の名前を表示する
+  rownames(grade) <- c("A","B","C","D","E") # 行の名前を変更する
+  names(grade)    # 列の名前を表示する
+  grade # 変更されたデータフレームを表示する
+  #' データの取り出し方 (後ほど詳しく)
+  grade["B","phys"] # 特定の要素を名前で参照する
+  grade["C",] # 特定の行を表示
+  grade["bio"] # 特定の列を表示 (データフレームになる)
+  grade[,"bio"] # 特定の列を表示 (ベクトルになる)
+  grade[["bio"]] # 上記と同じ操作 (リストと同様な扱い)
+  grade$bio # 上記と同じ操作
+
+  #' ファイルを用いたデータの読み書き
+  #' 
+  #' 関数 ~write.csv()~ : csvファイルの書き出し
+  #' #' write.csv(x, file="ファイル名")
+  #'   x: 書き出すデータフレーム
+  #'   file: 書き出すファイルの名前 (作業ディレクトリ下，またはパスを指定)
+  #'
+  #' 関数 ~read.csv()~ : csvファイルの読み込み
+  #' y <- read.csv(file="ファイル名", header=TRUE, row.names=1)
+  #'   y: 読み込む変数
+  #'   file: 書き出すファイルの名前 (作業ディレクトリ下，またはパスを指定)
+  #'   header: 1行目を列名として使うか否か
+  #'   row.names: 行名の指定 (行名を含む列番号/列名または行名のベクトル)
+  #'
+  #' RData形式の操作 (バイナリ)
+  #'   複数のデータフレームを同時に扱うことができる
+  #' 
+  #' 関数 ~save()~ : RDataファイルの書き出し
+  #' save(..., file="ファイル名")
+  #'   ...: 保存するオブジェクト名 (複数指定可，データフレーム以外も可)
+  #'   file: 書き出すファイルの名前 (作業ディレクトリ下，またはパスを指定)
+  #' 
+  #' 関数 ~load()~ : RDataファイルの読み込む
+  #' load(file="ファイル名")
+  #'   file: 読み込むファイルの名前 (作業ディレクトリ下，またはパスを指定)
+
+  #' 練習問題 ファイルの読み書き
+  #'  前の練習問題で作ったデータフレームを利用する
+  #'  
+  #' csv形式の操作
+  #' 関数 write.csv の使い方 (ファイルの書き出し)
+  dim(grade) # 大きさを確認
+  write.csv(grade, file="data/mydata.csv")
+  #' 関数 read.csv の使い方 (ファイルの読み込み)
+  (grade2 <- read.csv(file="data/mydata.csv", row.names=1)) 
+  dim(grade2) # 大きさが一致していることを確認
+  grade2["A","math"] <- 100 # データの一部を修正
+  grade2 # 中身を確認しておく
+  #'
+  #' Rdata形式の操作
+  #' 関数 save の使い方 (ファイルの書き出し)
+  save(grade, grade2, file="data/mydata.RData") 
+  #' 関数 load の使い方 
+  grade <- c(1,2,3) # 上書きしておく
+  grade # 中身を確認しておく
+  rm(grade2) # 消しておく
+  grade2 # "オブジェクト 'grade2' がありません"というエラーになる 
+  load(file="data/mydata.RData") # RData形式の読み込み
+  grade # save したときの grade が復元されている
+  grade2 # save したときの grade2 が復元されている
+
+  #' @notes
+  #' package::readr を用いる場合は tibble になるので
+  #' data.frame の行名の扱いに注意が必要となる
+  write_csv(grade, file="data/mydata3.csv") # 行名は保存されない
+  (grade3 <- read_csv(file="data/mydata3.csv")) # 行名がない data.f
+  (grade4 <- rownames_to_column(grade,var="name")) # "name" という列が追加される．既定値は"rowname"
+  write_csv(grade4, file="data/mydata4.csv")
+  (grade5 <- read_csv(file="data/mydata4.csv")) # "grade4" の内容が "grade5" に代入される
+  (grade6 <- column_to_rownames(grade5,var="name")) # "name" という列を行名に変換して削除する．既定値は"rowname"
+
+  #' 要素の選択
+  z <- data.frame(one=c(1,2,3), two=c("AB","CD","EF"), three=6:8)
+  z[1,2] # 1行2列の要素を選択
+  z[-c(1,3),] # 1,3行を除外
+  z[c(TRUE,FALSE,TRUE),] # 1,3行を選択
+  z[,"two"]  # 列名"two"を選択(ベクトルになる)
+  z[["two"]] # 上記と同様の結果となる(1列の場合しか使えない)
+  z$two      # 上記と同様の結果となる(1列の場合しか使えない)
+  z["two"]   # 列名"two"を選択(1列のデータフレームになる)
+  z[,c("one","three")] # 列名"one"と"three"を選択(データフレームになる)
+  z[c("one","three")]   # 上記と同様の結果となる
+
+  #' 部分集合の取得
+  #' 関数 ~subset()~ : 条件を指定して行と列を選択
+  #' subset(x, subset, select, drop=FALSE)
+  #'   x: データフレーム 
+  #'   subset: 行に関する条件
+  #'   select: 列に関する条件(未指定の場合は全ての列)
+  #'   drop: 結果が1行または1列となる場合にベクトルとして返すか否か
+
+  #' 練習問題 データフレームの操作
+  #' 関数subsetの使い方
+  #' 医療機関(f)での検査数が2000を越えたときの国立感染症研究所(a)と医療機関(f)のデータ
+  subset(pcr_data,       # データフレーム
+         subset= f>2000, # 条件による絞り込み
+         select= c(a,f)) # 列の選択
+  #' 大学等(e)と医療機関(f)でともに検査件数が2000を越えたデータ
+  subset(pcr_data,                # データフレーム
+         subset= e>2000 & f>2000) # 複合的な条件の指定
+
+  #' 行・列ごとの操作
+  #' 関数 ~apply()~ : 列または行ごとに計算を行う
+  #' apply(X, MARGIN, FUN) # 変数名が大文字で定義されている
+  #'   X: データフレーム
+  #'   MARGIN: 行(1)か列(2)かを指定
+  #'   FUN: 求めたい統計量を計算するための関数
+
+
+  #' グループごとの操作
+  #' 関数 ~aggregate()~ : 各行をいくつかのグループにまとめて計算を行う
+  #' aggregate(x, data, FUN, ...,
+  #'           subset, na.action = na.omit)
+  #'   x: 条件式
+  #'   data: データフレーム
+  #'   FUN: 求めたい統計量を計算するための関数
+  #'   subset: データフレームの行に関する条件
+  #'   na.action: 欠損値の扱い
+
+  #'# 関数 aggregate() の使用例
+  #' 月毎の医療機関のPCR数の集計
+  library(lubridate) # 関数 month() などを利用可能とする (tidyverse に含まれる)
+  pcr_data$date # 日付を取り出す
+  month(pcr_data$date) # 月を取り出す
+  transform(pcr_data,month=month(date)) # 列を追加
+
+  #' @notes
+  #' transform は pcr_data の操作をしているので，dateだけで列名が指定できる
+  #' lubridate の関数 month() は月名での表示も可能
+  #' ただし名前は言語環境に依存するので注意
+  #' month(foo,label=TRUE) # 短縮形
+  #' month(foo,label=TRUE,abbr=FALSE) # 月名
+  #' 強制的に英語にするには
+  #' Sys.setlocale(category = "LC_TIME", locale="C")
+  #' などを指定すればよい．もとに戻すには
+  #' Sys.setlocale(category = "LC_TIME", locale="")
+
+  aggregate(f ~ month, # 式による集計の指定 x = f ~ month と書いても良い
+            data=transform(pcr_data, # データフレームの書き換え
+                           month=month(date)),
+            FUN=sum)                 # 集計内容の指定 (関数)
+
+  #' 練習問題 データフレームの集約
+
+  #' 関数applyの使い方
+  #' 各機関でのPCR検査件数の最大値
+  apply(subset(pcr_data, select= -date), # date は文字列なので集計から除く
+        2, # 列の計算
+        max, na.rm=TRUE) # max の計算で NA を除く
+
+  #' 関数aggregateの使い方
+  #' 2020年の月ごとの各機関でのPCR検査件数の最大値
+  aggregate(cbind(a,b,c,d,e,f,g) ~ month,
+            transform(subset(pcr_data, year(date)==2020),
+                      month=month(date)),
+            max,
+            na.action=na.pass) # NAだけの列があっても集計するための指定
+  aggregate(. ~ date, # ちょっとした細工(上書き)で簡単になる
+            transform(subset(pcr_data, year(date)==2020),
+                      date=month(date)),
+            max, na.action=na.pass)
+
+  #' datasets::mtcars での例
+  #' 気筒数ごとに排気量の最大値，最小値
+  aggregate(disp ~ cyl,
+            mtcars,
+            max) 
+  aggregate(disp ~ cyl,
+            mtcars,
+            min)
+  aggregate(disp ~ cyl, # まとめて計算することも可能
+            mtcars,
+            function(x){return(c(max=max(x),min=min(x)))})
+  #' 気筒数とギア数ごとの燃費の平均値
+  aggregate(mpg ~ cyl + gear, # 条件を並べる場合は + を用いる
+            mtcars,
+            mean)
+  #' ===========================================================================
+#+end_src
+* COMMENT データの扱い (base R)
+** データ構造
+- Rに用意されている基本的なデータ構造
+  - ベクトル (vector) : 1次元配列
+  - 行列 (matrix) : 2次元配列
+  - 配列 (array) : 多次元配列
+  - *データフレーム* (data frame) : 表 (2次元配列)
+- 特殊なもの
+  - リスト (list) : オブジェクトの集合 
+
+** データフレーム
+- 複数の個体について，いくつかの属性を集計した表
+  - 長さの等しい列ベクトルをまとめたもの
+  - 各列のデータ型はバラバラでも良い
+- 実データは表形式であることが多いため最も一般的な形式
+- [[color:green][例 : ある小学校の1年生の身長・体重・性別・血液型のデータ]]
+
+** データフレームの作成
+- 方法はいくつか用意されている
+  - 同じ長さのベクトル (同じ型の配列) を並べる
+  - データフレームを結合する
+  - マトリクスを変換する (全て同じ型の場合)
+
+#+begin_src R :exports none
+  #' @exercise データフレームの作成
+#+end_src
+#+begin_src R :eval no
+  #' 同じ長さのベクトルを並べる
+  #' (... <- ...) は代入した結果を表示
+  (foo <- data.frame(one=c(1,2,3),two=c("AB","CD","EF"))) 
+  (bar <- data.frame(three=c("x","y","z"),four=c(0.9,0.5,-0.3)))
+  #' データフレームを結合する
+  (baz <- cbind(foo,bar)) # column bind
+#+end_src
+
+** 練習問題
+:PROPERTIES:
+:reveal_background: #fef4f4
+:END:
+- 次の表に対応するデータフレームを作成しなさい
+  |---+------+------+------+-----|
+  |   | math | phys | chem | bio |
+  |---+------+------+------+-----|
+  | A |   90 |   25 |   65 |  70 |
+  | B |   80 |   50 |  100 |  50 |
+  | C |   70 |   75 |   70 |  30 |
+  | D |   60 |  100 |   40 |  80 |
+  | E |   50 |   80 |   75 | 100 |
+  |---+------+------+------+-----|
+
+#+begin_src R :eval no :exports none
+  #' @practice データフレームの作成
+  #'
+  #' 各項目が同じ長さのベクトルを並べる
+  (grade <- data.frame( # 変数名は自由に決めてよい
+     math = c(90, 80, 70, 60, 50),
+     phys = c(25, 50, 75,100, 80),
+     chem = c(65,100, 70, 40, 75),
+     bio  = c(70, 50, 30, 80,100)))
+  #' 行・列の名前の操作
+  rownames(grade) # 行の名前を表示する
+  rownames(grade) <- c("A","B","C","D","E") # 行の名前を変更する
+  names(grade)    # 列の名前を表示する
+  grade # 変更されたデータフレームを表示する
+  #' データの取り出し方 (後ほど詳しく)
+  grade["B","phys"] # 特定の要素を名前で参照する
+  grade["C",] # 特定の行を表示
+  grade["bio"] # 特定の列を表示 (データフレームになる)
+  grade[,"bio"] # 特定の列を表示 (ベクトルになる)
+  grade[["bio"]] # 上記と同じ操作 (リストと同様な扱い)
+  grade$bio # 上記と同じ操作
+#+end_src
+
+** ファイルを用いたデータの読み書き
+- 解析においてはデータファイルの操作が必要
+  - 整理したデータを保存する
+  - 収集されたデータを読み込む
+- Rで利用可能なデータファイル
+  - csv形式 (comma separated values) : テキストファイル
+  - RData形式 : Rの内部表現を用いたバイナリーファイル
+  - Excel形式 : Microsoft Excel ファイル (Filesタブから読み込み)
+
+** 作業ディレクトリの確認と変更
+- 作業ディレクトリとファイルに関する注意
+  - Rの処理は特定のフォルダ(*作業ディレクトリ*)内で実行される
+  - ファイルは作業ディレクトリにあるものとして扱われる
+  - 作業ディレクトリ以外のファイルを扱う場合はパスを含めて指定する必要がある
+- 作業ディレクトリに関する操作
+  - 確認の仕方 : コンソールの上部の表示
+  - 変更の仕方 : 主に *Session* メニューを利用
+
+** csv形式の操作 (テキスト)
+- 関数 ~write.csv()~ : csvファイルの書き出し
+  #+begin_src R :eval no :tangle no
+    write.csv(x, file="ファイル名")
+    #' x: 書き出すデータフレーム
+    #' file: 書き出すファイルの名前 (作業ディレクトリ下，またはパスを指定)
+  #+end_src
+- 関数 ~read.csv()~ : csvファイルの読み込み
+  #+begin_src R :eval no :tangle no
+    y <- read.csv(file="ファイル名", header=TRUE, row.names=1)      
+    #' y: 読み込む変数
+    #' file: 書き出すファイルの名前 (作業ディレクトリ下，またはパスを指定)
+    #' header: 1行目を列名として使うか否か
+    #' row.names: 行名の指定 (行名を含む列番号/列名または行名のベクトル)
+  #+end_src
+- 他の細かいオプションはヘルプを参照
+
+** csv形式の操作 (~package::readr~ )
+- 日本語などの扱いに問題がある場合に推奨
+  #+begin_src R :eval no :tangle no
+    install.packages("readr") # package タブを使ってもよい
+  #+end_src
+- 関数 ~write_csv()~ : csvファイルの書き出し
+  #+begin_src R :eval no :tangle no
+    write_csv(x, file="ファイル名") # 行名は書き出されない
+  #+end_src
+- 関数 ~read_csv()~ : csvファイルの読み込み
+  #+begin_src R :eval no :tangle no
+    y <- read_csv(file="ファイル名") # 行名を列から付けるオプションはない
+  #+end_src
+- 行名の扱いに違いがあるので注意
+
+** RData形式の操作 (バイナリ)
+- 関数 ~save()~ : RDataファイルの書き出し
+  #+begin_src R :eval no :tangle no
+    save(..., file="ファイル名")
+    #' ...: 保存するオブジェクト名 (複数指定可，データフレーム以外も可)
+    #' file: 書き出すファイルの名前 (作業ディレクトリ下，またはパスを指定)
+  #+end_src
+- 関数 ~load()~ : RDataファイルの読み込む
+  #+begin_src R :eval no :tangle no
+    load(file="ファイル名")
+    #' file: 読み込むファイルの名前 (作業ディレクトリ下，またはパスを指定)
+  #+end_src
+- 複数のデータフレームを同時に扱うことができる
+
+** 練習問題
+:PROPERTIES:
+:reveal_background: #fef4f4
+:END:
+- 前の演習で作成したデータフレームを適当なファイルに書き出しなさい
+- 書き出したファイルから別の変数に読み込みなさい
+- 厚労省からダウンロードしたファイル (~pcr_case_daily.csv~) を
+  変数 ~pcr_data~ に読み込みなさい
+
+#+begin_src R :eval no :exports none
+  #' @practice ファイルの読み書き
+  #'  前の練習問題で作ったデータフレームを利用する
+  #'  
+  #' csv形式の操作
+  #' 関数 write.csv の使い方 (ファイルの書き出し)
+  dim(grade) # 大きさを確認
+  write.csv(grade, file="data/mydata.csv")
+  #' 関数 read.csv の使い方 (ファイルの読み込み)
+  (grade2 <- read.csv(file="data/mydata.csv", row.names=1)) 
+  dim(grade2) # 大きさが一致していることを確認
+  grade2["A","math"] <- 100 # データの一部を修正
+  grade2 # 中身を確認しておく
+  #'
+  #' Rdata形式の操作
+  #' 関数 save の使い方 (ファイルの書き出し)
+  save(grade, grade2, file="data/mydata.RData") 
+  #' 関数 load の使い方 
+  grade <- c(1,2,3) # 上書きしておく
+  grade # 中身を確認しておく
+  rm(grade2) # 消しておく
+  grade2 # "オブジェクト 'grade2' がありません"というエラーになる 
+  load(file="data/mydata.RData") # RData形式の読み込み
+  grade # save したときの grade が復元されている
+  grade2 # save したときの grade2 が復元されている
+#+end_src
+#+begin_src R :eval no :exports none
+  #' package::readr を用いる場合
+  #' "readr" を Package タブからインストールしておく
+  #' コンソールからインストールする場合は以下を実行する
+  #' install.packages("readr")
+  library("readr")
+  write_csv(grade, file="data/mydata3.csv") # 行名は保存されない
+  #' File タブから中身を確認しておくとよい
+  #' 以下を実行すると data.frame および tbl という性質を持つオブジェクトになる
+  (grade3 <- read_csv(file="data/mydata3.csv")) # 行名がない data.frame になる
+  #' 行名を保存する場合には "tibble" をインストールしておく
+  #' install.packages("tibble")
+  library("tibble")
+  (grade4 <- rownames_to_column(grade,var="name")) # "name" という列が追加される．既定値は"rowname"
+  write_csv(grade4, file="data/mydata4.csv")
+  (grade5 <- read_csv(file="data/mydata4.csv")) # "grade4" の内容が "grade5" に代入される
+  (grade6 <- column_to_rownames(grade5,var="name")) # "name" という列を行名に変換して削除する．既定値は"rowname"
+#+end_src
+#+begin_src R :exports none :tangle yes
+  #' download したファイルの読み込み
+  #' ファイル名 pcr_case_daily.csv として作業ディレクトリの data に保存
+  pcr_data <- read.csv(file="data/pcr_case_daily.csv") # 一般的な読み込み方
+  #' 読み込めない場合は文字コードを指定する
+  #' read.csv(file="data/pcr_case_daily.csv")
+  #'          fileEncoding="shift-jis") # 文字コードの指定 (shift-jis/utf-8)
+  pcr_names <- names(pcr_data) # 機関名などの列名を保存しておく
+  names(pcr_data) <- c("date",letters[1:(length(pcr_names)-1)]) # 英語に付け替える
+  head(pcr_data) # 中身を確認する
+  #' 読み込み時に列名を指定することも可能 (以下は上記と同じ結果)
+  pcr2_data <- read.csv(file="data/pcr_case_daily.csv",
+                   col.names=c("date",letters[1:(length(pcr_names)-1)]))
+  head(pcr2_data) # 中身を確認する
+  #' Filesタブの操作で読み込みことも可能なので確認しなさい
+  #' ただし data.frame+tbl オブジェクトになるので若干扱いが異なる
+  #' URLを指定して読み込むこともできる (更新される情報を追い掛ける場合に利用を推奨)
+  #' pcr_data <- read.csv("https://www.mhlw.go.jp/content/pcr_case_daily.csv")
+#+end_src
+
+** 要素の選択
+- 添字の番号を指定する (マイナスは除外)
+- 論理値 (TRUE/FALSE) で指定する
+- 要素の名前で指定する
+  #+begin_src R :exports none
+    #' @exercise 要素の選択
+  #+end_src
+  #+begin_src R :exports code
+    z <- data.frame(one=c(1,2,3), two=c("AB","CD","EF"), three=6:8)
+    z[1,2] # 1行2列の要素を選択
+    z[-c(1,3),] # 1,3行を除外
+    z[c(TRUE,FALSE,TRUE),] # 1,3行を選択
+    z[,"two"]  # 列名"two"を選択(ベクトルになる)
+    z[["two"]] # 上記と同様の結果となる(1列の場合しか使えない)
+    z$two      # 上記と同様の結果となる(1列の場合しか使えない)
+    z["two"]   # 列名"two"を選択(1列のデータフレームになる)
+    z[,c("one","three")] # 列名"one"と"three"を選択(データフレームになる)
+    z[c("one","three")]   # 上記と同様の結果となる
+  #+end_src
+
+** 部分集合の取得
+- 関数 ~subset()~ : 条件を指定して行と列を選択
+  #+begin_src R :eval no :tangle no
+    subset(x, subset, select, drop=FALSE)
+    #' x: データフレーム 
+    #' subset: 行に関する条件
+    #' select: 列に関する条件(未指定の場合は全ての列)
+    #' drop: 結果が1行または1列となる場合にベクトルとして返すか否か
+  #+end_src
+- オプション ~subset~ の条件指定には以下を用いることができる
+  - 等号 : ~==~ (否定は ~!=~)
+  - 不等号 : ~<,>,<=,>=~
+  - 論理式 : ~&~ (かつ), ~|~ (または)
+
+** COMMENT 練習問題
+:PROPERTIES:
+:reveal_background: #fef4f4
+:END:
+- ~datasets::mtcars~ から以下の条件を満たすデータを取り出しなさい
+  - 例: オートマチック車 (~am~ が0) のデータ
+    #+begin_src R :eval no
+      subset(mtcars, subset= am==0) # subset オプションに条件を指定する
+    #+end_src
+  - 例: 燃費 (~mpg~) と重さ (~wt~) のデータ
+    #+begin_src R :eval no
+      subset(mtcars, select= c(mpg,wt)) # select オプションに列名を指定する
+    #+end_src
+  - 4気筒車 (~cyl~ =4) の燃費 (~mpg~) と排気量 (~disp~) のデータ
+  - 馬力 (~hp~) が110(馬力)以上で重さ (~wt~) が3(1000lbs)以下のデータ
+  #+begin_src R :eval no :exports none :tangle yes
+    #'# 練習3
+    #'# データフレームの操作
+    #' datasets::mtcars の内容を確認する
+    help(mtcars)
+    
+    #' 関数subsetの使い方
+    #' 4気筒車の燃費と排気量
+    subset(mtcars,
+           subset= cyl==4,
+           select= c(mpg,disp))
+    #' 馬力が110[hp]以上で重さが3[1000lbs]以下のデータ
+    subset(mtcars,
+           subset= hp>=110 & wt<=3)
+  #+end_src
+
+** 練習問題
+:PROPERTIES:
+:reveal_background: #fef4f4
+:END:
+- ~pcr_case_daily.csv~ から以下の条件を満たすデータを取り出しなさい
+  - [[color:green][関数 ~subset()~ の使用例]]
+    #+begin_src R :eval no :tangle yes
+      #' 国立感染症研究所(a)の検査件数が 0 でないデータ
+      subset(pcr_data, subset= a!=0) # subset オプションに条件を指定する
+
+      #' 検疫所(b)と民間検査会社(d)の検査件数データ
+      subset(pcr_data, select= c(b,d)) # select オプションに列名を指定する
+    #+end_src
+  - 医療機関 (~f~) での検査件数が2000を越えたときの
+    国立感染症研究所 (~a~) と医療機関 (~f~) のデータ
+  - 大学等 (~e~) と医療機関 (~f~) でともに検査件数が2000を越えたデータ
+
+#+begin_src R :eval no :exports none :tangle yes
+  #'# 
+  #'# 練習問題 データフレームの操作
+  #'#
+  
+  #' 関数subsetの使い方
+  #' 医療機関(f)での検査数が2000を越えたときの国立感染症研究所(a)と医療機関(f)のデータ
+  subset(pcr_data,       # データフレーム
+         subset= f>2000, # 条件による絞り込み
+         select= c(a,f)) # 列の選択
+  #' 大学等(e)と医療機関(f)でともに検査件数が2000を越えたデータ
+  subset(pcr_data,                # データフレーム
+         subset= e>2000 & f>2000) # 複合的な条件の指定
+#+end_src
+
+** 統計量の計算
+- データを集約した値 = 統計量
+  - 関数 ~sum()~ : 総和を計算する
+  - 関数 ~mean()~ : 平均
+  - 関数 ~max()~ : 最大値
+  - 関数 ~min()~ : 最小値
+  - 関数 ~median()~ : 中央値
+  - 関数 ~quantile()~ : 分位点
+- これ以外にも沢山あるので調べてみよう
+
+** 行・列ごとの操作
+- 関数 ~apply()~ : 列または行ごとに計算を行う
+  #+begin_src R :eval no :tangle no
+    apply(X, MARGIN, FUN) # 変数名が大文字で定義されている
+    #' X: データフレーム
+    #' MARGIN: 行(1)か列(2)かを指定
+    #' FUN: 求めたい統計量を計算するための関数
+  #+end_src
+- [[color:green][例 : 学生の成績表 grade の各教科の平均を計算する]]
+  #+begin_src R :eval no :exports none
+    #' 関数 apply() の使用例
+    #' 学生の成績表 grade の各教科の平均値
+  #+end_src
+  #+begin_src R :eval no
+    apply(X=grade,  # データフレーム
+          MARGIN=2, # 列ごとの処理
+          FUN=mean) # 処理内容の指定 (関数)
+    apply(grade, 2, mean) # 上記と同じ(変数名は省略可能)
+  #+end_src
+
+** グループごとの操作
+- 関数 ~aggregate()~ : 各行をいくつかのグループにまとめて計算を行う
+  #+begin_src R :eval no
+    aggregate(x, data, FUN, ...,
+              subset, na.action = na.omit)
+    #' x: 条件式
+    #' data: データフレーム
+    #' FUN: 求めたい統計量を計算するための関数
+    #' subset: データフレームの行に関する条件
+    #' na.action: 欠損値の扱い
+  #+end_src
+- [[color:green][例 : 医療機関 (~f~) のPCR件数を各月で集計する]]
+  #+begin_src R :eval no :exports none :tangle yes
+    #'# 関数 aggregate() の使用例
+    #' 月毎の医療機関のPCR数の集計
+    library(lubridate) # 関数 month() などを利用可能とする
+    pcr_data$date # 日付を取り出す
+    month(pcr_data$date) # 月を取り出す
+    transform(pcr_data,month=month(date)) # 列を追加
+    #' 注意:
+    #' transform は pcr_data の操作をしているので，dateだけで列名が指定できる
+    #' lubridate の関数 month() は月名での表示も可能
+    #' ただし名前は言語環境に依存するので注意
+    #' month(foo,label=TRUE) # 短縮形
+    #' month(foo,label=TRUE,abbr=FALSE) # 月名
+    #' 強制的に英語にするには
+    #' Sys.setlocale(category = "LC_TIME", locale="C")
+    #' などを指定すればよい．もとに戻すには
+    #' Sys.setlocale(category = "LC_TIME", locale="")
+  #+end_src
+  #+begin_src R :eval no :tangle yes
+    aggregate(f ~ month, # 式による集計の指定 x = f ~ month と書いても良い
+              data=transform(pcr_data, # データフレームの書き換え
+                             month=month(date)),
+              FUN=sum)                 # 集計内容の指定 (関数)
+  #+end_src
+
+** 練習問題
+:PROPERTIES:
+:reveal_background: #fef4f4
+:END:
+- ~pcr_case_daily.csv~ を以下の条件で整理しなさい
+  - 各機関でのPCR検査件数の最大値
+  - 2020年の月ごとの各機関でのPCR検査件数の最大値
+- ~datasets::mtcars~ のデータを以下の条件で整理しなさい
+  - 気筒数 (~cyl~) ごとに排気量 (~disp~) の最大値，最小値
+  - 気筒数 (~cyl~) とギア数 (~gear~) ごとの燃費 (~mpg~) の平均値
+
+#+begin_src R :eval no :exports none :tangle yes
+  #'# 
+  #'# 練習問題 データフレームの集約
+  #'#
+  
+  #' 関数applyの使い方
+  #' 各機関でのPCR検査件数の最大値
+  apply(subset(pcr_data, select= -date), # date は文字列なので集計から除く
+        2, # 列の計算
+        max, na.rm=TRUE) # max の計算で NA を除く
+  
+  #' 関数aggregateの使い方
+  #' 2020年の月ごとの各機関でのPCR検査件数の最大値
+  aggregate(cbind(a,b,c,d,e,f,g) ~ month,
+            transform(subset(pcr_data, year(date)==2020),
+                      month=month(date)),
+            max,
+            na.action=na.pass) # NAだけの列があっても集計するための指定
+  aggregate(. ~ date, # ちょっとした細工(上書き)で簡単になる
+            transform(subset(pcr_data, year(date)==2020),
+                      date=month(date)),
+            max, na.action=na.pass)
+
+  #' datasets::mtcars での例
+  #' 気筒数ごとに排気量の最大値，最小値
+  aggregate(disp ~ cyl,
+            mtcars,
+            max) 
+  aggregate(disp ~ cyl,
+            mtcars,
+            min)
+  aggregate(disp ~ cyl, # まとめて計算することも可能
+            mtcars,
+            function(x){return(c(max=max(x),min=min(x)))})
+  #' 気筒数とギア数ごとの燃費の平均値
+  aggregate(mpg ~ cyl + gear, # 条件を並べる場合は + を用いる
+            mtcars,
+            mean)
+#+end_src
+
+** 参考資料
+- より詳細なデータの取り扱いについては以下を参照して下さい
+  - 講義ノート
+    - R言語の基礎 第3章 (pp29-52)
+  - 統計データ解析I スライド 
+    - 第1講 Rの基本的な操作
+    - 第3講 データの整理と集計
+
+* COMMENT グラフ描画 (base R)
+** データの可視化
+- データ全体の特徴や傾向を把握するための直感的で効果的な方法
+- R言語には極めて多彩な作図機能が用意されている
+- 基本となるのは関数 ~plot()~ 
+- 描画関連の関数は色，
+  線種や線の太さ，
+  図中の文字の大きさなどを指定することができる
+
+** 基本的な描画 (ベクトル)
+:PROPERTIES:
+:ID:       F1459A2F-DFAD-45CC-A084-A37B66011B7F
+:END:
+- ベクトルデータを左から等間隔で描画
+  #+begin_src R :eval no
+    plot(x, type="p", xlim=NULL, ylim=NULL,
+         main=NULL, xlab=NULL, ylab=NULL, ...)
+    #' x: ベクトル
+    #' type: 描画タイプ．既定値は "p"(点プロット)．"l"(折れ線)など指定可
+    #' xlim: x軸の範囲．既定値は自動的に決定
+    #' ylim: y軸の範囲．既定値は自動的に決定
+    #' main: 図のタイトル．既定値はタイトルなし
+    #' xlab: x軸のラベル名．既定値は"Index"
+    #' ylab: y軸のラベル名．既定値はxのオブジェクト名
+    #' ...: 他のオプション．以下に例示．詳細は help(par) を参照
+    #' col: 色の指定．"red"や"blue"など．指定可能な色は colors() を参照
+    #' pch: 点の形．詳細は help(points) を参照
+    #' cex: 文字の大きさ．既定値の何倍にするかを指定
+    #' lty: 線のタイプ．実線・破線などを記号・数字で指定．詳細は help(par) を参照
+    #' lwd: 線の太さ．数字で指定
+  #+end_src
+
+#+reveal: split
+- [[color:green][例 : 民間検査会社 (~d~) と医療機関 (~f~) の検査件数の推移を視覚化する]]
+  #+begin_src R :eval no :exports none :tangle yes
+    #'# 関数 plot() の使用例 (ベクトル) 
+    #' 民間検査会社(d)と医療機関(f)の検査件数の関係
+  #+end_src
+  #+begin_src R :file figs/02-plot.png :results graphics :tangle yes
+    plot(pcr_data$d, # データフレームからD列のベクトルを抽出
+         type="l", col="blue") # 線での描画と色を指定
+    lines(pcr_data$f, col="red") # 線を重ね描き
+  #+end_src
+  #+NAME:   fig:02-plot
+  #+ATTR_HTML: :width 50%
+  #+ATTR_LATEX: :width 0.6\linewidth
+  [[file:figs/02-plot.png]]
+
+#+reveal: split
+- [[color:green][例 : 検査件数の推移を視覚化する]] 
+  #+begin_src R :file figs/02-matplot.png :results graphics :tangle yes
+    #' 複数のデータを同時に描画する方法も用意されている
+    matplot(pcr_data[-1], # データフレームから1列目を取り除いたデータフレームを作成
+            type="l") # 線での描画を指定，色も個別に指定できる
+  #+end_src
+  #+NAME:   fig:02-plot
+  #+ATTR_HTML: :width 50%
+  #+ATTR_LATEX: :width 0.6\linewidth
+  [[file:figs/02-matplot.png]]
+
+** COMMENT 基本的な描画 (関数)
+- 1変数関数の範囲を指定して描画
+  #+BEGIN_SRC R :exports code
+    curve(fun,from=NULL,to=NULL, ...)
+    #' fun: 1変数関数
+    #' from: x軸の左端
+    #' to: x軸の右端
+    #' ...: "ベクトルの描画"と同じオプションが利用可能
+    
+    plot(fun, y=0, to=1, ...)
+    #' curveとほぼ同様
+    #' y: x軸の左端 (from=と書いても良い)
+    
+    #' 別の関数 f を重ね書きする場合
+    curve(...,add=TRUE, ...)            
+    plot(...,add=TRUE, ...)            
+  #+END_SRC
+
+** 基本的な描画 (散布図)
+:PROPERTIES:
+:ID:       E8AFEF95-4881-4872-A2EB-435C220102D0
+:END:
+- 点 \((x_1,y_1),\dotsc,(x_N,y_N)\) を平面上に描画
+  - 2つの同じ長さのベクトル 
+    \(x_1,\dotsc,x_N\) と
+    \(y_1,\dotsc,y_N\) を与える
+  - \(x_1,\dotsc,x_N\) と
+    \(y_1,\dotsc,y_N\) を持つデータフレームを与える
+  #+begin_src R :eval no
+    plot(x, y, ...)
+    #' x: 1種類目のデータ x_1,...,x_N
+    #' y: 2種類目のデータ y_1,...,y_N
+    #' ...: "ベクトルの描画"と同じオプションが利用可能
+    
+    #' データフレームxの変数A，Bの散布図を作成する場合 (こちらの書き方を推奨)
+    plot(B ~ A, data=x, ...)
+  #+end_src
+
+#+reveal: split
+- [[color:green][例 : 国立感染症研究所 (~a~) と医療機関 (~f~) の検査件数の関係を視覚化する]]
+  #+begin_src R :eval no :exports none :tangle yes
+    #'# 関数 plot() の使用例 (散布図) 
+    #' 国立感染症研究所(a)と医療機関(f)の検査件数の関係
+  #+end_src
+  #+begin_src R :file figs/02-scatterplot.png :results graphics :tangle yes
+    #' MacOSかどうか調べて日本語フォントを指定する
+    if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
+    plot(f ~ a, data=pcr_data, # y軸=f，x軸=a で散布図を作成
+         col="blue", pch=19, # 色と形を指定
+         xlab=pcr_names[2], ylab=pcr_names[7]) # 軸の名前を指定
+  #+end_src
+  #+NAME:   fig:02-scatterplot
+  #+ATTR_HTML: :width 50%
+  #+ATTR_LATEX: :width 0.6\linewidth
+  [[file:figs/02-scatterplot.png]]
+#+reveal: split
+- [[color:green][例 : 医療機関 (~f~) の検査件数の推移を視覚化する]]
+  #+begin_src R :file figs/02-dailyplot.png :results graphics :tangle yes
+    if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
+    #' x軸を日付とすることで日付と検査数の関係を表すことも可能
+    plot(f ~ as.Date(date), data=pcr_data, # 線で描画する
+         type="l", col="red", # 色と形を指定
+         xlab=pcr_names[1], ylab=pcr_names[7], # 軸の名前を指定
+         main="PCR検査件数の推移") 
+  #+end_src
+  #+NAME:   fig:02-dailyplot
+  #+ATTR_HTML: :width 50%
+  #+ATTR_LATEX: :width 0.6\linewidth
+  [[file:figs/02-dailyplot.png]]
+
+** 基本的な描画 (散布図行列)
+:PROPERTIES:
+:ID:       67F7D346-1A96-43F6-8E5C-263BBEEBE364
+:END:
+- データフレームの2つの列同士の散布図を描画
+  #+begin_src R :eval no
+    plot(x, ...)
+    #' x: データフレーム (数値データのみにすること)
+    #' ...: "ベクトルの描画"と同じオプションが利用可能
+  #+end_src
+
+#+reveal: split
+- [[color:green][例 : 各検査機関での件数の関係を視覚化する]]
+  #+begin_src R :eval no :exports none :tangle yes
+    #'# 関数 plot() の使用例 (散布図行列) 
+    #' 各検査機関での件数の関係
+  #+end_src
+  #+begin_src R :file figs/02-pairsplot.png :results graphics :tangle yes
+    plot(pcr_data[-1], col="blue", pch=19) # データフレームから1列目を除いて描画
+  #+end_src
+  #+NAME:   fig:02-pairsplot
+  #+ATTR_HTML: :width 50%
+  #+ATTR_LATEX: :width 0.6\linewidth
+  [[file:figs/02-pairsplot.png]]
+
+** 図の保存
+- RStudioの機能を使う (少数の場合はこちらが簡便)
+  - 右下ペイン *Plots* タブから *Export* をクリック
+  - 形式やサイズを指定する
+  - クリップボードにコピーもできる
+- コマンドで実行する (多数の場合はこちらで処理)
+  - 関数 ~pdf()~
+  - 関数 ~png()~
+  - 関数 ~dev.copy()~
+  などを参照
+
+** 練習問題
+:PROPERTIES:
+:reveal_background: #fef4f4
+:ID:       2D3E0D02-8142-423C-9683-1F8CC925991F
+:END:
+- ~pcr_case_daily.csv~ を用いて以下の描画を行いなさい
+  - 検疫所 (~b~)，地方衛生研究所.保健所 (~c~)，民間検査会社 (~d~) における
+    検査件数の推移
+  - 民間検査会社 (~d~)，大学等 (~e~)，医療機関 (~f~) での
+    検査件数の関係 (散布図)
+
+#+begin_src R :eval no :exports none :tangle yes
+  #'# 
+  #'# 練習問題 基本的なグラフの描画
+  #'#  書き方はいろいろあるので，以下はあくまで一例
+  #'#
+  
+  #' 検疫所(b)，地方衛生研究所.保健所(c)，民間検査会社(d)における検査件数の推移
+  apply(pcr_data[-1],2,max,na.rm=TRUE) # 最大値を確認しておく
+  plot(d ~ as.Date(date), data=pcr_data, # 最大値を基準に描画は行われる
+       type="l", col="orchid", xlab="日付",ylab="検査件数")
+  lines(b ~ as.Date(date), data=pcr_data, col="orange")
+  lines(c ~ as.Date(date), data=pcr_data, col="tomato")
+  #' y軸を対数表示する場合には以下のとおり
+  plot(d ~ as.Date(date), data=pcr_data, log="y", # y軸を対数変換
+       type="l", col="orchid", xlab="日付",ylab="検査件数")
+  lines(b ~ as.Date(date), data=pcr_data, col="orange")
+  lines(c ~ as.Date(date), data=pcr_data, col="tomato")
+  #' log(0) の計算で警告が出る場合がある
+  
+  #' 民間検査会社(d)，大学等(e)，医療機関(f)での検査件数の関係(散布図)
+  plot(pcr_data[c("d","e","f")], # 必要なデータフレームを抽出
+       labels=pcr_names[5:7], # 変数名を日本語に変更
+       col="blue", pch=18) # pch については help(points) を参照
+  plot(~ d + e + f, data=pcr_data, # 式を使った指定の方法の例
+       labels=pcr_names[5:7], col="blue", pch=18) 
+#+end_src
+       
+** ヒストグラム
+:PROPERTIES:
+:ID:       011F7281-6002-43B9-9893-479D5DD5CB3C
+:END:
+- データの値の範囲をいくつかの区間に分割し，
+  各区間に含まれるデータの個数を棒グラフにした図
+- 棒グラフの幅が区間, 面積が区間に含まれるデータの個数に比例するようにグラフを作成
+- データの分布を可視化するのに有効(値の集中とばらつきを調べる)
+  #+begin_src R :eval no
+    hist(x, breaks="Sturges", freq=NULL)
+    #' x: ベクトル
+    #' breaks: 区間の分割の仕方を指定．数字を指定するとそれに近い個数に等分割
+    #' freq: TRUEを指定すると縦軸はデータ数，
+    #'       FALSEを指定すると縦軸はデータ数/全データ数．既定値はTRUE
+    #' ...: plotで指定できるオプションが利用可能
+  #+end_src
+
+#+reveal: split
+- [[color:green][例 : 民間検査会社 (~d~) での検査件数の分布を視覚化する]]
+  #+begin_src R :eval no :exports none :tangle yes
+    #'# 関数 hist() の使用例
+    #' 民間検査会社(d)での検査件数の分布
+  #+end_src
+  #+begin_src R :file figs/02-hist.png :results graphics :tangle yes
+    if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
+    hist(pcr_data$d, breaks=25, labels=TRUE, # ビンの数と度数表示を指定
+         col="lightblue", border="blue", # 中と境界の色を指定
+         main="検査件数のヒストグラム", xlab=pcr_names[5]) # 軸の名前を指定
+  #+end_src
+  #+NAME:   fig:02-hist
+  #+ATTR_HTML: :width 50%
+  #+ATTR_LATEX: :width 0.6\linewidth
+  [[file:figs/02-hist.png]]
+  
+** 箱ひげ図
+:PROPERTIES:
+:ID:       D83D77F9-3BDC-432E-97E3-B22B9C8772F4
+:END:
+- データ散らばり具合を考察するための図
+  - 太線で表示された中央値(第2四分位点)
+  - 第1四分位点を下端・第3四分位点を上端とする長方形(箱)
+  - 中央値から第1四分位点・第3四分位点までの1.5倍以内にあるデータの
+    最小の値・最大の値を下端・上端とする線(ひげ)
+  - ひげの外側のデータは点で表示
+- 複数のデータの分布の比較の際に有効
+  #+begin_src R :eval no
+    boxplot(x, ...)      
+    #' x: ベクトルまたはデータフレーム
+    #'      ベクトルに対しては単一の箱ひげ図
+    #'      データフレーム対しては列ごとの箱ひげ図
+    #' ...: plotと同様のオプションを指定可能
+    
+    #' xの変数Bを変数A(質的変数; 性別, 植物の種類など)で分類する場合
+    boxplot(B ~ A, data=x, ...)
+  #+end_src
+
+#+reveal: split
+- [[color:green][例 : 月ごとの大学等 (~e~) での検査件数の分布(分位点)を視覚化する]]
+  #+begin_src R :eval no :exports none :tangle yes
+    #'# 関数 boxplot() の使用例
+    #' 大学等(e)での検査件数の分布(2021年分)
+  #+end_src
+  #+begin_src R :file figs/02-boxplot.png :results graphics :tangle yes
+    if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
+    boxplot(e ~ date,
+            data=transform(subset(pcr_data, year(date)==2021),
+                           date=month(date)),
+            col="orange", main="月ごとの検査件数")
+  #+end_src
+  #+NAME:   fig:02-boxplot
+  #+ATTR_HTML: :width 50%
+  #+ATTR_LATEX: :width 0.6\linewidth
+  [[file:figs/02-boxplot.png]]
+
+** 棒グラフ
+:PROPERTIES:
+:ID:       DEC92865-F6AD-4030-BAA5-C461ABC047CA
+:END:
+- 項目ごとの量を並べて表示した図
+- 縦にも横にも並べられる
+  #+begin_src R :eval no
+    barplot(x, width=1, space=NULL, beside=FALSE,
+            legend.text=NULL, args.legend=NULL, ...)
+    #' x: ベクトルまたは行列 (データフレームは不可)
+    #' width: 棒の幅
+    #' space: 棒グラフ間・変数間のスペース
+    #' legend.text: 凡例
+    #' beside: 複数の変数を縦に並べるか・横に並べるか
+    #' args.legend: legendに渡す引数
+    #' ...: plotで指定できるオプションが利用可能
+  #+end_src
+
+#+reveal: split
+- [[color:green][例 : 機関(医療機関まで)ごとの月の検査件数の推移を視覚化する]]
+  #+begin_src R :eval no :exports none :tangle yes
+    #'# 関数 barplot() の使用例
+    #' 機関ごとの月の検査件数の推移 (2021年分)
+  #+end_src
+  #+begin_src R :file figs/02-barplot.png :results graphics :tangle yes
+    if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
+    foo <- aggregate(. ~ date, # 集計したデータを保存
+                     transform(subset(pcr_data,
+                                      subset = year(date)==2021,
+                                      select = 1:7),
+                               date=month(date)),
+                     sum, na.action=na.pass)
+    barplot(as.matrix(foo[-1]), col=rainbow(12), # 作成した月の色を利用
+            names.arg=pcr_names[2:7], # 変数名を日本語で表示
+            beside=TRUE, space=c(.3,3), # 横並びの指定とスペースの設定
+            legend.text=foo[,1], args.legend=list(ncol=2)) # 凡例の指定
+  #+end_src
+
+#+reveal: split
+  #+NAME:   fig:02-barplot
+  #+ATTR_HTML: :width 50%
+  #+ATTR_LATEX: :width 0.6\linewidth
+  [[file:figs/02-barplot.png]]
+
+** COMMENT 円グラフ
+- 項目ごとの比率を円の分割で表示した図
+- 時計回りにも反時計回りにも配置できる
+  #+BEGIN_SRC R :exports code
+    pie(x, clockwise=FALSE, ...)
+    #' x: ベクトル
+    #' clockwise: 時計回りに書くか否か
+    #' ...: plotで指定できるオプションが利用可能
+  #+END_SRC
+
+** COMMENT 散布図行列
+- 散布図を行列状に並べた図
+- データフレームの全ての列の組み合わせの散布図を同時に見ることができる
+  #+BEGIN_SRC R :exports code
+    pairs(x, ...)
+    plot(x,...) # pairsと同じ結果となる
+    #' x: データフレーム 
+    
+    pairs(~ A1 + ... + Ak, data=x, ...)
+    plot(~ A1 + ... + Ak, data=x, ...)
+    #' 変数A1,...,Akのみ考える場合
+  #+END_SRC
+
+** COMMENT 俯瞰図
+- 3次元のグラフを2次元に射影した図
+  #+BEGIN_SRC R :exports code
+    persp(x, y, z, theta=0, phi=15, expand=1)      
+    #' x,y,z: x,y,z座標
+    #'        (zは行列で，z[i,j]は点(x[i],y[j])に対応する値を与える)
+    #' theta,phi: 俯瞰の方向を指定する極座標
+    #' expand: z軸の拡大度
+    #' ...: plotで指定できるオプションが利用可能
+    
+    #' 多様な3次元のグラフのためのパッケージがある．
+    #' 以下はscatterplot3dパッケージの例
+    scatterplot3d(x, color, angle=40)      
+    #' x: x,y,z座標を指定するデータフレーム
+    #'    (perspのように直接指定することも可能)
+    #' color: 色を指定(colではないので注意). 既定値は黒
+    #' angle: x軸とy軸の間の角度
+    #' ...: plotで指定できるオプションが利用可能
+  #+END_SRC
+
+** グラフィクス環境の設定
+- グラフィクス関数には様々なオプションがある
+- 共通の環境設定のためには関数 ~par()~ を用いる
+  - 複数の図の配置: ~mrow~, ~mcol~
+  - 余白の設定: ~margin~
+  - 日本語フォントの設定: ~family~
+  - 他多数 (~?par~ を参照)
+  - より進んだグラフィクスの使い方の例は
+    ~demo("graphics")~, ~example(関数名)~ を参照
+
+** 練習問題
+:PROPERTIES:
+:reveal_background: #fef4f4
+:END:
+- 適当なデータに対してグラフの作成を行ってみよう
+  - PCR検査件数データ (~pcr_case_daily.csv~)
+  - 東京都の気候データ (~tokyo_weather.csv~)
+  - R言語に用意されているデータ (関数 ~data()~ で一覧表示)
+
+** 参考資料
+- より詳細なグラフの描画については以下を参照して下さい
+  - 講義ノート
+    - R言語の基礎 第4章 (pp53-70)
+  - 統計データ解析I スライド 
+    - 第4講 データの可視化
 
 
 * Footnotes
