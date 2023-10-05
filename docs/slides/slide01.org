@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2023-09-30 22:01:52 mura>
+# Time-stamp: <2023-10-05 18:58:37 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+PROPERTY: header-args:R :cache yes :session *R*
@@ -507,7 +507,7 @@
   - 引数名は順序を守れば省略可能
 - 関数の呼び出し方 (関数名を ~f~ とする)
   #+begin_src R :eval no :tangle no
-    f(arg1=value1, arg2=value2) # 擬似コード
+    f(arg1 = value1, arg2 = value2) # 擬似コード
     #' arg1, arg2 は引数の名前，value1, value2 は引数に渡す値を表す
     f(value1, value2) # 上と同値．順序に注意
   #+end_src
@@ -540,8 +540,8 @@
     #' 対数関数(引数が2つ)の計算例
     #' 以下は擬似コード．a, b を適当な数値に置き換えて実行しなさい
     log(a, b) # 底を b とする a の対数 
-    log(x=a, base=b) #上と同値
-    log(base=b, x=a) #上と同値(引数名があれば順序は自由に変えられる)
+    log(x = a, base = b) #上と同値
+    log(base = b, x = a) #上と同値(引数名があれば順序は自由に変えられる)
     log(b, a) # = log(x=b,base=a) (引数名がなければ規定の順序で解釈される)
     log(a) # 自然対数 =log(a,base=exp(1))
   #+end_src
@@ -559,8 +559,8 @@
   #+begin_src R :eval no
     ## xやbに具体的な数値を代入して実行しなさい
     log(x, b) # 底をbとする対数
-    log(x=x, base=b) #上と同値
-    log(base=b, x=x) #上と同値
+    log(x = x, base = b) #上と同値
+    log(base = b, x = x) #上と同値
     log(b,x) # = log(x=b,base=x) 
     log(x) # base を省略すると自然対数 =log(x,base=exp(1))
   #+end_src
@@ -683,7 +683,7 @@
   - オブジェクト(変数や関数)を作成する必要がない場合に有用
 
 #+reveal: split
-- [[color:green][練習問題]]
+- [[color:green][練習]]
   #+begin_quote
   - R の関数 integrate() についてヘルプを調べなさい．
   - 以下の関数の定積分を求めなさい．

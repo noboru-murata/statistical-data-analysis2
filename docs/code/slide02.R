@@ -84,7 +84,7 @@ pcr_data # 中身を確認(10行だけ表示される)
 #' @notes
 #' Files タブの操作で読み込みことも可能なので確認せよ
 #' 関数 print() を用いると表示する行数を指定できる
-print(pcr_data, n = 5)
+print(pcr_data, n = 5) # 全ては n = Inf
 #' 読み込み時に列名を指定することも可能
 pcr_data <- # 以下は上記と同じ結果
   read_csv("data/pcr_case_daily.csv",
@@ -172,14 +172,14 @@ pcr_data |>
 #' 上記の処理は関数 summarise() のみでも可能(実験的な実装 .by)
 pcr_data |>
   mutate(year = year(date), month = month(date)) |>
-  summarise(total_nums = sum(f),.by = c(year, month))
+  summarise(total_nums = sum(f), .by = c(year, month))
 #' 関数 lubridate::month() は月名での表示も可能
 pcr_data |> # 短縮形
-  mutate(year = year(date), month = month(date,label = TRUE)) |>
-  summarise(total_nums = sum(f),.by = c(year, month))
+  mutate(year = year(date), month = month(date, label = TRUE)) |>
+  summarise(total_nums = sum(f), .by = c(year, month))
 pcr_data |> # 月名
-  mutate(year = year(date), month = month(date,label = TRUE, abbr = FALSE)) |>
-  summarise(total_nums = sum(f),.by = c(year, month))
+  mutate(year = year(date), month = month(date, label = TRUE, abbr = FALSE)) |>
+  summarise(total_nums = sum(f), .by = c(year, month))
 #' ただし名前は言語環境に依存するので注意
 #' 強制的に英語にするには
 #' Sys.setlocale(category = "LC_TIME", locale = "C")
@@ -251,13 +251,19 @@ pcr_data |> select(-c(g,i)) |> # 集計値を除く
   labs(title = "PCR Tests in Various Organizatios",
        x = "Date", y = "Number of Tests") # xy軸のラベルを変更
 
+#' @notes
+#' 関数 tidyr::pivot_longer() はデータフレームを縦長に変更する
+#' pivot_longer(!date,              # date 列以外をまとめる
+#'              names_to = "organ", # organ に元の列の名前を保存
+#'              values_to = "nums") # nums に値を保存
+
 #' それぞれを別のグラフとする場合には
 #' 関数 ggplot2::facet_wrap() や関数 ggplot2::facet_grid() を用いると良い
 
 pcr_data |> select(-c(g,i)) |> 
   pivot_longer(!date, names_to = "organ", values_to = "nums") |> 
   ggplot(aes(x = date, y = nums, colour = organ)) +
-  labs(title = "PCR Tests", x = "Date", y = "Number of Tests") +
+  labs(title = "PCR Tests in Various Organizatios", x = "Date", y = "Number of Tests") +
   geom_line(show.legend  =  FALSE) + # 凡例を消す
   facet_grid(vars(organ)) # "organ" ごとに異なる図を並べる
 
@@ -269,17 +275,26 @@ if(Sys.info()["sysname"] == "Darwin") { # MacOSか調べて日本語フォント
   theme_update(text = element_text(family = "HiraginoSans-W4"))}
 pcr_data |> 
   ggplot(aes(x = a, y = f)) + # x軸を a，y軸を f に設定
-      geom_point(colour = "blue", shape = 19) + # 色と形を指定(点の形は"?points"を参照)
-      labs(x = pcr_names["a"], y = pcr_names["f"]) # 軸の名前を指定
+  geom_point(colour = "blue", shape = 19) + # 色と形を指定(点の形は"?points"を参照)
+  labs(x = pcr_names["a"], y = pcr_names["f"]) # 軸の名前を指定
 
 #' @notes
 #' テーマ (theme) は ggplot の背景や色の既定値を設定する機能である
 #' 関数 ggplot2::theme_update() は設定の書き換えを行う関数で，
 #' 書き換えられた設定はテーマを変更しない限り有効となる
 
+#' 各軸を対数表示に変更
+
+pcr_data |> 
+  ggplot(aes(x = a, y = f)) + # x軸を a，y軸を f に設定
+  geom_point(colour = "blue", shape = 19) + # 色と形を指定
+  scale_x_log10() + scale_y_log10() + # 各軸を対数で表示
+  labs(x = pcr_names["a"], y = pcr_names["f"]) # 軸の名前を指定
+
 #' @exercise 散布図行列の描画
 
 #' 各検査機関での検査件数の関係
+library(GGally)
 
 pcr_data |>
   select(!c(date,g,i)) |> # 日付と集計値を除いて必要なデータフレームに整形
@@ -287,105 +302,84 @@ pcr_data |>
 
 #' 四半期ごとに分類して色分けして表示する
 
-pcr_data |> # 日付から四半期の因子を作成
+pcr_data |> select(-c(g,i)) |> # 日付から四半期の因子を作成
   mutate(quarter = as_factor(quarter(date, with_year = TRUE))) |>
-  ggpairs(columns = which(!(names(pcr_data) %in% c("date","g","i","quarter"))),
-          columnLabels = pcr_names[!(names(pcr_data) %in% c("date","g","i"))], axisLabels = "none",
-          aes(colour = quarter), legend = c(2,1), # 四半期ごとに色づけて(1,1)の凡例を表示
-          upper = "blank", diag = list(continuous = "barDiag")) + theme(legend.position = "top")# 対角はヒストグラム
+  ggpairs(columns = 2:8, columnLabels = pcr_names[-c(1,8,10)], axisLabels = "none",
+          aes(colour = quarter), legend = c(2,1), # 四半期ごとに色づけて(1,1)の凡例を使用
+          upper = "blank", diag = list(continuous = "barDiag")) +
+  theme(legend.position = "top") # 凡例を上に表示
+
+#' @notes
+#' 上記の列や列名の選択を要素の名称で行う場合には例えば以下のように書くことができる
+#'   columns = which(!(names(pcr_data) %in% c("date","g","i")))
+#'   columnLabels = pcr_names[!(names(pcr_data) %in% c("date","g","i"))]
 
 #' @practice 基本的なグラフの描画
 #' (書き方はいろいろあるので，以下はあくまで一例)
 
 #' 検疫所(b)，地方衛生研究所.保健所(c)，民間検査会社(d)における検査件数の推移
-apply(pcr_data[-1],2,max,na.rm=TRUE) # 最大値を確認しておく
-plot(d ~ as.Date(date), data=pcr_data, # 最大値を基準に描画は行われる
-     type="l", col="orchid", xlab="日付",ylab="検査件数")
-lines(b ~ as.Date(date), data=pcr_data, col="orange")
-lines(c ~ as.Date(date), data=pcr_data, col="tomato")
-#' y軸を対数表示する場合には以下のとおり
-plot(d ~ as.Date(date), data=pcr_data, log="y", # y軸を対数変換
-     type="l", col="orchid", xlab="日付",ylab="検査件数")
-lines(b ~ as.Date(date), data=pcr_data, col="orange")
-lines(c ~ as.Date(date), data=pcr_data, col="tomato")
-#' log(0) の計算で警告が出る場合がある
-
+pcr_data |>
+  select(c(date,b,c,d)) |> # 描画対象の列を抽出
+  pivot_longer(!date, names_to = "organ", values_to = "nums") |> # 
+  ggplot(aes(x = date, y = nums, colour = organ)) +
+  geom_line() +
+  labs(x = "日付", y = "検査件数")
+#' y軸を対数表示にする場合は以下のとおり
+pcr_data |>
+  select(c(date,b,c,d)) |> # 描画対象の列を抽出
+  pivot_longer(!date, names_to = "organ", values_to = "nums") |> # 
+  ggplot(aes(x = date, y = nums, colour = organ)) +
+  geom_line() +
+  scale_y_log10() + # y軸を対数表示 (log10(0)=-Inf の警告が出る場合がある)
+  labs(x = "日付", y = "検査件数")
 #' 民間検査会社(d)，大学等(e)，医療機関(f)での検査件数の関係(散布図)
-plot(pcr_data[c("d","e","f")], # 必要なデータフレームを抽出
-     labels=pcr_names[5:7], # 変数名を日本語に変更
-     col="blue", pch=18) # pch については help(points) を参照
-plot(~ d + e + f, data=pcr_data, # 式を使った指定の方法の例
-     labels=pcr_names[5:7], col="blue", pch=18)
-
-hist(x, breaks="Sturges", freq=NULL)
-#' x: ベクトル
-#' breaks: 区間の分割の仕方を指定．数字を指定するとそれに近い個数に等分割
-#' freq: TRUEを指定すると縦軸はデータ数，
-#'       FALSEを指定すると縦軸はデータ数/全データ数．既定値はTRUE
-#' ...: plotで指定できるオプションが利用可能
+pcr_data |>
+  select(c(d,e,f)) |> # 描画対象の列を抽出
+  ggpairs(columnLabels = pcr_names[c("d","e","f")]) # ラベルを渡す
 
 #' @exercise 散布図の描画
 
-#' 国立感染症研究所(a)と医療機関(f)の検査件数の関係
-
-#'# 関数 hist() の使用例
 #' 民間検査会社(d)での検査件数の分布
 
-if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
-hist(pcr_data$d, breaks=25, labels=TRUE, # ビンの数と度数表示を指定
-     col="lightblue", border="blue", # 中と境界の色を指定
-     main="検査件数のヒストグラム", xlab=pcr_names[5]) # 軸の名前を指定
+pcr_data |>
+  ggplot(aes(x = d)) + # 分布を描画する列を指定
+  geom_histogram(bins = 30, fill = "lightblue", colour = "blue") +
+  labs(x = pcr_names["d"], y = "頻度", title = "検査件数のヒストグラム")
 
-boxplot(x, ...)      
-#' x: ベクトルまたはデータフレーム
-#'      ベクトルに対しては単一の箱ひげ図
-#'      データフレーム対しては列ごとの箱ひげ図
-#' ...: plotと同様のオプションを指定可能
-
-#' xの変数Bを変数A(質的変数; 性別, 植物の種類など)で分類する場合
-boxplot(B ~ A, data=x, ...)
+#' @notes
+#' 各ビンの頻度を表示するためには例えば以下のようにすればよい
+pcr_data |>
+  ggplot(aes(x = d)) + # 分布を描画する列を指定
+  geom_histogram(bins = 30, fill = "lightblue", colour = "blue") +
+  geom_text(stat="bin", bins = 30, colour = "darkblue", size = 3, 
+            aes(label = after_stat(count), y = after_stat(count) + 2)) +
+  labs(x = pcr_names["d"], y = "頻度", title = "検査件数のヒストグラム")
 
 #' @exercise 散布図の描画
 
-#' 国立感染症研究所(a)と医療機関(f)の検査件数の関係
-
-#'# 関数 boxplot() の使用例
 #' 大学等(e)での検査件数の分布(2021年分)
 
-if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
-boxplot(e ~ date,
-        data=transform(subset(pcr_data, year(date)==2021),
-                       date=month(date)),
-        col="orange", main="月ごとの検査件数")
-
-barplot(x, width=1, space=NULL, beside=FALSE,
-        legend.text=NULL, args.legend=NULL, ...)
-#' x: ベクトルまたは行列 (データフレームは不可)
-#' width: 棒の幅
-#' space: 棒グラフ間・変数間のスペース
-#' legend.text: 凡例
-#' beside: 複数の変数を縦に並べるか・横に並べるか
-#' args.legend: legendに渡す引数
-#' ...: plotで指定できるオプションが利用可能
+pcr_data |>
+  filter(year(date) == 2021) |> # 2021年を抽出
+  mutate(date = as_factor(month(date))) |> # 月を因子化する
+  ggplot(aes(x = date, y = e)) + # 月毎に集計する
+  geom_boxplot(fill = "orange") + # 塗り潰しの色を指定
+  labs(title = "月ごとの検査件数 (2021年)", x = "月", y = pcr_names["e"])
 
 #' @exercise 散布図の描画
 
-#' 国立感染症研究所(a)と医療機関(f)の検査件数の関係
-
-#'# 関数 barplot() の使用例
 #' 機関ごとの月の検査件数の推移 (2021年分)
 
-if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
-foo <- aggregate(. ~ date, # 集計したデータを保存
-                 transform(subset(pcr_data,
-                                  subset = year(date)==2021,
-                                  select = 1:7),
-                           date=month(date)),
-                 sum, na.action=na.pass)
-barplot(as.matrix(foo[-1]), col=rainbow(12), # 作成した月の色を利用
-        names.arg=pcr_names[2:7], # 変数名を日本語で表示
-        beside=TRUE, space=c(.3,3), # 横並びの指定とスペースの設定
-        legend.text=foo[,1], args.legend=list(ncol=2)) # 凡例の指定
+pcr_data |>
+  filter(year(date) == 2021) |>
+  mutate(month = as_factor(month(date))) |> # 月を作成
+  select(-c(date,g,i)) |> # 機関に限定
+  group_by(month) |> # 月でグループ化
+  summarize(across(everything(), sum)) |> # 全て(月以外)を集計
+  pivot_longer(!month, names_to = "organ", values_to = "nums") |> 
+  ggplot(aes(x = organ, y = nums, fill = month)) +
+  geom_bar(stat = "identity", position = "dodge", na.rm = TRUE) +
+  theme(legend.position = "top") + guides(fill = guide_legend(nrow = 1))
 
 #' ---------------------------------------------------------------------------
 #' @practice 擬似乱数
@@ -393,23 +387,23 @@ barplot(as.matrix(foo[-1]), col=rainbow(12), # 作成した月の色を利用
 #' 関数sampleの使い方
 (x <- 1:10)   # サンプリング対象の集合を定義
 set.seed(123) # 乱数のシード値(任意に決めてよい)を指定
-sample(x, 5)               # xから5つの要素を重複なしでランダムに抽出
-sample(x, 5, replace=TRUE) # xから5つの要素を重複ありでランダムに抽出
-sample(x, length(x))       # xの要素のランダムな並べ替え
-sample(1:6, 10, replace=TRUE)           # サイコロを10回振る実験の再現
-sample(1:6, 10, prob=6:1, replace=TRUE) # 出る目の確率に偏りがある場合
+sample(x, 5)                 # xから5つの要素を重複なしでランダムに抽出
+sample(x, 5, replace = TRUE) # xから5つの要素を重複ありでランダムに抽出
+sample(x, length(x))         # xの要素のランダムな並べ替え
+sample(1:6, 10, replace = TRUE)             # サイコロを10回振る実験の再現
+sample(1:6, 10, prob = 6:1, replace = TRUE) # 出る目の確率に偏りがある場合
 
 #' 関数rbinomの使い方
-rbinom(10, size=4, prob=0.5) # 表(1)の出る確率が0.5にコインを4枚投げる試行を10回
-rbinom(20, size=4, prob=0.2) # 個数を20, 確率を0.2に変更
+rbinom(10, size = 4, prob = 0.5) # 表(1)の出る確率が0.5にコインを4枚投げる試行を10回
+rbinom(20, size = 4, prob = 0.2) # 個数を20, 確率を0.2に変更
 
 #' 関数runifの使い方
-runif(5, min=-1, max=2) # 区間(-1,2)上の一様乱数を5個発生
-runif(5)                # 指定しない場合は区間(0,1)が既定値
+runif(5, min = -1, max = 2) # 区間(-1,2)上の一様乱数を5個発生
+runif(5)                    # 指定しない場合は区間(0,1)が既定値
 
 #' 関数rnormの使い方
-rnorm(10, mean=5, sd=3) # 平均5，分散3^2の正規乱数を10個発生
-rnorm(10)               # 指定しない場合は mu=0, sd=1 が既定値
+rnorm(10, mean = 5, sd = 3) # 平均5，分散3^2の正規乱数を10個発生
+rnorm(10)                   # 指定しない場合は mu=0, sd=1 が既定値
 
 #' 関数set.seedについて
 set.seed(1) # 乱数の初期値をseed=1で指定
@@ -424,41 +418,37 @@ runif(5)    # 初めのseed=1の場合と同じ結果
 
 #' 確率変数の分布の設定 (例 : 区間[-1,1]の一様乱数)
 my_rand <- function(n) { # n個の乱数を生成
-  return(runif(n,min=-1,max=1))
+  return(runif(n,min = -1,max = 1))
 }
 #' 標本平均の計算
 my_mean <- function(n) { # n個のデータで計算
   return(mean(my_rand(n)))
 }
-
 #' Monte-Carlo実験
 set.seed(123) # 実験を再現したい場合はシード値を指定する
 mu <- 0; sigma <- sqrt(1/3) # 理論平均と標準偏差
 mc <- 5000 # 実験の繰り返し回数
 for(n in c(1,2,4,8,16)){ # nを変えて実験
-  p <- tibble(x=replicate(mc, my_mean(n))) |> # mc回実験し標本平均を記録
+  p <- tibble(x = replicate(mc, my_mean(n))) |> # mc回実験し標本平均を記録
     ggplot(aes(x)) + 
-    geom_histogram(aes(y=after_stat(density)), # 密度表示
-                   fill="orchid", alpha=0.5, # 塗り潰しの色
-                   colour="purple") + # 境界線の色
-    geom_function(fun=\(x)dnorm(x, mean=mu, sd=sigma/sqrt(n)),
-                  colour="orange", linewidth=1.5) + # 理論曲線を重ねる
-    labs(x=expression(bar(X)), # x軸の表示
-         title=paste0("n=",n)) # タイトルにnを記載
+    geom_histogram(aes(y = after_stat(density)), # 密度表示
+                   fill = "orchid", alpha = 0.5, # 塗り潰しの色
+                   colour = "purple") + # 境界線の色
+    geom_function(fun = \(x) dnorm(x, mean = mu, sd = sigma/sqrt(n)),
+                  colour = "orange", linewidth = 1.5) + # 理論曲線を重ねる
+    labs(x = expression(bar(X)), # x軸の表示
+         title = paste0("n=",n)) # タイトルにnを記載
   print(p) # for 文の中では明示的に print する必要がある
 }
-
-#' コイン投げの賭け
 
 #' コイン投げの試行 (いろいろな書き方があるので以下は一例)
 my_trial <- function(){
   while(TRUE){ # 永久に回るループ
-    if(rbinom(1,size=1,prob=0.5)==1){return("A")} # Aが表で終了
-    if(rbinom(1,size=1,prob=0.5)==1){return("B")} # Bが表で終了
+    if(rbinom(1,size = 1,prob = 0.5)==1){return("A")} # Aが表で終了
+    if(rbinom(1,size = 1,prob = 0.5)==1){return("B")} # Bが表で終了
     #' どちらも裏ならもう一度ループ
   }
 }
-
 #' Monte-Carlo実験
 set.seed(8888) # 実験を再現したい場合はシード値を指定する
 mc <- 10000 # 実験回数を設定 
@@ -490,9 +480,9 @@ mc <- 10000 # 実験回数を設定
 my_data <- replicate(mc,my_trial()) 
 hist(my_data) 
 summary(my_data) # 簡単な集計
-tibble(x=my_data) |> # ヒストグラムを出力
+tibble(x = my_data) |> # ヒストグラムを出力
   ggplot(aes(x)) + 
-  geom_histogram(binwidth=1,
-                 fill="slateblue", alpha=0.5, # 塗り潰しの色
-                 colour="slateblue") # 塗り潰しの色
+  geom_histogram(binwidth = 1,
+                 fill = "slateblue", alpha = 0.5, # 塗り潰しの色
+                 colour = "slateblue") # 塗り潰しの色
 #' ---------------------------------------------------------------------------
