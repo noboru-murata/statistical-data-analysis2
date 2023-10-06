@@ -47,8 +47,8 @@
 </section>
 
 <section>
-<section id="slide-orgd462cea">
-<h2 id="orgd462cea">講義概要</h2>
+<section id="slide-org67559fa">
+<h2 id="org67559fa">講義概要</h2>
 <ul>
 <li><b>第1回 : 回帰モデルの考え方と推定</b></li>
 <li>第2回 : モデルの評価</li>
@@ -60,13 +60,13 @@
 </section>
 </section>
 <section>
-<section id="slide-org7886e7f">
-<h2 id="org7886e7f">回帰分析の考え方</h2>
-<div class="outline-text-2" id="text-org7886e7f">
+<section id="slide-org325edf4">
+<h2 id="org325edf4">回帰分析の考え方</h2>
+<div class="outline-text-2" id="text-org325edf4">
 </div>
 </section>
-<section id="slide-orgebfac39">
-<h3 id="orgebfac39">回帰分析</h3>
+<section id="slide-org08d5f44">
+<h3 id="org08d5f44">回帰分析</h3>
 <ul>
 <li>ある変量を別の変量で説明する関係式を構成する</li>
 <li>関係式 : <b>回帰式</b> (regression equation)
@@ -86,13 +86,13 @@
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org43d7a10">
-<h3 id="org43d7a10">一般の回帰の枠組</h3>
+<section id="slide-org93bd98b">
+<h3 id="org93bd98b">一般の回帰の枠組</h3>
 <ul>
-<li>説明変数 : \(x_1,\dotsc,x_p\) (p次元)</li>
-<li>目的変数 : \(y\) (1次元)</li>
+<li><b>説明変数</b> : \(x_1,\dotsc,x_p\) (p次元)</li>
+<li><b>目的変数</b> : \(y\) (1次元)</li>
 <li><p>
-回帰式 : \(y\) を \(x_1,\dotsc,x_p\) で説明するための関係式
+<b>回帰式</b> : \(y\) を \(x_1,\dotsc,x_p\) で説明するための関係式
 </p>
 <blockquote>
 <div>
@@ -118,8 +118,8 @@
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org90d2576">
-<h3 id="org90d2576">線形回帰</h3>
+<section id="slide-orgbd8d65a">
+<h3 id="orgbd8d65a">線形回帰</h3>
 <ul>
 <li>任意の \(f\) では一般的すぎて分析に不向き</li>
 <li><p>
@@ -145,7 +145,7 @@
 <ul>
 <li>適切な多項式 : \(x_j^2, x_jx_k, x_jx_kx_l,\dotsc\)</li>
 <li>その他の非線形変換 : \(\log x_j, x_j^\alpha,\dotsc\)</li>
-<li><span style="color:gray;">全ての非線形関係ではない</span></li>
+<li>全ての非線形関係ではないことに注意</li>
 
 </ul></li>
 
@@ -153,8 +153,8 @@
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-orgc0f9d2c">
-<h3 id="orgc0f9d2c">回帰係数</h3>
+<section id="slide-org4c81587">
+<h3 id="org4c81587">回帰係数</h3>
 <ul>
 <li><p>
 線形回帰式
@@ -177,7 +177,7 @@
 </p>
 <blockquote>
 <p>
-<b>未知の回帰係数をデータから決定する分析方法</b>
+未知の回帰係数をデータから決定する分析方法
 </p>
 </blockquote></li>
 
@@ -185,8 +185,8 @@
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org258fef3">
-<h3 id="org258fef3">回帰の確率モデル</h3>
+<section id="slide-org5e56241">
+<h3 id="org5e56241">回帰の確率モデル</h3>
 <ul>
 <li>回帰式の不確定性
 <ul>
@@ -212,27 +212,26 @@
 <li>多くの場合，平均0，分散 \(\sigma^2\) の正規分布を仮定</li>
 
 </ul></li>
-<li><b>推定</b> (estimation) :
-観測データから
-\((\beta_0,\beta_1,\dots,\beta_p)\) 
-を決定</li>
 
 </ul></li>
+<li><b>推定</b> (estimation) :
+観測データから回帰係数を決定</li>
 
 </ul>
 <div class="slide-footer"><br></div>
 
 
+
 </section>
 </section>
 <section>
-<section id="slide-org7481db7">
-<h2 id="org7481db7">回帰係数の推定</h2>
-<div class="outline-text-2" id="text-org7481db7">
+<section id="slide-org70bf19a">
+<h2 id="org70bf19a">回帰係数の推定</h2>
+<div class="outline-text-2" id="text-org70bf19a">
 </div>
 </section>
-<section id="slide-orgefa1345">
-<h3 id="orgefa1345">残差</h3>
+<section id="slide-orgdb8fdf7">
+<h3 id="orgdb8fdf7">残差</h3>
 <ul>
 <li><b>残差</b> (residual) :
 回帰式で説明できない変動</li>
@@ -249,18 +248,15 @@
 \end{equation}
 
 </div>
-</blockquote>
-<ul>
+</blockquote></li>
 <li>残差 \(e_i(\boldsymbol{\beta})\) の絶対値が小さいほど当てはまりがよい</li>
-
-</ul></li>
 
 </ul>
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-orgaaab615">
-<h3 id="orgaaab615">最小二乗法</h3>
+<section id="slide-orge6886c3">
+<h3 id="orge6886c3">最小二乗法</h3>
 <ul>
 <li><p>
 <b>残差平方和</b> (residual sum of squares)
@@ -301,8 +297,8 @@
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org15a5fe0">
-<h3 id="org15a5fe0">行列の定義</h3>
+<section id="slide-org5c703b1">
+<h3 id="org5c703b1">行列の定義</h3>
 <ul>
 <li><p>
 デザイン行列 (design matrix)
@@ -320,14 +316,18 @@
 \end{equation}
 
 </div>
-</blockquote></li>
+</blockquote>
+<ul>
+<li>\(n\times(p{+}1)\)行列</li>
+
+</ul></li>
 
 </ul>
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org417d177">
-<h3 id="org417d177">ベクトルの定義</h3>
+<section id="slide-orgb07ad79">
+<h3 id="orgb07ad79">ベクトルの定義</h3>
 <ul>
 <li><p>
 目的変数，誤差，回帰係数のベクトル
@@ -359,14 +359,19 @@
 \end{equation}
 
 </div>
-</blockquote></li>
+</blockquote>
+<ul>
+<li>\(\boldsymbol{y},\boldsymbol{\epsilon}\) は\(n\)次元ベクトル</li>
+<li>\(\boldsymbol{\beta}\) は\(p{+}1\)次元ベクトル</li>
+
+</ul></li>
 
 </ul>
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org0058b9c">
-<h3 id="org0058b9c">行列・ベクトルによる表現</h3>
+<section id="slide-org704fbd7">
+<h3 id="org704fbd7">行列・ベクトルによる表現</h3>
 <ul>
 <li><p>
 確率モデル
@@ -398,8 +403,35 @@
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org3f9cb01">
-<h3 id="org3f9cb01">解の条件</h3>
+<section id="slide-org5ed12cc">
+<h3 id="org5ed12cc">解の条件</h3>
+<ul>
+<li><p>
+解 \(\boldsymbol{\beta}\) では残差平方和の勾配は零ベクトル
+</p>
+
+<blockquote>
+<div>
+\begin{equation}
+  \frac{\partial S}{\partial\boldsymbol{\beta}}(\boldsymbol{\beta})
+  =
+  \Bigl(
+  \frac{\partial S}{\partial\beta_0}(\boldsymbol{\beta}),
+  \frac{\partial S}{\partial\beta_1}(\boldsymbol{\beta}),\dotsc,
+  \frac{\partial S}{\partial\beta_p}(\boldsymbol{\beta})
+  \Bigr)^{\mathsf{T}}
+  =\boldsymbol{0}
+\end{equation}
+
+</div>
+</blockquote></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+
+</section>
+<section id="slide-orge1d76ed">
+<h3 id="orge1d76ed">解の条件</h3>
 <ul>
 <li><p>
 解 \(\boldsymbol{\beta}\) では残差平方和の勾配は零ベクトル
@@ -431,7 +463,6 @@
 \end{equation}
 
 </div>
-
 <p>
 ただし \(x_{i0}=1\; (i=1,\dotsc,n)\)
 </p>
@@ -444,13 +475,153 @@
 </section>
 </section>
 <section>
-<section id="slide-orge6f101a">
-<h2 id="orge6f101a">正規方程式</h2>
-<div class="outline-text-2" id="text-orge6f101a">
+<section id="slide-orgc0895dd" data-background="#fef4f4">
+<h2 id="orgc0895dd">演習</h2>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgc1843c1" data-background="#fef4f4">
+<h3 id="orgc1843c1">問題</h3>
+<ul>
+<li>残差平方和
+\(S(\boldsymbol{\beta})\)
+をベクトル
+\(\boldsymbol{\beta}\)
+で微分して解の条件を求めなさい</li>
+
+</ul>
+<div class="slide-footer"><br></div>
+
+</section>
+<section id="slide-org43a4ec8" data-background="#fef4f4">
+<h3 id="org43a4ec8">解答例</h3>
+<ul>
+<li><p>
+残差平方和を展開しておく
+</p>
+<blockquote>
+<div>
+\begin{align}
+  S(\boldsymbol{\beta})
+  &=
+    (\boldsymbol{y}-X\boldsymbol{\beta})^{\mathsf{T}}
+    (\boldsymbol{y}-X\boldsymbol{\beta})\\
+  &=
+    \boldsymbol{y}^{\mathsf{T}}\boldsymbol{y}
+    -\boldsymbol{y}^{\mathsf{T}}X\boldsymbol{\beta}
+    -(X\boldsymbol{\beta})^{\mathsf{T}}\boldsymbol{y}
+    +(X\boldsymbol{\beta})^{\mathsf{T}}X\boldsymbol{\beta}\\
+  &=
+    \boldsymbol{y}^{\mathsf{T}}\boldsymbol{y}
+    -\boldsymbol{y}^{\mathsf{T}}X\boldsymbol{\beta}
+    -\boldsymbol{\beta}^{\mathsf{T}}X^{\mathsf{T}}\boldsymbol{y}
+    +\boldsymbol{\beta}^{\mathsf{T}}X^{\mathsf{T}}X\boldsymbol{\beta}\\
+\end{align}
+
+</div>
+</blockquote></li>
+<li><p>
+ベクトルによる微分を行うと以下のようになる
+</p>
+<blockquote>
+<div>
+\begin{align}
+  \frac{\partial S}{\partial\boldsymbol{\beta}}(\boldsymbol{\beta})
+  &=
+    -(\boldsymbol{y}^{\mathsf{T}}X)^{\mathsf{T}}
+    -X^{\mathsf{T}}\boldsymbol{y}
+    +(X^{\mathsf{T}}X+(X^{\mathsf{T}}X)^{\mathsf{T}})\boldsymbol{\beta}\\
+  &=
+    -2X^{\mathsf{T}}\boldsymbol{y}
+    +2X^{\mathsf{T}}X\boldsymbol{\beta}
+\end{align}
+
+</div>
+</blockquote></li>
+
+</ul>
+
+
+<div class="slide-footer"><br></div>
+</section>
+<section data-background="#fef4f4">
+<ul>
+<li><p>
+したがって
+\(\boldsymbol{\beta}\)
+の満たす条件は以下となる
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  -2X^{\mathsf{T}}\boldsymbol{y}
+  +2X^{\mathsf{T}}X\boldsymbol{\beta}
+  =0
+  \quad\text{ より }
+\end{equation}
+
+</div>
+<div>
+\begin{equation}
+  X^{\mathsf{T}}X\boldsymbol{\beta}
+  =
+  X^{\mathsf{T}}\boldsymbol{y}
+\end{equation}
+
+</div>
+</blockquote></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+
+</section>
+<section id="slide-org55ba0cd" data-background="#fef4f4">
+<h3 id="org55ba0cd">補足</h3>
+<ul>
+<li><p>
+成分ごとの計算は以下のようになる
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  \frac{\partial S}{\partial\beta_j}(\boldsymbol{\beta})
+  =
+  -2\sum_{i=1}^n\Bigl(y_i-\sum_{k=0}^p\beta_kx_{ik}\Bigr)x_{ij}
+  =0
+\end{equation}
+
+</div>
+<p>
+ただし，
+\(x_{i0}=1\; (i=1,\dotsc,n)\),
+\(j=0,1,\dotsc,p\)
+</p>
+<div>
+\begin{equation}
+  \sum_{i=1}^nx_{ij}\Bigl(\sum_{k=0}^px_{ik}\beta_k\Bigr)
+  =
+  \sum_{i=1}^nx_{ij}y_i\quad(j=0,1,\dotsc,p)
+\end{equation}
+
+</div>
+<p>
+\(x_{ij}\) は行列 \(X\) の \((i,j)\) 成分であることに注意
+</p>
+</blockquote></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+
+
+</section>
+</section>
+<section>
+<section id="slide-orgb7b03ee">
+<h2 id="orgb7b03ee">正規方程式</h2>
+<div class="outline-text-2" id="text-orgb7b03ee">
 </div>
 </section>
-<section id="slide-org83c7bcb">
-<h3 id="org83c7bcb">正規方程式</h3>
+<section id="slide-org07a587c">
+<h3 id="org07a587c">正規方程式</h3>
 <ul>
 <li><p>
 <b>正規方程式</b> (normal equation)
@@ -466,7 +637,7 @@
 </blockquote></li>
 <li>\(X^{\mathsf{T}}X\) : <b>Gram行列</b> (Gram matrix)
 <ul>
-<li>\((p+1)\times(p+1)\) 行列 (正方行列)</li>
+<li>\((p{+}1)\times(p{+}1)\) 行列 (正方行列)</li>
 <li>正定対称行列 (固有値が非負)</li>
 
 </ul></li>
@@ -475,8 +646,8 @@
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-orgb11bc19">
-<h3 id="orgb11bc19">正規方程式の解</h3>
+<section id="slide-org0435e84">
+<h3 id="org0435e84">正規方程式の解</h3>
 <ul>
 <li>正規方程式の基本的な性質
 <ul>
@@ -511,12 +682,12 @@
 </section>
 </section>
 <section>
-<section id="slide-org7ff15f7" data-background="#fef4f4">
-<h2 id="org7ff15f7">実習</h2>
+<section id="slide-org2d433df" data-background="#fef4f4">
+<h2 id="org2d433df">実習</h2>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgcdf4b73" data-background="#fef4f4">
-<h3 id="orgcdf4b73">R : 関数 <code>lm()</code> による推定</h3>
+<section id="slide-org8a8d027" data-background="#fef4f4">
+<h3 id="org8a8d027">R : 関数 <code>lm()</code> による推定</h3>
 <ul>
 <li><p>
 データフレームを用いる方法 <b>(こちらを推奨)</b>
@@ -525,8 +696,8 @@
 
 <pre><code class="R" >lm(formula = yの変数名 ~ x1の変数名 + ... + xpの変数名,
    data = データフレーム)
-## formula: 目的変数名 ~ 説明変数名
-## data: 目的変数，説明変数を含むデータフレーム
+#' formula: 目的変数名 ~ 説明変数名
+#' data: 目的変数，説明変数を含むデータフレーム
 </code></pre>
 </div></li>
 <li><p>
@@ -535,9 +706,9 @@
 <div class="org-src-container">
 
 <pre><code class="R" >lm(formula = y ~ x1 + ... + xp)
-## formula: 目的変数 ~ 説明変数 (複数ある場合は + で並べる)
-## y: 目的変数のベクトル
-## x1,...,xp: 各説明変数のベクトル
+#' formula: 目的変数 ~ 説明変数 (複数ある場合は + で並べる)
+#' y: 目的変数のベクトル
+#' x1,...,xp: 各説明変数のベクトル
 </code></pre>
 </div></li>
 
@@ -545,8 +716,8 @@
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org238f588" data-background="#fef4f4">
-<h3 id="org238f588">データセットの準備</h3>
+<section id="slide-org5eadaef" data-background="#fef4f4">
+<h3 id="org5eadaef">データセットの準備</h3>
 <ul>
 <li>回帰分析では以下のデータセットを使用します
 <ul>
@@ -586,8 +757,8 @@ D. Witten, T. Hastie and R. Tibshirani &rdquo;
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org85499f5" data-background="#fef4f4">
-<h3 id="org85499f5">練習問題</h3>
+<section id="slide-org3f58444" data-background="#fef4f4">
+<h3 id="org3f58444">練習問題</h3>
 <ul>
 <li>前掲のデータセットを用いて回帰式を構成しなさい
 <ul>
@@ -624,13 +795,13 @@ sales ~ TV + radio
 </section>
 </section>
 <section>
-<section id="slide-org7da4743">
-<h2 id="org7da4743">最小二乗推定量の性質</h2>
-<div class="outline-text-2" id="text-org7da4743">
+<section id="slide-orgc27410b">
+<h2 id="orgc27410b">最小二乗推定量の性質</h2>
+<div class="outline-text-2" id="text-orgc27410b">
 </div>
 </section>
-<section id="slide-org78dccf8">
-<h3 id="org78dccf8">解析の上での良い条件</h3>
+<section id="slide-org422d8ce">
+<h3 id="org422d8ce">解析の上での良い条件</h3>
 <ul>
 <li><p>
 最小二乗推定量がただ一つだけ存在する条件 
@@ -650,8 +821,8 @@ sales ~ TV + radio
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-orgdbd0a19">
-<h3 id="orgdbd0a19">解析の上での良くない条件</h3>
+<section id="slide-org488d88e">
+<h3 id="org488d88e">解析の上での良くない条件</h3>
 <ul>
 <li>説明変数が1次従属 : <b>多重共線性</b> (multicollinearity)</li>
 <li>多重共線性が強くならないように説明変数を選択
@@ -666,8 +837,8 @@ sales ~ TV + radio
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-orgafc57d0">
-<h3 id="orgafc57d0">推定の幾何学的解釈</h3>
+<section id="slide-org04f609f">
+<h3 id="org04f609f">推定の幾何学的解釈</h3>
 <ul>
 <li><p>
 <b>あてはめ値 / 予測値</b> (fitted values / predicted values)
@@ -689,7 +860,7 @@ sales ~ TV + radio
 </ul>
 
 
-<div id="orgc5d45e6" class="figure">
+<div id="org5cf9e10" class="figure">
 <p><img src="./figs/projection.png" alt="projection.png" width="60%" />
 </p>
 <p><span class="figure-number">Figure 1: </span>\(n=3\) , \(p+1=2\) の場合の最小二乗法による推定</p>
@@ -701,7 +872,7 @@ sales ~ TV + radio
 <ul>
 <li>最小二乗推定量 \(\boldsymbol{\hat{y}}\) の幾何学的性質
 <ul>
-<li>\(L[X]\): \(X\) の列ベクトルが張る \(\mathbb{R}^n\) の部分線形空間</li>
+<li>\(L[X]\) : \(X\) の列ベクトルが張る \(\mathbb{R}^n\) の線形部分空間</li>
 <li>\(X\) の階数が \(p{+}1\) ならば \(L[X]\) の次元は \(p{+}1\) (解の一意性)</li>
 <li>\(\boldsymbol{\hat{y}}\) は \(\boldsymbol{y}\) の \(L[X]\) への直交射影</li>
 <li><p>
@@ -725,11 +896,11 @@ sales ~ TV + radio
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-orgc4d299f">
-<h3 id="orgc4d299f">線形回帰式と標本平均</h3>
+<section id="slide-org5640351">
+<h3 id="org5640351">線形回帰式と標本平均</h3>
 <ul>
 <li>\(\boldsymbol{x}_i=(x_{i1},\dotsc,x_{ip})^{\mathsf{T}}\):
-説明変数の \(i\) 番目の観測データ</li>
+\(i\) 番目の観測データの説明変数</li>
 <li><p>
 説明変数および目的変数の標本平均
 </p>
@@ -767,19 +938,19 @@ sales ~ TV + radio
 </section>
 </section>
 <section>
-<section id="slide-org2d0fb42" data-background="#fef4f4">
-<h2 id="org2d0fb42">実習</h2>
+<section id="slide-orge0c5b65" data-background="#fef4f4">
+<h2 id="orge0c5b65">実習</h2>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgcf6c982" data-background="#fef4f4">
-<h3 id="orgcf6c982">R : 推定結果からの情報の取得</h3>
+<section id="slide-orgb15106f">
+<h3 id="orgb15106f">R : 推定結果からの情報の取得</h3>
 <ul>
 <li><p>
 関数 <code>lm()</code> の出力には様々な情報が含まれる
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >## lmの出力を引数とする関数の例
+<pre><code class="R" >#' lmの出力を引数とする関数の例
 coef(lmの出力)         # 推定された回帰係数
 fitted(lmの出力)       # あてはめ値
 resid(lmの出力)        # 残差
@@ -792,8 +963,17 @@ model.matrix(lmの出力) # デザイン行列
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org132f51c" data-background="#fef4f4">
-<h3 id="org132f51c">R : 行列とベクトルの計算</h3>
+<section id="slide-org93a5577">
+<h3 id="org93a5577">R : 行列とベクトルの定義(書き加える)</h3>
+<ul>
+<li>matrixの定義，ベクトルの定義</li>
+<li>データフレーム(tibble)がmatrixであることを確認</li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org474fc31">
+<h3 id="org474fc31">R : 行列とベクトルの計算</h3>
 <ul>
 <li><p>
 \(X^{\mathsf{T}}Y\) および \(X^{\mathsf{T}}X\) の計算
@@ -801,8 +981,8 @@ model.matrix(lmの出力) # デザイン行列
 <div class="org-src-container">
 
 <pre><code class="R" >crossprod(X, Y) # cross product の略
-## X: 行列 (またはベクトル)
-## Y: 行列 (またはベクトル)
+#' X: 行列 (またはベクトル)
+#' Y: 行列 (またはベクトル)
 crossprod(X) # 同じものを掛ける場合は引数は1つで良い
 </code></pre>
 </div></li>
@@ -829,8 +1009,8 @@ a %*% b # ベクトルは同じ長さである必要がある
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-org79ef0ab" data-background="#fef4f4">
-<h3 id="org79ef0ab">練習問題</h3>
+<section id="slide-org486b87d" data-background="#fef4f4">
+<h3 id="org486b87d">練習問題</h3>
 <ul>
 <li>前問の推定結果を用いて
 最小二乗推定量の性質を確認しなさい
@@ -862,13 +1042,143 @@ a %*% b # ベクトルは同じ長さである必要がある
 </section>
 </section>
 <section>
-<section id="slide-org99cd7be">
-<h2 id="org99cd7be">残差の分解</h2>
-<div class="outline-text-2" id="text-org99cd7be">
+<section id="slide-orgf421d00" data-background="#fef4f4">
+<h2 id="orgf421d00">演習</h2>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org674850f" data-background="#fef4f4">
+<h3 id="org674850f">問題</h3>
+<ul>
+<li>最小二乗推定量について以下を示しなさい
+<ul>
+<li><p>
+残差の標本平均が0となる
+</p>
+<blockquote>
+<p>
+目的変数や残差のベクトルについて以下を示せばよい
+</p>
+<div>
+\begin{equation}
+  \boldsymbol{1}^{\mathsf{T}}(\boldsymbol{y}-\boldsymbol{\hat{y}})
+  =\boldsymbol{1}^{\mathsf{T}}\boldsymbol{\hat{\epsilon}}
+  =0
+\end{equation}
+
+</div>
+<p>
+ただし \(\boldsymbol{1}=(1,\dotsc,1)^{\mathsf{T}}\) とする
+</p>
+</blockquote></li>
+<li><p>
+回帰式が標本平均を通る
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  \bar{y}
+  =
+  (1,\boldsymbol{\bar{x}}^{\mathsf{T}})\boldsymbol{\hat{\beta}}
+\end{equation}
+
+</div>
+</blockquote></li>
+
+</ul></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+
+</section>
+<section id="slide-org42b1e2e" data-background="#fef4f4">
+<h3 id="org42b1e2e">解答例</h3>
+<ul>
+<li><p>
+残差の表現を整理する
+</p>
+<blockquote>
+<div>
+\begin{align}
+  \boldsymbol{\hat{\epsilon}}
+  &=
+    \boldsymbol{y}-\boldsymbol{\hat{y}}
+    =
+    \boldsymbol{y}-X\boldsymbol{\hat{\beta}}\\
+  &=
+    \boldsymbol{y}-X(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}\boldsymbol{y}
+\end{align}
+
+</div>
+</blockquote></li>
+<li><p>
+左から \(X^{\mathsf{T}}\) を乗じる
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  X^{\mathsf{T}}\boldsymbol{y}-X^{\mathsf{T}}X(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}\boldsymbol{y}
+  =
+  X^{\mathsf{T}}\boldsymbol{y}-X^{\mathsf{T}}\boldsymbol{y}
+  =0
+\end{equation}
+
+</div>
+</blockquote></li>
+<li>行列 \(X\) の 1列目が \(\boldsymbol{1}\) であることより明らか</li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section data-background="#fef4f4">
+<ul>
+<li><p>
+説明変数の標本平均をデザイン行列で表す
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  \boldsymbol{1}^{\mathsf{T}}X
+  =
+  n(1,\boldsymbol{\bar{x}}^{\mathsf{T}})
+\end{equation}
+
+</div>
+</blockquote></li>
+<li><p>
+したがって以下が成立する
+</p>
+<blockquote>
+<div>
+\begin{align}
+  n(1,\boldsymbol{\bar{x}}^{\mathsf{T}})\boldsymbol{\hat{\beta}}
+  &=
+    \boldsymbol{1}^{\mathsf{T}}X\boldsymbol{\hat{\beta}}\\
+  &=
+    \boldsymbol{1}^{\mathsf{T}}\boldsymbol{\hat{y}}
+    =
+    \boldsymbol{1}^{\mathsf{T}}\boldsymbol{y}\\
+  &=
+    n\bar{y}
+\end{align}
+
+</div>
+</blockquote></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+
+
+</section>
+</section>
+<section>
+<section id="slide-org42b4d6b">
+<h2 id="org42b4d6b">残差の分解</h2>
+<div class="outline-text-2" id="text-org42b4d6b">
 </div>
 </section>
-<section id="slide-org6b1527e">
-<h3 id="org6b1527e">最小二乗推定量の残差</h3>
+<section id="slide-org3ccd4b2">
+<h3 id="org3ccd4b2">最小二乗推定量の残差</h3>
 <ul>
 <li><p>
 観測値と推定値 \(\boldsymbol{\hat{\beta}}\) による予測値の差
@@ -907,8 +1217,8 @@ a %*% b # ベクトルは同じ長さである必要がある
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-orgb0c36dc">
-<h3 id="orgb0c36dc">平方和の分解</h3>
+<section id="slide-orgbf66cc6">
+<h3 id="orgbf66cc6">平方和の分解</h3>
 <ul>
 <li>\(\bar{\boldsymbol{y}}=\bar{y}\boldsymbol{1}=(\bar{y},\bar{y},\dotsc,\bar{y})^{\mathsf{T}}\) :
 標本平均のベクトル</li>
@@ -957,12 +1267,12 @@ a %*% b # ベクトルは同じ長さである必要がある
 </section>
 </section>
 <section>
-<section id="slide-org2ce481f" data-background="#fef4f4">
-<h2 id="org2ce481f">実習</h2>
+<section id="slide-org3920318" data-background="#fef4f4">
+<h2 id="org3920318">実習</h2>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgd3c1b16" data-background="#fef4f4">
-<h3 id="orgd3c1b16">練習問題</h3>
+<section id="slide-orgd05494c" data-background="#fef4f4">
+<h3 id="orgd05494c">練習問題</h3>
 <ul>
 <li>前問の結果を用いて
 残差の性質を確認しなさい
@@ -999,13 +1309,141 @@ a %*% b # ベクトルは同じ長さである必要がある
 </section>
 </section>
 <section>
-<section id="slide-orga706671">
-<h2 id="orga706671">決定係数</h2>
-<div class="outline-text-2" id="text-orga706671">
+<section id="slide-org4aa2c40" data-background="#fef4f4">
+<h2 id="org4aa2c40">演習</h2>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgcaa68dc" data-background="#fef4f4">
+<h3 id="orgcaa68dc">問題</h3>
+<ul>
+<li>以下の関係式を示しなさい
+<ul>
+<li><p>
+あてはめ値と残差のベクトルが直交する
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  \boldsymbol{\hat{y}}^{\mathsf{T}}(\boldsymbol{y}-\boldsymbol{\hat{y}})
+  = 
+  \boldsymbol{\hat{y}}^{\mathsf{T}}\boldsymbol{\hat{\epsilon}}
+  =0
+\end{equation}
+
+</div>
+</blockquote></li>
+<li><p>
+残差平方和の分解が成り立つ
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  S_y=S+S_r
+\end{equation}
+
+</div>
+</blockquote></li>
+
+</ul></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+
+</section>
+<section id="slide-org600a844" data-background="#fef4f4">
+<h3 id="org600a844">解答例</h3>
+<ul>
+<li><p>
+残差の表現を整理する
+</p>
+<blockquote>
+<div>
+\begin{align}
+  \boldsymbol{\hat{\epsilon}}
+  &=
+    \boldsymbol{y}-X(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}\boldsymbol{y}\\
+  &=
+    (I-X(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}})\boldsymbol{y}
+\end{align}
+
+</div>
+</blockquote></li>
+<li><p>
+左から \(\boldsymbol{\hat{y}}\) を乗じる
+</p>
+<blockquote>
+<div>
+\begin{align}
+  \boldsymbol{\hat{y}}^{\mathsf{T}}\boldsymbol{\hat{\epsilon}}
+  &=
+    \boldsymbol{\hat{\beta}}^{\mathsf{T}}X^{\mathsf{T}}
+    (I-X(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}})\boldsymbol{y}\\
+  &=
+    \boldsymbol{\hat{\beta}}^{\mathsf{T}}
+    (X^{\mathsf{T}}-X^{\mathsf{T}}X(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}})\boldsymbol{y}\\
+  &=
+    \boldsymbol{\hat{\beta}}^{\mathsf{T}}
+    (X^{\mathsf{T}}-X^{\mathsf{T}})\boldsymbol{y}=0
+\end{align}
+
+</div>
+</blockquote></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section data-background="#fef4f4">
+<ul>
+<li><p>
+以下の関係を用いて展開すればよい
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  \boldsymbol{y}-\bar{\boldsymbol{y}}
+  =\boldsymbol{y}-\boldsymbol{\hat{y}}+\boldsymbol{\hat{y}}-\bar{\boldsymbol{y}}
+\end{equation}
+
+</div>
+<p>
+ただし \(\bar{\boldsymbol{y}}=\bar{y}\boldsymbol{1}\) 
+</p>
+</blockquote></li>
+<li><p>
+このとき以下の項は0になる
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  (\boldsymbol{\hat{y}}-\bar{\boldsymbol{y}})^{\mathsf{T}}
+  (\boldsymbol{y}-\boldsymbol{\hat{y}})
+  =
+  \boldsymbol{\hat{y}}^{\mathsf{T}}
+  (\boldsymbol{y}-\boldsymbol{\hat{y}})
+  -
+  \bar{y}\boldsymbol{1}^{\mathsf{T}}
+  (\boldsymbol{y}-\boldsymbol{\hat{y}})
+  =0
+\end{equation}
+
+</div>
+</blockquote></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+
+
+</section>
+</section>
+<section>
+<section id="slide-org64dcea7">
+<h2 id="org64dcea7">決定係数</h2>
+<div class="outline-text-2" id="text-org64dcea7">
 </div>
 </section>
-<section id="slide-org33c4416">
-<h3 id="org33c4416">回帰式の寄与</h3>
+<section id="slide-orgc3a7e32">
+<h3 id="orgc3a7e32">回帰式の寄与</h3>
 <ul>
 <li><p>
 ばらつきの分解
@@ -1037,8 +1475,8 @@ a %*% b # ベクトルは同じ長さである必要がある
 <div class="slide-footer"><br></div>
 
 </section>
-<section id="slide-orgf4b4fa9">
-<h3 id="orgf4b4fa9">決定係数 (\(R^2\)値)</h3>
+<section id="slide-orgedc90f8">
+<h3 id="orgedc90f8">決定係数 (\(R^2\)値)</h3>
 <ul>
 <li><p>
 <b>決定係数</b> (R-squared)
@@ -1079,12 +1517,12 @@ a %*% b # ベクトルは同じ長さである必要がある
 </section>
 </section>
 <section>
-<section id="slide-org6845773" data-background="#fef4f4">
-<h2 id="org6845773">実習</h2>
+<section id="slide-org2031216" data-background="#fef4f4">
+<h2 id="org2031216">実習</h2>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org0e6ad06" data-background="#fef4f4">
-<h3 id="org0e6ad06">練習問題</h3>
+<section id="slide-orgb84fe51" data-background="#fef4f4">
+<h3 id="orgb84fe51">練習問題</h3>
 <ul>
 <li>決定係数を用いてモデルの比較を行いなさい
 <ul>
@@ -1129,8 +1567,204 @@ sales ~ TV + radio
 </section>
 </section>
 <section>
-<section id="slide-orgf838c8f">
-<h2 id="orgf838c8f">次回の予定</h2>
+<section id="slide-org22309f0">
+<h2 id="org22309f0">解析の事例</h2>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org68b8b70">
+<h3 id="org68b8b70">データについて</h3>
+<ul>
+<li>気象庁より取得した東京の気候データ <br />
+<ul>
+<li>気象庁 <a href="https://www.data.jma.go.jp/gmd/risk/obsdl/index.php">https://www.data.jma.go.jp/gmd/risk/obsdl/index.php</a></li>
+<li>データ <a href="https://noboru-murata.github.io/multivariate-analysis/data/tokyo_weather.csv">https://noboru-murata.github.io/multivariate-analysis/data/tokyo_weather.csv</a></li>
+
+</ul></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+
+</section>
+<section id="slide-orgf1ea314">
+<h3 id="orgf1ea314">東京の8月の気候の分析</h3>
+<ul>
+<li><p>
+気候 (気温,降雨,日射,降雪,風向,風速,気圧,湿度,雲量) <br />
+に関するデータ(の一部)
+</p>
+<pre class="example" id="org7636974">
+    month day day_of_week temp rain solar snow wdir wind  press humid cloud
+213     8   1         Sun 28.7  0.0 26.58    0  SSE  3.2 1000.2    76   2.3
+214     8   2         Mon 28.6  0.5 19.95    0   SE  3.4 1006.1    80   7.0
+215     8   3         Tue 29.0  3.0 19.89    0    S  4.0 1009.9    80   6.3
+216     8   4         Wed 29.5  0.0 26.52    0    S  3.0 1008.2    76   2.8
+217     8   5         Thu 29.1  0.0 26.17    0  SSE  2.8 1005.1    74   5.8
+218     8   6         Fri 29.1  0.0 24.82    0  SSE  2.9 1004.2    75   4.0
+219     8   7         Sat 27.9  2.0 11.43    0   NE  2.5 1003.1    85   9.0
+220     8   8         Sun 25.9 90.5  3.43    0    N  3.0  998.0    97  10.0
+221     8   9         Mon 28.1  2.0 13.34    0    S  6.1  995.4    84   6.0
+222     8  10         Tue 31.0  0.0 22.45    0  SSW  4.7  996.3    58   4.8
+223     8  11         Wed 29.2  0.0 21.12    0   SE  2.9 1008.0    61   9.3
+224     8  12         Thu 26.0  0.5  8.34    0  SSE  2.4 1008.8    84   9.5
+225     8  13         Fri 22.5 20.5  4.36    0   NE  2.7 1008.0    97  10.0
+226     8  14         Sat 22.3 77.0  2.76    0    N  2.7 1003.6   100  10.0
+</pre></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section>
+<ul>
+<li>気温を説明する 5 つの線形回帰モデルを検討する
+<ul>
+<li>モデル1: 気温 = F(気圧)</li>
+<li>モデル2: 気温 = F(日射)</li>
+<li>モデル3: 気温 = F(気圧, 日射)</li>
+<li>モデル4: 気温 = F(気圧, 日射, 湿度)</li>
+<li>モデル5: 気温 = F(気圧, 日射, 雲量)</li>
+
+</ul></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section>
+<ul>
+<li><p>
+関連するデータの散布図
+</p></li>
+
+</ul>
+
+
+<div id="orgf8dbc2e" class="figure">
+<p><img src="figs/03_pairs.png" alt="03_pairs.png" />
+</p>
+<p><span class="figure-number">Figure 2: </span>散布図</p>
+</div>
+
+<div class="slide-footer"><br></div>
+</section>
+<section>
+<ul>
+<li><p>
+モデル1の推定結果
+</p></li>
+
+</ul>
+
+
+<div id="org4c784c6" class="figure">
+<p><img src="figs/03_model1.png" alt="03_model1.png" />
+</p>
+<p><span class="figure-number">Figure 3: </span>モデル1</p>
+</div>
+
+<div class="slide-footer"><br></div>
+</section>
+<section>
+<ul>
+<li><p>
+モデル2の推定結果
+</p></li>
+
+</ul>
+
+
+<div id="orga01435e" class="figure">
+<p><img src="figs/03_model2.png" alt="03_model2.png" />
+</p>
+<p><span class="figure-number">Figure 4: </span>モデル2</p>
+</div>
+
+<div class="slide-footer"><br></div>
+</section>
+<section>
+<ul>
+<li><p>
+モデル3の推定結果
+</p></li>
+
+</ul>
+
+
+<div id="orgc3bcad0" class="figure">
+<p><img src="figs/03_model3.png" alt="03_model3.png" />
+</p>
+<p><span class="figure-number">Figure 5: </span>モデル3</p>
+</div>
+
+<div class="slide-footer"><br></div>
+</section>
+<section>
+<ul>
+<li><p>
+観測値とあてはめ値の比較
+</p></li>
+
+</ul>
+
+
+<div id="org04c6f65" class="figure">
+<p><img src="figs/03_models.png" alt="03_models.png" />
+</p>
+<p><span class="figure-number">Figure 6: </span>モデルの比較</p>
+</div>
+
+<div class="slide-footer"><br></div>
+</section>
+<section>
+<ul>
+<li>決定係数・自由度調整済み決定係数
+<ul>
+<li><p>
+モデル1: 気温 = F(気圧)
+</p>
+<pre class="example">
+[1] "R2: 0.0483 ; adj. R2: 0.0155"
+</pre></li>
+
+<li><p>
+モデル2: 気温 = F(日射)
+</p>
+<pre class="example">
+[1] "R2: 0.663 ; adj. R2: 0.651"
+</pre></li>
+
+<li><p>
+モデル3: 気温 = F(気圧, 日射)
+</p>
+<pre class="example">
+[1] "R2: 0.703 ; adj. R2: 0.681"
+</pre></li>
+
+<li><p>
+モデル4: 気温 = F(気圧, 日射, 湿度)
+</p>
+<pre class="example">
+[1] "R2: 0.83 ; adj. R2: 0.811"
+</pre></li>
+
+<li><p>
+モデル5: 気温 = F(気圧, 日射, 雲量)
+</p>
+<pre class="example">
+[1] "R2: 0.703 ; adj. R2: 0.67"
+</pre></li>
+
+</ul></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+
+
+</section>
+</section>
+<section>
+<section id="slide-orgdb7fc59">
+<h2 id="orgdb7fc59">次回の予定</h2>
 <ul>
 <li>第1回 : 回帰モデルの考え方と推定</li>
 <li><b>第2回 : モデルの評価</b></li>

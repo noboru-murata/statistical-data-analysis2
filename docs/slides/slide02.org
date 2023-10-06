@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2023-10-05 19:07:36 mura>
+# Time-stamp: <2023-10-06 14:23:44 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+PROPERTY: header-args:R :cache yes :session *R*
@@ -21,7 +21,7 @@
 - データの見直し(covid-19の最新のデータに変えるべきか?)
 - 校正に関して記述
   
-* 講義の内容
+* 講義概要
 :PROPERTIES:
 :ID:       8CF66DA0-CF09-4354-BF0F-D1E7ABF69CE1
 :END:
