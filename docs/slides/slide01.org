@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2023-10-06 21:37:03 mura>
+# Time-stamp: <2023-10-06 21:58:18 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+PROPERTY: header-args:R :cache yes :session *R*
@@ -25,6 +25,9 @@
   data.zip とすればそのまま使える
   
 * R言語の概要
+:PROPERTIES:
+:ID:       B707BF85-D51F-4D31-9D2A-6E7D3102992A
+:END:
 
 #+begin_src R :exports none :tangle no
   setwd("~/Desktop/lectures/u-tokyo/autumn/course")
@@ -447,6 +450,9 @@
 #  - sin, cos, tan (三角関数)，exp (指数関数)，log (対数関数)
 
 ** 電卓として使う
+:PROPERTIES:
+:ID:       BD3AC29D-E103-43F0-BE1D-0B827AFE1DE6
+:END:
 - [[color:green][コンソール上での計算例]]
   #+begin_src R :exports none
     #' @exercise コンソール上での計算
@@ -526,6 +532,9 @@
   # - 典型例はRを終了する関数 ~q()~
 
 ** 関数の実行例
+:PROPERTIES:
+:ID:       75EAC6A6-558A-4665-9824-8818A6023773
+:END:
 - [[color:green][正弦関数の計算]]
   #+begin_src R :exports none
     #' @exercise 関数の実行
@@ -595,6 +604,9 @@
   #   を実行してみればよい
 
 ** ヘルプ機能の利用例
+:PROPERTIES:
+:ID:       B867718F-14B2-4BF6-89F2-83EA06A4DD30
+:END:
 - [[color:green][ヘルプの使い方]] 
   #+begin_src R :exports none
     #' @exercise ヘルプの使い方
@@ -630,6 +642,9 @@
   *Environment* タブで確認できる
 
 ** オブジェクトの代入の例
+:PROPERTIES:
+:ID:       D8FAB648-8B58-400E-99B4-C8CC28F3B152
+:END:
 - [[color:green][代入操作の例]]
   #+begin_src R
     #' 数値を変数 foo に代入する
@@ -654,6 +669,9 @@
   #+end_src
 
 ** 自作関数の例
+:PROPERTIES:
+:ID:       2BFD2EE5-86DA-4F65-8B45-C5C839F0769D
+:END:
 - [[color:green][縦と横の長さを与えて長方形の面積を計算]]
   #+begin_src R :exports none
     #' @exercise 自作関数の定義

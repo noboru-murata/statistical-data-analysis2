@@ -1,12 +1,16 @@
 #+TITLE: 回帰分析 
 #+SUBTITLE: モデルの評価
 #+AUTHOR: 村田 昇
-#+EMAIL: noboru.murata@eb.waseda.ac.jp
+#+EMAIL: noboru.murata@gmail.com
 #+DATE: 
-# Time-stamp: <2022-10-28 15:35:00 mura>
+#+STARTUP: hidestars content indent
+# Time-stamp: <2023-10-09 12:33:53 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
-#+STARTUP: hidestars content indent
+#+PROPERTY: header-args:R :cache yes :session *R*
+#+PROPERTY: header-args:R+ :exports both :results output
+#+PROPERTY: header-args:R+ :width 800 :height 800 :res 100
+#+PROPERTY: header-args:R+ :tangle yes
 # C-c C-x C-v でinlineを切り替え
 # <m C-i でlatex block (math env用)
 # C-c '
@@ -36,13 +40,11 @@
 - *第2回 : モデルの評価*
 - 第3回 : モデルによる予測と発展的なモデル
 
-#+begin_src R :eval no :exports none :tangle yes
-  ### 
-  ### 第4講 サンプルコード
-  ###
+#+begin_src R :exports none :tangle no
+  setwd("~/Desktop/lectures/u-tokyo/autumn/course")
 #+end_src
 #+begin_src R :exports none
-  setwd("~/Desktop/lectures/u-tokyo/autumn/course")
+  ### 第4講 サンプルコード
 #+end_src
 
 * COMMENT 演習 (早稲田大学雛型)
@@ -138,109 +140,93 @@
   - 目的変数 : \(y\) (1次元)
 - *回帰係数* \(\beta_{0},\beta_{1},\dotsc,\beta_{p}\) を用いた一次式
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      y=\beta_{0}+\beta_{1}x_{1}+\dotsb+\beta_{p}x_{p}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    y=\beta_{0}+\beta_{1}x_{1}+\dotsb+\beta_{p}x_{p}
+  \end{equation}
   #+end_quote
 - *誤差項* を含む確率モデルで観測データを表現
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      y_i=\beta_{0}+\beta_{1} x_{i1}+\cdots+\beta_{p}x_{ip}+\epsilon_i
-      \quad (i=1,\dotsc,n)
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    y_i=\beta_{0}+\beta_{1} x_{i1}+\cdots+\beta_{p}x_{ip}+\epsilon_i
+    \quad (i=1,\dotsc,n)
+  \end{equation}
   #+end_quote
 
 ** 簡潔な表現のための行列
 - デザイン行列 (説明変数)
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      X=
-      \begin{pmatrix}
-        1 & x_{11} & x_{12} & \cdots & x_{1p} \\
-        1 & x_{21} & x_{22} & \cdots & x_{2p} \\
-        \vdots & \vdots & \vdots & & \vdots \\
-        1 & x_{n1} & x_{n2} & \cdots & x_{np}
-      \end{pmatrix}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    X=
+    \begin{pmatrix}
+      1 & x_{11} & x_{12} & \cdots & x_{1p} \\
+      1 & x_{21} & x_{22} & \cdots & x_{2p} \\
+      \vdots & \vdots & \vdots & & \vdots \\
+      1 & x_{n1} & x_{n2} & \cdots & x_{np}
+    \end{pmatrix}
+  \end{equation}
   #+end_quote
 
 ** 簡潔な表現のためのベクトル
 - ベクトル (目的変数・誤差・回帰係数)
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      \boldsymbol{y}=
-      \begin{pmatrix}
-        y_{1} \\
-        y_2 \\
-        \vdots \\
-        y_n
-      \end{pmatrix},\quad
-      \boldsymbol{\epsilon}=
-      \begin{pmatrix}
-        \epsilon_{1} \\
-        \epsilon_2 \\
-        \vdots \\
-        \epsilon_n
-      \end{pmatrix},\quad
-      \boldsymbol{\beta}=
-      \begin{pmatrix}
-        \beta_{0} \\
-        \beta_{1} \\
-        \vdots \\
-        \beta_{p}
-      \end{pmatrix}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    \boldsymbol{y}=
+    \begin{pmatrix}
+      y_{1} \\
+      y_2 \\
+      \vdots \\
+      y_n
+    \end{pmatrix},\quad
+    \boldsymbol{\epsilon}=
+    \begin{pmatrix}
+      \epsilon_{1} \\
+      \epsilon_2 \\
+      \vdots \\
+      \epsilon_n
+    \end{pmatrix},\quad
+    \boldsymbol{\beta}=
+    \begin{pmatrix}
+      \beta_{0} \\
+      \beta_{1} \\
+      \vdots \\
+      \beta_{p}
+    \end{pmatrix}
+  \end{equation}
   #+end_quote
 
 ** 問題の記述
 - 確率モデル
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      \boldsymbol{y}
-      =X\boldsymbol{\beta}+\boldsymbol{\epsilon}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    \boldsymbol{y}
+    =X\boldsymbol{\beta}+\boldsymbol{\epsilon}
+  \end{equation}
   #+end_quote
 - 回帰式の推定 : *残差平方和* の最小化
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      S(\boldsymbol{\beta})
-      =(\boldsymbol{y}-X\boldsymbol{\beta})^{\mathsf{T}}
-      (\boldsymbol{y}-X\boldsymbol{\beta})
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    S(\boldsymbol{\beta})
+    =(\boldsymbol{y}-X\boldsymbol{\beta})^{\mathsf{T}}
+    (\boldsymbol{y}-X\boldsymbol{\beta})
+  \end{equation}
   #+end_quote
 
 ** 解の表現
 - 解の条件 : *正規方程式*
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      X^{\mathsf{T}}X\boldsymbol{\beta}
-      =X^{\mathsf{T}}\boldsymbol{y}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    X^{\mathsf{T}}X\boldsymbol{\beta}
+    =X^{\mathsf{T}}\boldsymbol{y}
+  \end{equation}
   #+end_quote
 - 解の一意性 : *Gram 行列* \(X^{\mathsf{T}}X\) が正則
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      \boldsymbol{\hat{\beta}}
-      =
-      (X^{\mathsf{T}}X)^{-1}
-      X^{\mathsf{T}}\boldsymbol{y}  
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    \boldsymbol{\hat{\beta}}
+    =
+    (X^{\mathsf{T}}X)^{-1}
+    X^{\mathsf{T}}\boldsymbol{y}  
+  \end{equation}
   #+end_quote
 
 ** 最小二乗推定量の性質 
@@ -251,51 +237,43 @@
   \(\boldsymbol{\hat{\epsilon}}=\boldsymbol{y}-\boldsymbol{\hat{y}}\)
   はあてはめ値 \(\boldsymbol{\hat{y}}\) と直交
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      \boldsymbol{\hat{\epsilon}}^{\mathsf{T}}\boldsymbol{\hat{y}}
-      =0
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    \boldsymbol{\hat{\epsilon}}^{\mathsf{T}}\boldsymbol{\hat{y}}
+    =0
+  \end{equation}
   #+end_quote
 - 回帰式は説明変数と目的変数の *標本平均* を通過
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      \bar{y}
-      =
-      (1,\bar{\boldsymbol{x}}^{\mathsf{T}})\boldsymbol{\hat{\beta}},
-      \quad
-      \bar{\boldsymbol{x}}
-      =\frac{1}{n}\sum_{i=1}^n\boldsymbol{x}_i,
-      \quad
-      \bar{y}
-      =\frac{1}{n}\sum_{i=1}^ny_i,
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    \bar{y}
+    =
+    (1,\bar{\boldsymbol{x}}^{\mathsf{T}})\boldsymbol{\hat{\beta}},
+    \quad
+    \bar{\boldsymbol{x}}
+    =\frac{1}{n}\sum_{i=1}^n\boldsymbol{x}_i,
+    \quad
+    \bar{y}
+    =\frac{1}{n}\sum_{i=1}^ny_i,
+  \end{equation}
   #+end_quote
 
 ** 寄与率
 - *決定係数* (R-squared)
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      R^2
-      =
-      1-\frac{\sum_{i=1}^n\hat{\epsilon}_i^2}{\sum_{i=1}^n(y_i-\bar{y})^2}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    R^2
+    =
+    1-\frac{\sum_{i=1}^n\hat{\epsilon}_i^2}{\sum_{i=1}^n(y_i-\bar{y})^2}
+  \end{equation}
   #+end_quote
 - *自由度調整済み決定係数* (adjusted R-squared)
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      \bar{R}^2
-      =
-      1-\frac{\frac{1}{n{-}p{-}1}\sum_{i=1}^n\hat{\epsilon}_i^2}
-      {\frac{1}{n{-}1}\sum_{i=1}^n(y_i-\bar{y})^2}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    \bar{R}^2
+    =
+    1-\frac{\frac{1}{n{-}p{-}1}\sum_{i=1}^n\hat{\epsilon}_i^2}
+    {\frac{1}{n{-}1}\sum_{i=1}^n(y_i-\bar{y})^2}
+  \end{equation}
   #+end_quote
   - 不偏分散で補正
 
@@ -497,21 +475,19 @@
 ** あてはめ値
 - さまざまな表現
   #+begin_quote
-  #+begin_src latex
-    \begin{align}
-      \boldsymbol{\hat{y}}
-      &=X\boldsymbol{\hat{\beta}}\\
-      &\qquad(\boldsymbol{\hat{\beta}}=(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}\boldsymbol{y}を代入)\\
-      &=X(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}\boldsymbol{y}
-      && (A) \\
-      &\qquad(\boldsymbol{y}=X\boldsymbol{\beta}+\boldsymbol{\epsilon}を代入)\\
-      &=X(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}X\boldsymbol{\beta}
-        +X(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}\boldsymbol{\epsilon}\\
-      &=X\boldsymbol{\beta}
-        +X(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}\boldsymbol{\epsilon}
-      && (B) \\
-    \end{align}
-  #+end_src
+  \begin{align}
+    \boldsymbol{\hat{y}}
+    &=X\boldsymbol{\hat{\beta}}\\
+    &\qquad(\boldsymbol{\hat{\beta}}=(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}\boldsymbol{y}を代入)\\
+    &=X(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}\boldsymbol{y}
+    && (A) \\
+    &\qquad(\boldsymbol{y}=X\boldsymbol{\beta}+\boldsymbol{\epsilon}を代入)\\
+    &=X(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}X\boldsymbol{\beta}
+      +X(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}\boldsymbol{\epsilon}\\
+    &=X\boldsymbol{\beta}
+      +X(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}\boldsymbol{\epsilon}
+    && (B) \\
+  \end{align}
   #+end_quote
   - (A) あてはめ値は *観測値の重み付けの和* で表される 
   - (B) あてはめ値と観測値は *誤差項* の寄与のみ異なる
@@ -519,43 +495,37 @@
 ** あてはめ値と誤差
 - 残差と誤差の関係
   #+begin_quote
-  #+begin_src latex
-    \begin{align}
-      \boldsymbol{\hat{\epsilon}}
-      &=\boldsymbol{y}-\boldsymbol{\hat{y}}\\
-      &=\boldsymbol{\epsilon}
-        -X(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}
-        \boldsymbol{\epsilon}\\
-      &=\bigl(I
-        -X(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}
-        \bigr)
-        \boldsymbol{\epsilon}
-      && (C) \\
-    \end{align}
-  #+end_src
+  \begin{align}
+    \boldsymbol{\hat{\epsilon}}
+    &=\boldsymbol{y}-\boldsymbol{\hat{y}}\\
+    &=\boldsymbol{\epsilon}
+      -X(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}
+      \boldsymbol{\epsilon}\\
+    &=\bigl(I
+      -X(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}
+      \bigr)
+      \boldsymbol{\epsilon}
+    && (C) \\
+  \end{align}
   #+end_quote
   - (C) 残差は *誤差の重み付けの和* で表される
 
 ** ハット行列
 - 定義
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      H=
-      X(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    H=
+    X(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}
+  \end{equation}
   #+end_quote
 - ハット行列 \(H\) による表現
   #+begin_quote
-  #+begin_src latex
-    \begin{align}
-      \boldsymbol{\hat{y}}
-      &=H\boldsymbol{y}\\
-      \boldsymbol{\hat{\epsilon}}
-      &=(I-H)\boldsymbol{\epsilon}
-    \end{align}
-  #+end_src
+  \begin{align}
+    \boldsymbol{\hat{y}}
+    &=H\boldsymbol{y}\\
+    \boldsymbol{\hat{\epsilon}}
+    &=(I-H)\boldsymbol{\epsilon}
+  \end{align}
   #+end_quote
   - あてはめ値や残差は \(H\) を用いて簡潔に表現される
 
@@ -565,13 +535,11 @@
 - 対角成分 (*テコ比*; leverage)
   は観測データが自身の予測に及ぼす影響の度合を表す
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      \hat{y}_{j}
-      =
-      (H)_{jj}y_{j} + \text{(それ以外のデータの寄与)}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    \hat{y}_{j}
+    =
+    (H)_{jj}y_{j} + \text{(それ以外のデータの寄与)}
+  \end{equation}
   #+end_quote
   - \((A)_{ij}\) は行列 \(A\) の \((i,j)\) 成分
   - テコ比が小さい : 他のデータでも予測が可能
@@ -591,21 +559,17 @@
   - \(H\) は対称行列であること
   - \(H\) は羃等であること
     #+begin_quote
-    #+begin_src latex
-      \begin{equation}
-        H^{2}=H,\quad
-        (I-H)^{2}=I-H
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      H^{2}=H,\quad
+      (I-H)^{2}=I-H
+    \end{equation}
     #+end_quote
   - 以下の等式が成り立つこと
     #+begin_quote
-    #+begin_src latex
-      \begin{equation}
-        HX=X,\quad
-        X^{\mathsf{T}}H=X^{\mathsf{T}}
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      HX=X,\quad
+      X^{\mathsf{T}}H=X^{\mathsf{T}}
+    \end{equation}
     #+end_quote
 
 ** COMMENT ヒント
@@ -614,25 +578,23 @@
 :END:
 - いずれも \(H\) の定義にもとづいて計算すればよい
   #+begin_quote
-  #+begin_src latex
-    \begin{align}
-      H^{\mathsf{T}}
-      &=
-        (X(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}})^{\mathsf{T}}\\
-      H^{2}
-      &=
-        (X(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}})
-        (X(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}})\\
-      (I-H)^{2}
-      &=
-        I-2H+H^{2}\\
-      HX
-      &=
-        (X(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}})X\\
-      X^{\mathsf{T}}H
-      &=(HX)^{\mathsf{T}}
-    \end{align}
-  #+end_src
+  \begin{align}
+    H^{\mathsf{T}}
+    &=
+      (X(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}})^{\mathsf{T}}\\
+    H^{2}
+    &=
+      (X(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}})
+      (X(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}})\\
+    (I-H)^{2}
+    &=
+      I-2H+H^{2}\\
+    HX
+    &=
+      (X(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}})X\\
+    X^{\mathsf{T}}H
+    &=(HX)^{\mathsf{T}}
+  \end{align}
   #+end_quote
 
 
@@ -640,17 +602,15 @@
 ** 最小二乗推定量の性質
 - 推定量と誤差の関係
   #+begin_quote
-  #+begin_src latex
-    \begin{align}
-      \boldsymbol{\hat{\beta}}
-      &=(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}\boldsymbol{y}\\
-      &=(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}(X\boldsymbol{\beta}+\boldsymbol{\epsilon}) \\
-      &=(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}X\boldsymbol{\beta}
-        +(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}\boldsymbol{\epsilon}\\
-      &=\boldsymbol{\beta}
-        +(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}\boldsymbol{\epsilon}
-    \end{align}
-  #+end_src
+  \begin{align}
+    \boldsymbol{\hat{\beta}}
+    &=(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}\boldsymbol{y}\\
+    &=(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}(X\boldsymbol{\beta}+\boldsymbol{\epsilon}) \\
+    &=(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}X\boldsymbol{\beta}
+      +(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}\boldsymbol{\epsilon}\\
+    &=\boldsymbol{\beta}
+      +(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}\boldsymbol{\epsilon}
+  \end{align}
   #+end_quote
 - 正規分布の重要な性質
   #+begin_quote
@@ -663,19 +623,17 @@
 - *誤差の仮定* : 独立，平均0 分散 \(\sigma^{2}\) の正規分布
 - 推定量は以下の多変量正規分布に従う
   #+begin_quote
-  #+begin_src latex
-    \begin{align}
-      \mathbb{E}[\boldsymbol{\hat{\beta}}]
-      &=\boldsymbol{\beta}\\
-      \mathrm{Cov}(\boldsymbol{\hat{\beta}})
-      &=\sigma^{2}(X^{\mathsf{T}}X)^{-1}
-    \end{align}
-    \begin{equation}
-      \boldsymbol{\hat{\beta}}
-      \sim
-      \mathcal{N}(\boldsymbol{\beta},\sigma^{2}(X^{\mathsf{T}}X)^{-1})
-    \end{equation}
-  #+end_src
+  \begin{align}
+    \mathbb{E}[\boldsymbol{\hat{\beta}}]
+    &=\boldsymbol{\beta}\\
+    \mathrm{Cov}(\boldsymbol{\hat{\beta}})
+    &=\sigma^{2}(X^{\mathsf{T}}X)^{-1}
+  \end{align}
+  \begin{equation}
+    \boldsymbol{\hat{\beta}}
+    \sim
+    \mathcal{N}(\boldsymbol{\beta},\sigma^{2}(X^{\mathsf{T}}X)^{-1})
+  \end{equation}
   #+end_quote
 
 ** 推定量の分布
@@ -683,37 +641,33 @@
 - *誤差の仮定* : 独立，平均0 分散 \(\sigma^{2}\) の正規分布
 - 推定量は以下の多変量正規分布に従う
   #+begin_quote
-  #+begin_src latex
-    \begin{align}
-      \mathbb{E}[\boldsymbol{\hat{\beta}}]
-      &=\mathbb{E}[\boldsymbol{\beta}
-        +(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}\boldsymbol{\epsilon}]
-        =\boldsymbol{\beta}\\
-      \mathrm{Cov}(\boldsymbol{\hat{\beta}})
-      &=\mathbb{E}[
-        (\boldsymbol{\hat{\beta}}-\boldsymbol{\beta})
-         (\boldsymbol{\hat{\beta}}-\boldsymbol{\beta})^{\mathsf{T}}]
-        =\sigma^{2}(X^{\mathsf{T}}X)^{-1}
-    \end{align}
-    \begin{equation}
-      \boldsymbol{\hat{\beta}}
-      \sim
-      \mathcal{N}(\boldsymbol{\beta},\sigma^{2}(X^{\mathsf{T}}X)^{-1})
-    \end{equation}
-  #+end_src
+  \begin{align}
+    \mathbb{E}[\boldsymbol{\hat{\beta}}]
+    &=\mathbb{E}[\boldsymbol{\beta}
+      +(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}\boldsymbol{\epsilon}]
+      =\boldsymbol{\beta}\\
+    \mathrm{Cov}(\boldsymbol{\hat{\beta}})
+    &=\mathbb{E}[
+      (\boldsymbol{\hat{\beta}}-\boldsymbol{\beta})
+       (\boldsymbol{\hat{\beta}}-\boldsymbol{\beta})^{\mathsf{T}}]
+      =\sigma^{2}(X^{\mathsf{T}}X)^{-1}
+  \end{align}
+  \begin{equation}
+    \boldsymbol{\hat{\beta}}
+    \sim
+    \mathcal{N}(\boldsymbol{\beta},\sigma^{2}(X^{\mathsf{T}}X)^{-1})
+  \end{equation}
   #+end_quote
 
 #+reveal: split
 - 通常 \(\sigma^{2}\) は未知，必要な場合には不偏分散で代用
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      \hat{\sigma^{2}}
-      =\frac{S}{n{-}p{-}1}
-      =\frac{1}{n{-}p{-}1}\boldsymbol{\hat{\epsilon}}^{\mathsf{T}}\boldsymbol{\hat{\epsilon}}
-      =\frac{1}{n{-}p{-}1}\sum_{i=1}^n\hat{\epsilon}_i^2
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    \hat{\sigma^{2}}
+    =\frac{S}{n{-}p{-}1}
+    =\frac{1}{n{-}p{-}1}\boldsymbol{\hat{\epsilon}}^{\mathsf{T}}\boldsymbol{\hat{\epsilon}}
+    =\frac{1}{n{-}p{-}1}\sum_{i=1}^n\hat{\epsilon}_i^2
+  \end{equation}
   #+end_quote
 - これらの性質を利用してモデルの評価を行う
 
@@ -780,18 +734,14 @@
   - 以下のモデルに従う人工データを生成する
     #+begin_quote
     説明変数の観測データ : 
-    #+begin_src latex
-      \begin{equation}
-        \{1, 20, 13, 9, 5, 15, 19, 8, 3, 4\}
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      \{1, 20, 13, 9, 5, 15, 19, 8, 3, 4\}
+    \end{equation}
     確率モデル :
-    #+begin_src latex
-      \begin{equation}
-        y=-1+2\times x + \epsilon,
-        \quad \epsilon\sim\mathcal{N}(0,2)
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      y=-1+2\times x + \epsilon,
+      \quad \epsilon\sim\mathcal{N}(0,2)
+    \end{equation}
     #+end_quote
   - 観測データから回帰係数を推定する
   - 実験を複数回繰り返し
@@ -871,46 +821,42 @@
 :END:
 - 定義にもとづいて計算する
   #+begin_quote
-  #+begin_src latex
-    \begin{align}
-      \mathbb{E}[\boldsymbol{\hat{\beta}}]
-      &=
-        \mathbb{E}[\boldsymbol{\beta}
-        +(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}\boldsymbol{\epsilon}]\\
-      &=
-        \boldsymbol{\beta}
-        +(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}\mathbb{E}[\boldsymbol{\epsilon}]\\
-      &=
-        \boldsymbol{\beta}
-    \end{align}
-  #+end_src
+  \begin{align}
+    \mathbb{E}[\boldsymbol{\hat{\beta}}]
+    &=
+      \mathbb{E}[\boldsymbol{\beta}
+      +(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}\boldsymbol{\epsilon}]\\
+    &=
+      \boldsymbol{\beta}
+      +(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}\mathbb{E}[\boldsymbol{\epsilon}]\\
+    &=
+      \boldsymbol{\beta}
+  \end{align}
   #+end_quote
   #+reveal: split
   - 定義にもとづいて計算する
     #+begin_quote
-    #+begin_src latex
-      \begin{align}
-        \mathrm{Cov}(\boldsymbol{\hat{\beta}})
-        &=
-          \mathbb{E}[
-          (\boldsymbol{\hat{\beta}}-\boldsymbol{\beta})
-          (\boldsymbol{\hat{\beta}}-\boldsymbol{\beta})^{\mathsf{T}}]\\
-        &=
-          \mathbb{E}[(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}\boldsymbol{\epsilon}
-          \boldsymbol{\epsilon}^{\mathsf{T}}X(X^{\mathsf{T}}X)^{-1}]\\
-        &=
-          (X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}
-          \mathbb{E}[\boldsymbol{\epsilon}\boldsymbol{\epsilon}^{\mathsf{T}}]
-          X(X^{\mathsf{T}}X)^{-1}\\
-        &=
-          (X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}
-          (\sigma^{2}I)
-          X(X^{\mathsf{T}}X)^{-1}\\
-        &=
-          \sigma^{2}
-          (X^{\mathsf{T}}X)^{-1}
-      \end{align}
-    #+end_src
+    \begin{align}
+      \mathrm{Cov}(\boldsymbol{\hat{\beta}})
+      &=
+        \mathbb{E}[
+        (\boldsymbol{\hat{\beta}}-\boldsymbol{\beta})
+        (\boldsymbol{\hat{\beta}}-\boldsymbol{\beta})^{\mathsf{T}}]\\
+      &=
+        \mathbb{E}[(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}\boldsymbol{\epsilon}
+        \boldsymbol{\epsilon}^{\mathsf{T}}X(X^{\mathsf{T}}X)^{-1}]\\
+      &=
+        (X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}
+        \mathbb{E}[\boldsymbol{\epsilon}\boldsymbol{\epsilon}^{\mathsf{T}}]
+        X(X^{\mathsf{T}}X)^{-1}\\
+      &=
+        (X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}
+        (\sigma^{2}I)
+        X(X^{\mathsf{T}}X)^{-1}\\
+      &=
+        \sigma^{2}
+        (X^{\mathsf{T}}X)^{-1}
+    \end{align}
     #+end_quote
 
 
@@ -920,25 +866,21 @@
 - *決定係数 (R-squared)*: \\
   (回帰式で説明できるばらつきの比率)
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      R^2
-      =
-      1-\frac{\sum_{i=1}^n\hat{\epsilon}_i^2}{\sum_{i=1}^n(y_i-\bar{y})^2}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    R^2
+    =
+    1-\frac{\sum_{i=1}^n\hat{\epsilon}_i^2}{\sum_{i=1}^n(y_i-\bar{y})^2}
+  \end{equation}
   #+end_quote
 - *自由度調整済み決定係数 (adjusted R-squared)*: \\ 
   (決定係数を不偏分散で補正)
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      \bar{R}^2
-      =
-      1-\frac{\frac{1}{n{-}p{-}1}\sum_{i=1}^n\hat{\epsilon}_i^2}
-      {\frac{1}{n{-}1}\sum_{i=1}^n(y_i-\bar{y})^2}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    \bar{R}^2
+    =
+    1-\frac{\frac{1}{n{-}p{-}1}\sum_{i=1}^n\hat{\epsilon}_i^2}
+    {\frac{1}{n{-}1}\sum_{i=1}^n(y_i-\bar{y})^2}
+  \end{equation}
   #+end_quote
 
 ** 各係数の推定量の分布
@@ -946,25 +888,21 @@
   - 誤差 \(\epsilon\) の分布は平均0 分散 \(\sigma^2\) の正規分布
   - \(\boldsymbol{\hat{\beta}}\) の分布
     #+begin_quote
-    #+begin_src latex
-      \begin{equation}
-        \boldsymbol{\hat{\beta}}
-        \sim
-        \mathcal{N}(\boldsymbol{\beta},\sigma^{2}(X^{\mathsf{T}}X)^{-1})
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      \boldsymbol{\hat{\beta}}
+      \sim
+      \mathcal{N}(\boldsymbol{\beta},\sigma^{2}(X^{\mathsf{T}}X)^{-1})
+    \end{equation}
     #+end_quote
     - \(p{+}1\) 変量正規分布
   - \(\hat{\beta}_j\) の分布
     #+begin_quote
-    #+begin_src latex
-      \begin{equation}
-        \hat{\beta}_{j}
-        \sim
-        \mathcal{N}(\beta_{j},\sigma^{2}((X^{\mathsf{T}}X)^{-1})_{jj})
-        =\mathcal{N}(\beta_{j},\sigma^{2}\zeta_{j}^{2})
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      \hat{\beta}_{j}
+      \sim
+      \mathcal{N}(\beta_{j},\sigma^{2}((X^{\mathsf{T}}X)^{-1})_{jj})
+      =\mathcal{N}(\beta_{j},\sigma^{2}\zeta_{j}^{2})
+    \end{equation}
     #+end_quote
     - 1変量正規分布
     - \((A)_{jj}\) は行列 \(A\) の \((j,j)\) (対角)成分 
@@ -973,15 +911,13 @@
 - *標準誤差* (standard error) : 
   \(\hat{\beta}_j\) の標準偏差の推定量
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      \hat{\sigma}\zeta_j
-      =
-      \sqrt{\frac{1}{n{-}p{-}1}\sum_{i=1}^n\hat{\epsilon}_i^2}
-      \cdot
-      \sqrt{((X^{\mathsf{T}}X)^{-1})_{jj}}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    \hat{\sigma}\zeta_j
+    =
+    \sqrt{\frac{1}{n{-}p{-}1}\sum_{i=1}^n\hat{\epsilon}_i^2}
+    \cdot
+    \sqrt{((X^{\mathsf{T}}X)^{-1})_{jj}}
+  \end{equation}
   #+end_quote
   - 未知母数 \(\sigma^{2}\) は不偏分散 \(\hat{\sigma}^{2}\) で推定
   - \(\hat{\beta}_j\) の精度の評価指標
@@ -1110,12 +1046,10 @@
     母数 \(\sigma^{2}\) の不偏な推定量となる
     #+begin_quote
     以下が成り立つことを示せばよい
-    #+begin_src latex
-      \begin{equation}
-        \mathbb{E}\left[\sum_{i=1}^{n}\hat{\epsilon}_{i}^{2}\right]
-        =(n{-}p{-}1)\sigma^{2}
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      \mathbb{E}\left[\sum_{i=1}^{n}\hat{\epsilon}_{i}^{2}\right]
+      =(n{-}p{-}1)\sigma^{2}
+    \end{equation}
     #+end_quote
 
 ** COMMENT 解答例
@@ -1124,51 +1058,47 @@
 :END:
 - ハット行列 \(H\) を用いた表現を利用する
   #+begin_quote
-  #+begin_src latex
-    \begin{align}
-      \boldsymbol{\hat{\epsilon}}
-      &=
-        (I_{n}-H)\boldsymbol{\epsilon}\\
-      \mathbb{E}\left[\sum_{i=1}^{n}\hat{\epsilon}_{i}^{2}\right]
-      &=
-        \mathbb{E}[\boldsymbol{\hat{\epsilon}}^{\mathsf{T}}\boldsymbol{\hat{\epsilon}}]\\
-      &=
-        \mathbb{E}[\mathrm{tr}
-        (\boldsymbol{\hat{\epsilon}}
-        \boldsymbol{\hat{\epsilon}}^{\mathsf{T}})]\\
-      &=
-        \mathbb{E}[\mathrm{tr}
-        (I_{n}-H)\boldsymbol{\epsilon}
-        \boldsymbol{\epsilon}^{\mathsf{T}}(I_{n}-H)]\\
-      &=
-        \mathrm{tr}(I_{n}-H)
-        \mathbb{E}[\boldsymbol{\epsilon}\boldsymbol{\epsilon}^{\mathsf{T}}]
-        (I_{n}-H)\\
-      &=
-        \mathrm{tr}
-        (I_{n}-H)(\sigma^{2}I_{n})(I_{n}-H)\\
-      &=
-        \sigma^{2}\mathrm{tr}(I_{n}-H)
-    \end{align}
-  #+end_src
+  \begin{align}
+    \boldsymbol{\hat{\epsilon}}
+    &=
+      (I_{n}-H)\boldsymbol{\epsilon}\\
+    \mathbb{E}\left[\sum_{i=1}^{n}\hat{\epsilon}_{i}^{2}\right]
+    &=
+      \mathbb{E}[\boldsymbol{\hat{\epsilon}}^{\mathsf{T}}\boldsymbol{\hat{\epsilon}}]\\
+    &=
+      \mathbb{E}[\mathrm{tr}
+      (\boldsymbol{\hat{\epsilon}}
+      \boldsymbol{\hat{\epsilon}}^{\mathsf{T}})]\\
+    &=
+      \mathbb{E}[\mathrm{tr}
+      (I_{n}-H)\boldsymbol{\epsilon}
+      \boldsymbol{\epsilon}^{\mathsf{T}}(I_{n}-H)]\\
+    &=
+      \mathrm{tr}(I_{n}-H)
+      \mathbb{E}[\boldsymbol{\epsilon}\boldsymbol{\epsilon}^{\mathsf{T}}]
+      (I_{n}-H)\\
+    &=
+      \mathrm{tr}
+      (I_{n}-H)(\sigma^{2}I_{n})(I_{n}-H)\\
+    &=
+      \sigma^{2}\mathrm{tr}(I_{n}-H)
+  \end{align}
   #+end_quote
   - \(I_{n}\) は \(n\times n\) 単位行列
 
 #+reveal: split
 - さらに以下が成立する
   #+begin_quote
-  #+begin_src latex
-    \begin{align}
-      \mathrm{tr} H
-      &=
-        \mathrm{tr} X(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}\\
-      &=
-        \mathrm{tr} (X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}X\\
-      &=
-        \mathrm{tr} I_{p{+}1}\\
-      &=p+1
-    \end{align}
-  #+end_src
+  \begin{align}
+    \mathrm{tr} H
+    &=
+      \mathrm{tr} X(X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}\\
+    &=
+      \mathrm{tr} (X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}X\\
+    &=
+      \mathrm{tr} I_{p{+}1}\\
+    &=p+1
+  \end{align}
   #+end_quote
   - 行列のサイズに注意
 
@@ -1178,12 +1108,10 @@
 - *回帰係数の分布* に関する定理
   #+begin_quote
   *\(t\)統計量*
-  #+begin_src latex
-    \begin{equation}
-      % \text{(t統計量)}\quad
-      t=\frac{\hat{\beta}_j-\beta_j}{\hat{\sigma}\zeta_{j}}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    % \text{(t統計量)}\quad
+    t=\frac{\hat{\beta}_j-\beta_j}{\hat{\sigma}\zeta_{j}}
+  \end{equation}
   は自由度 \(n{-}p{-}1\) の \(t\)分布に従う
   #+end_quote
 - 証明には以下の性質を用いる
@@ -1198,25 +1126,21 @@
   - 対立仮説 \(H_{1}\) : \(\beta_j\neq0\)
 - \(p\)値: 確率変数の絶対値が \(|t|\) を超える確率
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      \text{(\(p\)値)}
-      =
-      2\int_{|t|}^\infty f(x)dx
-      \quad\text{(両側検定)}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    \text{(\(p\)値)}
+    =
+    2\int_{|t|}^\infty f(x)dx
+    \quad\text{(両側検定)}
+  \end{equation}
   #+end_quote
   - \(f(x)\) は自由度 \(n{-}p{-}1\) の \(t\)分布の確率密度関数
 #  - 帰無仮説 \(\beta_j=0\) が正しければ \(p\)値は小さくならない
 - 帰無仮説 \(H_{0}\) が正しければ \(p\)値は小さくならない
 
 # - \(t\)値および \(p\)値による仮説検証:
-#   #+begin_src latex
 #   \begin{equation}
 #     H_{0}:\beta_j=0\quad\text{vs}\quad H_{1}:\beta_j\neq0
 #   \end{equation}
-#   #+end_src
 #   - \(\beta_j=0\) のとき説明変数 \(X_j\) は回帰式に寄与しない
 #   - 帰無仮説 \(\beta_j=0\) が正しければ \(p\)値は小さくならない
 #   - \(p\)値が小さいときは帰無仮説が誤り結論するのが自然
@@ -1319,16 +1243,14 @@
   #+begin_quote
   \(\beta_{1}=\dotsb=\beta_{p}=0\) ならば
   *\(F\)統計量*
-  #+begin_src latex
-    \begin{equation}
-      % \text{(F統計量)}\quad
-      F=
-      \frac{\frac{1}{p}S_{r}}{\frac{1}{n{-}p{-}1}S}
-      % =\frac{\frac{1}{p}\sum_{i=1}^n(\hat{y}_i-\bar{y})^2}
-      % {\frac{1}{n{-}p{-}1}\sum_{i=1}^n(y_i-\hat{y}_i)^2}
-      =\frac{n{-}p{-}1}{p}\frac{R^2}{1-R^2}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    % \text{(F統計量)}\quad
+    F=
+    \frac{\frac{1}{p}S_{r}}{\frac{1}{n{-}p{-}1}S}
+    % =\frac{\frac{1}{p}\sum_{i=1}^n(\hat{y}_i-\bar{y})^2}
+    % {\frac{1}{n{-}p{-}1}\sum_{i=1}^n(y_i-\hat{y}_i)^2}
+    =\frac{n{-}p{-}1}{p}\frac{R^2}{1-R^2}
+  \end{equation}
   は自由度 \(p,n{-}p{-}1\) の \(F\)分布に従う
   #+end_quote
 - 証明には以下の性質を用いる
@@ -1343,27 +1265,23 @@
   - 対立仮説 \(H_{1}\) : \(\exists j\;\beta_j\neq0\)
 - \(p\)値: 確率変数の値が \(F\)を超える確率
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      \text{(\(p\)値)}
-      =
-      \int_{F}^\infty f(x)dx
-      \quad\text{(片側検定)}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    \text{(\(p\)値)}
+    =
+    \int_{F}^\infty f(x)dx
+    \quad\text{(片側検定)}
+  \end{equation}
   #+end_quote
   - \(f(x)\) は自由度 \(p,n{-}p{-}1\) の \(F\)分布の確率密度関数
 #  - 帰無仮説 \(\forall j\;\beta_j=0\) が正しければ \(p\)値は小さくならない
 - 帰無仮説 \(H_{0}\) が正しければ \(p\)値は小さくならない
 
 # - \(F\)統計量による仮説検証:
-#   #+begin_src latex
 #   \begin{equation}
 #     H_{0}:\beta_{1}=\dotsb=\beta_{p}=0
 #     \quad\text{vs}\quad
 #     H_{1}:\exists j\;\beta_j\neq
 #   \end{equation}
-#   #+end_src
 
 
 * 実習

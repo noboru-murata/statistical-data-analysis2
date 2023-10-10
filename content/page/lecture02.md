@@ -22,5 +22,5 @@ weight = 1003
 ## 付録 {#付録}
 
 -   [RScript](https://noboru-murata.github.io/statistical-data-analysis2/code/slide02.R)
--   [練習問題用データセット](https://noboru-murata.github.io/statistical-data-analysis2/data/sample_data.zip) <br />
+-   [練習問題用データセット](https://noboru-murata.github.io/statistical-data-analysis2/data/data02.zip) <br />
     ダウンロードして unzip すると文字コード utf-8 のファイルになります．

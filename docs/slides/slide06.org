@@ -1,12 +1,16 @@
 #+TITLE: 主成分分析
 #+SUBTITLE: 基本的な考え方
 #+AUTHOR: 村田 昇
-#+EMAIL: noboru.murata@eb.waseda.ac.jp
+#+EMAIL: noboru.murata@gmail.com
 #+DATE: 
-# Time-stamp: <2022-11-11 16:25:39 mura>
+#+STARTUP: hidestars content indent
+# Time-stamp: <2023-10-09 12:42:51 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
-#+STARTUP: hidestars content indent
+#+PROPERTY: header-args:R :cache yes :session *R*
+#+PROPERTY: header-args:R+ :exports both :results output
+#+PROPERTY: header-args:R+ :width 800 :height 800 :res 100
+#+PROPERTY: header-args:R+ :tangle yes
 # C-c C-x C-v でinlineを切り替え
 # <m C-i でlatex block (math env用)
 # C-c '
@@ -35,13 +39,11 @@
 - *第1日 : 主成分分析の考え方*
 - 第2日 : 分析の評価と視覚化
 
-#+begin_src R :eval no :exports none :tangle yes
-  ### 
-  ### 第6講 サンプルコード
-  ###
+#+begin_src R :exports none :tangle no
+  setwd("~/Desktop/lectures/u-tokyo/autumn/course")
 #+end_src
 #+begin_src R :exports none
-  setwd("~/Desktop/lectures/u-tokyo/autumn/course")
+  ### 第6講 サンプルコード
 #+end_src
 
 * COMMENT 雛型の編集
@@ -160,19 +162,15 @@
 - \(Z_{1},\dotsc,Z_{d}\) : *特徴量* ( \(d\leq p\) )
 - 変数と特徴量の関係 (線形結合)
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      Z_k=a_{1k}X_{1}+\cdots+a_{pk}X_{p}\quad(k=1,\dotsc,d)
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    Z_k=a_{1k}X_{1}+\cdots+a_{pk}X_{p}\quad(k=1,\dotsc,d)
+  \end{equation}
   #+end_quote
   - 特徴量は定数倍の任意性があるので以下を仮定
     #+begin_quote
-    #+begin_src latex
-      \begin{equation}
-        \|\boldsymbol{a}_k\|^2=\sum_{j=1}^pa_{jk}^2=1
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      \|\boldsymbol{a}_k\|^2=\sum_{j=1}^pa_{jk}^2=1
+    \end{equation}
     #+end_quote
 
 ** 主成分分析の用語
@@ -291,20 +289,16 @@
   
   # #+begin_quote
   # 主成分負荷量 (単位ベクトル):
-  # #+begin_src latex
   #   \begin{equation}
   #     \boldsymbol{a}=(1/\sqrt{5},2/\sqrt{5})
   #   \end{equation}
-  # #+end_src
   # 観測データ (2次元):
-  # #+begin_src latex
   #   \begin{equation}
   #     \boldsymbol{x}= s\times\boldsymbol{a} + \epsilon,
   #     \quad
   #     s\sim\mathcal{U}(-1,1),\;
   #     \epsilon\sim\mathcal{N}(0,0.2^{2})
   #   \end{equation}
-  # #+end_src
   # #+end_quote
 
 ** COMMENT 演習: 2次元人工データの主成分分析
@@ -319,11 +313,9 @@
 - 変数 : \(x_{1},\dotsc,x_{p}\) (\(p\)次元)
 - 観測データ : \(n\) 個の \((x_{1},\dotsc,x_{p})\) の組
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      \{(x_{i1},\dots,x_{ip})\}_{i=1}^n
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    \{(x_{i1},\dots,x_{ip})\}_{i=1}^n
+  \end{equation}
   #+end_quote
 - ベクトル表現
   - \(\boldsymbol{x}_{i}=(x_{i1},\dots,x_{ip})^{\mathsf{T}}\) :
@@ -334,23 +326,19 @@
 ** 係数ベクトルによる射影
 - データ \(\boldsymbol{x}_{i}\) の \(\boldsymbol{a}\) 方向成分の長さ
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      \boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_{i}
-      \quad\text{(スカラー)}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    \boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_{i}
+    \quad\text{(スカラー)}
+  \end{equation}
   #+end_quote
 - 方向ベクトル \(\boldsymbol{a}\)
   をもつ直線上への点 \(\boldsymbol{x}_{i}\)
   の直交射影
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      (\boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_{i})\,\boldsymbol{a}
-      \quad\text{(スカラー \(\times\) ベクトル)}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    (\boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_{i})\,\boldsymbol{a}
+    \quad\text{(スカラー \(\times\) ベクトル)}
+  \end{equation}
   #+end_quote
 
 ** 幾何学的描像
@@ -366,30 +354,26 @@
   ベクトル \(\boldsymbol{a}\) を *うまく* 選んで
   観測データ \(\boldsymbol{x}_{1},\dots,\boldsymbol{x}_n\)
   の情報を最も保持する1変量データを構成
-  #+begin_src latex
-    \begin{equation}
-      \boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_{1},
-      \boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_2,
-      \dotsc,
-      \boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_n
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    \boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_{1},
+    \boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_2,
+    \dotsc,
+    \boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_n
+  \end{equation}
   #+end_quote
 - 特徴量のばらつきの最大化
   #+begin_quote
   観測データの *ばらつき*
   を最も反映するベクトル \(\boldsymbol{a}\) を選択
-  #+begin_src latex
-    \begin{equation}
-      \arg\max_{\boldsymbol{a}}
-      \sum_{i=1}^n(\boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_{i}
-      -\boldsymbol{a}^{\mathsf{T}}\bar{\boldsymbol{x}})^2,
-      \quad
-      \bar{\boldsymbol{x}}
-      =
-      \frac{1}{n}\sum_{i=1}^n\boldsymbol{x}_{i},
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    \arg\max_{\boldsymbol{a}}
+    \sum_{i=1}^n(\boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_{i}
+    -\boldsymbol{a}^{\mathsf{T}}\bar{\boldsymbol{x}})^2,
+    \quad
+    \bar{\boldsymbol{x}}
+    =
+    \frac{1}{n}\sum_{i=1}^n\boldsymbol{x}_{i},
+  \end{equation}
   #+end_quote
 
 ** ベクトル \(\boldsymbol{a}\) の最適化
@@ -397,14 +381,12 @@
   #+begin_quote
   制約条件 \(\|\boldsymbol{a}\|=1\) の下で
   以下の関数を最大化せよ
-  #+begin_src latex
-    \begin{equation}
-      f(\boldsymbol{a})
-      =
-      \sum_{i=1}^n(\boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_{i}
-      -\boldsymbol{a}^{\mathsf{T}}\bar{\boldsymbol{x}})^2
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    f(\boldsymbol{a})
+    =
+    \sum_{i=1}^n(\boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_{i}
+    -\boldsymbol{a}^{\mathsf{T}}\bar{\boldsymbol{x}})^2
+  \end{equation}
   #+end_quote
 - この最大化問題は必ず解をもつ
   - \(f(\boldsymbol{a})\) は連続関数
@@ -424,34 +406,30 @@
   - 評価関数 \(f(\boldsymbol{a})\)
     を以下の中心化したデータ行列で表しなさい
     #+begin_quote
-    #+begin_src latex
-      \begin{equation}
-	X
-	=
-	\begin{pmatrix}
-	  \boldsymbol{x}_{1}^{\mathsf{T}}-\bar{\boldsymbol{x}}^{\mathsf{T}} \\
-	  \vdots \\
-	  \boldsymbol{x}_{n}^{\mathsf{T}}-\bar{\boldsymbol{x}}^{\mathsf{T}}
-	\end{pmatrix}
-	=
-	\begin{pmatrix}
-	  x_{11}-\bar{x}_{1} & \cdots & x_{1p}-\bar{x}_{p}\\
-	  \vdots & & \vdots \\
-	  x_{n1}-\bar{x}_{1} & \cdots & x_{np}-\bar{x}_{p}
-	\end{pmatrix}
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      X
+      =
+      \begin{pmatrix}
+        \boldsymbol{x}_{1}^{\mathsf{T}}-\bar{\boldsymbol{x}}^{\mathsf{T}} \\
+        \vdots \\
+        \boldsymbol{x}_{n}^{\mathsf{T}}-\bar{\boldsymbol{x}}^{\mathsf{T}}
+      \end{pmatrix}
+      =
+      \begin{pmatrix}
+        x_{11}-\bar{x}_{1} & \cdots & x_{1p}-\bar{x}_{p}\\
+        \vdots & & \vdots \\
+        x_{n1}-\bar{x}_{1} & \cdots & x_{np}-\bar{x}_{p}
+      \end{pmatrix}
+    \end{equation}
     #+end_quote
   - 上の結果を用いて次の最適化問題の解の条件を求めなさい
     #+begin_quote
-    #+begin_src latex
-      \begin{equation}
-	\text{maximize}\quad
-	f(\boldsymbol{a})
-	\quad\text{s.t.}\quad
-	\boldsymbol{a}^{\mathsf{T}}\boldsymbol{a}=1
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      \text{maximize}\quad
+      f(\boldsymbol{a})
+      \quad\text{s.t.}\quad
+      \boldsymbol{a}^{\mathsf{T}}\boldsymbol{a}=1
+    \end{equation}
     #+end_quote
 
 ** COMMENT 解答例
@@ -460,47 +438,43 @@
 :END:
   - 定義どおりに計算する
     #+begin_quote
-    #+begin_src latex
-      \begin{align}
-	f(\boldsymbol{a})
-	&=
-	  \sum_{i=1}^n(\boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_{i}
-	  -\boldsymbol{a}^{\mathsf{T}}\bar{\boldsymbol{x}})^2\\
-	&=
-	  \sum_{i=1}^n
-	  (\boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_{i}
-	  -\boldsymbol{a}^{\mathsf{T}}\bar{\boldsymbol{x}})
-	  (\boldsymbol{x}_{i}^{\mathsf{T}}\boldsymbol{a}
-	  -\bar{\boldsymbol{x}}\boldsymbol{a}^{\mathsf{T}})\\
-	&=
-	  \boldsymbol{a}^{\mathsf{T}}X^{\mathsf{T}}X\boldsymbol{a}
-      \end{align}
-    #+end_src
+    \begin{align}
+      f(\boldsymbol{a})
+      &=
+        \sum_{i=1}^n(\boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_{i}
+        -\boldsymbol{a}^{\mathsf{T}}\bar{\boldsymbol{x}})^2\\
+      &=
+        \sum_{i=1}^n
+        (\boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_{i}
+        -\boldsymbol{a}^{\mathsf{T}}\bar{\boldsymbol{x}})
+        (\boldsymbol{x}_{i}^{\mathsf{T}}\boldsymbol{a}
+        -\bar{\boldsymbol{x}}\boldsymbol{a}^{\mathsf{T}})\\
+      &=
+        \boldsymbol{a}^{\mathsf{T}}X^{\mathsf{T}}X\boldsymbol{a}
+    \end{align}
     #+end_quote
     - 回帰分析の Gram 行列を参照
 
 #+reveal: split
 - 制約付き最適化なので未定係数法を用いればよい
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      L(\boldsymbol{a},\lambda)
-      =f(\boldsymbol{a})+\lambda(1-\boldsymbol{a}^{\mathsf{T}}\boldsymbol{a})
-    \end{equation}
-    の鞍点
-    \begin{equation}
-      \frac{\partial}{\partial\boldsymbol{a}}L(\boldsymbol{a},\lambda)
-      =0
-    \end{equation}
-    を求めればよいので
-    \begin{align}
-      2X^{\mathsf{T}}X\boldsymbol{a}-2\lambda\boldsymbol{a}
-      &=0\\
-      X^{\mathsf{T}}X\boldsymbol{a}
-      &=\lambda\boldsymbol{a}
-        \quad\text{(固有値問題)}
-    \end{align}
-  #+end_src
+  \begin{equation}
+    L(\boldsymbol{a},\lambda)
+    =f(\boldsymbol{a})+\lambda(1-\boldsymbol{a}^{\mathsf{T}}\boldsymbol{a})
+  \end{equation}
+  の鞍点
+  \begin{equation}
+    \frac{\partial}{\partial\boldsymbol{a}}L(\boldsymbol{a},\lambda)
+    =0
+  \end{equation}
+  を求めればよいので
+  \begin{align}
+    2X^{\mathsf{T}}X\boldsymbol{a}-2\lambda\boldsymbol{a}
+    &=0\\
+    X^{\mathsf{T}}X\boldsymbol{a}
+    &=\lambda\boldsymbol{a}
+      \quad\text{(固有値問題)}
+  \end{align}
   #+end_quote
 
 
@@ -509,35 +483,31 @@
 # 東京大学
 - 中心化したデータ行列
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      X
-      =
-      \begin{pmatrix}
-	\boldsymbol{x}_{1}^{\mathsf{T}}-\bar{\boldsymbol{x}}^{\mathsf{T}} \\
-	\vdots \\
-	\boldsymbol{x}_{n}^{\mathsf{T}}-\bar{\boldsymbol{x}}^{\mathsf{T}}
-      \end{pmatrix}
-      =
-      \begin{pmatrix}
-	x_{11}-\bar{x}_{1} & \cdots & x_{1p}-\bar{x}_{p}\\
-	\vdots & & \vdots \\
-	x_{n1}-\bar{x}_{1} & \cdots & x_{np}-\bar{x}_{p}
-      \end{pmatrix}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    X
+    =
+    \begin{pmatrix}
+      \boldsymbol{x}_{1}^{\mathsf{T}}-\bar{\boldsymbol{x}}^{\mathsf{T}} \\
+      \vdots \\
+      \boldsymbol{x}_{n}^{\mathsf{T}}-\bar{\boldsymbol{x}}^{\mathsf{T}}
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+      x_{11}-\bar{x}_{1} & \cdots & x_{1p}-\bar{x}_{p}\\
+      \vdots & & \vdots \\
+      x_{n1}-\bar{x}_{1} & \cdots & x_{np}-\bar{x}_{p}
+    \end{pmatrix}
+  \end{equation}
   (回帰分析のデザイン行列を参照)
   #+end_quote
 - 評価関数 \(f(\boldsymbol{a})\) は行列 \(X^{\mathsf{T}}X\) 
   の二次形式
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      f(\boldsymbol{a})
-      =
-      \boldsymbol{a}^{\mathsf{T}}X^{\mathsf{T}}X\boldsymbol{a}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    f(\boldsymbol{a})
+    =
+    \boldsymbol{a}^{\mathsf{T}}X^{\mathsf{T}}X\boldsymbol{a}
+  \end{equation}
   (回帰分析の Gram 行列を参照)
   #+end_quote
 
@@ -545,68 +515,60 @@
 # 早稲田大学
 - 最適化問題
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      \text{maximize}\quad
-      f(\boldsymbol{a})
-      =
-      \boldsymbol{a}^{\mathsf{T}}X^{\mathsf{T}}X\boldsymbol{a}
-      \quad\text{s.t.}\quad
-      \boldsymbol{a}^{\mathsf{T}}\boldsymbol{a}=1
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    \text{maximize}\quad
+    f(\boldsymbol{a})
+    =
+    \boldsymbol{a}^{\mathsf{T}}X^{\mathsf{T}}X\boldsymbol{a}
+    \quad\text{s.t.}\quad
+    \boldsymbol{a}^{\mathsf{T}}\boldsymbol{a}=1
+  \end{equation}
   #+end_quote
 - 固有値問題
   #+begin_quote
   \(f(\boldsymbol{a})\) の極大値を与える \(\boldsymbol{a}\) は
   \(X^{\mathsf{T}}X\) の固有ベクトルとなる
-  #+begin_src latex
-    \begin{equation}
-      X^{\mathsf{T}}X\boldsymbol{a}
-      =
-      \lambda\boldsymbol{a}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    X^{\mathsf{T}}X\boldsymbol{a}
+    =
+    \lambda\boldsymbol{a}
+  \end{equation}
   #+end_quote
 
 ** ベクトル \(\boldsymbol{a}\) の解
 # 東京
 - 最適化問題
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      \text{maximize}\quad
-      f(\boldsymbol{a})
-      =
-      \boldsymbol{a}^{\mathsf{T}}X^{\mathsf{T}}X\boldsymbol{a}
-      \quad\text{s.t.}\quad
-      \boldsymbol{a}^{\mathsf{T}}\boldsymbol{a}=1
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    \text{maximize}\quad
+    f(\boldsymbol{a})
+    =
+    \boldsymbol{a}^{\mathsf{T}}X^{\mathsf{T}}X\boldsymbol{a}
+    \quad\text{s.t.}\quad
+    \boldsymbol{a}^{\mathsf{T}}\boldsymbol{a}=1
+  \end{equation}
   #+end_quote
 
 #+reveal: split
 - 制約付き最適化なので未定係数法を用いればよい
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      L(\boldsymbol{a},\lambda)
-      =f(\boldsymbol{a})+\lambda(1-\boldsymbol{a}^{\mathsf{T}}\boldsymbol{a})
-    \end{equation}
-    の鞍点
-    \begin{equation}
-      \frac{\partial}{\partial\boldsymbol{a}}L(\boldsymbol{a},\lambda)
-      =0
-    \end{equation}
-    を求めればよいので
-    \begin{align}
-      2X^{\mathsf{T}}X\boldsymbol{a}-2\lambda\boldsymbol{a}
-      &=0\\
-      X^{\mathsf{T}}X\boldsymbol{a}
-      &=\lambda\boldsymbol{a}
-        \quad\text{(固有値問題)}
-    \end{align}
-  #+end_src
+  \begin{equation}
+    L(\boldsymbol{a},\lambda)
+    =f(\boldsymbol{a})+\lambda(1-\boldsymbol{a}^{\mathsf{T}}\boldsymbol{a})
+  \end{equation}
+  の鞍点
+  \begin{equation}
+    \frac{\partial}{\partial\boldsymbol{a}}L(\boldsymbol{a},\lambda)
+    =0
+  \end{equation}
+  を求めればよいので
+  \begin{align}
+    2X^{\mathsf{T}}X\boldsymbol{a}-2\lambda\boldsymbol{a}
+    &=0\\
+    X^{\mathsf{T}}X\boldsymbol{a}
+    &=\lambda\boldsymbol{a}
+      \quad\text{(固有値問題)}
+  \end{align}
   #+end_quote
 
 
@@ -615,41 +577,35 @@
   #+begin_quote
   \(f(\boldsymbol{a})\) の極大値を与える \(\boldsymbol{a}\) は
   \(X^{\mathsf{T}}X\) の固有ベクトルとなる
-  #+begin_src latex
-    \begin{equation}
-      X^{\mathsf{T}}X\boldsymbol{a}
-      =
-      \lambda\boldsymbol{a}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    X^{\mathsf{T}}X\boldsymbol{a}
+    =
+    \lambda\boldsymbol{a}
+  \end{equation}
   #+end_quote
 
 ** 第1主成分
 - 固有ベクトル\(\boldsymbol{a}\)に対する\(f(\boldsymbol{a})\)
   の値は行列 \(X^{\mathsf{T}}X\) の固有値
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      f(\boldsymbol{a})
-      =\boldsymbol{a}^{\mathsf{T}}X^{\mathsf{T}}X\boldsymbol{a}
-      =\boldsymbol{a}^{\mathsf{T}}\lambda\boldsymbol{a}
-      =\lambda
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    f(\boldsymbol{a})
+    =\boldsymbol{a}^{\mathsf{T}}X^{\mathsf{T}}X\boldsymbol{a}
+    =\boldsymbol{a}^{\mathsf{T}}\lambda\boldsymbol{a}
+    =\lambda
+  \end{equation}
   #+end_quote
 - 求める \(\boldsymbol{a}\)
   は行列 \(X^{\mathsf{T}}X\) の最大固有ベクトル (長さ1)
 - *第1主成分負荷量* : ベクトル \(\boldsymbol{a}\)
 - *第1主成分得点* :
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      z_{i1}
-      =a_{1}x_{i1}+\cdots+a_{p}x_{ip}
-      =\boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_{i},
-      \quad(i=1,\dots,n)
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    z_{i1}
+    =a_{1}x_{i1}+\cdots+a_{p}x_{ip}
+    =\boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_{i},
+    \quad(i=1,\dots,n)
+  \end{equation}
   #+end_quote
 
 
@@ -717,44 +673,36 @@
 - \(X^{\mathsf{T}}X\) の固有値は0以上の実数
   - 固有値を重複を許して降順に並べる
     #+begin_quote
-    #+begin_src latex
-      \begin{equation}
-        \lambda_{1}\geq\dotsb\geq\lambda_{p}\quad(\geq0)
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      \lambda_{1}\geq\dotsb\geq\lambda_{p}\quad(\geq0)
+    \end{equation}
     #+end_quote
   - 固有値 \(\lambda_{k}\) に対する固有ベクトルを \(\boldsymbol{a}_{k}\)(長さ1)とする
     #+begin_quote
-    #+begin_src latex
-      \begin{equation}
-        \|\boldsymbol{a}_{k}\|=1,
-        \quad (k=1,\dotsc,p)
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      \|\boldsymbol{a}_{k}\|=1,
+      \quad (k=1,\dotsc,p)
+    \end{equation}
     #+end_quote
 
 ** Gram 行列のスペクトル分解
 - \(\boldsymbol{a}_{1},\dotsc,\boldsymbol{a}_{p}\) は *互いに直交* するようとることができる
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      j\neq k
-      \quad\Rightarrow\quad
-      \boldsymbol{a}_{j}^{\mathsf{T}}\boldsymbol{a}_k=0
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    j\neq k
+    \quad\Rightarrow\quad
+    \boldsymbol{a}_{j}^{\mathsf{T}}\boldsymbol{a}_k=0
+  \end{equation}
   #+end_quote
 - 行列 \(X^{\mathsf{T}}X\) (非負定値対称行列) のスペクトル分解
   #+begin_quote
-  #+begin_src latex
-    \begin{align}
-      X^{\mathsf{T}}X
-      &=\lambda_{1}\boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}}+
-	\lambda_{2}\boldsymbol{a}_{2}\boldsymbol{a}_{2}^{\mathsf{T}}+
-	\dotsb+\lambda_{p}\boldsymbol{a}_{p}\boldsymbol{a}_{p}^{\mathsf{T}}\\
-      &=\sum_{k=1}^{p}\lambda_{k}\boldsymbol{a}_{k}\boldsymbol{a}_{k}^{\mathsf{T}}
-    \end{align}
-  #+end_src     
+  \begin{align}
+    X^{\mathsf{T}}X
+    &=\lambda_{1}\boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}}+
+      \lambda_{2}\boldsymbol{a}_{2}\boldsymbol{a}_{2}^{\mathsf{T}}+
+      \dotsb+\lambda_{p}\boldsymbol{a}_{p}\boldsymbol{a}_{p}^{\mathsf{T}}\\
+    &=\sum_{k=1}^{p}\lambda_{k}\boldsymbol{a}_{k}\boldsymbol{a}_{k}^{\mathsf{T}}
+  \end{align}
   固有値と固有ベクトルによる行列の表現
   #+end_quote
 
@@ -773,35 +721,31 @@
     \(\lambda_{j}\) と \(\boldsymbol{a}_{j}\)
     が固有値・固有ベクトルとなることを確かめなさい
     #+begin_quote
-    #+begin_src latex
-      \begin{equation}
-	X^{\mathsf{T}}X
-	=\sum_{k=1}^{p}\lambda_{k}\boldsymbol{a}_{k}\boldsymbol{a}_{k}^{\mathsf{T}}
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      X^{\mathsf{T}}X
+      =\sum_{k=1}^{p}\lambda_{k}\boldsymbol{a}_{k}\boldsymbol{a}_{k}^{\mathsf{T}}
+    \end{equation}
     #+end_quote
   - 以下の行列を用いて Gram 行列のスペクトル分解を書き直しなさい
     #+begin_quote
-    #+begin_src latex
-      \begin{equation}
-	A
-	=
-	\begin{pmatrix}
-	  \boldsymbol{a}_{1}^{\mathsf{T}}\\
-	  \vdots \\
-	  \boldsymbol{a}_{p}^{\mathsf{T}}
-	\end{pmatrix},
-	\quad
-	\Lambda
-	=
-	\begin{pmatrix}
-	  \lambda_{1} & 0 & \dotsm & 0\\
-	  0 & \lambda_{2} & \dotsm & 0\\
-	  0 & 0 & \ddots & 0\\
-	  0 & 0 & \dotsm & \lambda_{p}\\
-	\end{pmatrix}
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      A
+      =
+      \begin{pmatrix}
+        \boldsymbol{a}_{1}^{\mathsf{T}}\\
+        \vdots \\
+        \boldsymbol{a}_{p}^{\mathsf{T}}
+      \end{pmatrix},
+      \quad
+      \Lambda
+      =
+      \begin{pmatrix}
+        \lambda_{1} & 0 & \dotsm & 0\\
+        0 & \lambda_{2} & \dotsm & 0\\
+        0 & 0 & \ddots & 0\\
+        0 & 0 & \dotsm & \lambda_{p}\\
+      \end{pmatrix}
+    \end{equation}
     #+end_quote
 
 ** COMMENT 解答例
@@ -810,28 +754,24 @@
 :END:
 - 固有ベクトルの直交性に注意する
   #+begin_quote
-  #+begin_src latex
-    \begin{align}
-      X^{\mathsf{T}}X\boldsymbol{a}_{j}
-      &=\sum_{k=1}^{p}\lambda_{k}\boldsymbol{a}_{k}\boldsymbol{a}_{k}^{\mathsf{T}}\boldsymbol{a}_{j}
-      &&\text{(直交性)}\\
-      &=\lambda_{j}\boldsymbol{a}_{j}\boldsymbol{a}_{j}^{\mathsf{T}}\boldsymbol{a}_{j}
-      &&\text{(単位ベクトル)}\\
-      &=\lambda_{j}\boldsymbol{a}_{j}
-    \end{align}
-  #+end_src
+  \begin{align}
+    X^{\mathsf{T}}X\boldsymbol{a}_{j}
+    &=\sum_{k=1}^{p}\lambda_{k}\boldsymbol{a}_{k}\boldsymbol{a}_{k}^{\mathsf{T}}\boldsymbol{a}_{j}
+    &&\text{(直交性)}\\
+    &=\lambda_{j}\boldsymbol{a}_{j}\boldsymbol{a}_{j}^{\mathsf{T}}\boldsymbol{a}_{j}
+    &&\text{(単位ベクトル)}\\
+    &=\lambda_{j}\boldsymbol{a}_{j}
+  \end{align}
   #+end_quote
 
 #+reveal: split
 - 転置に注意して計算する
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      X^{\mathsf{T}}X
-      =
-      A^{\mathsf{T}}\Lambda A
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    X^{\mathsf{T}}X
+    =
+    A^{\mathsf{T}}\Lambda A
+  \end{equation}
   #+end_quote
 
 
@@ -842,24 +782,20 @@
   - 主成分得点 : \(\boldsymbol{a}_{1}^{\mathsf{T}}\boldsymbol{x}_{i}\) (\(i=1,\dotsc,n\))
 - 第1主成分負荷量に関してデータが有する情報
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      (\boldsymbol{a}_{1}^{\mathsf{T}}\boldsymbol{x}_{i})\,\boldsymbol{a}_{1}
-      \quad(i=1,\dotsc,n)
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    (\boldsymbol{a}_{1}^{\mathsf{T}}\boldsymbol{x}_{i})\,\boldsymbol{a}_{1}
+    \quad(i=1,\dotsc,n)
+  \end{equation}
   #+end_quote
 - 第1主成分を取り除いた観測データ (分析対象)
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      \tilde{\boldsymbol{x}}_{i}
-      =
-      \boldsymbol{x}_{i}
-      -(\boldsymbol{a}_{1}^{\mathsf{T}}\boldsymbol{x}_{i})\,\boldsymbol{a}_{1}
-      \quad(i=1,\dotsc,n)
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    \tilde{\boldsymbol{x}}_{i}
+    =
+    \boldsymbol{x}_{i}
+    -(\boldsymbol{a}_{1}^{\mathsf{T}}\boldsymbol{x}_{i})\,\boldsymbol{a}_{1}
+    \quad(i=1,\dotsc,n)
+  \end{equation}
   #+end_quote
 
 ** 第2主成分の最適化
@@ -867,18 +803,16 @@
   #+begin_quote
   制約条件 \(\|\boldsymbol{a}\|=1\) の下で
   以下の関数を最大化せよ
-  #+begin_src latex
-    \begin{equation}
-      \tilde{f}(\boldsymbol{a})
-      =
-      \sum_{i=1}^n(\boldsymbol{a}^{\mathsf{T}}\tilde{\boldsymbol{x}}_{i}
-      -\boldsymbol{a}^{\mathsf{T}}\bar{\tilde{\boldsymbol{x}}})^2
-      \quad\text{ただし}\quad
-      \bar{\tilde{\boldsymbol{x}}}
-      =
-      \frac{1}{n}\sum_{i=1}^n\tilde{\boldsymbol{x}}_{i}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    \tilde{f}(\boldsymbol{a})
+    =
+    \sum_{i=1}^n(\boldsymbol{a}^{\mathsf{T}}\tilde{\boldsymbol{x}}_{i}
+    -\boldsymbol{a}^{\mathsf{T}}\bar{\tilde{\boldsymbol{x}}})^2
+    \quad\text{ただし}\quad
+    \bar{\tilde{\boldsymbol{x}}}
+    =
+    \frac{1}{n}\sum_{i=1}^n\tilde{\boldsymbol{x}}_{i}
+  \end{equation}
   #+end_quote
 
 
@@ -896,29 +830,25 @@
     \(X\) と \(\boldsymbol{a}_{1}\)
     で表しなさい
     #+begin_quote
-    #+begin_src latex
-      \begin{equation}
-	\tilde{X}
-	=
-	\begin{pmatrix}
-	  \tilde{\boldsymbol{x}}_{1}^{\mathsf{T}}-\bar{\tilde{\boldsymbol{x}}}^{\mathsf{T}} \\
-	  \vdots \\
-	  \tilde{\boldsymbol{x}}_{n}^{\mathsf{T}}-\bar{\tilde{\boldsymbol{x}}}^{\mathsf{T}}
-	\end{pmatrix}
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      \tilde{X}
+      =
+      \begin{pmatrix}
+        \tilde{\boldsymbol{x}}_{1}^{\mathsf{T}}-\bar{\tilde{\boldsymbol{x}}}^{\mathsf{T}} \\
+        \vdots \\
+        \tilde{\boldsymbol{x}}_{n}^{\mathsf{T}}-\bar{\tilde{\boldsymbol{x}}}^{\mathsf{T}}
+      \end{pmatrix}
+    \end{equation}
     #+end_quote
   - 上の結果を用いて
     次の最適化問題の解を求めなさい
     #+begin_quote
-    #+begin_src latex
-      \begin{equation}
-	\text{maximize}\quad
-	\tilde{f}(\boldsymbol{a})
-	\quad\text{s.t.}\quad
-	\boldsymbol{a}^{\mathsf{T}}\boldsymbol{a}=1
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      \text{maximize}\quad
+      \tilde{f}(\boldsymbol{a})
+      \quad\text{s.t.}\quad
+      \boldsymbol{a}^{\mathsf{T}}\boldsymbol{a}=1
+    \end{equation}
     #+end_quote
     
 ** COMMENT 解答例
@@ -927,41 +857,37 @@
 :END:
 - 定義どおりに計算する
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      \tilde{X}
-      =
-      \begin{pmatrix}
-	\tilde{\boldsymbol{x}}_{1}^{\mathsf{T}}-\bar{\tilde{\boldsymbol{x}}}^{\mathsf{T}} \\
-	\vdots \\
-	\tilde{\boldsymbol{x}}_{n}^{\mathsf{T}}-\bar{\tilde{\boldsymbol{x}}}^{\mathsf{T}}
-      \end{pmatrix}
-      =
-      X-X\boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    \tilde{X}
+    =
+    \begin{pmatrix}
+      \tilde{\boldsymbol{x}}_{1}^{\mathsf{T}}-\bar{\tilde{\boldsymbol{x}}}^{\mathsf{T}} \\
+      \vdots \\
+      \tilde{\boldsymbol{x}}_{n}^{\mathsf{T}}-\bar{\tilde{\boldsymbol{x}}}^{\mathsf{T}}
+    \end{pmatrix}
+    =
+    X-X\boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}}
+  \end{equation}
   #+end_quote
 
 #+reveal: split
 - Gram 行列 \(\tilde{X}^{\mathsf{T}}\tilde{X}\) を計算する
   #+begin_quote
-  #+begin_src latex
-    \begin{align}
-      \tilde{X}^{\mathsf{T}}\tilde{X}
-      &=
-        (X-X\boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}})^{\mathsf{T}}
-        (X-X\boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}})\\
-      &=
-        X^{\mathsf{T}}X
-        -X^{\mathsf{T}}X\boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}}
-        -\boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}}X^{\mathsf{T}}X
-        +\boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}}X^{\mathsf{T}}X\boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}}\\
-      &=
-        X^{\mathsf{T}}X-\lambda_{1}\boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}}\\
-      &=
-        \sum_{k=2}^{p}\lambda_{k}\boldsymbol{a}_{k}\boldsymbol{a}_{k}^{\mathsf{T}}
-    \end{align}
-  #+end_src
+  \begin{align}
+    \tilde{X}^{\mathsf{T}}\tilde{X}
+    &=
+      (X-X\boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}})^{\mathsf{T}}
+      (X-X\boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}})\\
+    &=
+      X^{\mathsf{T}}X
+      -X^{\mathsf{T}}X\boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}}
+      -\boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}}X^{\mathsf{T}}X
+      +\boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}}X^{\mathsf{T}}X\boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}}\\
+    &=
+      X^{\mathsf{T}}X-\lambda_{1}\boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}}\\
+    &=
+      \sum_{k=2}^{p}\lambda_{k}\boldsymbol{a}_{k}\boldsymbol{a}_{k}^{\mathsf{T}}
+  \end{align}
   元の Gram 行列 \(X^{\mathsf{T}}X\)
   の固有ベクトル \(\boldsymbol{a}_{1}\)
   の固有値が0となっていると考えることができる
@@ -973,46 +899,40 @@
 # 東京大学
 - 中心化したデータ行列
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      \tilde{X}
-      =
-      \begin{pmatrix}
-        \tilde{\boldsymbol{x}}_{1}^{\mathsf{T}}-\bar{\tilde{\boldsymbol{x}}}^{\mathsf{T}} \\
-        \vdots \\
-        \tilde{\boldsymbol{x}}_{n}^{\mathsf{T}}-\bar{\tilde{\boldsymbol{x}}}^{\mathsf{T}}
-      \end{pmatrix}
-      =
-      X-X\boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    \tilde{X}
+    =
+    \begin{pmatrix}
+      \tilde{\boldsymbol{x}}_{1}^{\mathsf{T}}-\bar{\tilde{\boldsymbol{x}}}^{\mathsf{T}} \\
+      \vdots \\
+      \tilde{\boldsymbol{x}}_{n}^{\mathsf{T}}-\bar{\tilde{\boldsymbol{x}}}^{\mathsf{T}}
+    \end{pmatrix}
+    =
+    X-X\boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}}
+  \end{equation}
   #+end_quote
 - Gram 行列
   #+begin_quote
-  #+begin_src latex
-    \begin{align}
-      \tilde{X}^{\mathsf{T}}\tilde{X}
-      &=
-        (X-X\boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}})^{\mathsf{T}}
-        (X-X\boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}})\\
-      &=
-        X^{\mathsf{T}}X-\lambda_{1}\boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}}
-        =
-        \sum_{k=2}^{p}\lambda_{k}\boldsymbol{a}_{k}\boldsymbol{a}_{k}^{\mathsf{T}}
-    \end{align}
-  #+end_src
+  \begin{align}
+    \tilde{X}^{\mathsf{T}}\tilde{X}
+    &=
+      (X-X\boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}})^{\mathsf{T}}
+      (X-X\boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}})\\
+    &=
+      X^{\mathsf{T}}X-\lambda_{1}\boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}}
+      =
+      \sum_{k=2}^{p}\lambda_{k}\boldsymbol{a}_{k}\boldsymbol{a}_{k}^{\mathsf{T}}
+  \end{align}
   #+end_quote
 
 ** 第2主成分
 - Gram 行列 \(\tilde{X}^{\mathsf{T}}\tilde{X}\)
   の固有ベクトル \(\boldsymbol{a}_{1}\) の固有値は 0
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      \tilde{X}^{\mathsf{T}}\tilde{X}\boldsymbol{a}_{1}
-      = 0
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    \tilde{X}^{\mathsf{T}}\tilde{X}\boldsymbol{a}_{1}
+    = 0
+  \end{equation}
   #+end_quote
 - Gram 行列 \(\tilde{X}^{\mathsf{T}}\tilde{X}\)
   の最大固有値は
