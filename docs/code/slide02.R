@@ -42,6 +42,8 @@ library(tidyverse)
 names(grade_data)    # 列の名前を表示する
 View(grade_data) # データフレームの内容を左上ペインで表示
 glimpse(grade_data) # データフレームの内容を別の形式で表示
+
+#' @notes
 #' データの取り出し方 (後ほど詳しく)
 grade_data[2,3] # 特定の要素を数値で参照する
 grade_data[2,"phys"] # 列を名前で参照する (上記と同じ結果)
@@ -77,7 +79,7 @@ View(pcr_data) # 中身を表示
 View(pcr_names) # 中身を表示
 pcr_data <- rename(pcr_data, all_of(pcr_names)) # 列名を変更
 pcr_data # 中身を確認(10行だけ表示される)
-#' 以降の処理のために date 列を date 型に変換しておく
+#' 以降の処理のために date 列を関数 lubridate::date() で date 型に変換する
 #' 列の変換・追加などには関数 dplyr::mutate() を用いる
 (pcr_data <- mutate(pcr_data, date = date(date)))
 
@@ -138,17 +140,15 @@ z |>
 #' 医療機関(f)での検査数が2000を越えたときの国立感染症研究所(a)と医療機関(f)のデータ
 pcr_data |>           # データフレーム
   filter(f > 2000) |> # 行の条件による絞り込み
-  select(c(a,f))      # 列の選択
+  select(c(a,f))      # 列の選択 select(a,f) としても良い
 #' 大学等(e)と医療機関(f)でともに検査件数が2000を越えたデータ
 pcr_data |>
   filter(e > 2000 & f > 2000) # 複合的な条件の指定
 #' 2020年3月の各機関(g,iは除く)の検査件数データ
 pcr_data |>
   filter(date >= "2020-03-01" & date < "2020-04-01") |> # 日付の範囲の指定
-  select(-c(g,i))
+  select(!c(g,i)) # 列の削除 select(-c(g,i)) や select(-g,-i) としても良い
 #' ---------------------------------------------------------------------------
-
-#'#' "データフレームの集約"
 
 #' @exercise 列ごとの集計
 
@@ -158,14 +158,18 @@ grade_data |>
 grade_data |>
   summarise(across(!name, mean)) # 名前の列以外の平均を求める
 
+#' @notes
+#' 関数 dplyr::across() の列の指定にはさまざまな関数が使える
+#' 詳細は '?dplyr::across' を参照
+
 #' @exercise グループごとの集計
 
 #' pcr_data を用いた例
-#' 医療機関 (~f~) のPCR件数を各月で集計する
+#' 医療機関 (f) のPCR件数を各月で集計する
 #' 日付の扱いに関数 lubridate::year(), lubridate::month() を利用
 pcr_data |>
-  group_by(year(date), month(date)) |> # 年と月でグループ化する
-  summarise(total_nums = sum(f))         # f の合計値を計算する
+  group_by(year = year(date), month = month(date)) |> # 年と月でグループ化
+  summarise(total_nums = sum(f)) # f の合計値を計算する
 
 #' @notes
 #' 関数 dplyr::mutate() で新たな列を加えておくと
@@ -245,7 +249,7 @@ pcr_data |> # パイプ演算子でデータフレームを関数 ggplot2::ggplo
 #' 全ての機関の検査件数の推移の視覚化
 #' 複数のデータを描画するためにはデータフレームを適切に書き換える必要がある
 
-pcr_data |> select(-c(g,i)) |> # 集計値を除く
+pcr_data |> select(!c(g,i)) |> # 集計値を除く
   pivot_longer(!date, names_to = "organ", values_to = "nums") |> 
   ggplot(aes(x = date, y = nums, colour = organ)) + geom_line() +
   labs(title = "PCR Tests in Various Organizatios",
@@ -260,7 +264,7 @@ pcr_data |> select(-c(g,i)) |> # 集計値を除く
 #' それぞれを別のグラフとする場合には
 #' 関数 ggplot2::facet_wrap() や関数 ggplot2::facet_grid() を用いると良い
 
-pcr_data |> select(-c(g,i)) |> 
+pcr_data |> select(!c(g,i)) |> 
   pivot_longer(!date, names_to = "organ", values_to = "nums") |> 
   ggplot(aes(x = date, y = nums, colour = organ)) +
   labs(title = "PCR Tests in Various Organizatios", x = "Date", y = "Number of Tests") +
@@ -302,7 +306,7 @@ pcr_data |>
 
 #' 四半期ごとに分類して色分けして表示する
 
-pcr_data |> select(-c(g,i)) |> # 日付から四半期の因子を作成
+pcr_data |> select(!c(g,i)) |> # 日付から四半期の因子を作成
   mutate(quarter = as_factor(quarter(date, with_year = TRUE))) |>
   ggpairs(columns = 2:8, columnLabels = pcr_names[-c(1,8,10)], axisLabels = "none",
           aes(colour = quarter), legend = c(2,1), # 四半期ごとに色づけて(1,1)の凡例を使用
@@ -337,10 +341,9 @@ pcr_data |>
   select(c(d,e,f)) |> # 描画対象の列を抽出
   ggpairs(columnLabels = pcr_names[c("d","e","f")]) # ラベルを渡す
 
-#' @exercise 散布図の描画
+#' @exercise ヒストグラムの描画
 
 #' 民間検査会社(d)での検査件数の分布
-
 pcr_data |>
   ggplot(aes(x = d)) + # 分布を描画する列を指定
   geom_histogram(bins = 30, fill = "lightblue", colour = "blue") +
@@ -355,10 +358,9 @@ pcr_data |>
             aes(label = after_stat(count), y = after_stat(count) + 2)) +
   labs(x = pcr_names["d"], y = "頻度", title = "検査件数のヒストグラム")
 
-#' @exercise 散布図の描画
+#' @exercise 箱ひげ図の描画
 
 #' 大学等(e)での検査件数の分布(2021年分)
-
 pcr_data |>
   filter(year(date) == 2021) |> # 2021年を抽出
   mutate(date = as_factor(month(date))) |> # 月を因子化する
@@ -366,14 +368,13 @@ pcr_data |>
   geom_boxplot(fill = "orange") + # 塗り潰しの色を指定
   labs(title = "月ごとの検査件数 (2021年)", x = "月", y = pcr_names["e"])
 
-#' @exercise 散布図の描画
+#' @exercise 棒グラフの描画
 
 #' 機関ごとの月の検査件数の推移 (2021年分)
-
 pcr_data |>
   filter(year(date) == 2021) |>
   mutate(month = as_factor(month(date))) |> # 月を作成
-  select(-c(date,g,i)) |> # 機関に限定
+  select(!c(date,g,i)) |> # 機関に限定
   group_by(month) |> # 月でグループ化
   summarize(across(everything(), sum)) |> # 全て(月以外)を集計
   pivot_longer(!month, names_to = "organ", values_to = "nums") |> 
@@ -417,19 +418,19 @@ runif(5)    # 初めのseed=1の場合と同じ結果
 #' @exercise 中心極限定理
 
 #' 確率変数の分布の設定 (例 : 区間[-1,1]の一様乱数)
-my_rand <- function(n) { # n個の乱数を生成
+mc_rand <- function(n) { # n個の乱数を生成
   return(runif(n,min = -1,max = 1))
 }
 #' 標本平均の計算
-my_mean <- function(n) { # n個のデータで計算
-  return(mean(my_rand(n)))
+mc_mean <- function(n) { # n個のデータで計算
+  return(mean(mc_rand(n)))
 }
 #' Monte-Carlo実験
 set.seed(123) # 実験を再現したい場合はシード値を指定する
 mu <- 0; sigma <- sqrt(1/3) # 理論平均と標準偏差
 mc <- 5000 # 実験の繰り返し回数
 for(n in c(1,2,4,8,16)){ # nを変えて実験
-  p <- tibble(x = replicate(mc, my_mean(n))) |> # mc回実験し標本平均を記録
+  p <- tibble(x = replicate(mc, mc_mean(n))) |> # mc回実験し標本平均を記録
     ggplot(aes(x)) + 
     geom_histogram(aes(y = after_stat(density)), # 密度表示
                    fill = "orchid", alpha = 0.5, # 塗り潰しの色
@@ -442,7 +443,7 @@ for(n in c(1,2,4,8,16)){ # nを変えて実験
 }
 
 #' コイン投げの試行 (いろいろな書き方があるので以下は一例)
-my_trial <- function(){
+mc_trial <- function(){
   while(TRUE){ # 永久に回るループ
     if(rbinom(1,size = 1,prob = 0.5)==1){return("A")} # Aが表で終了
     if(rbinom(1,size = 1,prob = 0.5)==1){return("B")} # Bが表で終了
@@ -452,16 +453,16 @@ my_trial <- function(){
 #' Monte-Carlo実験
 set.seed(8888) # 実験を再現したい場合はシード値を指定する
 mc <- 10000 # 実験回数を設定 
-my_data <- replicate(mc,my_trial()) 
+mc_data <- replicate(mc,mc_trial()) 
 #' 簡単な集計
-table(my_data)    # 頻度
-table(my_data)/mc # 確率(推定値)
+table(mc_data)    # 頻度
+table(mc_data)/mc # 確率(推定値)
 
 #' ---------------------------------------------------------------------------
 #' @practice 双六ゲーム
 
 #' 双六の試行
-my_trial <- function(){
+mc_trial <- function(){
   step <- 0 # 最初の位置
   num <- 0  # さいころを振る回数
   while(TRUE){ # 永久に回るループ
@@ -473,14 +474,14 @@ my_trial <- function(){
   }
 }
 #' 試行を行ってみる
-for(i in 1:10) print(my_trial())
+for(i in 1:10) print(mc_trial())
 #' Monte-Carlo実験
 set.seed(12345)
 mc <- 10000 # 実験回数を設定 
-my_data <- replicate(mc,my_trial()) 
-hist(my_data) 
-summary(my_data) # 簡単な集計
-tibble(x = my_data) |> # ヒストグラムを出力
+mc_data <- replicate(mc,mc_trial()) 
+hist(mc_data) 
+summary(mc_data) # 簡単な集計
+tibble(x = mc_data) |> # ヒストグラムを出力
   ggplot(aes(x)) + 
   geom_histogram(binwidth = 1,
                  fill = "slateblue", alpha = 0.5, # 塗り潰しの色
