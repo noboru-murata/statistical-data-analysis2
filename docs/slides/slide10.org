@@ -3,10 +3,15 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2022-12-09 14:32:50 mura>
+# Time-stamp: <2022-12-16 12:32:31 mura>
+#+STARTUP: hidestars content indent
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
-#+STARTUP: hidestars content indent
+#+PROPERTY: header-args:R :cache yes :session *R*
+#+PROPERTY: header-args:R+ :exports both :results output
+#+PROPERTY: header-args:R+ :width 800 :height 800 :res 100
+#+PROPERTY: header-args:R+ :tangle no
+#+PROPERTY: header-args:latex :exports results :results raw
 # C-c C-x C-v でinlineを切り替え
 # <m C-i でlatex block (math env用)
 # C-c '
@@ -16,9 +21,8 @@
 - 第3講以降は同じファイルを使うように整理する
 - 同じタイトルの項目にはメモを入れる
 - 演習の内容が異なるので演習は2つ作る形で対応
-- 色合いは変えた方が良いかも
-  
-* COMMENT 講義の内容
+
+* 講義の内容
 # 早稲田大学
 - *第1日 : 基本的な考え方と階層的方法*
 - 第2日 : 非階層的方法と分析の評価
@@ -30,7 +34,7 @@
   setwd("~/Desktop/lectures/mva/course")
 #+end_src
 
-* 講義概要
+* COMMENT 講義概要
 # 東京大学
 - *第1日 : 基本的な考え方と階層的方法*
 - 第2日 : 非階層的方法と分析の評価
@@ -412,7 +416,7 @@
 - 擬似的な距離でもアルゴリズムは動く
 
 
-* COMMENT 演習
+* 演習
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
@@ -435,7 +439,7 @@
     #+end_src
     #+end_quote
 
-** COMMENT 解答例
+** 解答例
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
@@ -519,7 +523,7 @@
   #+end_quote
   
 
-* 実習
+* COMMENT 実習
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
@@ -552,8 +556,8 @@
 - ~cluster~: クラスタ分析用のパッケージ
 - 関数 ~dist()~ とほぼ同様
   #+begin_src R :eval no
-    ### パッケージの読み込み
-    library(cluster)
+    ### パッケージの読み込み (標準で含まれているのでinstallは不要)
+    library(cluster) # require(cluster)
     ### 距離の計算，返値は dissimilarity class (distとほぼ互換)
     dsy <- daisy(x, metric = "euclidean", stand = FALSE)
     ## x: データフレーム
@@ -588,7 +592,7 @@
   ### 
 
   ### パッケージの読み込み 
-  library(cluster)
+  library(cluster) # require(cluster)
 
   ## データの読み込み
   js_data <- read.csv(file="data/japan_social.csv", row.names=1)
@@ -731,7 +735,7 @@
 - データの性質を鑑みて適切に前処理
 
 
-* COMMENT 演習
+* 演習
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
@@ -762,7 +766,7 @@
     #+end_quote
     を導け
 
-** COMMENT 解答例
+** 解答例
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
@@ -816,7 +820,7 @@
   #+end_quote
 
 
-* 実習
+* COMMENT 実習
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
@@ -942,10 +946,10 @@
     ## x: データフレーム
     ## clus: クラスタ分割
     ## stand: 正規化の有無
-    ## lines: クラスタ間の繋がりの表示 (0:無，1:中心，2:外)
+    ## lines: クラスタ間の繋がりの表示 (0:無，1:外，2:中心)
     ## shade: 網掛けの有無
     ## labels: ラベルの表示 (0:無，2:データとクラスタ, 3:データ, 4:クラスタ, など)
-    ## col.p/txt/clus: データ点・文字・クラスタの色指定
+    ## col.p/txt/clue: データ点・文字・クラスタの色指定
   #+end_src
 
 ** データセットの準備
@@ -1050,7 +1054,7 @@
 #+end_src
 
 
-* COMMENT 解析事例
+* 解析事例
 # 早稲田大学
 ** 都道府県別の社会生活統計指標
 - 各データを正規化
@@ -1220,8 +1224,8 @@
    
 
 * 次回の予定
-- 第1日 : 基本的な考え方と階層的方法
-- *第2日 : 非階層的方法と分析の評価*
+  - 第1日 : 基本的な考え方と階層的方法
+  - *第2日 : 非階層的方法と分析の評価*
 
 * Footnotes
 * COMMENT ローカル変数

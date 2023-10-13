@@ -3,7 +3,7 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2023-01-06 15:46:18 mura>
+# Time-stamp: <2023-01-16 17:34:28 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+STARTUP: hidestars content indent
@@ -17,7 +17,7 @@
 - 同じタイトルの項目にはメモを入れる
 - 演習の内容が異なるので演習は2つ作る形で対応
 
-* COMMENT 講義の内容
+* 講義の内容
 # 早稲田大学
 - 第1日 : 時系列の基本モデル
 - *第2日 : モデルの推定と予測*
@@ -26,10 +26,10 @@
   ### 第13講 資料
 #+end_src
 #+begin_src R :exports none
-  setwd("~/Desktop/lectures/mva/slide")
+  setwd("~/Desktop/lectures/mva/course")
 #+end_src
 
-* 講義概要
+* COMMENT 講義概要
 # 東京大学
 - 第1日 : 時系列の基本モデル
 - *第2日 : モデルの推定と予測*
@@ -40,7 +40,7 @@
   ###
 #+end_src
 #+begin_src R :exports none
-  setwd("~/Desktop/lectures/u-tokyo/autumn/slide")
+  setwd("~/Desktop/lectures/u-tokyo/autumn/course")
 #+end_src
 
 * COMMENT 演習 (早稲田大学雛型)
@@ -170,7 +170,6 @@
   #+end_quote
   - 記号 \(\mathrm{WN}(0,\sigma^{2})\) で表記
   - *定常* な確率過程
-
 
 ** トレンドのあるホワイトノイズ
 - 定義
@@ -677,7 +676,7 @@
 - 一般にモデルは近似なので，どの推定が良いかは問題による
 
 
-* COMMENT 演習
+* 演習
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
@@ -701,7 +700,7 @@
   - ラグ2までの自己共分散係数を求めなさい
   - 自己相関係数とパラメタ\(b_{1}\)が満すべき方程式を求めなさい
 
-** COMMENT 解答例
+** 解答例
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
@@ -776,7 +775,7 @@
   #+end_quote
      
      
-* 実習
+* COMMENT 実習
 :PROPERTIES:
 :reveal_background: #f4fef4
 :END:
@@ -1078,9 +1077,690 @@
   - 季節成分 : 1周期の平均が0
 
 
-* COMMENT 解析事例
+* 解析事例
+** COVID-19 の感染者数の分析
+- 厚生労働省の COVID-19 のデータ
+  - 陽性者数 (新規・累積)
+  - 重症者数 (推移・性別・年齢別)
+  - 死者数 (推移・性別・年齢別・累積)
+  - 入院治療等を要する者等推移
+  - 集団感染等発生状況
+- 以下で用いるデータ
+  - 日毎の全国・各都道府県の新規陽性者数 (感染者数)
+    [[https://covid19.mhlw.go.jp/public/opendata/newly_confirmed_cases_daily.csv]]
 
-* 実習
+** 感染者数の推移
+#+name: fig:13_patients
+#+begin_src R :file figs/13_patients.png :exports results :results graphics
+  ### 基本的な時系列モデルによる予測
+  ### 厚生労働省のCOVID-19の感染者数データを用いた例
+
+  ## パッケージの読み込み
+  library(forecast)
+  library(tidyverse)
+  library(scales) # 年月日表示
+  library(plotly) 
+  library(zoo)    # 時系列表示
+  library(ggfortify)
+
+  ## データの取得と整理 
+  patients <-
+      read.csv("https://covid19.mhlw.go.jp/public/opendata/newly_confirmed_cases_daily.csv") %>%
+      dplyr::rename(date=1, patients=2) %>% 
+      dplyr::mutate(date=as.Date(date))
+  ## 時系列データ(zooクラス)への変更
+  patients <- with(patients,
+                     zoo(x=patients, order.by=date))
+
+  ## データの視覚化
+  p <-
+      ggplot(data = fortify(patients, melt = TRUE),
+             mapping = aes(x = Index,
+                           y = Value)) +
+      scale_x_date(labels = date_format("%y-%m-%d"), # 年月日表示
+                   breaks = date_breaks("1 month")) + # 週毎
+      theme(axis.text.x = element_text(angle = 90, 
+                                       vjust = 0.5, hjust=1)) +
+      labs(title = "COVID-19 patients in Japan",
+           x = "date",
+           y = "number of patients")
+  ## 棒グラフ
+  print(p + geom_col(fill="skyblue")) # グラフ出力
+#+end_src
+#+caption: 全国の感染者数
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/13_patients.png]]
+
+** 第3波における感染者数の推移
+#+name: fig:13_3wave_patients
+#+begin_src R :file figs/13_3wave_patients.png :exports results :results graphics
+  ## 第3波 (2020/9/15-2021/1/31)
+  p <-
+    ggplot(data = fortify(window(patients,
+                                 start="2020-09-15",
+                                 end="2021-01-31"),
+                          melt = TRUE),
+           mapping = aes(x = Index,
+                         y = Value)) +
+    scale_x_date(labels = date_format("%y-%m-%d"), # 年月日表示
+                 breaks = date_breaks("1 week")) + # 週毎
+    theme(axis.text.x = element_text(angle = 90, 
+                                     vjust = 0.5, hjust=1)) +
+    labs(title = "COVID-19 patients in Japan",
+         x = "date",
+         y = "number of patients")
+  ## 棒グラフ
+  print(p + geom_col(fill="skyblue")) # グラフ出力
+#+end_src
+#+caption: 第3波の感染者数
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/13_3wave_patients.png]]
+
+** 基礎分析 (分析対象 : 2020/9/15-11/30)
+#+name: fig:13_3wave
+#+begin_src R :file figs/13_3wave.png :exports results :results graphics
+  ## 9月以降の第3波を対象とする
+  train <- window(patients,
+                  start="2020-09-15",
+                  end="2020-11-30")
+  test <- window(patients,
+                 start="2020-12-01")
+
+  ## 階差系列の性質
+  autoplot(diff(train)) +
+    labs(x = "date",
+         y = "D(patients)")
+#+end_src
+#+caption: 時系列 (階差)
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/13_3wave.png]]
+
+#+reveal: split
+
+#+name: fig:13_3wave_acf
+#+begin_src R :file figs/13_3wave_acf.png :exports results :results graphics
+  autoplot(acf(diff(train), plot = FALSE), # 自己相関
+           conf.int.fill = "royalblue",
+           conf.int.alpha =0.2,
+           conf.int.value = 0.7,
+           conf.int.type = "ma") +
+    labs(title = "D(patients)") +
+    ylim(c(-0.5,1.0))
+#+end_src
+#+name: fig:13_3wave_pacf
+#+begin_src R :file figs/13_3wave_pacf.png :exports results :results graphics
+  autoplot(pacf(diff(train), plot = FALSE), # 偏自己相関
+           conf.int.fill = "royalblue",
+           conf.int.alpha =0.2,
+           conf.int.value = 0.7) +
+    labs(title = "D(patients)",
+         y = "PACF") +
+    ylim(c(-0.5,1.0))
+#+end_src
+#+begin_leftcol
+#+caption: 自己相関 (階差)
+#+attr_html: width 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/13_3wave_acf.png]]
+#+end_leftcol
+#+begin_rightcol
+#+caption: 偏自己相関 (階差)
+#+attr_html: width 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/13_3wave_pacf.png]]
+#+end_rightcol
+
+#+reveal: split
+
+#+name: fig:13_3wave_log
+#+begin_src R :file figs/13_3wave_log.png :exports results :results graphics
+  ## 対数変換を確認する
+  ltrain <- log(train)
+  autoplot(diff(ltrain)) +
+      labs(x = "date",
+           y = "D(log(patients))")
+#+end_src
+#+caption: 時系列 (対数変換+階差)
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/13_3wave_log.png]]
+
+#+reveal: split
+
+#+name: fig:13_3wave_log_acf
+#+begin_src R :file figs/13_3wave_log_acf.png :exports results :results graphics
+  autoplot(acf(diff(ltrain), plot = FALSE), # 自己相関
+           conf.int.fill = "royalblue",
+           conf.int.alpha =0.2,
+           conf.int.value = 0.7,
+           conf.int.type = "ma") +
+    labs(title = "D(log(patients))") +
+    ylim(c(-0.5,1.0))
+#+end_src
+#+name: fig:13_3wave_log_pacf
+#+begin_src R :file figs/13_3wave_log_pacf.png :exports results :results graphics
+  autoplot(pacf(diff(ltrain), plot = FALSE), # 偏自己相関
+           conf.int.fill = "royalblue",
+           conf.int.alpha =0.2,
+           conf.int.value = 0.7) +
+    labs(title = "D(log(patients))",
+         y = "PACF") +
+    ylim(c(-0.5,1.0))
+#+end_src
+#+begin_leftcol
+#+caption: 自己相関 (対数変換+階差)
+#+attr_html: width 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/13_3wave_log_acf.png]]
+#+end_leftcol
+#+begin_rightcol
+#+caption: 偏自己相関 (対数変換+階差)
+#+attr_html: width 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/13_3wave_log_pacf.png]]
+#+end_rightcol
+
+#+reveal: split
+
+#+name: fig:13_3wave_log7
+#+begin_src R :file figs/13_3wave_log7.png :exports results :results graphics
+  ## 7日の周期性を確認する
+  autoplot(diff(diff(ltrain), lag=7)) +
+      labs(x = "date",
+           y = "D7*D(log(patients))")
+#+end_src
+#+caption: 時系列 (対数変換+階差+7日階差)
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/13_3wave_log7.png]]
+
+#+reveal: split
+
+#+name: fig:13_3wave_log7_acf
+#+begin_src R :file figs/13_3wave_log7_acf.png :exports results :results graphics
+  autoplot(acf(diff(diff(ltrain), lag=7), plot = FALSE), # 自己相関
+           conf.int.fill = "royalblue",
+           conf.int.alpha =0.2,
+           conf.int.value = 0.7,
+           conf.int.type = "ma") +
+    labs(title = "D7*D(log(patients))") +
+    ylim(c(-0.5,1.0))
+#+end_src
+#+name: fig:13_3wave_log7_pacf
+#+begin_src R :file figs/13_3wave_log7_pacf.png :exports results :results graphics
+  autoplot(pacf(diff(diff(ltrain), lag=7), plot = FALSE), # 偏自己相関
+           conf.int.fill = "royalblue",
+           conf.int.alpha =0.2,
+           conf.int.value = 0.7) +
+    labs(title = "D7*D(log(patients))",
+         y = "PACF") +
+    ylim(c(-0.5,1.0))
+#+end_src
+#+begin_leftcol
+#+caption: 自己相関 (対数変換+階差+7日階差)
+#+attr_html: width 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/13_3wave_log7_acf.png]]
+#+end_leftcol
+#+begin_rightcol
+#+caption: 偏自己相関 (対数変換+階差+7日階差)
+#+attr_html: width 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/13_3wave_log7_pacf.png]]
+#+end_rightcol
+
+** ARIMA モデルによる推定
+- 推定された ARIMA モデル
+#+begin_src R :exports results :results output
+  ## drift付きのARIMAモデルの次数を自動推定
+  est.arima <- forecast::auto.arima(ltrain)
+  ## 推定されたモデルを表示
+  print(est.arima)
+  ## SARIMAモデルを当て嵌める場合は周期を指定する．
+  ## frequency(ltrain) <- 7 # 7日周期の成分を仮定
+  ## (est.arima7 <- auto.arima(ltrain))
+  ## このデータではモデルの推定はうまくいかない
+#+end_src
+
+#+reveal: split
+
+#+name: fig:13_3wave_arima_est
+#+begin_src R :file figs/13_3wave_arima_est.png :exports results :results graphics
+  ## モデルによる当て嵌めの視覚化
+  p <- 
+    ggplot(data = fortify(est.arima) %>%
+             dplyr::mutate(Index=as.Date(Index)),
+           mapping = aes(x = Index,
+                         y = Data)) +
+    geom_line(colour = "skyblue") +
+    geom_line(mapping = aes(y = Fitted),
+              colour = "orange") +
+    scale_x_date(labels = date_format("%y-%m-%d"), 
+                 breaks = date_breaks("1 week")) + 
+    theme(axis.text.x = element_text(angle = 90,
+                                     vjust = 0.5, hjust=1)) +
+    labs(title = "Fitted by ARIMA model",
+         x = "date",
+         y = "log(patients)")
+  print(p)
+#+end_src
+#+caption: あてはめ値
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/13_3wave_arima_est.png]]
+
+#+reveal: split
+
+#+name: fig:13_3wave_arima_diag
+#+begin_src R :file figs/13_3wave_arima_diag.png :exports results :results graphics
+  ## 診断プロット
+  tsdiag(est.arima)
+  ## 残差に相関が残っているので，優れたモデルという訳ではない
+#+end_src
+#+caption: 診断プロット
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/13_3wave_arima_diag.png]]
+
+#+reveal: split
+
+#+name: fig:13_3wave_arima_pred
+#+begin_src R :file figs/13_3wave_arima_pred.png :exports results :results graphics
+  ## 12月以降(最大60日)を予測してみる
+  p <- 
+    ggplot(data = fortify(forecast(est.arima,
+                                   h=min(length(test),60))) %>%
+             dplyr::mutate(Index=as.Date(Index)) %>%
+             left_join(fortify(test), by = "Index"), 
+           mapping = aes(x = Index,
+                         y = exp(Data)),
+           na.rm = TRUE) +
+    geom_line(colour = "skyblue",
+              na.rm = TRUE) +
+    geom_line(mapping = aes(y = test),
+              colour = "red",
+              na.rm = TRUE) +
+    geom_line(mapping = aes(y = exp(`Point Forecast`)),
+              colour = "royalblue",
+              na.rm = TRUE) +
+    geom_ribbon(mapping = aes(ymin = exp(`Lo 80`),
+                              ymax = exp(`Hi 80`)),
+                fill = "royalblue", alpha = 0.3,
+                na.rm = TRUE) +
+    ## geom_ribbon(mapping = aes(ymin = exp(`Lo 95`),
+    ##   			ymax = exp(`Hi 95`)),
+    ##   	  fill = "royalblue", alpha = 0.1,
+    ##   	  na.rm = TRUE) +
+    scale_x_date(labels = date_format("%y-%m-%d"), 
+                 breaks = date_breaks("1 week")) + 
+    theme(axis.text.x = element_text(angle = 90,
+                                     vjust = 0.5, hjust=1)) +
+    labs(title = "Prediction by ARIMA model",
+         x = "date",
+         y = "number of patients")
+  print(p)
+#+end_src
+#+caption: 予測値 (60日分)
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/13_3wave_arima_pred.png]]
+
+** COMMENT 分解モデルによる推定
+- 局所線形構造モデルによる分解
+#+name: fig:13_3wave_sts_decomp
+#+begin_src R :file figs/13_3wave_sts_decomp.png :exports results :results graphics
+  ## StructTS による方法
+  est.sts <- StructTS(ltrain)
+  ## 推定されたモデルを表示
+  ## print(est.sts)
+  ## StructTSによる時系列の分解結果
+  autoplot(est.sts)
+#+end_src
+#+caption: 時系列の分解結果
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/13_3wave_sts_decomp.png]]
+
+#+reveal: split
+
+#+name: fig:13_3wave_sts_est
+#+begin_src R :file figs/13_3wave_sts_est.png :exports results :results graphics
+  ## モデルによる当て嵌めの視覚化
+  p <- 
+      ggplot(data = fortify(forecast(est.sts)) %>%
+                 dplyr::mutate(Index=as.Date(Index)),
+             mapping = aes(x = Index,
+                           y = Data),
+             na.rm = TRUE) +
+      geom_line(colour = "skyblue",
+                na.rm = TRUE) +
+      geom_line(mapping = aes(y = Fitted),
+                colour = "orange",
+                na.rm = TRUE) +
+      scale_x_date(labels = date_format("%y-%m-%d"), 
+                   breaks = date_breaks("1 week")) + 
+      theme(axis.text.x = element_text(angle = 90,
+                                       vjust = 0.5, hjust=1)) +
+      labs(title = "Fitted by Local Linear Structure model",
+           x = "date",
+           y = "log(patients)")
+  print(p)
+#+end_src
+#+caption: あてはめ値
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/13_3wave_sts_est.png]]
+
+#+reveal: split
+
+#+name: fig:13_3wave_sts_diag
+#+begin_src R :file figs/13_3wave_sts_diag.png :exports results :results graphics
+  ## 診断プロット
+  tsdiag(est.sts)
+  ## こちらも残差に相関が残っているので，優れたモデルという訳ではない
+#+end_src
+#+caption: 診断プロット
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/13_3wave_sts_diag.png]]
+
+#+reveal: split
+
+#+name: fig:13_3wave_sts_pred
+#+begin_src R :file figs/13_3wave_sts_pred.png :exports results :results graphics
+  ## 12月以降(最大60日)を予測してみる
+  p <- 
+    ggplot(data = fortify(forecast(est.sts,
+                                   h=min(length(test),60))) %>%
+             dplyr::mutate(Index=as.Date(Index)) %>%
+             left_join(fortify(test), by = "Index"), 
+           mapping = aes(x = Index,
+                         y = exp(Data)),
+           na.rm = TRUE) +
+    geom_line(colour = "skyblue",
+              na.rm = TRUE) +
+    geom_line(mapping = aes(y = test),
+              colour = "red",
+              na.rm = TRUE) +
+    geom_line(mapping = aes(y = exp(`Point Forecast`)),
+              colour = "royalblue",
+              na.rm = TRUE) +
+    geom_ribbon(mapping = aes(ymin = exp(`Lo 80`),
+                              ymax = exp(`Hi 80`)),
+                fill = "royalblue", alpha = 0.3,
+                na.rm = TRUE) +
+    ## geom_ribbon(mapping = aes(ymin = exp(`Lo 95`),
+    ##   			ymax = exp(`Hi 95`)),
+    ##   	  fill = "royalblue", alpha = 0.1,
+    ##   	  na.rm = TRUE) +
+    scale_x_date(labels = date_format("%y-%m-%d"), 
+                 breaks = date_breaks("1 week")) + 
+    theme(axis.text.x = element_text(angle = 90,
+                                     vjust = 0.5, hjust=1)) +
+    labs(title = "Prediction by Local Linear Structure model",
+         x = "date",
+         y = "number of patients")
+  print(p)
+#+end_src
+#+caption: 予測値 (60日分)
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/13_3wave_sts_pred.png]]
+
+** 第8波における感染者数の推移
+#+name: fig:13_8wave_patients
+#+begin_src R :file figs/13_8wave_patients.png :exports results :results graphics
+  ## 第8波 (2022/10/10-現在)
+  p <-
+    ggplot(data = fortify(window(patients,
+                                 start="2022-10-10"),
+                          melt = TRUE),
+           mapping = aes(x = Index,
+                         y = Value)) +
+    scale_x_date(labels = date_format("%y-%m-%d"), # 年月日表示
+                 breaks = date_breaks("1 week")) + # 週毎
+    theme(axis.text.x = element_text(angle = 90, 
+                                     vjust = 0.5, hjust=1)) +
+    labs(title = "COVID-19 patients in Japan",
+         x = "date",
+         y = "number of patients")
+  ## 棒グラフ
+  print(p + geom_col(fill="skyblue")) # グラフ出力
+#+end_src
+#+caption: 第8波の感染者数
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/13_8wave_patients.png]]
+
+** ARIMA モデルによる推定 
+- ARIMA モデルのあてはめ
+  - (対象区間 : 2022/11/01-11/30)
+#+begin_src R :exports results :results output
+  ## 9月以降の第3波を対象とする
+  train <- window(patients,
+                  start="2022-11-01",
+                  end="2022-11-30")
+#                  start="2022-10-10",
+#                  end="2022-11-10")
+  test <- window(patients,
+                 start="2022-12-01")
+#                 start="2022-11-11")
+  ltrain <- log(train)
+
+  ## 第3波で推定された次数のARIMAモデルを利用
+  est.arima <- forecast::Arima(log(train),c(2,1,2),include.drift=TRUE)
+  ## 推定されたモデルを表示
+  print(est.arima)
+  ## 自動選択だと良いモデルが選択されない
+  ## est.arima <- forecast::auto.arima(ltrain)
+  ## SARIMAモデルを当て嵌める場合は周期を指定する．
+  ## frequency(ltrain) <- 7 # 7日周期の成分を仮定
+  ##  (est.arima7 <- auto.arima(ltrain))
+  ## このデータではモデルの推定はうまくいかない
+#+end_src
+
+#+reveal: split
+
+#+name: fig:13_8wave_arima_diag
+#+begin_src R :file figs/13_8wave_arima_diag.png :exports results :results graphics
+  ## 診断プロット
+  tsdiag(est.arima)
+  ## 残差に相関が残っているので，優れたモデルという訳ではない
+#+end_src
+#+caption: 診断プロット
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/13_8wave_arima_diag.png]]
+
+#+reveal: split
+
+#+name: fig:13_8wave_arima_est
+#+begin_src R :file figs/13_8wave_arima_est.png :exports results :results graphics
+  ## モデルによる当て嵌めの視覚化
+  p <- 
+    ggplot(data = fortify(est.arima) %>%
+             dplyr::mutate(Index=as.Date(Index)),
+           mapping = aes(x = Index,
+                         y = Data)) +
+    geom_line(colour = "skyblue") +
+    geom_line(mapping = aes(y = Fitted),
+              colour = "orange") +
+    scale_x_date(labels = date_format("%y-%m-%d"), 
+                 breaks = date_breaks("1 week")) + 
+    theme(axis.text.x = element_text(angle = 90,
+                                     vjust = 0.5, hjust=1)) +
+    labs(title = "Fitted by ARIMA model",
+         x = "date",
+         y = "log(patients)")
+  print(p)
+#+end_src
+#+caption: あてはめ値
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/13_8wave_arima_est.png]]
+
+#+reveal: split
+
+#+name: fig:13_8wave_arima_pred
+#+begin_src R :file figs/13_8wave_arima_pred.png :exports results :results graphics
+  ## 12月以降(最大60日)を予測してみる
+  p <- 
+    ggplot(data = fortify(forecast(est.arima,
+                                   h=min(length(test),60))) %>%
+             dplyr::mutate(Index=as.Date(Index)) %>%
+             left_join(fortify(test), by = "Index"), 
+           mapping = aes(x = Index,
+                         y = exp(Data)),
+           na.rm = TRUE) +
+    geom_line(colour = "skyblue",
+              na.rm = TRUE) +
+    geom_line(mapping = aes(y = test),
+              colour = "red",
+              na.rm = TRUE) +
+    geom_line(mapping = aes(y = exp(`Point Forecast`)),
+              colour = "royalblue",
+              na.rm = TRUE) +
+    geom_ribbon(mapping = aes(ymin = exp(`Lo 80`),
+                              ymax = exp(`Hi 80`)),
+                fill = "royalblue", alpha = 0.3,
+                na.rm = TRUE) +
+    ## geom_ribbon(mapping = aes(ymin = exp(`Lo 95`),
+    ##   			ymax = exp(`Hi 95`)),
+    ##   	  fill = "royalblue", alpha = 0.1,
+    ##   	  na.rm = TRUE) +
+    scale_x_date(labels = date_format("%y-%m-%d"), 
+                 breaks = date_breaks("1 week")) + 
+    theme(axis.text.x = element_text(angle = 90,
+                                     vjust = 0.5, hjust=1)) +
+    labs(title = "Prediction by ARIMA model",
+         x = "date",
+         y = "number of patients")
+  print(p)
+#+end_src
+#+caption: 予測値 (2023/01/16まで)
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/13_8wave_arima_pred.png]]
+
+** COMMENT 分解モデルによる推定
+- 局所線形構造モデルのあてはめ (対象区間 : 2022/10/10-11/10)
+#+begin_src R :exports results :results output
+  ## StructTS による方法
+  est.sts <- StructTS(ltrain)
+  ## 推定されたモデルを表示
+  print(est.sts)
+#+end_src
+
+#+reveal: split
+
+#+name: fig:13_8wave_sts_diag
+#+begin_src R :file figs/13_8wave_sts_diag.png :exports results :results graphics
+  ## 診断プロット
+  tsdiag(est.sts)
+  ## こちらも残差に相関が残っているので，優れたモデルという訳ではない
+#+end_src
+#+caption: 診断プロット
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/13_8wave_sts_diag.png]]
+
+#+reveal: split
+
+#+name: fig:13_8wave_sts_decomp
+#+begin_src R :file figs/13_8wave_sts_decomp.png :exports results :results graphics
+  ## StructTSによる時系列の分解結果
+  autoplot(est.sts)
+#+end_src
+#+caption: 時系列の分解結果
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/13_8wave_sts_decomp.png]]
+
+#+reveal: split
+
+#+name: fig:13_8wave_sts_est
+#+begin_src R :file figs/13_8wave_sts_est.png :exports results :results graphics
+  ## モデルによる当て嵌めの視覚化
+  p <- 
+      ggplot(data = fortify(forecast(est.sts)) %>%
+                 dplyr::mutate(Index=as.Date(Index)),
+             mapping = aes(x = Index,
+                           y = Data),
+             na.rm = TRUE) +
+      geom_line(colour = "skyblue",
+                na.rm = TRUE) +
+      geom_line(mapping = aes(y = Fitted),
+                colour = "orange",
+                na.rm = TRUE) +
+      scale_x_date(labels = date_format("%y-%m-%d"), 
+                   breaks = date_breaks("1 week")) + 
+      theme(axis.text.x = element_text(angle = 90,
+                                       vjust = 0.5, hjust=1)) +
+      labs(title = "Fitted by Local Linear Structure model",
+           x = "date",
+           y = "log(patients)")
+  print(p)
+#+end_src
+#+caption: あてはめ値
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/13_8wave_sts_est.png]]
+
+#+reveal: split
+
+#+name: fig:13_8wave_sts_pred
+#+begin_src R :file figs/13_8wave_sts_pred.png :exports results :results graphics
+  ## 12月以降(最大60日)を予測してみる
+  p <- 
+    ggplot(data = fortify(forecast(est.sts,
+                                   h=min(length(test),60))) %>%
+             dplyr::mutate(Index=as.Date(Index)) %>%
+             left_join(fortify(test), by = "Index"), 
+           mapping = aes(x = Index,
+                         y = exp(Data)),
+           na.rm = TRUE) +
+    geom_line(colour = "skyblue",
+              na.rm = TRUE) +
+    geom_line(mapping = aes(y = test),
+              colour = "red",
+              na.rm = TRUE) +
+    geom_line(mapping = aes(y = exp(`Point Forecast`)),
+              colour = "royalblue",
+              na.rm = TRUE) +
+    geom_ribbon(mapping = aes(ymin = exp(`Lo 80`),
+                              ymax = exp(`Hi 80`)),
+                fill = "royalblue", alpha = 0.3,
+                na.rm = TRUE) +
+    ## geom_ribbon(mapping = aes(ymin = exp(`Lo 95`),
+    ##   			ymax = exp(`Hi 95`)),
+    ##   	  fill = "royalblue", alpha = 0.1,
+    ##   	  na.rm = TRUE) +
+    scale_x_date(labels = date_format("%y-%m-%d"), 
+                 breaks = date_breaks("1 week")) + 
+    theme(axis.text.x = element_text(angle = 90,
+                                     vjust = 0.5, hjust=1)) +
+    labs(title = "Prediction by Local Linear Structure model",
+         x = "date",
+         y = "number of patients")
+  print(p)
+#+end_src
+#+caption: 予測値 (60日分)
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/13_8wave_sts_pred.png]]
+  
+** まとめ
+- 感染者数の推移は非定常なデータ
+- 構造が時不変と考えられる区間を捉えれば
+  - 時系列の適切な変換 (指数的な増大のため対数変換)
+  - 基本的なARMAモデル (階差系列にARMAモデルを適用)
+  の組み合わせである程度の分析は可能
+
+
+* COMMENT 実習
 :PROPERTIES:
 :reveal_background: #f4fef4
 :END:

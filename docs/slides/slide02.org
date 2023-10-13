@@ -4,13 +4,9 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2023-10-06 14:23:44 mura>
+# Time-stamp: <2023-10-13 13:36:03 mura>
 :REVEAL:
-#+INCLUDE: "./reveal.js/org/mycourse.org"
-#+PROPERTY: header-args:R :cache yes :session *R*
-#+PROPERTY: header-args:R+ :exports both :results output
-#+PROPERTY: header-args:R+ :width 800 :height 800 :res 100
-#+PROPERTY: header-args:R+ :tangle yes
+#+SETUPFILE: "./reveal.js/org/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
 # <m C-i でlatex block (math env用)
 # C-c '
@@ -106,7 +102,7 @@
     #' @exercise データフレームの作成
   #+end_src
   #+begin_src R :eval no
-    #' 同じ長さのベクトルを並べる (関数 tibble::tible())
+    #' 同じ長さのベクトル(関数 base::c() で作成)を並べる (関数 tibble::tibble())
     #' (... <- ...) は代入した結果を表示
     (foo <- tibble(one = c(1,2,3),two = c("AB","CD","EF"))) 
     (bar <- tibble(three = c("x","y","z"),four = c(0.9,0.5,-0.3)))
@@ -296,7 +292,7 @@
     #' ...: 行に関する条件
     #' .by: グループ化を指定(実験的な実装)
     #' .preserve: グループ化を維持するか指定(実験的な実装)
-    #' 詳細は"?dplyr::filter"を参照
+    #' 詳細は '?dplyr::filter' を参照
   #+end_src
 - 行に関する条件指定には以下を用いることができる
   - 等号 : ~==~ (否定は ~!=~)
@@ -309,7 +305,7 @@
     select(.data, ...)
     #' .data: データフレーム 
     #' ...: 列に関する条件(列の番号，名前，名前に関する条件式を利用する)
-    #' 詳細は"?dplyr::select"を参照
+    #' 詳細は '?dplyr::select' を参照
   #+end_src
 - 条件指定には例えば以下のような方法がある
   - 含めない : ~!列名~, ~!c(列名,列名,...)~, ~!(列名:列名)~
@@ -554,7 +550,7 @@
     #' data: データフレーム
     #' mapping: 描画の基本となる"審美的マップ"(xy軸，色，形，塗り潰しなど)の設定
     #' environment: 互換性のための変数(廃止)
-    #' 詳細は"?ggplot2::ggplot"を参照
+    #' 詳細は '?ggplot2::ggplot' を参照
   #+end_src
 ** 基本的な描画 (折線グラフ)
 :PROPERTIES:
@@ -577,7 +573,7 @@
     #' ...: その他の描画オプション
     #' na.rm: NA(欠損値)の削除(既定値は削除しない)
     #' show.legend: 凡例の表示(既定値は表示)
-    #' 詳細は"?ggplot2::geom_line"を参照
+    #' 詳細は '?ggplot2::geom_line' を参照
   #+end_src
 
 #+reveal: split
@@ -688,7 +684,7 @@
     #' ...: その他の描画オプション
     #' na.rm: NA(欠損値)の削除(既定値は削除しない)
     #' show.legend: 凡例の表示(既定値は表示)
-    #' 詳細は"?ggplot2::geom_point"を参照
+    #' 詳細は '?ggplot2::geom_point' を参照
   #+end_src
 
 #+reveal: split
@@ -703,7 +699,7 @@
       theme_update(text = element_text(family = "HiraginoSans-W4"))}
     pcr_data |> 
       ggplot(aes(x = a, y = f)) + # x軸を a，y軸を f に設定
-      geom_point(colour = "blue", shape = 19) + # 色と形を指定(点の形は"?points"を参照)
+      geom_point(colour = "blue", shape = 19) + # 色と形を指定(点の形は '?points' を参照)
       labs(x = pcr_names["a"], y = pcr_names["f"]) # 軸の名前を指定
   #+end_src
   #+begin_src R :exports none
@@ -741,7 +737,7 @@
 - 散布図行列は複数の散布図を行列状に配置したもの
 - 関数 GGally::ggpairs() : 散布図行列の描画
   #+begin_src R :eval no :tangle no
-    #' install.packages("GGally") # パッケージのインストール(必要な場合)
+    #' 必要であれば 'install.packages("GGally")' を実行
     library(GGally) # パッケージのロード
     ggpairs(
       data, mapping = NULL,
@@ -759,7 +755,7 @@
     #' axisLabels: 各グラフの軸名の扱い方を指定
     #' columnLabels: 表示する列のラベルを設定(既定値はデータフレームの列名)
     #' legend: 凡例の設定(どの成分を使うか指定)
-    #' 詳細は"?GGally::ggpairs"を参照
+    #' 詳細は '?GGally::ggpairs' を参照
   #+end_src
 
 #+reveal: split
@@ -882,7 +878,7 @@
     )
     #' binwidth: ヒストグラムのビンの幅を指定
     #' bins: ヒストグラムのビンの数を指定
-    #' 詳細は"?ggplot2::geom_histogram"を参照
+    #' 詳細は '?ggplot2::geom_histogram' を参照
   #+end_src
 
 #+reveal: split
@@ -935,7 +931,7 @@
     #' ourlier.*: 外れ値の描画方法の指定
     #' notch*: ボックスの切れ込みの設定
     #' varwidth: ボックスの幅でデータ数を表示
-    #' 詳細は"?ggplot2::geom_boxplot"を参照
+    #' 詳細は '?ggplot2::geom_boxplot' を参照
   #+end_src
 
 #+reveal: split
@@ -977,7 +973,7 @@
     )
     #' just: 目盛と棒の位置の調整(既定値は真中)
     #' width: 棒の幅の調整(既定値は目盛の間隔の90%)
-    #' 詳細は"?ggplot2::geom_bar"を参照
+    #' 詳細は '?ggplot2::geom_bar' を参照
   #+end_src
 
 #+reveal: split
@@ -1079,7 +1075,8 @@
 - RStudio 製の cheat sheet 集
   - https://rstudio.github.io/cheatsheets/
     - [[https://rstudio.github.io/cheatsheets/html/data-visualization.html][ggplot2]] [[https://rstudio.github.io/cheatsheets/data-visualization.pdf][cheatsheet]]
-
+- ggplot2 の拡張パッケージ一覧
+  - https://exts.ggplot2.tidyverse.org/gallery/
 
 * 疑似乱数
 ** 疑似乱数とは

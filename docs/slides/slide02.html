@@ -45,9 +45,10 @@
 </div>
 
 </section>
+
 <section>
-<section id="slide-org4879e60">
-<h2 id="org4879e60">講義概要</h2>
+<section id="slide-org7d0d618">
+<h2 id="org7d0d618">講義概要</h2>
 <ul>
 <li>データの取り扱い</li>
 <li>描画の基礎</li>
@@ -55,16 +56,17 @@
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
 </section>
 <section>
-<section id="slide-org208dc0c">
-<h2 id="org208dc0c">データフレーム</h2>
-<div class="outline-text-2" id="text-org208dc0c">
+<section id="slide-orgffe00a3">
+<h2 id="orgffe00a3">データフレーム</h2>
+<div class="outline-text-2" id="text-orgffe00a3">
 </div>
 </section>
-<section id="slide-org12a62f4">
-<h3 id="org12a62f4">データ構造</h3>
+<section id="slide-org92604c0">
+<h3 id="org92604c0">データ構造</h3>
 <ul>
 <li>Rに用意されている基本的なデータ構造
 <ul>
@@ -82,9 +84,10 @@
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-org64aa34b">
-<h3 id="org64aa34b">データフレーム</h3>
+<section id="slide-org6c457b1">
+<h3 id="org6c457b1">データフレーム</h3>
 <ul>
 <li>複数の個体について，いくつかの属性を集計した表
 <ul>
@@ -161,9 +164,10 @@
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-orgc37b145">
-<h3 id="orgc37b145">&ldquo;base R&rdquo; vs &ldquo;tidyverse&rdquo;</h3>
+<section id="slide-org34c434c">
+<h3 id="org34c434c">&ldquo;base R&rdquo; vs &ldquo;tidyverse&rdquo;</h3>
 <ul>
 <li>データ操作とグラフィクスの枠組
 <ul>
@@ -193,8 +197,8 @@ library(tidyverse)
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org89e39aa">
-<h3 id="org89e39aa">データフレームの作成</h3>
+<section id="slide-org22a2063">
+<h3 id="org22a2063">データフレームの作成</h3>
 <ul>
 <li>作成方法はいくつか用意されている
 <ul>
@@ -209,7 +213,7 @@ library(tidyverse)
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >#' 同じ長さのベクトルを並べる (関数 tibble::tible())
+<pre><code class="R" >#' 同じ長さのベクトル(関数 base::c() で作成)を並べる (関数 tibble::tibble())
 #' (... &lt;- ...) は代入した結果を表示
 (foo &lt;- tibble(one = c(1,2,3),two = c("AB","CD","EF"))) 
 (bar &lt;- tibble(three = c("x","y","z"),four = c(0.9,0.5,-0.3)))
@@ -221,8 +225,8 @@ library(tidyverse)
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgac40c25" data-background="#fef4f4">
-<h3 id="orgac40c25">練習問題</h3>
+<section id="slide-orgaab6394" data-background="#fef4f4">
+<h3 id="orgaab6394">練習問題</h3>
 <ul>
 <li><p>
 次の表に対応するデータフレームを作成しなさい
@@ -295,16 +299,17 @@ library(tidyverse)
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
 </section>
 <section>
-<section id="slide-orge88d105">
-<h2 id="orge88d105">ファイルの操作</h2>
-<div class="outline-text-2" id="text-orge88d105">
+<section id="slide-orgb1adcee">
+<h2 id="orgb1adcee">ファイルの操作</h2>
+<div class="outline-text-2" id="text-orgb1adcee">
 </div>
 </section>
-<section id="slide-orgac6f200">
-<h3 id="orgac6f200">ファイルを用いたデータの読み書き</h3>
+<section id="slide-org9af63d6">
+<h3 id="org9af63d6">ファイルを用いたデータの読み書き</h3>
 <ul>
 <li>解析においてはデータファイルの操作が必要
 <ul>
@@ -322,9 +327,10 @@ library(tidyverse)
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-orge19557f">
-<h3 id="orge19557f">作業ディレクトリ</h3>
+<section id="slide-orgfa14965">
+<h3 id="orgfa14965">作業ディレクトリ</h3>
 <ul>
 <li>作業ディレクトリとファイルに関する注意
 <ul>
@@ -342,9 +348,10 @@ library(tidyverse)
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-org3fd6734">
-<h3 id="org3fd6734">CSV ファイルの操作</h3>
+<section id="slide-org18a982e">
+<h3 id="org18a982e">CSV ファイルの操作</h3>
 <ul>
 <li><p>
 関数 <code>readr::write_csv()</code> : ファイルの書き出し
@@ -366,9 +373,10 @@ library(tidyverse)
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-orgf6efc88" data-background="#fef4f4">
-<h3 id="orgf6efc88">練習問題</h3>
+<section id="slide-orge228091" data-background="#fef4f4">
+<h3 id="orge228091">練習問題</h3>
 <ul>
 <li>前の演習で作成したデータフレームを適当なファイルに書き出しなさい</li>
 <li>書き出したファイルから別の変数に読み込みなさい</li>
@@ -377,16 +385,17 @@ library(tidyverse)
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
 </section>
 <section>
-<section id="slide-org3cfb85b">
-<h2 id="org3cfb85b">データフレームの操作</h2>
-<div class="outline-text-2" id="text-org3cfb85b">
+<section id="slide-org3e51148">
+<h2 id="org3e51148">データフレームの操作</h2>
+<div class="outline-text-2" id="text-org3e51148">
 </div>
 </section>
-<section id="slide-org13cd6c7">
-<h3 id="org13cd6c7">要素の選択</h3>
+<section id="slide-orga4185f1">
+<h3 id="orga4185f1">要素の選択</h3>
 <ul>
 <li>選択方法はいくつか用意されている
 <ul>
@@ -401,8 +410,8 @@ library(tidyverse)
 <div class="org-src-container">
 
 <pre><code class="R" >z &lt;- tibble(one = c(1,2,3),
-                two = c("AB","CD","EF"),
-                three = 6:8)
+		two = c("AB","CD","EF"),
+		three = 6:8)
 z[1,2] # 1行2列の要素を選択
 z[-c(1,3),] # 1,3行を除外
 z[c(TRUE,FALSE,TRUE),] # 1,3行を選択
@@ -417,9 +426,10 @@ z$two      # 上記と同様の結果
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-orga21c245">
-<h3 id="orga21c245">部分集合(行)の選択</h3>
+<section id="slide-orgb2e1676">
+<h3 id="orgb2e1676">部分集合(行)の選択</h3>
 <ul>
 <li><p>
 関数 <code>dplyr::filter()</code> : 条件を指定して行を選択
@@ -431,7 +441,7 @@ z$two      # 上記と同様の結果
 #' ...: 行に関する条件
 #' .by: グループ化を指定(実験的な実装)
 #' .preserve: グループ化を維持するか指定(実験的な実装)
-#' 詳細は"?dplyr::filter"を参照
+#' 詳細は '?dplyr::filter' を参照
 </code></pre>
 </div></li>
 <li>行に関する条件指定には以下を用いることができる
@@ -444,9 +454,10 @@ z$two      # 上記と同様の結果
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-org75d708a">
-<h3 id="org75d708a">部分集合(列)の選択</h3>
+<section id="slide-orgd9b9c6c">
+<h3 id="orgd9b9c6c">部分集合(列)の選択</h3>
 <ul>
 <li><p>
 関数 <code>dplyr::select()</code> : 条件を指定して列を選択
@@ -456,7 +467,7 @@ z$two      # 上記と同様の結果
 <pre><code class="R" >select(.data, ...)
 #' .data: データフレーム 
 #' ...: 列に関する条件(列の番号，名前，名前に関する条件式を利用する)
-#' 詳細は"?dplyr::select"を参照
+#' 詳細は '?dplyr::select' を参照
 </code></pre>
 </div></li>
 <li>条件指定には例えば以下のような方法がある
@@ -470,9 +481,10 @@ z$two      # 上記と同様の結果
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-org9065f2d">
-<h3 id="org9065f2d">パイプ演算子</h3>
+<section id="slide-orga0d0f07">
+<h3 id="orga0d0f07">パイプ演算子</h3>
 <ul>
 <li>処理を順次結合する演算子 (いくつか定義がある)
 <ul>
@@ -499,9 +511,10 @@ z |&gt;
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-org0ea4ef0" data-background="#fef4f4">
-<h3 id="org0ea4ef0">練習問題</h3>
+<section id="slide-org179abd3" data-background="#fef4f4">
+<h3 id="org179abd3">練習問題</h3>
 <ul>
 <li><code>pcr_case_daily.csv</code> から以下の条件を満たすデータを取り出しなさい
 <ul>
@@ -514,15 +527,16 @@ z |&gt;
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
 </section>
 <section>
-<section id="slide-org9901e51">
-<h2 id="org9901e51">データフレームの集約</h2>
+<section id="slide-org6e56311">
+<h2 id="org6e56311">データフレームの集約</h2>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orge8958b5">
-<h3 id="orge8958b5">統計量の計算</h3>
+<section id="slide-org93ac888">
+<h3 id="org93ac888">統計量の計算</h3>
 <ul>
 <li>データを集約した値 = 統計量
 <ul>
@@ -538,9 +552,10 @@ z |&gt;
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-org5a14caf">
-<h3 id="org5a14caf">列ごとの集約</h3>
+<section id="slide-org7f314a3">
+<h3 id="org7f314a3">列ごとの集約</h3>
 <ul>
 <li><p>
 関数 <code>dplyr::summarise()</code> : 行ごとに計算する
@@ -569,9 +584,10 @@ grade_data |&gt;
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-org2f74b02">
-<h3 id="org2f74b02">グループごとの操作</h3>
+<section id="slide-org540a088">
+<h3 id="org540a088">グループごとの操作</h3>
 <ul>
 <li><p>
 関数 <code>dplyr::group_by()</code> : グループ化を行う
@@ -602,8 +618,8 @@ pcr_data |&gt;
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgc12831e" data-background="#fef4f4">
-<h3 id="orgc12831e">練習問題</h3>
+<section id="slide-org4a355d5" data-background="#fef4f4">
+<h3 id="org4a355d5">練習問題</h3>
 <ul>
 <li><code>pcr_case_daily.csv</code> を集計しなさい
 <ul>
@@ -620,16 +636,17 @@ pcr_data |&gt;
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
 </section>
 <section>
-<section id="slide-org4eb60e5">
-<h2 id="org4eb60e5">参考</h2>
-<div class="outline-text-2" id="text-org4eb60e5">
+<section id="slide-org7b82bf3">
+<h2 id="org7b82bf3">参考</h2>
+<div class="outline-text-2" id="text-org7b82bf3">
 </div>
 </section>
-<section id="slide-orga4ba313">
-<h3 id="orga4ba313">その他の資料</h3>
+<section id="slide-org9aa9a37">
+<h3 id="org9aa9a37">その他の資料</h3>
 <ul>
 <li>詳細なデータの取り扱いについては以下を参照
 <ul>
@@ -660,16 +677,18 @@ pcr_data |&gt;
 
 </ul>
 <div class="slide-footer"><br></div>
+
+
 </section>
 </section>
 <section>
-<section id="slide-orgdb0b4f6">
-<h2 id="orgdb0b4f6">描画の基礎</h2>
-<div class="outline-text-2" id="text-orgdb0b4f6">
+<section id="slide-orgaecc367">
+<h2 id="orgaecc367">描画の基礎</h2>
+<div class="outline-text-2" id="text-orgaecc367">
 </div>
 </section>
-<section id="slide-org9554f8d">
-<h3 id="org9554f8d">データの可視化</h3>
+<section id="slide-org3319fda">
+<h3 id="org3319fda">データの可視化</h3>
 <ul>
 <li>データ全体の特徴や傾向を把握するための直感的で効果的な方法</li>
 <li>R言語には極めて多彩な作図機能が用意されている
@@ -684,9 +703,10 @@ pcr_data |&gt;
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-org1b250cd">
-<h3 id="org1b250cd">描画の初期化</h3>
+<section id="slide-org022b20f">
+<h3 id="org022b20f">描画の初期化</h3>
 <ul>
 <li><p>
 <code>package::ggplot2</code> ではさまざまな作図関数を追加しながら描画する
@@ -707,15 +727,15 @@ pcr_data |&gt;
 #' data: データフレーム
 #' mapping: 描画の基本となる"審美的マップ"(xy軸，色，形，塗り潰しなど)の設定
 #' environment: 互換性のための変数(廃止)
-#' 詳細は"?ggplot2::ggplot"を参照
+#' 詳細は '?ggplot2::ggplot' を参照
 </code></pre>
 </div></li>
 
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgfcfc7c1">
-<h3 id="orgfcfc7c1">基本的な描画 (折線グラフ)</h3>
+<section id="slide-orgfb780c9">
+<h3 id="orgfb780c9">基本的な描画 (折線グラフ)</h3>
 <ul>
 <li><p>
 関数 <code>ggplot2::geom_line()</code> : 線の描画
@@ -737,7 +757,7 @@ pcr_data |&gt;
 #' ...: その他の描画オプション
 #' na.rm: NA(欠損値)の削除(既定値は削除しない)
 #' show.legend: 凡例の表示(既定値は表示)
-#' 詳細は"?ggplot2::geom_line"を参照
+#' 詳細は '?ggplot2::geom_line' を参照
 </code></pre>
 </div></li>
 
@@ -761,7 +781,7 @@ pcr_data |&gt;
 </div>
 
 
-<div id="org2814e67" class="figure">
+<div id="orgdd906a3" class="figure">
 <p><img src="figs/02-geomline-geomline.png" alt="02-geomline-geomline.png" width="50%" />
 </p>
 </div></li>
@@ -786,7 +806,7 @@ pcr_data |&gt;
 </div>
 
 
-<div id="org80d3265" class="figure">
+<div id="orgabd3111" class="figure">
 <p><img src="figs/02-geomline.png" alt="02-geomline.png" width="50%" />
 </p>
 </div></li>
@@ -812,16 +832,17 @@ pcr_data |&gt;
 </div>
 
 
-<div id="org5808e31" class="figure">
+<div id="org06bbd4f" class="figure">
 <p><img src="figs/02-geomline-facetgrid.png" alt="02-geomline-facetgrid.png" width="50%" />
 </p>
 </div></li>
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-orgfe9bdd7">
-<h3 id="orgfe9bdd7">基本的な描画 (散布図)</h3>
+<section id="slide-org091914b">
+<h3 id="org091914b">基本的な描画 (散布図)</h3>
 <ul>
 <li><p>
 関数 <code>ggplot2::geom_point()</code> : 点の描画
@@ -843,7 +864,7 @@ pcr_data |&gt;
 #' ...: その他の描画オプション
 #' na.rm: NA(欠損値)の削除(既定値は削除しない)
 #' show.legend: 凡例の表示(既定値は表示)
-#' 詳細は"?ggplot2::geom_point"を参照
+#' 詳細は '?ggplot2::geom_point' を参照
 </code></pre>
 </div></li>
 
@@ -862,13 +883,13 @@ pcr_data |&gt;
   theme_update(text = element_text(family = "HiraginoSans-W4"))}
 pcr_data |&gt; 
   ggplot(aes(x = a, y = f)) + # x軸を a，y軸を f に設定
-  geom_point(colour = "blue", shape = 19) + # 色と形を指定(点の形は"?points"を参照)
+  geom_point(colour = "blue", shape = 19) + # 色と形を指定(点の形は '?points' を参照)
   labs(x = pcr_names["a"], y = pcr_names["f"]) # 軸の名前を指定
 </code></pre>
 </div>
 
 
-<div id="org3c23296" class="figure">
+<div id="org3eb9def" class="figure">
 <p><img src="figs/02-geompoint.png" alt="02-geompoint.png" width="50%" />
 </p>
 </div></li>
@@ -893,16 +914,17 @@ pcr_data |&gt;
 </div>
 
 
-<div id="org9c18aaf" class="figure">
+<div id="orgc4d6dec" class="figure">
 <p><img src="figs/02-geompoint-scalelog.png" alt="02-geompoint-scalelog.png" width="50%" />
 </p>
 </div></li>
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-org365d547">
-<h3 id="org365d547">基本的な描画 (散布図行列)</h3>
+<section id="slide-orgbed5410">
+<h3 id="orgbed5410">基本的な描画 (散布図行列)</h3>
 <ul>
 <li>散布図行列は複数の散布図を行列状に配置したもの</li>
 <li><p>
@@ -910,7 +932,7 @@ pcr_data |&gt;
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >#' install.packages("GGally") # パッケージのインストール(必要な場合)
+<pre><code class="R" >#' 必要であれば 'install.packages("GGally")' を実行
 library(GGally) # パッケージのロード
 ggpairs(
   data, mapping = NULL,
@@ -928,7 +950,7 @@ ggpairs(
 #' axisLabels: 各グラフの軸名の扱い方を指定
 #' columnLabels: 表示する列のラベルを設定(既定値はデータフレームの列名)
 #' legend: 凡例の設定(どの成分を使うか指定)
-#' 詳細は"?GGally::ggpairs"を参照
+#' 詳細は '?GGally::ggpairs' を参照
 </code></pre>
 </div></li>
 
@@ -950,7 +972,7 @@ ggpairs(
 </div>
 
 
-<div id="org5018496" class="figure">
+<div id="orgf845358" class="figure">
 <p><img src="figs/02-ggpairs.png" alt="02-ggpairs.png" width="50%" />
 </p>
 </div></li>
@@ -969,23 +991,25 @@ ggpairs(
 <pre><code class="R" >pcr_data |&gt; select(-c(g,i)) |&gt; # 日付から四半期の因子を作成
   mutate(quarter = as_factor(quarter(date, with_year = TRUE))) |&gt;
   ggpairs(columns = 2:8, columnLabels = pcr_names[-c(1,8,10)], axisLabels = "none",
-          aes(colour = quarter), legend = c(2,1), # 四半期ごとに色づけて(1,1)の凡例を使用
-          upper = "blank", diag = list(continuous = "barDiag")) +
+	  aes(colour = quarter), legend = c(2,1), # 四半期ごとに色づけて(1,1)の凡例を使用
+	  upper = "blank", diag = list(continuous = "barDiag")) +
   theme(legend.position = "top") # 凡例を上に表示
 </code></pre>
 </div>
 
 
-<div id="org2fda001" class="figure">
+<div id="org39b0ea7" class="figure">
 <p><img src="figs/02-ggpairs-quarter.png" alt="02-ggpairs-quarter.png" width="50%" />
 </p>
 </div></li>
 
 </ul>
 <div class="slide-footer"><br></div>
+
+
 </section>
-<section id="slide-orgfb42d75">
-<h3 id="orgfb42d75">図の保存</h3>
+<section id="slide-org8dfcb1c">
+<h3 id="org8dfcb1c">図の保存</h3>
 <ul>
 <li>RStudioの機能を使う (少数の場合はこちらが簡便)
 <ul>
@@ -1016,9 +1040,10 @@ ggpairs(
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-org44c0918" data-background="#fef4f4">
-<h3 id="org44c0918">練習問題</h3>
+<section id="slide-orgb711f32" data-background="#fef4f4">
+<h3 id="orgb711f32">練習問題</h3>
 <ul>
 <li><code>pcr_case_daily.csv</code> を用いて以下の描画を行いなさい
 <ul>
@@ -1031,16 +1056,17 @@ ggpairs(
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
 </section>
 <section>
-<section id="slide-orgfb5c96f">
-<h2 id="orgfb5c96f">さまざまなグラフ</h2>
-<div class="outline-text-2" id="text-orgfb5c96f">
+<section id="slide-org6076176">
+<h2 id="org6076176">さまざまなグラフ</h2>
+<div class="outline-text-2" id="text-org6076176">
 </div>
 </section>
-<section id="slide-orgceaad25">
-<h3 id="orgceaad25">ヒストグラム</h3>
+<section id="slide-orgd714b07">
+<h3 id="orgd714b07">ヒストグラム</h3>
 <ul>
 <li><p>
 データの値の範囲をいくつかの区間に分割し，
@@ -1062,7 +1088,7 @@ ggpairs(
 )
 #' binwidth: ヒストグラムのビンの幅を指定
 #' bins: ヒストグラムのビンの数を指定
-#' 詳細は"?ggplot2::geom_histogram"を参照
+#' 詳細は '?ggplot2::geom_histogram' を参照
 </code></pre>
 </div></li>
 
@@ -1085,16 +1111,17 @@ ggpairs(
 </div>
 
 
-<div id="org1adc808" class="figure">
+<div id="org16f636c" class="figure">
 <p><img src="figs/02-geomhistogram.png" alt="02-geomhistogram.png" width="50%" />
 </p>
 </div></li>
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-orge940640">
-<h3 id="orge940640">箱ひげ図</h3>
+<section id="slide-org18fadcd">
+<h3 id="org18fadcd">箱ひげ図</h3>
 <ul>
 <li><p>
 データ散らばり具合を考察するための図
@@ -1120,7 +1147,7 @@ ggpairs(
 #' ourlier.*: 外れ値の描画方法の指定
 #' notch*: ボックスの切れ込みの設定
 #' varwidth: ボックスの幅でデータ数を表示
-#' 詳細は"?ggplot2::geom_boxplot"を参照
+#' 詳細は '?ggplot2::geom_boxplot' を参照
 </code></pre>
 </div></li>
 
@@ -1145,16 +1172,17 @@ ggpairs(
 </div>
 
 
-<div id="org22bd71c" class="figure">
+<div id="orge37f5bd" class="figure">
 <p><img src="figs/02-geomboxplot.png" alt="02-geomboxplot.png" width="50%" />
 </p>
 </div></li>
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-orgeeeb08e">
-<h3 id="orgeeeb08e">棒グラフ</h3>
+<section id="slide-org56e1a77">
+<h3 id="org56e1a77">棒グラフ</h3>
 <ul>
 <li><p>
 項目ごとの量を並べて表示した図
@@ -1180,7 +1208,7 @@ ggpairs(
 )
 #' just: 目盛と棒の位置の調整(既定値は真中)
 #' width: 棒の幅の調整(既定値は目盛の間隔の90%)
-#' 詳細は"?ggplot2::geom_bar"を参照
+#' 詳細は '?ggplot2::geom_bar' を参照
 </code></pre>
 </div></li>
 
@@ -1214,14 +1242,15 @@ ggpairs(
 </section>
 <section>
 
-<div id="orgf7798ac" class="figure">
+<div id="org8e18a09" class="figure">
 <p><img src="figs/02-geombar.png" alt="02-geombar.png" width="50%" />
 </p>
 </div>
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-org9f5b66e" data-background="#fef4f4">
-<h3 id="org9f5b66e">練習問題</h3>
+<section id="slide-org7057dac" data-background="#fef4f4">
+<h3 id="org7057dac">練習問題</h3>
 <ul>
 <li>適当なデータに対してグラフの作成を行ってみよう
 <ul>
@@ -1233,16 +1262,18 @@ ggpairs(
 
 </ul>
 <div class="slide-footer"><br></div>
+
+
 </section>
 </section>
 <section>
-<section id="slide-orgb67f673">
-<h2 id="orgb67f673">参考</h2>
-<div class="outline-text-2" id="text-orgb67f673">
+<section id="slide-org78e5f54">
+<h2 id="org78e5f54">参考</h2>
+<div class="outline-text-2" id="text-org78e5f54">
 </div>
 </section>
-<section id="slide-org94eb864">
-<h3 id="org94eb864">その他の資料</h3>
+<section id="slide-org7f9140e">
+<h3 id="org7f9140e">その他の資料</h3>
 <ul>
 <li>より詳細なグラフの描画については以下を参照して下さい
 <ul>
@@ -1267,19 +1298,25 @@ ggpairs(
 </ul></li>
 
 </ul></li>
+<li>ggplot2 の拡張パッケージ一覧
+<ul>
+<li><a href="https://exts.ggplot2.tidyverse.org/gallery/">https://exts.ggplot2.tidyverse.org/gallery/</a></li>
+
+</ul></li>
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
 </section>
 <section>
-<section id="slide-orgba2c379">
-<h2 id="orgba2c379">疑似乱数</h2>
-<div class="outline-text-2" id="text-orgba2c379">
+<section id="slide-org3fad3cc">
+<h2 id="org3fad3cc">疑似乱数</h2>
+<div class="outline-text-2" id="text-org3fad3cc">
 </div>
 </section>
-<section id="slide-orgfcf62d0">
-<h3 id="orgfcf62d0">疑似乱数とは</h3>
+<section id="slide-org9df7c81">
+<h3 id="org9df7c81">疑似乱数とは</h3>
 <ul>
 <li>コンピューターで生成された数列のこと</li>
 <li>完全にランダムに数字を発生されることは不可能</li>
@@ -1289,9 +1326,10 @@ ggpairs(
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-org64de4da">
-<h3 id="org64de4da">基本的な乱数</h3>
+<section id="slide-orga875185">
+<h3 id="orga875185">基本的な乱数</h3>
 <ul>
 <li><b>ランダムサンプリング</b> : 与えられた集合の要素を無作為抽出することで発生する乱数</li>
 <li><b>二項乱数</b> : 「確率 \(p\) で表がでるコインを \(n\) 回投げた際の表が出る回数」に対応する乱数</li>
@@ -1300,9 +1338,10 @@ ggpairs(
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-orgecf83e5">
-<h3 id="orgecf83e5">乱数を生成する関数</h3>
+<section id="slide-orgf7efac1">
+<h3 id="orgf7efac1">乱数を生成する関数</h3>
 <ul>
 <li>関数 <code>sample()</code> : ランダムサンプリング</li>
 <li>関数 <code>rbinom()</code> : 二項乱数</li>
@@ -1311,9 +1350,10 @@ ggpairs(
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-orge768cef" data-background="#fef4f4">
-<h3 id="orge768cef">練習問題</h3>
+<section id="slide-org62eda05" data-background="#fef4f4">
+<h3 id="org62eda05">練習問題</h3>
 <ul>
 <li>ヘルプを用いて以下の関数を調べよ
 <ul>
@@ -1333,16 +1373,17 @@ ggpairs(
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
 </section>
 <section>
-<section id="slide-org5f6efae">
-<h2 id="org5f6efae">モンテカルロ法</h2>
-<div class="outline-text-2" id="text-org5f6efae">
+<section id="slide-org6795081">
+<h2 id="org6795081">モンテカルロ法</h2>
+<div class="outline-text-2" id="text-org6795081">
 </div>
 </section>
-<section id="slide-orgbc7b3c0">
-<h3 id="orgbc7b3c0">モンテカルロ法とは</h3>
+<section id="slide-org63baa7d">
+<h3 id="org63baa7d">モンテカルロ法とは</h3>
 <ul>
 <li>乱数を使った統計実験</li>
 <li>計算機上でランダムネスを実現 (擬似乱数)</li>
@@ -1350,9 +1391,10 @@ ggpairs(
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-orgaf73c82">
-<h3 id="orgaf73c82">例 : 中心極限定理</h3>
+<section id="slide-orga366baa">
+<h3 id="orga366baa">例 : 中心極限定理</h3>
 <ul>
 <li><p>
 定理
@@ -1404,12 +1446,12 @@ for(n in c(1,2,4,8,16)){ # nを変えて実験
   p &lt;- tibble(x = replicate(mc, my_mean(n))) |&gt; # mc回実験し標本平均を記録
     ggplot(aes(x)) + 
     geom_histogram(aes(y = after_stat(density)), # 密度表示
-                   fill = "orchid", alpha = 0.5, # 塗り潰しの色
-                   colour = "purple") + # 境界線の色
+		   fill = "orchid", alpha = 0.5, # 塗り潰しの色
+		   colour = "purple") + # 境界線の色
     geom_function(fun = \(x) dnorm(x, mean = mu, sd = sigma/sqrt(n)),
-                  colour = "orange", linewidth = 1.5) + # 理論曲線を重ねる
+		  colour = "orange", linewidth = 1.5) + # 理論曲線を重ねる
     labs(x = expression(bar(X)), # x軸の表示
-         title = paste0("n=",n)) # タイトルにnを記載
+	 title = paste0("n=",n)) # タイトルにnを記載
   print(p) # for 文の中では明示的に print する必要がある
 }
 </code></pre>
@@ -1417,9 +1459,10 @@ for(n in c(1,2,4,8,16)){ # nを変えて実験
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-org2b3dd4f">
-<h3 id="org2b3dd4f">例 : コイン投げの賭け</h3>
+<section id="slide-org879ce39">
+<h3 id="org879ce39">例 : コイン投げの賭け</h3>
 <ul>
 <li>AとBの二人で交互にコインを投げる．
 最初に表が出た方を勝ちとするとき，
@@ -1465,9 +1508,10 @@ table(my_data)/mc # 確率(推定値)
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
-<section id="slide-orgff742a3" data-background="#fef4f4">
-<h3 id="orgff742a3">練習問題</h3>
+<section id="slide-org87417c4" data-background="#fef4f4">
+<h3 id="org87417c4">練習問題</h3>
 <ul>
 <li>以下の簡単な双六ゲームの実験を行ってみよう
 <ul>
@@ -1480,16 +1524,17 @@ table(my_data)/mc # 確率(推定値)
 
 </ul>
 <div class="slide-footer"><br></div>
+
 </section>
 </section>
 <section>
-<section id="slide-org12f0488">
-<h2 id="org12f0488">参考</h2>
-<div class="outline-text-2" id="text-org12f0488">
+<section id="slide-orgae6111c">
+<h2 id="orgae6111c">参考</h2>
+<div class="outline-text-2" id="text-orgae6111c">
 </div>
 </section>
-<section id="slide-org8ec7e70">
-<h3 id="org8ec7e70">その他の資料</h3>
+<section id="slide-org4b40e93">
+<h3 id="org4b40e93">その他の資料</h3>
 <ul>
 <li>より詳細な確率シミュレーションについては以下を参照して下さい
 <ul>
@@ -1519,11 +1564,13 @@ R言語の基礎 第5章 (pp71-82)
 
 </ul>
 <div class="slide-footer"><br></div>
+
+
 </section>
 </section>
 <section>
-<section id="slide-orgeb83be5">
-<h2 id="orgeb83be5">次回の予定</h2>
+<section id="slide-org4264c29">
+<h2 id="org4264c29">次回の予定</h2>
 <ul>
 <li><b>第1回: 回帰モデルの考え方と推定</b></li>
 <li>第2回: モデルの評価</li>

@@ -4,13 +4,9 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2023-10-10 12:44:47 mura>
+# Time-stamp: <2023-10-12 17:53:57 mura>
 :REVEAL:
-#+INCLUDE: "./reveal.js/org/mycourse.org"
-#+PROPERTY: header-args:R :cache yes :session *R*
-#+PROPERTY: header-args:R+ :exports both :results output
-#+PROPERTY: header-args:R+ :width 800 :height 800 :res 100
-#+PROPERTY: header-args:R+ :tangle yes
+#+SETUPFILE: "./reveal.js/org/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
 # <m C-i でlatex block (math env用)
 # C-c '
@@ -23,16 +19,34 @@
 - 雛型などは削除
 
 * COMMENT 講義の内容
+:PROPERTIES:
+:ID:       B6502FA9-1588-4CAF-880C-8AF139B18374
+:END:
 # 早稲田大学
 - *第1回 : 回帰モデルの考え方と推定*
 - 第2回 : モデルの評価
 - 第3回 : モデルによる予測と発展的なモデル
 
 #+begin_src R :exports none
-  setwd("~/Desktop/lectures/mva/course")
+  setwd("~/Desktop/lectures/mva/course/tmp")
 #+end_src
-#+begin_src R :eval no :exports none :tangle yes
+#+begin_src R :exports none
   ### 第3講 資料
+  library(tidyverse)
+  library(GGally) # パッケージの読み込み
+  library(ascii)
+  options(asciiType = "org")
+  library(scatterplot3d) # パッケージの読み込み
+  #' 日本語表示・色の設定 (ggplot)
+  theme_set(theme_gray(base_size = 16))
+  if(Sys.info()[["sysname"]] == "Darwin") { # MacOSか確認
+    if(length(grep("BIZUDPGothic", systemfonts::system_fonts()[["name"]]))>0) 
+      theme_update(text = element_text(family = "BIZUDGothic-Regular"))
+    else
+      theme_update(text = element_text(family = "HiraMaruProN-W4"))}
+  library(see)
+  options(ggplot2.discrete.colour = function() scale_colour_material(),
+          ggplot2.discrete.fill = function() scale_fill_material())
 #+end_src
 
 * 講義概要
@@ -433,12 +447,12 @@
     (Springer, 2013) with permission from the authors: G. James,
     D. Witten, T. Hastie and R. Tibshirani "
     #+end_quote
-    https://www.statlearning.com
-  - ~tokyo_weather.csv~ 
+    - 参考 : https://www.statlearning.com
+  - ~tokyo_weather.csv~ (配付)
     #+begin_quote
     気象庁より取得した東京の気候データを回帰分析用に整理したもの
     #+end_quote
-    https://www.data.jma.go.jp/gmd/risk/obsdl/index.php
+    - 参考 : https://www.data.jma.go.jp/gmd/risk/obsdl/index.php
 
 ** 練習問題
 :PROPERTIES:
@@ -447,19 +461,18 @@
 :END:
 - 前掲のデータセットを用いて回帰式を構成しなさい
   - 東京の8月の気候データ
-    #+begin_quote
-    formula = temp ~ solar + press
-    #+end_quote
+    #+begin_src R :eval no :tangle no
+      #' formula (R言語における式) として以下の書式で与えればよい
+      temp ~ solar + press
+    #+end_src
   - 広告費と売上データ
-    #+begin_quote
-    formula = sales ~ TV 
+    #+begin_src R :eval no :tangle no
+      sales ~ TV 
+      sales ~ radio
+      sales ~ TV + radio
+    #+end_src
 
-    formula = sales ~ radio
-
-    formula = sales ~ TV + radio
-    #+end_quote
-
-#+begin_src R :eval no :exports none
+#+begin_src R :exports none
   #' ---------------------------------------------------------------------------
   #' @practice 回帰係数の推定
 #+end_src
@@ -529,7 +542,7 @@
               draw_polygon = TRUE, # 平面の塗り潰しの設定
               polygon_args = list(col = rgb(0,0,1,0.1))) 
 #+end_src
-#+begin_src R :eval no :exports none
+#+begin_src R :exports none
   #' ---------------------------------------------------------------------------
 #+end_src
   
@@ -655,13 +668,6 @@
 :PROPERTIES:
 :ID:       EDD9427D-C9BB-4971-91A7-A2352AE47708
 :END:
-- \(X^{\mathsf{T}}Y\) および \(X^{\mathsf{T}}X\) の計算
-  #+begin_src R :eval no :tangle no
-    crossprod(X, Y) # cross product の略
-    #' X: 行列 (またはベクトル)
-    #' Y: 行列 (またはベクトル)
-    crossprod(X) # 同じものを掛ける場合は引数は1つで良い
-  #+end_src
 - 行列 \(A,B\) の積 \(AB\) および
   ベクトル \(a,b\) の内積 \(a\cdot b\)
   #+begin_src R :eval no :tangle no
@@ -671,6 +677,20 @@
 - 正方行列 \(A\) の逆行列 \(A^{-1}\)
   #+begin_src R :eval no :tangle no
     solve(A) # 他にもいくつか関数はある
+  #+end_src
+- \(X^{\mathsf{T}}Y\) および \(X^{\mathsf{T}}X\) の計算
+  #+begin_src R :eval no :tangle no
+    crossprod(X, Y) # cross product の略
+    #' X: 行列 (またはベクトル)
+    #' Y: 行列 (またはベクトル)
+    crossprod(X) # 同じものを掛ける場合は引数は1つで良い
+  #+end_src
+  #+begin_src R :exports none
+    #' @notes
+    #' 行列の転置を計算する関数 t() と積を組み合わせてもよい
+    #'   crossprod(X,Y) = t(X) %*% Y
+    #' XY^T = (X^TY)^T を計算する関数 tcrossprod() もある
+    #'   tcrossprod(X,Y) = X %*% t(Y)
   #+end_src
 
 ** 練習問題
@@ -1090,21 +1110,17 @@
 :END:
 - 決定係数を用いてモデルの比較を行いなさい
   - 東京の8月の気候データ
-    #+begin_quote
+    #+begin_src R :eval no :tangle no
     temp ~ solar
-
     temp ~ solar + press
-
     temp ~ solar + press + cloud
-    #+end_quote
+    #+end_src
   - 広告費と売上データ
-    #+begin_quote
+    #+begin_src R :eval no :tangle no
     sales ~ TV
-
     sales ~ radio
-
     sales ~ TV + radio
-    #+end_quote
+    #+end_src
 
 #+begin_src R :eval no :exports none
   #' ---------------------------------------------------------------------------
@@ -1196,12 +1212,13 @@
 :PROPERTIES:
 :ID:       C513A101-EB45-4E7A-A4D3-1A8819EF6183
 :END:
-- 気候に関するデータ(一部)\\
-  (気温,降雨,日射,降雪,風向,風速,気圧,湿度,雲量)
+- 気候に関するデータ(一部)
   #+begin_src R :exports none
     #' データの読み込み
     tw_subset <- read_csv("data/tokyo_weather.csv") |>
-      filter(month == 8) # 8月のデータの抽出
+      filter(month == 8) |> # 8月のデータの抽出
+      mutate(date=date(paste(year,month,day,sep="-")), .before = 1) |>
+      select(-c(year,month,day,day_of_week))
 
     #' モデル式
     tw_model1 <- temp ~ press
@@ -1217,12 +1234,24 @@
     tw_lm4 <- lm(tw_model4, data=tw_subset, y=TRUE)
     tw_lm5 <- lm(tw_model5, data=tw_subset, y=TRUE)
   #+end_src
-  #+begin_src R :exports results :results output org
+
+  #+begin_src R :exports none
     #' データの表示
-    library(ascii)
-    options(asciiType = "org")
-    tw_subset |> select(-c(1,4)) |> head(14) |> ascii() # 2週間分を表示
+    #' 列名を日本語にして表示する
+    foo <- set_names(names(tw_subset), # 列名に対応する日本語ベクトルを用意
+                        c("日付","気温","降雨","日射","降雪","風向","風速","気圧","湿度","雲量"))
+    (bar <- tw_subset |> rename(all_of(foo)))
+    #' View(bar) # 左上ペインに表として表示する場合
   #+end_src
+  #+html: <font size=6>
+  #+begin_src R :exports results :results output raw :tangle no
+    #' データの表示(reveal用)
+    bar |>
+      head(12) |> # 12日分を表示
+      ascii::ascii(include.rownames = FALSE) |>
+      ascii::print(type = "org")
+  #+end_src
+  #+html: </font>
 
 #+reveal: split
 - 気温を説明する 5 つの線形回帰モデルを検討する
@@ -1236,18 +1265,9 @@
 - 関連するデータの散布図
   #+begin_src R :file figs/03_pairs.png :exports results :results graphics
     #' 関連データの散布図
-    # theme_set(theme_gray(base_size = 18))
-    if(Sys.info()[["sysname"]] == "Darwin") { # MacOSか確認
-      if(length(grep("BIZUDPGothic",systemfonts::system_fonts()[["name"]]))>0)
-        theme_update(text = element_text(family = "BIZUDGothic-Regular"))
-      else
-        theme_update(text = element_text(family = "HiraMaruProN-W4"))}
-    options(ggplot2.discrete.colour = function() scale_colour_material(),
-            ggplot2.discrete.fill = function() scale_fill_material())
-    tw_df <- tw_subset |>
-      select(temp,press,solar,humid,cloud)
-    ggpairs(tw_df,
-            columnLabels=c("気温","気圧","日射","湿度","雲量"))
+    tw_subset |>
+      select(temp,press,solar,humid,cloud) |>
+      GGally::ggpairs(columnLabels=c("気温","気圧","日射","湿度","雲量"))
   #+end_src
 
 #+caption: 散布図
@@ -1292,23 +1312,23 @@
   
 #+reveal: split
 - モデル3の推定結果
-  #+begin_src R :file figs/03_model3.png :exports results :results graphics :tangle yes
+  #+begin_src R :file figs/03_model3.png :exports results :results graphics
     #' モデル3の推定結果
-    if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
-    library(scatterplot3d) # パッケージの読み込み
-    s3d <- scatterplot3d( 
-      tw_df[c("press","solar","temp")], # x,y,z の順
-      type="p", # plotの種類: "p"点，"l"線，"h"足付き
-      pch=16,# 点の種類 (?points 参照)
-      angle=45, # xy平面の見る方向 (適宜調整)
-      zlim=c(20,35),
-      color="brown",
-      xlab="気圧", ylab="日射", zlab="気温",
-      #'    highlight.3d=TRUE # 高さ(z)ごとに色を変える
-      )
-    s3d$plane3d(tw_lm3, col="blue", # 回帰式の定める平面の追加
-                draw_polygon=TRUE, # 平面の塗り潰しの設定
-                polygon_args=list(col=rgb(0,0,1,0.1))) 
+    if(Sys.info()[["sysname"]] == "Darwin") par(family = "HiraginoSans-W4")
+    s3d <- scatterplot3d::scatterplot3d( 
+                            tw_subset[c("press","solar","temp")], # x,y,z の順
+                            type="p", # plotの種類: "p"点，"l"線，"h"足付き
+                            pch=16,# 点の種類 (?points 参照)
+                            angle=45, # xy平面の見る方向 (適宜調整)
+                            zlim=c(20,35),
+                            color="brown",
+                            xlab="気圧", ylab="日射", zlab="気温",
+                            #'    highlight.3d=TRUE # 高さ(z)ごとに色を変える
+                            )
+    s3d$plane3d(
+          tw_lm3, col="blue", # 回帰式の定める平面の追加
+          draw_polygon=TRUE, # 平面の塗り潰しの設定
+          polygon_args=list(col=rgb(0,0,1,0.1))) 
   #+end_src
 
 #+caption: モデル3
@@ -1342,55 +1362,30 @@
 #+attr_latex: :width 0.6\linewidth
 [[file:figs/03_models.png]]
 
-#+reveal: split
-- 決定係数・自由度調整済み決定係数
-  - モデル1: 気温 = F(気圧)
-    #+begin_src R :exports results :tangle yes
-      #' モデル1
-      print(
-          paste("R2:",
-                signif(summary(tw_lm1)$r.squared,digits=3),
-                "; adj. R2:",
-                signif(summary(tw_lm1)$adj.r.squared,digits=3)))
-    #+end_src
-  - モデル2: 気温 = F(日射)
-    #+begin_src R :exports results :tangle yes
-      #' モデル2
-      print(
-          paste("R2:",
-                signif(summary(tw_lm2)$r.squared,digits=3),
-                "; adj. R2:",
-                signif(summary(tw_lm2)$adj.r.squared,digits=3)))
-    #+end_src
-  - モデル3: 気温 = F(気圧, 日射)
-    #+begin_src R :exports results :tangle yes
-      #' モデル3
-      print(
-          paste("R2:",
-                signif(summary(tw_lm3)$r.squared,digits=3),
-                "; adj. R2:",
-                signif(summary(tw_lm3)$adj.r.squared,digits=3)))
-    #+end_src
-  - モデル4: 気温 = F(気圧, 日射, 湿度)
-    #+begin_src R :exports results :tangle yes
-      #' モデル4
-      print(
-          paste("R2:",
-                signif(summary(tw_lm4)$r.squared,digits=3),
-                "; adj. R2:",
-                signif(summary(tw_lm4)$adj.r.squared,digits=3)))
-    #+end_src
-  - モデル5: 気温 = F(気圧, 日射, 雲量)
-    #+begin_src R :exports results :tangle yes
-      #' モデル5
-      print(
-          paste("R2:",
-                signif(summary(tw_lm5)$r.squared,digits=3),
-                "; adj. R2:",
-                signif(summary(tw_lm5)$adj.r.squared,digits=3)))
-    #+end_src
-  
 
+#+reveal: split
+- 寄与率の比較
+  - 決定係数(\(R^{2}\))・自由度調整済み決定係数(adjusted \(R^{2}\))
+    #+begin_src R :exports none
+      #' 関数 tibble::tribble() を利用して結果をまとめる
+      #' 行ごとにデータを並べてデータフレームを作ることができる
+      (baz <- tribble(
+        ~モデル, ~決定係数, ~自由度調整済み決定係数,
+        ## 列名は ~ で指定
+        "気温 = F(気圧)", summary(tw_lm1)$r.squared, summary(tw_lm1)$adj.r.squared,
+        "気温 = F(日射)", summary(tw_lm2)$r.squared, summary(tw_lm2)$adj.r.squared,
+        "気温 = F(気圧, 日射)", summary(tw_lm3)$r.squared, summary(tw_lm3)$adj.r.squared,
+        "気温 = F(気圧, 日射, 湿度)", summary(tw_lm4)$r.squared, summary(tw_lm4)$adj.r.squared,
+        "気温 = F(気圧, 日射, 雲量)", summary(tw_lm5)$r.squared, summary(tw_lm5)$adj.r.squared,
+        ))
+      #' View(baz) # 左上ペインに表として表示する場合
+    #+end_src
+    #+begin_src R :exports results :results output raw :tangle no
+      #' 比較結果の表示 (reveal用)
+      baz |> ascii::ascii(digits=3) |> ascii::print(type = "org")
+    #+end_src
+
+    
 * 次回の予定
 - 第1回 : 回帰モデルの考え方と推定
 - *第2回 : モデルの評価*

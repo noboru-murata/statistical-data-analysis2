@@ -31,8 +31,6 @@ sqrt(2) + abs(-0.6)
 
 #' @exercise 関数の実行
 
-#' @exercise 関数の実行
-
 #' 正弦関数(引数が1つ)の計算例
 sin(x = pi/2) 
 sin(pi/2) # 引数名は省略でき，前の行とこの行は同じ結果になる
@@ -44,8 +42,6 @@ log(x = a, base = b) #上と同値
 log(base = b, x = a) #上と同値(引数名があれば順序は自由に変えられる)
 log(b, a) # = log(x=b,base=a) (引数名がなければ規定の順序で解釈される)
 log(a) # 自然対数 =log(a,base=exp(1))
-
-#' @exercise ヘルプの使い方
 
 #' @exercise ヘルプの使い方
 
@@ -62,8 +58,6 @@ help.search("log") # "log"に関連する項目は？
 bar <- sin(2/3*pi) + cos(foo * pi/4) # 計算結果は表示されない
 #' 変数 bar の内容を表示する
 print(bar)
-
-#' @exercise 自作関数の定義
 
 #' @exercise 自作関数の定義
 

@@ -17,7 +17,7 @@ library(tidyverse)
 
 #' @exercise データフレームの作成
 
-#' 同じ長さのベクトルを並べる (関数 tibble::tible())
+#' 同じ長さのベクトル(関数 base::c() で作成)を並べる (関数 tibble::tibble())
 #' (... <- ...) は代入した結果を表示
 (foo <- tibble(one = c(1,2,3),two = c("AB","CD","EF"))) 
 (bar <- tibble(three = c("x","y","z"),four = c(0.9,0.5,-0.3)))
@@ -275,7 +275,7 @@ if(Sys.info()["sysname"] == "Darwin") { # MacOSか調べて日本語フォント
   theme_update(text = element_text(family = "HiraginoSans-W4"))}
 pcr_data |> 
   ggplot(aes(x = a, y = f)) + # x軸を a，y軸を f に設定
-  geom_point(colour = "blue", shape = 19) + # 色と形を指定(点の形は"?points"を参照)
+  geom_point(colour = "blue", shape = 19) + # 色と形を指定(点の形は '?points' を参照)
   labs(x = pcr_names["a"], y = pcr_names["f"]) # 軸の名前を指定
 
 #' @notes
