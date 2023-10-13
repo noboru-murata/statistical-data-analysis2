@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2023-10-13 13:36:03 mura>
+# Time-stamp: <2023-10-13 14:43:54 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/org/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -146,6 +146,8 @@
   names(grade_data)    # 列の名前を表示する
   View(grade_data) # データフレームの内容を左上ペインで表示
   glimpse(grade_data) # データフレームの内容を別の形式で表示
+
+  #' @notes
   #' データの取り出し方 (後ほど詳しく)
   grade_data[2,3] # 特定の要素を数値で参照する
   grade_data[2,"phys"] # 列を名前で参照する (上記と同じ結果)

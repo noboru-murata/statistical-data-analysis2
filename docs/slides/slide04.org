@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2023-10-13 13:09:56 mura>
+# Time-stamp: <2023-10-13 14:43:35 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/org/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -377,18 +377,7 @@
       baz |> ascii::ascii(digits=3) |> ascii::print(type = "org")
     #+end_src
   
-** COMMENT stargazer
-  #+html: <font size=4>
-  #+begin_src R :exports results :results output html :tangle no
-    #' データの表示(reveal用)
-    stargazer::stargazer(tw_lm1, tw_lm2, tw_lm3, tw_lm4, tw_lm5,
-                         ## column.labels=c("A","B","C","D","E"),
-                         type="html",single.row=TRUE,ci=TRUE)
-  #+end_src
-  #+html: </font>
-- 変数名の対応
-  - 気温(temp), 気圧(press), 日射(solar), 湿度(humid), 雲量(cloud)
-  
+
 * あてはめ値の性質
 ** あてはめ値
 - さまざまな表現
@@ -1187,7 +1176,7 @@
 - *ばらつきの比* に関する定理: 
   #+begin_quote
   \(\beta_{1}=\dotsb=\beta_{p}=0\) ならば
-  *\(F\)統計量*
+  *\(F\)統計量* (\(F\)-statistic)
   \begin{equation}
     % \text{(F統計量)}\quad
     F=
@@ -1204,11 +1193,11 @@
   - \(S/\sigma^2\) は自由度 \(n{-}p{-}1\) の \(\chi^{2}\) 分布に従う
 
 ** @@latex:@@\(F\)統計量を用いた検定
-- 説明変数のうち1つでも役に立つか否かを検定:
+- 説明変数のうち1つでも役に立つか否かを検定
   - 帰無仮説 \(H_{0}\) : \(\beta_{1}=\dotsb=\beta_{p}=0\) 
     (\(S_r\) が \(\chi^2\) 分布になる)
   - 対立仮説 \(H_{1}\) : \(\exists j\;\beta_j\neq0\)
-- \(p\)値: 確率変数の値が \(F\)を超える確率
+- \(p\)値 : 確率変数の値が \(F\)を超える確率
   #+begin_quote
   \begin{equation}
     \text{(\(p\)値)}
@@ -1362,10 +1351,12 @@
     正規化した残差とテコ比の関係
   などが用意されている
   #+begin_src R :eval no :tangle yes
-    ### 関数 lm() による推定結果の診断プロットの使い方
-    est <- lm(temp ~ press + solar + rain, data=tw_subset)
-    plot(est) # 指示に従って <Return> キーを押すと順次表示される
-    ## help(plot.lm) を参照
+    #' 関数 stats::lm() による推定結果の診断プロット
+    tw_lm6 <- lm(temp ~ press + solar + rain, data = tw_subset)
+    #' 関数 ggfortify::autoplot() を利用する
+    #' 必要ならinstall
+    autoplot(tw_lm6) 
+    #' 詳細は '?ggfortify::autoplot.lm' を参照
   #+end_src
 
 
@@ -1543,6 +1534,18 @@
                 ))
     #+end_src
 
+** COMMENT stargazer
+  #+html: <font size=4>
+  #+begin_src R :exports results :results output html :tangle no
+    #' データの表示(reveal用)
+    stargazer::stargazer(tw_lm1, tw_lm2, tw_lm3, tw_lm4, tw_lm5,
+                         ## column.labels=c("A","B","C","D","E"),
+                         type="html",single.row=TRUE,ci=TRUE)
+  #+end_src
+  #+html: </font>
+- 変数名の対応
+  - 気温(temp), 気圧(press), 日射(solar), 湿度(humid), 雲量(cloud)
+  
 
 * 次回の予定
 - 第1回 : 回帰モデルの考え方と推定
