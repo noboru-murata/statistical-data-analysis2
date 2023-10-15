@@ -6,10 +6,10 @@ draft = false
 weight = 1016
 +++
 
-<span class="timestamp-wrapper"><span class="timestamp">&lt;2023-09-30 Sat&gt; </span></span> 更新
+<span class="timestamp-wrapper"><span class="timestamp">&lt;2023-10-15 Sun&gt; </span></span> 更新
 
 -   [第1講 (2023年10月6日)](https://u-tokyo-ac-jp.zoom.us/rec/share/FY0GSw0VlglrqDt-131OjUfY8y4WX5_xMI6a2Yk5eMQuY66g3AunD7wTxL86nJrn.0xDdtPcLRbkKvKia?startTime=1696578607000)
--   第2講 (2023年10月13日)
+-   [第2講 (2023年10月13日)](https://u-tokyo-ac-jp.zoom.us/rec/share/6wegj0rxNSKXoQ6RBvIsf2zLPShZxJjqyH2J-oFJSosX90uiPI8CWz23zQMzvdzJ.kW9koz0qHyZDw1qJ?startTime=1697183439000)
 -   第3講 (2023年10月20日)
 -   第4講 (2023年10月27日)
 -   第5講 (2023年11月10日)

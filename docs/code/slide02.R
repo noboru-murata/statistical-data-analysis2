@@ -33,17 +33,17 @@ library(tidyverse)
 
 #' 各項目が同じ長さのベクトルを並べる
 (grade_data <- tibble( # 変数名は自由に決めてよい
-   name = c("A", "B", "C", "D", "E"),
+   name = c("Alice", "Bob", "Carol", "Dave", "Eve"),
    math = c(90, 80, 70, 60, 50),
    phys = c(25, 50, 75,100, 80),
    chem = c(65,100, 70, 40, 75),
    bio  = c(70, 50, 30, 80,100)))
+
+#' @notes
 #' 行・列の名前の操作
 names(grade_data)    # 列の名前を表示する
 View(grade_data) # データフレームの内容を左上ペインで表示
 glimpse(grade_data) # データフレームの内容を別の形式で表示
-
-#' @notes
 #' データの取り出し方 (後ほど詳しく)
 grade_data[2,3] # 特定の要素を数値で参照する
 grade_data[2,"phys"] # 列を名前で参照する (上記と同じ結果)
@@ -58,6 +58,7 @@ grade_data$bio # 上記と同じ結果
 #' 以下のサイトなどが参考になる
 #' - https://style.tidyverse.org/index.html
 #' - https://google.github.io/styleguide/Rguide.html
+
 #' ---------------------------------------------------------------------------
 
 #' ---------------------------------------------------------------------------
@@ -72,12 +73,19 @@ write_csv(grade_data, file = "data/grade_data.csv")
 #' ダウンロードしたファイルの読み込み
 #' ファイル名 pcr_case_daily.csv として作業ディレクトリの data 以下に保存
 pcr_data <- read_csv("data/pcr_case_daily.csv") # 一般的な読み込み方
-View(pcr_data) # 中身を表示
-(pcr_names <- names(pcr_data)) # 機関名などの列名を保存しておく
-(names(pcr_names) <- # 列名に文字列(英語)を対応づける
-  c("date", letters[1:(length(pcr_names)-1)]))
-View(pcr_names) # 中身を表示
-pcr_data <- rename(pcr_data, all_of(pcr_names)) # 列名を変更
+View(pcr_data) # 中身を左上ペインに表示
+(pcr_colnames <- names(pcr_data)) # 列名を確認して保存 colnames(pcr_data) でも良い
+names(pcr_data) <- # 列名を扱い易いように英語略記に変更する
+  c("date","niid","ciq","hc","ai","univ","mi","sub","si","total")
+#' National Institute of Infectious Diseases
+#' Customs-Immigration-Quarantine
+#' Health Center
+#' Administrative Inspection
+#' University
+#' Medical Institution
+#' subtotal
+#' Self Inspection
+#' total
 pcr_data # 中身を確認(10行だけ表示される)
 #' 以降の処理のために date 列を関数 lubridate::date() で date 型に変換する
 #' 列の変換・追加などには関数 dplyr::mutate() を用いる
@@ -87,11 +95,6 @@ pcr_data # 中身を確認(10行だけ表示される)
 #' Files タブの操作で読み込みことも可能なので確認せよ
 #' 関数 print() を用いると表示する行数を指定できる
 print(pcr_data, n = 5) # 全ては n = Inf
-#' 読み込み時に列名を指定することも可能
-pcr_data <- # 以下は上記と同じ結果
-  read_csv("data/pcr_case_daily.csv",
-           skip = 1, # 1行目の名前を読み飛ばす
-           col_names = c("date",letters[1:(length(pcr_names)-1)]))
 #' 日本語を含むファイルでは文字化けが起こった場合は以下で対応する
 #' 関数 readr::guess_encoding() でファイルの文字コードを推測する
 guess_encoding("data/pcr_case_daily.csv")
@@ -105,6 +108,21 @@ pcr_data <- # 文字コードとして UTF-8 を指定
 #' URLを指定して読み込むこともできる 
 pcr_data <- # 更新される情報を追跡する場合に利用を推奨
   read_csv("https://www.mhlw.go.jp/content/pcr_case_daily.csv")
+#' 列名の変更にはいろいろな方法があるので適宜使用する
+#' 読み込み時に行う方法
+pcr_data <- read_csv("data/pcr_case_daily.csv",
+                     skip = 1, # 列名の行を読み飛ばす
+                     col_names = c("date","niid","ciq","hc","ai",
+                                   "univ","mi","sub","si","total"))
+pcr_data <- mutate(pcr_data, date = date(date)) # date型に変更
+#' 関数 dplyr::rename() を使う方法
+pcr_data <- read_csv("data/pcr_case_daily.csv") # そのまま読み込む
+(pcr_colnames <- set_names(names(pcr_data), # 新旧の列名に対応するベクトルを作成
+                           c("date","niid","ciq","hc","ai",
+                             "univ","mi","sub","si","total")))
+pcr_data <- rename(pcr_data, all_of(pcr_colnames)) # 列名を変更
+pcr_data <- mutate(pcr_data, date = date(date)) # date型に変更
+
 #' ---------------------------------------------------------------------------
 
 #' @exercise 要素の選択
@@ -134,20 +152,29 @@ z |>
   filter(one != 2) |>        # 列 one の値が2でない行を選択
   select(starts_with("t")) # 列 "t"wo,"t"hree を選択
 
+#' @exercise データフレームの形式の変更
+
+#' 練習問題の成績表を用いた例
+pivot_longer(grade_data, !name, # name 列以外をまとめる
+             names_to = "subject")
+#' この例ではもとのデータフレームに "name" という列があるため
+#' 既定値は使えないので，科目を表す "subject" を用いている
+
 #' ---------------------------------------------------------------------------
 #' @practice データフレームの操作
 
-#' 医療機関(f)での検査数が2000を越えたときの国立感染症研究所(a)と医療機関(f)のデータ
-pcr_data |>           # データフレーム
-  filter(f > 2000) |> # 行の条件による絞り込み
-  select(c(a,f))      # 列の選択 select(a,f) としても良い
-#' 大学等(e)と医療機関(f)でともに検査件数が2000を越えたデータ
+#' 医療機関(mi)での検査数が2000を越えたときの国立感染症研究所(niid)と医療機関(mi)のデータ
+pcr_data |>            # データフレーム
+  filter(mi > 2000) |> # 行の条件による絞り込み
+  select(c(niid,mi))   # 列の選択 select(niid,mi) としても良い
+#' 大学等(univ)と医療機関(mi)でともに検査件数が2000を越えたデータ
 pcr_data |>
-  filter(e > 2000 & f > 2000) # 複合的な条件の指定
-#' 2020年3月の各機関(g,iは除く)の検査件数データ
+  filter(univ > 2000 & mi > 2000) # 複合的な条件の指定
+#' 2020年3月の各機関(sub,totalは除く)の検査件数データ
 pcr_data |>
   filter(date >= "2020-03-01" & date < "2020-04-01") |> # 日付の範囲の指定
-  select(!c(g,i)) # 列の削除 select(-c(g,i)) や select(-g,-i) としても良い
+  select(!c(sub,total)) # 列の削除 select(-c(sub,total)), select(-sub,-total) も可
+
 #' ---------------------------------------------------------------------------
 
 #' @exercise 列ごとの集計
@@ -165,25 +192,25 @@ grade_data |>
 #' @exercise グループごとの集計
 
 #' pcr_data を用いた例
-#' 医療機関 (f) のPCR件数を各月で集計する
+#' 医療機関(mi)のPCR件数を各月で集計する
 #' 日付の扱いに関数 lubridate::year(), lubridate::month() を利用
 pcr_data |>
   group_by(year = year(date), month = month(date)) |> # 年と月でグループ化
-  summarise(total_nums = sum(f)) # f の合計値を計算する
+  summarise(mi_total = sum(mi)) # mi の合計値を計算する
 
 #' @notes
 #' 関数 dplyr::mutate() で新たな列を加えておくと
 #' 上記の処理は関数 summarise() のみでも可能(実験的な実装 .by)
 pcr_data |>
   mutate(year = year(date), month = month(date)) |>
-  summarise(total_nums = sum(f), .by = c(year, month))
+  summarise(mi_total = sum(mi), .by = c(year, month))
 #' 関数 lubridate::month() は月名での表示も可能
 pcr_data |> # 短縮形
   mutate(year = year(date), month = month(date, label = TRUE)) |>
-  summarise(total_nums = sum(f), .by = c(year, month))
+  summarise(mi_total = sum(mi), .by = c(year, month))
 pcr_data |> # 月名
   mutate(year = year(date), month = month(date, label = TRUE, abbr = FALSE)) |>
-  summarise(total_nums = sum(f), .by = c(year, month))
+  summarise(mi_total = sum(mi), .by = c(year, month))
 #' ただし名前は言語環境に依存するので注意
 #' 強制的に英語にするには
 #' Sys.setlocale(category = "LC_TIME", locale = "C")
@@ -229,27 +256,28 @@ mtcars |>
   group_by(cyl, gear) |>
   summarise(mpg = mean(mpg)) |> # cyl のグループは残っている
   summarise(mpg = max(mpg)) # cyl ごとに平均値の最大値を求める
+
 #' ---------------------------------------------------------------------------
 
 #' @exercise 折れ線グラフの描画
 
-#' 民間検査会社(d)と医療機関(f)の検査件数の推移の視覚化
+#' 行政検査(ai)と医療機関(mi)の検査件数の推移の視覚化
 
 pcr_data |> # パイプ演算子でデータフレームを関数 ggplot2::ggplot() に渡す
   ggplot(aes(x = date)) + # date をx軸に指定
-  geom_line(aes(y = d), colour = "blue") + # 民間検査会社を青
-  geom_line(aes(y = f), colour = "red") +  # 医療機関を赤
+  geom_line(aes(y = ai), colour = "blue") + # 行政検査を青
+  geom_line(aes(y = mi), colour = "red") +  # 医療機関を赤
   labs(y = "number of tests") # y軸のラベルを変更
 
 #' @notes
 #' パイプ演算子を使わずに
-#' ggplot(pcr_data, aes(x = date)) + ...
+#'   ggplot(pcr_data, aes(x = date)) + ...
 #' としても良い．
 
 #' 全ての機関の検査件数の推移の視覚化
 #' 複数のデータを描画するためにはデータフレームを適切に書き換える必要がある
 
-pcr_data |> select(!c(g,i)) |> # 集計値を除く
+pcr_data |> select(!c(sub,total)) |> # 集計値を除く
   pivot_longer(!date, names_to = "organ", values_to = "nums") |> 
   ggplot(aes(x = date, y = nums, colour = organ)) + geom_line() +
   labs(title = "PCR Tests in Various Organizatios",
@@ -264,7 +292,7 @@ pcr_data |> select(!c(g,i)) |> # 集計値を除く
 #' それぞれを別のグラフとする場合には
 #' 関数 ggplot2::facet_wrap() や関数 ggplot2::facet_grid() を用いると良い
 
-pcr_data |> select(!c(g,i)) |> 
+pcr_data |> select(!c(sub,total)) |> 
   pivot_longer(!date, names_to = "organ", values_to = "nums") |> 
   ggplot(aes(x = date, y = nums, colour = organ)) +
   labs(title = "PCR Tests in Various Organizatios", x = "Date", y = "Number of Tests") +
@@ -273,14 +301,14 @@ pcr_data |> select(!c(g,i)) |>
 
 #' @exercise 散布図の描画
 
-#' 国立感染症研究所(a)と医療機関(f)の検査件数の関係
+#' 国立感染症研究所(niid)と医療機関(mi)の検査件数の関係
 
 if(Sys.info()["sysname"] == "Darwin") { # MacOSか調べて日本語フォントを指定
   theme_update(text = element_text(family = "HiraginoSans-W4"))}
 pcr_data |> 
-  ggplot(aes(x = a, y = f)) + # x軸を a，y軸を f に設定
+  ggplot(aes(x = niid, y = mi)) + # x軸を niid，y軸を mi に設定
   geom_point(colour = "blue", shape = 19) + # 色と形を指定(点の形は '?points' を参照)
-  labs(x = pcr_names["a"], y = pcr_names["f"]) # 軸の名前を指定
+  labs(x = pcr_colnames["niid"], y = pcr_colnames["mi"]) # 軸の名前を指定
 
 #' @notes
 #' テーマ (theme) は ggplot の背景や色の既定値を設定する機能である
@@ -290,10 +318,10 @@ pcr_data |>
 #' 各軸を対数表示に変更
 
 pcr_data |> 
-  ggplot(aes(x = a, y = f)) + # x軸を a，y軸を f に設定
-  geom_point(colour = "blue", shape = 19) + # 色と形を指定
+  ggplot(aes(x = niid, y = mi)) + 
+  geom_point(colour = "blue", shape = 19) + 
   scale_x_log10() + scale_y_log10() + # 各軸を対数で表示
-  labs(x = pcr_names["a"], y = pcr_names["f"]) # 軸の名前を指定
+  labs(x = pcr_colnames["niid"], y = pcr_colnames["mi"])
 
 #' @exercise 散布図行列の描画
 
@@ -301,14 +329,14 @@ pcr_data |>
 library(GGally)
 
 pcr_data |>
-  select(!c(date,g,i)) |> # 日付と集計値を除いて必要なデータフレームに整形
+  select(!c(date,sub,total)) |> # 日付と集計値を除いて必要なデータフレームに整形
   ggpairs() # 標準の散布図行列
 
 #' 四半期ごとに分類して色分けして表示する
 
-pcr_data |> select(!c(g,i)) |> # 日付から四半期の因子を作成
+pcr_data |> select(!c(sub,total)) |> # 日付から四半期の因子を作成
   mutate(quarter = as_factor(quarter(date, with_year = TRUE))) |>
-  ggpairs(columns = 2:8, columnLabels = pcr_names[-c(1,8,10)], axisLabels = "none",
+  ggpairs(columns = 2:8, columnLabels = pcr_colnames[-c(1,8,10)], axisLabels = "none",
           aes(colour = quarter), legend = c(2,1), # 四半期ごとに色づけて(1,1)の凡例を使用
           upper = "blank", diag = list(continuous = "barDiag")) +
   theme(legend.position = "top") # 凡例を上に表示
@@ -318,55 +346,58 @@ pcr_data |> select(!c(g,i)) |> # 日付から四半期の因子を作成
 #'   columns = which(!(names(pcr_data) %in% c("date","g","i")))
 #'   columnLabels = pcr_names[!(names(pcr_data) %in% c("date","g","i"))]
 
+#' ---------------------------------------------------------------------------
 #' @practice 基本的なグラフの描画
 #' (書き方はいろいろあるので，以下はあくまで一例)
 
-#' 検疫所(b)，地方衛生研究所.保健所(c)，民間検査会社(d)における検査件数の推移
+#' 検疫所(ciq)，地方衛生研究所.保健所(hc)，行政検査(ai)における検査件数の推移
 pcr_data |>
-  select(c(date,b,c,d)) |> # 描画対象の列を抽出
+  select(c(date,ciq,hc,ai)) |> # 描画対象の列を抽出
   pivot_longer(!date, names_to = "organ", values_to = "nums") |> # 
   ggplot(aes(x = date, y = nums, colour = organ)) +
   geom_line() +
   labs(x = "日付", y = "検査件数")
 #' y軸を対数表示にする場合は以下のとおり
 pcr_data |>
-  select(c(date,b,c,d)) |> # 描画対象の列を抽出
+  select(c(date,ciq,hc,ai)) |> # 描画対象の列を抽出
   pivot_longer(!date, names_to = "organ", values_to = "nums") |> # 
   ggplot(aes(x = date, y = nums, colour = organ)) +
   geom_line() +
   scale_y_log10() + # y軸を対数表示 (log10(0)=-Inf の警告が出る場合がある)
   labs(x = "日付", y = "検査件数")
-#' 民間検査会社(d)，大学等(e)，医療機関(f)での検査件数の関係(散布図)
+#' 行政検査(ai)，大学等(univ)，医療機関(mi)での検査件数の関係(散布図)
 pcr_data |>
-  select(c(d,e,f)) |> # 描画対象の列を抽出
-  ggpairs(columnLabels = pcr_names[c("d","e","f")]) # ラベルを渡す
+  select(c(ai,univ,mi)) |> # 描画対象の列を抽出
+  ggpairs(columnLabels = pcr_colnames[c("ai","univ","mi")]) # ラベルを渡す
+
+#' ---------------------------------------------------------------------------
 
 #' @exercise ヒストグラムの描画
 
-#' 民間検査会社(d)での検査件数の分布
+#' 行政検査(ai)での検査件数の分布
 pcr_data |>
-  ggplot(aes(x = d)) + # 分布を描画する列を指定
+  ggplot(aes(x = ai)) + # 分布を描画する列を指定
   geom_histogram(bins = 30, fill = "lightblue", colour = "blue") +
-  labs(x = pcr_names["d"], y = "頻度", title = "検査件数のヒストグラム")
+  labs(x = pcr_colnames["ai"], y = "頻度", title = "検査件数のヒストグラム")
 
 #' @notes
 #' 各ビンの頻度を表示するためには例えば以下のようにすればよい
 pcr_data |>
-  ggplot(aes(x = d)) + # 分布を描画する列を指定
+  ggplot(aes(x = ai)) + # 分布を描画する列を指定
   geom_histogram(bins = 30, fill = "lightblue", colour = "blue") +
   geom_text(stat="bin", bins = 30, colour = "darkblue", size = 3, 
             aes(label = after_stat(count), y = after_stat(count) + 2)) +
-  labs(x = pcr_names["d"], y = "頻度", title = "検査件数のヒストグラム")
+  labs(x = pcr_colnames["ai"], y = "頻度", title = "検査件数のヒストグラム")
 
 #' @exercise 箱ひげ図の描画
 
-#' 大学等(e)での検査件数の分布(2021年分)
+#' 大学等(univ)での検査件数の分布(2021年分)
 pcr_data |>
   filter(year(date) == 2021) |> # 2021年を抽出
   mutate(date = as_factor(month(date))) |> # 月を因子化する
-  ggplot(aes(x = date, y = e)) + # 月毎に集計する
+  ggplot(aes(x = date, y = univ)) + # 月毎に集計する
   geom_boxplot(fill = "orange") + # 塗り潰しの色を指定
-  labs(title = "月ごとの検査件数 (2021年)", x = "月", y = pcr_names["e"])
+  labs(title = "月ごとの検査件数 (2021年)", x = "月", y = pcr_colnames["univ"])
 
 #' @exercise 棒グラフの描画
 
@@ -374,10 +405,12 @@ pcr_data |>
 pcr_data |>
   filter(year(date) == 2021) |>
   mutate(month = as_factor(month(date))) |> # 月を作成
-  select(!c(date,g,i)) |> # 機関に限定
+  select(!c(date,sub,total)) |> # 機関に限定
   group_by(month) |> # 月でグループ化
   summarize(across(everything(), sum)) |> # 全て(月以外)を集計
-  pivot_longer(!month, names_to = "organ", values_to = "nums") |> 
+  pivot_longer(!month, names_to = "organ", values_to = "nums",
+               names_transform = list(organ = as_factor)) |>
+  ## 最後のオプションは organ 列のラベルを因子化して出てきた列の順に並べる
   ggplot(aes(x = organ, y = nums, fill = month)) +
   geom_bar(stat = "identity", position = "dodge", na.rm = TRUE) +
   theme(legend.position = "top") + guides(fill = guide_legend(nrow = 1))

@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2023-10-13 15:40:59 mura>
+# Time-stamp: <2023-10-15 17:26:29 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/org/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -101,7 +101,7 @@
   #+begin_src R :exports none
     #' @exercise データフレームの作成
   #+end_src
-  #+begin_src R :eval no
+  #+begin_src R :exports code
     #' 同じ長さのベクトル(関数 base::c() で作成)を並べる (関数 tibble::tibble())
     #' (... <- ...) は代入した結果を表示
     (foo <- tibble(one = c(1,2,3),two = c("AB","CD","EF"))) 
@@ -121,33 +121,35 @@
 :ID:       362D89E7-2FA6-4AB5-ADE6-7F6D402A1B6B
 :END:
 - 次の表に対応するデータフレームを作成しなさい
-  |------+------+------+------+-----|
-  | name | math | phys | chem | bio |
-  |------+------+------+------+-----|
-  | A    |   90 |   25 |   65 |  70 |
-  | B    |   80 |   50 |  100 |  50 |
-  | C    |   70 |   75 |   70 |  30 |
-  | D    |   60 |  100 |   40 |  80 |
-  | E    |   50 |   80 |   75 | 100 |
-  |------+------+------+------+-----|
+  |-------+------+------+------+-----|
+  | name  | math | phys | chem | bio |
+  |-------+------+------+------+-----|
+  | Alice |   90 |   25 |   65 |  70 |
+  | Bob   |   80 |   50 |  100 |  50 |
+  | Carol |   70 |   75 |   70 |  30 |
+  | Dave  |   60 |  100 |   40 |  80 |
+  | Eve   |   50 |   80 |   75 | 100 |
+  |-------+------+------+------+-----|
 
-#+begin_src R :eval no :exports none
+#+begin_src R :exports none
   #' ---------------------------------------------------------------------------
   #' @practice データフレームの作成
-
+#+end_src
+#+begin_src R :exports none
   #' 各項目が同じ長さのベクトルを並べる
   (grade_data <- tibble( # 変数名は自由に決めてよい
-     name = c("A", "B", "C", "D", "E"),
+     name = c("Alice", "Bob", "Carol", "Dave", "Eve"),
      math = c(90, 80, 70, 60, 50),
      phys = c(25, 50, 75,100, 80),
      chem = c(65,100, 70, 40, 75),
      bio  = c(70, 50, 30, 80,100)))
+#+end_src
+#+begin_src R :eval no :exports none
+  #' @notes
   #' 行・列の名前の操作
   names(grade_data)    # 列の名前を表示する
   View(grade_data) # データフレームの内容を左上ペインで表示
   glimpse(grade_data) # データフレームの内容を別の形式で表示
-
-  #' @notes
   #' データの取り出し方 (後ほど詳しく)
   grade_data[2,3] # 特定の要素を数値で参照する
   grade_data[2,"phys"] # 列を名前で参照する (上記と同じ結果)
@@ -156,12 +158,15 @@
   grade_data[,"bio"] # 上記と同じ結果
   grade_data[["bio"]] # ベクトルとして取り出す (リストとしての処理)
   grade_data$bio # 上記と同じ結果
-
+#+end_src
+#+begin_src R :exports none
   #' @notes
   #' 変数や関数の名称については各自で命名規則を決めておくと良い
   #' 以下のサイトなどが参考になる
   #' - https://style.tidyverse.org/index.html
   #' - https://google.github.io/styleguide/Rguide.html
+#+end_src
+#+begin_src R :exports none
   #' ---------------------------------------------------------------------------
 #+end_src
 
@@ -206,10 +211,11 @@
 - ~pcr_case_daily.csv~ (厚労省からダウンロードしたファイル)を
   変数 ~pcr_data~ に読み込みなさい
 
-#+begin_src R :eval no :exports none
+#+begin_src R :exports none
   #' ---------------------------------------------------------------------------
   #' @practice ファイルの読み書き
-
+#+end_src
+#+begin_src R :eval no :exports none
   #' 前の練習問題で作ったデータフレームを利用する
   write_csv(grade_data, file = "data/grade_data.csv")
   #' File タブからファイルの中身を確認することができる
@@ -220,12 +226,19 @@
   #' ダウンロードしたファイルの読み込み
   #' ファイル名 pcr_case_daily.csv として作業ディレクトリの data 以下に保存
   pcr_data <- read_csv("data/pcr_case_daily.csv") # 一般的な読み込み方
-  View(pcr_data) # 中身を表示
-  (pcr_names <- names(pcr_data)) # 機関名などの列名を保存しておく
-  (names(pcr_names) <- # 列名に文字列(英語)を対応づける
-    c("date", letters[1:(length(pcr_names)-1)]))
-  View(pcr_names) # 中身を表示
-  pcr_data <- rename(pcr_data, all_of(pcr_names)) # 列名を変更
+  View(pcr_data) # 中身を左上ペインに表示
+  (pcr_colnames <- names(pcr_data)) # 列名を確認して保存 colnames(pcr_data) でも良い
+  names(pcr_data) <- # 列名を扱い易いように英語略記に変更する
+    c("date","niid","ciq","hc","ai","univ","mi","sub","si","total")
+  #' National Institute of Infectious Diseases
+  #' Customs-Immigration-Quarantine
+  #' Health Center
+  #' Administrative Inspection
+  #' University
+  #' Medical Institution
+  #' subtotal
+  #' Self Inspection
+  #' total
   pcr_data # 中身を確認(10行だけ表示される)
   #' 以降の処理のために date 列を関数 lubridate::date() で date 型に変換する
   #' 列の変換・追加などには関数 dplyr::mutate() を用いる
@@ -236,11 +249,6 @@
   #' Files タブの操作で読み込みことも可能なので確認せよ
   #' 関数 print() を用いると表示する行数を指定できる
   print(pcr_data, n = 5) # 全ては n = Inf
-  #' 読み込み時に列名を指定することも可能
-  pcr_data <- # 以下は上記と同じ結果
-    read_csv("data/pcr_case_daily.csv",
-             skip = 1, # 1行目の名前を読み飛ばす
-             col_names = c("date",letters[1:(length(pcr_names)-1)]))
   #' 日本語を含むファイルでは文字化けが起こった場合は以下で対応する
   #' 関数 readr::guess_encoding() でファイルの文字コードを推測する
   guess_encoding("data/pcr_case_daily.csv")
@@ -254,6 +262,22 @@
   #' URLを指定して読み込むこともできる 
   pcr_data <- # 更新される情報を追跡する場合に利用を推奨
     read_csv("https://www.mhlw.go.jp/content/pcr_case_daily.csv")
+  #' 列名の変更にはいろいろな方法があるので適宜使用する
+  #' 読み込み時に行う方法
+  pcr_data <- read_csv("data/pcr_case_daily.csv",
+                       skip = 1, # 列名の行を読み飛ばす
+                       col_names = c("date","niid","ciq","hc","ai",
+                                     "univ","mi","sub","si","total"))
+  pcr_data <- mutate(pcr_data, date = date(date)) # date型に変更
+  #' 関数 dplyr::rename() を使う方法
+  pcr_data <- read_csv("data/pcr_case_daily.csv") # そのまま読み込む
+  (pcr_colnames <- set_names(names(pcr_data), # 新旧の列名に対応するベクトルを作成
+                             c("date","niid","ciq","hc","ai",
+                               "univ","mi","sub","si","total")))
+  pcr_data <- rename(pcr_data, all_of(pcr_colnames)) # 列名を変更
+  pcr_data <- mutate(pcr_data, date = date(date)) # date型に変更
+#+end_src
+#+begin_src R :exports none
   #' ---------------------------------------------------------------------------
 #+end_src
 
@@ -338,32 +362,72 @@
       select(starts_with("t")) # 列 "t"wo,"t"hree を選択
   #+end_src
     
+** データフレームの形の変更
+- 関数 ~dplyr::pivot_longer()~ : 同じ属性の列をまとめる
+  #+begin_src R :eval no :tangle no
+    pivot_longer(
+      data,
+      cols,
+      ...,
+      cols_vary = "fastest",
+      names_to = "name", names_prefix = NULL, names_sep = NULL, names_pattern = NULL,
+      names_ptypes = NULL, names_transform = NULL, names_repair = "check_unique",
+      values_to = "value", values_drop_na = FALSE, values_ptypes = NULL,
+      values_transform = NULL
+    )
+    #' data: データフレーム
+    #' cols: 操作の対象とする列(列の番号，名前，名前に関する条件式など)
+    #' names_to: 対象の列名をラベルとする新しい列の名前(既定値は"name")
+    #' values_to: 対象の列の値を保存する新しい列の名前(既定値は"value")
+    #' 詳細は '?dplyr::pivot_longer' を参照
+  #+end_src
+- 列ごとのグラフを視覚化する際に多用する
+** 変更の例
+:PROPERTIES:
+:ID:       F30AE6B4-9B78-482E-95D9-EE48569E5781
+:END:
+- [[color:green][成績表の形式の変更]]
+  #+begin_src R :exports none
+    #' @exercise データフレームの形式の変更
+  #+end_src
+  #+begin_src R :exports code
+    #' 練習問題の成績表を用いた例
+    pivot_longer(grade_data,
+                 !name, # name 列以外をまとめる
+                 names_to = "subject") # もとの列名を subject 列にまとめる
+    #' この例ではもとのデータフレームに "name" という列があるため
+    #' 既定値は使えないので，科目を表す "subject" を用いている
+  #+end_src
+
 ** 練習問題
 :PROPERTIES:
 :reveal_background: #fef4f4
 :ID:       5B4F4E4D-DE89-4FEA-94DA-002DCF48C18E
 :END:
 - ~pcr_case_daily.csv~ から以下の条件を満たすデータを取り出しなさい
-  - 医療機関 (~f~) での検査件数が2000を越えたときの
-    国立感染症研究所 (~a~) と医療機関 (~f~) のデータ
-  - 大学等 (~e~) と医療機関 (~f~) でともに検査件数が2000を越えたデータ
-  - 2020年3月の各機関(~g,i~ は集計なので除く)の検査件数データ
+  - 医療機関 (~mi~) での検査件数が2000を越えたときの
+    国立感染症研究所 (~niid~) と医療機関 (~mi~) のデータ
+  - 大学等 (~univ~) と医療機関 (~mi~) でともに検査件数が2000を越えたデータ
+  - 2020年3月の各機関(~sub,total~ は集計なので除く)の検査件数データ
 
-#+begin_src R :eval no :exports none
+#+begin_src R :exports none
   #' ---------------------------------------------------------------------------
   #' @practice データフレームの操作
-
-  #' 医療機関(f)での検査数が2000を越えたときの国立感染症研究所(a)と医療機関(f)のデータ
-  pcr_data |>           # データフレーム
-    filter(f > 2000) |> # 行の条件による絞り込み
-    select(c(a,f))      # 列の選択 select(a,f) としても良い
-  #' 大学等(e)と医療機関(f)でともに検査件数が2000を越えたデータ
+#+end_src
+#+begin_src R :eval no :exports none
+  #' 医療機関(mi)での検査数が2000を越えたときの国立感染症研究所(niid)と医療機関(mi)のデータ
+  pcr_data |>            # データフレーム
+    filter(mi > 2000) |> # 行の条件による絞り込み
+    select(c(niid,mi))   # 列の選択 select(niid,mi) としても良い
+  #' 大学等(univ)と医療機関(mi)でともに検査件数が2000を越えたデータ
   pcr_data |>
-    filter(e > 2000 & f > 2000) # 複合的な条件の指定
-  #' 2020年3月の各機関(g,iは除く)の検査件数データ
+    filter(univ > 2000 & mi > 2000) # 複合的な条件の指定
+  #' 2020年3月の各機関(sub,totalは除く)の検査件数データ
   pcr_data |>
     filter(date >= "2020-03-01" & date < "2020-04-01") |> # 日付の範囲の指定
-    select(!c(g,i)) # 列の削除 select(-c(g,i)) や select(-g,-i) としても良い
+    select(!c(sub,total)) # 列の削除 select(-c(sub,total)), select(-sub,-total) も可
+#+end_src
+#+begin_src R :exports none
   #' ---------------------------------------------------------------------------
 #+end_src
 
@@ -374,12 +438,12 @@
 :END:
 ** 統計量の計算
 - データを集約した値 = 統計量
-  - 関数 ~sum()~ : 総和を計算する
-  - 関数 ~mean()~ : 平均
-  - 関数 ~max()~ : 最大値
-  - 関数 ~min()~ : 最小値
-  - 関数 ~median()~ : 中央値
-  - 関数 ~quantile()~ : 分位点
+  - 関数 ~base::sum()~ : 総和を計算する
+  - 関数 ~base::mean()~ : 平均
+  - 関数 ~base::max()~ : 最大値
+  - 関数 ~base::min()~ : 最小値
+  - 関数 ~stats::median()~ : 中央値
+  - 関数 ~stats::quantile()~ : 分位点
 - これ以外にも沢山あるので調べてみよう
 
 ** 列ごとの集約
@@ -429,11 +493,11 @@
   #+end_src
   #+begin_src R :exports code
     #' pcr_data を用いた例
-    #' 医療機関 (f) のPCR件数を各月で集計する
+    #' 医療機関(mi)のPCR件数を各月で集計する
     #' 日付の扱いに関数 lubridate::year(), lubridate::month() を利用
     pcr_data |>
       group_by(year = year(date), month = month(date)) |> # 年と月でグループ化
-      summarise(total_nums = sum(f)) # f の合計値を計算する
+      summarise(mi_total = sum(mi)) # mi の合計値を計算する
   #+end_src
   #+begin_src R :eval no :exports none
     #' @notes
@@ -441,14 +505,14 @@
     #' 上記の処理は関数 summarise() のみでも可能(実験的な実装 .by)
     pcr_data |>
       mutate(year = year(date), month = month(date)) |>
-      summarise(total_nums = sum(f), .by = c(year, month))
+      summarise(mi_total = sum(mi), .by = c(year, month))
     #' 関数 lubridate::month() は月名での表示も可能
     pcr_data |> # 短縮形
       mutate(year = year(date), month = month(date, label = TRUE)) |>
-      summarise(total_nums = sum(f), .by = c(year, month))
+      summarise(mi_total = sum(mi), .by = c(year, month))
     pcr_data |> # 月名
       mutate(year = year(date), month = month(date, label = TRUE, abbr = FALSE)) |>
-      summarise(total_nums = sum(f), .by = c(year, month))
+      summarise(mi_total = sum(mi), .by = c(year, month))
     #' ただし名前は言語環境に依存するので注意
     #' 強制的に英語にするには
     #' Sys.setlocale(category = "LC_TIME", locale = "C")
@@ -465,13 +529,15 @@
   - 各機関でのPCR検査件数の最大値
   - 2021年の各機関でのPCR検査件数の月ごとの最大値
 - ~datasets::mtcars~ を集計しなさい
+  - ヘルプを用いてデータの内容を調べなさい
   - 気筒数 (~cyl~) ごとに排気量 (~disp~) の最大値，最小値
   - 気筒数 (~cyl~) とギア数 (~gear~) ごとの燃費 (~mpg~) の平均値
 
-#+begin_src R :eval no :exports none
+#+begin_src R :exports none
   #' ---------------------------------------------------------------------------
   #' @practice データフレームの集約
-
+#+end_src
+#+begin_src R :eval no :exports none
   #' pcr_case_daily.csv の集計
   #' 各機関でのPCR検査件数の最大値
   pcr_data |> summarise(across(!date, max))
@@ -485,7 +551,8 @@
     filter(year(date) == 2021) |>
     group_by(month(date)) |>
     summarise(across(!date, max))
-
+#+end_src
+#+begin_src R :eval no :exports none
   #' datasets::mtcars の集計
   #' 気筒数ごとに排気量の最大値，最小値
   mtcars |>
@@ -508,6 +575,8 @@
     group_by(cyl, gear) |>
     summarise(mpg = mean(mpg)) |> # cyl のグループは残っている
     summarise(mpg = max(mpg)) # cyl ごとに平均値の最大値を求める
+#+end_src
+#+begin_src R :exports none
   #' ---------------------------------------------------------------------------
 #+end_src
 
@@ -580,23 +649,23 @@
   #+end_src
 
 #+reveal: split
-- [[color:green][民間検査会社と医療機関の検査件数の推移]]
+- [[color:green][行政検査と医療機関の検査件数の推移]]
   #+begin_src R :exports none
     #' @exercise 折れ線グラフの描画
     
-    #' 民間検査会社(d)と医療機関(f)の検査件数の推移の視覚化
+    #' 行政検査(ai)と医療機関(mi)の検査件数の推移の視覚化
   #+end_src
   #+begin_src R :file figs/02-geomline-geomline.png :results graphics
     pcr_data |> # パイプ演算子でデータフレームを関数 ggplot2::ggplot() に渡す
       ggplot(aes(x = date)) + # date をx軸に指定
-      geom_line(aes(y = d), colour = "blue") + # 民間検査会社を青
-      geom_line(aes(y = f), colour = "red") +  # 医療機関を赤
+      geom_line(aes(y = ai), colour = "blue") + # 行政検査を青
+      geom_line(aes(y = mi), colour = "red") +  # 医療機関を赤
       labs(y = "number of tests") # y軸のラベルを変更
   #+end_src
   #+begin_src R :exports none
     #' @notes
     #' パイプ演算子を使わずに
-    #' ggplot(pcr_data, aes(x = date)) + ...
+    #'   ggplot(pcr_data, aes(x = date)) + ...
     #' としても良い．
   #+end_src
   #+name:   fig:02-geomline-geomline
@@ -611,7 +680,7 @@
     #' 複数のデータを描画するためにはデータフレームを適切に書き換える必要がある
   #+end_src
   #+begin_src R :file figs/02-geomline.png :results graphics
-    pcr_data |> select(!c(g,i)) |> # 集計値を除く
+    pcr_data |> select(!c(sub,total)) |> # 集計値を除く
       pivot_longer(!date, names_to = "organ", values_to = "nums") |> 
       ggplot(aes(x = date, y = nums, colour = organ)) + geom_line() +
       labs(title = "PCR Tests in Various Organizatios",
@@ -636,7 +705,7 @@
     #' 関数 ggplot2::facet_wrap() や関数 ggplot2::facet_grid() を用いると良い
   #+end_src
   #+begin_src R :file figs/02-geomline-facetgrid.png :results graphics
-    pcr_data |> select(!c(g,i)) |> 
+    pcr_data |> select(!c(sub,total)) |> 
       pivot_longer(!date, names_to = "organ", values_to = "nums") |> 
       ggplot(aes(x = date, y = nums, colour = organ)) +
       labs(title = "PCR Tests in Various Organizatios", x = "Date", y = "Number of Tests") +
@@ -695,15 +764,15 @@
   #+begin_src R :exports none
     #' @exercise 散布図の描画
 
-    #' 国立感染症研究所(a)と医療機関(f)の検査件数の関係
+    #' 国立感染症研究所(niid)と医療機関(mi)の検査件数の関係
   #+end_src
   #+begin_src R :file figs/02-geompoint.png :results graphics :tangle yes
     if(Sys.info()["sysname"] == "Darwin") { # MacOSか調べて日本語フォントを指定
       theme_update(text = element_text(family = "HiraginoSans-W4"))}
     pcr_data |> 
-      ggplot(aes(x = a, y = f)) + # x軸を a，y軸を f に設定
+      ggplot(aes(x = niid, y = mi)) + # x軸を niid，y軸を mi に設定
       geom_point(colour = "blue", shape = 19) + # 色と形を指定(点の形は '?points' を参照)
-      labs(x = pcr_names["a"], y = pcr_names["f"]) # 軸の名前を指定
+      labs(x = pcr_colnames["niid"], y = pcr_colnames["mi"]) # 軸の名前を指定
   #+end_src
   #+begin_src R :exports none
     #' @notes
@@ -723,10 +792,10 @@
   #+end_src
   #+begin_src R :file figs/02-geompoint-scalelog.png :results graphics :tangle yes
     pcr_data |> 
-      ggplot(aes(x = a, y = f)) + # x軸を a，y軸を f に設定
-      geom_point(colour = "blue", shape = 19) + # 色と形を指定
+      ggplot(aes(x = niid, y = mi)) + 
+      geom_point(colour = "blue", shape = 19) + 
       scale_x_log10() + scale_y_log10() + # 各軸を対数で表示
-      labs(x = pcr_names["a"], y = pcr_names["f"]) # 軸の名前を指定
+      labs(x = pcr_colnames["niid"], y = pcr_colnames["mi"]) 
   #+end_src
   #+name:   fig:02-geompoint-scalelog
   #+attr_html: :width 50%
@@ -771,7 +840,7 @@
   #+end_src
   #+begin_src R :file figs/02-ggpairs.png :results graphics
     pcr_data |>
-      select(!c(date,g,i)) |> # 日付と集計値を除いて必要なデータフレームに整形
+      select(!c(date,sub,total)) |> # 日付と集計値を除いて必要なデータフレームに整形
       ggpairs() # 標準の散布図行列
   #+end_src
   #+name:   fig:02-ggpairs
@@ -785,9 +854,9 @@
     #' 四半期ごとに分類して色分けして表示する
   #+end_src
   #+begin_src R :file figs/02-ggpairs-quarter.png :results graphics
-    pcr_data |> select(!c(g,i)) |> # 日付から四半期の因子を作成
+    pcr_data |> select(!c(sub,total)) |> # 日付から四半期の因子を作成
       mutate(quarter = as_factor(quarter(date, with_year = TRUE))) |>
-      ggpairs(columns = 2:8, columnLabels = pcr_names[-c(1,8,10)], axisLabels = "none",
+      ggpairs(columns = 2:8, columnLabels = pcr_colnames[-c(1,8,10)], axisLabels = "none",
               aes(colour = quarter), legend = c(2,1), # 四半期ごとに色づけて(1,1)の凡例を使用
               upper = "blank", diag = list(continuous = "barDiag")) +
       theme(legend.position = "top") # 凡例を上に表示
@@ -836,29 +905,34 @@
   - 民間検査会社 (~d~)，大学等 (~e~)，医療機関 (~f~) での
     検査件数の関係 (散布図)
 
-#+begin_src R :eval no :exports none :tangle yes
+#+begin_src R :exports none
+  #' ---------------------------------------------------------------------------
   #' @practice 基本的なグラフの描画
   #' (書き方はいろいろあるので，以下はあくまで一例)
-
-  #' 検疫所(b)，地方衛生研究所.保健所(c)，民間検査会社(d)における検査件数の推移
+#+end_src
+#+begin_src R :eval no :exports none
+  #' 検疫所(ciq)，地方衛生研究所.保健所(hc)，行政検査(ai)における検査件数の推移
   pcr_data |>
-    select(c(date,b,c,d)) |> # 描画対象の列を抽出
+    select(c(date,ciq,hc,ai)) |> # 描画対象の列を抽出
     pivot_longer(!date, names_to = "organ", values_to = "nums") |> # 
     ggplot(aes(x = date, y = nums, colour = organ)) +
     geom_line() +
     labs(x = "日付", y = "検査件数")
   #' y軸を対数表示にする場合は以下のとおり
   pcr_data |>
-    select(c(date,b,c,d)) |> # 描画対象の列を抽出
+    select(c(date,ciq,hc,ai)) |> # 描画対象の列を抽出
     pivot_longer(!date, names_to = "organ", values_to = "nums") |> # 
     ggplot(aes(x = date, y = nums, colour = organ)) +
     geom_line() +
     scale_y_log10() + # y軸を対数表示 (log10(0)=-Inf の警告が出る場合がある)
     labs(x = "日付", y = "検査件数")
-  #' 民間検査会社(d)，大学等(e)，医療機関(f)での検査件数の関係(散布図)
+  #' 行政検査(ai)，大学等(univ)，医療機関(mi)での検査件数の関係(散布図)
   pcr_data |>
-    select(c(d,e,f)) |> # 描画対象の列を抽出
-    ggpairs(columnLabels = pcr_names[c("d","e","f")]) # ラベルを渡す
+    select(c(ai,univ,mi)) |> # 描画対象の列を抽出
+    ggpairs(columnLabels = pcr_colnames[c("ai","univ","mi")]) # ラベルを渡す
+#+end_src
+#+begin_src R :exports none
+  #' ---------------------------------------------------------------------------
 #+end_src
        
 
@@ -885,26 +959,26 @@
   #+end_src
 
 #+reveal: split
-- [[color:green][民間検査会社での検査件数の分布]]
+- [[color:green][行政検査での検査件数の分布]]
   #+begin_src R :exports none
     #' @exercise ヒストグラムの描画
   #+end_src
   #+begin_src R :file figs/02-geomhistogram.png :results graphics
-    #' 民間検査会社(d)での検査件数の分布
+    #' 行政検査(ai)での検査件数の分布
     pcr_data |>
-      ggplot(aes(x = d)) + # 分布を描画する列を指定
+      ggplot(aes(x = ai)) + # 分布を描画する列を指定
       geom_histogram(bins = 30, fill = "lightblue", colour = "blue") +
-      labs(x = pcr_names["d"], y = "頻度", title = "検査件数のヒストグラム")
+      labs(x = pcr_colnames["ai"], y = "頻度", title = "検査件数のヒストグラム")
   #+end_src
   #+begin_src R :eval no :exports none
     #' @notes
     #' 各ビンの頻度を表示するためには例えば以下のようにすればよい
     pcr_data |>
-      ggplot(aes(x = d)) + # 分布を描画する列を指定
+      ggplot(aes(x = ai)) + # 分布を描画する列を指定
       geom_histogram(bins = 30, fill = "lightblue", colour = "blue") +
       geom_text(stat="bin", bins = 30, colour = "darkblue", size = 3, 
                 aes(label = after_stat(count), y = after_stat(count) + 2)) +
-      labs(x = pcr_names["d"], y = "頻度", title = "検査件数のヒストグラム")
+      labs(x = pcr_colnames["ai"], y = "頻度", title = "検査件数のヒストグラム")
   #+end_src
   #+name:   fig:02-geomhistogram
   #+attr_html: :width 50%
@@ -942,13 +1016,13 @@
     #' @exercise 箱ひげ図の描画
   #+end_src
   #+begin_src R :file figs/02-geomboxplot.png :results graphics
-    #' 大学等(e)での検査件数の分布(2021年分)
+    #' 大学等(univ)での検査件数の分布(2021年分)
     pcr_data |>
       filter(year(date) == 2021) |> # 2021年を抽出
       mutate(date = as_factor(month(date))) |> # 月を因子化する
-      ggplot(aes(x = date, y = e)) + # 月毎に集計する
+      ggplot(aes(x = date, y = univ)) + # 月毎に集計する
       geom_boxplot(fill = "orange") + # 塗り潰しの色を指定
-      labs(title = "月ごとの検査件数 (2021年)", x = "月", y = pcr_names["e"])
+      labs(title = "月ごとの検査件数 (2021年)", x = "月", y = pcr_colnames["univ"])
   #+end_src
   #+NAME:   fig:02-geomboxplot
   #+ATTR_HTML: :width 50%
@@ -978,7 +1052,7 @@
   #+end_src
 
 #+reveal: split
-- [[color:green][機関(医療機関まで)ごとの月の検査件数の推移]]
+- [[color:green][機関ごとの月の検査件数の推移]]
   #+begin_src R :exports none
     #' @exercise 棒グラフの描画
   #+end_src
@@ -987,10 +1061,12 @@
     pcr_data |>
       filter(year(date) == 2021) |>
       mutate(month = as_factor(month(date))) |> # 月を作成
-      select(!c(date,g,i)) |> # 機関に限定
+      select(!c(date,sub,total)) |> # 機関に限定
       group_by(month) |> # 月でグループ化
       summarize(across(everything(), sum)) |> # 全て(月以外)を集計
-      pivot_longer(!month, names_to = "organ", values_to = "nums") |> 
+      pivot_longer(!month, names_to = "organ", values_to = "nums",
+                   names_transform = list(organ = as_factor)) |>
+      ## 最後のオプションは organ 列のラベルを出てきた順で因子化して元の列の並びにしている
       ggplot(aes(x = organ, y = nums, fill = month)) +
       geom_bar(stat = "identity", position = "dodge", na.rm = TRUE) +
       theme(legend.position = "top") + guides(fill = guide_legend(nrow = 1))
@@ -1078,6 +1154,7 @@
 - ggplot2 の拡張パッケージ一覧
   - https://exts.ggplot2.tidyverse.org/gallery/
 
+
 * 疑似乱数
 ** 疑似乱数とは
 - コンピューターで生成された数列のこと
@@ -1093,10 +1170,10 @@
 - *正規乱数* : 平均 \(\mu\), 分散 \(\sigma^2\) の正規分布に従う乱数
 
 ** 乱数を生成する関数
-- 関数 ~sample()~ : ランダムサンプリング
-- 関数 ~rbinom()~ : 二項乱数
-- 関数 ~runif()~ : 一様乱数
-- 関数 ~rnorm()~ : 正規乱数
+- 関数 ~base::sample()~ : ランダムサンプリング
+- 関数 ~stats::rbinom()~ : 二項乱数
+- 関数 ~stats::runif()~ : 一様乱数
+- 関数 ~stats::rnorm()~ : 正規乱数
 
 ** 練習問題
 :PROPERTIES:
@@ -1104,19 +1181,20 @@
 :ID:       7CCFDD4A-11BD-4580-AD92-81782DF02ECE
 :END:
 - ヘルプを用いて以下の関数を調べよ
-  - 関数 ~sample()~
-  - 関数 ~rbinom()~
-  - 関数 ~runif()~
-  - 関数 ~rnorm()~
-  - 関数 ~set.seed()~
+  - 関数 ~base::sample()~
+  - 関数 ~stats::rbinom()~
+  - 関数 ~stats::runif()~
+  - 関数 ~stats::rnorm()~
+  - 関数 ~base::set.seed()~
 - 以下の試行を実装してみよ
   - サイコロを10回振る
   - 4枚のコインを投げたときの表の枚数
 
-#+begin_src R :eval no :exports none :tangle yes
+#+begin_src R :exports none
   #' ---------------------------------------------------------------------------
   #' @practice 擬似乱数
-  
+#+end_src  
+#+begin_src R :eval no :exports none
   #' 関数sampleの使い方
   (x <- 1:10)   # サンプリング対象の集合を定義
   set.seed(123) # 乱数のシード値(任意に決めてよい)を指定
@@ -1145,6 +1223,8 @@
   runif(5)    # seed=1の場合と異なる結果
   set.seed(1) # 乱数の初期値をseed=1で指定
   runif(5)    # 初めのseed=1の場合と同じ結果
+#+end_src
+#+begin_src R :exports none
   #' ---------------------------------------------------------------------------
 #+end_src
 
@@ -1254,7 +1334,7 @@
     #' Monte-Carlo実験
     set.seed(8888) # 実験を再現したい場合はシード値を指定する
     mc <- 10000 # 実験回数を設定 
-    mc_data <- replicate(mc,mc_trial()) 
+    mc_data <- replicate(mc, mc_trial()) 
     #' 簡単な集計
     table(mc_data)    # 頻度
     table(mc_data)/mc # 確率(推定値)
@@ -1271,10 +1351,11 @@
   - ゴールに辿り着くまで繰り返す
   - さいころを振る回数の分布は?
 
-#+begin_src R :eval no :exports none
+#+begin_src R :exports none
   #' ---------------------------------------------------------------------------
   #' @practice 双六ゲーム
-
+#+end_src
+#+begin_src R :eval no :exports none
   #' 双六の試行
   mc_trial <- function(){
     step <- 0 # 最初の位置
@@ -1292,7 +1373,7 @@
   #' Monte-Carlo実験
   set.seed(12345)
   mc <- 10000 # 実験回数を設定 
-  mc_data <- replicate(mc,mc_trial()) 
+  mc_data <- replicate(mc, mc_trial()) 
   hist(mc_data) 
   summary(mc_data) # 簡単な集計
   tibble(x = mc_data) |> # ヒストグラムを出力
@@ -1300,6 +1381,8 @@
     geom_histogram(binwidth = 1,
                    fill = "slateblue", alpha = 0.5, # 塗り潰しの色
                    colour = "slateblue") # 塗り潰しの色
+#+end_src
+#+begin_src R :exports none
   #' ---------------------------------------------------------------------------
 #+end_src
 
