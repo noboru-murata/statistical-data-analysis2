@@ -4,7 +4,8 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2023-10-13 14:43:35 mura>
+# Time-stamp: <2023-10-16 16:34:54 mura>
+
 :REVEAL:
 #+SETUPFILE: "./reveal.js/org/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -196,13 +197,20 @@
   #+end_quote
   - 不偏分散で補正
 
+
+* 解析の事例
+# 東京大学 (初)
+# 早稲田大学 (再)
 ** 実データによる例
 :PROPERTIES:
 :ID:       C513A101-EB45-4E7A-A4D3-1A8819EF6183
 :END:
-# 東京大学 (初)
-# 早稲田大学 (再)
-- 気象庁より取得した東京の気候データ
+- 気象庁より取得した東京の気候データ 
+  - 気象庁 https://www.data.jma.go.jp/gmd/risk/obsdl/index.php
+  - データ https://noboru-murata.github.io/multivariate-analysis/data/tokyo_weather.csv
+
+** 東京の8月の気候の分析
+- データの一部
   #+begin_src R :exports none
     #' @exercise 東京の気候データを用いた例
     
@@ -233,7 +241,9 @@
     foo <- set_names(names(tw_subset), # 列名に対応する日本語ベクトルを用意
                         c("日付","気温","降雨","日射","降雪","風向","風速","気圧","湿度","雲量"))
     (bar <- tw_subset |> rename(all_of(foo)))
-    #' View(bar) # 左上ペインに表として表示する場合
+  #+end_src
+  #+begin_src R :eval no :exports none
+    View(bar) # 左上ペインに表として表示
   #+end_src
   #+html: <font size=6>
   #+begin_src R :exports results :results output raw :tangle no
@@ -246,14 +256,14 @@
   #+html: </font>
 
 #+reveal: split
-- 気温を説明する 5 つの線形回帰モデルを検討する
-  - モデル1: 気温 = F(気圧)
-  - モデル2: 気温 = F(日射)
-  - モデル3: 気温 = F(気圧, 日射)
-  - モデル4: 気温 = F(気圧, 日射, 湿度)
-  - モデル5: 気温 = F(気圧, 日射, 雲量)
+- 気温を説明する5種類の線形回帰モデルを検討
+  - モデル1 : 気温 = F(気圧)
+  - モデル2 : 気温 = F(日射)
+  - モデル3 : 気温 = F(気圧, 日射)
+  - モデル4 : 気温 = F(気圧, 日射, 湿度)
+  - モデル5 : 気温 = F(気圧, 日射, 雲量)
 
-#+reveal: split
+** 分析の視覚化
 - 関連するデータの散布図
   #+begin_src R :file figs/03_pairs.png :exports results :results graphics
     #' 関連データの散布図
@@ -354,29 +364,31 @@
 #+attr_latex: :width 0.6\linewidth
 [[file:figs/03_models.png]]
 
+** モデルの比較
+- 寄与率による比較
+  #+begin_src R :exports none
+    #' 関数 tibble::tribble() を利用して結果をまとめる
+    #' 行ごとにデータを並べてデータフレームを作ることができる
+    (baz <- tribble(
+       ~モデル, ~決定係数, ~自由度調整済み決定係数,
+       ## 列名は ~ で指定
+       "気温 = F(気圧)", summary(tw_lm1)$r.squared, summary(tw_lm1)$adj.r.squared,
+       "気温 = F(日射)", summary(tw_lm2)$r.squared, summary(tw_lm2)$adj.r.squared,
+       "気温 = F(気圧, 日射)", summary(tw_lm3)$r.squared, summary(tw_lm3)$adj.r.squared,
+       "気温 = F(気圧, 日射, 湿度)", summary(tw_lm4)$r.squared, summary(tw_lm4)$adj.r.squared,
+       "気温 = F(気圧, 日射, 雲量)", summary(tw_lm5)$r.squared, summary(tw_lm5)$adj.r.squared,
+       ))
+  #+end_src
+  #+begin_src R :eval no :exports none
+    View(baz) # 左上ペインに表として表示
+  #+end_src
+  #+html: <font size=6>
+  #+begin_src R :exports results :results output raw :tangle no
+    #' 比較結果の表示 (reveal用)
+    baz |> ascii::ascii(digits=3) |> ascii::print(type = "org")
+  #+end_src
+  #+html: </font>
 
-#+reveal: split
-- 寄与率の比較
-  - 決定係数(\(R^{2}\))・自由度調整済み決定係数(adjusted \(R^{2}\))
-    #+begin_src R :exports none
-      #' 関数 tibble::tribble() を利用して結果をまとめる
-      #' 行ごとにデータを並べてデータフレームを作ることができる
-      (baz <- tribble(
-        ~モデル, ~決定係数, ~自由度調整済み決定係数,
-        ## 列名は ~ で指定
-        "気温 = F(気圧)", summary(tw_lm1)$r.squared, summary(tw_lm1)$adj.r.squared,
-        "気温 = F(日射)", summary(tw_lm2)$r.squared, summary(tw_lm2)$adj.r.squared,
-        "気温 = F(気圧, 日射)", summary(tw_lm3)$r.squared, summary(tw_lm3)$adj.r.squared,
-        "気温 = F(気圧, 日射, 湿度)", summary(tw_lm4)$r.squared, summary(tw_lm4)$adj.r.squared,
-        "気温 = F(気圧, 日射, 雲量)", summary(tw_lm5)$r.squared, summary(tw_lm5)$adj.r.squared,
-        ))
-      #' View(baz) # 左上ペインに表として表示する場合
-    #+end_src
-    #+begin_src R :exports results :results output raw :tangle no
-      #' 比較結果の表示 (reveal用)
-      baz |> ascii::ascii(digits=3) |> ascii::print(type = "org")
-    #+end_src
-  
 
 * あてはめ値の性質
 ** あてはめ値
@@ -453,7 +465,7 @@
   - テコ比が大きい : 他のデータでは予測が困難
 
 
-* 演習
+* COMMENT 演習
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
@@ -525,7 +537,7 @@
   #+end_quote
   # - 誤差が正規分布に従うならば最小二乗推定量は正規分布に従う
 
-** 推定量の分布
+** COMMENT 推定量の分布
 # 早稲田大学
 - *誤差の仮定* : 独立，平均0 分散 \(\sigma^{2}\) の *正規分布*
 - 推定量は以下の多変量正規分布に従う
@@ -610,29 +622,20 @@
 :ID:       045FE955-E085-4DD1-ADB4-2C666D77B34D
 :END:
 - 実験のためのコードは以下のようになる
-  #+begin_src R :eval no
+  #+begin_src R :eval no :tangle no
     mc <- 5000 # 実験回数を指定
-    my_trial <- function(){ # 1回の試行を行うプログラム
+    mc_trial <- function() { # 1回の試行を行うプログラム
         ## 乱数生成と推定の処理
         return(返り値)} 
-    my_data <- as.data.frame(t( # 実験結果を転置してデータフレームに変換
-        replicate(mc, my_trial()))) # Monte-Carlo実験
-    ## 適切な統計・視覚化処理 (下記は例)
-    apply(my_data,2,var) # 各列の分散の計算
-    plot(my_data) # 散布図行列の描画
-    hist(my_data[[k]]) # k列目のデータのヒストグラム
-  #+end_src
-  #+begin_src R :eval no :exports none :tangle yes
-    mc <- 5000 # 実験回数を指定
-    my_trial <- function(){
-        # ここに試行の内容を書く     
-        return()} # 最後に返り値を指定する
-    my_data <- as.data.frame(t( # 実験結果を転置してデータフレームに変換
-        replicate(mc, my_trial()))) # Monte-Carlo実験
-    ## 適切な統計・視覚化処理 (下記は例)
-    apply(my_data,2,var) # 各列の分散の計算
-    plot(my_data) # 散布図行列の描画
-    hist(my_data[[k]]) # k列目のデータのヒストグラム
+    mc_data <- 
+        replicate(mc, my_trial()) |> # Monte-Carlo実験
+        t() |> as_tibble() # 転置(関数t())してデータフレームに変換
+    #' 適切な統計・視覚化処理 (下記は例)
+    mc_data |>
+      summarise(across(everything(), var)) # 各列の分散の計算
+    ggpairs(mc_data) # 散布図行列の描画
+    tibble(x = mc_data[[k]]) |> # k列目のベクトルで新しいデータフレームを作成
+      ggplot(aes(x = x)) + geom_histogram() # k列目のデータのヒストグラム
   #+end_src
 
 ** 練習問題
@@ -708,10 +711,24 @@
   X <- cbind(1, x_obs) # デザイン行列
   beta_cov <- sigma^2 * solve(crossprod(X)) # 推定量の共分散行列
   beta_mean <- c(beta0, beta1)
-  vars <- c("beta0", "beta1") # 変数名を用意
   #' beta0 (k=1), beta1 (k=2)
   for(k in 1:2) { # 同じ処理であればfor文などの利用を推奨
-    foo <- sym(vars[k]) # 文字列を扱うための手続き
+    bar <- tibble(x = mc_data[[k]]) |>
+      ggplot(aes(x = x)) + 
+      geom_histogram(aes(y = after_stat(density)), bins = 30,
+                     fill = "lightblue", colour = "blue") +
+      geom_vline(xintercept = beta_mean[k],
+                 colour = "orchid") + # 真の値
+      geom_function(fun = \(x) dnorm(x,
+                                     mean = beta_mean[k],
+                                     sd = sqrt(beta_cov[k, k])),
+                    colour = "orchid") + # 理論分布
+      labs(x = names(mc_data)[k])
+    print(bar) # for 文などの block 内でのグラフ表示は明示的に print する
+  }
+  #' あるいは変数名を評価して列を指定することもできる
+  for(k in 1:2) {
+    foo <- sym(names(mc_data)[k]) # 文字列を扱うための手続き
     bar <- mc_data |>
       ggplot(aes(x = !!foo)) + # foo に入った文字列を評価する
       geom_histogram(aes(y = after_stat(density)), bins = 30,
@@ -721,7 +738,7 @@
                                      mean = beta_mean[k],
                                      sd = sqrt(beta_cov[k, k])),
                     colour = "orchid") # 理論分布
-    print(bar) # for 文などの block 内でのグラフ表示は明示的に print する
+    print(bar)
   }
 #+end_src
 #+begin_src R :exports none
@@ -729,7 +746,7 @@
 #+end_src
 
 
-* 演習
+* COMMENT 演習
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
@@ -865,93 +882,102 @@
 - 数値実験により
   標準誤差の性質を確認しなさい
   - 人工データを用いて標準誤差と真の誤差を比較する
-    #+begin_src R :eval no
+    #+begin_src R :eval no :tangle no
       #' 標準誤差は以下のようにして取り出せる
       data_lm <- lm(formula, data)
-      summary(data_lm)$coef[,"Std. Error"] # 列名での指定
-      summary(data_lm)$coefficients[,2]    # 列番号での指定．coef と省略してもよい
+      summary(data_lm)$coefficients # 係数に関する情報はリストの要素として保管されている
+      summary(data_lm)$coefficients[,2]    # 列番号での指定
+      summary(data_lm)$coef[,"Std. Error"] # 列名での指定．coef と省略してもよい
     #+end_src
   - 広告費と売上データを用いて係数の精度を議論する
   - 東京の気候データを用いて係数の精度を議論する
 
-#+begin_src R :eval no :exports none :tangle yes
-  ### 
-  ### 練習問題 標準誤差の性質
-  ###
+#+begin_src R :exports none
+  #' ---------------------------------------------------------------------------
+  #' @practice 標準誤差の性質
+#+end_src
+#+begin_src R :eval no :exports none
+  #' 人工データによる標準誤差と真の誤差の比較
+  set.seed(1313) # 乱数のシード値 (適宜変更せよ)
 
-  ### 人工データによる標準誤差と真の誤差の比較
-  set.seed(1313) # 乱数のシード (適宜変更せよ)
-
-  ## 試行の設定 (重回帰，以下適宜変更せよ)
+  #' 試行の設定 (重回帰，以下適宜変更せよ)
   x_obs1 <- c(1, 20, 13, 9, 5, 15, 19, 8, 3, 4) # 説明変数1
   x_obs2 <- c(3, 19, 1, 4, 18, 7, 2, 10, 6, 12) # 説明変数2
   beta0 <- -1 # 切片 
   beta1 <-  2 # xの係数
   beta2 <- -3 # xの係数
   sigma <-  sqrt(2) # 誤差の標準偏差(分散の平方根)
-  my_trial <- function(){ 
-      epsilon <- rnorm(length(x_obs1),sd=sigma) # 誤差項
+  mc_trial <- function(){ 
+      epsilon <- rnorm(length(x_obs1), sd = sigma) # 誤差項
       y_obs <- beta0 + beta1*x_obs1 + beta2*x_obs2 + epsilon # 目的変数
-      dat <- data.frame(x1=x_obs1,x2=x_obs2,y=y_obs) # データフレームの作成
-      est <- lm(y ~ x1 + x2, data=dat) # 回帰係数の推定
-      return(summary(est)$coef[,"Std. Error"]) # 標準誤差を返す
+      df <- tibble(x1 = x_obs1, x2 = x_obs2, y = y_obs) # データフレームの作成
+      est <- lm(y ~ x1 + x2, data = df) # 回帰係数の推定
+      return(set_names(summary(est)$coef[,"Std. Error"], # 標準誤差を
+                       c("beta0.se","beta1.se","beta2.se"))) # 名前を付けて返す
   }
 
-  ## 数値実験
+  #' 数値実験
   mc <- 5000 # 実験回数
-  my_data <- as.data.frame(t( # データフレームの作成
-      replicate(mc, my_trial()))) # mc回の試行
-  names(my_data) <- c("beta0.se","beta1.se","beta2.se") 
+  mc_data <- 
+    replicate(mc, mc_trial()) |> # mc回の試行
+    t() |> as_tibble() # データフレームの作成
 
-  ## 各回帰係数の標準誤差の分布
-  X <- cbind(1,x_obs1,x_obs2) # デザイン行列
+  #' 各回帰係数の標準誤差の分布
+  X <- cbind(1, x_obs1, x_obs2) # デザイン行列
   beta_cov <- sigma^2*solve(crossprod(X)) # 推定量の共分散行列
-  beta_mean <- c(beta0,beta1,beta2)
-  ## beta0 (k=1), beta1 (k=2), beta2 (k=3)
-  for(k in 1:3){
-      hist(my_data[[k]], # 実験により得られた分布
-           breaks=30, freq=FALSE, # 密度で表示
-           border="blue", col="lightblue",
-           xlab=names(my_data)[k], main="std. errors")
-      abline(v=sqrt(beta_cov[k,k]), col="orchid", lwd=2) # 真の値
+  #' beta0 (k=1), beta1 (k=2), beta2 (k=3)
+  for(k in 1:3) {
+    bar <- tibble(x = mc_data[[k]]) |>
+      ggplot(aes(x = x)) + 
+      geom_histogram(aes(y = after_stat(density)), bins = 30,
+                     fill = "lightblue", colour = "blue") +
+      geom_vline(xintercept = sqrt(beta_cov[k,k]), # 真の値
+                 colour = "orchid") +
+      labs(x = names(mc_data)[k], main = "std. errors")
+    print(bar) 
   }
+#+end_src
+#+begin_src R :eval no :exports none
+  #' 広告費と売上データによる分析
 
-  ### 広告費と売上データによる分析
+  #' データの読み込み
+  adv_data <- read_csv('https://www.statlearning.com/s/Advertising.csv')
 
-  ## データの読み込み
-  adv_data <- read.csv('https://www.statlearning.com/s/Advertising.csv',
-                       row.names=1) # 1列目を行名として読み込む
+  #' モデルの推定
+  adv_lm1 <- lm(sales ~ TV, data=adv_data)
+  adv_lm2 <- lm(sales ~ radio, data=adv_data)
+  adv_lm3 <- lm(sales ~ TV + radio, data=adv_data)
 
-  ## モデルの推定
-  adv_est1 <- lm(sales ~ TV, data=adv_data)
-  adv_est2 <- lm(sales ~ radio, data=adv_data)
-  adv_est3 <- lm(sales ~ TV + radio, data=adv_data)
+  #' 推定値とその標準誤差
+  summary(adv_lm1)$coef[,1:2] 
+  summary(adv_lm2)$coef[,1:2] 
+  summary(adv_lm3)$coef[,1:2] 
+#+end_src
+#+begin_src R :eval no :exports none
+  #' 東京の気候データによる分析
 
-  ## 推定値とその標準誤差
-  summary(adv_est1)$coef[,1:2] 
-  summary(adv_est2)$coef[,1:2] 
-  summary(adv_est3)$coef[,1:2] 
+  #' データの整理 (8月のデータの抽出)
+  tw_subset <-
+    read_csv("data/tokyo_weather.csv") |>
+    filter(month == 8)
 
-  ### 東京の気候データによる分析
-
-  ## データの整理 (8月のデータの抽出)
-  tw_subset <- subset(read.csv("data/tokyo_weather.csv"),
-                        subset= month==8)
-
-  ## 回帰モデルの設定
+  #' 回帰モデルの設定
   tw_model1 <- temp ~ solar
   tw_model2 <- temp ~ solar + press
   tw_model3 <- temp ~ solar + press + cloud
 
-  ## 回帰モデルの推定
-  tw_est1 <- lm(tw_model1, data=tw_subset, y=TRUE)
-  tw_est2 <- lm(tw_model2, data=tw_subset, y=TRUE)
-  tw_est3 <- lm(tw_model3, data=tw_subset, y=TRUE)
+  #' 回帰モデルの推定
+  tw_lm1 <- lm(tw_model1, data=tw_subset, y=TRUE)
+  tw_lm2 <- lm(tw_model2, data=tw_subset, y=TRUE)
+  tw_lm3 <- lm(tw_model3, data=tw_subset, y=TRUE)
 
-  ## モデルの推定値とその標準誤差は以下のとおり
-  summary(tw_est1)$coef[,c("Estimate","Std. Error")]
-  summary(tw_est2)$coef[,1:2] # 名前ではなく列番号で指定する場合
-  summary(tw_est3)$coef[,1:2] # cloud の標準誤差が大きく精度が悪いことが示唆される
+  #' モデルの推定値とその標準誤差は以下のとおり
+  summary(tw_lm1)$coef[,c("Estimate","Std. Error")]
+  summary(tw_lm2)$coef[,1:2] # 名前ではなく列番号で指定する場合
+  summary(tw_lm3)$coef[,1:2] # cloud の標準誤差が大きく精度が悪いことが示唆される
+#+end_src
+#+begin_src R :exports none
+  #' ---------------------------------------------------------------------------
 #+end_src
   
 ** COMMENT 講義資料: 標準誤差
@@ -961,7 +987,7 @@
 - [[./code/05-se.r][05-se.r]] を確認してみよう
 
 
-* 演習
+* COMMENT 演習
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
@@ -1092,76 +1118,84 @@
 - 数値実験により
   \(t\)統計量の性質を確認しなさい
   - 人工データを用いて\(t\)統計量の分布を確認する
-    #+begin_src R :eval no
-      ### t統計量とそのp値は以下のようにして取り出せる
-      est <- lm(formula, data)
-      summary(est)$coef[,c("t value","Pr(>|t|)")] # 列名での指定
-      summary(est)$coef[,3:4] # 列番号での指定
+    #+begin_src R :eval no :tangle no
+      #' t統計量とそのp値は以下のようにして取り出せる
+      data_lm <- lm(formula, data)
+      summary(data_lm)$coef[,c("t value","Pr(>|t|)")] # 列名での指定
+      summary(data_lm)$coef[,3:4] # 列番号での指定
     #+end_src
   - 広告費と売上データを用いて係数の有意性を議論する
   - 東京の気候データを用いて係数の有意性を議論する
 
-#+begin_src R :eval no :exports none :tangle yes
-  ### 
-  ### 練習問題 t統計量の性質
-  ###
+#+begin_src R :exports none
+  #' ---------------------------------------------------------------------------
+  #' @practice t統計量の性質
+#+end_src
+#+begin_src R :eval no :exports none
+  #' 人工データによる確認
+  set.seed(2525) # 乱数のシード値 (適宜変更せよ)
 
-  ### 人工データによる確認
-  set.seed(2525) # 乱数のシード (適宜変更せよ)
-
-  ## 試行の設定 (重回帰，以下適宜変更せよ)
+  #' 試行の設定 (重回帰，以下適宜変更せよ)
   x_obs1 <- c(1, 20, 13, 9, 5, 15, 19, 8, 3, 4) # 説明変数1
   x_obs2 <- c(3, 19, 1, 4, 18, 7, 2, 10, 6, 12) # 説明変数2
   beta0 <- -1 # 切片 
   beta1 <-  2 # x1の係数 < 帰無仮説に従わない
   beta2 <-  0 # x2の係数 < 帰無仮説に従う 
   sigma <-  sqrt(2) # 誤差の標準偏差(分散の平方根)
-  my_trial <- function(){ 
-      epsilon <- rnorm(length(x_obs1),sd=sigma) # 誤差項
+  mc_trial <- function(){ 
+      epsilon <- rnorm(length(x_obs1), sd = sigma) # 誤差項
       y_obs <- beta0 + beta1*x_obs1 + beta2*x_obs2 + epsilon # 目的変数
-      dat <- data.frame(x1=x_obs1,x2=x_obs2,y=y_obs) # データフレームの作成
-      est <- lm(y ~ x1 + x2, data=dat) # 回帰係数の推定
-      return(summary(est)$coef[,"t value"]) # t統計量を返す
+      df <- tibble(x1 = x_obs1, x2 = x_obs2, y = y_obs) # データフレームの作成
+      est <- lm(y ~ x1 + x2, data = df) # 回帰係数の推定
+      return(set_names(summary(est)$coef[,"t value"], # t統計量を返す
+                       c("beta0.tval","beta1.tval","beta2.tval"))) 
   }
 
-  ## 数値実験
+  #' 数値実験
   mc <- 5000 # 実験回数
-  my_data <- as.data.frame(t( # データフレームの作成
-      replicate(mc, my_trial()))) # mc回の試行
-  names(my_data) <- c("beta0.tval","beta1.tval","beta2.tval") 
-
-  ## 各回帰係数のt統計量の分布
+  mc_data <- 
+    replicate(mc, mc_trial()) |> t() |> as_tibble()
+  #' 各回帰係数のt統計量の分布
   n <- length(x_obs1) # データ数 n
   p <- 2 # 説明変数の次元
-  ## beta0 (k=1), beta1 (k=2), beta2 (k=3)
-  for(k in 1:3){
-      hist(my_data[[k]], # 実験により得られた分布
-           breaks=30, freq=FALSE, # 密度で表示
-           border="blue", col="lightblue",
-           xlab=names(my_data)[k], main="t values")
-      curve(dt(x,df=n-p-1), # 自由度 n-p-1 のt分布
-            col="orchid", lwd=2, add=TRUE)
+  #' beta0 (k=1), beta1 (k=2), beta2 (k=3)
+  for(k in 1:3) { # 同じ処理であればfor文などの利用を推奨
+    bar <- tibble(x = mc_data[[k]]) |>
+      ggplot(aes(x = x)) + 
+      geom_histogram(aes(y = after_stat(density)), bins = 30,
+                     fill = "lightblue", colour = "blue") +
+      geom_function(fun = \(x) dt(x, df = n-p-1), # 自由度 n-p-1 のt分布
+                    colour = "orchid") + 
+      labs(x = names(mc_data)[k])
+    print(bar) # for 文などの block 内でのグラフ表示は明示的に print する
   }
+#+end_src
+#+begin_src R :eval no :exports none
+  #' 広告費と売上データによる分析
 
-  ### 広告費と売上データによる分析
+  #' 全てを用いたモデルと newspaper を除いたモデルを比較する
+  summary(lm(sales ~ ., data = adv_data)) # "." は全て
+  summary(lm(sales ~ . -newspaper, data = adv_data)) # "-" は除外
 
-  ## 全てを用いたモデルと newspaper を除いたモデルを比較する
-  summary(lm(sales ~ ., data=adv_data)) # "." は全て
-  summary(lm(sales ~ . -newspaper, data=adv_data)) # "-" は除外
+  #' @notes
+  #' newspaperの係数のt統計量から有意性は低いと考えられる
+  #' 自由度調整済決定係数も除いた方が高くなることが確認できる
+#+end_src
+#+begin_src R :eval no :exports none
+  #' 東京の気候データによる分析
 
-  ## newspaperの係数のt統計量から有意性は低いと考えられる
-  ## 自由度調整済決定係数も除いた方が高くなることが確認できる
+  #' solarとpressを用いたモデルを比較する
+  summary(lm(temp ~ press, data = tw_subset))
+  summary(lm(temp ~ solar + press, data = tw_subset))
+  summary(lm(temp ~ solar, data = tw_subset))
 
-  ### 東京の気候データによる分析
-
-  ## solarとpressを用いたモデルを比較する
-  summary(lm(temp ~ press, data=tw_subset))
-  summary(lm(temp ~ solar + press, data=tw_subset))
-  summary(lm(temp ~ solar, data=tw_subset))
-
-  ## press単体では係数の推定精度も決定係数も低いが
-  ## solarと組み合わせることにより精度が上がり説明力も高くなる
-  ## また組み合わせた方が自由度調整済決定係数はsolar単体より大きくなる
+  #' @notes
+  #' press単体では係数の推定精度も決定係数も低いが
+  #' solarと組み合わせることにより精度が上がり説明力も高くなる
+  #' また組み合わせた方が自由度調整済決定係数はsolar単体より大きくなる
+#+end_src
+#+begin_src R :exports none
+  #' ---------------------------------------------------------------------------
 #+end_src
 
 ** COMMENT 講義資料: \(t\)統計量
@@ -1232,87 +1266,96 @@
   \(F\)統計量の性質を確認しなさい
   - 人工データを用いて\(F\)統計量の分布を確認しなさい
     #+begin_src R :eval no
-      ### F統計量とその自由度は以下のようにして取り出せる
-      est <- lm(formula, data)
-      summary(est)$fstat
-      summary(est)$fstatistic # 省略しない場合
+      #' F統計量とその自由度は以下のようにして取り出せる
+      data_lm <- lm(formula, data)
+      summary(data_lm)$fstat
+      summary(data_lm)$fstatistic # 省略しない場合
     #+end_src
   - 広告費と売上データのモデルの有効性を議論しなさい
   - 東京の気候データのモデルの有効性を議論しなさい
 
-#+begin_src R :eval no :exports none :tangle yes
-  ### 
-  ### 練習問題 F統計量の性質
-  ### 
-  
-  ### 人工データによる確認
+#+begin_src R :exports none
+  #' ---------------------------------------------------------------------------
+  #' @practice F統計量の性質
+#+end_src
+#+begin_src R :eval no :exports none
+  #' 人工データによる確認
   set.seed(2525) # 乱数のシード (適宜変更せよ)
-  
-  ## 試行の設定 (重回帰，以下適宜変更せよ)
+
+  #' 試行の設定 (重回帰，以下適宜変更せよ)
   x_obs1 <- c(1, 20, 13, 9, 5, 15, 19, 8, 3, 4) # 説明変数1
   x_obs2 <- c(3, 19, 1, 4, 18, 7, 2, 10, 6, 12) # 説明変数2
   beta0 <- -1 # 切片 
   beta1 <-  0 # x1の係数 
   beta2 <-  0 # x2の係数 < 係数のどちらも0なので帰無仮説が成り立つ
   sigma <-  sqrt(2) # 誤差の標準偏差(分散の平方根)
-  my_trial <- function(){ 
-      epsilon <- rnorm(length(x_obs1),sd=sigma) # 誤差項
+  mc_trial <- function(){ 
+      epsilon <- rnorm(length(x_obs1), sd = sigma) # 誤差項
       y_obs <- beta0 + beta1*x_obs1 + beta2*x_obs2 + epsilon # 目的変数
-      dat <- data.frame(x1=x_obs1,x2=x_obs2,y=y_obs) # データフレームの作成
-      est <- lm(y ~ x1 + x2, data=dat) # 回帰係数の推定
-      return(summary(est)$fstat[1]) # F統計量を返す
+      df <- tibble(x1 = x_obs1, x2 = x_obs2, y = y_obs) # データフレームの作成
+      est <- lm(y ~ x1 + x2, data = df) # 回帰係数の推定
+      return(set_names(summary(est)$fstat[1]), "fstat")) # F統計量を返す
   }
-  
-  ## 数値実験 (帰無仮説が成り立つ場合)
+
+  #' 数値実験 (帰無仮説が成り立つ場合)
   mc <- 5000 # 実験回数
-  my_data <- data.frame( # 1次元の場合はそのままデータフレームが作成できる
-      fstat=replicate(mc, my_trial()))
-  
-  ## モデルのF統計量の分布
+  mc_data <- 
+    replicate(mc, mc_trial()) |> tibble() # 1次元なので転置は不要
+
+  #' モデルのF統計量の分布
   n <- length(x_obs1) # データ数
   p <- 2 # 説明変数の次元
-  hist(my_data[[1]], # 実験により得られたF統計量の分布
-       breaks=30, freq=FALSE, # 密度で表示
-       border="blue", col="lightblue",
-       xlab="F statistic", main="null hypothesis is true")
-  curve(df(x,df1=p,df2=n-p-1), # 自由度 p, n-p-1 のF-分布
-        col="orchid", lwd=2, add=TRUE)
-  
-  ## 数値実験 (帰無仮説が成り立たない場合)
+  mc_data |>
+    ggplot(aes(x = fstat)) + 
+    geom_histogram(aes(y = after_stat(density)), bins = 30,
+                   fill = "lightblue", colour = "blue") +
+    geom_function(fun = \(x) df(x, df1 = p, df2 = n-p-1), # 自由度p,n-p-1のF-分布
+                  colour = "orchid") +
+    labs(x = "F statistic", title="null hypothesis is true")
+
+  #' 数値実験 (帰無仮説が成り立たない場合)
   beta1 <-  2 # x1の係数 < 帰無仮説が成り立たない
-  my_data <- data.frame(
-      fstat=replicate(mc, my_trial()))
-  
-  ## モデルのF統計量の分布は帰無分布に従わない
-  hist(my_data[[1]], # 実験により得られたF統計量の分布
-       breaks=30, freq=FALSE, # 密度で表示
-       border="blue", col="lightblue",
-       xlab="F statistic", main="null hypothesis is false")
-  curve(df(x,df1=p,df2=n-p-1), # 自由度 p, n-p-1 のF-分布
-        col="orchid", lwd=2, add=TRUE)
-  
-  ### 広告費と売上データによる分析の例
+  mc_data <-
+    replicate(mc, mc_trial()) |> tibble()
 
-  ## 説明変数1つのモデルを検討する
-  summary(lm(sales ~ TV, data=adv_data)) 
-  summary(lm(sales ~ radio, data=adv_data)) 
-  summary(lm(sales ~ newspaper, data=adv_data))
+  #' モデルのF統計量の分布は帰無分布に従わない
+  mc_data |>
+    ggplot(aes(x = fstat)) + 
+    geom_histogram(aes(y = after_stat(density)), bins = 30,
+                   fill = "lightblue", colour = "blue") +
+    geom_function(fun = \(x) df(x, df1 = p, df2 = n-p-1), # 自由度p,n-p-1のF-分布
+                  colour = "orchid") +
+    labs(x = "F statistic", title="null hypothesis is false")
+#+end_src
+#+begin_src R :eval no :exports none
+  #' 広告費と売上データによる分析の例
 
-  ## radio, newspaper は決定係数は小さく説明力は無いが，
-  ## F-stat はそれなりに小さいのでモデルの有効性は無いとは言えない
-  
-  ### 東京の気候データによる分析の例
+  #' 説明変数1つのモデルを検討する
+  summary(lm(sales ~ TV, data = adv_data)) 
+  summary(lm(sales ~ radio, data = adv_data)) 
+  summary(lm(sales ~ newspaper, data = adv_data))
 
-  ## press, solar, rain によるモデルを検討する
-  summary(lm(temp ~ press, data=tw_subset))
-  summary(lm(temp ~ press + solar, data=tw_subset))
-  summary(lm(temp ~ press + solar + rain, data=tw_subset))
+  #' @notes
+  #' radio, newspaper は決定係数は小さく説明力は無いが，
+  #' F-stat はそれなりに小さいのでモデルの有効性は無いとは言えない
+#+end_src
+#+begin_src R :eval no :exports none
+  #' 東京の気候データによる分析の例
 
-  ## press のみではモデルの有効性があるとは言えないが
-  ## solar と組み合わせることにより有効性が確認できる
-  ## rain を加えても press の係数に変化は見られないが
-  ## solar の係数が変化し決定係数が大きくなること(自由度調整済みは若干下がるが)から
-  ## solar と rain が相補的にモデルの精度を上げている可能性が示唆される
+  #' press, solar, rain によるモデルを検討する
+  summary(lm(temp ~ press, data = tw_subset))
+  summary(lm(temp ~ press + solar, data = tw_subset))
+  summary(lm(temp ~ press + solar + rain, data = tw_subset))
+
+  #' @notes
+  #' press のみではモデルの有効性があるとは言えないが
+  #' solar と組み合わせることにより有効性が確認できる
+  #' rain を加えても press の係数に変化は見られないが
+  #' solar の係数が変化し決定係数が大きくなることから
+  #' solar と rain が相補的にモデルの精度を上げている可能性が示唆される
+#+end_src
+#+begin_src R :exports none
+  #' ---------------------------------------------------------------------------
 #+end_src
 
 ** COMMENT 講義資料: \(F\)統計量
@@ -1346,31 +1389,125 @@
   - *Normal Q-Q*:
     残差の正規性の確認
   - *Scale-Location*:
-    あてはめ値と標準誤差で正規化した残差の関係
+    あてはめ値と正規化した残差の関係
   - *Residuals vs Leverage*:
     正規化した残差とテコ比の関係
   などが用意されている
-  #+begin_src R :eval no :tangle yes
+  #+begin_src R :eval no
     #' 関数 stats::lm() による推定結果の診断プロット
     tw_lm6 <- lm(temp ~ press + solar + rain, data = tw_subset)
     #' 関数 ggfortify::autoplot() を利用する
-    #' 必要ならinstall
-    autoplot(tw_lm6) 
+    #' 必要であれば 'install.packages("ggfortify")' を実行
+    library(ggfortify)
+    autoplot(tw_lm6)
+    #' 診断プロットは1から6まで用意されており 1,2,3,5 がまとめて表示される
+    #' 個別に表示する場合は 'autoplot(tw_lm6, which = 1)' のように指定する
     #' 詳細は '?ggfortify::autoplot.lm' を参照
   #+end_src
 
 
-* 解析の事例
+* COMMENT 解析の事例
 # 早稲田大学
-** データについて
-- 気象庁より取得した東京の気候データ \\
+** COMMENT 実データによる例 (再掲)
+- 気象庁より取得した東京の気候データ
   - 気象庁 https://www.data.jma.go.jp/gmd/risk/obsdl/index.php
   - データ https://noboru-murata.github.io/multivariate-analysis/data/tokyo_weather.csv
     # - 広告費(TV,radio,newspaper)と売上データ \\
     #   - 書籍のサイト https://faculty.marshall.usc.edu/gareth-james/ISL/
     #   - データ https://faculty.marshall.usc.edu/gareth-james/ISL/Advertising.csv
 
-** 東京の8月の気候の分析
+** 東京の8月の気候の分析 (再掲)
+- データの一部
+  #+begin_src R :exports none
+    #' @exercise 東京の気候データを用いた例
+    
+    #' データの読み込み
+    tw_subset <- read_csv("data/tokyo_weather.csv") |>
+      filter(month == 8) |> # 8月のデータの抽出
+      mutate(date=date(paste(year,month,day,sep="-")), .before = 1) |>
+      select(-c(year,month,day,day_of_week))
+
+    #' モデル式
+    tw_model1 <- temp ~ press
+    tw_model2 <- temp ~ solar
+    tw_model3 <- temp ~ press + solar
+    tw_model4 <- temp ~ press + solar + humid
+    tw_model5 <- temp ~ press + solar + cloud
+
+    #' 推定
+    tw_lm1 <- lm(tw_model1, data=tw_subset, y=TRUE)
+    tw_lm2 <- lm(tw_model2, data=tw_subset, y=TRUE)
+    tw_lm3 <- lm(tw_model3, data=tw_subset, y=TRUE)
+    tw_lm4 <- lm(tw_model4, data=tw_subset, y=TRUE)
+    tw_lm5 <- lm(tw_model5, data=tw_subset, y=TRUE)
+  #+end_src
+  #+begin_src R :exports none
+    #' データの表示
+    #' 列名を日本語にして表示する
+    foo <- set_names(names(tw_subset), # 列名に対応する日本語ベクトルを用意
+                        c("日付","気温","降雨","日射","降雪","風向","風速","気圧","湿度","雲量"))
+    (bar <- tw_subset |> rename(all_of(foo)))
+  #+end_src
+  #+begin_src R :eval no :exports none
+    View(bar) # 左上ペインに表として表示
+  #+end_src
+  #+html: <font size=6>
+  #+begin_src R :exports results :results output raw :tangle no
+    #' データの表示(reveal用)
+    bar |>
+      head(12) |> # 12日分を表示
+      ascii::ascii(include.rownames = FALSE) |>
+      ascii::print(type = "org")
+  #+end_src
+  #+html: </font>
+
+#+reveal: split
+- 気温を説明する5種類の線形回帰モデルを検討
+  - モデル1 : 気温 = F(気圧)
+  - モデル2 : 気温 = F(日射)
+  - モデル3 : 気温 = F(気圧, 日射)
+  - モデル4 : 気温 = F(気圧, 日射, 湿度)
+  - モデル5 : 気温 = F(気圧, 日射, 雲量)
+
+** 分析の視覚化 (再掲)
+- 観測値とあてはめ値の比較
+  #+begin_src R :file figs/03_models.png :exports results :results graphics
+    #' 観測値とあてはめ値の比較
+    tw_subset |>
+      mutate(モデル1 = fitted(tw_lm1),    # モデルごとに予測値をデータフレームに追加
+             モデル2 = fitted(tw_lm2),
+             モデル3 = fitted(tw_lm3),
+             モデル4 = fitted(tw_lm4),
+             モデル5 = fitted(tw_lm5)) |>
+      pivot_longer(starts_with("モデル"), # モデルをラベルとして予測値をまとめる
+                   names_to = "model", values_to = "fitted") |>
+      ggplot(aes(x = temp, y = fitted)) + # 気温の実測値をx軸，予測値をy軸で表示
+      geom_abline(slope = 1, intercept = 0, colour = "red") + # 基準線
+      geom_point(aes(colour = model, shape = model)) + # 予測値をモデル別に表示
+      labs(x = "気温", y = "あてはめ値") +
+      xlim(22,32) + ylim(22,32) + theme(legend.position = c(.88,.15))
+  #+end_src
+
+#+caption: モデルの比較
+#+name: fig:03_models
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/03_models.png]]
+
+** モデルの比較
+- 寄与率・\(t\)統計量・\(F\)統計量
+  #+html: <font size=4>
+  #+begin_src R :exports results :results output html :tangle no
+    #' データの表示(reveal用)
+    stargazer::stargazer(tw_lm1, tw_lm2, tw_lm3, tw_lm4, tw_lm5,
+                         ## column.labels=c("A","B","C","D","E"),
+                         type="html",single.row=TRUE)
+  #+end_src
+  #+html: </font>
+- 変数名の対応
+  - 気温(temp), 気圧(press), 日射(solar), 湿度(humid), 雲量(cloud)
+  
+** COMMENT 東京の8月の気候の分析(古いcode)
 :PROPERTIES:
 :ID:       99AAECD9-1974-48D7-9E3C-F81FDDD8A7AC
 :END:
@@ -1534,18 +1671,6 @@
                 ))
     #+end_src
 
-** COMMENT stargazer
-  #+html: <font size=4>
-  #+begin_src R :exports results :results output html :tangle no
-    #' データの表示(reveal用)
-    stargazer::stargazer(tw_lm1, tw_lm2, tw_lm3, tw_lm4, tw_lm5,
-                         ## column.labels=c("A","B","C","D","E"),
-                         type="html",single.row=TRUE,ci=TRUE)
-  #+end_src
-  #+html: </font>
-- 変数名の対応
-  - 気温(temp), 気圧(press), 日射(solar), 湿度(humid), 雲量(cloud)
-  
 
 * 次回の予定
 - 第1回 : 回帰モデルの考え方と推定
