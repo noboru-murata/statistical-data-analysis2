@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2023-10-16 16:34:54 mura>
+# Time-stamp: <2023-10-16 16:37:54 mura>
 
 :REVEAL:
 #+SETUPFILE: "./reveal.js/org/mycourse.org"
@@ -210,6 +210,9 @@
   - データ https://noboru-murata.github.io/multivariate-analysis/data/tokyo_weather.csv
 
 ** 東京の8月の気候の分析
+:PROPERTIES:
+:ID:       A489FC6E-DE7F-40F3-AF84-149780E42205
+:END:
 - データの一部
   #+begin_src R :exports none
     #' @exercise 東京の気候データを用いた例
@@ -264,6 +267,9 @@
   - モデル5 : 気温 = F(気圧, 日射, 雲量)
 
 ** 分析の視覚化
+:PROPERTIES:
+:ID:       E5C084E0-BB7D-4C8B-B289-C1F617CE2B13
+:END:
 - 関連するデータの散布図
   #+begin_src R :file figs/03_pairs.png :exports results :results graphics
     #' 関連データの散布図
@@ -365,6 +371,9 @@
 [[file:figs/03_models.png]]
 
 ** モデルの比較
+:PROPERTIES:
+:ID:       6463C58D-1F34-41FE-8F44-77CE478493C0
+:END:
 - 寄与率による比較
   #+begin_src R :exports none
     #' 関数 tibble::tribble() を利用して結果をまとめる
