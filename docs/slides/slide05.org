@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2023-10-09 12:38:09 mura>
+# Time-stamp: <2023-10-16 22:45:12 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+PROPERTY: header-args:R :cache yes :session *R*
@@ -47,90 +47,10 @@
 #+end_src
 #+begin_src R :exports none
   ### 第5講 サンプルコード
+  library(tidyverse)
+  if(Sys.info()["sysname"] == "Darwin") { # MacOSか調べて日本語フォントを指定
+    theme_update(text = element_text(family = "HiraginoSans-W4"))}
 #+end_src
-
-* COMMENT 演習 (早稲田大学雛型)
-:PROPERTIES:
-:reveal_background: #fef4f4
-:END:
-# 早稲田大学
-** 問題
-:PROPERTIES:
-:reveal_background: #fef4f4
-:END:
-- について以下を示しなさい．
-  - である．
-    #+begin_quote
-    #+begin_src latex
-    #+end_src
-    #+end_quote
-
-** 解答例
-:PROPERTIES:
-:reveal_background: #fef4f4
-:END:
-- いずれも定義にもとづいて計算すればよい
-  #+begin_quote
-  #+begin_src latex
-  #+end_src
-  #+end_quote
-
-#+OPTIONS: reveal_mousewheel:nil
-#+begin_src R :eval no :exports none :tangle yes
-  ### 第05回 資料
-#+end_src
-#+begin_src R :exports none
-  setwd("~/Desktop/lectures/mva/course")
-#+end_src
-
-* COMMENT 実習 (東京大学雛型)
-:PROPERTIES:
-:reveal_background: #fef4f4
-:END:
-# 東京大学
-** R : 概要
-:PROPERTIES:
-:reveal_background: #fef4f4
-:END:
-- ほげほげな方法:
-  #+begin_src R :eval no
-  #+end_src
-** データセット
-:PROPERTIES:
-:reveal_background: #fef4f4
-:END:
-- 以下のデータセットを使用します
-  - ~xxx~
-    #+begin_quote
-    データの素性
-    #+end_quote
-    [[https://www.foo.com/]]
-
-** 練習問題
-:PROPERTIES:
-:reveal_background: #fef4f4
-:END:
-- 構成しなさい
-  - データ
-    #+begin_quote
-    formulaなどを与える
-    #+end_quote
-
-#+begin_src R :eval no :exports none :tangle yes
-  ###
-  ### 練習問題 
-  ###
-
-  ## 
-  ## 分析
-  ##
-#+end_src
-
-** COMMENT 講義資料: 概略
-:PROPERTIES:
-:reveal_background: #EEEEFF
-:END:
-- [[./code/bar.r][bar.r]] を確認してみよう
 
 
 * 回帰分析の復習
@@ -188,34 +108,52 @@
   #+end_quote
 
 ** 実データによる例 
-- 東京の8月の気候 (気温,降雨,日射,降雪,風速,気圧,湿度,雲量)
-  に関するデータ(の一部)
-  #+begin_src R :exports results :tangle yes
-    ## データの読み込み
-    tw_data <- read.csv("data/tokyo_weather.csv")
-    tw_subset <- subset(tw_data, # 8月のデータの抽出
-                        subset= month==8)
-    head(tw_subset[,-1], 14) # 2週間分を表示
+- 東京の8月の気候データの一部 (再掲)
+  #+begin_src R :exports none
+    #' @exercise 東京の気候データを用いた例
     
-    ### モデル式
-    tw_model0 <- temp ~ press + solar + humid + cloud
+    #' データの読み込み
+    tw_subset <- read_csv("data/tokyo_weather.csv") |>
+      filter(month == 8) |> # 8月のデータの抽出
+      mutate(date=date(paste(year,month,day,sep="-")), .before = 1) |>
+      select(-c(year,month,day,day_of_week))
+
+    #' モデル式
     tw_model1 <- temp ~ press
     tw_model2 <- temp ~ solar
     tw_model3 <- temp ~ press + solar
     tw_model4 <- temp ~ press + solar + humid
     tw_model5 <- temp ~ press + solar + cloud
-    
-    ## 推定
-    tw_est0 <- lm(tw_model0, data=tw_subset, y=TRUE)
-    tw_est1 <- lm(tw_model1, data=tw_subset, y=TRUE)
-    tw_est2 <- lm(tw_model2, data=tw_subset, y=TRUE)
-    tw_est3 <- lm(tw_model3, data=tw_subset, y=TRUE)
-    tw_est4 <- lm(tw_model4, data=tw_subset, y=TRUE)
-    tw_est5 <- lm(tw_model5, data=tw_subset, y=TRUE)
+
+    #' 推定
+    tw_lm1 <- lm(tw_model1, data=tw_subset, y=TRUE)
+    tw_lm2 <- lm(tw_model2, data=tw_subset, y=TRUE)
+    tw_lm3 <- lm(tw_model3, data=tw_subset, y=TRUE)
+    tw_lm4 <- lm(tw_model4, data=tw_subset, y=TRUE)
+    tw_lm5 <- lm(tw_model5, data=tw_subset, y=TRUE)
   #+end_src
-  
+  #+begin_src R :exports none
+    #' データの表示
+    #' 列名を日本語にして表示する
+    foo <- set_names(names(tw_subset), # 列名に対応する日本語ベクトルを用意
+                        c("日付","気温","降雨","日射","降雪","風向","風速","気圧","湿度","雲量"))
+    (bar <- tw_subset |> rename(all_of(foo)))
+  #+end_src
+  #+begin_src R :eval no :exports none
+    View(bar) # 左上ペインに表として表示
+  #+end_src
+  #+html: <font size=6>
+  #+begin_src R :exports results :results output raw :tangle no
+    #' データの表示(reveal用)
+    bar |>
+      head(12) |> # 12日分を表示
+      ascii::ascii(include.rownames = FALSE) |>
+      ascii::print(type = "org")
+  #+end_src
+  #+html: </font>
+
 #+reveal: split
-- 作成した線形回帰モデルを検討する
+- 気温を説明する5種類の線形回帰モデルを検討
   - モデル1 : 気温 = F(気圧)
   - モデル2 : 気温 = F(日射)
   - モデル3 : 気温 = F(気圧, 日射)
@@ -224,41 +162,36 @@
 
 #+reveal: split
 - 説明変数と目的変数の関係
-  #+begin_src R :file figs/05_variables.png :exports results :results graphics :tangle yes
+  #+begin_src R :file figs/05_pairs.png :exports results :results graphics
     ## 説明変数と目的変数の散布図
-    if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
-    plot(model.frame(tw_est0),
-         labels=c("気温","気圧","日射","湿度","雲量"),
-         col="blue", pch=20)
+    tw_subset |>
+      select(c(temp,press,solar,humid,cloud)) |>
+      GGally::ggpairs(columnLabels=c("気温","気圧","日射","湿度","雲量"))
   #+end_src
 
 #+CAPTION: 説明変数と目的変数の散布図
-#+NAME: fig:05_variables
+#+NAME: fig:05_pairs
 #+ATTR_HTML: height 100%
 #+ATTR_LATEX: :width 0.6\linewidth
-[[file:figs/05_variables.png]]
+[[file:figs/05_pairs.png]]
 
 #+reveal: split
 - 観測値とあてはめ値の比較
   #+begin_src R :file figs/05_models.png :exports results :results graphics :tangle yes
-    ## 観測値とあてはめ値の比較
-    if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
-    with(tw_est1,
-         plot(y,fitted.values,col="orange",pch=17, # 三角
-              xlab="気温",
-              ylab="あてはめ値",ylim=range(y)))   
-    abline(0,1,col="red",lwd=2)
-    with(tw_est2,
-         points(y,fitted.values,col="green",pch=15)) # 四角
-    with(tw_est3,
-         points(y,fitted.values,col="blue",pch=21))  # 丸
-    with(tw_est4,
-         points(y,fitted.values,col="brown",pch=23))  # 菱形
-    with(tw_est5,
-         points(y,fitted.values,col="cyan",pch=25))  # 三角
-    legend("bottomright",inset=.05, # 凡例の作成
-           col=c("orange","green","blue","brown","cyan"), pch=c(17,15,21,23,25), 
-           legend=c("モデル1","モデル2","モデル3","モデル4","モデル5"))
+    #' 観測値とあてはめ値の比較
+    tw_subset |>
+      mutate(モデル1 = fitted(tw_lm1),    # モデルごとに予測値をデータフレームに追加
+             モデル2 = fitted(tw_lm2),
+             モデル3 = fitted(tw_lm3),
+             モデル4 = fitted(tw_lm4),
+             モデル5 = fitted(tw_lm5)) |>
+      pivot_longer(starts_with("モデル"), # モデルをラベルとして予測値をまとめる
+                   names_to = "model", values_to = "fitted") |>
+      ggplot(aes(x = temp, y = fitted)) + # 気温の実測値をx軸，予測値をy軸で表示
+      geom_abline(slope = 1, intercept = 0, colour = "red") + # 基準線
+      geom_point(aes(colour = model, shape = model)) + # 予測値をモデル別に表示
+      labs(x = "気温", y = "あてはめ値") +
+      xlim(22,32) + ylim(22,32) + theme(legend.position = c(.88,.15))
   #+end_src
 
 #+CAPTION: モデルの比較
@@ -286,6 +219,18 @@
   #+end_quote
   - 不偏分散で補正
 ** モデルの評価
+- 寄与率・\(t\)統計量・\(F\)統計量
+  #+html: <font size=5>
+  #+begin_src R :exports results :results output html :tangle no
+    #' データの表示(reveal用)
+    stargazer::stargazer(tw_lm1, tw_lm2, tw_lm3, tw_lm4, tw_lm5,
+                         style = "default", notes.append = FALSE,
+                         keep.stat = c("rsq","adj.rsq"),
+                         type = "html", single.row = TRUE)
+  #+end_src
+  #+html: </font>
+
+#+reveal: split
 - 決定係数
   - モデル1 : 気温 = F(気圧)
     #+begin_src R :exports results :tangle yes
