@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2023-10-17 17:08:39 mura>
+# Time-stamp: <2023-10-18 16:22:00 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+PROPERTY: header-args:R :cache yes :session *R*
@@ -460,6 +460,10 @@
 :ID:       9010402A-AC86-4A3F-9A0F-397A945FACB5
 :END:
 - 前掲のデータセットを用いて回帰式を構成しなさい
+  - 東京の8月の気候データ
+    #+begin_quote
+    formula = temp ~ solar + press
+    #+end_quote
   - 広告費と売上データ
     #+begin_quote
     formula = sales ~ TV 
@@ -467,10 +471,6 @@
     formula = sales ~ radio
 
     formula = sales ~ TV + radio
-    #+end_quote
-  - 東京の8月の気候データ
-    #+begin_quote
-    formula = temp ~ solar + press
     #+end_quote
 
 #+begin_src R :eval no :exports none
@@ -660,7 +660,6 @@
   #+begin_src R :eval no :tangle no
     as.vector(データフレーム[列名]) # base::as.vector()
     as_vector(データフレーム[列名]) # purrr::as_vector()
-    #' データフレームを変換しなくても 'データフレーム[[列名]]' としてもよい
     as.matrix(データフレーム) # base::as.matrix()
     #' データフレームを行列に変換する場合は全て同じデータ型でなくてはならない
   #+end_src
@@ -1104,14 +1103,6 @@
 :ID:       335A639C-748D-4FC8-B0DB-471A3C0F38CB
 :END:
 - 決定係数を用いてモデルの比較を行いなさい
-  - 広告費と売上データ
-    #+begin_quote
-    sales ~ TV
-
-    sales ~ radio
-
-    sales ~ TV + radio
-    #+end_quote
   - 東京の8月の気候データ
     #+begin_quote
     temp ~ solar
@@ -1119,6 +1110,14 @@
     temp ~ solar + press
 
     temp ~ solar + press + cloud
+    #+end_quote
+  - 広告費と売上データ
+    #+begin_quote
+    sales ~ TV
+
+    sales ~ radio
+
+    sales ~ TV + radio
     #+end_quote
 
 #+begin_src R :eval no :exports none
@@ -1266,7 +1265,7 @@
                            font.size = "small", type = "latex")
   #+end_src
 
-  # org に表を処理させる場合は以下
+  # org に表を処理させる場合は以下のとおり
   # #+html: <font size=6>
   # #+begin_src R :exports results :results output raw :tangle no
   #   #' データの表示(reveal用)
@@ -1393,30 +1392,7 @@
 :PROPERTIES:
 :ID:       6463C58D-1F34-41FE-8F44-77CE478493C0
 :END:
-- 決定係数・自由度調整済み決定係数による比較
-  # #+begin_src R :exports none
-  #   #' 関数 tibble::tribble() を利用して結果をまとめる
-  #   #' 行ごとにデータを並べてデータフレームを作ることができる
-  #   (baz <- tribble(
-  #      ~モデル, ~決定係数, ~自由度調整済み決定係数,
-  #      ## 列名は ~ で指定
-  #      "気温 = F(気圧)", summary(tw_lm1)$r.squared, summary(tw_lm1)$adj.r.squared,
-  #      "気温 = F(日射)", summary(tw_lm2)$r.squared, summary(tw_lm2)$adj.r.squared,
-  #      "気温 = F(気圧, 日射)", summary(tw_lm3)$r.squared, summary(tw_lm3)$adj.r.squared,
-  #      "気温 = F(気圧, 日射, 湿度)", summary(tw_lm4)$r.squared, summary(tw_lm4)$adj.r.squared,
-  #      "気温 = F(気圧, 日射, 雲量)", summary(tw_lm5)$r.squared, summary(tw_lm5)$adj.r.squared,
-  #      ))
-  # #+end_src
-  # #+begin_src R :eval no :exports none
-  #   View(baz) # 左上ペインに表として表示
-  # #+end_src
-  # #+html: <font size=6>
-  # #+begin_src R :exports results :results output raw :tangle no
-  #   #' 比較結果の表示 (reveal用)
-  #   baz |> ascii::ascii(digits=3) |> ascii::print(type = "org")
-  # #+end_src
-  # #+html: </font>
-
+- 決定係数(\(R^{2}\), Adjusted \(R^{2}\))
   #+html: <font size=5>
   #+begin_src R :exports results :results output html :tangle no
     #' 関数 stargazer::stargazer() を利用して結果をまとめる
@@ -1456,6 +1432,30 @@
                          title = "寄与率によるモデルの比較",
                          font.size = "small", type = "latex")
   #+end_src
+
+  # org に表を処理させる場合は以下のとおり
+  # #+begin_src R :exports none
+  #   #' 関数 tibble::tribble() を利用して結果をまとめる
+  #   #' 行ごとにデータを並べてデータフレームを作ることができる
+  #   (baz <- tribble(
+  #      ~モデル, ~決定係数, ~自由度調整済み決定係数,
+  #      ## 列名は ~ で指定
+  #      "気温 = F(気圧)", summary(tw_lm1)$r.squared, summary(tw_lm1)$adj.r.squared,
+  #      "気温 = F(日射)", summary(tw_lm2)$r.squared, summary(tw_lm2)$adj.r.squared,
+  #      "気温 = F(気圧, 日射)", summary(tw_lm3)$r.squared, summary(tw_lm3)$adj.r.squared,
+  #      "気温 = F(気圧, 日射, 湿度)", summary(tw_lm4)$r.squared, summary(tw_lm4)$adj.r.squared,
+  #      "気温 = F(気圧, 日射, 雲量)", summary(tw_lm5)$r.squared, summary(tw_lm5)$adj.r.squared,
+  #      ))
+  # #+end_src
+  # #+begin_src R :eval no :exports none
+  #   View(baz) # 左上ペインに表として表示
+  # #+end_src
+  # #+html: <font size=6>
+  # #+begin_src R :exports results :results output raw :tangle no
+  #   #' 比較結果の表示 (reveal用)
+  #   baz |> ascii::ascii(digits=3) |> ascii::print(type = "org")
+  # #+end_src
+  # #+html: </font>
       
 * 次回の予定
 - 第1回 : 回帰モデルの考え方と推定

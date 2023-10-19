@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2023-10-16 22:45:12 mura>
+# Time-stamp: <2023-10-19 22:22:20 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+PROPERTY: header-args:R :cache yes :session *R*
@@ -37,6 +37,9 @@
 #+end_src
 
 * 講義概要
+:PROPERTIES:
+:ID:       390CCA0E-6946-41A2-9E43-71FF56247DA8
+:END:
 # 東京大学
 - 第1回: 回帰モデルの考え方と推定
 - 第2回: モデルの評価
@@ -77,7 +80,8 @@
   #+begin_quote
   \begin{equation}
     \boldsymbol{y}
-    =X\boldsymbol{\beta}+\boldsymbol{\epsilon}
+    =X\boldsymbol{\beta}+\boldsymbol{\epsilon},
+    \quad\boldsymbol{\epsilon}\sim\text{確率分布}
   \end{equation}
   #+end_quote
 - 式の評価 : *残差平方和* の最小化による推定
@@ -89,7 +93,7 @@
   \end{equation}
   #+end_quote
 
-** 解
+** 解とその一意性
 - 解の条件 : *正規方程式*
   #+begin_quote
   \begin{equation}
@@ -107,16 +111,21 @@
   \end{equation}
   #+end_quote
 
-** 実データによる例 
-- 東京の8月の気候データの一部 (再掲)
+
+* 解析の事例
+** 東京の8月の気候の分析
+:PROPERTIES:
+:ID:       A489FC6E-DE7F-40F3-AF84-149780E42205
+:END:
+- データの一部
   #+begin_src R :exports none
     #' @exercise 東京の気候データを用いた例
     
     #' データの読み込み
     tw_subset <- read_csv("data/tokyo_weather.csv") |>
       filter(month == 8) |> # 8月のデータの抽出
-      mutate(date=date(paste(year,month,day,sep="-")), .before = 1) |>
-      select(-c(year,month,day,day_of_week))
+      mutate(date = date(paste(year, month, day, sep = "-")), .before = 1) |>
+      select(-c(year, month, day, day_of_week))
 
     #' モデル式
     tw_model1 <- temp ~ press
@@ -126,31 +135,42 @@
     tw_model5 <- temp ~ press + solar + cloud
 
     #' 推定
-    tw_lm1 <- lm(tw_model1, data=tw_subset, y=TRUE)
-    tw_lm2 <- lm(tw_model2, data=tw_subset, y=TRUE)
-    tw_lm3 <- lm(tw_model3, data=tw_subset, y=TRUE)
-    tw_lm4 <- lm(tw_model4, data=tw_subset, y=TRUE)
-    tw_lm5 <- lm(tw_model5, data=tw_subset, y=TRUE)
+    tw_lm1 <- lm(tw_model1, data = tw_subset, y = TRUE)
+    tw_lm2 <- lm(tw_model2, data = tw_subset, y = TRUE)
+    tw_lm3 <- lm(tw_model3, data = tw_subset, y = TRUE)
+    tw_lm4 <- lm(tw_model4, data = tw_subset, y = TRUE)
+    tw_lm5 <- lm(tw_model5, data = tw_subset, y = TRUE)
   #+end_src
+
   #+begin_src R :exports none
     #' データの表示
     #' 列名を日本語にして表示する
     foo <- set_names(names(tw_subset), # 列名に対応する日本語ベクトルを用意
-                        c("日付","気温","降雨","日射","降雪","風向","風速","気圧","湿度","雲量"))
+                     c("日付","気温","降雨","日射","降雪","風向","風速","気圧","湿度","雲量"))
     (bar <- tw_subset |> rename(all_of(foo)))
   #+end_src
   #+begin_src R :eval no :exports none
     View(bar) # 左上ペインに表として表示
   #+end_src
-  #+html: <font size=6>
-  #+begin_src R :exports results :results output raw :tangle no
+  #+html: <font size=5>
+  #+begin_src R :exports results :results output html :tangle no
     #' データの表示(reveal用)
-    bar |>
-      head(12) |> # 12日分を表示
-      ascii::ascii(include.rownames = FALSE) |>
-      ascii::print(type = "org")
+    bar |> slice(1:14) |> mutate(日付 = as.character(日付)) |>
+      stargazer::stargazer(summary = FALSE,
+                           rownames = FALSE,
+                           title = "東京の8月の気候",
+                           type = "html")
   #+end_src
   #+html: </font>
+
+  #+begin_src R :exports results :results output latex :tangle no
+    #' データの表示(latex用)
+    bar |> mutate(日付 = as.character(日付)) |>
+      stargazer::stargazer(summary = FALSE,
+                           rownames = FALSE,
+                           title = "東京の8月の気候",
+                           font.size = "small", type = "latex")
+  #+end_src
 
 #+reveal: split
 - 気温を説明する5種類の線形回帰モデルを検討
@@ -160,24 +180,27 @@
   - モデル4 : 気温 = F(気圧, 日射, 湿度)
   - モデル5 : 気温 = F(気圧, 日射, 雲量)
 
-#+reveal: split
-- 説明変数と目的変数の関係
+** 分析の視覚化
+:PROPERTIES:
+:ID:       E5C084E0-BB7D-4C8B-B289-C1F617CE2B13
+:END:
+- 関連するデータの散布図
   #+begin_src R :file figs/05_pairs.png :exports results :results graphics
-    ## 説明変数と目的変数の散布図
+    #' 関連データの散布図
     tw_subset |>
-      select(c(temp,press,solar,humid,cloud)) |>
+      select(temp,press,solar,humid,cloud) |>
       GGally::ggpairs(columnLabels=c("気温","気圧","日射","湿度","雲量"))
   #+end_src
 
-#+CAPTION: 説明変数と目的変数の散布図
-#+NAME: fig:05_pairs
-#+ATTR_HTML: height 100%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: 散布図
+#+name: fig:05_pairs
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
 [[file:figs/05_pairs.png]]
 
 #+reveal: split
 - 観測値とあてはめ値の比較
-  #+begin_src R :file figs/05_models.png :exports results :results graphics :tangle yes
+  #+begin_src R :file figs/05_models.png :exports results :results graphics
     #' 観測値とあてはめ値の比較
     tw_subset |>
       mutate(モデル1 = fitted(tw_lm1),    # モデルごとに予測値をデータフレームに追加
@@ -194,10 +217,10 @@
       xlim(22,32) + ylim(22,32) + theme(legend.position = c(.88,.15))
   #+end_src
 
-#+CAPTION: モデルの比較
-#+NAME: fig:05_models
-#+ATTR_HTML: height 100%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: モデルの比較
+#+name: fig:05_models
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
 [[file:figs/05_models.png]]
 ** 寄与率
 - *決定係数* (R-squared)
@@ -219,27 +242,105 @@
   #+end_quote
   - 不偏分散で補正
 ** モデルの評価
-- 寄与率・\(t\)統計量・\(F\)統計量
-  #+html: <font size=5>
+:PROPERTIES:
+:ID:       6463C58D-1F34-41FE-8F44-77CE478493C0
+:END:
+- 決定係数(\(R^{2}\), Adjusted \(R^{2}\))
+  #+html: <font size=4>
   #+begin_src R :exports results :results output html :tangle no
-    #' データの表示(reveal用)
+    #' 決定係数のまとめ
+    #' reveal用
+    #' 関数 stargazer::stargazer() を利用して結果をまとめる
     stargazer::stargazer(tw_lm1, tw_lm2, tw_lm3, tw_lm4, tw_lm5,
-                         style = "default", notes.append = FALSE,
-                         keep.stat = c("rsq","adj.rsq"),
-                         type = "html", single.row = TRUE)
+                         column.labels = c("モデル1","モデル2","モデル3","モデル4","モデル5"), # NULL,
+                         covariate.labels = c("気圧","日射","湿度","雲量"), # NULL,
+                         dep.var.caption = "目的変数", # NULL,
+                         dep.var.labels = "気温", # NULL,
+                         ## dep.var.labels.include = TRUE,
+                         keep.stat = c("rsq","adj.rsq"), # NULL,
+                         ## model.names = NULL,
+                         model.numbers = FALSE, # NULL,
+                         ## object.names = FALSE,
+                         omit.table.layout = "n", # NULL, # "sn"
+                         ## report = "vc*st", # NULL,
+                         single.row = TRUE, # FALSE,
+                         title = "寄与率によるモデルの比較",
+                         type = "html")
   #+end_src
   #+html: </font>
+  #+begin_src R :exports results :results output latex :tangle no
+    #' 決定係数のまとめ
+    #' latex用
+    stargazer::stargazer(tw_lm1, tw_lm2, tw_lm3, tw_lm4, tw_lm5,
+                         column.labels = c("モデル1","モデル2","モデル3","モデル4","モデル5"), # NULL,
+                         covariate.labels = c("気圧","日射","湿度","雲量"), # NULL,
+                         dep.var.caption = "目的変数", # NULL,
+                         dep.var.labels = "気温", # NULL,
+                         ## dep.var.labels.include = TRUE,
+                         keep.stat = c("rsq","adj.rsq"), # NULL,
+                         ## model.names = NULL,
+                         model.numbers = FALSE, # NULL,
+                         ## object.names = FALSE,
+                         omit.table.layout = "n", # NULL, # "sn"
+                         ## report = "vc*st", # NULL,
+                         single.row = TRUE, # FALSE,
+                         title = "寄与率によるモデルの比較",
+                         font.size = "small", type = "latex")
+  #+end_src
+  #+begin_src R :eval no :exports none
+    #' 決定係数のまとめ
+    stargazer::stargazer(tw_lm1, tw_lm2, tw_lm3, tw_lm4, tw_lm5,
+                         column.labels = c("モデル1","モデル2","モデル3","モデル4","モデル5"), # NULL,
+                         covariate.labels = c("気圧","日射","湿度","雲量"), # NULL,
+                         dep.var.caption = "目的変数", # NULL,
+                         dep.var.labels = "気温", # NULL,
+                         ## dep.var.labels.include = TRUE,
+                         keep.stat = c("rsq","adj.rsq"), # NULL,
+                         ## model.names = NULL,
+                         model.numbers = FALSE, # NULL,
+                         ## object.names = FALSE,
+                         omit.table.layout = "n", # NULL, # "sn"
+                         ## report = "vc*st", # NULL,
+                         single.row = TRUE, # FALSE,
+                         title = "寄与率によるモデルの比較",
+                         font.size = "small", type = "latex")
+  #+end_src
 
-#+reveal: split
+  # org に表を処理させる場合は以下のとおり
+  # #+begin_src R :exports none
+  #   #' 関数 tibble::tribble() を利用して結果をまとめる
+  #   #' 行ごとにデータを並べてデータフレームを作ることができる
+  #   (baz <- tribble(
+  #      ~モデル, ~決定係数, ~自由度調整済み決定係数,
+  #      ## 列名は ~ で指定
+  #      "気温 = F(気圧)", summary(tw_lm1)$r.squared, summary(tw_lm1)$adj.r.squared,
+  #      "気温 = F(日射)", summary(tw_lm2)$r.squared, summary(tw_lm2)$adj.r.squared,
+  #      "気温 = F(気圧, 日射)", summary(tw_lm3)$r.squared, summary(tw_lm3)$adj.r.squared,
+  #      "気温 = F(気圧, 日射, 湿度)", summary(tw_lm4)$r.squared, summary(tw_lm4)$adj.r.squared,
+  #      "気温 = F(気圧, 日射, 雲量)", summary(tw_lm5)$r.squared, summary(tw_lm5)$adj.r.squared,
+  #      ))
+  # #+end_src
+  # #+begin_src R :eval no :exports none
+  #   View(baz) # 左上ペインに表として表示
+  # #+end_src
+  # #+html: <font size=6>
+  # #+begin_src R :exports results :results output raw :tangle no
+  #   #' 比較結果の表示 (reveal用)
+  #   baz |> ascii::ascii(digits=3) |> ascii::print(type = "org")
+  # #+end_src
+  # #+html: </font>
+      
+
+** COMMENT モデルの評価(古い)
 - 決定係数
   - モデル1 : 気温 = F(気圧)
     #+begin_src R :exports results :tangle yes
       ## モデル1
       print(
           paste("R2:",
-                signif(summary(tw_est1)$r.squared,digits=3),
+                signif(summary(tw_lm1)$r.squared,digits=3),
                 "; adj. R2:",
-                signif(summary(tw_est1)$adj.r.squared,digits=3)
+                signif(summary(tw_lm1)$adj.r.squared,digits=3)
                 ))
     #+end_src
   - モデル2 : 気温 = F(日射)
@@ -247,9 +348,9 @@
       ## モデル1
       print(
           paste("R2:",
-                signif(summary(tw_est2)$r.squared,digits=3),
+                signif(summary(tw_lm2)$r.squared,digits=3),
                 "; adj. R2:",
-                signif(summary(tw_est2)$adj.r.squared,digits=3)
+                signif(summary(tw_lm2)$adj.r.squared,digits=3)
                 ))
     #+end_src
   - モデル3 : 気温 = F(気圧, 日射)
@@ -257,9 +358,9 @@
       ## モデル3
       print(
           paste("R2:",
-                signif(summary(tw_est3)$r.squared,digits=3),
+                signif(summary(tw_lm3)$r.squared,digits=3),
                 "; adj. R2:",
-                signif(summary(tw_est3)$adj.r.squared,digits=3)
+                signif(summary(tw_lm3)$adj.r.squared,digits=3)
                 ))
     #+end_src
   - モデル4 : 気温 = F(気圧, 日射, 湿度) (3より改善している)
@@ -267,19 +368,19 @@
       ## モデル4
       print(
           paste("R2:",
-                signif(summary(tw_est4)$r.squared,digits=3),
+                signif(summary(tw_lm4)$r.squared,digits=3),
                 "; adj. R2:",
-                signif(summary(tw_est4)$adj.r.squared,digits=3)
+                signif(summary(tw_lm4)$adj.r.squared,digits=3)
                 ))
     #+end_src
-  - モデル5 : 気温 = F(気圧, 日射, 雲量) (3より改善していない)
+  - モデル5 : 気温 = F(気圧, 日射, 雲量) (3より改善している)
     #+begin_src R :exports results :tangle yes
       ## モデル4
       print(
           paste("R2:",
-                signif(summary(tw_est5)$r.squared,digits=3),
+                signif(summary(tw_lm5)$r.squared,digits=3),
                 "; adj. R2:",
-                signif(summary(tw_est5)$adj.r.squared,digits=3)
+                signif(summary(tw_lm5)$adj.r.squared,digits=3)
                 ))
     #+end_src
 
@@ -302,11 +403,78 @@
   #   \end{equation}
 
 ** モデルの評価
+:PROPERTIES:
+:ID:       6104947A-BAD8-48A6-848D-9001C82883BF
+:END:
+- \(F\)統計量
+  #+html: <font size=4>
+  #+begin_src R :exports results :results output html :tangle no
+    #' F統計量のまとめ
+    #' reveal用
+    stargazer::stargazer(tw_lm1, tw_lm2, tw_lm3, tw_lm4, tw_lm5, # 既定値を '#' の後に記している
+                         column.labels = c("モデル1","モデル2","モデル3","モデル4","モデル5"), # NULL,
+                         covariate.labels = c("気圧","日射","湿度","雲量"), # NULL,
+                         dep.var.caption = "目的変数", # NULL,
+                         dep.var.labels = "気温", # NULL,
+                         ## dep.var.labels.include = TRUE,
+                         keep.stat = c("rsq","adj.rsq","ser","f"), # NULL,
+                         ## model.names = NULL,
+                         model.numbers = FALSE, # NULL,
+                         ## object.names = FALSE,
+                         ## omit.table.layout = "n", # NULL, # "sn"
+                         ## report = "vc*st", # NULL,
+                         single.row = TRUE, # FALSE,
+                         title = "F統計量によるモデルの比較",
+                         type = "html")
+  #+end_src
+  #+html: </font>
+  #+begin_src R :exports results :results output latex :tangle no
+    #' F統計量のまとめ
+    #' latex用
+    stargazer::stargazer(tw_lm1, tw_lm2, tw_lm3, tw_lm4, tw_lm5, # 既定値を '#' の後に記している
+                         column.labels = c("モデル1","モデル2","モデル3","モデル4","モデル5"), # NULL,
+                         covariate.labels = c("気圧","日射","湿度","雲量"), # NULL,
+                         dep.var.caption = "目的変数", # NULL,
+                         dep.var.labels = "気温", # NULL,
+                         ## dep.var.labels.include = TRUE,
+                         keep.stat = c("rsq","adj.rsq","ser","f"), # NULL,
+                         ## model.names = NULL,
+                         model.numbers = FALSE, # NULL,
+                         ## object.names = FALSE,
+                         ## omit.table.layout = "n", # NULL, # "sn"
+                         ## report = "vc*st", # NULL,
+                         single.row = TRUE, # FALSE,
+                         title = "F統計量によるモデルの比較",
+                         font.size = "small", type = "latex")
+  #+end_src
+  #+begin_src R :eval no :exports none
+    #' F統計量のまとめ
+    stargazer::stargazer(tw_lm1, tw_lm2, tw_lm3, tw_lm4, tw_lm5, # 既定値を '#' の後に記している
+                         column.labels = c("モデル1","モデル2","モデル3","モデル4","モデル5"), # NULL,
+                         covariate.labels = c("気圧","日射","湿度","雲量"), # NULL,
+                         dep.var.caption = "目的変数", # NULL,
+                         dep.var.labels = "気温", # NULL,
+                         ## dep.var.labels.include = TRUE,
+                         keep.stat = c("rsq","adj.rsq","ser","f"), # NULL,
+                         ## model.names = NULL,
+                         model.numbers = FALSE, # NULL,
+                         ## object.names = FALSE,
+                         ## omit.table.layout = "n", # NULL, # "sn"
+                         ## report = "vc*st", # NULL,
+                         single.row = TRUE, # FALSE,
+                         title = "F統計量によるモデルの比較",
+                         type = "text")
+  #+end_src
+
+** COMMENT モデルの評価(古い)
+:PROPERTIES:
+:ID:       BBFD2684-8420-445F-9CB9-03E1CF3ACFBD
+:END:
 - 決定係数と\(F\)統計量
   - モデル1 : 気温 = F(気圧)
     #+begin_src R :exports results :tangle yes
       ## モデル1
-      tw_sum <- summary(tw_est1)
+      tw_sum <- summary(tw_lm1)
       tw_r2 <- tw_sum$r.squared
       tw_ar2 <- tw_sum$adj.r.squared
       tw_fstat <- tw_sum$fstat
@@ -324,7 +492,7 @@
   - モデル2 : 気温 = F(日射)
     #+begin_src R :exports results :tangle yes
       ## モデル2
-      tw_sum <- summary(tw_est2)
+      tw_sum <- summary(tw_lm2)
       tw_r2 <- tw_sum$r.squared
       tw_ar2 <- tw_sum$adj.r.squared
       tw_fstat <- tw_sum$fstat
@@ -342,7 +510,7 @@
   - モデル3 : 気温 = F(気圧, 日射)
     #+begin_src R :exports results :tangle yes
       ## モデル3
-      tw_sum <- summary(tw_est3)
+      tw_sum <- summary(tw_lm3)
       tw_r2 <- tw_sum$r.squared
       tw_ar2 <- tw_sum$adj.r.squared
       tw_fstat <- tw_sum$fstat
@@ -360,7 +528,7 @@
   - モデル4 : 気温 = F(気圧, 日射, 湿度)
     #+begin_src R :exports results :tangle yes
       ## モデル4
-      tw_sum <- summary(tw_est4)
+      tw_sum <- summary(tw_lm4)
       tw_r2 <- tw_sum$r.squared
       tw_ar2 <- tw_sum$adj.r.squared
       tw_fstat <- tw_sum$fstat
@@ -378,7 +546,7 @@
   - モデル5 : 気温 = F(気圧, 日射, 雲量)
     #+begin_src R :exports results :tangle yes
       ## モデル5
-      tw_sum <- summary(tw_est5)
+      tw_sum <- summary(tw_lm5)
       tw_r2 <- tw_sum$r.squared
       tw_ar2 <- tw_sum$adj.r.squared
       tw_fstat <- tw_sum$fstat
@@ -412,23 +580,90 @@
   # \end{equation}
 
 ** モデルの評価
+:PROPERTIES:
+:ID:       6104947A-BAD8-48A6-848D-9001C82883BF
+:END:
+- \(t\)統計量
+  #+html: <font size=4>
+  #+begin_src R :exports results :results output html :tangle no
+    #' t統計量のまとめ
+    #' reveal用
+    stargazer::stargazer(tw_lm1, tw_lm2, tw_lm3, tw_lm4, tw_lm5, # 既定値を '#' の後に記している
+                         column.labels = c("モデル1","モデル2","モデル3","モデル4","モデル5"), # NULL,
+                         covariate.labels = c("気圧","日射","湿度","雲量"), # NULL,
+                         dep.var.caption = "目的変数", # NULL,
+                         dep.var.labels = "気温", # NULL,
+                         ## dep.var.labels.include = TRUE,
+                         ## keep.stat = c("rsq","adj.rsq"), # NULL,
+                         ## model.names = NULL,
+                         model.numbers = FALSE, # NULL,
+                         ## object.names = FALSE,
+                         omit.table.layout = "sn", # NULL, 
+                         report = "vc*stp", # NULL,
+                         single.row = TRUE, # FALSE,
+                         title = "t統計量によるモデルの比較",
+                         type = "html")
+  #+end_src
+  #+html: </font>
+  #+begin_src R :exports results :results output latex :tangle no
+    #' t統計量のまとめ
+    #' latex用
+    stargazer::stargazer(tw_lm1, tw_lm2, tw_lm3, tw_lm4, tw_lm5, # 既定値を '#' の後に記している
+                         column.labels = c("モデル1","モデル2","モデル3","モデル4","モデル5"), # NULL,
+                         covariate.labels = c("気圧","日射","湿度","雲量"), # NULL,
+                         dep.var.caption = "目的変数", # NULL,
+                         dep.var.labels = "気温", # NULL,
+                         ## dep.var.labels.include = TRUE,
+                         ## keep.stat = c("rsq","adj.rsq"), # NULL,
+                         ## model.names = NULL,
+                         model.numbers = FALSE, # NULL,
+                         ## object.names = FALSE,
+                         omit.table.layout = "sn", # NULL, 
+                         report = "vc*stp", # NULL,
+                         single.row = TRUE, # FALSE,
+                         title = "t統計量によるモデルの比較",
+                         font.size = "small", type = "latex")
+  #+end_src
+  #+begin_src R :eval no :exports none
+    #' t統計量のまとめ
+    stargazer::stargazer(tw_lm1, tw_lm2, tw_lm3, tw_lm4, tw_lm5, # 既定値を '#' の後に記している
+                         column.labels = c("モデル1","モデル2","モデル3","モデル4","モデル5"), # NULL,
+                         covariate.labels = c("気圧","日射","湿度","雲量"), # NULL,
+                         dep.var.caption = "目的変数", # NULL,
+                         dep.var.labels = "気温", # NULL,
+                         ## dep.var.labels.include = TRUE,
+                         ## keep.stat = c("rsq","adj.rsq"), # NULL,
+                         ## model.names = NULL,
+                         model.numbers = FALSE, # NULL,
+                         ## object.names = FALSE,
+                         omit.table.layout = "sn", # NULL, 
+                         report = "vc*stp", # NULL,
+                         single.row = TRUE, # FALSE,
+                         title = "t統計量によるモデルの比較",
+                         type = "text")
+  #+end_src
+
+** COMMENT モデルの評価(古い)
+:PROPERTIES:
+:ID:       EA74088A-AB01-44FF-992D-E50018520337
+:END:
 - 回帰係数の推定値と\(t\)統計量
   - モデル1 : 気温 = F(気圧)
     #+begin_src R :exports results :tangle yes
       ## モデル1
-      signif(summary(tw_est1)$coef,digits=3)
+      signif(summary(tw_lm1)$coef,digits=3)
     #+end_src
     - 気圧単体では回帰係数は有意ではない
   - モデル2 : 気温 = F(日射)
     #+begin_src R :exports results :tangle yes
       ## モデル2
-      signif(summary(tw_est2)$coef,digits=3)
+      signif(summary(tw_lm2)$coef,digits=3)
     #+end_src
     - 日射単体の回帰係数は有意となる
   - モデル3 : 気温 = F(気圧, 日射)
     #+begin_src R :exports results :tangle yes
       ## モデル3
-      signif(summary(tw_est3)$coef,digits=3)
+      signif(summary(tw_lm3)$coef,digits=3)
     #+end_src
     - 気圧は日射と組み合わせることで有意となる
 
@@ -437,28 +672,44 @@
   - モデル4: 気温 = F(気圧, 日射, 湿度)
     #+begin_src R :exports results :tangle yes
       ## モデル4
-      signif(summary(tw_est4)$coef,digits=3)
+      signif(summary(tw_lm4)$coef,digits=3)
     #+end_src
   - モデル5: 気温 = F(気圧, 日射, 雲量) 
     #+begin_src R :exports results :tangle yes
       ## モデル5
-      signif(summary(tw_est5)$coef,digits=3)
+      signif(summary(tw_lm5)$coef,digits=3)
     #+end_src
     - このモデルでは雲量は有用でないことが示唆される
 
-** モデルの診断 (参考)
-#+begin_src R :file figs/05_diag.png :exports results :results graphics :tangle yes
-  ## 診断プロット
-  library(tidyverse)
-  library(ggfortify)
-  autoplot(tw_est4)
-#+end_src
-#+CAPTION: モデル4の診断プロット
-#+NAME: fig:05_diag
-#+ATTR_HTML: height 100%
-#+ATTR_LATEX: :width 0.6\linewidth
-[[file:figs/05_diag.png]]
+** 診断プロットによる評価
+:PROPERTIES:
+:ID:       F6E66B48-BDBE-46E7-AAED-6BD55B99A7A4
+:END:
+- モデル4
+  #+begin_src R :file figs/05_diag_model4.png :exports results :results graphics
+    #' 診断プロット (モデル4)
+    library(ggfortify)
+    autoplot(tw_lm4)
+  #+end_src
 
+#+caption: モデル4の診断
+#+name: fig:05_diag_model4
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/05_diag_model4.png]]
+  #+reveal: split
+- モデル5
+  #+begin_src R :file figs/05_diag_model5.png :exports results :results graphics
+    #' 診断プロット (モデル5)
+    autoplot(tw_lm5)
+  #+end_src
+
+#+caption: モデル5の診断
+#+name: fig:05_diag_model5
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/05_diag_model5.png]]
+  
 ** COMMENT 講義資料: 回帰分析とその評価
 :PROPERTIES:
 :reveal_background: #EEEEFF
@@ -534,7 +785,7 @@
   以下の問に答えなさい
   - 予測値 \(\hat{y}\) の平均を求めよ
   - 予測値 \(\hat{y}\) の分散を求めよ
-** COMMENT 解答例
+** 解答例
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
@@ -656,7 +907,7 @@
     #+end_quote
   - 観測値と予測値の差 \(y-\hat{y}\) の平均と分散を求めよ
 
-** COMMENT 解答例
+** 解答例
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
@@ -784,186 +1035,217 @@
 :END:
 # 東京大学
 ** R : 予測値と区間推定
-- 関数 ~predict()~ を用いた予測
-  #+begin_src R :eval no
-    ## モデルの作成
-    train <- data.frame(x1=..., x2=..., y=...)
-    est  <- lm(y ~ x1 + x2, data=train) 
-    fit  <- predict(est) # あてはめ値の計算
-    ## 新しいデータの予測
-    test <- data.frame(x1=..., x2=...) # 予測したいデータの説明変数
-    pred <- predict(est, # 予測値の計算
-                    newdata=test) # 説明変数のデータフレーム
-    cint <- predict(est, newdata=test, 
-                    interval="confidence", level=0.95) # 信頼区間
-    pint <- predict(est, newdata=test, 
-                    interval="prediction", level=0.95) # 予測区間
-    ## 信頼区間，予測区間の水準の既定値は0.95
+:PROPERTIES:
+:ID:       7C42A122-D414-4962-873C-05B63214FAB6
+:END:
+- 関数 ~stats::predict()~ を用いた予測
+  #+begin_src R :eval no :tangle no
+    #' モデルの作成
+    training_data <- tibble(x1 = ..., x2 = ..., y = ...)
+    estimated_lm  <- lm(y ~ x1 + x2, data = training_data) 
+    fitted_values  <- predict(estimated_lm) # あてはめ値の計算
+    #' 新しいデータの予測
+    test_data <- tibble(x1 = ..., x2 = ...) # 予測したいデータの説明変数
+    predicted_values <- predict(estimated_lm, # 予測値の計算
+                                newdata = test_data) 
+    confidence_interval <- predict(est, newdata=test, # 信頼区間
+                                   interval="confidence", level=0.95) 
+    prediction_interval <- predict(est, newdata=test, # 予測区間
+                                   interval="prediction", level=0.95) 
+    #' 信頼区間，予測区間の水準の既定値は0.95
   #+end_src
 
 ** R : モデルからの予測
+:PROPERTIES:
+:ID:       3A08A8A7-69AF-478C-81B2-2FF8A294EA8D
+:END:
 - 東京の気候データによる例
-  #+begin_src R :eval no :tangle yes
-    ### 9,10月のデータでモデルを構築し，8,11月のデータを予測
-    tw_data <- read.csv("data/tokyo_weather.csv")
-    tw_train <- subset(tw_data, # モデル推定用データ
-                       subset= month %in% c(9,10)) # %in% は集合に含むか
-    tw_test  <- subset(tw_data, # 予測用データ
-                       subset= month %in% c(8,11))
-
+  #+begin_src R :eval no 
+    #' 9,10月のデータでモデルを構築し，8,11月のデータを予測
+    #' データの整理
+    tw_data <- read_csv("data/tokyo_weather.csv")
+    tw_train <- tw_data |> # モデル推定用データ
+      filter(month %in% c(9,10)) # %in% は集合に含むかどうかを判定
+    tw_test  <- tw_data |> # 予測用データ
+      filter(month %in% c(8,11))
+    #' モデルの構築
     tw_model <- temp ~ solar + press # モデルの定義 
-    tw_est <- lm(tw_model, data=tw_train) # モデルの推定
-    summary(tw_est) # モデルの評価
-    tw_fit  <- predict(tw_est) # データのあてはめ値
-    tw_pred <- predict(tw_est, # 新規データの予測値
-                       newdata=tw_test) 
+    tw_lm <- lm(tw_model, data = tw_train) # モデルの推定
+    summary(tw_lm) # モデルの評価
+    #' あてはめ値の計算
+    tw_train_fitted <- tw_train |>
+      mutate(fitted = predict(tw_lm)) # データのあてはめ値
+    tw_test_fitted <- tw_test  |>
+      mutate(fitted = predict(tw_lm, newdata = tw_test)) # 予測
   #+end_src
 
 #+reveal: split
 - グラフ表示の例
-  #+begin_src R :eval no :tangle yes
-    ## 予測結果を図示
-    myColor <- rep("black",12) 
-    myColor[8:11] <- c("red","orange","violet","blue") # 色の定義
-    with(tw_train,
-         plot(temp ~ tw_fit, pch=1, col=myColor[month],
-              xlab="fitted", ylab="observed"))
-    with(tw_test,
-         points(temp ~ tw_pred, pch=4, col=myColor[month]))
-    abline(0,1,col="gray") # 予測が完全に正しい場合のガイド線
-    legend("bottomright",inset=.05, pch=15, # 凡例の作成
-           legend=c("Aug","Sep","Oct","Nov"), col=myColor[8:11])
+  #+begin_src R :eval no
+    #' 予測結果を図示
+    bind_rows(tw_train_fitted, tw_test_fitted) |> # 2つのデータフレームを結合
+      mutate(month = as_factor(month)) |> # 月を因子化して表示に利用
+      ggplot(aes(x = fitted, y = temp)) +
+      geom_point(aes(colour = month, shape = month)) + # 月ごとに色と形を変える
+      geom_abline(slope = 1, intercept = 0, # 予測が完全に正しい場合のガイド線
+                  colour = "gray") +
+      labs(y = "observed")
+  #+end_src
+  #+begin_src R :eval no :exports none
+    #' @notes
+    #' 関数 lubridate::month() を用いると月を文字列のラベルとすることもできる
+    bind_rows(tw_train_fitted, tw_test_fitted) |>
+      mutate(month = month(month, label = TRUE)) |> # 文字にする場合
+      ggplot(aes(x = fitted, y = temp)) +
+      geom_point(aes(colour = month)) + # 月ごとに色を変える
+      geom_abline(slope = 1, intercept = 0, # 予測が完全に正しい場合のガイド線
+                  colour = "gray") +
+      labs(y = "observed")
+    #' この場合は順序付きの因子になるので，'shape' を利用すると警告が出る
   #+end_src
 
 ** R : 区間表示のための関数
-- 関数 ~plotrix::plotCI()~
+- 関数 ~ggplot2::geom_errorbar()~ : 区間の表示
   #+begin_src R :eval no :tangle no
-    library(plotrix) # 標準のplotを拡張した関数が用意されている
-    plotCI(x,y=NULL,uiw,liw=uiw,ui=NULL,li=NULL,err="y",...)
-    ## x: データのx座標
-    ## y: データのy座標
-    ## uiw,liw: 区間の上下の幅 
-    ## ui,li: 区間の上下の値 (幅か値のどちらかを指定する)
-    ## err: 区間を付加する座標
+    geom_errorbar(
+      mapping = NULL,
+      data = NULL,
+      stat = "identity",
+      position = "identity",
+      ...,
+      na.rm = FALSE,
+      orientation = NA,
+      show.legend = NA,
+      inherit.aes = TRUE
+    )
+    #' mapping: 区間を表すために xmin,xmax または ymin,ymax を与える
+    #' data: データフレーム
+    #' ...: その他の描画オプション
+    #' orientation: 特別な場合に指定 (一般に向きは mapping で自動的決定)
+    #' 詳細は '?ggplot2::geom_errorbar' を参照
   #+end_src
-  - 関数 ~predict()~ の返り値 (lwr/upr) を用いる場合は ui/li を利用すればよい
-  - 標準誤差の定数倍を計算して用いる場合は uiw/liw を利用すればよい
+  - 関数 ~stats::predict()~ の返り値 'lwr/upr' を用いればよい
     
 ** 練習問題
 :PROPERTIES:
 :reveal_background: #fef4f4
+:ID:       BE0FBF85-8245-4AB5-9343-65F286DA1877
 :END:
 - 東京の気候データを用いて以下の実験を試みなさい
   - 8月のデータで回帰式を推定する
   - 上記のモデルで9月のデータを予測する
-  #+begin_src R :eval no
-    ## 8月と9月のデータを取り出すには，例えば以下のようにすればよい
-    tw_data <- read.csv("data/tokyo_weather.csv")
-    tw_train <- subset(tw_data, subset= month==8) # 推定用データ
-    tw_test  <- subset(tw_data, subset= month %in% 9) # 予測用データ
+  #+begin_src R :eval no :tangle no
+    #' 特定の月のデータを取り出すには，例えば以下のようにすればよい
+    tw_data <- read_csv("data/tokyo_weather.csv")
+    tw_train <- tw_data |> filter(month == 8) # 単一の数字と比較
+    tw_test  <- tw_data |> filter(month %in% c(9,10)) # 集合と比較
   #+end_src
   
-#+begin_src R :eval no :exports none :tangle yes
-  ### 
-  ### 練習問題 回帰式を用いた予測
-  ### 
-  
-  ### 東京の気候データによる分析
-  
-  ## 信頼区間と予測区間の計算
-  library(plotrix) # 区間付きのグラフを利用するため
-  tw_data <- read.csv("data/tokyo_weather.csv")
-  tw_train <- subset(tw_data, subset= month %in% 8) # 推定用データ
-  tw_test  <- subset(tw_data, subset= month %in% 9) # 予測用データ
+#+begin_src R :exports none
+  #' ---------------------------------------------------------------------------
+  #' @practice 回帰式を用いた予測
+#+end_src
+#+begin_src R :eval no :exports none
+  #' 東京の気候データによる分析
+
+  #' 信頼区間と予測区間の計算
+  tw_data <- read_csv("data/tokyo_weather.csv")
+  tw_train <- tw_data |> filter(month %in% 8) # 推定用データ
+  tw_test  <- tw_data |> filter(month %in% 9) # 予測用データ
   tw_model <- temp ~ solar + press + cloud # モデルの定義 
-  tw_est <- lm(tw_model, data=tw_train) # モデルの推定
-  
-  ## 信頼区間
-  tw_fit <- data.frame(tw_train,
-                       predict(tw_est, # 回帰式によるあてはめ値を付加
-                               interval="confidence")) 
-  tw_cint <- data.frame(tw_test,
-                        predict(tw_est, newdata=tw_test,
-                                interval="confidence"))
-  
-  ## 予測区間
-  tw_pint <- data.frame(tw_test,
-                        predict(tw_est, newdata=tw_test,
-                                interval="prediction"))
-  
-  ## 8月のデータで推定したモデルで8月をあてはめた信頼区間
-  with(tw_fit, { # 2つのプロットをまとめて実行
-      plotCI(day, fit, ui=upr, li=lwr, # それぞれの列名に注意
-             col="blue", scol="steelblue", lwd=2,
-             xlab="August", ylab="temperature")
-      points(day, temp, col="red", pch=16)
-  })
-  
-  ## 8月のモデルで9月をあてはめた信頼区間
-  with(tw_cint, {
-      plotCI(day, fit, ui=upr, li=lwr, ylim=c(20,32), 
-             col="blue", scol="steelblue", lwd=2,
-             xlab="September", ylab="temperature")
-      points(day, temp, col="red", pch=16)
-  })
-  
-  ## 8月のモデルで9月をあてはめた予測区間
-  with(tw_pint, {
-      plotCI(day, fit, ui=upr, li=lwr, ylim=c(20,32),
-             col="blue", scol="lightblue", lwd=2,
-             xlab="September", ylab="temperature")
-      points(day, temp, col="red", pch=16)
-  })
-  
-  ### 人工データによる検討例
-  ###   (以下はあくまで例なので自由に数値実験を設計して下さい)
-  
-  ## 試行の設定
-  ## モデル: y = -1 + 2*x1
-  ## 人工データの生成
-  set.seed(1515) # 乱数のシード
+  tw_lm <- lm(tw_model, data = tw_train) # モデルの推定
+
+  #' 信頼区間
+  tw_train_conf <- # あてはめ値と信頼区間を付加
+    bind_cols(tw_train,
+              predict(tw_lm, interval = "confidence"))
+  tw_test_conf <- # 新規データへのあてはめ値と信頼区間を付加
+    bind_cols(tw_test, 
+              predict(tw_lm, newdata = tw_test, interval = "confidence"))
+
+  #' 予測区間
+  tw_test_pred <- # 新規データへのあてはめ値と予測区間を付加
+    bind_cols(tw_test, 
+              predict(tw_lm, newdata = tw_test, interval = "prediction"))
+
+  #' 8月のデータで推定したモデルで8月をあてはめた信頼区間
+  tw_train_conf |>
+    ggplot(aes(x = day, y = temp)) +
+    geom_point(colour = "red", shape = 16) +
+    geom_point(aes(y = fit), colour = "blue") +
+    geom_errorbar(aes(ymin = lwr, ymax = upr), colour = "steelblue") +
+    labs(x = "August", y = "Temperature", title = "Confidence Interval")
+
+  #' 8月のモデルで9月をあてはめた信頼区間
+  tw_test_conf |>
+    ggplot(aes(x = day, y = temp)) +
+    geom_point(colour = "red", shape = 16) +
+    geom_point(aes(y = fit), colour = "blue") +
+    geom_errorbar(aes(ymin = lwr, ymax = upr), colour = "steelblue") +
+    labs(x = "September", y = "Temperature", title = "Confidence Interval")
+
+  #' 8月のモデルで9月をあてはめた予測区間
+  tw_test_pred |>
+    ggplot(aes(x = day, y = temp)) +
+    geom_point(colour = "red", shape = 16) +
+    geom_point(aes(y = fit), colour = "blue") +
+    geom_errorbar(aes(ymin = lwr, ymax = upr), colour = "lightblue") +
+    labs(x = "September", y = "Temperature", title = "Prediction Interval")
+#+end_src
+#+begin_src R :eval no :exports none
+  #' 人工データによる検討例
+  #'   (以下はあくまで例なので自由に数値実験を設計して下さい)
+
+  #' 試行の設定
+  #' モデル: y = -1 + 2 * x1
+  #' 人工データの生成
+  set.seed(1515) # 乱数のシード値(適宜変更せよ)
   n <- 50 # データ数の設定
-  x1.obs <- runif(n) # 説明変数1
-  x2.obs <- runif(n) # 説明変数2
-  beta0 <- -1 # 切片 
-  beta1 <-  2 # xの係数
-  beta2 <-  0 # xの係数
+  x_obs <- tibble(x0 = 1,
+                  x1 = runif(n), # 説明変数1
+                  x2 = runif(n)) # 説明変数2
+  beta <- c(-1, 2, 0) # (切片, x1の係数, x2の係数) 実質x2は使われていない
   sigma <-  1/2 # 誤差の標準偏差
-  epsilon <- rnorm(length(x1.obs),sd=sigma) # 誤差項
-  y.obs <- beta0 + beta1*x1.obs + beta2*x2.obs + epsilon # 目的変数
-  x.obs <- data.frame(x1=x1.obs,
-                      x2=x2.obs,
-                      y=y.obs) # データフレームの作成
-  est1 <- lm(y ~ x1, data=x.obs) # x1による回帰分析の実行(正しいモデル)
-  summary(est1)
-  est2 <- lm(y ~ x1 + x2, data=x.obs) # x1とx2による回帰分析の実行(冗長なモデル)
-  summary(est2)
-  est3 <- lm(y ~ x2, data=x.obs) # x2による回帰分析の実行(誤ったモデル)
-  summary(est3)
-  
-  ## 新規データに対する予測
-  x.new <- data.frame(x1=runif(n),
-                      x2=runif(n,-10,10)) # 説明変数の新規データ
-  y.new <- beta0 + beta1*x.new$x1 # 新規データに対する目的変数の真値 (誤差なし)
-  y.hat1 <- predict(est1, newdata=x.new) # est1による予測値
-  y.hat2 <- predict(est2, newdata=x.new) # est2による予測値
-  y.hat3 <- predict(est3, newdata=x.new) # est3による予測値
-  
-  ## 散布図による可視化
-  plot(y.new ~ y.hat1, 
-       col="red", pch=20,
-       xlab="fitted value", ylab="observed value") # 黒
-  points(y.new ~ y.hat2, pch=20, col="green")  # 赤
-  points(y.new ~ y.hat3, pch=20, col="blue") # 青
-  abline(0,1, col="gray") # 理想的な結果
-  legend("bottomright",inset=.05, # 凡例の作成
-         col=c("red","green","blue"), pch=c(20,20,20), 
-         legend=c("model1","model2","model3"))
-  
-  ## 相関係数による数値的な評価 (R-squared と等価)
-  cor(y.new, y.hat1)^2 
-  cor(y.new, y.hat2)^2
-  cor(y.new, y.hat3)^2
+  epsilon <- rnorm(nrow(x_obs), sd = sigma) # 誤差項
+  toy_data <- x_obs |> # 目的変数の観測値を追加
+    mutate(y = as.vector(as.matrix(x_obs) %*% beta) + epsilon)
+
+  #' モデルの推定と評価
+  toy_lm1 <- lm(y ~ x1, data = toy_data) # x1のみの正しいモデル
+  summary(toy_lm1)
+  toy_lm2 <- lm(y ~ x1 + x2, data = toy_data) # x1とx2の冗長なモデル
+  summary(toy_lm2)
+  toy_lm3 <- lm(y ~ x2, data = toy_data) # x2のみの誤ったモデル
+  summary(toy_lm3)
+
+  #' 新規データに対する予測
+  x_new <- tibble(x0 = 1,
+                  x1 = runif(n),
+                  x2 = runif(n,-10,10)) 
+  #' 新規データに対する目的変数の真値 (誤差なし)
+  y_tilde <- as.vector(as.matrix(x_new) %*% beta)
+  #' 各モデルでの予測
+  y_hat1 <- predict(toy_lm1, newdata = x_new) # x_lm1による予測値
+  y_hat2 <- predict(toy_lm2, newdata = x_new) # x_lm2による予測値
+  y_hat3 <- predict(toy_lm3, newdata = x_new) # x_lm3による予測値
+
+  #' 散布図による可視化
+  tibble(obs = y_tilde,
+         model1 = y_hat1, model2 = y_hat2, model3 = y_hat3) |>
+    pivot_longer(!obs) |>
+    ggplot(aes(x = value, y = obs)) +
+    geom_point(aes(colour = name)) +
+    geom_abline(slope = 1, intercept = 0, colour = "gray") +
+    labs(x = "fitted value", y = "observed value") +
+    theme(legend.title = element_blank())
+
+  #' 相関係数による数値的な評価 (R-squared と等価)
+  cor(y_tilde, y_hat1)^2 
+  cor(y_tilde, y_hat2)^2
+  cor(y_tilde, y_hat3)^2
+#+end_src
+#+begin_src R :exports none
+  #' ---------------------------------------------------------------------------
 #+end_src
      
 ** COMMENT 講義資料: 信頼区間と予測区間
@@ -981,6 +1263,9 @@
 * COMMENT 解析の事例
 # 早稲田大学
 ** 信頼区間と予測区間
+:PROPERTIES:
+:ID:       1ABCFCA4-8818-4982-AF83-43D3B1067250
+:END:
 - 東京の気候データを用いて以下を試みる
   - 8月のデータで回帰式を推定する
     #+begin_quote
@@ -989,79 +1274,78 @@
   - 上記のモデルで9月のデータを予測する
 
 #+reveal: split
-#+begin_src R :exports none :tangle yes
-  ### 東京の気候データによる分析
-  ## 信頼区間と予測区間の計算
-  require(plotrix) # 区間付きのグラフを利用するため
-  tw_data <- read.csv("data/tokyo_weather.csv")
-  tw_model <- temp ~ solar + press + humid # モデルの定義 
-  tw_train <- subset(tw_data, subset= month %in% 8) # 推定用データ
-  tw_test  <- subset(tw_data, subset= month %in% 9) # 予測用データ
-  tw_est <- lm(tw_model, data=tw_train) # モデルの推定
-  ## 信頼区間
-  tw_fit <- data.frame(tw_train,
-                       predict(tw_est, # 回帰式によるあてはめ値を付加
-                               interval="confidence")) 
-  tw_cint <- data.frame(tw_test,
-                        predict(tw_est, newdata=tw_test,
-                                interval="confidence"))
-  ## 予測区間
-  tw_pint <- data.frame(tw_test,
-                        predict(tw_est, newdata=tw_test,
-                                interval="prediction"))
+#+begin_src R :exports none
+  #' 東京の気候データによる分析
+
+  #' 信頼区間と予測区間の計算
+  tw_data <- read_csv("data/tokyo_weather.csv")
+  tw_train <- tw_data |> filter(month %in% 8) # 推定用データ
+  tw_test  <- tw_data |> filter(month %in% 9) # 予測用データ
+  tw_model <- temp ~ solar + press + cloud # モデルの定義 
+  tw_lm <- lm(tw_model, data = tw_train) # モデルの推定
+
+  #' 信頼区間
+  tw_train_conf <- # あてはめ値と信頼区間を付加
+    bind_cols(tw_train,
+              predict(tw_lm, interval = "confidence"))
+  tw_test_conf <- # 新規データへのあてはめ値と信頼区間を付加
+    bind_cols(tw_test, 
+              predict(tw_lm, newdata = tw_test, interval = "confidence"))
+
+  #' 予測区間
+  tw_test_pred <- # 新規データへのあてはめ値と予測区間を付加
+    bind_cols(tw_test, 
+              predict(tw_lm, newdata = tw_test, interval = "prediction"))
 #+end_src
      
-#+begin_src R :file figs/05_aug_cint.png :exports results :results graphics :tangle yes
-  ## 8月のデータで推定したモデルで8月をあてはめた場合の信頼区間
-  if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
-  with(tw_fit, { # 2つのプロットをまとめて実行
-      plotCI(day, fit, ui=upr, li=lwr, # それぞれの列名に注意
-             col="blue", scol="steelblue", lwd=2,
-             xlab="8月", ylab="気温")
-      points(day, temp, col="red", pch=16)
-  })
+#+begin_src R :file figs/05_aug_cint.png :exports results :results graphics
+  #' 8月のデータで推定したモデルで8月をあてはめた信頼区間
+  tw_train_conf |>
+    ggplot(aes(x = day, y = temp)) +
+    geom_point(colour = "red", shape = 16) +
+    geom_point(aes(y = fit), colour = "blue") +
+    geom_errorbar(aes(ymin = lwr, ymax = upr), colour = "steelblue") +
+    labs(x = "August", y = "Temperature", title = "Confidence Interval")
 #+end_src
 
-#+CAPTION: 8月のあてはめ値の信頼区間
-#+NAME: fig:05_aug_cint
-#+ATTR_HTML: height 100%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: 8月のあてはめ値の信頼区間
+#+name: fig:05_aug_cint
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
 [[file:figs/05_aug_cint.png]]
 
 #+reveal: split
-#+begin_src R :file figs/05_sep_cint.png :exports results :results graphics :tangle yes
-  ## 8月のモデルで9月を予測した場合の信頼区間
-  if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
-  with(tw_cint, {
-      plotCI(day, fit, ui=upr, li=lwr, ylim=range(temp), 
-             col="blue", scol="steelblue", lwd=2,
-             xlab="9月", ylab="気温")
-      points(day, temp, col="red", pch=16)
-  })
+#+begin_src R :file figs/05_sep_cint.png :exports results :results graphics
+  #' 8月のモデルで9月をあてはめた信頼区間
+  tw_test_conf |>
+    ggplot(aes(x = day, y = temp)) +
+    geom_point(colour = "red", shape = 16) +
+    geom_point(aes(y = fit), colour = "blue") +
+    geom_errorbar(aes(ymin = lwr, ymax = upr), colour = "steelblue") +
+    labs(x = "September", y = "Temperature", title = "Confidence Interval")
 #+end_src
 
-#+CAPTION: 8月モデルによる9月の予測値の信頼区間
-#+NAME: fig:05_sep_cint
-#+ATTR_HTML: height 100%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: 8月モデルによる9月の予測値の信頼区間
+#+name: fig:05_sep_cint
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
 [[file:figs/05_sep_cint.png]]
 
 #+reveal: split
-#+begin_src R :file figs/05_sep_pint.png :exports results :results graphics :tangle yes
-  ## 8月のモデルで9月を予測した場合の予測区間
-  if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
-  with(tw_pint, {
-      plotCI(day, fit, ui=upr, li=lwr, ylim=range(temp),
-             col="blue", scol="lightblue", lwd=2,
-             xlab="9月", ylab="気温")
-      points(day, temp, col="red", pch=16)
-  })
+#+begin_src R :file figs/05_sep_pint.png :exports results :results graphics
+  #' 8月のモデルで9月をあてはめた予測区間
+  tw_test_pred |>
+    ggplot(aes(x = day, y = temp)) +
+    geom_point(colour = "red", shape = 16) +
+    geom_point(aes(y = fit), colour = "blue") +
+    geom_errorbar(aes(ymin = lwr, ymax = upr), colour = "lightblue") +
+    labs(x = "September", y = "Temperature", title = "Prediction Interval")
 #+end_src
 
-#+CAPTION: 8月モデルによる9月の予測値の予測区間
-#+NAME: fig:05_sep_pint
-#+ATTR_HTML: height 100%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: 8月モデルによる9月の予測値の予測区間
+#+name: fig:05_sep_pint
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
 [[file:figs/05_sep_pint.png]]
      
    
@@ -1091,68 +1375,87 @@
 * COMMENT 解析の事例
 # 早稲田大学
 ** 非線形変換による線形化
+:PROPERTIES:
+:ID:       74AD1041-5716-450D-8520-16ADF64B934A
+:END:
 - 体重と脳の重さの関係
-  #+begin_src R :exports results :tangle yes
-    ## データの読み込み
-    library(MASS)
-    library(tidyverse) 
-    print(Animals)
+  #+html: <font size=5>
+  #+begin_src R :exports results :results output html :tangle no
+    #' データの表示(reveal用)
+    MASS::Animals |> slice(1:14) |>
+      stargazer::stargazer(summary = FALSE,
+                           rownames = TRUE,
+                           type = "html")
+  #+end_src
+  #+html: </font>
+  #+begin_src R :exports results :results output latex :tangle no
+    #' データの表示(latex用)
+    MASS::Animals |> 
+      stargazer::stargazer(summary = FALSE,
+                           rownames = TRUE,
+                           font.size = "small", type = "latex")
   #+end_src
   
 #+reveal: split
 - 散布図 (変換なし)
-  #+begin_src R :file figs/05_animals1.png :exports results :results graphics :tangle yes
-    ## 散布図 (normal plot)
-    ggplot(Animals, aes(body, brain)) +
-        geom_text(aes(label=rownames(Animals)), size=4, vjust=1) +
-        geom_point(colour="royalblue") + 
-        labs(title="Brain and Body Weights (normal plot)",
-             x="body [kg]", y="brain [g]") 
+  #+begin_src R :file figs/05_animals1.png :exports results :results graphics
+    #' 散布図 (normal plot)
+    MASS::Animals |>
+      ggplot(aes(body, brain)) +
+      geom_text(aes(label = rownames(MASS::Animals)), size = 4, vjust = 1) +
+      geom_point(colour = "royalblue") + 
+      labs(title = "Brain and Body Weights (normal plot)",
+           x = "body [kg]", y = "brain [g]") 
   #+end_src
 
-#+CAPTION: 散布図 (データの変換なし)
-#+NAME: fig:05_animals1
-#+ATTR_HTML: height 100%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: 散布図 (データの変換なし)
+#+name: fig:05_animals1
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
 [[file:figs/05_animals1.png]]
 
 #+reveal: split
 - 散布図 (x軸を対数変換)
-  #+begin_src R :file figs/05_animals2.png :exports results :results graphics :tangle yes
-    ## 散布図 (normal plot)
-    ggplot(Animals, aes(body, brain)) +
-        geom_text(aes(label=rownames(Animals)), size=4, vjust=1) +
-        scale_x_log10() +
-        geom_point(colour="royalblue") + 
-        labs(title="Brain and Body Weights (log-normal plot)",
-             x="body [kg]", y="brain [g]") 
+  #+begin_src R :file figs/05_animals2.png :exports results :results graphics
+    #' 散布図 (normal plot)
+    MASS::Animals |>
+      ggplot(aes(body, brain)) +
+      geom_text(aes(label = rownames(MASS::Animals)), size = 4, vjust = 1) +
+      geom_point(colour = "royalblue") + 
+      scale_x_log10() +
+      labs(title = "Brain and Body Weights (log-normal plot)",
+           x = "body [kg]", y = "brain [g]") 
   #+end_src
 
-#+CAPTION: 散布図 (体重を対数変換)
-#+NAME: fig:05_animals2
-#+ATTR_HTML: height 100%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: 散布図 (体重を対数変換)
+#+name: fig:05_animals2
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
 [[file:figs/05_animals2.png]]
 
 #+reveal: split
 - 散布図 (xy軸を対数変換)
-  #+begin_src R :file figs/05_animals3.png :exports results :results graphics :tangle yes
-    ## 散布図 (normal plot)
-    ggplot(Animals, aes(body, brain)) +
-        geom_text(aes(label=rownames(Animals)), size=4, vjust=1) +
-        scale_x_log10() + scale_y_log10() +
-        geom_point(colour="royalblue") + 
-        labs(title="Brain and Body Weights (log-log plot)",
-             x="body [kg]", y="brain [g]") 
+  #+begin_src R :file figs/05_animals3.png :exports results :results graphics
+    #' 散布図 (log-log plot)
+    MASS::Animals |>
+      ggplot(aes(body, brain)) +
+      geom_text(aes(label = rownames(MASS::Animals)), size = 4, vjust = 1) +
+      geom_point(colour = "royalblue") + 
+      scale_x_log10() + scale_y_log10() +
+      labs(title = "Brain and Body Weights (log-log plot)",
+           x = "body [kg]", y = "brain [g]") 
   #+end_src
 
-#+CAPTION: 散布図 (体重と脳の重さを対数変換)
-#+NAME: fig:05_animals3
-#+ATTR_HTML: height 100%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: 散布図 (体重と脳の重さを対数変換)
+#+name: fig:05_animals3
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
 [[file:figs/05_animals3.png]]
 
 ** 非線形な関係の分析
+:PROPERTIES:
+:ID:       5FAE7843-5071-4936-BE9B-822E534EE4BB
+:END:
 - 東京の気候データを用いて
   気温に影響する変数の関係を検討する
   - 日射量と気圧の線形回帰モデル \\
@@ -1216,6 +1519,9 @@
   - [[color:gray][係数の有意性は低いのでより多くのデータでの分析が必要]]
 
 ** カテゴリカル変数の利用
+:PROPERTIES:
+:ID:       F16D48A8-4BCA-445C-A788-C18C6FE7B568
+:END:
 - 東京の気候データを用いて
   気温を回帰するモデルを検討する
   - 降水の有無を表すカテゴリカル変数を用いたモデル \\
@@ -1227,8 +1533,8 @@
 - 降水の有無を表すカテゴリカル変数を用いたモデル
   #+begin_src R :exports results :tangle yes
     ## 雨と気温の関係を分析
-    tw_data <- transform(tw_data,
-                         rain=factor(rain > 0)) 
+    tw_data <- tw_data |>
+      mutate(rain = factor(rain > 0))
     tw_sum <- summary(lm(temp ~ rain, data=tw_data))
     tw_r2 <- tw_sum$r.squared
     tw_ar2 <- tw_sum$adj.r.squared
@@ -1254,8 +1560,8 @@
 - 月をカテゴリカル変数として加えたモデル
   #+begin_src R :exports results :tangle yes
     ## 月毎の気温の差を考慮して月を表す変数をダミー化する
-    tw_data <- transform(tw_data,
-                         month=factor(month))
+    tw_data <- tw_data |>
+      mutate(month = factor(month))
     tw_sum <- summary(lm(temp ~ rain + month, data=tw_data))
     tw_r2 <- tw_sum$r.squared
     tw_ar2 <- tw_sum$adj.r.squared
@@ -1284,45 +1590,48 @@
 ** R : 線形でないモデル式の書き方
 :PROPERTIES:
 :reveal_background: #fef4f4
+:ID:       69676012-A43A-4666-8B50-6FEC3D4F4AE9
 :END:
 - 交互作用を記述するためには特殊な記法がある
 - 非線形変換はそのまま関数を記述すればよい
 - 1つの変数の多項式は関数 ~I()~ を用いる
-  #+begin_src R :eval no
-    ## 目的変数 Y, 説明変数 X1,X2,X3
-    ## 交互作用を含む式 (formula) の書き方
+  #+begin_src R :eval no :tangle no
+    #' 目的変数 Y, 説明変数 X1,X2,X3
+    #' 交互作用を含む式 (formula) の書き方
     Y ~ X1 + X1:X2       # X1 + X1*X2
     Y ~ X1 * X2          # X1 + X2 + X1*X2
     Y ~ (X1 + X2 + X3)^2 # X1 + X2 + X3 + X1*X2 + X2*X3 + X3*X1
-    ## 非線形変換を含む式 (formula) の書き方
+    #' 非線形変換を含む式 (formula) の書き方
     Y ~ f(X1)            # f(X1) (fは任意の関数)
     Y ~ X1 + I(X2^2)     # X1 + X2^2
   #+end_src
 ** R : カテゴリカル変数の取り扱い
 :PROPERTIES:
 :reveal_background: #fef4f4
+:ID:       05C02EB7-D06D-4001-BB12-CFAAAC9CDD32
 :END:
 - 何も宣言しなくても通常は適切に対応してくれる
 - 陽に扱う場合は関数 ~factor()~ を利用する
-  #+begin_src R :eval no :tangle yes
-    ## factor属性の与え方
-    X <- c("A","S","A","B","D")
-    Y <- c(85,100,80,70,30)
-    dat1 <- data.frame(X,Y)
-    dat2 <- transform(dat1, 
-                      X2=factor(X))
-    str(dat2) # 作成したデータフレームの素性を見る
-    dat3 <- transform(dat2, 
-                      X3=factor(X, levels=c("S","A","B","C","D")))
-    str(dat3) # dat2とはfactorの順序が異なる
-    dat4 <- transform(dat2,
-                      Y2=factor(Y > 60)) 
-    str(dat4) # 条件の真偽で2値に類別される
+  #+begin_src R :eval no
+    #' factor属性の与え方
+    X <- c("A", "S", "A", "B", "D")
+    Y <- c(85, 100, 80, 70, 30)
+    toy_data1 <- tibble(X, Y)
+    toy_data2 <- toy_data1 |>
+      mutate(X2 = factor(X)) # 因子化
+    str(toy_data2) # 作成したデータフレームの素性を見る
+    toy_data3 <- toy_data2 |> # 順序付きの因子化
+      mutate(X3 = factor(X, levels=c("S","A","B","C","D")))
+    str(toy_data3) # toy_data2とはfactorの順序が異なる
+    toy_data4 <- toy_data2 |>
+      mutate(Y2 = factor(Y > 60)) # 条件による因子化
+    str(toy_data4) # 条件の真偽で2値に類別される
   #+end_src
 
 ** 練習問題
 :PROPERTIES:
 :reveal_background: #fef4f4
+:ID:       44353AD4-5224-4C24-86AF-0068F859E84D
 :END:
 - 東京の気候データ(9-11月)を用いて
   気温を回帰する以下のモデルを検討しなさい
@@ -1336,43 +1645,49 @@
   - 上記に月をカテゴリカル変数として加えたモデル \\
     (月毎の気温の差を考慮する)
 
-#+begin_src R :eval no :exports none :tangle yes
-  ### 
-  ### 練習問題 交互作用と非線形を含むモデルとカテゴリカル変数の扱い
-  ### 
-  
-  ### 9月から11月のデータによる分析 (交互作用と非線形性)
+#+begin_src R :exports none
+  #' ---------------------------------------------------------------------------
+  #' @practice 交互作用と非線形を含むモデルとカテゴリカル変数の扱い
+#+end_src
+#+begin_src R :eval no :exports none
+  #' 9月から11月のデータによる分析 (交互作用と非線形性)
 
-  ## データの整形
-  tw_subset <- subset(tw_data, subset= month %in% 9:11)
-  
-  ## 日射量，気圧，湿度の線形回帰モデル
-  summary(lm(temp ~ solar + press + humid, data=tw_subset))
-  ## 湿度の対数を考えた線形回帰モデル
-  summary(lm(temp ~ solar + press + log(humid), data=tw_subset))
-  ## 最初のモデルにそれぞれの交互作用を加えたモデル (書き方はいろいろある)
-  summary(lm(temp ~ (solar + press + humid)^2, data=tw_subset))
-  ## 更に3つの変数の積を加えたモデル
-  summary(lm(temp ~ solar * press * humid, data=tw_subset))
-  
-  ## 用いた変数の散布図
-  plot(~ temp + solar + press + humid, data=tw_subset)
-  ## 最後のモデルの視覚的な評価 (診断プロット)
-  plot(lm(temp ~ solar * press * humid, data=tw_subset))
+  #' データの整形
+  tw_subset <- tw_data |> filter(month %in% 9:11)
 
-  ### 雨と気温の関係の分析 (カテゴリカル変数)
+  #' 日射量，気圧，湿度の線形回帰モデル
+  summary(lm(temp ~ solar + press + humid, data = tw_subset))
+  #' 湿度の対数を考えた線形回帰モデル
+  summary(lm(temp ~ solar + press + log(humid), data = tw_subset))
+  #' 最初のモデルにそれぞれの交互作用を加えたモデル (書き方はいろいろある)
+  summary(lm(temp ~ (solar + press + humid)^2, data = tw_subset))
+  #' 更に3つの変数の積を加えたモデル
+  summary(lm(temp ~ solar * press * humid, data = tw_subset))
 
-  ## 雨の有無をダミー化(因子化)する
-  tw_data <- transform(tw_data,
-                       rain=factor(rain > 0)) 
-  summary(lm(temp ~ rain, data=tw_data))
-  ## 通年では雨と気温の関係は積極的に支持されない
-  
-  ## 月毎の気温の差を考慮して月を表す変数(整数値)をダミー化する
-  tw_data <- transform(tw_data, 
-                       month=factor(month))
-  summary(lm(temp ~ rain + month, data=tw_data))
-  ## 月毎に比較すると雨の日の方が気温が低いことが支持される
+  #' 用いた変数の散布図
+  tw_subset |>
+    select(temp, solar, press, humid) |>
+    GGally::ggpairs(columnLabels = c("気温","日射量","気圧","湿度"))
+
+  #' 最後のモデルの視覚的な評価 (診断プロット)
+  autoplot(lm(temp ~ solar * press * humid, data = tw_subset))
+
+  #'# 雨と気温の関係の分析 (カテゴリカル変数)
+
+  #' 雨の有無をダミー化(因子化)する
+  tw_data <- tw_data |>
+    mutate(rain = factor(rain > 0)) 
+  summary(lm(temp ~ rain, data = tw_data))
+  #' 通年では雨と気温の関係は積極的に支持されない
+
+  #' 月毎の気温の差を考慮して月を表す変数(整数値)をダミー化する
+  tw_data <- tw_data |>
+    mutate(month = factor(month))
+  summary(lm(temp ~ rain + month, data = tw_data))
+  #' 月毎に比較すると雨の日の方が気温が低いことが支持される
+#+end_src
+#+begin_src R :exports none
+  #' ---------------------------------------------------------------------------
 #+end_src
 
 ** COMMENT 講義資料: 交互作用
@@ -1391,20 +1706,22 @@
 * 補足
 # 東京大学
 ** R : モデルの探索
+:PROPERTIES:
+:ID:       3A4FFB4A-0F71-4B7A-B1FA-6CEB232B8976
+:END:
 - 変数が増えるとモデルの比較が困難
 - 関数 ~step()~ を用いて自動化することができる
-  #+begin_src R :eval no :tangle yes
-    ## モデルの探索
-    adv_data <- read.csv('https://www.statlearning.com/s/Advertising.csv',
-                         row.names=1) 
-    summary(lm(sales ~ radio, data=adv_data))
-    summary(lm(sales ~ TV + radio, data=adv_data))
-    summary(lm(sales ~ TV + radio + newspaper, data=adv_data))
-    summary(init <- lm(sales ~ TV * radio * newspaper, data=adv_data))
+  #+begin_src R :eval no
+    #' モデルの探索
+    adv_data <- read_csv('https://www.statlearning.com/s/Advertising.csv')
+    summary(lm(sales ~ radio, data = adv_data))
+    summary(lm(sales ~ TV + radio, data = adv_data))
+    summary(lm(sales ~ TV + radio + newspaper, data = adv_data))
+    summary(init <- lm(sales ~ TV * radio * newspaper, data = adv_data))
     opt <- step(init) # step関数による探索 (最大のモデルから削減増加を行う)
-    summary(opt)
+    summary(opt) # 探索された(準)最適なモデルの確認
   #+end_src
-  - 最適とは限らないので注意は必要
+  - 全探索ではないので最適とは限らないことに注意は必要
 
 ** R : car package
 - 回帰モデルの評価

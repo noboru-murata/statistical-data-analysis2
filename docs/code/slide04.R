@@ -84,30 +84,44 @@ tw_subset |>
   labs(x = "気温", y = "あてはめ値") +
   xlim(22,32) + ylim(22,32) + theme(legend.position = c(.88,.15))
 
-#' 関数 tibble::tribble() を利用して結果をまとめる
-#' 行ごとにデータを並べてデータフレームを作ることができる
-(baz <- tribble(
-   ~モデル, ~決定係数, ~自由度調整済み決定係数,
-   ## 列名は ~ で指定
-   "気温 = F(気圧)", summary(tw_lm1)$r.squared, summary(tw_lm1)$adj.r.squared,
-   "気温 = F(日射)", summary(tw_lm2)$r.squared, summary(tw_lm2)$adj.r.squared,
-   "気温 = F(気圧, 日射)", summary(tw_lm3)$r.squared, summary(tw_lm3)$adj.r.squared,
-   "気温 = F(気圧, 日射, 湿度)", summary(tw_lm4)$r.squared, summary(tw_lm4)$adj.r.squared,
-   "気温 = F(気圧, 日射, 雲量)", summary(tw_lm5)$r.squared, summary(tw_lm5)$adj.r.squared,
-   ))
-
-View(baz) # 左上ペインに表として表示
+#' 関数 stargazer::stargazer() を利用して結果をまとめる
+stargazer::stargazer(tw_lm1, tw_lm2, tw_lm3, tw_lm4, tw_lm5, # 既定値を '#' の後に記している
+                     column.labels = c("モデル1","モデル2","モデル3","モデル4","モデル5"), # NULL,
+                     covariate.labels = c("気圧","日射","湿度","雲量"), # NULL,
+                     dep.var.caption = "目的変数", # NULL,
+                     dep.var.labels = "気温", # NULL,
+                     ## dep.var.labels.include = TRUE,
+                     keep.stat = c("rsq","adj.rsq"), # NULL,
+                     ## model.names = NULL,
+                     model.numbers = FALSE, # NULL,
+                     ## object.names = FALSE,
+                     omit.table.layout = "n", # NULL, # "sn"
+                     report = "vcs", # NULL,
+                     single.row = TRUE, # FALSE,
+                     title = "寄与率によるモデルの比較",
+                     type = "text")
+#' 'type = "html" または "latex"' など形式を選択することができる
+#' それ以外のオプションの設定で様々な表を出力することができる
 
 #' @exercise 人工データによる推定量の性質の確認
 
 set.seed(987) # 乱数のシード値を設定
+x_obs <- tibble(x0 = 1, x1 = c(1,3,5,7)) # 説明変数の観測値
+epsilon <- rnorm(nrow(x_obs), sd = 0.5) # 誤差項の生成
+beta <- c(2, -3) # 回帰係数
+toy_data <- x_obs |> # 目的変数の観測値を追加
+  mutate(y = as.vector(as.matrix(x_obs) %*% beta) + epsilon)
+toy_lm <- lm(y ~ x1, data = toy_data) # 回帰係数の推定
+coef(toy_lm) # 回帰係数の取得
+summary(toy_lm) # 分析結果の概要の表示
+
+#' @notes
+#' 上記の例では行列とベクトルの積を用いているが
+#' 以下のように説明変数・目的変数を個別に作成してもよい
 x_obs <- c(1,3,5,7) # 説明変数の観測値
 epsilon <- rnorm(length(x_obs), sd = 0.5) # 誤差項の生成
 y_obs <- 2 - 3 * x_obs + epsilon # 目的変数の観測値
-my_data <- tibble(x = x_obs, y = y_obs) # データフレームの作成
-beta_lm <- lm(y ~ x, data = my_data) # 回帰係数の推定
-coef(beta_lm) # 回帰係数の取得
-summary(beta_lm) # 分析結果の概要の表示
+toy_data <- tibble(x1 = x_obs, y = y_obs) # データフレームの作成
 
 #' ---------------------------------------------------------------------------
 #' @practice 推定量の性質を調べる数値シミュレーション (Monte-Carlo法)
@@ -116,16 +130,17 @@ summary(beta_lm) # 分析結果の概要の表示
 set.seed(2468) # 乱数のシード値 (適宜変更せよ)
 
 #' 試行の設定
-x_obs <- c(1, 20, 13, 9, 5, 15, 19, 8, 3, 4) # 説明変数の観測値
-beta0 <- -1 # 切片(真値)を指定
-beta1 <-  2 # xの係数(真値)を指定
+x_obs <- tibble(x0 = 1, # 説明変数の観測値
+                x1 = c(1, 20, 13, 9, 5, 15, 19, 8, 3, 4)) 
+beta <- set_names(c(-1, 2), # 回帰係数 (切片,係数の真値)
+                  c("beta0","beta1"))
 sigma <-  sqrt(2) # 誤差の標準偏差(分散の平方根)を設定
 mc_trial <- function(){ 
-    epsilon <- rnorm(length(x_obs), sd = sigma) # 誤差項の生成
-    y_obs <- beta0 + beta1 * x_obs + epsilon # 目的変数の観測値
-    dat <- tibble(x = x_obs, y = y_obs) # データフレームの作成
-    est <- lm(y ~ x, data = dat) # 回帰係数の推定
-    return(coef(est)) # 推定された係数だけ返す
+  epsilon <- rnorm(nrow(x_obs), sd = sigma) # 誤差項の生成
+  toy_data <- x_obs |> # 目的変数の観測値を追加
+    mutate(y = as.vector(as.matrix(x_obs) %*% beta) + epsilon)
+  toy_lm <- lm(y ~ x1, data = toy_data) # 回帰係数の推定
+  return(coef(toy_lm)) # 推定された係数だけ返す
 }
 
 #' 数値実験 (少数で確認してみる)
@@ -136,14 +151,14 @@ replicate(mc, mc_trial())
 mc <- 5000 # 実験回数
 mc_data <- replicate(mc, mc_trial()) |> # mc回試行を行う
   t() |> as_tibble() # 得られる結果を転置してデータフレームにする
-names(mc_data) <- c("beta0","beta1") # 列名を変更(上書き)
+names(mc_data) <- names(beta) # 列名を変更(上書き)
 
 #' 回帰係数の分布(2次元)
 mc_data |>
   ggplot(aes(x = beta0, y = beta1)) +
   geom_point(colour = "blue", shape = 20) + # 推定値の散布図
-  geom_vline(xintercept = beta0, colour = "orchid") + # beta0の真値 (垂直線)
-  geom_hline(yintercept = beta1, colour = "orchid")   # beta1の真値 (水平線)
+  geom_vline(xintercept = beta["beta0"], colour = "orchid") + # beta0の真値 (垂直線)
+  geom_hline(yintercept = beta["beta1"], colour = "orchid")   # beta1の真値 (水平線)
 
 #' @notes
 #' 軸名をギリシャ文字にしたい場合は以下を加えればよい
@@ -153,19 +168,17 @@ last_plot() + # 直前のプロットを指す
 #' 必要であれば install.packages("ggExtra") を実行
 ggExtra::ggMarginal(last_plot(), type = "histogram")
 #' 各回帰係数の周辺分布は以下のようにしても描ける
-X <- cbind(1, x_obs) # デザイン行列
-beta_cov <- sigma^2 * solve(crossprod(X)) # 推定量の共分散行列
-beta_mean <- c(beta0, beta1)
+beta_cov <- sigma^2 * solve(crossprod(as.matrix(x_obs))) # 推定量の共分散行列
 #' beta0 (k=1), beta1 (k=2)
 for(k in 1:2) { # 同じ処理であればfor文などの利用を推奨
   bar <- tibble(x = mc_data[[k]]) |>
     ggplot(aes(x = x)) + 
     geom_histogram(aes(y = after_stat(density)), bins = 30,
                    fill = "lightblue", colour = "blue") +
-    geom_vline(xintercept = beta_mean[k],
-               colour = "orchid") + # 真の値
+    geom_vline(xintercept = beta[k], # 真の値
+               colour = "orchid") + 
     geom_function(fun = \(x) dnorm(x,
-                                   mean = beta_mean[k],
+                                   mean = beta[k],
                                    sd = sqrt(beta_cov[k, k])),
                   colour = "orchid") + # 理論分布
     labs(x = names(mc_data)[k])
@@ -178,9 +191,9 @@ for(k in 1:2) {
     ggplot(aes(x = !!foo)) + # foo に入った文字列を評価する
     geom_histogram(aes(y = after_stat(density)), bins = 30,
                    fill = "lightblue", colour = "blue") +
-    geom_vline(xintercept = beta_mean[k], colour = "orchid") + # 真の値
+    geom_vline(xintercept = beta[k], colour = "orchid") + # 真の値
     geom_function(fun = \(x) dnorm(x,
-                                   mean = beta_mean[k],
+                                   mean = beta[k],
                                    sd = sqrt(beta_cov[k, k])),
                   colour = "orchid") # 理論分布
   print(bar)
@@ -195,18 +208,17 @@ for(k in 1:2) {
 set.seed(1313) # 乱数のシード値 (適宜変更せよ)
 
 #' 試行の設定 (重回帰，以下適宜変更せよ)
-x_obs1 <- c(1, 20, 13, 9, 5, 15, 19, 8, 3, 4) # 説明変数1
-x_obs2 <- c(3, 19, 1, 4, 18, 7, 2, 10, 6, 12) # 説明変数2
-beta0 <- -1 # 切片 
-beta1 <-  2 # xの係数
-beta2 <- -3 # xの係数
+x_obs <- tibble(x0 = 1,
+                x1 = c(1, 20, 13, 9, 5, 15, 19, 8, 3, 4), # 説明変数1
+                x2 = c(3, 19, 1, 4, 18, 7, 2, 10, 6, 12)) # 説明変数2
+beta <- c(-1, 2, -3) # (切片，x1の係数, x2の係数)
 sigma <-  sqrt(2) # 誤差の標準偏差(分散の平方根)
 mc_trial <- function(){ 
-    epsilon <- rnorm(length(x_obs1), sd = sigma) # 誤差項
-    y_obs <- beta0 + beta1*x_obs1 + beta2*x_obs2 + epsilon # 目的変数
-    df <- tibble(x1 = x_obs1, x2 = x_obs2, y = y_obs) # データフレームの作成
-    est <- lm(y ~ x1 + x2, data = df) # 回帰係数の推定
-    return(set_names(summary(est)$coef[,"Std. Error"], # 標準誤差を
+    epsilon <- rnorm(nrow(x_obs), sd = sigma) # 誤差項
+    toy_data <- x_obs |> # 目的変数の観測値を追加
+      mutate(y = as.vector(as.matrix(x_obs) %*% beta) + epsilon)
+    toy_lm <- lm(y ~ x1 + x2, data = toy_data) # 回帰係数の推定
+    return(set_names(summary(toy_lm)$coef[,"Std. Error"], # 標準誤差を
                      c("beta0.se","beta1.se","beta2.se"))) # 名前を付けて返す
 }
 
@@ -217,8 +229,7 @@ mc_data <-
   t() |> as_tibble() # データフレームの作成
 
 #' 各回帰係数の標準誤差の分布
-X <- cbind(1, x_obs1, x_obs2) # デザイン行列
-beta_cov <- sigma^2*solve(crossprod(X)) # 推定量の共分散行列
+beta_cov <- sigma^2*solve(crossprod(as.matrix(x_obs))) # 推定量の共分散行列
 #' beta0 (k=1), beta1 (k=2), beta2 (k=3)
 for(k in 1:3) {
   bar <- tibble(x = mc_data[[k]]) |>
@@ -277,19 +288,20 @@ summary(tw_lm3)$coef[,1:2] # cloud の標準誤差が大きく精度が悪いこ
 set.seed(2525) # 乱数のシード値 (適宜変更せよ)
 
 #' 試行の設定 (重回帰，以下適宜変更せよ)
-x_obs1 <- c(1, 20, 13, 9, 5, 15, 19, 8, 3, 4) # 説明変数1
-x_obs2 <- c(3, 19, 1, 4, 18, 7, 2, 10, 6, 12) # 説明変数2
-beta0 <- -1 # 切片 
-beta1 <-  2 # x1の係数 < 帰無仮説に従わない
-beta2 <-  0 # x2の係数 < 帰無仮説に従う 
+x_obs <- tibble(x0 = 1,
+                x1 = c(1, 20, 13, 9, 5, 15, 19, 8, 3, 4), # 説明変数1
+                x2 = c(3, 19, 1, 4, 18, 7, 2, 10, 6, 12)) # 説明変数2
+beta <- c(-1, 2, 0) # (切片，x1の係数，x2の係数) 
+#' x1の係数 2 : 帰無仮説に従わない
+#' x2の係数 0 : 帰無仮説に従う 
 sigma <-  sqrt(2) # 誤差の標準偏差(分散の平方根)
 mc_trial <- function(){ 
-    epsilon <- rnorm(length(x_obs1), sd = sigma) # 誤差項
-    y_obs <- beta0 + beta1*x_obs1 + beta2*x_obs2 + epsilon # 目的変数
-    df <- tibble(x1 = x_obs1, x2 = x_obs2, y = y_obs) # データフレームの作成
-    est <- lm(y ~ x1 + x2, data = df) # 回帰係数の推定
-    return(set_names(summary(est)$coef[,"t value"], # t統計量を返す
-                     c("beta0.tval","beta1.tval","beta2.tval"))) 
+  epsilon <- rnorm(nrow(x_obs), sd = sigma) # 誤差項
+  toy_data <- x_obs |> # 目的変数の観測値を追加
+    mutate(y = as.vector(as.matrix(x_obs) %*% beta) + epsilon)
+  toy_lm <- lm(y ~ x1 + x2, data = toy_data) # 回帰係数の推定
+  return(set_names(summary(toy_lm)$coef[,"t value"], # t統計量を返す
+                   c("beta0.tval","beta1.tval","beta2.tval"))) 
 }
 
 #' 数値実験
@@ -347,27 +359,28 @@ summary(data_lm)$fstatistic # 省略しない場合
 set.seed(2525) # 乱数のシード (適宜変更せよ)
 
 #' 試行の設定 (重回帰，以下適宜変更せよ)
-x_obs1 <- c(1, 20, 13, 9, 5, 15, 19, 8, 3, 4) # 説明変数1
-x_obs2 <- c(3, 19, 1, 4, 18, 7, 2, 10, 6, 12) # 説明変数2
-beta0 <- -1 # 切片 
-beta1 <-  0 # x1の係数 
-beta2 <-  0 # x2の係数 < 係数のどちらも0なので帰無仮説が成り立つ
+x_obs <- tibble(x0 = 1,
+                x1 = c(1, 20, 13, 9, 5, 15, 19, 8, 3, 4), # 説明変数1
+                x2 = c(3, 19, 1, 4, 18, 7, 2, 10, 6, 12)) # 説明変数2
+beta <- c(-1, 0, 0) # (切片, x1の係数, x2の係数)
+#'  x1,x2 の係数はどちらも0なので帰無仮説が成り立つ
 sigma <-  sqrt(2) # 誤差の標準偏差(分散の平方根)
 mc_trial <- function(){ 
-    epsilon <- rnorm(length(x_obs1), sd = sigma) # 誤差項
-    y_obs <- beta0 + beta1*x_obs1 + beta2*x_obs2 + epsilon # 目的変数
-    df <- tibble(x1 = x_obs1, x2 = x_obs2, y = y_obs) # データフレームの作成
-    est <- lm(y ~ x1 + x2, data = df) # 回帰係数の推定
-    return(set_names(summary(est)$fstat[1]), "fstat")) # F統計量を返す
+  epsilon <- rnorm(nrow(x_obs), sd = sigma) # 誤差項
+  toy_data <- x_obs |> # 目的変数の観測値を追加
+    mutate(y = as.vector(as.matrix(x_obs) %*% beta) + epsilon)
+  toy_lm <- lm(y ~ x1 + x2, data = toy_data) # 回帰係数の推定
+  return(set_names(summary(toy_lm)$fstat[1], "fstat")) # F統計量を返す
 }
 
 #' 数値実験 (帰無仮説が成り立つ場合)
 mc <- 5000 # 実験回数
 mc_data <- 
-  replicate(mc, mc_trial()) |> tibble() # 1次元なので転置は不要
+  replicate(mc, mc_trial()) |> as_tibble_col("fstat")
+#' 1次元なので転置は不要．ただし列名の設定が必要
 
 #' モデルのF統計量の分布
-n <- length(x_obs1) # データ数
+n <- nrow(x_obs) # データ数
 p <- 2 # 説明変数の次元
 mc_data |>
   ggplot(aes(x = fstat)) + 
@@ -378,9 +391,9 @@ mc_data |>
   labs(x = "F statistic", title="null hypothesis is true")
 
 #' 数値実験 (帰無仮説が成り立たない場合)
-beta1 <-  2 # x1の係数 < 帰無仮説が成り立たない
+beta <- c(-1, 2, 0) # x1の係数 : 帰無仮説が成り立たない
 mc_data <-
-  replicate(mc, mc_trial()) |> tibble()
+  replicate(mc, mc_trial()) |> as_tibble_col("fstat") 
 
 #' モデルのF統計量の分布は帰無分布に従わない
 mc_data |>

@@ -1,378 +1,315 @@
-### 
 ### 第5講 サンプルコード
-###
+library(tidyverse)
+if(Sys.info()["sysname"] == "Darwin") { # MacOSか調べて日本語フォントを指定
+  theme_update(text = element_text(family = "HiraginoSans-W4"))}
 
-## データの読み込み
-tw_data <- read.csv("data/tokyo_weather.csv")
-tw_subset <- subset(tw_data, # 8月のデータの抽出
-                    subset= month==8)
-head(tw_subset[,-1], 14) # 2週間分を表示
+#' @exercise 東京の気候データを用いた例
 
-### モデル式
-tw_model0 <- temp ~ press + solar + humid + cloud
+#' データの読み込み
+tw_subset <- read_csv("data/tokyo_weather.csv") |>
+  filter(month == 8) |> # 8月のデータの抽出
+  mutate(date = date(paste(year, month, day, sep = "-")), .before = 1) |>
+  select(-c(year, month, day, day_of_week))
+
+#' モデル式
 tw_model1 <- temp ~ press
 tw_model2 <- temp ~ solar
 tw_model3 <- temp ~ press + solar
 tw_model4 <- temp ~ press + solar + humid
 tw_model5 <- temp ~ press + solar + cloud
 
-## 推定
-tw_est0 <- lm(tw_model0, data=tw_subset, y=TRUE)
-tw_est1 <- lm(tw_model1, data=tw_subset, y=TRUE)
-tw_est2 <- lm(tw_model2, data=tw_subset, y=TRUE)
-tw_est3 <- lm(tw_model3, data=tw_subset, y=TRUE)
-tw_est4 <- lm(tw_model4, data=tw_subset, y=TRUE)
-tw_est5 <- lm(tw_model5, data=tw_subset, y=TRUE)
+#' 推定
+tw_lm1 <- lm(tw_model1, data = tw_subset, y = TRUE)
+tw_lm2 <- lm(tw_model2, data = tw_subset, y = TRUE)
+tw_lm3 <- lm(tw_model3, data = tw_subset, y = TRUE)
+tw_lm4 <- lm(tw_model4, data = tw_subset, y = TRUE)
+tw_lm5 <- lm(tw_model5, data = tw_subset, y = TRUE)
 
-## 説明変数と目的変数の散布図
-if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
-plot(model.frame(tw_est0),
-     labels=c("気温","気圧","日射","湿度","雲量"),
-     col="blue", pch=20)
+#' データの表示
+#' 列名を日本語にして表示する
+foo <- set_names(names(tw_subset), # 列名に対応する日本語ベクトルを用意
+                 c("日付","気温","降雨","日射","降雪","風向","風速","気圧","湿度","雲量"))
+(bar <- tw_subset |> rename(all_of(foo)))
 
-## 観測値とあてはめ値の比較
-if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
-with(tw_est1,
-     plot(y,fitted.values,col="orange",pch=17, # 三角
-          xlab="気温",
-          ylab="あてはめ値",ylim=range(y)))   
-abline(0,1,col="red",lwd=2)
-with(tw_est2,
-     points(y,fitted.values,col="green",pch=15)) # 四角
-with(tw_est3,
-     points(y,fitted.values,col="blue",pch=21))  # 丸
-with(tw_est4,
-     points(y,fitted.values,col="brown",pch=23))  # 菱形
-with(tw_est5,
-     points(y,fitted.values,col="cyan",pch=25))  # 三角
-legend("bottomright",inset=.05, # 凡例の作成
-       col=c("orange","green","blue","brown","cyan"), pch=c(17,15,21,23,25), 
-       legend=c("モデル1","モデル2","モデル3","モデル4","モデル5"))
+View(bar) # 左上ペインに表として表示
 
-## モデル1
-print(
-    paste("R2:",
-          signif(summary(tw_est1)$r.squared,digits=3),
-          "; adj. R2:",
-          signif(summary(tw_est1)$adj.r.squared,digits=3)
-          ))
+#' 関連データの散布図
+tw_subset |>
+  select(temp,press,solar,humid,cloud) |>
+  GGally::ggpairs(columnLabels=c("気温","気圧","日射","湿度","雲量"))
 
-## モデル1
-print(
-    paste("R2:",
-          signif(summary(tw_est2)$r.squared,digits=3),
-          "; adj. R2:",
-          signif(summary(tw_est2)$adj.r.squared,digits=3)
-          ))
+#' 観測値とあてはめ値の比較
+tw_subset |>
+  mutate(モデル1 = fitted(tw_lm1),    # モデルごとに予測値をデータフレームに追加
+         モデル2 = fitted(tw_lm2),
+         モデル3 = fitted(tw_lm3),
+         モデル4 = fitted(tw_lm4),
+         モデル5 = fitted(tw_lm5)) |>
+  pivot_longer(starts_with("モデル"), # モデルをラベルとして予測値をまとめる
+               names_to = "model", values_to = "fitted") |>
+  ggplot(aes(x = temp, y = fitted)) + # 気温の実測値をx軸，予測値をy軸で表示
+  geom_abline(slope = 1, intercept = 0, colour = "red") + # 基準線
+  geom_point(aes(colour = model, shape = model)) + # 予測値をモデル別に表示
+  labs(x = "気温", y = "あてはめ値") +
+  xlim(22,32) + ylim(22,32) + theme(legend.position = c(.88,.15))
 
-## モデル3
-print(
-    paste("R2:",
-          signif(summary(tw_est3)$r.squared,digits=3),
-          "; adj. R2:",
-          signif(summary(tw_est3)$adj.r.squared,digits=3)
-          ))
+#' 決定係数のまとめ
+stargazer::stargazer(tw_lm1, tw_lm2, tw_lm3, tw_lm4, tw_lm5,
+                     column.labels = c("モデル1","モデル2","モデル3","モデル4","モデル5"), # NULL,
+                     covariate.labels = c("気圧","日射","湿度","雲量"), # NULL,
+                     dep.var.caption = "目的変数", # NULL,
+                     dep.var.labels = "気温", # NULL,
+                     ## dep.var.labels.include = TRUE,
+                     keep.stat = c("rsq","adj.rsq"), # NULL,
+                     ## model.names = NULL,
+                     model.numbers = FALSE, # NULL,
+                     ## object.names = FALSE,
+                     omit.table.layout = "n", # NULL, # "sn"
+                     ## report = "vc*st", # NULL,
+                     single.row = TRUE, # FALSE,
+                     title = "寄与率によるモデルの比較",
+                     font.size = "small", type = "latex")
 
-## モデル4
-print(
-    paste("R2:",
-          signif(summary(tw_est4)$r.squared,digits=3),
-          "; adj. R2:",
-          signif(summary(tw_est4)$adj.r.squared,digits=3)
-          ))
+#' F統計量のまとめ
+stargazer::stargazer(tw_lm1, tw_lm2, tw_lm3, tw_lm4, tw_lm5, # 既定値を '#' の後に記している
+                     column.labels = c("モデル1","モデル2","モデル3","モデル4","モデル5"), # NULL,
+                     covariate.labels = c("気圧","日射","湿度","雲量"), # NULL,
+                     dep.var.caption = "目的変数", # NULL,
+                     dep.var.labels = "気温", # NULL,
+                     ## dep.var.labels.include = TRUE,
+                     keep.stat = c("rsq","adj.rsq","ser","f"), # NULL,
+                     ## model.names = NULL,
+                     model.numbers = FALSE, # NULL,
+                     ## object.names = FALSE,
+                     ## omit.table.layout = "n", # NULL, # "sn"
+                     ## report = "vc*st", # NULL,
+                     single.row = TRUE, # FALSE,
+                     title = "F統計量によるモデルの比較",
+                     type = "text")
 
-## モデル4
-print(
-    paste("R2:",
-          signif(summary(tw_est5)$r.squared,digits=3),
-          "; adj. R2:",
-          signif(summary(tw_est5)$adj.r.squared,digits=3)
-          ))
+#' t統計量のまとめ
+stargazer::stargazer(tw_lm1, tw_lm2, tw_lm3, tw_lm4, tw_lm5, # 既定値を '#' の後に記している
+                     column.labels = c("モデル1","モデル2","モデル3","モデル4","モデル5"), # NULL,
+                     covariate.labels = c("気圧","日射","湿度","雲量"), # NULL,
+                     dep.var.caption = "目的変数", # NULL,
+                     dep.var.labels = "気温", # NULL,
+                     ## dep.var.labels.include = TRUE,
+                     ## keep.stat = c("rsq","adj.rsq"), # NULL,
+                     ## model.names = NULL,
+                     model.numbers = FALSE, # NULL,
+                     ## object.names = FALSE,
+                     omit.table.layout = "sn", # NULL, 
+                     report = "vc*stp", # NULL,
+                     single.row = TRUE, # FALSE,
+                     title = "t統計量によるモデルの比較",
+                     type = "text")
 
-## モデル1
-tw_sum <- summary(tw_est1)
-tw_r2 <- tw_sum$r.squared
-tw_ar2 <- tw_sum$adj.r.squared
-tw_fstat <- tw_sum$fstat
-print(
-    paste("R2:",
-          signif(tw_r2,digits=3),
-          "; adj. R2:",
-          signif(tw_ar2,digits=3),
-          "; F-stat:",
-          signif(tw_fstat[1],digits=3),
-          "; p-val:",
-          signif(1-pf(tw_fstat[1],tw_fstat[2],tw_fstat[3]),digits=3)
-          ))
-
-## モデル2
-tw_sum <- summary(tw_est2)
-tw_r2 <- tw_sum$r.squared
-tw_ar2 <- tw_sum$adj.r.squared
-tw_fstat <- tw_sum$fstat
-print(
-    paste("R2:",
-          signif(tw_r2,digits=3),
-          "; adj. R2:",
-          signif(tw_ar2,digits=3),
-          "; F-stat:",
-          signif(tw_fstat[1],digits=3),
-          "; p-val:",
-          signif(1-pf(tw_fstat[1],tw_fstat[2],tw_fstat[3]),digits=3)
-          ))
-
-## モデル3
-tw_sum <- summary(tw_est3)
-tw_r2 <- tw_sum$r.squared
-tw_ar2 <- tw_sum$adj.r.squared
-tw_fstat <- tw_sum$fstat
-print(
-    paste("R2:",
-          signif(tw_r2,digits=3),
-          "; adj. R2:",
-          signif(tw_ar2,digits=3),
-          "; F-stat:",
-          signif(tw_fstat[1],digits=3),
-          "; p-val:",
-          signif(1-pf(tw_fstat[1],tw_fstat[2],tw_fstat[3]),digits=3)
-          ))
-
-## モデル4
-tw_sum <- summary(tw_est4)
-tw_r2 <- tw_sum$r.squared
-tw_ar2 <- tw_sum$adj.r.squared
-tw_fstat <- tw_sum$fstat
-print(
-    paste("R2:",
-          signif(tw_r2,digits=3),
-          "; adj. R2:",
-          signif(tw_ar2,digits=3),
-          "; F-stat:",
-          signif(tw_fstat[1],digits=3),
-          "; p-val:",
-          signif(1-pf(tw_fstat[1],tw_fstat[2],tw_fstat[3]),digits=3)
-          ))
-
-## モデル5
-tw_sum <- summary(tw_est5)
-tw_r2 <- tw_sum$r.squared
-tw_ar2 <- tw_sum$adj.r.squared
-tw_fstat <- tw_sum$fstat
-print(
-    paste("R2:",
-          signif(tw_r2,digits=3),
-          "; adj. R2:",
-          signif(tw_ar2,digits=3),
-          "; F-stat:",
-          signif(tw_fstat[1],digits=3),
-          "; p-val:",
-          signif(1-pf(tw_fstat[1],tw_fstat[2],tw_fstat[3]),digits=3)
-          ))
-
-## モデル1
-signif(summary(tw_est1)$coef,digits=3)
-
-## モデル2
-signif(summary(tw_est2)$coef,digits=3)
-
-## モデル3
-signif(summary(tw_est3)$coef,digits=3)
-
-## モデル4
-signif(summary(tw_est4)$coef,digits=3)
-
-## モデル5
-signif(summary(tw_est5)$coef,digits=3)
-
-## 診断プロット
-library(tidyverse)
+#' 診断プロット (モデル4)
 library(ggfortify)
-autoplot(tw_est4)
+autoplot(tw_lm4)
 
-### 9,10月のデータでモデルを構築し，8,11月のデータを予測
-tw_data <- read.csv("data/tokyo_weather.csv")
-tw_train <- subset(tw_data, # モデル推定用データ
-                   subset= month %in% c(9,10)) # %in% は集合に含むか
-tw_test  <- subset(tw_data, # 予測用データ
-                   subset= month %in% c(8,11))
+#' 診断プロット (モデル5)
+autoplot(tw_lm5)
 
+#' 9,10月のデータでモデルを構築し，8,11月のデータを予測
+#' データの整理
+tw_data <- read_csv("data/tokyo_weather.csv")
+tw_train <- tw_data |> # モデル推定用データ
+  filter(month %in% c(9,10)) # %in% は集合に含むかどうかを判定
+tw_test  <- tw_data |> # 予測用データ
+  filter(month %in% c(8,11))
+#' モデルの構築
 tw_model <- temp ~ solar + press # モデルの定義 
-tw_est <- lm(tw_model, data=tw_train) # モデルの推定
-summary(tw_est) # モデルの評価
-tw_fit  <- predict(tw_est) # データのあてはめ値
-tw_pred <- predict(tw_est, # 新規データの予測値
-                   newdata=tw_test)
+tw_lm <- lm(tw_model, data = tw_train) # モデルの推定
+summary(tw_lm) # モデルの評価
+#' あてはめ値の計算
+tw_train_fitted <- tw_train |>
+  mutate(fitted = predict(tw_lm)) # データのあてはめ値
+tw_test_fitted <- tw_test  |>
+  mutate(fitted = predict(tw_lm, newdata = tw_test)) # 予測
 
-## 予測結果を図示
-myColor <- rep("black",12) 
-myColor[8:11] <- c("red","orange","violet","blue") # 色の定義
-with(tw_train,
-     plot(temp ~ tw_fit, pch=1, col=myColor[month],
-          xlab="fitted", ylab="observed"))
-with(tw_test,
-     points(temp ~ tw_pred, pch=4, col=myColor[month]))
-abline(0,1,col="gray") # 予測が完全に正しい場合のガイド線
-legend("bottomright",inset=.05, pch=15, # 凡例の作成
-       legend=c("Aug","Sep","Oct","Nov"), col=myColor[8:11])
+#' 予測結果を図示
+bind_rows(tw_train_fitted, tw_test_fitted) |> # 2つのデータフレームを結合
+  mutate(month = as_factor(month)) |> # 月を因子化して表示に利用
+  ggplot(aes(x = fitted, y = temp)) +
+  geom_point(aes(colour = month, shape = month)) + # 月ごとに色と形を変える
+  geom_abline(slope = 1, intercept = 0, # 予測が完全に正しい場合のガイド線
+              colour = "gray") +
+  labs(y = "observed")
 
-### 
-### 練習問題 回帰式を用いた予測
-### 
+#' @notes
+#' 関数 lubridate::month() を用いると月を文字列のラベルとすることもできる
+bind_rows(tw_train_fitted, tw_test_fitted) |>
+  mutate(month = month(month, label = TRUE)) |> # 文字にする場合
+  ggplot(aes(x = fitted, y = temp)) +
+  geom_point(aes(colour = month)) + # 月ごとに色を変える
+  geom_abline(slope = 1, intercept = 0, # 予測が完全に正しい場合のガイド線
+              colour = "gray") +
+  labs(y = "observed")
+#' この場合は順序付きの因子になるので，'shape' を利用すると警告が出る
 
-### 東京の気候データによる分析
+#' ---------------------------------------------------------------------------
+#' @practice 回帰式を用いた予測
 
-## 信頼区間と予測区間の計算
-library(plotrix) # 区間付きのグラフを利用するため
-tw_data <- read.csv("data/tokyo_weather.csv")
-tw_train <- subset(tw_data, subset= month %in% 8) # 推定用データ
-tw_test  <- subset(tw_data, subset= month %in% 9) # 予測用データ
+#' 東京の気候データによる分析
+
+#' 信頼区間と予測区間の計算
+tw_data <- read_csv("data/tokyo_weather.csv")
+tw_train <- tw_data |> filter(month %in% 8) # 推定用データ
+tw_test  <- tw_data |> filter(month %in% 9) # 予測用データ
 tw_model <- temp ~ solar + press + cloud # モデルの定義 
-tw_est <- lm(tw_model, data=tw_train) # モデルの推定
+tw_lm <- lm(tw_model, data = tw_train) # モデルの推定
 
-## 信頼区間
-tw_fit <- data.frame(tw_train,
-                     predict(tw_est, # 回帰式によるあてはめ値を付加
-                             interval="confidence")) 
-tw_cint <- data.frame(tw_test,
-                      predict(tw_est, newdata=tw_test,
-                              interval="confidence"))
+#' 信頼区間
+tw_train_conf <- # あてはめ値と信頼区間を付加
+  bind_cols(tw_train,
+            predict(tw_lm, interval = "confidence"))
+tw_test_conf <- # 新規データへのあてはめ値と信頼区間を付加
+  bind_cols(tw_test, 
+            predict(tw_lm, newdata = tw_test, interval = "confidence"))
 
-## 予測区間
-tw_pint <- data.frame(tw_test,
-                      predict(tw_est, newdata=tw_test,
-                              interval="prediction"))
+#' 予測区間
+tw_test_pred <- # 新規データへのあてはめ値と予測区間を付加
+  bind_cols(tw_test, 
+            predict(tw_lm, newdata = tw_test, interval = "prediction"))
 
-## 8月のデータで推定したモデルで8月をあてはめた信頼区間
-with(tw_fit, { # 2つのプロットをまとめて実行
-    plotCI(day, fit, ui=upr, li=lwr, # それぞれの列名に注意
-           col="blue", scol="steelblue", lwd=2,
-           xlab="August", ylab="temperature")
-    points(day, temp, col="red", pch=16)
-})
+#' 8月のデータで推定したモデルで8月をあてはめた信頼区間
+tw_train_conf |>
+  ggplot(aes(x = day, y = temp)) +
+  geom_point(colour = "red", shape = 16) +
+  geom_point(aes(y = fit), colour = "blue") +
+  geom_errorbar(aes(ymin = lwr, ymax = upr), colour = "steelblue") +
+  labs(x = "August", y = "Temperature", title = "Confidence Interval")
 
-## 8月のモデルで9月をあてはめた信頼区間
-with(tw_cint, {
-    plotCI(day, fit, ui=upr, li=lwr, ylim=c(20,32), 
-           col="blue", scol="steelblue", lwd=2,
-           xlab="September", ylab="temperature")
-    points(day, temp, col="red", pch=16)
-})
+#' 8月のモデルで9月をあてはめた信頼区間
+tw_test_conf |>
+  ggplot(aes(x = day, y = temp)) +
+  geom_point(colour = "red", shape = 16) +
+  geom_point(aes(y = fit), colour = "blue") +
+  geom_errorbar(aes(ymin = lwr, ymax = upr), colour = "steelblue") +
+  labs(x = "September", y = "Temperature", title = "Confidence Interval")
 
-## 8月のモデルで9月をあてはめた予測区間
-with(tw_pint, {
-    plotCI(day, fit, ui=upr, li=lwr, ylim=c(20,32),
-           col="blue", scol="lightblue", lwd=2,
-           xlab="September", ylab="temperature")
-    points(day, temp, col="red", pch=16)
-})
+#' 8月のモデルで9月をあてはめた予測区間
+tw_test_pred |>
+  ggplot(aes(x = day, y = temp)) +
+  geom_point(colour = "red", shape = 16) +
+  geom_point(aes(y = fit), colour = "blue") +
+  geom_errorbar(aes(ymin = lwr, ymax = upr), colour = "lightblue") +
+  labs(x = "September", y = "Temperature", title = "Prediction Interval")
 
-### 人工データによる検討例
-###   (以下はあくまで例なので自由に数値実験を設計して下さい)
+#' 人工データによる検討例
+#'   (以下はあくまで例なので自由に数値実験を設計して下さい)
 
-## 試行の設定
-## モデル: y = -1 + 2*x1
-## 人工データの生成
-set.seed(1515) # 乱数のシード
+#' 試行の設定
+#' モデル: y = -1 + 2 * x1
+#' 人工データの生成
+set.seed(1515) # 乱数のシード値(適宜変更せよ)
 n <- 50 # データ数の設定
-x1.obs <- runif(n) # 説明変数1
-x2.obs <- runif(n) # 説明変数2
-beta0 <- -1 # 切片 
-beta1 <-  2 # xの係数
-beta2 <-  0 # xの係数
+x_obs <- tibble(x0 = 1,
+                x1 = runif(n), # 説明変数1
+                x2 = runif(n)) # 説明変数2
+beta <- c(-1, 2, 0) # (切片, x1の係数, x2の係数) 実質x2は使われていない
 sigma <-  1/2 # 誤差の標準偏差
-epsilon <- rnorm(length(x1.obs),sd=sigma) # 誤差項
-y.obs <- beta0 + beta1*x1.obs + beta2*x2.obs + epsilon # 目的変数
-x.obs <- data.frame(x1=x1.obs,
-                    x2=x2.obs,
-                    y=y.obs) # データフレームの作成
-est1 <- lm(y ~ x1, data=x.obs) # x1による回帰分析の実行(正しいモデル)
-summary(est1)
-est2 <- lm(y ~ x1 + x2, data=x.obs) # x1とx2による回帰分析の実行(冗長なモデル)
-summary(est2)
-est3 <- lm(y ~ x2, data=x.obs) # x2による回帰分析の実行(誤ったモデル)
-summary(est3)
+epsilon <- rnorm(nrow(x_obs), sd = sigma) # 誤差項
+toy_data <- x_obs |> # 目的変数の観測値を追加
+  mutate(y = as.vector(as.matrix(x_obs) %*% beta) + epsilon)
 
-## 新規データに対する予測
-x.new <- data.frame(x1=runif(n),
-                    x2=runif(n,-10,10)) # 説明変数の新規データ
-y.new <- beta0 + beta1*x.new$x1 # 新規データに対する目的変数の真値 (誤差なし)
-y.hat1 <- predict(est1, newdata=x.new) # est1による予測値
-y.hat2 <- predict(est2, newdata=x.new) # est2による予測値
-y.hat3 <- predict(est3, newdata=x.new) # est3による予測値
+#' モデルの推定と評価
+toy_lm1 <- lm(y ~ x1, data = toy_data) # x1のみの正しいモデル
+summary(toy_lm1)
+toy_lm2 <- lm(y ~ x1 + x2, data = toy_data) # x1とx2の冗長なモデル
+summary(toy_lm2)
+toy_lm3 <- lm(y ~ x2, data = toy_data) # x2のみの誤ったモデル
+summary(toy_lm3)
 
-## 散布図による可視化
-plot(y.new ~ y.hat1, 
-     col="red", pch=20,
-     xlab="fitted value", ylab="observed value") # 黒
-points(y.new ~ y.hat2, pch=20, col="green")  # 赤
-points(y.new ~ y.hat3, pch=20, col="blue") # 青
-abline(0,1, col="gray") # 理想的な結果
-legend("bottomright",inset=.05, # 凡例の作成
-       col=c("red","green","blue"), pch=c(20,20,20), 
-       legend=c("model1","model2","model3"))
+#' 新規データに対する予測
+x_new <- tibble(x0 = 1,
+                x1 = runif(n),
+                x2 = runif(n,-10,10)) 
+#' 新規データに対する目的変数の真値 (誤差なし)
+y_tilde <- as.vector(as.matrix(x_new) %*% beta)
+#' 各モデルでの予測
+y_hat1 <- predict(toy_lm1, newdata = x_new) # x_lm1による予測値
+y_hat2 <- predict(toy_lm2, newdata = x_new) # x_lm2による予測値
+y_hat3 <- predict(toy_lm3, newdata = x_new) # x_lm3による予測値
 
-## 相関係数による数値的な評価 (R-squared と等価)
-cor(y.new, y.hat1)^2 
-cor(y.new, y.hat2)^2
-cor(y.new, y.hat3)^2
+#' 散布図による可視化
+tibble(obs = y_tilde,
+       model1 = y_hat1, model2 = y_hat2, model3 = y_hat3) |>
+  pivot_longer(!obs) |>
+  ggplot(aes(x = value, y = obs)) +
+  geom_point(aes(colour = name)) +
+  geom_abline(slope = 1, intercept = 0, colour = "gray") +
+  labs(x = "fitted value", y = "observed value") +
+  theme(legend.title = element_blank())
 
-## factor属性の与え方
-X <- c("A","S","A","B","D")
-Y <- c(85,100,80,70,30)
-dat1 <- data.frame(X,Y)
-dat2 <- transform(dat1, 
-                  X2=factor(X))
-str(dat2) # 作成したデータフレームの素性を見る
-dat3 <- transform(dat2, 
-                  X3=factor(X, levels=c("S","A","B","C","D")))
-str(dat3) # dat2とはfactorの順序が異なる
-dat4 <- transform(dat2,
-                  Y2=factor(Y > 60)) 
-str(dat4) # 条件の真偽で2値に類別される
+#' 相関係数による数値的な評価 (R-squared と等価)
+cor(y_tilde, y_hat1)^2 
+cor(y_tilde, y_hat2)^2
+cor(y_tilde, y_hat3)^2
 
-### 
-### 練習問題 交互作用と非線形を含むモデルとカテゴリカル変数の扱い
-### 
+#' ---------------------------------------------------------------------------
 
-### 9月から11月のデータによる分析 (交互作用と非線形性)
+#' factor属性の与え方
+X <- c("A", "S", "A", "B", "D")
+Y <- c(85, 100, 80, 70, 30)
+toy_data1 <- tibble(X, Y)
+toy_data2 <- toy_data1 |>
+  mutate(X2 = factor(X)) # 因子化
+str(toy_data2) # 作成したデータフレームの素性を見る
+toy_data3 <- toy_data2 |> # 順序付きの因子化
+  mutate(X3 = factor(X, levels=c("S","A","B","C","D")))
+str(toy_data3) # toy_data2とはfactorの順序が異なる
+toy_data4 <- toy_data2 |>
+  mutate(Y2 = factor(Y > 60)) # 条件による因子化
+str(toy_data4) # 条件の真偽で2値に類別される
 
-## データの整形
-tw_subset <- subset(tw_data, subset= month %in% 9:11)
+#' ---------------------------------------------------------------------------
+#' @practice 交互作用と非線形を含むモデルとカテゴリカル変数の扱い
 
-## 日射量，気圧，湿度の線形回帰モデル
-summary(lm(temp ~ solar + press + humid, data=tw_subset))
-## 湿度の対数を考えた線形回帰モデル
-summary(lm(temp ~ solar + press + log(humid), data=tw_subset))
-## 最初のモデルにそれぞれの交互作用を加えたモデル (書き方はいろいろある)
-summary(lm(temp ~ (solar + press + humid)^2, data=tw_subset))
-## 更に3つの変数の積を加えたモデル
-summary(lm(temp ~ solar * press * humid, data=tw_subset))
+#' 9月から11月のデータによる分析 (交互作用と非線形性)
 
-## 用いた変数の散布図
-plot(~ temp + solar + press + humid, data=tw_subset)
-## 最後のモデルの視覚的な評価 (診断プロット)
-plot(lm(temp ~ solar * press * humid, data=tw_subset))
+#' データの整形
+tw_subset <- tw_data |> filter(month %in% 9:11)
 
-### 雨と気温の関係の分析 (カテゴリカル変数)
+#' 日射量，気圧，湿度の線形回帰モデル
+summary(lm(temp ~ solar + press + humid, data = tw_subset))
+#' 湿度の対数を考えた線形回帰モデル
+summary(lm(temp ~ solar + press + log(humid), data = tw_subset))
+#' 最初のモデルにそれぞれの交互作用を加えたモデル (書き方はいろいろある)
+summary(lm(temp ~ (solar + press + humid)^2, data = tw_subset))
+#' 更に3つの変数の積を加えたモデル
+summary(lm(temp ~ solar * press * humid, data = tw_subset))
 
-## 雨の有無をダミー化(因子化)する
-tw_data <- transform(tw_data,
-                     rain=factor(rain > 0)) 
-summary(lm(temp ~ rain, data=tw_data))
-## 通年では雨と気温の関係は積極的に支持されない
+#' 用いた変数の散布図
+tw_subset |>
+  select(temp, solar, press, humid) |>
+  GGally::ggpairs(columnLabels = c("気温","日射量","気圧","湿度"))
 
-## 月毎の気温の差を考慮して月を表す変数(整数値)をダミー化する
-tw_data <- transform(tw_data, 
-                     month=factor(month))
-summary(lm(temp ~ rain + month, data=tw_data))
-## 月毎に比較すると雨の日の方が気温が低いことが支持される
+#' 最後のモデルの視覚的な評価 (診断プロット)
+autoplot(lm(temp ~ solar * press * humid, data = tw_subset))
 
-## モデルの探索
-adv_data <- read.csv('https://www.statlearning.com/s/Advertising.csv',
-                     row.names=1) 
-summary(lm(sales ~ radio, data=adv_data))
-summary(lm(sales ~ TV + radio, data=adv_data))
-summary(lm(sales ~ TV + radio + newspaper, data=adv_data))
-summary(init <- lm(sales ~ TV * radio * newspaper, data=adv_data))
+#'# 雨と気温の関係の分析 (カテゴリカル変数)
+
+#' 雨の有無をダミー化(因子化)する
+tw_data <- tw_data |>
+  mutate(rain = factor(rain > 0)) 
+summary(lm(temp ~ rain, data = tw_data))
+#' 通年では雨と気温の関係は積極的に支持されない
+
+#' 月毎の気温の差を考慮して月を表す変数(整数値)をダミー化する
+tw_data <- tw_data |>
+  mutate(month = factor(month))
+summary(lm(temp ~ rain + month, data = tw_data))
+#' 月毎に比較すると雨の日の方が気温が低いことが支持される
+
+#' ---------------------------------------------------------------------------
+
+#' モデルの探索
+adv_data <- read_csv('https://www.statlearning.com/s/Advertising.csv')
+summary(lm(sales ~ radio, data = adv_data))
+summary(lm(sales ~ TV + radio, data = adv_data))
+summary(lm(sales ~ TV + radio + newspaper, data = adv_data))
+summary(init <- lm(sales ~ TV * radio * newspaper, data = adv_data))
 opt <- step(init) # step関数による探索 (最大のモデルから削減増加を行う)
-summary(opt)
+summary(opt) # 探索された(準)最適なモデルの確認
