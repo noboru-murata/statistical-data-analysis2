@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2023-10-15 17:26:29 mura>
+# Time-stamp: <2023-10-20 11:39:02 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/org/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -1374,7 +1374,6 @@
   set.seed(12345)
   mc <- 10000 # 実験回数を設定 
   mc_data <- replicate(mc, mc_trial()) 
-  hist(mc_data) 
   summary(mc_data) # 簡単な集計
   tibble(x = mc_data) |> # ヒストグラムを出力
     ggplot(aes(x)) + 

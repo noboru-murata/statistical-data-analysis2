@@ -155,8 +155,9 @@ z |>
 #' @exercise データフレームの形式の変更
 
 #' 練習問題の成績表を用いた例
-pivot_longer(grade_data, !name, # name 列以外をまとめる
-             names_to = "subject")
+pivot_longer(grade_data,
+             !name, # name 列以外をまとめる
+             names_to = "subject") # もとの列名を subject 列にまとめる
 #' この例ではもとのデータフレームに "name" という列があるため
 #' 既定値は使えないので，科目を表す "subject" を用いている
 
@@ -410,7 +411,7 @@ pcr_data |>
   summarize(across(everything(), sum)) |> # 全て(月以外)を集計
   pivot_longer(!month, names_to = "organ", values_to = "nums",
                names_transform = list(organ = as_factor)) |>
-  ## 最後のオプションは organ 列のラベルを因子化して出てきた列の順に並べる
+  ## 最後のオプションは organ 列のラベルを出てきた順で因子化して元の列の並びにしている
   ggplot(aes(x = organ, y = nums, fill = month)) +
   geom_bar(stat = "identity", position = "dodge", na.rm = TRUE) +
   theme(legend.position = "top") + guides(fill = guide_legend(nrow = 1))
@@ -446,6 +447,7 @@ set.seed(2) # 乱数の初期値をseed=2で指定
 runif(5)    # seed=1の場合と異なる結果
 set.seed(1) # 乱数の初期値をseed=1で指定
 runif(5)    # 初めのseed=1の場合と同じ結果
+
 #' ---------------------------------------------------------------------------
 
 #' @exercise 中心極限定理
@@ -486,7 +488,7 @@ mc_trial <- function(){
 #' Monte-Carlo実験
 set.seed(8888) # 実験を再現したい場合はシード値を指定する
 mc <- 10000 # 実験回数を設定 
-mc_data <- replicate(mc,mc_trial()) 
+mc_data <- replicate(mc, mc_trial()) 
 #' 簡単な集計
 table(mc_data)    # 頻度
 table(mc_data)/mc # 確率(推定値)
@@ -511,12 +513,12 @@ for(i in 1:10) print(mc_trial())
 #' Monte-Carlo実験
 set.seed(12345)
 mc <- 10000 # 実験回数を設定 
-mc_data <- replicate(mc,mc_trial()) 
-hist(mc_data) 
+mc_data <- replicate(mc, mc_trial()) 
 summary(mc_data) # 簡単な集計
 tibble(x = mc_data) |> # ヒストグラムを出力
   ggplot(aes(x)) + 
   geom_histogram(binwidth = 1,
                  fill = "slateblue", alpha = 0.5, # 塗り潰しの色
                  colour = "slateblue") # 塗り潰しの色
+
 #' ---------------------------------------------------------------------------
