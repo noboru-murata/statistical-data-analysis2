@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2023-10-18 16:22:00 mura>
+# Time-stamp: <2023-10-20 09:15:21 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+PROPERTY: header-args:R :cache yes :session *R*
@@ -460,18 +460,16 @@
 :ID:       9010402A-AC86-4A3F-9A0F-397A945FACB5
 :END:
 - 前掲のデータセットを用いて回帰式を構成しなさい
-  - 東京の8月の気候データ
-    #+begin_quote
-    formula = temp ~ solar + press
-    #+end_quote
   - 広告費と売上データ
-    #+begin_quote
-    formula = sales ~ TV 
-
-    formula = sales ~ radio
-
-    formula = sales ~ TV + radio
-    #+end_quote
+    #+begin_src R :eval no :tangle no
+      formula = sales ~ TV 
+      formula = sales ~ radio
+      formula = sales ~ TV + radio
+    #+end_src
+  - 東京の8月の気候データ
+    #+begin_src R :eval no :tangle no
+      formula = temp ~ solar + press
+    #+end_src
 
 #+begin_src R :eval no :exports none
   #' ---------------------------------------------------------------------------
@@ -664,7 +662,6 @@
     #' データフレームを行列に変換する場合は全て同じデータ型でなくてはならない
   #+end_src
   
-
 ** R : 行列とベクトルの計算
 :PROPERTIES:
 :ID:       EDD9427D-C9BB-4971-91A7-A2352AE47708
@@ -1103,22 +1100,18 @@
 :ID:       335A639C-748D-4FC8-B0DB-471A3C0F38CB
 :END:
 - 決定係数を用いてモデルの比較を行いなさい
-  - 東京の8月の気候データ
-    #+begin_quote
-    temp ~ solar
-
-    temp ~ solar + press
-
-    temp ~ solar + press + cloud
-    #+end_quote
   - 広告費と売上データ
-    #+begin_quote
-    sales ~ TV
-
-    sales ~ radio
-
-    sales ~ TV + radio
-    #+end_quote
+    #+begin_src R :eval no :tangle no
+      sales ~ TV
+      sales ~ radio
+      sales ~ TV + radio
+    #+end_src
+  - 東京の8月の気候データ
+    #+begin_src R :eval no :tangle no
+      temp ~ solar
+      temp ~ solar + press
+      temp ~ solar + press + cloud
+    #+end_src
 
 #+begin_src R :eval no :exports none
   #' ---------------------------------------------------------------------------
@@ -1131,9 +1124,9 @@
   adv_model1 <- sales ~ TV
   adv_model2 <- sales ~ radio
   adv_model3 <- sales ~ TV + radio
-  adv_lm1 <- lm(adv_model1, data=adv_data, y=TRUE)
-  adv_lm2 <- lm(adv_model2, data=adv_data, y=TRUE)
-  adv_lm3 <- lm(adv_model3, data=adv_data, y=TRUE)
+  adv_lm1 <- lm(adv_model1, data = adv_data, y = TRUE)
+  adv_lm2 <- lm(adv_model2, data = adv_data, y = TRUE)
+  adv_lm3 <- lm(adv_model3, data = adv_data, y = TRUE)
   summary(adv_lm1)$adj.r.squared # 自由度調整済み決定係数
   summary(adv_lm2)$adj.r.squared # (model1より減少)
   summary(adv_lm3)$adj.r.squared # (model1より上昇)
@@ -1158,9 +1151,9 @@
   tw_model1 <- temp ~ solar
   tw_model2 <- temp ~ solar + press
   tw_model3 <- temp ~ solar + press + cloud
-  tw_lm1 <- lm(tw_model1, data=tw_subset, y=TRUE)
-  tw_lm2 <- lm(tw_model2, data=tw_subset, y=TRUE)
-  tw_lm3 <- lm(tw_model3, data=tw_subset, y=TRUE)
+  tw_lm1 <- lm(tw_model1, data = tw_subset, y = TRUE)
+  tw_lm2 <- lm(tw_model2, data = tw_subset, y = TRUE)
+  tw_lm3 <- lm(tw_model3, data = tw_subset, y = TRUE)
   summary(tw_lm1)$adj.r.squared # 自由度調整済み決定係数
   summary(tw_lm2)$adj.r.squared # (model1より上昇)
   summary(tw_lm3)$adj.r.squared # (model2より上昇)
