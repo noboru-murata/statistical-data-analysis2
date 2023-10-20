@@ -454,7 +454,7 @@ runif(5)    # 初めのseed=1の場合と同じ結果
 
 #' 確率変数の分布の設定 (例 : 区間[-1,1]の一様乱数)
 mc_rand <- function(n) { # n個の乱数を生成
-  return(runif(n,min = -1,max = 1))
+  return(runif(n, min = -1, max = 1))
 }
 #' 標本平均の計算
 mc_mean <- function(n) { # n個のデータで計算
@@ -463,9 +463,9 @@ mc_mean <- function(n) { # n個のデータで計算
 #' Monte-Carlo実験
 set.seed(123) # 実験を再現したい場合はシード値を指定する
 mu <- 0; sigma <- sqrt(1/3) # 理論平均と標準偏差
-mc <- 5000 # 実験の繰り返し回数
+mc_num <- 5000 # 実験の繰り返し回数
 for(n in c(1,2,4,8,16)){ # nを変えて実験
-  p <- tibble(x = replicate(mc, mc_mean(n))) |> # mc回実験し標本平均を記録
+  p <- tibble(x = replicate(mc_num, mc_mean(n))) |> # 繰り返し実験し標本平均を記録
     ggplot(aes(x)) + 
     geom_histogram(aes(y = after_stat(density)), # 密度表示
                    fill = "orchid", alpha = 0.5, # 塗り潰しの色
@@ -473,25 +473,25 @@ for(n in c(1,2,4,8,16)){ # nを変えて実験
     geom_function(fun = \(x) dnorm(x, mean = mu, sd = sigma/sqrt(n)),
                   colour = "orange", linewidth = 1.5) + # 理論曲線を重ねる
     labs(x = expression(bar(X)), # x軸の表示
-         title = paste0("n=",n)) # タイトルにnを記載
+         title = paste0("n=", n)) # タイトルにnを記載
   print(p) # for 文の中では明示的に print する必要がある
 }
 
 #' コイン投げの試行 (いろいろな書き方があるので以下は一例)
 mc_trial <- function(){
   while(TRUE){ # 永久に回るループ
-    if(rbinom(1,size = 1,prob = 0.5)==1){return("A")} # Aが表で終了
-    if(rbinom(1,size = 1,prob = 0.5)==1){return("B")} # Bが表で終了
+    if(rbinom(1, size = 1, prob = 0.5)==1){return("A")} # Aが表で終了
+    if(rbinom(1, size = 1, prob = 0.5)==1){return("B")} # Bが表で終了
     #' どちらも裏ならもう一度ループ
   }
 }
 #' Monte-Carlo実験
 set.seed(8888) # 実験を再現したい場合はシード値を指定する
-mc <- 10000 # 実験回数を設定 
-mc_data <- replicate(mc, mc_trial()) 
+mc_num <- 10000 # 実験回数を設定 
+mc_data <- replicate(mc_num, mc_trial()) 
 #' 簡単な集計
-table(mc_data)    # 頻度
-table(mc_data)/mc # 確率(推定値)
+table(mc_data)        # 頻度
+table(mc_data)/mc_num # 確率(推定値)
 
 #' ---------------------------------------------------------------------------
 #' @practice 双六ゲーム
@@ -501,7 +501,7 @@ mc_trial <- function(){
   step <- 0 # 最初の位置
   num <- 0  # さいころを振る回数
   while(TRUE){ # 永久に回るループ
-    step <- step + sample(1:6,1) # さいころを振る
+    step <- step + sample(1:6, 1) # さいころを振る
     num <- num + 1 # 回数を記録
     if(step >= 100) { # ゴールしたか?
       return(num) # 回数を出力して関数を終了
@@ -512,8 +512,8 @@ mc_trial <- function(){
 for(i in 1:10) print(mc_trial())
 #' Monte-Carlo実験
 set.seed(12345)
-mc <- 10000 # 実験回数を設定 
-mc_data <- replicate(mc, mc_trial()) 
+mc_num <- 10000 # 実験回数を設定 
+mc_data <- replicate(mc_num, mc_trial()) 
 summary(mc_data) # 簡単な集計
 tibble(x = mc_data) |> # ヒストグラムを出力
   ggplot(aes(x)) + 
