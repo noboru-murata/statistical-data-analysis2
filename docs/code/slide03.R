@@ -70,6 +70,12 @@ s3d$plane3d(tw_lm, col = "blue", # 回帰式の定める平面の追加
 
 #' ---------------------------------------------------------------------------
 
+#' @notes
+#' 行列の転置を計算する関数 t() と積を組み合わせてもよい
+#'   crossprod(X,Y) = t(X) %*% Y
+#' XY^T = (X^TY)^T を計算する関数 tcrossprod() もある
+#'   tcrossprod(X,Y) = X %*% t(Y)
+
 #' ---------------------------------------------------------------------------
 #' @practice 最小二乗推定量の性質
 
@@ -154,9 +160,9 @@ S+Sr # Sy と同じになっている
 adv_model1 <- sales ~ TV
 adv_model2 <- sales ~ radio
 adv_model3 <- sales ~ TV + radio
-adv_lm1 <- lm(adv_model1, data = adv_data, y = TRUE)
-adv_lm2 <- lm(adv_model2, data = adv_data, y = TRUE)
-adv_lm3 <- lm(adv_model3, data = adv_data, y = TRUE)
+adv_lm1 <- lm(adv_model1, data=adv_data, y=TRUE)
+adv_lm2 <- lm(adv_model2, data=adv_data, y=TRUE)
+adv_lm3 <- lm(adv_model3, data=adv_data, y=TRUE)
 summary(adv_lm1)$adj.r.squared # 自由度調整済み決定係数
 summary(adv_lm2)$adj.r.squared # (model1より減少)
 summary(adv_lm3)$adj.r.squared # (model1より上昇)
@@ -180,9 +186,9 @@ tw_subset <- tw_data |> filter(month == 8) # 8月のデータの抽出
 tw_model1 <- temp ~ solar
 tw_model2 <- temp ~ solar + press
 tw_model3 <- temp ~ solar + press + cloud
-tw_lm1 <- lm(tw_model1, data = tw_subset, y = TRUE)
-tw_lm2 <- lm(tw_model2, data = tw_subset, y = TRUE)
-tw_lm3 <- lm(tw_model3, data = tw_subset, y = TRUE)
+tw_lm1 <- lm(tw_model1, data=tw_subset, y=TRUE)
+tw_lm2 <- lm(tw_model2, data=tw_subset, y=TRUE)
+tw_lm3 <- lm(tw_model3, data=tw_subset, y=TRUE)
 summary(tw_lm1)$adj.r.squared # 自由度調整済み決定係数
 summary(tw_lm2)$adj.r.squared # (model1より上昇)
 summary(tw_lm3)$adj.r.squared # (model2より上昇)

@@ -4,13 +4,9 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2023-10-20 09:15:21 mura>
+# Time-stamp: <2023-10-20 14:51:37 mura>
 :REVEAL:
-#+INCLUDE: "./reveal.js/org/mycourse.org"
-#+PROPERTY: header-args:R :cache yes :session *R*
-#+PROPERTY: header-args:R+ :exports both :results output
-#+PROPERTY: header-args:R+ :width 800 :height 800 :res 100
-#+PROPERTY: header-args:R+ :tangle yes
+#+SETUPFILE: "./reveal.js/org/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
 # <m C-i でlatex block (math env用)
 # C-c '
@@ -31,12 +27,16 @@
 - 第2回 : モデルの評価
 - 第3回 : モデルによる予測と発展的なモデル
 
-#+begin_src R :exports none :tangle no
-  setwd("~/Desktop/lectures/mva/course")
+#+begin_src R :exports none
+  setwd("~/Desktop/lectures/mva/course/tmp")
 #+end_src
 #+begin_src R :exports none
   ### 第3講 資料
   library(tidyverse)
+  library(GGally) # パッケージの読み込み
+  library(ascii)
+  options(asciiType = "org")
+  library(scatterplot3d) # パッケージの読み込み
   #' 日本語表示・色の設定 (ggplot)
   theme_set(theme_gray(base_size = 16))
   if(Sys.info()[["sysname"]] == "Darwin") { # MacOSか確認
@@ -416,12 +416,12 @@
 :reveal_background: #fef4f4
 :END:
 # 東京大学
-** R : 関数 ~lm()~ による推定
+** R : 線形モデルの推定
 :PROPERTIES:
 :reveal_background: #fef4f4
 :ID:       2E34C154-BD9D-4380-82E0-2D53B97D9F1E
 :END:
-- 線形モデルの推定
+- 関数 ~stats::lm()~ による推定
   #+begin_src R :eval no :tangle no
     lm(formula, data, subset, weights, na.action,
        method = "qr", model = TRUE, x = FALSE, y = FALSE, qr = TRUE,
@@ -441,18 +441,19 @@
   - [[https://www.statlearning.com/s/Advertising.csv]]
     #+begin_quote
     広告費(TV,radio,newspapers)と売上の関係を調べたもの
-
-    "Datasets in this presentation are taken from "An
-    Introduction to Statistical Learning, with applications in R"
-    (Springer, 2013) with permission from the authors: G. James,
-    D. Witten, T. Hastie and R. Tibshirani "
     #+end_quote
-    https://www.statlearning.com
-  - ~tokyo_weather.csv~ 
+    - 参考 : https://www.statlearning.com
+      #+begin_quote
+      "Datasets in this presentation are taken from "An
+      Introduction to Statistical Learning, with applications in R"
+      (Springer, 2013) with permission from the authors: G. James,
+      D. Witten, T. Hastie and R. Tibshirani "
+      #+end_quote
+  - ~tokyo_weather.csv~ (配付)
     #+begin_quote
     気象庁より取得した東京の気候データを回帰分析用に整理したもの
     #+end_quote
-    https://www.data.jma.go.jp/gmd/risk/obsdl/index.php
+    - 参考 : https://www.data.jma.go.jp/gmd/risk/obsdl/index.php
 
 ** 練習問題
 :PROPERTIES:
@@ -462,6 +463,7 @@
 - 前掲のデータセットを用いて回帰式を構成しなさい
   - 広告費と売上データ
     #+begin_src R :eval no :tangle no
+      #' formula (R言語における式) として以下の書式で与えればよい
       formula = sales ~ TV 
       formula = sales ~ radio
       formula = sales ~ TV + radio
@@ -471,7 +473,7 @@
       formula = temp ~ solar + press
     #+end_src
 
-#+begin_src R :eval no :exports none
+#+begin_src R :exports none
   #' ---------------------------------------------------------------------------
   #' @practice 回帰係数の推定
 #+end_src
@@ -541,7 +543,7 @@
               draw_polygon = TRUE, # 平面の塗り潰しの設定
               polygon_args = list(col = rgb(0,0,1,0.1))) 
 #+end_src
-#+begin_src R :eval no :exports none
+#+begin_src R :exports none
   #' ---------------------------------------------------------------------------
 #+end_src
   
@@ -666,13 +668,6 @@
 :PROPERTIES:
 :ID:       EDD9427D-C9BB-4971-91A7-A2352AE47708
 :END:
-- \(X^{\mathsf{T}}Y\) および \(X^{\mathsf{T}}X\) の計算
-  #+begin_src R :eval no :tangle no
-    crossprod(X, Y) # cross product の略
-    #' X: 行列 (またはベクトル)
-    #' Y: 行列 (またはベクトル)
-    crossprod(X) # 同じものを掛ける場合は引数は1つで良い
-  #+end_src
 - 行列 \(A,B\) の積 \(AB\) および
   ベクトル \(a,b\) の内積 \(a\cdot b\)
   #+begin_src R :eval no :tangle no
@@ -682,6 +677,20 @@
 - 正方行列 \(A\) の逆行列 \(A^{-1}\)
   #+begin_src R :eval no :tangle no
     solve(A) # 他にもいくつか関数はある
+  #+end_src
+- \(X^{\mathsf{T}}Y\) および \(X^{\mathsf{T}}X\) の計算
+  #+begin_src R :eval no :tangle no
+    crossprod(X, Y) # cross product の略
+    #' X: 行列 (またはベクトル)
+    #' Y: 行列 (またはベクトル)
+    crossprod(X) # 同じものを掛ける場合は引数は1つで良い
+  #+end_src
+  #+begin_src R :exports none
+    #' @notes
+    #' 行列の転置を計算する関数 t() と積を組み合わせてもよい
+    #'   crossprod(X,Y) = t(X) %*% Y
+    #' XY^T = (X^TY)^T を計算する関数 tcrossprod() もある
+    #'   tcrossprod(X,Y) = X %*% t(Y)
   #+end_src
 
 ** 練習問題
@@ -1102,15 +1111,15 @@
 - 決定係数を用いてモデルの比較を行いなさい
   - 広告費と売上データ
     #+begin_src R :eval no :tangle no
-      sales ~ TV
-      sales ~ radio
-      sales ~ TV + radio
+    sales ~ TV
+    sales ~ radio
+    sales ~ TV + radio
     #+end_src
   - 東京の8月の気候データ
     #+begin_src R :eval no :tangle no
-      temp ~ solar
-      temp ~ solar + press
-      temp ~ solar + press + cloud
+    temp ~ solar
+    temp ~ solar + press
+    temp ~ solar + press + cloud
     #+end_src
 
 #+begin_src R :eval no :exports none
@@ -1124,9 +1133,9 @@
   adv_model1 <- sales ~ TV
   adv_model2 <- sales ~ radio
   adv_model3 <- sales ~ TV + radio
-  adv_lm1 <- lm(adv_model1, data = adv_data, y = TRUE)
-  adv_lm2 <- lm(adv_model2, data = adv_data, y = TRUE)
-  adv_lm3 <- lm(adv_model3, data = adv_data, y = TRUE)
+  adv_lm1 <- lm(adv_model1, data=adv_data, y=TRUE)
+  adv_lm2 <- lm(adv_model2, data=adv_data, y=TRUE)
+  adv_lm3 <- lm(adv_model3, data=adv_data, y=TRUE)
   summary(adv_lm1)$adj.r.squared # 自由度調整済み決定係数
   summary(adv_lm2)$adj.r.squared # (model1より減少)
   summary(adv_lm3)$adj.r.squared # (model1より上昇)
@@ -1151,9 +1160,9 @@
   tw_model1 <- temp ~ solar
   tw_model2 <- temp ~ solar + press
   tw_model3 <- temp ~ solar + press + cloud
-  tw_lm1 <- lm(tw_model1, data = tw_subset, y = TRUE)
-  tw_lm2 <- lm(tw_model2, data = tw_subset, y = TRUE)
-  tw_lm3 <- lm(tw_model3, data = tw_subset, y = TRUE)
+  tw_lm1 <- lm(tw_model1, data=tw_subset, y=TRUE)
+  tw_lm2 <- lm(tw_model2, data=tw_subset, y=TRUE)
+  tw_lm3 <- lm(tw_model3, data=tw_subset, y=TRUE)
   summary(tw_lm1)$adj.r.squared # 自由度調整済み決定係数
   summary(tw_lm2)$adj.r.squared # (model1より上昇)
   summary(tw_lm3)$adj.r.squared # (model2より上昇)
@@ -1191,22 +1200,20 @@
 
 * COMMENT 解析の事例
 # 早稲田大学
-** 実データによる例
-:PROPERTIES:
-:ID:       C513A101-EB45-4E7A-A4D3-1A8819EF6183
-:END:
-- 気象庁より取得した東京の気候データ 
+** データについて
+- 気象庁より取得した東京の気候データ \\
   - 気象庁 https://www.data.jma.go.jp/gmd/risk/obsdl/index.php
   - データ https://noboru-murata.github.io/multivariate-analysis/data/tokyo_weather.csv
+    # - 広告費(TV,radio,newspaper)と売上データ \\
+    #   - 書籍のサイト https://faculty.marshall.usc.edu/gareth-james/ISL/
+    #   - データ https://faculty.marshall.usc.edu/gareth-james/ISL/Advertising.csv
 
 ** 東京の8月の気候の分析
 :PROPERTIES:
-:ID:       A489FC6E-DE7F-40F3-AF84-149780E42205
+:ID:       C513A101-EB45-4E7A-A4D3-1A8819EF6183
 :END:
-- データの一部
+- 気候に関するデータ(一部)
   #+begin_src R :exports none
-    #' @exercise 東京の気候データを用いた例
-    
     #' データの読み込み
     tw_subset <- read_csv("data/tokyo_weather.csv") |>
       filter(month == 8) |> # 8月のデータの抽出
@@ -1232,55 +1239,29 @@
     #' データの表示
     #' 列名を日本語にして表示する
     foo <- set_names(names(tw_subset), # 列名に対応する日本語ベクトルを用意
-                     c("日付","気温","降雨","日射","降雪","風向","風速","気圧","湿度","雲量"))
+                        c("日付","気温","降雨","日射","降雪","風向","風速","気圧","湿度","雲量"))
     (bar <- tw_subset |> rename(all_of(foo)))
+    #' View(bar) # 左上ペインに表として表示する場合
   #+end_src
-  #+begin_src R :eval no :exports none
-    View(bar) # 左上ペインに表として表示
-  #+end_src
-  #+html: <font size=5>
-  #+begin_src R :exports results :results output html :tangle no
+  #+html: <font size=6>
+  #+begin_src R :exports results :results output raw :tangle no
     #' データの表示(reveal用)
-    bar |> slice(1:15) |> mutate(日付 = as.character(日付)) |>
-      stargazer::stargazer(summary = FALSE,
-                           rownames = FALSE,
-                           title = "東京の8月の気候",
-                           type = "html")
+    bar |>
+      head(12) |> # 12日分を表示
+      ascii::ascii(include.rownames = FALSE) |>
+      ascii::print(type = "org")
   #+end_src
   #+html: </font>
 
-  #+begin_src R :exports results :results output latex :tangle no
-    #' データの表示(latex用)
-    bar |> mutate(日付 = as.character(日付)) |>
-      stargazer::stargazer(summary = FALSE,
-                           rownames = FALSE,
-                           title = "東京の8月の気候",
-                           font.size = "small", type = "latex")
-  #+end_src
-
-  # org に表を処理させる場合は以下のとおり
-  # #+html: <font size=6>
-  # #+begin_src R :exports results :results output raw :tangle no
-  #   #' データの表示(reveal用)
-  #   bar |>
-  #     head(12) |> # 12日分を表示
-  #     ascii::ascii(include.rownames = FALSE) |>
-  #     ascii::print(type = "org")
-  # #+end_src
-  # #+html: </font>
+#+reveal: split
+- 気温を説明する 5 つの線形回帰モデルを検討する
+  - モデル1: 気温 = F(気圧)
+  - モデル2: 気温 = F(日射)
+  - モデル3: 気温 = F(気圧, 日射)
+  - モデル4: 気温 = F(気圧, 日射, 湿度)
+  - モデル5: 気温 = F(気圧, 日射, 雲量)
 
 #+reveal: split
-- 気温を説明する5種類の線形回帰モデルを検討
-  - モデル1 : 気温 = F(気圧)
-  - モデル2 : 気温 = F(日射)
-  - モデル3 : 気温 = F(気圧, 日射)
-  - モデル4 : 気温 = F(気圧, 日射, 湿度)
-  - モデル5 : 気温 = F(気圧, 日射, 雲量)
-
-** 分析の視覚化
-:PROPERTIES:
-:ID:       E5C084E0-BB7D-4C8B-B289-C1F617CE2B13
-:END:
 - 関連するデータの散布図
   #+begin_src R :file figs/03_pairs.png :exports results :results graphics
     #' 関連データの散布図
@@ -1381,75 +1362,30 @@
 #+attr_latex: :width 0.6\linewidth
 [[file:figs/03_models.png]]
 
-** モデルの比較
-:PROPERTIES:
-:ID:       6463C58D-1F34-41FE-8F44-77CE478493C0
-:END:
-- 決定係数(\(R^{2}\), Adjusted \(R^{2}\))
-  #+html: <font size=5>
-  #+begin_src R :exports results :results output html :tangle no
-    #' 関数 stargazer::stargazer() を利用して結果をまとめる
-    stargazer::stargazer(tw_lm1, tw_lm2, tw_lm3, tw_lm4, tw_lm5,
-                         column.labels = c("モデル1","モデル2","モデル3","モデル4","モデル5"), # NULL,
-                         covariate.labels = c("気圧","日射","湿度","雲量"), # NULL,
-                         dep.var.caption = "目的変数", # NULL,
-                         dep.var.labels = "気温", # NULL,
-                         ## dep.var.labels.include = TRUE,
-                         keep.stat = c("rsq","adj.rsq"), # NULL,
-                         ## model.names = NULL,
-                         model.numbers = FALSE, # NULL,
-                         ## object.names = FALSE,
-                         omit.table.layout = "n", # NULL, # "sn"
-                         report = "vcs", # NULL,
-                         single.row = TRUE, # FALSE,
-                         title = "寄与率によるモデルの比較",
-                         type = "html")
-  #+end_src
-  #+html: </font>
 
-  #+begin_src R :exports results :results output latex :tangle no
-    #' latex 版
-    stargazer::stargazer(tw_lm1, tw_lm2, tw_lm3, tw_lm4, tw_lm5,
-                         column.labels = c("モデル1","モデル2","モデル3","モデル4","モデル5"), # NULL,
-                         covariate.labels = c("気圧","日射","湿度","雲量"), # NULL,
-                         dep.var.caption = "目的変数", # NULL,
-                         dep.var.labels = "気温", # NULL,
-                         ## dep.var.labels.include = TRUE,
-                         keep.stat = c("rsq","adj.rsq"), # NULL,
-                         ## model.names = NULL,
-                         model.numbers = FALSE, # NULL,
-                         ## object.names = FALSE,
-                         omit.table.layout = "n", # NULL, # "sn"
-                         report = "vcs", # NULL,
-                         single.row = TRUE, # FALSE,
-                         title = "寄与率によるモデルの比較",
-                         font.size = "small", type = "latex")
-  #+end_src
+#+reveal: split
+- 寄与率の比較
+  - 決定係数(\(R^{2}\))・自由度調整済み決定係数(adjusted \(R^{2}\))
+    #+begin_src R :exports none
+      #' 関数 tibble::tribble() を利用して結果をまとめる
+      #' 行ごとにデータを並べてデータフレームを作ることができる
+      (baz <- tribble(
+        ~モデル, ~決定係数, ~自由度調整済み決定係数,
+        ## 列名は ~ で指定
+        "気温 = F(気圧)", summary(tw_lm1)$r.squared, summary(tw_lm1)$adj.r.squared,
+        "気温 = F(日射)", summary(tw_lm2)$r.squared, summary(tw_lm2)$adj.r.squared,
+        "気温 = F(気圧, 日射)", summary(tw_lm3)$r.squared, summary(tw_lm3)$adj.r.squared,
+        "気温 = F(気圧, 日射, 湿度)", summary(tw_lm4)$r.squared, summary(tw_lm4)$adj.r.squared,
+        "気温 = F(気圧, 日射, 雲量)", summary(tw_lm5)$r.squared, summary(tw_lm5)$adj.r.squared,
+        ))
+      #' View(baz) # 左上ペインに表として表示する場合
+    #+end_src
+    #+begin_src R :exports results :results output raw :tangle no
+      #' 比較結果の表示 (reveal用)
+      baz |> ascii::ascii(digits=3) |> ascii::print(type = "org")
+    #+end_src
 
-  # org に表を処理させる場合は以下のとおり
-  # #+begin_src R :exports none
-  #   #' 関数 tibble::tribble() を利用して結果をまとめる
-  #   #' 行ごとにデータを並べてデータフレームを作ることができる
-  #   (baz <- tribble(
-  #      ~モデル, ~決定係数, ~自由度調整済み決定係数,
-  #      ## 列名は ~ で指定
-  #      "気温 = F(気圧)", summary(tw_lm1)$r.squared, summary(tw_lm1)$adj.r.squared,
-  #      "気温 = F(日射)", summary(tw_lm2)$r.squared, summary(tw_lm2)$adj.r.squared,
-  #      "気温 = F(気圧, 日射)", summary(tw_lm3)$r.squared, summary(tw_lm3)$adj.r.squared,
-  #      "気温 = F(気圧, 日射, 湿度)", summary(tw_lm4)$r.squared, summary(tw_lm4)$adj.r.squared,
-  #      "気温 = F(気圧, 日射, 雲量)", summary(tw_lm5)$r.squared, summary(tw_lm5)$adj.r.squared,
-  #      ))
-  # #+end_src
-  # #+begin_src R :eval no :exports none
-  #   View(baz) # 左上ペインに表として表示
-  # #+end_src
-  # #+html: <font size=6>
-  # #+begin_src R :exports results :results output raw :tangle no
-  #   #' 比較結果の表示 (reveal用)
-  #   baz |> ascii::ascii(digits=3) |> ascii::print(type = "org")
-  # #+end_src
-  # #+html: </font>
-      
+    
 * 次回の予定
 - 第1回 : 回帰モデルの考え方と推定
 - *第2回 : モデルの評価*
