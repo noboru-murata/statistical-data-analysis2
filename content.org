@@ -93,7 +93,7 @@
 :EXPORT_FILE_NAME: lecture05
 :EXPORT_DATE: <2020-09-19 Sat>
 :END:
-<2023-03-31 Fri> 更新
+<2023-10-26 Thu> 更新
 ** スライド
 #+hugo: {{< myslide base="statistical-data-analysis2" name="slide05" >}}
 ** ハンドアウト
@@ -106,14 +106,14 @@
 :EXPORT_FILE_NAME: lecture06
 :EXPORT_DATE: <2020-09-19 Sat>
 :END:
-<2023-03-31 Fri> 更新
+<2023-10-26 Thu> 更新
 ** スライド
 #+hugo: {{< myslide base="statistical-data-analysis2" name="slide06" >}}
 ** ハンドアウト
 - [[github:pdfs/slide06.pdf][PDF file]]
 ** 付録
 - [[github:code/slide06.R][RScript]]
-- [[github:data/japan_social.csv][都道府県別の社会生活指標データ]]
+- [[github:data/data06.zip][練習問題用データセット]]
 
 * 第7講
 :PROPERTIES:

@@ -6,7 +6,7 @@ draft = false
 weight = 1007
 +++
 
-<span class="timestamp-wrapper"><span class="timestamp">&lt;2023-03-31 Fri&gt; </span></span> 更新
+<span class="timestamp-wrapper"><span class="timestamp">&lt;2023-10-26 Thu&gt; </span></span> 更新
 
 
 ## スライド {#スライド}
@@ -22,4 +22,4 @@ weight = 1007
 ## 付録 {#付録}
 
 -   [RScript](https://noboru-murata.github.io/statistical-data-analysis2/code/slide06.R)
--   [都道府県別の社会生活指標データ](https://noboru-murata.github.io/statistical-data-analysis2/data/japan_social.csv)
+-   [練習問題用データセット](https://noboru-murata.github.io/statistical-data-analysis2/data/data06.zip)

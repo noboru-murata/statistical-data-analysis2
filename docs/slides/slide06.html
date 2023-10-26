@@ -45,27 +45,25 @@
 </div>
 
 </section>
-
 <section>
-<section id="slide-org30e5ed6">
-<h2 id="org30e5ed6">講義概要</h2>
+<section id="slide-org107ed3a">
+<h2 id="org107ed3a">講義概要</h2>
 <ul>
 <li><b>第1日 : 主成分分析の考え方</b></li>
 <li>第2日 : 分析の評価と視覚化</li>
 
 </ul>
 <div class="slide-footer"><br></div>
-
 </section>
 </section>
 <section>
-<section id="slide-org4580795">
-<h2 id="org4580795">主成分分析の考え方</h2>
-<div class="outline-text-2" id="text-org4580795">
+<section id="slide-org5ed8722">
+<h2 id="org5ed8722">主成分分析の考え方</h2>
+<div class="outline-text-2" id="text-org5ed8722">
 </div>
 </section>
-<section id="slide-org3d3736b">
-<h3 id="org3d3736b">主成分分析</h3>
+<section id="slide-org11c4513">
+<h3 id="org11c4513">主成分分析</h3>
 <ul>
 <li>多数の変量のもつ情報の分析・視覚化
 <ul>
@@ -81,10 +79,9 @@
 
 </ul>
 <div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-orga78e18a">
-<h3 id="orga78e18a">分析の枠組み</h3>
+<section id="slide-orgec0c875">
+<h3 id="orgec0c875">分析の枠組み</h3>
 <ul>
 <li>\(X_{1},\dotsc,X_{p}\) : <b>変数</b></li>
 <li>\(Z_{1},\dotsc,Z_{d}\) : <b>特徴量</b> ( \(d\leq p\) )</li>
@@ -116,15 +113,14 @@
 
 </ul>
 <div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-orga03c3d2">
-<h3 id="orga03c3d2">主成分分析の用語</h3>
+<section id="slide-org7940929">
+<h3 id="org7940929">主成分分析の用語</h3>
 <ul>
 <li>特徴量 \(Z_k\)
 <ul>
-<li>第 \(k\) <b>主成分</b></li>
 <li>第 \(k\) <b>主成分得点</b> (principal component score)</li>
+<li>第 \(k\) <b>主成分</b></li>
 
 </ul></li>
 <li>係数ベクトル \(\boldsymbol{a}_k\)
@@ -136,10 +132,9 @@
 
 </ul>
 <div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-org50979d4">
-<h3 id="org50979d4">分析の目的</h3>
+<section id="slide-org2d6a25c">
+<h3 id="org2d6a25c">分析の目的</h3>
 <ul>
 <li><p>
 目的
@@ -152,7 +147,7 @@
 \(X_{1},\dotsc,X_{p}\)
 の情報を効率よく反映するように主成分負荷量
 \(\boldsymbol{a}_{1},\dotsc,\boldsymbol{a}_{d}\)
-を観測データから <b>うまく</b> 決定する
+を観測データから決定する
 </p>
 </blockquote></li>
 <li>分析の方針 (以下は同値)
@@ -163,29 +158,27 @@
 </ul></li>
 <li><b>教師なし学習</b> の代表的手法の1つ
 <ul>
-<li>次元縮約 : 入力をできるだけ少ない変数で表現</li>
 <li>特徴抽出 : 情報処理に重要な特性を変数に凝集</li>
+<li>次元縮約 : 入力をできるだけ少ない変数で表現</li>
 
 </ul></li>
 
 </ul>
 <div class="slide-footer"><br></div>
-
-
 </section>
 </section>
 <section>
-<section id="slide-orgf15f403" data-background="#fef4f4">
-<h2 id="orgf15f403">実習</h2>
+<section id="slide-org1965d0b" data-background="#fef4f4">
+<h2 id="org1965d0b">実習</h2>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org3d08b2f" data-background="#fef4f4">
-<h3 id="org3d08b2f">R : 主成分分析を実行する関数</h3>
+<section id="slide-orgf972653" data-background="#fef4f4">
+<h3 id="orgf972653">R : 主成分分析を実行する関数</h3>
 <ul>
 <li>Rの標準的な関数
 <ul>
-<li><code>prcomp()</code></li>
-<li><code>princomp()</code></li>
+<li><code>stats::prcomp()</code></li>
+<li><code>stats::princomp()</code></li>
 
 </ul></li>
 <li>計算法に若干の違いがある
@@ -198,18 +191,20 @@
 
 </ul>
 <div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-orgb0ec178" data-background="#fef4f4">
-<h3 id="orgb0ec178">R : 関数 <code>prcomp()</code> の使い方</h3>
+<section id="slide-orgd12fbc8" data-background="#fef4f4">
+<h3 id="orgd12fbc8">R : 関数 <code>prcomp()</code> の使い方</h3>
 <ul>
 <li><p>
 データフレームの全ての列を用いる場合
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >prcomp(x = データフレーム)
-## x: 必要な変数を含むデータフレーム
+<pre><code class="R" >prcomp(x, retx = TRUE, center = TRUE, scale. = FALSE,
+       tol = NULL, rank. = NULL, ...)
+#' x: 必要な変数のみからなるデータフレーム
+#' center: 中心化(平均0)を行って処理するか否か
+#' scale.: 規格化(分散1)を行って処理するか否か
 </code></pre>
 </div></li>
 <li><p>
@@ -217,23 +212,40 @@
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >prcomp(formula = ~ x1の変数名 + ... + xpの変数名,
-       data = データフレーム)
-## formula: ~ 変数名 (解析の対象を + で並べる) 左辺はないので注意すること
-## data: 必要な変数を含むデータフレーム
+<pre><code class="R" >prcomp(formula, data = NULL, subset, na.action, ...)
+#' formula: ~ 変数名 (解析の対象を + で並べる) 左辺はないので注意
+#' data: 必要な変数を含むデータフレーム
+#' 詳細は '?stats::prcomp' を参照
+</code></pre>
+</div></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org3324dd2" data-background="#fef4f4">
+<h3 id="org3324dd2">R : 関数 <code>predict()</code> の使い方</h3>
+<ul>
+<li><p>
+主成分得点を計算する関数
+</p>
+<div class="org-src-container">
+
+<pre><code class="R" >predict(object, newdata, ...)
+#' object: prcomp が出力したオブジェクト
+#' newdata: 主成分得点を計算するデータフレーム
+#' 詳細は '?stats::prcomp' または '?stats::predict.prcomp' を参照
 </code></pre>
 </div>
 <ul>
-<li>関数の返り値は <code>help(prcomp)</code> を参照</li>
+<li>&rsquo;newdata&rsquo; を省略すると分析に用いたデータフレームの得点が計算される</li>
 
 </ul></li>
 
 </ul>
 <div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-orgacbe0ea" data-background="#fef4f4">
-<h3 id="orgacbe0ea">練習問題</h3>
+<section id="slide-org40f66f6" data-background="#fef4f4">
+<h3 id="org40f66f6">練習問題</h3>
 <ul>
 <li>数値実験により主成分分析の考え方を確認しなさい
 <ul>
@@ -242,10 +254,10 @@
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >a &lt;- c(1, 2)/sqrt(5) # 主成分負荷量 (単位ベクトル)
-## 観測データ (2次元) の作成 (aのスカラー倍に正規乱数を重畳)
+<pre><code class="R" >#' 観測データ (2次元) の作成 (aのスカラー倍に正規乱数を重畳)
+a &lt;- c(1, 2)/sqrt(5) # 主成分負荷量 (単位ベクトル)
 n &lt;- 100 # データ数
-my_data &lt;- data.frame(runif(n,-1,1) %o% a + rnorm(2*n, sd=0.3))
+toy_data &lt;- tibble(runif(n, -1, 1) %o% a + rnorm(2*n, sd = 0.3))
 </code></pre>
 </div></li>
 <li>観測データの散布図を作成</li>
@@ -254,8 +266,8 @@ my_data &lt;- data.frame(runif(n,-1,1) %o% a + rnorm(2*n, sd=0.3))
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >prcomp(my_data) # 全ての主成分を計算する
-ahat &lt;- prcomp(my_data)$rotation[,1] # 負荷量(rotation)の1列目が第1主成分
+<pre><code class="R" >prcomp(toy_data) # 全ての主成分を計算する
+a_hat &lt;- prcomp(toy_data)$rotation[,1] # 負荷量(rotation)の1列目が第1主成分
 </code></pre>
 </div></li>
 <li><p>
@@ -263,7 +275,7 @@ ahat &lt;- prcomp(my_data)$rotation[,1] # 負荷量(rotation)の1列目が第1�
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >abline(切片,傾き) # 指定の直線を追加できる
+<pre><code class="R" >geom_abline(slope = 傾き, intercept = 切片) # 指定の直線を追加できる
 </code></pre>
 </div></li>
 
@@ -271,17 +283,16 @@ ahat &lt;- prcomp(my_data)$rotation[,1] # 負荷量(rotation)の1列目が第1�
 
 </ul>
 <div class="slide-footer"><br></div>
-
 </section>
 </section>
 <section>
-<section id="slide-org05cbe40">
-<h2 id="org05cbe40">第1主成分の計算</h2>
-<div class="outline-text-2" id="text-org05cbe40">
+<section id="slide-org6b0829f">
+<h2 id="org6b0829f">第1主成分の計算</h2>
+<div class="outline-text-2" id="text-org6b0829f">
 </div>
 </section>
-<section id="slide-org2ed4c1d">
-<h3 id="org2ed4c1d">記号の準備</h3>
+<section id="slide-orgca2660b">
+<h3 id="orgca2660b">記号の準備</h3>
 <ul>
 <li>変数 : \(x_{1},\dotsc,x_{p}\) (\(p\)次元)</li>
 <li><p>
@@ -306,10 +317,9 @@ ahat &lt;- prcomp(my_data)$rotation[,1] # 負荷量(rotation)の1列目が第1�
 
 </ul>
 <div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-orgb78647e">
-<h3 id="orgb78647e">係数ベクトルによる射影</h3>
+<section id="slide-org51a182f">
+<h3 id="org51a182f">係数ベクトルによる射影</h3>
 <ul>
 <li><p>
 データ \(\boldsymbol{x}_{i}\) の \(\boldsymbol{a}\) 方向成分の長さ
@@ -340,21 +350,19 @@ ahat &lt;- prcomp(my_data)$rotation[,1] # 負荷量(rotation)の1列目が第1�
 
 </ul>
 <div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-orgc2bf2d7">
-<h3 id="orgc2bf2d7">幾何学的描像</h3>
+<section id="slide-orgbe4c137">
+<h3 id="orgbe4c137">幾何学的描像</h3>
 
-<div id="orgf88ea98" class="figure">
+<div id="org7dfffb3" class="figure">
 <p><img src="./figs/pca-figure.png" alt="pca-figure.png" width="100%" />
 </p>
 <p><span class="figure-number">Figure 1: </span>観測データの直交射影 (\(p=2,n=2\) の場合)</p>
 </div>
 <div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-org59f50d5">
-<h3 id="org59f50d5">ベクトル \(\boldsymbol{a}\) の選択の指針</h3>
+<section id="slide-org8370259">
+<h3 id="org8370259">ベクトル \(\boldsymbol{a}\) の選択の指針</h3>
 <ul>
 <li><p>
 射影による特徴量の構成
@@ -362,15 +370,15 @@ ahat &lt;- prcomp(my_data)$rotation[,1] # 負荷量(rotation)の1列目が第1�
 <blockquote>
 <p>
 ベクトル \(\boldsymbol{a}\) を <b>うまく</b> 選んで
-観測データ \(\boldsymbol{x}_{1},\dots,\boldsymbol{x}_n\)
-の情報を最も保持する1変量データを構成
+観測データ \(\boldsymbol{x}_{1},\cdots,\boldsymbol{x}_{n}\)
+の情報を最も保持する1変量データ \(z_{1},\cdots,z_{n}\)を構成
 </p>
 <div>
 \begin{equation}
-  \boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_{1},
-  \boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_2,
+  z_{1}=\boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_{1},
+  z_{2}=\boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_2,
   \dotsc,
-  \boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_n
+  z_{n}=\boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_n
 \end{equation}
 
 </div>
@@ -399,10 +407,9 @@ ahat &lt;- prcomp(my_data)$rotation[,1] # 負荷量(rotation)の1列目が第1�
 
 </ul>
 <div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-org64b10d7">
-<h3 id="org64b10d7">ベクトル \(\boldsymbol{a}\) の最適化</h3>
+<section id="slide-orge6123b3">
+<h3 id="orge6123b3">ベクトル \(\boldsymbol{a}\) の最適化</h3>
 <ul>
 <li><p>
 最適化問題
@@ -431,18 +438,146 @@ ahat &lt;- prcomp(my_data)$rotation[,1] # 負荷量(rotation)の1列目が第1�
 
 </ul>
 <div class="slide-footer"><br></div>
-
-
 </section>
 </section>
 <section>
-<section id="slide-orgc7632bc">
-<h2 id="orgc7632bc">第1主成分の解</h2>
-<div class="outline-text-2" id="text-orgc7632bc">
+<section id="slide-org943cc05" data-background="#fef4f4">
+<h2 id="org943cc05">演習</h2>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orge413e6d" data-background="#fef4f4">
+<h3 id="orge413e6d">問題</h3>
+<ul>
+<li>以下の問に答えなさい
+<ul>
+<li><p>
+評価関数 \(f(\boldsymbol{a})\)
+を以下の中心化したデータ行列で表しなさい
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  X
+  =
+  \begin{pmatrix}
+    \boldsymbol{x}_{1}^{\mathsf{T}}-\bar{\boldsymbol{x}}^{\mathsf{T}} \\
+    \vdots \\
+    \boldsymbol{x}_{n}^{\mathsf{T}}-\bar{\boldsymbol{x}}^{\mathsf{T}}
+  \end{pmatrix}
+  =
+  \begin{pmatrix}
+    x_{11}-\bar{x}_{1} & \cdots & x_{1p}-\bar{x}_{p}\\
+    \vdots & & \vdots \\
+    x_{n1}-\bar{x}_{1} & \cdots & x_{np}-\bar{x}_{p}
+  \end{pmatrix}
+\end{equation}
+
+</div>
+</blockquote></li>
+<li><p>
+上の結果を用いて次の最適化問題の解の条件を求めなさい
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  \text{maximize}\quad
+  f(\boldsymbol{a})
+  \quad\text{s.t.}\quad
+  \boldsymbol{a}^{\mathsf{T}}\boldsymbol{a}=1
+\end{equation}
+
+</div>
+</blockquote></li>
+
+</ul></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org1ad26f4" data-background="#fef4f4">
+<h3 id="org1ad26f4">解答例</h3>
+<ul>
+<li><p>
+定義どおりに計算する
+</p>
+<blockquote>
+<div>
+\begin{align}
+  f(\boldsymbol{a})
+  &=
+    \sum_{i=1}^n(\boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_{i}
+    -\boldsymbol{a}^{\mathsf{T}}\bar{\boldsymbol{x}})^2\\
+  &=
+    \sum_{i=1}^n
+    (\boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_{i}
+    -\boldsymbol{a}^{\mathsf{T}}\bar{\boldsymbol{x}})
+    (\boldsymbol{x}_{i}^{\mathsf{T}}\boldsymbol{a}
+    -\bar{\boldsymbol{x}}\boldsymbol{a}^{\mathsf{T}})\\
+  &=
+    \boldsymbol{a}^{\mathsf{T}}X^{\mathsf{T}}X\boldsymbol{a}
+\end{align}
+
+</div>
+</blockquote>
+<ul>
+<li>回帰分析の Gram 行列を参照</li>
+
+</ul></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section data-background="#fef4f4">
+<ul>
+<li><p>
+制約付き最適化なので未定係数法を用いればよい
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  L(\boldsymbol{a},\lambda)
+  =f(\boldsymbol{a})+\lambda(1-\boldsymbol{a}^{\mathsf{T}}\boldsymbol{a})
+\end{equation}
+
+</div>
+<p>
+の鞍点
+</p>
+<div>
+\begin{equation}
+  \frac{\partial}{\partial\boldsymbol{a}}L(\boldsymbol{a},\lambda)
+  =0
+\end{equation}
+
+</div>
+<p>
+を求めればよいので
+</p>
+<div>
+\begin{align}
+  2X^{\mathsf{T}}X\boldsymbol{a}-2\lambda\boldsymbol{a}
+  &=0\\
+  X^{\mathsf{T}}X\boldsymbol{a}
+  &=\lambda\boldsymbol{a}
+    \quad\text{(固有値問題)}
+\end{align}
+
+</div>
+</blockquote></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+</section>
+<section>
+<section id="slide-orgd96f450">
+<h2 id="orgd96f450">第1主成分の解</h2>
+<div class="outline-text-2" id="text-orgd96f450">
 </div>
 </section>
-<section id="slide-org979b8c9">
-<h3 id="org979b8c9">行列による表現</h3>
+<section id="slide-org6e4fa52">
+<h3 id="org6e4fa52">行列による表現</h3>
 <ul>
 <li><p>
 中心化したデータ行列
@@ -466,10 +601,6 @@ ahat &lt;- prcomp(my_data)$rotation[,1] # 負荷量(rotation)の1列目が第1�
 \end{equation}
 
 </div>
-
-<p>
-(回帰分析のデザイン行列を参照)
-</p>
 </blockquote></li>
 <li><p>
 評価関数 \(f(\boldsymbol{a})\) は行列 \(X^{\mathsf{T}}X\) 
@@ -484,18 +615,13 @@ ahat &lt;- prcomp(my_data)$rotation[,1] # 負荷量(rotation)の1列目が第1�
 \end{equation}
 
 </div>
-
-<p>
-(回帰分析の Gram 行列を参照)
-</p>
 </blockquote></li>
 
 </ul>
 <div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-orgfbfe423">
-<h3 id="orgfbfe423">ベクトル \(\boldsymbol{a}\) の解</h3>
+<section id="slide-org94deabd">
+<h3 id="org94deabd">ベクトル \(\boldsymbol{a}\) の解</h3>
 <ul>
 <li><p>
 最適化問題
@@ -557,11 +683,34 @@ ahat &lt;- prcomp(my_data)$rotation[,1] # 負荷量(rotation)の1列目が第1�
 </blockquote></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 
+<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org851b109">
-<h3 id="org851b109">第1主成分</h3>
+<section>
+<ul>
+<li><p>
+解の条件
+</p>
+<blockquote>
+<p>
+\(f(\boldsymbol{a})\) の極大値を与える \(\boldsymbol{a}\) は
+\(X^{\mathsf{T}}X\) の固有ベクトルとなる
+</p>
+<div>
+\begin{equation}
+  X^{\mathsf{T}}X\boldsymbol{a}
+  =
+  \lambda\boldsymbol{a}
+\end{equation}
+
+</div>
+</blockquote></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgffdbca4">
+<h3 id="orgffdbca4">第1主成分</h3>
 <ul>
 <li><p>
 固有ベクトル\(\boldsymbol{a}\)に対する\(f(\boldsymbol{a})\)
@@ -580,9 +729,9 @@ ahat &lt;- prcomp(my_data)$rotation[,1] # 負荷量(rotation)の1列目が第1�
 </blockquote></li>
 <li>求める \(\boldsymbol{a}\)
 は行列 \(X^{\mathsf{T}}X\) の最大固有ベクトル (長さ1)</li>
-<li><b>第1主成分負荷量</b> : ベクトル \(\boldsymbol{a}\)</li>
+<li><b>第1主成分負荷量</b> : 最大(第一)固有ベクトル \(\boldsymbol{a}\)</li>
 <li><p>
-<b>第1主成分得点</b> :
+<b>第1主成分得点</b>
 </p>
 <blockquote>
 <div>
@@ -598,17 +747,15 @@ ahat &lt;- prcomp(my_data)$rotation[,1] # 負荷量(rotation)の1列目が第1�
 
 </ul>
 <div class="slide-footer"><br></div>
-
-
 </section>
 </section>
 <section>
-<section id="slide-orge80695d" data-background="#fef4f4">
-<h2 id="orge80695d">実習</h2>
+<section id="slide-org3ae8628" data-background="#fef4f4">
+<h2 id="org3ae8628">実習</h2>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orge4558a0" data-background="#fef4f4">
-<h3 id="orge4558a0">練習問題</h3>
+<section id="slide-org3b1651d" data-background="#fef4f4">
+<h3 id="org3b1651d">練習問題</h3>
 <ul>
 <li>第1主成分とGram行列の固有ベクトルの関係を調べなさい
 <ul>
@@ -619,12 +766,12 @@ Gram 行列を計算し固有値・固有ベクトルを求める
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >## 中心化を行う
-X &lt;- scale(my_data, scale=FALSE) # help(scale) でオプション scale を確認
-## Gram 行列を計算する
+<pre><code class="R" >#' 中心化を行う
+X &lt;- scale(toy_data, scale=FALSE) # help(scale) でオプション scale を確認
+#' Gram 行列を計算する
 G &lt;- crossprod(X)
-## 固有値・固有ベクトルを求める
-eig &lt;- eigen(G) # help(eigen) で返り値を確認
+#' 固有値・固有ベクトルを求める
+eigen(G) # help(eigen) で返り値を確認
 </code></pre>
 </div></li>
 
@@ -632,17 +779,16 @@ eig &lt;- eigen(G) # help(eigen) で返り値を確認
 
 </ul>
 <div class="slide-footer"><br></div>
-
 </section>
 </section>
 <section>
-<section id="slide-orgd234283">
-<h2 id="orgd234283">Gram 行列の性質</h2>
-<div class="outline-text-2" id="text-orgd234283">
+<section id="slide-org59efce5">
+<h2 id="org59efce5">Gram 行列の性質</h2>
+<div class="outline-text-2" id="text-org59efce5">
 </div>
 </section>
-<section id="slide-org9b17429">
-<h3 id="org9b17429">Gram 行列の固有値</h3>
+<section id="slide-org3302ae6">
+<h3 id="org3302ae6">Gram 行列の固有値</h3>
 <ul>
 <li>\(X^{\mathsf{T}}X\) は非負定値対称行列</li>
 <li>\(X^{\mathsf{T}}X\) の固有値は0以上の実数
@@ -675,10 +821,9 @@ eig &lt;- eigen(G) # help(eigen) で返り値を確認
 
 </ul>
 <div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-orge6d2a8e">
-<h3 id="orge6d2a8e">Gram 行列のスペクトル分解</h3>
+<section id="slide-orga16379b">
+<h3 id="orga16379b">Gram 行列のスペクトル分解</h3>
 <ul>
 <li><p>
 \(\boldsymbol{a}_{1},\dotsc,\boldsymbol{a}_{p}\) は <b>互いに直交</b> するようとることができる
@@ -707,26 +852,24 @@ eig &lt;- eigen(G) # help(eigen) で返り値を確認
 \end{align}
 
 </div>
+</blockquote>
+<ul>
+<li>固有値と固有ベクトルによる行列の表現</li>
 
-<p>
-固有値と固有ベクトルによる行列の表現
-</p>
-</blockquote></li>
+</ul></li>
 
 </ul>
 <div class="slide-footer"><br></div>
-
-
 </section>
 </section>
 <section>
-<section id="slide-org34bcf07">
-<h2 id="org34bcf07">第2主成分以降の計算</h2>
-<div class="outline-text-2" id="text-org34bcf07">
+<section id="slide-org9090ff4">
+<h2 id="org9090ff4">第2主成分以降の計算</h2>
+<div class="outline-text-2" id="text-org9090ff4">
 </div>
 </section>
-<section id="slide-orgea33694">
-<h3 id="orgea33694">第2主成分の考え方</h3>
+<section id="slide-orgd08c6f2">
+<h3 id="orgd08c6f2">第2主成分の考え方</h3>
 <ul>
 <li>第1主成分
 <ul>
@@ -764,10 +907,9 @@ eig &lt;- eigen(G) # help(eigen) で返り値を確認
 
 </ul>
 <div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-org4a6db5a">
-<h3 id="org4a6db5a">第2主成分の最適化</h3>
+<section id="slide-orgb441692">
+<h3 id="orgb441692">第2主成分の最適化</h3>
 <ul>
 <li><p>
 最適化問題
@@ -794,18 +936,16 @@ eig &lt;- eigen(G) # help(eigen) で返り値を確認
 
 </ul>
 <div class="slide-footer"><br></div>
-
-
 </section>
 </section>
 <section>
-<section id="slide-orgd2c20e3">
-<h2 id="orgd2c20e3">第2主成分以降の解</h2>
-<div class="outline-text-2" id="text-orgd2c20e3">
+<section id="slide-orgd6f73da">
+<h2 id="orgd6f73da">第2主成分以降の解</h2>
+<div class="outline-text-2" id="text-orgd6f73da">
 </div>
 </section>
-<section id="slide-org5c6b756">
-<h3 id="org5c6b756">行列による表現</h3>
+<section id="slide-orgd2897cc">
+<h3 id="orgd2897cc">行列による表現</h3>
 <ul>
 <li><p>
 中心化したデータ行列
@@ -826,6 +966,13 @@ eig &lt;- eigen(G) # help(eigen) で返り値を確認
 
 </div>
 </blockquote></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section>
+<ul>
 <li><p>
 Gram 行列
 </p>
@@ -837,8 +984,21 @@ Gram 行列
     (X-X\boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}})^{\mathsf{T}}
     (X-X\boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}})\\
   &=
-    X^{\mathsf{T}}X-\lambda_{1}\boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}}
-    =
+    X^{\mathsf{T}}X
+    - X^{\mathsf{T}}X\boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}}
+    - \boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}}X^{\mathsf{T}}X
+    + \boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}}X^{\mathsf{T}}X
+    \boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}}\\
+  &=
+    X^{\mathsf{T}}X
+    - \lambda_{1}\boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}}
+    - \lambda_{1}\boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}}
+    + \lambda_{1}\boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}}
+    \boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}}\\
+  &=
+    X^{\mathsf{T}}X
+    - \lambda_{1}\boldsymbol{a}_{1}\boldsymbol{a}_{1}^{\mathsf{T}}\\
+  &=
     \sum_{k=2}^{p}\lambda_{k}\boldsymbol{a}_{k}\boldsymbol{a}_{k}^{\mathsf{T}}
 \end{align}
 
@@ -847,10 +1007,9 @@ Gram 行列
 
 </ul>
 <div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-org63606e4">
-<h3 id="org63606e4">第2主成分</h3>
+<section id="slide-org9a6f921">
+<h3 id="org9a6f921">第2主成分</h3>
 <ul>
 <li><p>
 Gram 行列 \(\tilde{X}^{\mathsf{T}}\tilde{X}\)
@@ -869,6 +1028,10 @@ Gram 行列 \(\tilde{X}^{\mathsf{T}}\tilde{X}\)
 の最大固有値は
 \(\lambda_2\)</li>
 <li>解は第2固有値 \(\lambda_2\) に対応する固有ベクトル \(\boldsymbol{a}_2\)</li>
+
+</ul>
+<hr />
+<ul>
 <li>以下同様に
 第 \(k\) 主成分負荷量は 
 \(X^{\mathsf{T}}X\) の第 \(k\) 固有値 \(\lambda_k\)
@@ -876,22 +1039,20 @@ Gram 行列 \(\tilde{X}^{\mathsf{T}}\tilde{X}\)
 
 </ul>
 <div class="slide-footer"><br></div>
-
-
 </section>
 </section>
 <section>
-<section id="slide-org90fe436" data-background="#fef4f4">
-<h2 id="org90fe436">実習</h2>
+<section id="slide-org11ea6f1" data-background="#fef4f4">
+<h2 id="org11ea6f1">実習</h2>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgb4eb40a" data-background="#fef4f4">
-<h3 id="orgb4eb40a">データセットの準備</h3>
+<section id="slide-org5154c9c" data-background="#fef4f4">
+<h3 id="org5154c9c">データセットの準備</h3>
 <ul>
-<li>主成分分析では以下のデータセットを使用します
+<li>主成分分析では以下のデータセットを使用する
 <ul>
 <li><p>
-<code>japan_social.csv</code>
+<code>japan_social.csv</code> (配付)
 </p>
 <blockquote>
 <p>
@@ -907,18 +1068,18 @@ Gram 行列 \(\tilde{X}^{\mathsf{T}}\tilde{X}\)
 
 </ul>
 </blockquote>
-<p>
-<a href="https://www.e-stat.go.jp/SG1/estat/List.do?bid=000001083999&amp;cycode=0">https://www.e-stat.go.jp/SG1/estat/List.do?bid=000001083999&amp;cycode=0</a>
-</p></li>
+<ul>
+<li>参考 : <a href="https://www.e-stat.go.jp/SG1/estat/List.do?bid=000001083999&amp;cycode=0">https://www.e-stat.go.jp/SG1/estat/List.do?bid=000001083999&amp;cycode=0</a></li>
+
+</ul></li>
 
 </ul></li>
 
 </ul>
 <div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-orgbefb701" data-background="#fef4f4">
-<h3 id="orgbefb701">練習問題</h3>
+<section id="slide-org2416f0b" data-background="#fef4f4">
+<h3 id="org2416f0b">練習問題</h3>
 <ul>
 <li>前掲のデータを用いて主成分分析を行いなさい
 <ul>
@@ -927,7 +1088,7 @@ Gram 行列 \(\tilde{X}^{\mathsf{T}}\tilde{X}\)
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >js_data &lt;- read.csv("data/japan_social.csv", row.names=1)
+<pre><code class="R" >js_data &lt;- read_csv("data/japan_social.csv")
 </code></pre>
 </div></li>
 <li>データの散布図行列を描く</li>
@@ -937,8 +1098,9 @@ Gram 行列 \(\tilde{X}^{\mathsf{T}}\tilde{X}\)
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >js_pca &lt;- prcomp(js_data, scale=TRUE)
-## scale=TRUE とすると変数を正規化してから解析する
+<pre><code class="R" >js_pca &lt;- prcomp(js_data[-1], scale. = TRUE)
+#' '-1' は都道府県名を除く．関数 select() を利用することもできる
+#' 'scale.=TRUE' とすると変数を正規化してから解析する
 </code></pre>
 </div></li>
 
@@ -946,12 +1108,11 @@ Gram 行列 \(\tilde{X}^{\mathsf{T}}\tilde{X}\)
 
 </ul>
 <div class="slide-footer"><br></div>
-
 </section>
 </section>
 <section>
-<section id="slide-orgfb5d7b4">
-<h2 id="orgfb5d7b4">次回の予定</h2>
+<section id="slide-orgfe7a343">
+<h2 id="orgfe7a343">次回の予定</h2>
 <ul>
 <li>第1日 : 主成分分析の考え方</li>
 <li><b>第2日 : 分析の評価と視覚化</b></li>
