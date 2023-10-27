@@ -238,19 +238,20 @@ for(k in 1:3) {
                    fill = "lightblue", colour = "blue") +
     geom_vline(xintercept = sqrt(beta_cov[k,k]), # 真の値
                colour = "orchid") +
-    labs(x = names(mc_data)[k], main = "std. errors")
+    labs(x = names(mc_data)[k], title = "std. errors")
   print(bar) 
 }
 
 #' 広告費と売上データによる分析
-
 #' データの読み込み
-adv_data <- read_csv('https://www.statlearning.com/s/Advertising.csv')
+adv_data <-
+  read_csv('https://www.statlearning.com/s/Advertising.csv',
+           col_select = -1) # 1列目は行名と同じIDなので除去しておく
 
 #' モデルの推定
-adv_lm1 <- lm(sales ~ TV, data=adv_data)
-adv_lm2 <- lm(sales ~ radio, data=adv_data)
-adv_lm3 <- lm(sales ~ TV + radio, data=adv_data)
+adv_lm1 <- lm(sales ~ TV, data = adv_data)
+adv_lm2 <- lm(sales ~ radio, data = adv_data)
+adv_lm3 <- lm(sales ~ TV + radio, data = adv_data)
 
 #' 推定値とその標準誤差
 summary(adv_lm1)$coef[,1:2] 
@@ -258,7 +259,6 @@ summary(adv_lm2)$coef[,1:2]
 summary(adv_lm3)$coef[,1:2]
 
 #' 東京の気候データによる分析
-
 #' データの整理 (8月のデータの抽出)
 tw_subset <-
   read_csv("data/tokyo_weather.csv") |>
@@ -270,9 +270,9 @@ tw_model2 <- temp ~ solar + press
 tw_model3 <- temp ~ solar + press + cloud
 
 #' 回帰モデルの推定
-tw_lm1 <- lm(tw_model1, data=tw_subset, y=TRUE)
-tw_lm2 <- lm(tw_model2, data=tw_subset, y=TRUE)
-tw_lm3 <- lm(tw_model3, data=tw_subset, y=TRUE)
+tw_lm1 <- lm(tw_model1, data = tw_subset)
+tw_lm2 <- lm(tw_model2, data = tw_subset)
+tw_lm3 <- lm(tw_model3, data = tw_subset)
 
 #' モデルの推定値とその標準誤差は以下のとおり
 summary(tw_lm1)$coef[,c("Estimate","Std. Error")]
@@ -309,7 +309,7 @@ mc <- 5000 # 実験回数
 mc_data <- 
   replicate(mc, mc_trial()) |> t() |> as_tibble()
 #' 各回帰係数のt統計量の分布
-n <- length(x_obs1) # データ数 n
+n <- nrow(x_obs) # データ数 n
 p <- 2 # 説明変数の次元
 #' beta0 (k=1), beta1 (k=2), beta2 (k=3)
 for(k in 1:3) { # 同じ処理であればfor文などの利用を推奨
@@ -327,7 +327,7 @@ for(k in 1:3) { # 同じ処理であればfor文などの利用を推奨
 
 #' 全てを用いたモデルと newspaper を除いたモデルを比較する
 summary(lm(sales ~ ., data = adv_data)) # "." は全て
-summary(lm(sales ~ . -newspaper, data = adv_data)) # "-" は除外
+summary(lm(sales ~ . - newspaper, data = adv_data)) # "-" は除外
 
 #' @notes
 #' newspaperの係数のt統計量から有意性は低いと考えられる
@@ -347,62 +347,58 @@ summary(lm(temp ~ solar, data = tw_subset))
 
 #' ---------------------------------------------------------------------------
 
-#' F統計量とその自由度は以下のようにして取り出せる
-data_lm <- lm(formula, data)
-summary(data_lm)$fstat
-summary(data_lm)$fstatistic # 省略しない場合
-
 #' ---------------------------------------------------------------------------
 #' @practice F統計量の性質
 
 #' 人工データによる確認
-set.seed(2525) # 乱数のシード (適宜変更せよ)
+  set.seed(2525) # 乱数のシード (適宜変更せよ)
 
-#' 試行の設定 (重回帰，以下適宜変更せよ)
-x_obs <- tibble(x0 = 1,
-                x1 = c(1, 20, 13, 9, 5, 15, 19, 8, 3, 4), # 説明変数1
-                x2 = c(3, 19, 1, 4, 18, 7, 2, 10, 6, 12)) # 説明変数2
-beta <- c(-1, 0, 0) # (切片, x1の係数, x2の係数)
-#'  x1,x2 の係数はどちらも0なので帰無仮説が成り立つ
-sigma <-  sqrt(2) # 誤差の標準偏差(分散の平方根)
-mc_trial <- function(){ 
-  epsilon <- rnorm(nrow(x_obs), sd = sigma) # 誤差項
-  toy_data <- x_obs |> # 目的変数の観測値を追加
-    mutate(y = as.vector(as.matrix(x_obs) %*% beta) + epsilon)
-  toy_lm <- lm(y ~ x1 + x2, data = toy_data) # 回帰係数の推定
-  return(set_names(summary(toy_lm)$fstat[1], "fstat")) # F統計量を返す
-}
+  #' 試行の設定 (重回帰，以下適宜変更せよ)
+  x_obs <- tibble(x0 = 1,
+                  x1 = c(1, 20, 13, 9, 5, 15, 19, 8, 3, 4), # 説明変数1
+                  x2 = c(3, 19, 1, 4, 18, 7, 2, 10, 6, 12)) # 説明変数2
+  beta <- c(-1, 0, 0) # (切片, x1の係数, x2の係数)
+  #'  x1,x2 の係数はどちらも0なので帰無仮説が成り立つ
+  sigma <-  sqrt(2) # 誤差の標準偏差(分散の平方根)
+  mc_trial <- function(){ 
+    epsilon <- rnorm(nrow(x_obs), sd = sigma) # 誤差項
+    toy_data <- x_obs |> # 目的変数の観測値を追加
+      mutate(y = as.vector(as.matrix(x_obs) %*% beta) + epsilon)
+    toy_lm <- lm(y ~ x1 + x2, data = toy_data) # 回帰係数の推定
+    return(summary(toy_lm)$fstat[1]) # F統計量を返す
+#    return(set_names(summary(toy_lm)$fstat[1], "fstat")) # F統計量を返す
+  }
 
-#' 数値実験 (帰無仮説が成り立つ場合)
-mc <- 5000 # 実験回数
-mc_data <- 
-  replicate(mc, mc_trial()) |> as_tibble_col("fstat")
-#' 1次元なので転置は不要．ただし列名の設定が必要
+  #' 数値実験 (帰無仮説が成り立つ場合)
+  mc <- 5000 # 実験回数
+  mc_data <- 
+    replicate(mc, mc_trial()) |> as_tibble_col("fstat")
+  #' 1次元なので転置は不要．ただし列名の設定が必要
 
-#' モデルのF統計量の分布
-n <- nrow(x_obs) # データ数
-p <- 2 # 説明変数の次元
-mc_data |>
-  ggplot(aes(x = fstat)) + 
-  geom_histogram(aes(y = after_stat(density)), bins = 30,
-                 fill = "lightblue", colour = "blue") +
-  geom_function(fun = \(x) df(x, df1 = p, df2 = n-p-1), # 自由度p,n-p-1のF-分布
-                colour = "orchid") +
-  labs(x = "F statistic", title="null hypothesis is true")
+  #' モデルのF統計量の分布
+  n <- nrow(x_obs) # データ数
+  p <- 2 # 説明変数の次元
+  mc_data |>
+    ggplot(aes(x = fstat)) + 
+    geom_histogram(aes(y = after_stat(density)), bins = 30,
+                   fill = "lightblue", colour = "blue") +
+    geom_function(fun = \(x) df(x, df1 = p, df2 = n-p-1), # 自由度p,n-p-1のF-分布
+                  colour = "orchid") +
+    labs(x = "F statistic", title="null hypothesis is true")
 
-#' 数値実験 (帰無仮説が成り立たない場合)
-beta <- c(-1, 2, 0) # x1の係数 : 帰無仮説が成り立たない
-mc_data <-
-  replicate(mc, mc_trial()) |> as_tibble_col("fstat") 
+  #' 数値実験 (帰無仮説が成り立たない場合)
+  beta <- c(-1, 2, 0) # x1の係数 : 帰無仮説が成り立たない
+  mc_data <-
+    replicate(mc, mc_trial()) |> as_tibble_col("fstat") 
 
-#' モデルのF統計量の分布は帰無分布に従わない
-mc_data |>
-  ggplot(aes(x = fstat)) + 
-  geom_histogram(aes(y = after_stat(density)), bins = 30,
-                 fill = "lightblue", colour = "blue") +
-  geom_function(fun = \(x) df(x, df1 = p, df2 = n-p-1), # 自由度p,n-p-1のF-分布
-                colour = "orchid") +
-  labs(x = "F statistic", title="null hypothesis is false")
+  #' モデルのF統計量の分布は帰無分布に従わない
+  mc_data |>
+    ggplot(aes(x = fstat)) + 
+    geom_histogram(aes(y = after_stat(density)), bins = 30,
+                   fill = "lightblue", colour = "blue") +
+    geom_function(fun = \(x) df(x, df1 = p, df2 = n-p-1), # 自由度p,n-p-1のF-分布
+                  colour = "orchid") +
+    labs(x = "F statistic", title="null hypothesis is false")
 
 #' 広告費と売上データによる分析の例
 
