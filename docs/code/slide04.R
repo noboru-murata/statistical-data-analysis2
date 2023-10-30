@@ -19,11 +19,11 @@ tw_model4 <- temp ~ press + solar + humid
 tw_model5 <- temp ~ press + solar + cloud
 
 #' 推定
-tw_lm1 <- lm(tw_model1, data=tw_subset, y=TRUE)
-tw_lm2 <- lm(tw_model2, data=tw_subset, y=TRUE)
-tw_lm3 <- lm(tw_model3, data=tw_subset, y=TRUE)
-tw_lm4 <- lm(tw_model4, data=tw_subset, y=TRUE)
-tw_lm5 <- lm(tw_model5, data=tw_subset, y=TRUE)
+tw_lm1 <- lm(tw_model1, data = tw_subset, y = TRUE)
+tw_lm2 <- lm(tw_model2, data = tw_subset, y = TRUE)
+tw_lm3 <- lm(tw_model3, data = tw_subset, y = TRUE)
+tw_lm4 <- lm(tw_model4, data = tw_subset, y = TRUE)
+tw_lm5 <- lm(tw_model5, data = tw_subset, y = TRUE)
 
 #' データの表示
 #' 列名を日本語にして表示する
