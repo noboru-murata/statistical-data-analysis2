@@ -45,27 +45,25 @@
 </div>
 
 </section>
-
 <section>
-<section id="slide-orgb2c7f69">
-<h2 id="orgb2c7f69">講義概要</h2>
+<section id="slide-org9e9e76c">
+<h2 id="org9e9e76c">講義概要</h2>
 <ul>
-<li>第1日 : 主成分分析の考え方</li>
-<li><b>第2日 : 分析の評価と視覚化</b></li>
+<li>第1日: 主成分分析の考え方</li>
+<li><b>第2日: 分析の評価と視覚化</b></li>
 
 </ul>
 <div class="slide-footer"><br></div>
-
 </section>
 </section>
 <section>
-<section id="slide-orgbb8d6bf">
-<h2 id="orgbb8d6bf">主成分分析の復習</h2>
-<div class="outline-text-2" id="text-orgbb8d6bf">
+<section id="slide-orgb4ab94e">
+<h2 id="orgb4ab94e">主成分分析の復習</h2>
+<div class="outline-text-2" id="text-orgb4ab94e">
 </div>
 </section>
-<section id="slide-orgeeae016">
-<h3 id="orgeeae016">主成分分析</h3>
+<section id="slide-orga1b6b12">
+<h3 id="orga1b6b12">主成分分析</h3>
 <ul>
 <li>多数の変量のもつ情報の分析・視覚化
 <ul>
@@ -83,10 +81,9 @@
 
 </ul>
 <div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-org7ea078c">
-<h3 id="org7ea078c">分析の考え方</h3>
+<section id="slide-org472418b">
+<h3 id="org472418b">分析の考え方</h3>
 <ul>
 <li>1変量の特徴量
 \(\boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_1,\dotsc,\boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_n\)
@@ -125,10 +122,9 @@
 
 </ul>
 <div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-org4de07c5">
-<h3 id="org4de07c5">行列による表現</h3>
+<section id="slide-orge1fbd83">
+<h3 id="orge1fbd83">行列による表現</h3>
 <ul>
 <li><p>
 中心化したデータ行列
@@ -170,10 +166,9 @@
 
 </ul>
 <div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-org5017a56">
-<h3 id="org5017a56">固有値問題</h3>
+<section id="slide-orgf03c9d6">
+<h3 id="orgf03c9d6">固有値問題</h3>
 <ul>
 <li><p>
 最適化問題
@@ -209,16 +204,15 @@
 </div>
 </blockquote>
 <ul>
-<li>未定係数法を用いて制約付き最適化問題を解いている</li>
+<li>未定係数法を用いている</li>
 
 </ul></li>
 
 </ul>
 <div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-org1120c33">
-<h3 id="org1120c33">主成分負荷量と主成分得点</h3>
+<section id="slide-orgdd3350c">
+<h3 id="orgdd3350c">主成分負荷量と主成分得点</h3>
 <ul>
 <li>\(\boldsymbol{a}\) :
 <b>主成分負荷量</b> (principal component loading)</li>
@@ -245,18 +239,130 @@
 
 </ul>
 <div class="slide-footer"><br></div>
-
-
 </section>
 </section>
 <section>
-<section id="slide-orgbfecea6">
-<h2 id="orgbfecea6">寄与率</h2>
-<div class="outline-text-2" id="text-orgbfecea6">
+<section id="slide-orgfb0c007" data-background="#fef4f4">
+<h2 id="orgfb0c007">演習</h2>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org3c12bea" data-background="#fef4f4">
+<h3 id="org3c12bea">問題</h3>
+<ul>
+<li>以下の問に答えなさい
+<ul>
+<li><p>
+ベクトル\(\boldsymbol{a}\)
+を
+\(X^{\mathsf{T}}X\)
+の単位固有ベクトルとするとき
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  f(\boldsymbol{a})=\boldsymbol{a}^{\mathsf{T}}X^{\mathsf{T}}X\boldsymbol{a}
+\end{equation}
+
+</div>
+</blockquote>
+<p>
+の値を求めよ
+</p></li>
+<li><p>
+行列\(X\)を中心化したデータ行列，
+ベクトル\(\boldsymbol{a}_{k}\)を第\(k\)主成分負荷量とするとき，
+第\(k\)主成分得点の平均まわりの平方和
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  \sum_{i=1}^n(\boldsymbol{a}_{k}^{\mathsf{T}}\boldsymbol{x}_i
+  -\boldsymbol{a}_{k}^{\mathsf{T}}\bar{\boldsymbol{x}})^2
+\end{equation}
+
+</div>
+</blockquote>
+<p>
+を
+\(X\)と\(\boldsymbol{a}_{k}\)で表せ
+</p></li>
+
+</ul></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgc6616c0" data-background="#fef4f4">
+<h3 id="orgc6616c0">解答例</h3>
+<ul>
+<li><p>
+固有値・固有ベクトルの性質を利用する
+</p>
+<blockquote>
+<p>
+\(X^{\mathsf{T}}X\)の
+固有値・固有ベクトルを
+\(\lambda_{k}, \boldsymbol{a}_{k}\)
+とする．
+\(\boldsymbol{a}=\boldsymbol{a}_{k}\)とすれば
+</p>
+<div>
+\begin{align}
+  f(\boldsymbol{a}_{k})
+  &=\boldsymbol{a}_{k}^{\mathsf{T}}X^{\mathsf{T}}X\boldsymbol{a}_{k}\\
+  &=\boldsymbol{a}_{k}^{\mathsf{T}}\lambda_{k}\boldsymbol{a}_{k}
+  &&\text{(固有ベクトル)}\\
+  &=\lambda_{k}
+  &&\text{(単位ベクトル)}
+\end{align}
+
+</div>
+</blockquote>
+<div class="slide-footer"><br></div>
+</section>
+<section data-background="#fef4f4">
+<ul>
+<li><p>
+定義に従い計算すればよい(前回の復習)
+</p>
+<blockquote>
+<div>
+\begin{align}
+  f(\boldsymbol{a}_{k})
+  &=
+    \sum_{i=1}^{n}(\boldsymbol{a}_{k}^{\mathsf{T}}\boldsymbol{x}_i
+    -\boldsymbol{a}_{k}^{\mathsf{T}}\bar{\boldsymbol{x}})^2\\
+  &=
+    \sum_{i=1}^{n}
+    (X\boldsymbol{a}_{k})_{i}^{2}\\
+  &=
+    \sum_{i=1}^{n}
+    (X\boldsymbol{a}_{k})_{i}
+    (X\boldsymbol{a}_{k})_{i}\\
+  &=
+    (\boldsymbol{a}_{k}^{\mathsf{T}}X^{\mathsf{T}})
+    (X\boldsymbol{a}_{k})
+    =
+    \boldsymbol{a}_{k}^{\mathsf{T}}X^{\mathsf{T}}X\boldsymbol{a}_{k}
+\end{align}
+
+</div>
+</blockquote></li>
+
+</ul></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+</section>
+<section>
+<section id="slide-org97ee052">
+<h2 id="org97ee052">寄与率</h2>
+<div class="outline-text-2" id="text-org97ee052">
 </div>
 </section>
-<section id="slide-org5bdc783">
-<h3 id="org5bdc783">寄与率の考え方</h3>
+<section id="slide-org4a2c3a5">
+<h3 id="org4a2c3a5">寄与率の考え方</h3>
 <ul>
 <li><p>
 回帰分析で考察した寄与率の一般形
@@ -285,10 +391,9 @@
 
 </ul>
 <div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-org72927e3">
-<h3 id="org72927e3">Gram行列のスペクトル分解</h3>
+<section id="slide-org54895fc">
+<h3 id="org54895fc">Gram 行列のスペクトル分解</h3>
 <ul>
 <li><p>
 行列 \(X^{\mathsf{T}}X\) (非負定値対称行列) のスペクトル分解
@@ -327,10 +432,9 @@
 
 </ul>
 <div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-org937df2b">
-<h3 id="org937df2b">寄与率の計算</h3>
+<section id="slide-org605d799">
+<h3 id="org605d799">寄与率の計算</h3>
 <ul>
 <li><p>
 主成分と全体の変動
@@ -369,13 +473,12 @@
 
 </ul>
 <div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-org2d20307">
-<h3 id="org2d20307">累積寄与率</h3>
+<section id="slide-org4c1575c">
+<h3 id="org4c1575c">累積寄与率</h3>
 <ul>
 <li><p>
-<b>累積寄与率</b> (cumulative proportion)
+<b>累積寄与率</b> (cumulative proportion) :
 </p>
 <blockquote>
 <p>
@@ -398,44 +501,41 @@
 
 </ul>
 <div class="slide-footer"><br></div>
-
-
 </section>
 </section>
 <section>
-<section id="slide-org32b7ea7" data-background="#fef4f4">
-<h2 id="org32b7ea7">実習</h2>
+<section id="slide-orge575734" data-background="#fef4f4">
+<h2 id="orge575734">実習</h2>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org0d46f10">
-<h3 id="org0d46f10">R : 主成分分析の評価</h3>
+<section id="slide-org9fb7fde" data-background="#fef4f4">
+<h3 id="org9fb7fde">R : 主成分分析の評価</h3>
 <ul>
 <li><p>
-分析結果の評価を行う関数
+分析結果の評価を行う関数:
 </p>
 <ul>
-<li><code>summary()</code>: 主成分負荷量や寄与率を表示</li>
-<li><code>plot()</code>: 寄与率を図示</li>
+<li><code>base::summary()</code>: 主成分負荷量や寄与率を表示</li>
+<li><code>ggfortify::autoplot()</code>: 主成分得点の図示</li>
 
 </ul>
 <div class="org-src-container">
 
-<pre><code class="R" >## データフレームを分析
-est &lt;- prcomp(data = データフレーム) # データフレーム全部を用いる場合
-est &lt;- prcomp( ~ 変数名1 + ... + 変数名p, data = データフレーム)
-## 主成分負荷量と寄与率を確認する
-summary(est)
-## 寄与率を図示する
-plot(est)
+<pre><code class="R" >#' データフレーム 'toy_data' を分析
+toy_pca &lt;- prcomp( ~ x1 + ... + xp, data = toy_data)
+#' 主成分負荷量と寄与率を確認する
+summary(toy_pca)
+#' 第1,2主成分得点を図示する
+library(ggfortify)
+autoplot(toy_pca)
 </code></pre>
 </div></li>
 
 </ul>
 <div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-orgbd8b555">
-<h3 id="orgbd8b555">データセットの準備</h3>
+<section id="slide-orgd884522" data-background="#fef4f4">
+<h3 id="orgd884522">データセットの準備</h3>
 <ul>
 <li>以下の2つのデータセットを使用する
 <ul>
@@ -448,7 +548,7 @@ plot(est)
 </p>
 </blockquote></li>
 <li><p>
-<code>MASS::UScereal</code>
+<code>MASS::UScereal</code> <br />
 </p>
 <blockquote>
 <p>
@@ -459,21 +559,18 @@ taken from the mandatory F&amp;DA food label. The data have been
 normalized here to a portion of one American cup.
 </p>
 </blockquote>
-<div class="org-src-container">
+<ul>
+<li>参考 : 詳細は &rsquo;?MASS::UScereal&rsquo; を参照</li>
 
-<pre><code class="R" >library(MASS) # パッケージの読み込み
-help(UScereal) # 変数名などの詳細はヘルプを参照のこと
-</code></pre>
-</div></li>
+</ul></li>
 
 </ul></li>
 
 </ul>
 <div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-org73642b8">
-<h3 id="org73642b8">各変数の分布 (<code>japan_social.csv</code>)</h3>
+<section id="slide-orge18c335" data-background="#fef4f4">
+<h3 id="orge18c335">各変数の分布 (<code>japan_social.csv</code>)</h3>
 <ul>
 <li><p>
 変数間の散布図
@@ -482,7 +579,7 @@ help(UScereal) # 変数名などの詳細はヘルプを参照のこと
 </ul>
 
 
-<div id="orgd658dcf" class="figure">
+<div id="org6f70500" class="figure">
 <p><img src="figs/07_pairs_raw.png" alt="07_pairs_raw.png" />
 </p>
 <p><span class="figure-number">Figure 1: </span>データの散布図</p>
@@ -490,7 +587,7 @@ help(UScereal) # 変数名などの詳細はヘルプを参照のこと
 
 <div class="slide-footer"><br></div>
 </section>
-<section>
+<section data-background="#fef4f4">
 <ul>
 <li><p>
 変数のばらつきに大きな違いがある
@@ -499,16 +596,15 @@ help(UScereal) # 変数名などの詳細はヘルプを参照のこと
 </ul>
 
 
-<div id="org643615d" class="figure">
+<div id="org2c1d0a9" class="figure">
 <p><img src="figs/07_boxplot_raw.png" alt="07_boxplot_raw.png" />
 </p>
 <p><span class="figure-number">Figure 2: </span>各変数の箱ひげ図</p>
 </div>
 <div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-org21dc67a">
-<h3 id="org21dc67a">データの正規化</h3>
+<section id="slide-orgb026d6f" data-background="#fef4f4">
+<h3 id="orgb026d6f">データの正規化</h3>
 <ul>
 <li><p>
 各変数の標本平均を0，不偏分散を1に規格化する
@@ -517,15 +613,15 @@ help(UScereal) # 変数名などの詳細はヘルプを参照のこと
 </ul>
 
 
-<div id="orge79ef6d" class="figure">
+<div id="org9cd751c" class="figure">
 <p><img src="figs/07_pairs.png" alt="07_pairs.png" />
 </p>
-<p><span class="figure-number">Figure 1: </span>正規化したデータの散布図</p>
+<p><span class="figure-number">Figure 3: </span>正規化したデータの散布図</p>
 </div>
 
 <div class="slide-footer"><br></div>
 </section>
-<section>
+<section data-background="#fef4f4">
 <ul>
 <li><p>
 変数のばらつきをそろえる
@@ -534,16 +630,15 @@ help(UScereal) # 変数名などの詳細はヘルプを参照のこと
 </ul>
 
 
-<div id="org733c663" class="figure">
+<div id="org46c440a" class="figure">
 <p><img src="figs/07_boxplot.png" alt="07_boxplot.png" />
 </p>
-<p><span class="figure-number">Figure 1: </span>各変数の箱ひげ図</p>
+<p><span class="figure-number">Figure 4: </span>各変数の箱ひげ図</p>
 </div>
 <div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-org67f8e16" data-background="#fef4f4">
-<h3 id="org67f8e16">練習問題</h3>
+<section id="slide-org2910fd5" data-background="#fef4f4">
+<h3 id="org2910fd5">練習問題</h3>
 <ul>
 <li><p>
 それぞれのデータにおいて
@@ -551,8 +646,8 @@ help(UScereal) # 変数名などの詳細はヘルプを参照のこと
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >prcomp(データフレーム) # 正規化を行わない場合
-prcomp(データフレーム, scale.=TRUE) # 正規化を行う場合
+<pre><code class="R" >prcomp(toy_data) # 正規化を行わない場合
+prcomp(toy_data, scale. = TRUE) # 正規化を行う場合
 ## 正式なオプション名は "scale." であるが，"sc=TRUE" などでも可
 </code></pre>
 </div>
@@ -562,7 +657,7 @@ prcomp(データフレーム, scale.=TRUE) # 正規化を行う場合
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >js_data &lt;- read.csv("data/japan_social.csv", row.names=1)
+<pre><code class="R" >js_data &lt;- read_csv("data/japan_social.csv")
 </code></pre>
 </div></li>
 <li><p>
@@ -570,9 +665,10 @@ prcomp(データフレーム, scale.=TRUE) # 正規化を行う場合
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >## UScereal にはカテゴリカル変数が含まれるので以下のように処理すると良い
-str(UScereal) # 各変数の属性を確認する．factor/intが不要
-uc_data &lt;- UScereal[sapply(UScereal, is.double)]
+<pre><code class="R" >## カテゴリカル変数が含まれるので以下のように処理すると良い
+str(MASS::UScereal) # 各変数の属性を確認する．factor/intが不要
+uc_data &lt;- MASS::UScereal |&gt; select(where(is.double)) |&gt;
+  rownames_to_column(var = "product") |&gt; as_tibble() # 行名を製品名を作成
 </code></pre>
 </div></li>
 
@@ -580,80 +676,226 @@ uc_data &lt;- UScereal[sapply(UScereal, is.double)]
 
 </ul>
 <div class="slide-footer"><br></div>
-
 </section>
 </section>
 <section>
-<section id="slide-org493e4cc">
-<h2 id="org493e4cc">主成分負荷量</h2>
-<div class="outline-text-2" id="text-org493e4cc">
-</div>
+<section id="slide-orgf6b2bf4" data-background="#fef4f4">
+<h2 id="orgf6b2bf4">演習</h2>
+<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org23b98b9">
-<h3 id="org23b98b9">主成分負荷量と主成分得点</h3>
+<section id="slide-orgc3dc732" data-background="#fef4f4">
+<h3 id="orgc3dc732">問題</h3>
 <ul>
-<li>負荷量(得点係数)の大きさ : 変数の貢献度</li>
-<li><b>問題点</b>
+<li>以下の問に答えなさい
 <ul>
-<li>変数のスケールによって係数の大きさは変化する</li>
-<li>変数の正規化(平均0，分散1)がいつも妥当とは限らない</li>
+<li><p>
+正規化条件を満たす線形変換
+\(x'_{ij}=a_{j}(x_{ij}-b_{j})\)
+を求めよ
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  \frac{1}{n}\sum_{i=1}^{n}x'_{ij}=0,\quad
+  \frac{1}{n-1}\sum_{i=1}^{n}(x'_{ij})^{2}=1
+\end{equation}
+
+</div>
+</blockquote></li>
+<li><p>
+正規化されたデータ行列を
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  X'
+  =
+  \begin{pmatrix}
+    {\boldsymbol{x}'_{1}}^{\mathsf{T}}\\
+    \vdots \\
+    {\boldsymbol{x}'_{n}}^{\mathsf{T}}
+  \end{pmatrix}
+  =
+  \begin{pmatrix}
+    x'_{11} & \cdots & x'_{1p}\\
+    \vdots & & \vdots \\
+    x'_{n1} & \cdots & x'_{np}
+  \end{pmatrix}
+\end{equation}
+
+</div>
+</blockquote>
+<p>
+と書くとき，
+\(X'^{\mathsf{T}}X'\)の対角成分を求めよ
+</p></li>
 
 </ul></li>
-<li>スケールによらない変数と主成分の関係 <br />
-<b>相関係数</b> を考えればよい</li>
 
 </ul>
 <div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-orga0ba9cf">
-<h3 id="orga0ba9cf">相関係数</h3>
+<section id="slide-org6e46e52" data-background="#fef4f4">
+<h3 id="org6e46e52">解答例</h3>
 <ul>
-<li>\(\boldsymbol{e}_{j}\): 第 \(j\) 成分は1，それ以外は0のベクトル</li>
-<li>\(X\boldsymbol{e}_{j}\): 第 \(j\) 変数ベクトル</li>
-<li>\(X\boldsymbol{a}_{k}\): 第 \(k\) 主成分得点ベクトル</li>
 <li><p>
-主成分と変数の相関係数
+標本平均の定義どおりに計算すればよい
 </p>
 <blockquote>
 <div>
 \begin{align}
-   \mathrm{Cor}(X\boldsymbol{a}_{k},X\boldsymbol{e}_{j})
-   % &=\frac{(X\boldsymbol{a}_{k})^{\mathsf{T}}X\boldsymbol{e}_{l}}
-   % {\sqrt{(X\boldsymbol{a}_{k})^{\mathsf{T}}X\boldsymbol{a}_{k}}
-   % \sqrt{(X\boldsymbol{e}_{l})^{\mathsf{T}}X\boldsymbol{e}_{l}}}\\
-     &=\frac{\boldsymbol{a}_{k}^{\mathsf{T}}X^{\mathsf{T}}X\boldsymbol{e}_{j}}
-{\sqrt{\boldsymbol{a}_{k}^{\mathsf{T}}X^{\mathsf{T}}X\boldsymbol{a}_{k}}
-\sqrt{\boldsymbol{e}_{j}^{\mathsf{T}}X^{\mathsf{T}}X\boldsymbol{e}_{j}}}\\
-     &=\frac{\lambda_{k}\boldsymbol{a}_{k}^{\mathsf{T}}\boldsymbol{e}_{j}}
-{\sqrt{\lambda_{k}}\sqrt{(X^{\mathsf{T}}X)_{jj}}}
- \end{align}
+  \frac{1}{n}\sum_{i=1}^{n}x'_{ij}
+  &=
+    \frac{1}{n}\sum_{i=1}^{n}\left(a_{j}(x_{ij}-b_{j})\right)\\
+  &=
+    a_{j}\left(\frac{1}{n}\sum_{i=1}^{n}x_{ij}-b_{j}\right)\\
+  &=0
+\end{align}
+
+</div>
+<p>
+したがって
+</p>
+<div>
+\begin{equation}
+  b_{j}
+  =
+  \frac{1}{n}\sum_{i=1}^{n}x_{ij}
+  =\bar{x}_{j}
+  \quad\text{(元の変数の標本平均)}
+\end{equation}
+
+</div>
+</blockquote></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section data-background="#fef4f4">
+<ul>
+<li><p>
+不偏分散も同様に計算すればよい
+</p>
+<blockquote>
+<div>
+\begin{align}
+  \frac{1}{n-1}\sum_{i=1}^{n}(x'_{ij})^{2}
+  &=
+    a_{j}^{2}\frac{1}{n-1}\sum_{i=1}^{n}(x_{ij}-\bar{x}_{j})^{2}\\
+  &=1
+\end{align}
+
+</div>
+<p>
+したがって
+</p>
+<div>
+\begin{equation}
+  a_{j}
+  =
+  \left(\frac{1}{n-1}\sum_{i=1}^{n}(x_{ij}-\bar{x}_{j})^{2}\right)^{-1/2}
+  \quad\text{(標準偏差の逆数)}
+\end{equation}
+
+</div>
+</blockquote></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section data-background="#fef4f4">
+<ul>
+<li><p>
+不偏分散での標準化であることに注意する
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  (X'^{\mathsf{T}}X')_{jj}
+  =
+  \sum_{i=1}^{n}(x'_{ij})^{2}
+  =
+  n-1
+\end{equation}
 
 </div>
 </blockquote></li>
 
 </ul>
 <div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-org880c275">
-<h3 id="org880c275">正規化データの場合</h3>
+</section>
+<section>
+<section id="slide-orgc5c7f6e">
+<h2 id="orgc5c7f6e">主成分負荷量</h2>
+<div class="outline-text-2" id="text-orgc5c7f6e">
+</div>
+</section>
+<section id="slide-org9600734">
+<h3 id="org9600734">主成分負荷量と主成分得点</h3>
 <ul>
-<li>\(X^{\mathsf{T}}X\) の対角成分は全て\(n{-}1\)
-(\((X^{\mathsf{T}}X)_{jj}=n{-}1\))
+<li>負荷量(得点係数)の大きさ: 変数の貢献度</li>
+<li><b>問題点</b>:
+<ul>
+<li>変数のスケールによって係数の大きさは変化する</li>
+<li>変数の正規化(平均0，分散1)がいつも妥当とは限らない</li>
+
+</ul></li>
+<li>スケールによらない変数と主成分の関係: <br />
+<b>相関係数</b> を考えればよい</li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgc6485c3">
+<h3 id="orgc6485c3">相関係数</h3>
+<ul>
+<li>\(\boldsymbol{e}_{j}\): 第 \(j\) 成分は1，それ以外は0のベクトル</li>
+<li>\(X\boldsymbol{e}_{j}\): 第 \(j\) 変数ベクトル</li>
+<li>\(X\boldsymbol{a}_{k}\): 第 \(k\) 主成分得点ベクトル</li>
+<li><p>
+主成分と変数の相関係数:
+</p>
+<blockquote>
+<div>
+\begin{align}
+  \mathrm{Cor}(X\boldsymbol{a}_{k},X\boldsymbol{e}_{j})
+  % &=\frac{(X\boldsymbol{a}_{k})^{\mathsf{T}}X\boldsymbol{e}_{l}}
+  % {\sqrt{(X\boldsymbol{a}_{k})^{\mathsf{T}}X\boldsymbol{a}_{k}}
+  % \sqrt{(X\boldsymbol{e}_{l})^{\mathsf{T}}X\boldsymbol{e}_{l}}}\\
+     &=\frac{\boldsymbol{a}_{k}^{\mathsf{T}}X^{\mathsf{T}}X\boldsymbol{e}_{j}}
+       {\sqrt{\boldsymbol{a}_{k}^{\mathsf{T}}X^{\mathsf{T}}X\boldsymbol{a}_{k}}
+       \sqrt{\boldsymbol{e}_{j}^{\mathsf{T}}X^{\mathsf{T}}X\boldsymbol{e}_{j}}}\\
+    &=\frac{\lambda_{k}\boldsymbol{a}_{k}^{\mathsf{T}}\boldsymbol{e}_{j}}
+      {\sqrt{\lambda_{k}}\sqrt{(X^{\mathsf{T}}X)_{jj}}}
+\end{align}
+
+</div>
+</blockquote></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org227f43f">
+<h3 id="org227f43f">正規化データの場合</h3>
+<ul>
+<li>\(X^{\mathsf{T}}X\) の対角成分は全て\(n-1\)
+(\((X^{\mathsf{T}}X)_{jj}=n-1\))
 
 <ul>
 <li><p>
-第 \(k\) 主成分に対する相関係数ベクトル
+第 \(k\) 主成分に対する相関係数ベクトル:
 </p>
 <blockquote>
 <div>
 \begin{equation}
   \boldsymbol{r}_{k}
-  =\sqrt{\lambda_{k}/(n{-}1)}\cdot\boldsymbol{a}_{k},
+  =\sqrt{\lambda_{k}/(n-1)}\cdot\boldsymbol{a}_{k},
   \quad
   (\boldsymbol{r}_{k})_{j}
-  =\sqrt{\lambda_{k}/(n{-}1)}\cdot(\boldsymbol{a}_{k})_{j}
+  =\sqrt{\lambda_{k}/(n-1)}\cdot(\boldsymbol{a}_{k})_{j}
 \end{equation}
 
 </div>
@@ -670,21 +912,19 @@ uc_data &lt;- UScereal[sapply(UScereal, is.double)]
 
 </ul>
 <div class="slide-footer"><br></div>
-
-
 </section>
 </section>
 <section>
-<section id="slide-orgda73ecc">
-<h2 id="orgda73ecc">データ行列の分解表現</h2>
-<div class="outline-text-2" id="text-orgda73ecc">
+<section id="slide-org54888b1">
+<h2 id="org54888b1">データ行列の分解表現</h2>
+<div class="outline-text-2" id="text-org54888b1">
 </div>
 </section>
-<section id="slide-org9072431">
-<h3 id="org9072431">特異値分解</h3>
+<section id="slide-org2d20d1c">
+<h3 id="org2d20d1c">特異値分解</h3>
 <ul>
 <li><p>
-階数 \(r\) の \(n\times p\) 型行列 \(X\) の分解
+階数 \(r\) の \(n\times p\) 型行列 \(X\) の分解:
 </p>
 <blockquote>
 <div>
@@ -723,10 +963,9 @@ uc_data &lt;- UScereal[sapply(UScereal, is.double)]
 
 </ul>
 <div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-org6911f08">
-<h3 id="org6911f08">特異値</h3>
+<section id="slide-org50fbf17">
+<h3 id="org50fbf17">特異値</h3>
 <ul>
 <li><p>
 行列 \(\Sigma\) の成分表示
@@ -751,13 +990,12 @@ uc_data &lt;- UScereal[sapply(UScereal, is.double)]
 
 </ul>
 <div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-org87985b9">
-<h3 id="org87985b9">特異値分解によるGram行列の表現</h3>
+<section id="slide-orgc0a3eb1">
+<h3 id="orgc0a3eb1">特異値分解によるGram行列の表現</h3>
 <ul>
 <li><p>
-Gram行列の展開
+Gram行列の展開:
 </p>
 <blockquote>
 <div>
@@ -800,18 +1038,159 @@ Gram行列の展開
 
 </ul>
 <div class="slide-footer"><br></div>
-
-
 </section>
 </section>
 <section>
-<section id="slide-org4e16fd2">
-<h2 id="org4e16fd2">バイプロット</h2>
-<div class="outline-text-2" id="text-org4e16fd2">
+<section id="slide-orga599783" data-background="#fef4f4">
+<h2 id="orga599783">演習</h2>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgbe8a3ec" data-background="#fef4f4">
+<h3 id="orgbe8a3ec">問題</h3>
+<ul>
+<li>行列\(X\)の特異値分解を\(U\Sigma V^{\mathsf{T}}\)とし，
+行列\(U\)の第\(k\)列ベクトルを\(\boldsymbol{u}_{k}\)，
+行列\(V\)の第\(k\)列ベクトルを\(\boldsymbol{v}_{k}\)
+とするとき，
+以下の問に答えなさい
+<ul>
+<li>行列\(U,V\)の列ベクトルを用いて\(X\)を展開しなさい</li>
+<li>Gram行列\(X^{\mathsf{T}}X\)の固有値を特異値で表しなさい</li>
+<li>行列\(X\)の主成分負荷量を求めなさい</li>
+<li>それぞれの負荷量に対応する主成分得点を求めなさい</li>
+
+</ul></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org4e8f7ef" data-background="#fef4f4">
+<h3 id="org4e8f7ef">解答例</h3>
+<ul>
+<li><p>
+\(\Sigma\)が対角成分しか持たないことに注意すると
+以下のように展開される
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  X
+  =
+  U\Sigma V^{\mathsf{T}}
+  =
+  \sum_{k=1}^{r}\sigma_{k}\boldsymbol{u}_{k}\boldsymbol{v}_{k}^{\mathsf{T}}
+\end{equation}
+
+</div>
+</blockquote></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section data-background="#fef4f4">
+<ul>
+<li><p>
+先週の演習問題と特異値分解を比較する
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  X^{\mathsf{T}}X
+  =
+  V\Sigma^{\mathsf{T}}\Sigma V^{\mathsf{T}}
+  =
+  A^{\mathsf{T}}\Lambda A
+\end{equation}
+
+</div>
+<p>
+より
+</p>
+<div>
+\begin{equation}
+  \lambda_{k}
+  =
+  \begin{cases}
+    \sigma_{k}^{2},&k\leq r\\
+    0,&k>r
+  \end{cases}
+\end{equation}
+
+</div>
+</blockquote></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section data-background="#fef4f4">
+<ul>
+<li><p>
+転置に気をつけて同様に比較すればよい
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  A
+  =
+  \begin{pmatrix}
+    \boldsymbol{a}_{1}^{\mathsf{T}}\\
+    \vdots \\
+    \boldsymbol{a}_{p}^{\mathsf{T}}
+  \end{pmatrix}
+\end{equation}
+
+</div>
+<p>
+と定義されているので
+主成分負荷量(固有ベクトル)は行列 \(V\) の列ベクトル
+</p>
+<div>
+\begin{equation}
+  \boldsymbol{a}_{k}=\boldsymbol{v}_{k}
+\end{equation}
+
+</div>
+</blockquote></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section data-background="#fef4f4">
+<ul>
+<li><p>
+主成分得点の定義どおり計算する
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  X\boldsymbol{a}_{k}
+  =U\Sigma V^{\mathsf{T}}\boldsymbol{v}_{k}
+  =\sigma_{k}\boldsymbol{u}_{k}
+\end{equation}
+
+</div>
+</blockquote>
+<ul>
+<li>ただし\(k>r\)のとき\(\sigma_{k}=0\)とする</li>
+<li>\(V\)と\(U\)は大きさが異なるので注意する</li>
+
+</ul></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+</section>
+<section>
+<section id="slide-orgb8810f5">
+<h2 id="orgb8810f5">バイプロット</h2>
+<div class="outline-text-2" id="text-orgb8810f5">
 </div>
 </section>
-<section id="slide-org1c834cd">
-<h3 id="org1c834cd">特異値と固有値の関係</h3>
+<section id="slide-orgfa7ddc0">
+<h3 id="orgfa7ddc0">特異値と固有値の関係</h3>
 <ul>
 <li>行列 \(V\) の第 \(k\) 列ベクトル \(\boldsymbol{v}_{k}\)</li>
 <li><p>
@@ -851,10 +1230,9 @@ Gram行列の固有値問題
 
 </ul>
 <div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-orgea2a116">
-<h3 id="orgea2a116">データ行列の分解</h3>
+<section id="slide-orgf87b056">
+<h3 id="orgf87b056">データ行列の分解</h3>
 <ul>
 <li>行列 \(U\) の第 \(k\) 列ベクトル \(\boldsymbol{u}_{k}\)</li>
 <li>行列 \(V\) の第 \(k\) 列ベクトル \(\boldsymbol{v}_{k}\)</li>
@@ -876,10 +1254,9 @@ Gram行列の固有値問題
 
 </ul>
 <div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-org7eb564c">
-<h3 id="org7eb564c">データ行列の近似表現</h3>
+<section id="slide-orga8ab989">
+<h3 id="orga8ab989">データ行列の近似表現</h3>
 <ul>
 <li><p>
 第 \(k\) 主成分と第 \(l\) 主成分を用いた行列 \(X\) の近似 \(X'\)
@@ -903,30 +1280,24 @@ Gram行列の固有値問題
   X'=&GH^{\mathsf{T}}, (0\leq s\leq1)\\
      &G=
        \begin{pmatrix}
-	 \sigma_{k}^{1-s}\boldsymbol{u}_{k}&
-	 \sigma_{l}^{1-s}\boldsymbol{u}_{l}
+         \sigma_{k}^{1-s}\boldsymbol{u}_{k}&
+         \sigma_{l}^{1-s}\boldsymbol{u}_{l}
        \end{pmatrix},\quad
       H=
        \begin{pmatrix}
-	 \sigma_{k}^{s}\boldsymbol{v}_{k}&
-	 \sigma_{l}^{s}\boldsymbol{v}_{l}
+         \sigma_{k}^{s}\boldsymbol{v}_{k}&
+         \sigma_{l}^{s}\boldsymbol{v}_{l}
        \end{pmatrix}
 \end{align}
 
 </div>
-</blockquote>
-<ul>
-<li>行列 \(G\) はデータ数\(\times\)2型の行列</li>
-<li>行列 \(H\) は変量の数\(\times\)2型の行列</li>
-
-</ul></li>
+</blockquote></li>
 
 </ul>
 <div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-org618431a">
-<h3 id="org618431a">バイプロット</h3>
+<section id="slide-org4f25f1a">
+<h3 id="org4f25f1a">バイプロット</h3>
 <ul>
 <li>関連がある2枚の散布図を1つの画面に表示する散布図を一般に
 <b>バイプロット</b> (biplot) と呼ぶ</li>
@@ -951,27 +1322,24 @@ Gram行列の固有値問題
 
 </ul>
 <div class="slide-footer"><br></div>
-
-
 </section>
 </section>
 <section>
-<section id="slide-org45af5a7" data-background="#fef4f4">
-<h2 id="org45af5a7">実習</h2>
+<section id="slide-org04f417f" data-background="#fef4f4">
+<h2 id="org04f417f">実習</h2>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org4fc1237">
-<h3 id="org4fc1237">R : 関数 <code>biplot()</code> の使い方</h3>
+<section id="slide-org08735e7" data-background="#fef4f4">
+<h3 id="org08735e7">R : 関数 <code>biplot()</code> の使い方</h3>
 <ul>
-<li>Rの標準関数 : <code>biplot()</code></li>
+<li>Rの標準関数: <code>biplot()</code></li>
 <li><p>
-主成分分析の結果に対して表示
+主成分分析の結果に対して表示:
 </p>
 <div class="org-src-container">
 
 <pre><code class="R" >## データフレームを分析
-est &lt;- prcomp(data = データフレーム)
-est &lt;- prcomp( ~ 変数名1 + ... + 変数名p, data = データフレーム)
+est &lt;- prcomp( ~ x1の変数名 + ... + xpの変数名, data = データフレーム)
 ## 第1と第2主成分を利用した散布図
 biplot(est)
 ## 第2と第3主成分を利用した散布図
@@ -983,10 +1351,9 @@ biplot(est, scale=0)
 
 </ul>
 <div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-orgd644bb0" data-background="#fef4f4">
-<h3 id="orgd644bb0">練習問題</h3>
+<section id="slide-org89a74ac" data-background="#fef4f4">
+<h3 id="org89a74ac">練習問題</h3>
 <ul>
 <li>それぞれのデータの主成分分析の結果を利用してバイプロットによる可視化を行いなさい
 <ul>
@@ -1005,12 +1372,115 @@ biplot(est, scale=0)
 
 </ul>
 <div class="slide-footer"><br></div>
-
 </section>
 </section>
 <section>
-<section id="slide-org44a26f3">
-<h2 id="org44a26f3">次回の予定</h2>
+<section id="slide-org1cb84dd">
+<h2 id="org1cb84dd">解析の事例</h2>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org690a243">
+<h3 id="org690a243">バイプロット</h3>
+<ul>
+<li><p>
+主成分負荷量
+</p>
+<pre class="example">
+ colMeans(x, na.rm = TRUE) でエラー:  'x' は数値でなければなりません
+PC1        PC2         PC3        PC4         PC5
+Forest -0.4871498  0.1045813 -0.45748795  0.6859649 -0.26815060
+Agri    0.1339190  0.8115056  0.47912767  0.3045447  0.03483694
+Ratio   0.5851294 -0.1511042  0.04467249  0.1640953 -0.77837539
+Land    0.3547649  0.4851374 -0.74167904 -0.2897485  0.06885892
+Goods   0.5258481 -0.2689436 -0.09517368  0.5708093  0.56238052
+</pre></li>
+
+<li><p>
+寄与率
+</p>
+<pre class="example">
+Importance of components:
+                          PC1    PC2    PC3    PC4     PC5
+Standard deviation     1.5904 1.0699 0.8196 0.7076 0.39190
+Proportion of Variance 0.5059 0.2289 0.1343 0.1001 0.03072
+Cumulative Proportion  0.5059 0.7348 0.8691 0.9693 1.00000
+</pre></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section>
+<ul>
+<li><p>
+第1,2主成分によるバイプロット
+</p></li>
+
+</ul>
+
+
+<div id="org94214a2" class="figure">
+<p><img src="figs/07_biplot12.png" alt="07_biplot12.png" />
+</p>
+<p><span class="figure-number">Figure 5: </span>主成分分析のバイプロット(第1,2)</p>
+</div>
+
+<div class="slide-footer"><br></div>
+</section>
+<section>
+<ul>
+<li><p>
+第3,2主成分によるバイプロット
+</p></li>
+
+</ul>
+
+
+<div id="orgae746ae" class="figure">
+<p><img src="figs/07_biplot32.png" alt="07_biplot32.png" />
+</p>
+<p><span class="figure-number">Figure 6: </span>主成分分析のバイプロット(第3,2)</p>
+</div>
+
+<div class="slide-footer"><br></div>
+</section>
+<section>
+<ul>
+<li><p>
+中心部の拡大 (第1,2主成分)
+</p></li>
+
+</ul>
+
+
+<div id="orgaa4e4e9" class="figure">
+<p><img src="figs/07_biplot12e.png" alt="07_biplot12e.png" />
+</p>
+<p><span class="figure-number">Figure 7: </span>主成分分析のバイプロット(第1,2)</p>
+</div>
+
+<div class="slide-footer"><br></div>
+</section>
+<section>
+<ul>
+<li><p>
+中心部の拡大 (第3,2主成分)
+</p></li>
+
+</ul>
+
+
+<div id="org262467a" class="figure">
+<p><img src="figs/07_biplot32e.png" alt="07_biplot32e.png" />
+</p>
+<p><span class="figure-number">Figure 8: </span>主成分分析のバイプロット(第3,2)</p>
+</div>
+<div class="slide-footer"><br></div>
+</section>
+</section>
+<section>
+<section id="slide-orgc001ce9">
+<h2 id="orgc001ce9">次回の予定</h2>
 <ul>
 <li><b>第1日 : 判別分析の考え方</b></li>
 <li>第2日 : 分析の評価</li>

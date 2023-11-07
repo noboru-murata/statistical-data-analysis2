@@ -66,9 +66,9 @@ stargazer::stargazer(tw_lm1, tw_lm2, tw_lm3, tw_lm4, tw_lm5,
                      ## object.names = FALSE,
                      omit.table.layout = "n", # NULL, # "sn"
                      ## report = "vc*st", # NULL,
-                     single.row = TRUE, # FALSE,
+                     ## single.row = TRUE, # FALSE,
                      title = "寄与率によるモデルの比較",
-                     font.size = "small", type = "latex")
+                     type = "text")
 
 #' F統計量のまとめ
 stargazer::stargazer(tw_lm1, tw_lm2, tw_lm3, tw_lm4, tw_lm5, # 既定値を '#' の後に記している
@@ -169,6 +169,9 @@ tw_test_conf <- # 新規データへのあてはめ値と信頼区間を付加
             predict(tw_lm, newdata = tw_test, interval = "confidence"))
 
 #' 予測区間
+tw_train_pred <- # あてはめ値と予測区間を付加
+  bind_cols(tw_train,
+            predict(tw_lm, interval = "prediction"))
 tw_test_pred <- # 新規データへのあてはめ値と予測区間を付加
   bind_cols(tw_test, 
             predict(tw_lm, newdata = tw_test, interval = "prediction"))
@@ -178,15 +181,26 @@ tw_train_conf |>
   ggplot(aes(x = day, y = temp)) +
   geom_point(colour = "red", shape = 16) +
   geom_point(aes(y = fit), colour = "blue") +
-  geom_errorbar(aes(ymin = lwr, ymax = upr), colour = "steelblue") +
+  geom_errorbar(aes(ymin = lwr, ymax = upr), colour = "royalblue") +
+  ylim(c(20,34)) + # 以降4つのグラフの値域を揃える
   labs(x = "August", y = "Temperature", title = "Confidence Interval")
+
+#' 8月のデータで推定したモデルで8月をあてはめた予測区間
+tw_train_pred |>
+  ggplot(aes(x = day, y = temp)) +
+  geom_point(colour = "red", shape = 16) +
+  geom_point(aes(y = fit), colour = "blue") +
+  geom_errorbar(aes(ymin = lwr, ymax = upr), colour = "steelblue") +
+  ylim(c(20,34)) + 
+  labs(x = "August", y = "Temperature", title = "Prediction Interval")
 
 #' 8月のモデルで9月をあてはめた信頼区間
 tw_test_conf |>
   ggplot(aes(x = day, y = temp)) +
   geom_point(colour = "red", shape = 16) +
   geom_point(aes(y = fit), colour = "blue") +
-  geom_errorbar(aes(ymin = lwr, ymax = upr), colour = "steelblue") +
+  geom_errorbar(aes(ymin = lwr, ymax = upr), colour = "royalblue") +
+  ylim(c(20,34)) + 
   labs(x = "September", y = "Temperature", title = "Confidence Interval")
 
 #' 8月のモデルで9月をあてはめた予測区間
@@ -194,7 +208,8 @@ tw_test_pred |>
   ggplot(aes(x = day, y = temp)) +
   geom_point(colour = "red", shape = 16) +
   geom_point(aes(y = fit), colour = "blue") +
-  geom_errorbar(aes(ymin = lwr, ymax = upr), colour = "lightblue") +
+  geom_errorbar(aes(ymin = lwr, ymax = upr), colour = "steelblue") +
+  ylim(c(20,34)) + 
   labs(x = "September", y = "Temperature", title = "Prediction Interval")
 
 #' 人工データによる検討例
@@ -254,10 +269,10 @@ cor(y_tilde, y_hat3)^2
 X <- c("A", "S", "A", "B", "D")
 Y <- c(85, 100, 80, 70, 30)
 toy_data1 <- tibble(X, Y)
-toy_data2 <- toy_data1 |>
-  mutate(X2 = factor(X)) # 因子化
+toy_data2 <- toy_data1 |> # 因子化
+  mutate(X2 = factor(X))  # 関数as_factor()を用いてもよい
 str(toy_data2) # 作成したデータフレームの素性を見る
-toy_data3 <- toy_data2 |> # 順序付きの因子化
+toy_data3 <- toy_data2 |> # 順序付き(levels)の因子化
   mutate(X3 = factor(X, levels=c("S","A","B","C","D")))
 str(toy_data3) # toy_data2とはfactorの順序が異なる
 toy_data4 <- toy_data2 |>
@@ -289,19 +304,17 @@ tw_subset |>
 #' 最後のモデルの視覚的な評価 (診断プロット)
 autoplot(lm(temp ~ solar * press * humid, data = tw_subset))
 
-#'# 雨と気温の関係の分析 (カテゴリカル変数)
-
-#' 雨の有無をダミー化(因子化)する
-tw_data <- tw_data |>
-  mutate(rain = factor(rain > 0)) 
-summary(lm(temp ~ rain, data = tw_data))
+#' 雨と気温の関係の分析 (カテゴリカル変数)
+#' 雨の有無および月(整数値)をダミー化(因子化)する
+tw_data_fact <- tw_data |>
+  mutate(rain = factor(rain > 0),
+         month = factor(month)) 
+summary(lm(temp ~ rain, data = tw_data_fact))
 #' 通年では雨と気温の関係は積極的に支持されない
 
-#' 月毎の気温の差を考慮して月を表す変数(整数値)をダミー化する
-tw_data <- tw_data |>
-  mutate(month = factor(month))
-summary(lm(temp ~ rain + month, data = tw_data))
-#' 月毎に比較すると雨の日の方が気温が低いことが支持される
+summary(lm(temp ~ rain + month, data = tw_data_fact))
+#' 月毎の気温の差を考慮した回帰式が推定される
+#' 月毎に比較した結果，雨の日の方が気温が低いことが支持される
 
 #' ---------------------------------------------------------------------------
 
