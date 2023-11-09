@@ -4,8 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2023-10-30 11:37:29 mura>
-
+# Time-stamp: <2023-11-08 12:17:46 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/org/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -214,15 +213,22 @@
 
 
 * 解析の事例
-# 東京大学 (初)
+** COMMENT 実データによる例
+:PROPERTIES:
+:ID:       C513A101-EB45-4E7A-A4D3-1A8819EF6183
+:END:
 # 早稲田大学 (再)
+- 気象庁より取得した東京の気候データ (再掲)
+  - 気象庁 https://www.data.jma.go.jp/gmd/risk/obsdl/index.php
+  - データ https://noboru-murata.github.io/multivariate-analysis/data/tokyo_weather.csv
 ** 実データによる例
 :PROPERTIES:
 :ID:       C513A101-EB45-4E7A-A4D3-1A8819EF6183
 :END:
-- 気象庁より取得した東京の気候データ 
+# 東京大学 (初)
+- 気象庁より取得した東京の気候データ (再掲)
   - 気象庁 https://www.data.jma.go.jp/gmd/risk/obsdl/index.php
-  - データ https://noboru-murata.github.io/multivariate-analysis/data/tokyo_weather.csv
+  - データ [[https://noboru-murata.github.io/statistical-data-analysis2/data/data03.zip]]
 
 ** 東京の8月の気候の分析
 :PROPERTIES:
@@ -561,7 +567,7 @@
     \end{equation}
     #+end_quote
 
-** COMMENT ヒント
+** ヒント
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
@@ -859,7 +865,7 @@
   - 平均は \(\boldsymbol{\beta}\) (真の母数)となること
   - 共分散行列は \(\sigma^{2}(X^{\mathsf{T}}X)^{-1}\) となること
 
-** COMMENT 解答例
+** 解答例
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
@@ -906,8 +912,8 @@
 
 * 誤差の評価
 ** 寄与率 (再掲)
-- *決定係数 (R-squared)*: \\
-  (回帰式で説明できるばらつきの比率)
+- *決定係数 (R-squared)* 
+  - 回帰式で説明できるばらつきの比率
   #+begin_quote
   \begin{equation}
     R^2
@@ -915,8 +921,8 @@
     1-\frac{\sum_{i=1}^n\hat{\epsilon}_i^2}{\sum_{i=1}^n(y_i-\bar{y})^2}
   \end{equation}
   #+end_quote
-- *自由度調整済み決定係数 (adjusted R-squared)*: \\ 
-  (決定係数を不偏分散で補正)
+- *自由度調整済み決定係数 (adjusted R-squared)*
+  - 決定係数を不偏分散で補正
   #+begin_quote
   \begin{equation}
     \bar{R}^2
@@ -949,8 +955,8 @@
     - \((A)_{jj}\) は行列 \(A\) の \((j,j)\) (対角)成分 
 
 ** 標準誤差
-- *標準誤差* (standard error) : 
-  \(\hat{\beta}_j\) の標準偏差の推定量
+- *標準誤差* (standard error)
+  - \(\hat{\beta}_j\) の標準偏差の推定量
   #+begin_quote
   \begin{equation}
     \mathrm{s.e.}(\hat{\beta}_{j})
@@ -1103,7 +1109,7 @@
     \end{equation}
     #+end_quote
 
-** COMMENT 解答例
+** 解答例
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
@@ -1169,17 +1175,18 @@
     \end{equation}
   は自由度 \(n{-}p{-}1\) の \(t\)分布に従う
   #+end_quote
-- 証明には以下の性質を用いる
-  - \(\hat{\sigma}{}^2\) と \(\boldsymbol{\hat{\beta}}\) は独立となる
-  - \((\hat{\beta}_j-\beta_j)/(\sigma\zeta_j)\) は標準正規分布に従う
-  - \((n{-}p{-}1)\hat{\sigma}^2/\sigma^2=S(\boldsymbol{\hat{\beta}})/\sigma^2\) 
-    は自由度 \(n{-}p{-}1\) の \(\chi^{2}\) 分布に従う
+  - 証明には以下の性質を用いる
+    - \(\hat{\sigma}{}^2\) と \(\boldsymbol{\hat{\beta}}\) は独立となる
+    - \((\hat{\beta}_j-\beta_j)/(\sigma\zeta_j)\) は標準正規分布に従う
+    - \((n{-}p{-}1)\hat{\sigma}^2/\sigma^2=S(\boldsymbol{\hat{\beta}})/\sigma^2\) 
+      は自由度 \(n{-}p{-}1\) の \(\chi^{2}\) 分布に従う
 
 ** @@latex:@@\(t\)統計量による検定
 - 回帰係数 \(\beta_j\) が回帰式に寄与するか否かを検定
   - 帰無仮説 \(H_{0}\) : \(\beta_j=0\) (\(t\)統計量が計算できる)
   - 対立仮説 \(H_{1}\) : \(\beta_j\neq0\)
 - \(p\)値 : 確率変数の絶対値が \(|t|\) を超える確率
+  - \(f(x)\) は自由度 \(n{-}p{-}1\) の \(t\)分布の確率密度関数
   #+begin_quote
   \begin{equation}
     \text{(\(p\)値)}
@@ -1188,9 +1195,11 @@
     \quad\text{(両側検定)}
   \end{equation}
   #+end_quote
-  - \(f(x)\) は自由度 \(n{-}p{-}1\) の \(t\)分布の確率密度関数
+  #+begin_quote
+  *帰無仮説 \(H_{0}\) が正しければ \(p\)値は小さくならない*
+  #+end_quote
 #  - 帰無仮説 \(\beta_j=0\) が正しければ \(p\)値は小さくならない
-- 帰無仮説 \(H_{0}\) が正しければ \(p\)値は小さくならない
+# - 帰無仮説 \(H_{0}\) が正しければ \(p\)値は小さくならない
 
 # - \(t\)値および \(p\)値による仮説検証:
 #   \begin{equation}
@@ -1304,7 +1313,7 @@
 
 * モデルの評価
 ** @@latex:@@\(F\)統計量
-- *ばらつきの比* に関する定理: 
+- *ばらつきの比* に関する定理 
   #+begin_quote
   \(\beta_{1}=\dotsb=\beta_{p}=0\) ならば
   *\(F\)統計量* (\(F\)-statistic)
@@ -1318,10 +1327,10 @@
   \end{equation}
   は自由度 \(p,n{-}p{-}1\) の \(F\)分布に従う
   #+end_quote
-- 証明には以下の性質を用いる
-  - \(S_{r}\) と \(S\) は独立となる
-  - \(S_{r}/\sigma^2\) は自由度 \(p\) の \(\chi^{2}\) 分布に従う
-  - \(S/\sigma^2\) は自由度 \(n{-}p{-}1\) の \(\chi^{2}\) 分布に従う
+  - 証明には以下の性質を用いる
+    - \(S_{r}\) と \(S\) は独立となる
+    - \(S_{r}/\sigma^2\) は自由度 \(p\) の \(\chi^{2}\) 分布に従う
+    - \(S/\sigma^2\) は自由度 \(n{-}p{-}1\) の \(\chi^{2}\) 分布に従う
 
 ** @@latex:@@\(F\)統計量を用いた検定
 - 説明変数のうち1つでも役に立つか否かを検定
@@ -1329,6 +1338,7 @@
     (\(S_r\) が \(\chi^2\) 分布になる)
   - 対立仮説 \(H_{1}\) : \(\exists j\;\beta_j\neq0\)
 - \(p\)値 : 確率変数の値が \(F\)を超える確率
+  - \(f(x)\) は自由度 \(p,n{-}p{-}1\) の \(F\)分布の確率密度関数
   #+begin_quote
   \begin{equation}
     \text{(\(p\)値)}
@@ -1337,9 +1347,11 @@
     \quad\text{(片側検定)}
   \end{equation}
   #+end_quote
-  - \(f(x)\) は自由度 \(p,n{-}p{-}1\) の \(F\)分布の確率密度関数
+  #+begin_quote
+  *帰無仮説 \(H_{0}\) が正しければ \(p\)値は小さくならない*
+  #+end_quote
 #  - 帰無仮説 \(\forall j\;\beta_j=0\) が正しければ \(p\)値は小さくならない
-- 帰無仮説 \(H_{0}\) が正しければ \(p\)値は小さくならない
+# - 帰無仮説 \(H_{0}\) が正しければ \(p\)値は小さくならない
 
 # - \(F\)統計量による仮説検証:
 #   \begin{equation}

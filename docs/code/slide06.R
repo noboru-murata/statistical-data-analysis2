@@ -1,5 +1,11 @@
 ### 第6講 サンプルコード
+library(conflicted) # 名前の衝突に対応するパッケージ
 library(tidyverse)
+conflicts_prefer( # 衝突する可能性のあるものは tidyverse の関数を優先
+  dplyr::filter(),
+  dplyr::select(),
+  dplyr::lag(),
+)
 
 #' ---------------------------------------------------------------------------
 #' @practice 主成分分析の考え方
@@ -83,28 +89,42 @@ sqrt(toy_eigen$values/(n-1)) # 固有値と主成分の標準偏差の関係
 #' 都道府県別の社会生活統計指標の主成分分析
 
 #' データの読み込み
-js_data <- read_csv("data/japan_social.csv")
+js_data <- read_csv("data/japan_social.csv") |>
+  mutate(Area = as_factor(Area)) # 地方区分を因子化
 #' データの視覚化
 js_data |> # 散布図．いくつかの変数は相関強いことがわかる
-  select(!Pref) |>  # 都道府県名は削除
+  select(!c(Pref,Area)) |>  # 都道府県名・地方区分は削除
   GGally::ggpairs() 
 js_data |> # 箱ひげ図．変数のばらつきに大きな違いがある
-  pivot_longer(!Pref) |> # 都道府県名以外をまとめる
+  pivot_longer(!c(Pref,Area)) |> # 都道府県名・地方区分以外をまとめる
   ggplot(aes(x = name, y = value)) + # 既定値の name と value を利用
   geom_boxplot(aes(fill = name), show.legend = FALSE) # 変数ごとに色を変える
 (js_pca <- js_data |>
-   select(!Pref) |> # 都道府県名を除いて主成分分析を実行
+   select(where(is.double)) |> # 実数値の列(都道府県名・地方区分)を抽出
    prcomp(scale. = TRUE)) # 変数のばらつきを規格化
 #' 主成分方向から読み取れること:
 #' 第1: 人の多さに関する成分(正の向きほど人が多い)
 #' 第2: 農業生産力に関する成分(正の向きほど高い)
 #' 第1，第2主成分得点による地図の作成
-as_tibble(predict(js_pca)) |> # 主成分得点のデータフレーム
-  mutate(Pref = js_data[["Pref"]]) |> # 都道府県名を追加
-  ggplot(aes(x = PC1, y = PC2)) +
-  geom_text(aes(label = Pref), colour = "blue")
+as_tibble(predict(js_pca)) |> # 主成分得点
+  mutate(Pref = js_data[["Pref"]], # 都道府県名
+         Area = js_data[["Area"]]) |> # 因子化した地方区分
+  ggplot(aes(x = PC1, y = PC2)) + 
+  geom_point(aes(colour = Area), shape = 19, size = 2) + # 地方区分ごとに色を変える
+  geom_text(aes(label = Pref), colour = "darkgray", 
+            hjust = 0, nudge_x = 0.1, check_overlap = TRUE)
 #' 寄与率の表示．次週詳しく説明する
 summary(js_pca) 
+
+#' @notes
+#' 関数ggfortify::autoplot()の利用．次週詳しく説明する
+autoplot(js_pca) + 
+  geom_text(label = js_data[["Pref"]], # 都道府県名を追加 
+            hjust = 0, nudge_x = 0.01) # 横にずらして表示
+autoplot(js_pca, data = js_data, colour = "Area") + # 地方区分ごとに点の色を変える
+  geom_text(label = js_data[["Pref"]], 
+            hjust = 0, nudge_x = 0.01,
+            check_overlap = TRUE) # 重なっているラベルを消す
 
 #' 2変数での解析例 (AgriとLandを取り上げる，その他の組み合わせでも試みよ)
 #' 多変数での視覚化は次週詳しく説明する

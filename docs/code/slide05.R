@@ -323,6 +323,11 @@ adv_data <- read_csv('https://www.statlearning.com/s/Advertising.csv')
 summary(lm(sales ~ radio, data = adv_data))
 summary(lm(sales ~ TV + radio, data = adv_data))
 summary(lm(sales ~ TV + radio + newspaper, data = adv_data))
-summary(init <- lm(sales ~ TV * radio * newspaper, data = adv_data))
-opt <- step(init) # step関数による探索 (最大のモデルから削減増加を行う)
-summary(opt) # 探索された(準)最適なモデルの確認
+summary(adv_init <- lm(sales ~ TV * radio * newspaper, data = adv_data))
+adv_opt <- step(adv_init) # step関数による探索 (最大のモデルから削減増加を行う)
+summary(adv_opt) # 探索された(準)最適なモデルの確認
+
+#' 推定結果の tibble 形式での表示
+broom::tidy(adv_opt)
+broom::glance(adv_opt)
+broom::augment(adv_opt)
