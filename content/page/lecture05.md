@@ -6,7 +6,7 @@ draft = false
 weight = 1006
 +++
 
-<span class="timestamp-wrapper"><span class="timestamp">&lt;2023-11-07 Tue&gt; </span></span> 更新
+<span class="timestamp-wrapper"><span class="timestamp">&lt;2023-11-11 Sat&gt; </span></span> 更新
 
 
 ## スライド {#スライド}
@@ -22,3 +22,4 @@ weight = 1006
 ## 付録 {#付録}
 
 -   [RScript](https://noboru-murata.github.io/statistical-data-analysis2/code/slide05.R)
+-   [参考(コード・データセット)](https://noboru-murata.github.io/statistical-data-analysis2/data/data05.zip)
