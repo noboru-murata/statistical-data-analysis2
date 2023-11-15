@@ -10,7 +10,8 @@ library(ggfortify)
 
 #' @exercise
 #' 散布図 (正規化なし)
-js_data <- read_csv("data/japan_social.csv")
+js_data <- read_csv("data/japan_social.csv") |>
+  mutate(Area = as_factor(Area))
 js_data |> # 散布図．いくつかの変数は相関強いことがわかる
   select(where(is.double)) |> GGally::ggpairs()
 
@@ -46,7 +47,8 @@ js_data |> # 箱ひげ図．変数のばらつきをそろえる
 #' - Land: 土地生産性（耕地面積１ヘクタール当たり）(万円) 2014年
 #' - Goods: 商業年間商品販売額［卸売業＋小売業］（事業所当たり）(百万円) 2013年
 #' - Area: 地方区分
-js_data <- read_csv("data/japan_social.csv")
+js_data <- read_csv("data/japan_social.csv") |>
+  mutate(Area = as_factor(Area))
 #' 視覚化の例 (データの性質を見ておくことは重要)
 js_data |> select(where(is.double)) |> GGally::ggpairs() # 散布図
 js_data |>

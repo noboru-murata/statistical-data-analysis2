@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2023-11-09 16:01:00 mura>
+# Time-stamp: <2023-11-15 11:39:22 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/org/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -19,15 +19,30 @@
 - 東大は2次元，3次元の実験をするので，4次元などを考えてもらえばよい
 
 * COMMENT 講義の内容
+:PROPERTIES:
+:ID:       C3082D24-D65A-44C7-9BA4-41B059058A2E
+:END:
 # 早稲田大学
 - *第1日 : 主成分分析の考え方*
 - 第2日 : 分析の評価と視覚化
 
-#+begin_src R :eval no :exports none :tangle yes
-  ### 第6講 資料
+#+begin_src R :exports none :tangle no
+  setwd("~/Desktop/lectures/mva/course")
 #+end_src
 #+begin_src R :exports none
-  setwd("~/Desktop/lectures/mva/course")
+  ### 第6講 資料
+  library(tidyverse)
+  library(ggfortify)
+  #' 日本語表示・色の設定 (ggplot)
+  theme_set(theme_gray(base_size = 16))
+  if(Sys.info()[["sysname"]] == "Darwin") { # MacOSか確認
+    if(length(grep("BIZUDPGothic", systemfonts::system_fonts()[["name"]]))>0) 
+      theme_update(text = element_text(family = "BIZUDGothic-Regular"))
+    else
+      theme_update(text = element_text(family = "HiraMaruProN-W4"))}
+  library(see)
+  options(ggplot2.discrete.colour = function() scale_colour_material(),
+          ggplot2.discrete.fill = function() scale_fill_material())
 #+end_src
 
 * 講義概要
@@ -62,12 +77,12 @@
   - 構成する特徴量 : *主成分* (princial component)
 
 ** 分析の枠組み
-- \(X_{1},\dotsc,X_{p}\) : *変数* 
-- \(Z_{1},\dotsc,Z_{d}\) : *特徴量* ( \(d\leq p\) )
+- \(x_{1},\dotsc,x_{p}\) : *変数* 
+- \(z_{1},\dotsc,z_{d}\) : *特徴量* ( \(d\leq p\) )
 - 変数と特徴量の関係 (線形結合)
   #+begin_quote
   \begin{equation}
-    Z_k=a_{1k}X_{1}+\cdots+a_{pk}X_{p}\quad(k=1,\dotsc,d)
+    z_k=a_{1k}x_{1}+\cdots+a_{pk}x_{p}\quad(k=1,\dotsc,d)
   \end{equation}
   #+end_quote
   - 特徴量は定数倍の任意性があるので以下を仮定
@@ -78,7 +93,7 @@
     #+end_quote
 
 ** 主成分分析の用語
-- 特徴量 \(Z_k\)
+- 特徴量 \(z_k\)
   - 第 \(k\) *主成分得点* (principal component score) 
   - 第 \(k\) *主成分*
 - 係数ベクトル \(\boldsymbol{a}_k\)
@@ -89,9 +104,9 @@
 - 目的
   #+begin_quote
   主成分得点
-  \(Z_{1},\dots,Z_{d}\)
+  \(z_{1},\dots,z_{d}\)
   が変数
-  \(X_{1},\dotsc,X_{p}\)
+  \(x_{1},\dotsc,x_{p}\)
   の情報を効率よく反映するように主成分負荷量
   \(\boldsymbol{a}_{1},\dotsc,\boldsymbol{a}_{d}\)
   を観測データから決定する
@@ -1136,7 +1151,7 @@
   #+begin_src R :file figs/06_normalized_boxplot.png :exports results :results graphics
     js_data |> # 箱ひげ図．変数のばらつきをそろえる
       mutate(across(where(is.double), \(x)c(scale(x)))) |>
-      pivot_longer(whare(is.double)) |> # 都道府県名・地方区分以外をまとめる
+      pivot_longer(where(is.double)) |> # 都道府県名・地方区分以外をまとめる
       ggplot(aes(x = name, y = value)) + # 既定値の name と value を利用
       geom_boxplot(aes(fill = name), show.legend = FALSE) # 変数ごとに色を変える
   #+end_src
@@ -1178,9 +1193,12 @@
     as_tibble(predict(js_pca)) |> # 主成分得点のデータフレーム
       mutate(Pref = js_data[["Pref"]], # 都道府県名
              Area = as_factor(js_data[["Area"]])) |> # 因子化した地方区分
-      ggplot(aes(x = PC1, y = PC2, colour = Area)) +
-      geom_point(shape = 19, size = 2) +
-      ggrepel::geom_text_repel(aes(label = Pref), max.overlaps = 20)
+      ggplot(aes(x = PC1, y = PC2)) +
+      geom_point(aes(colour = Area), shape = 19, size = 2) +
+      ggrepel::geom_text_repel(aes(label = Pref),
+                               colour = "darkgray",
+                               max.overlaps = 20) +
+      theme(legend.position = c(.9,.8))
   #+end_src
 
 #+caption: 主成分得点による散布図
