@@ -522,9 +522,8 @@ tibble(x = mc_data) |> # ヒストグラムを出力
                  colour = "slateblue") # 塗り潰しの色
 #' 同じ試行でも関数の作り方はいろいろある
 mc_trial <- function() {
-  which.max(cumsum(sample(1:6, 100, replace = TRUE))>= 100)
-}
-#' 100回サイコロを振れば必ずどこかで100を越える
+  which.max(cumsum(sample(1:6, 100, replace = TRUE)) >= 100)
+} # 100回サイコロを振れば必ずどこかで100を越える (計算は無駄があるが条件分岐は不要)
 #' 関数 which.max() は初めて TRUE(1) になった場所を返す
 mc_data <- replicate(mc_num, mc_trial()) 
 summary(mc_data) # 簡単な集計

@@ -3,16 +3,10 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2022-12-02 16:14:05 mura>
+#+STARTUP: hidestars content indent
+# Time-stamp: <2023-11-21 17:32:37 mura>
 :REVEAL:
-#+INCLUDE: "./reveal.js/org/mycourse.org"
-#+PROPERTY: header-args:R :cache yes :session *R*
-# #+PROPERTY: header-args:R+ :exports both :results output
-#+PROPERTY: header-args:R+ :width 800 :height 800 :res 100
-#+PROPERTY: header-args:R+ :tangle no
-#+PROPERTY: header-args:latex :exports results :results raw
-#+STARTUP: hidestars content indent
-#+STARTUP: hidestars content indent
+#+SETUPFILE: "./reveal.js/org/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
 # <m C-i でlatex block (math env用)
 # C-c '
@@ -50,82 +44,6 @@
   setwd("~/Desktop/lectures/u-tokyo/autumn/course")
 #+end_src
 
-* COMMENT 演習 (早稲田大学雛型)
-:PROPERTIES:
-:reveal_background: #fef4f4
-:END:
-# 早稲田大学
-** 問題
-:PROPERTIES:
-:reveal_background: #fef4f4
-:END:
-- について以下を示しなさい．
-  - である．
-    #+begin_quote
-    #+begin_src latex
-    #+end_src
-    #+end_quote
-
-** 解答例
-:PROPERTIES:
-:reveal_background: #fef4f4
-:END:
-- いずれも定義にもとづいて計算すればよい
-  #+begin_quote
-  #+begin_src latex
-  #+end_src
-  #+end_quote
-
-* COMMENT 演習 (東京大学雛型)
-:PROPERTIES:
-:reveal_background: #fef4f4
-:END:
-# 東京大学
-** R : 概要
-:PROPERTIES:
-:reveal_background: #fef4f4
-:END:
-- ほげほげな方法:
-  #+begin_src R :eval no
-  #+end_src
-  
-** データセット
-:PROPERTIES:
-:reveal_background: #fef4f4
-:END:
-- 以下のデータセットを使用します
-  - ~xxx~
-    #+begin_quote
-    データの素性
-    #+end_quote
-    [[https://www.foo.com/]]
-
-** 練習問題
-:PROPERTIES:
-:reveal_background: #fef4f4
-:END:
-- 構成しなさい
-  - データ
-    #+begin_quote
-    formulaなどを与える
-    #+end_quote
-
-#+begin_src R :eval no :exports none :tangle yes
-  ###
-  ### 練習問題 
-  ###
-
-  ## 
-  ## 分析
-  ##
-#+end_src
-
-** COMMENT 講義資料: 概略
-:PROPERTIES:
-:reveal_background: #EEEEFF
-:END:
-- [[./code/bar.r][bar.r]] を確認してみよう
-
 
 * 判別分析の復習
 ** 判別分析
@@ -136,11 +54,9 @@
 - *事後確率* : \(p_k(\boldsymbol{x})\) (posterior probability)
   - \(X=\boldsymbol{x}\) が与えられた後に予測されるクラス
     #+begin_quote
-    #+begin_src latex
-      \begin{equation}
-        p_k(\boldsymbol{x})=P(Y=k|X=\boldsymbol{x})
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      p_k(\boldsymbol{x})=P(Y=k|X=\boldsymbol{x})
+    \end{equation}
     #+end_quote
   - 所属する確率が最も高いクラスに個体を分類
 
@@ -151,17 +67,15 @@
   - 事後確率最大のクラスにデータを分類
 - *判別関数* : \(\delta_k(\boldsymbol{x})\) (\(k=1,\dots,K\))
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      p_k(\boldsymbol{x}) 
-      < 
-      p_l(\boldsymbol{x})
-      \Leftrightarrow
-      \delta_k(\boldsymbol{x})
-      <
-      \delta_l(\boldsymbol{x})
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    p_k(\boldsymbol{x}) 
+    < 
+    p_l(\boldsymbol{x})
+    \Leftrightarrow
+    \delta_k(\boldsymbol{x})
+    <
+    \delta_l(\boldsymbol{x})
+  \end{equation}
   #+end_quote
   事後確率の順序を保存する計算しやすい関数
 - 判別関数 \(\delta_k(\boldsymbol{x})\) を最大化するようなクラス \(k\) に分類
@@ -172,28 +86,24 @@
   - 平均ベクトル \(\boldsymbol{\mu}_k\) : クラスごとに異なる
   - 共分散行列 \(\Sigma\) : *すべてのクラスで共通*
     #+begin_quote
-    #+begin_src latex
-      \begin{equation}
-	f_k(\boldsymbol{x})
-	=
-	\frac{1}{(2\pi)^{q/2}\sqrt{\det\Sigma}}
-	\exp\left(-\frac{1}{2}(\boldsymbol{x}-\boldsymbol{\mu}_k)^{\mathsf{T}}
-	  \Sigma^{-1}(\boldsymbol{x}-\boldsymbol{\mu}_k)\right)
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      f_k(\boldsymbol{x})
+      =
+      \frac{1}{(2\pi)^{q/2}\sqrt{\det\Sigma}}
+      \exp\left(-\frac{1}{2}(\boldsymbol{x}-\boldsymbol{\mu}_k)^{\mathsf{T}}
+        \Sigma^{-1}(\boldsymbol{x}-\boldsymbol{\mu}_k)\right)
+    \end{equation}
     #+end_quote
 - 線形判別関数 : \(\boldsymbol{x}\) の1次式
   # (linear discriminant function)
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      \delta_k(\boldsymbol{x})
-      =
-      \boldsymbol{x}^{\mathsf{T}}\Sigma^{-1}\boldsymbol{\mu}_k
-      -\frac{1}{2}\boldsymbol{\mu}_k^{\mathsf{T}}\Sigma^{-1}\boldsymbol{\mu}_k
-      +\log\pi_k
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    \delta_k(\boldsymbol{x})
+    =
+    \boldsymbol{x}^{\mathsf{T}}\Sigma^{-1}\boldsymbol{\mu}_k
+    -\frac{1}{2}\boldsymbol{\mu}_k^{\mathsf{T}}\Sigma^{-1}\boldsymbol{\mu}_k
+    +\log\pi_k
+  \end{equation}
   #+end_quote
 
 ** 2次判別
@@ -202,28 +112,24 @@
   - 平均ベクトル \(\boldsymbol{\mu}_k\) : クラスごとに異なる
   - 共分散行列 \(\Sigma_k\) : *クラスごとに異なる*
     #+begin_quote
-    #+begin_src latex
-      \begin{equation}
-	f_k(\boldsymbol{x})
-	=
-	\frac{1}{(2\pi)^{q/2}\sqrt{\det\Sigma_k}}
-	\exp\left(-\frac{1}{2}(\boldsymbol{x}-\boldsymbol{\mu}_k)^{\mathsf{T}}
-	  \Sigma_k^{-1}(\boldsymbol{x}-\boldsymbol{\mu}_k)\right)
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      f_k(\boldsymbol{x})
+      =
+      \frac{1}{(2\pi)^{q/2}\sqrt{\det\Sigma_k}}
+      \exp\left(-\frac{1}{2}(\boldsymbol{x}-\boldsymbol{\mu}_k)^{\mathsf{T}}
+        \Sigma_k^{-1}(\boldsymbol{x}-\boldsymbol{\mu}_k)\right)
+    \end{equation}
     #+end_quote
 - 2次判別関数 : \(\boldsymbol{x}\) の2次式
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      \delta_k(\boldsymbol{x})
-      =
-      -\frac{1}{2}\det\Sigma_k
-      -\frac{1}{2}(\boldsymbol{x}-\boldsymbol{\mu}_k)^{\mathsf{T}}
-      \Sigma_k^{-1}(\boldsymbol{x}-\boldsymbol{\mu}_k)
-      +\log\pi_k
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    \delta_k(\boldsymbol{x})
+    =
+    -\frac{1}{2}\det\Sigma_k
+    -\frac{1}{2}(\boldsymbol{x}-\boldsymbol{\mu}_k)^{\mathsf{T}}
+    \Sigma_k^{-1}(\boldsymbol{x}-\boldsymbol{\mu}_k)
+    +\log\pi_k
+  \end{equation}
   #+end_quote
 
 ** Fisherの線形判別
@@ -233,12 +139,10 @@
   - クラス間では離れているほど良い (\(\boldsymbol{\alpha}^{\mathsf{T}} B\boldsymbol{\alpha}\)は大)
 - Fisherの基準
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      \text{maximize}\quad \boldsymbol{\alpha}^{\mathsf{T}} B\boldsymbol{\alpha}
-      \quad\text{s.t.}\quad \boldsymbol{\alpha}^{\mathsf{T}} W\boldsymbol{\alpha}=\text{const.}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    \text{maximize}\quad \boldsymbol{\alpha}^{\mathsf{T}} B\boldsymbol{\alpha}
+    \quad\text{s.t.}\quad \boldsymbol{\alpha}^{\mathsf{T}} W\boldsymbol{\alpha}=\text{const.}
+  \end{equation}
   #+end_quote
   - \(\boldsymbol{\alpha}\) は \(W^{-1}B\) の第1から第 \(K-1\) 固有ベクトル
   - 判別方法: 特徴量の距離を用いる
@@ -250,13 +154,11 @@
 ** 誤り率
 - 単純な誤り
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      \text{(誤り率)}
-      =\frac{\text{(誤って判別されたデータ数)}}
-      {\text{(全データ数)}}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    \text{(誤り率)}
+    =\frac{\text{(誤って判別されたデータ数)}}
+    {\text{(全データ数)}}
+  \end{equation}
   #+end_quote
 - 判別したいラベル : 陽性 (positive)
   - *真陽性* : 正しく陽性と判定 (true positive; TP)
@@ -265,110 +167,100 @@
   - *真陰性* : 正しく陰性と判定 (true negative; TN) 
 
 ** 混同行列
-|------------+-------------------------+-------------------------|
-|            | 真値は陽性              | 真値は陰性              |
-|------------+-------------------------+-------------------------|
+#+html: <font size=6>
+|----------+-----------------------+-----------------------|
+|          | 真値は陽性              | 真値は陰性              |
+|----------+-----------------------+-----------------------|
 | 判別は陽性 | 真陽性 (True Positive)  | 偽陽性 (False Positive) |
 | 判別は陰性 | 偽陰性 (False Negative) | 真陰性 (True Negative)  |
-|------------+-------------------------+-------------------------|
+|----------+-----------------------+-----------------------|
+#+html: </font>
 - *confusion matrix*
 - 各条件にあてはまるデータ数を記載
 - 転置で書く流儀もあるので注意
 
 ** 混同行列 (転置したもの)
-|------------+-------------------------+-------------------------|
-|            | 判別は陽性              | 判別は陰性              |
-|------------+-------------------------+-------------------------|
+#+html: <font size=6>
+|----------+-----------------------+-----------------------|
+|          | 判別は陽性              | 判別は陰性              |
+|----------+-----------------------+-----------------------|
 | 真値は陽性 | 真陽性 (True Positive)  | 偽陰性 (False Negative) |
 | 真値は陰性 | 偽陽性 (False Positive) | 真陰性 (True Negative)  |
-|------------+-------------------------+-------------------------|
+|----------+-----------------------+-----------------------|
+#+html: </font>
 - パターン認識や機械学習で多く見られた書き方
 - 誤差行列 (error matrix) とも呼ばれる
 
 ** 基本的な評価基準
 - 定義
   #+begin_quote
-  #+begin_src latex
-    \begin{align}
-      \text{(真陽性率)}
-      &=\frac{TP}{TP+FN} \qquad\text{(true positive rate)}\\
-      \text{(真陰性率)}
-      &=\frac{TN}{FP+TN} \qquad\text{(true negative rate)}\\
-      \text{(適合率)}
-      &=\frac{TP}{TP+FP} \qquad\text{(precision)}\\
-      \text{(正答率)}
-      &=\frac{TP+TN}{TP+FP+TN+FN} \qquad\text{(accuracy)}
-    \end{align}
-  #+end_src
+  \begin{align}
+    \text{(真陽性率)}
+    &=\frac{TP}{TP+FN} \qquad\text{(true positive rate)}\\
+    \text{(真陰性率)}
+    &=\frac{TN}{FP+TN} \qquad\text{(true negative rate)}\\
+    \text{(適合率)}
+    &=\frac{TP}{TP+FP} \qquad\text{(precision)}\\
+    \text{(正答率)}
+    &=\frac{TP+TN}{TP+FP+TN+FN} \qquad\text{(accuracy)}
+  \end{align}
   #+end_quote
 
 #+reveal: split
 - 別名 (分野で異なるので注意)
   - 感度 (sensitivity) あるいは 再現率 (recall)
     #+begin_quote
-    #+begin_src latex
-      \begin{equation}
-	\text{(真陽性率)}
-	=\frac{TP}{TP+FN}
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      \text{(真陽性率)}
+      =\frac{TP}{TP+FN}
+    \end{equation}
     #+end_quote
   - 特異度 (specificity)
     #+begin_quote
-    #+begin_src latex
-      \begin{equation}
-	\text{(真陰性率)}
-	=\frac{TN}{FP+TN}
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      \text{(真陰性率)}
+      =\frac{TN}{FP+TN}
+    \end{equation}
     #+end_quote
   - 精度
     #+begin_quote
-    #+begin_src latex
-      \begin{equation}
-	\text{(正答率)}
-	=\frac{TP+TN}{TP+FP+TN+FN}
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      \text{(正答率)}
+      =\frac{TP+TN}{TP+FP+TN+FN}
+    \end{equation}
     #+end_quote
 
 ** F-値
-- *F-measure, F-score*
-- 定義
+- 定義 (*F-measure, F-score*)
   #+begin_quote
-  #+begin_src latex
-    \begin{align}
-      F_{1}&=\frac{2}{{1}/{\text{(再現率)}}+{1}/{\text{(適合率)}}}\\
-      F_{\beta}&=\frac{\beta^{2}+1}{{\beta^{2}}/{\text{(再現率)}}+{1}/{\text{(適合率)}}}
-    \end{align}
-  #+end_src
+  \begin{align}
+    F_{1}&=\frac{2}{{1}/{\text{(再現率)}}+{1}/{\text{(適合率)}}}\\
+    F_{\beta}&=\frac{\beta^{2}+1}{{\beta^{2}}/{\text{(再現率)}}+{1}/{\text{(適合率)}}}
+  \end{align}
   #+end_quote
   - 再現率(真陽性率)と適合率の(重み付き)調和平均
 
 ** Cohen の kappa 値
-- Cohen's *kappa measure*
-- 定義
+- 定義 (Cohen's *kappa measure*)
   #+begin_quote
-  #+begin_src latex
-    \begin{align}
-      p_{o}
-      &=\frac{TP+TN}{TP+FP+TN+FN} \qquad\text{(accuracy)}\\
-      p_{e}
-      &=\frac{TP+FP}{TP+FP+TN+FN}\cdot\frac{TP+FN}{TP+FP+TN+FN}\\
-      &\quad
-	+\frac{FN+TN}{TP+FP+TN+FN}\cdot\frac{FP+TN}{TP+FP+TN+FN}\\
-      \kappa
-      &=
-	\frac{p_{o}-p_{e}}{1-p_{e}}
-	=
-	1-\frac{1-p_{o}}{1-p_{e}}
-    \end{align}
-  #+end_src
+  \begin{align}
+    p_{o}
+    &=\frac{TP+TN}{TP+FP+TN+FN} \qquad\text{(accuracy)}\\
+    p_{e}
+    &=\frac{TP+FP}{TP+FP+TN+FN}\cdot\frac{TP+FN}{TP+FP+TN+FN}\\
+    &\quad
+      +\frac{FN+TN}{TP+FP+TN+FN}\cdot\frac{FP+TN}{TP+FP+TN+FN}\\
+    \kappa
+    &=
+      \frac{p_{o}-p_{e}}{1-p_{e}}
+      =
+      1-\frac{1-p_{o}}{1-p_{e}}
+  \end{align}
   #+end_quote
   - 観測された精度と偶然の精度の比較
 
 
-* COMMENT 解析の事例
+* 解析の事例
 # 早稲田大学
 ** データについて
 - 気象庁より取得した東京の気候データ \\
@@ -494,7 +386,7 @@
   #+end_src
 
    
-* COMMENT 演習
+* 演習
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
@@ -516,90 +408,78 @@
 :END:
 - 最大最小と平均の関係から以下が成り立つ
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      \min(\text{再現率},\text{適合率})
-      \le F_{1}
-      \le\max(\text{再現率},\text{適合率})
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    \min(\text{再現率},\text{適合率})
+    \le F_{1}
+    \le\max(\text{再現率},\text{適合率})
+  \end{equation}
   さらに相加・相乗平均の関係から
-  #+begin_src latex
-    \begin{equation}
-      F_{1}
-      \le\text{(相乗平均)}
-      \le\text{(相加平均)}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    F_{1}
+    \le\text{(相乗平均)}
+    \le\text{(相加平均)}
+  \end{equation}
   も成り立つ
   #+end_quote
 
 #+reveal: split
 - 相関係数の定義に従って計算すればよい
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      \rho
-      =
-      \frac{\mathrm{Cov}(Y,\hat{Y})}
-      {\sqrt{\mathrm{Var}(Y)\mathrm{Var}(\hat{Y})}}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    \rho
+    =
+    \frac{\mathrm{Cov}(Y,\hat{Y})}
+    {\sqrt{\mathrm{Var}(Y)\mathrm{Var}(\hat{Y})}}
+  \end{equation}
   #+end_quote
 
 #+reveal: split
 - 例えば分子の共分散は以下のように計算される
   #+begin_quote
-  #+begin_src latex
-    \begin{align}
-      \mathrm{Cov}(Y,\hat{Y})
-      &=
-        \mathbb{E}[(Y-\mathbb{E}[Y])(\hat{Y}-\mathbb{E}[\hat{Y}])]\\
-      &=
-        \mathbb{E}[Y\hat{Y}]-\mathbb{E}[Y]\mathbb{E}[\hat{Y}]\\
-      &=
-        \frac{TP}{N}-\frac{TP+FN}{N}\frac{TP+FP}{N}\\
-      &=
-        \frac{TP(TP+FN+FP+TN)}{N^{2}}\\
-      &\qquad-
-        \frac{(TP+FN)(TP+FP)}{N^{2}}\\
-      &=
-        \frac{TP\cdot TN - FP\cdot FN}{N^{2}}
-    \end{align}
-  #+end_src
+  \begin{align}
+    \mathrm{Cov}(Y,\hat{Y})
+    &=
+      \mathbb{E}[(Y-\mathbb{E}[Y])(\hat{Y}-\mathbb{E}[\hat{Y}])]\\
+    &=
+      \mathbb{E}[Y\hat{Y}]-\mathbb{E}[Y]\mathbb{E}[\hat{Y}]\\
+    &=
+      \frac{TP}{N}-\frac{TP+FN}{N}\frac{TP+FP}{N}\\
+    &=
+      \frac{TP(TP+FN+FP+TN)}{N^{2}}\\
+    &\qquad-
+      \frac{(TP+FN)(TP+FP)}{N^{2}}\\
+    &=
+      \frac{TP\cdot TN - FP\cdot FN}{N^{2}}
+  \end{align}
   #+end_quote
   - 平均は標本平均で置き換えた
 
 #+reveal: split
 - 同様に分母の分散は以下のようになる
   #+begin_quote
-  #+begin_src latex
-    \begin{align}
-      \mathrm{Var}(Y)
-      &=
-        \mathbb{E}[Y^{2}]-\mathbb{E}[Y]^{2}\\
-      &=
-        \frac{(TP+FN)(TN+FP)}{N^{2}}\\
-      \mathrm{Var}(\hat{Y})
-      &=
-        \mathbb{E}[\hat{Y}^{2}]-\mathbb{E}[\hat{Y}]^{2}\\
-      &=
-        \frac{(TP+FP)(TN+FN)}{N^{2}}
-    \end{align}
-  #+end_src
+  \begin{align}
+    \mathrm{Var}(Y)
+    &=
+      \mathbb{E}[Y^{2}]-\mathbb{E}[Y]^{2}\\
+    &=
+      \frac{(TP+FN)(TN+FP)}{N^{2}}\\
+    \mathrm{Var}(\hat{Y})
+    &=
+      \mathbb{E}[\hat{Y}^{2}]-\mathbb{E}[\hat{Y}]^{2}\\
+    &=
+      \frac{(TP+FP)(TN+FN)}{N^{2}}
+  \end{align}
   #+end_quote
 
 #+reveal: split
 - したがって以下のようにまとめられる
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      \rho
-      =
-      \frac{TP\cdot TN-FP\cdot FN}
-      {\sqrt{(TP+FP)(TP+FN)(TN+FP)(TN+FN)}}       
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    \rho
+    =
+    \frac{TP\cdot TN-FP\cdot FN}
+    {\sqrt{(TP+FP)(TP+FN)(TN+FP)(TN+FN)}}       
+  \end{equation}
   #+end_quote
   - これは Matthews correlation coefficient (MCC)
     と呼ばれる評価指標の一つである
@@ -921,7 +801,7 @@
 - 前回用いたデータについて線形・2次どちらの判別方法が望ましいか検証してみよう
 
 
-* COMMENT 解析の事例
+* 解析の事例
 # 早稲田大学
 ** データについて
 - UC Irvine Machine Learning Repository の公開データ
@@ -1056,9 +936,10 @@
   - 予測誤差の観点からは線形判別の方が良さそう
 
     
-* 次週の予定
+* 次回の予定
 - *第1日 : クラスタ分析の考え方と階層的方法*
 - 第2日 : 非階層的方法と分析の評価
+
 
 * Footnotes
 * COMMENT ローカル変数

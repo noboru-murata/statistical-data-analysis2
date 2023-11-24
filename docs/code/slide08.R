@@ -1,168 +1,237 @@
-### 
 ### 第8講 サンプルコード
-###
+library(conflicted)
+library(tidyverse)
+conflicts_prefer(
+  dplyr::filter(),
+  dplyr::select(),
+  dplyr::lag(),
+)
+library(ggfortify)
 
-### 
-### 練習問題 線形判別
-###
+#' ---------------------------------------------------------------------------
+#' @practice 線形判別
 
-### 東京の気象データによる判別分析
-library(MASS)
-## データの整理
-tw_data <- read.csv("data/tokyo_weather.csv")
-tw_subset  <- subset(tw_data,
-                     subset= month %in% c(10,11),
-                     select=c(temp,humid,month))
-idx <- seq(2,60,by = 2)
-tw_train <- tw_subset[ idx,] # 訓練データ
-tw_test  <- tw_subset[-idx,] # 試験データ
-## 視覚化
-with(tw_subset, 
-     plot(temp, humid, # 散布図の作成
-          pch=month, col=month,
-          xlab="temperature",ylab="humidity",
-          main="Oct. & Nov"))
-legend("bottomright",inset=.05, # 凡例の作成
-       pch=c(10,11), col=c(10,11), legend=c("Oct","Nov"))
-## 訓練データで判別関数を作成．等分散性を仮定
-tw_lda <- lda(month ~ temp + humid, data=tw_train)
-plot(tw_lda) # 訓練データの判別関数値
-tw_est <- predict(tw_lda) # 判別関数によるクラス分類結果の取得
-table(true=tw_train$month, pred=tw_est$class) # 真値と予測値の比較
-## 試験データによる評価
-tw_pred <- predict(tw_lda, newdata=tw_test) 
-table(true=tw_test$month, pred=tw_pred$class) # 真値と予測値の比較
-tw_pred$class 
-tw_test$month 
-## 判別結果の図示
-my_lda_border <- function(z) { # 判別境界を引くための関数 
-    a0<-as.vector(colMeans(z$means) %*% z$scaling)
-    a<-c(a0/z$scaling[2],-z$scaling[1]/z$scaling[2])
-    return(a)
-}
-## scale * (x-mu) = 0 を変形している
-## ただし x は説明変数のベクトルで，x2 に関して解いている
-with(tw_test, 
-     plot(temp, humid, # 試験データの散布図
-          pch=month, col=month,
-          xlab="temperature",ylab="humidity",
-          main="Oct. & Nov"))
-with(tw_train, 
-     points(temp, humid, # 訓練データの散布図
-            pch=month, col=month+3))
-abline(my_lda_border(tw_lda), col="blue", lwd=2)
-## もう少し凝った図の作り方の例
-## 全データで線形判別関数を作成して誤ったデータを表示
-my_color <- rainbow(12)[c(2,5,8)]
-tw_lda <- lda(month ~ temp + humid, data=tw_subset)
-tw_lest <- predict(tw_lda)
-tw_lerr <- which(tw_lest$class!=tw_subset$month)
-## 判別結果の図示
-my_lda_border <- function(z) { # 判別境界を引くための関数
-  a0<-as.vector(colMeans(z$means) %*% z$scaling)
-  a<-c(a0/z$scaling[2],-z$scaling[1]/z$scaling[2])
-  return(a)
-}
-with(tw_subset, 
-     plot(temp, humid, # 全データの散布図
-          pch=month+6, col=my_color[month-8],
-          xlab="temperature",ylab="humidity",
-          main="linear discriminant"))
-with(tw_subset[tw_lerr,], 
-     points(temp, humid, # 誤ったデータの散布図
-            pch=1, col="orchid", cex=2, lwd=2))
-abline(my_lda_border(tw_lda), col="orange", lwd=2)
-rx <- with(tw_subset,range(temp))
-ry <- with(tw_subset,range(humid))
-sx <- pretty(rx,100)
-sy <- pretty(ry,100)
-my_grid <- expand.grid(temp=sx,humid=sy)
-ldesc <- predict(tw_lda,newdata=my_grid)
-image(sx,sy,add=TRUE,
-      matrix(as.numeric(ldesc$class),length(sx),length(sy)),
-        col=c(rgb(1,0,0,0.2),rgb(0,1,0,0.2)))
+#' 東京の気象データによる判別分析
+library(MASS) # パッケージの読み込み
+#' データの整理
+tw_data <- read_csv("data/tokyo_weather.csv")
+tw_subset  <- tw_data |> 
+  filter(month %in% c(9,10)) |> # 9,10月のデータ
+  select(temp, humid, month) |> # 気温・湿度・月を選択
+  mutate(month = as_factor(month)) # 月を因子化
+idx <- seq(1, nrow(tw_subset), by = 2) # データの分割(1つおき)
+tw_train <- tw_subset[ idx,] # 訓練データ(推定に用いる)
+tw_test  <- tw_subset[-idx,] # 試験データ(評価に用いる)
 
-### 
-### 練習問題 2次判別
-### 
+#' @notes
+#' 関数lubridate::month()を用いれば月を文字列(因子)とすることもできる
+#' mutate(month = month(month, label = TRUE))
+#' 
+#' ランダムに分割するには例えば以下のようにすれば良い
+#' n <- nrow(tw_subset); idx <- sample(1:n, n/2)
+#'
+#' 以下のようにして最初に月を因子化することもできるが
+#' read_csv("data/tokyo_weather.csv") |>
+#'   mutate(month = as_factor(month))
+#' 関数によっていは処理で使われない因子(例えば1月)も表示してしまうので注意が必要
+#'
+#' また複数の項目を因子化するには例えば以下のようにすればよい
+#' mutate(across(c(year, month, day), as_factor))
 
-### 東京の気象データによる判別分析
-library(MASS)
-## データの整理 (前に実行している場合は不要)
-tw_data <- read.csv("data/tokyo_weather.csv")
-tw_subset  <- subset(tw_data,
-                     subset= month %in% c(10,11),
-                     select=c(temp,humid,month))
-idx <- seq(2,60,by = 2)
-tw_train <- tw_subset[ idx,] # 訓練データ
-tw_test  <- tw_subset[-idx,] # 試験データ
-## 訓練データで判別関数を作成
-tw_qda <- qda(month ~ temp + humid, data=tw_train)
-tw_est2 <- predict(tw_qda) # 判別関数によるクラス分類結果の取得
-table(true=tw_train$month, pred=tw_est2$class) # 真値と予測値の比較
-## 試験データによる評価
-tw_pred2 <- predict(tw_qda, newdata=tw_test) 
-table(true=tw_test$month, pred=tw_pred2$class) # 真値と予測値の比較
-tw_pred2$class 
-tw_test$month 
-## 判別結果の図示
-## 判別境界を描くのは複雑なので，色と形で代用する
-with(tw_test, 
-     plot(temp, humid, # 試験データの散布図
-          pch=as.numeric(tw_pred2$class),
-          col=month,
-          xlab="temperature",ylab="humidity",
-          main="Oct. & Nov"))
-## 同様に少し凝った図の作り方の例
-tw_qda <- qda(month ~ temp + humid, data=tw_subset) 
-tw_qest <- predict(tw_qda) # 判別関数によるクラス分類結果の取得
-tw_qerr <- which(tw_qest$class!=tw_subset$month)
-with(tw_subset, 
-     plot(temp, humid, # データ全体の散布図
-          pch=month+6, col=my_color[month-8],
-          xlab="temperature",ylab="humidity",
-          main="quadratic discriminant"))
-with(tw_subset[tw_qerr,], 
-     points(temp, humid, # 誤ったデータ
-            pch=1, col="orchid", cex=2, lwd=2))
-qdesc <- predict(tw_qda,newdata=my_grid)
-image(sx,sy,add=TRUE,
-      matrix(as.numeric(qdesc$class),length(sx),length(sy)),
-      col=c(rgb(1,0,0,0.2),rgb(0,1,0,0.2)))
+#' 視覚化
+tw_subset |> # 気温と湿度の散布図を作成
+  ggplot(aes(x = temp, y = humid)) + 
+  geom_point(aes(colour = month)) + # 月ごとに点の色を変える
+  labs(x = "Temperature", y = "Humidity",
+       title = "September & October")
 
-### 
-### 練習問題 多値判別
-### 
+#' 訓練データで線形判別関数(等分散性を仮定)を作成
+tw_model <- month ~ temp + humid
+tw_lda <- lda(formula = tw_model, data = tw_train)
+tw_lda_fitted <- predict(tw_lda) # 判別関数によるクラス分類結果の取得
+table(true = tw_train[["month"]], # 真値
+      predict = tw_lda_fitted[["class"]]) # 予測値の比較(混同行列) 
+tibble(true = tw_train[["month"]]) |>
+  mutate(predict = tw_lda_fitted[["class"]]) |>
+  View() # 真値と予測値の対応表を作成して直接比較
+as_tibble(tw_lda_fitted[["x"]]) |> # リストから判別関数値(配列)を取得
+  mutate(month = tw_train[["month"]]) |> # 月(真値)を追加
+  ggplot(aes(x = LD1, fill = month)) + 
+  geom_histogram(aes(y = after_stat(density)), bins = 30) +
+  facet_grid(month ~ .) # 月ごとに表示(y方向に並べる)
 
-### 東京の気象データによる判別分析
-library(MASS)
-## データの整理 (前に実行している場合は不要)
-tw_data <- read.csv("data/tokyo_weather.csv")
-tw_subset  <- subset(tw_data,
-                     subset= month %in% c(9,10,11),
-                     select=c(temp,humid,month))
-## 判別関数を作成
-tw_lda3 <- lda(month ~ temp + humid, data=tw_subset)
-tw_est3 <- predict(tw_lda3) # 判別関数によるクラス分類結果の取得
-table(true=tw_subset$month, pred=tw_est3$class) # 真値と予測値の比較
-plot(tw_lda3, col=tw_subset$month) # 判別関数値の図示
+#' 試験データによる評価
+tw_lda_predict <- predict(tw_lda, newdata = tw_test) 
+table(true = tw_test[["month"]], # 混同行列
+      predict = tw_lda_predict[["class"]])
+tibble(true = tw_test[["month"]]) |> # 比較表
+  mutate(predict = tw_lda_predict[["class"]]) |>
+  View() 
+as_tibble(tw_lda_predict[["x"]]) |> # 判別関数値の視覚化
+  mutate(month = tw_test[["month"]]) |> 
+  ggplot(aes(x = LD1, fill = month)) + 
+  geom_histogram(aes(y = after_stat(density)), bins = 30) +
+  facet_grid(month ~ .) 
 
-## 12ヶ月分のデータを用いる
-## 数が多いのでサンプリングする
+#' 推定された線形判別関数の図示
+range_x <- range(tw_subset[["temp"]])  # 気温の値域
+range_y <- range(tw_subset[["humid"]]) # 湿度の値域
+grid_x <- pretty(range_x, 100) # 気温の値域の格子点を作成
+grid_y <- pretty(range_y, 100) # 湿度の値域の格子点を作成
+grid_xy <- expand.grid(temp = grid_x,
+                       humid = grid_y) # 2次元の格子点を作成
+tw_lda_grid <- predict(tw_lda, # 格子点上の判別関数値を計算
+                       newdata = grid_xy)
+#' 判別関数により予測されるラベルの図示
+p <- as_tibble(grid_xy) |> 
+  mutate(predict = tw_lda_grid[["class"]]) |>
+  ggplot(aes(x = temp, y = humid)) +
+  geom_tile(aes(fill = predict), alpha = 0.3) +
+  labs(x = "Temperature", y = "Humidity",
+       title = "Linear Discriminant Analysis")
+print(p) # 判別境界の表示
+p + # データ点の重ね描き
+  geom_point(data = tw_subset,
+             aes(x = temp, y = humid, colour = month))
+#' 判別関数値の図示 (参考)
+p2 <- as_tibble(grid_xy) |> 
+  mutate(LD = tw_lda_grid[["x"]][,"LD1"]) |> # LD1列のみ利用
+  ggplot(aes(x = temp, y = humid)) +
+  geom_raster(aes(fill = LD), alpha = 0.5) +
+  scale_fill_gradientn(colours=c("red","white","blue")) +
+  labs(x = "Temperature", y = "Humidity",
+       title = "Scores of Discriminant Variables")
+print(p2) # 判別関数値の表示
+p2 + # データ点の重ね描き
+  geom_point(data = tw_subset,
+             aes(x = temp, y = humid, colour = month))
+
+#' ---------------------------------------------------------------------------
+
+#' ---------------------------------------------------------------------------
+#' @practice 2次判別
+
+#' 東京の気象データによる判別分析
+#' 前の練習問題で作成した 'tw_train', 'tw_test' を利用
+
+#' 訓練データで2次判別関数(等分散性を仮定しない)を作成
+#' 線形判別関数と同じモデル式を用いる
+tw_qda <- qda(formula = tw_model, data = tw_train)
+tw_qda_fitted <- predict(tw_qda) # 判別関数によるクラス分類結果の取得
+table(true = tw_train[["month"]], # 真値
+      predict = tw_qda_fitted[["class"]]) # 予測値の比較(混同行列) 
+tibble(true = tw_train[["month"]]) |>
+  mutate(predict = tw_qda_fitted[["class"]]) |>
+  View() # 真値と予測値の対応表を作成して直接比較
+
+#' 試験データによる評価
+tw_qda_predict <- predict(tw_qda, newdata = tw_test) 
+  table(true = tw_test[["month"]], # 混同行列
+      predict = tw_qda_predict[["class"]])
+tibble(true = tw_test[["month"]]) |> # 比較表
+  mutate(predict = tw_qda_predict[["class"]]) |>
+  View() 
+
+#' 推定された2次判別関数の図示
+tw_qda_grid <- predict(tw_qda, # 格子点上の判別関数値を計算
+                       newdata = grid_xy)
+#' 判別関数により予測されるラベルの図示
+p <- as_tibble(grid_xy) |> 
+  mutate(predict = tw_qda_grid[["class"]]) |>
+  ggplot(aes(x = temp, y = humid)) +
+  geom_tile(aes(fill = predict), alpha = 0.3) +
+  labs(x = "Temperature", y = "Humidity",
+       title = "Quadratic Discriminant Analysis")
+print(p) # 判別境界の表示
+p + # データ点の重ね描き
+  geom_point(data = tw_subset,
+             aes(x = temp, y = humid, colour = month))
+
+#' ---------------------------------------------------------------------------
+
+#' ---------------------------------------------------------------------------
+#' @practice 多値判別
+
+#' 東京の気象データによる判別分析
+#' 3値判別のためのデータの整理
+tw_subset3  <- tw_data |>
+  filter(month %in% c(9,10,11)) |>
+  select(temp, humid, month) |>
+  mutate(month = as_factor(month))
+
+#' 線形判別関数(3値)を作成
+tw_lda3 <- lda(formula = tw_model, data = tw_subset3)
+tw_lda3_fitted <- predict(tw_lda3) # 判別関数によるクラス分類結果の取得
+table(true = tw_subset3[["month"]], # 真値
+      predict = tw_lda3_fitted[["class"]]) # 予測値の比較(混同行列)
+
+#' 推定された線形判別関数(3値)により予測されるラベルの図示
+#' 格子点は再計算する必要がある
+range_x <- range(tw_subset3[["temp"]])  # 気温の値域
+range_y <- range(tw_subset3[["humid"]]) # 湿度の値域
+grid_x <- pretty(range_x, 100) # 気温の値域の格子点を作成
+grid_y <- pretty(range_y, 100) # 湿度の値域の格子点を作成
+grid_xy <- expand.grid(temp = grid_x,
+                       humid = grid_y) # 2次元の格子点を作成
+tw_lda3_grid <- predict(tw_lda3, # 格子点上の判別関数値を計算
+                        newdata = grid_xy)
+as_tibble(grid_xy) |> 
+  mutate(predict = tw_lda3_grid[["class"]]) |>
+  ggplot(aes(x = temp, y = humid)) +
+  geom_tile(aes(fill = predict), alpha = 0.3) +
+  geom_point(data = tw_subset3,
+             aes(x = temp, y = humid, colour = month)) +
+  labs(x = "Temperature", y = "Humidity",
+       title = "Multi-label Discriminant Analysis")
+
+#' 3値判別の場合には2つの判別関数を構成するので
+#' これを用いてデータ点の散布図を作成することができる
+p <- bind_cols(tw_lda3_fitted[["x"]], # 判別関数値(LD1,LD2)
+               tw_subset3["month"]) |> # データフレームとして抽出
+  ggplot(aes(x = LD1, y = LD2)) + 
+  geom_point(aes(colour = month)) # 月ごとに色を変更
+print(p)
+
+#' 関数geom_tile()が座標軸に沿った格子点を想定しているため
+#' 判別関数値の散布図上で判別境界とデータ点を表示するには工夫が必要
+#' ここでは関数geom_point()で代用した簡便な例を示す
+p + geom_point(data = # 判別関数値と予測ラベルのデータフレームを作成
+                 bind_cols(tw_lda3_grid[["x"]],
+                           predict = tw_lda3_grid[["class"]]),
+               aes(colour = predict), alpha = 0.2)
+
+#' 12ヶ月分のデータを用いる
+#' 数が多いのでサンプリングする
 idx <- sample(nrow(tw_data), 100)
-tw_multi <- lda(month ~ temp + solar + wind + humid,
-                data=tw_data[idx,])
-plot(tw_multi, col=tw_data[idx,]$month)
-## 特徴量は説明変数の数までしか作成できないので，精度は低いことがわかる
+tw_subset12 <- slice(tw_data, idx) |>
+  mutate(month = as_factor(month))
+tw_lda12 <- lda(month ~ temp + solar + wind + humid,
+             data = tw_subset12)
+tw_lda12_fitted <- predict(tw_lda12)
+table(true = tw_subset12[["month"]], # 混同行列
+      predict = tw_lda12_fitted[["class"]])
+bind_cols(tw_lda12_fitted[["x"]], # 判別関数値の散布図を作成
+          tw_subset12["month"]) |>
+  GGally::ggpairs(aes(colour = month))
+#' 判別関数は説明変数の数までしか作成できないので，精度はあまり高くないことがわかる
 
-## 雨の有無を識別する例
-tw_rdata <- transform(tw_data,
-                      rain=factor(rain>0), # 雨の有無でラベル化する
-                      month=factor(month)) # 月ごとの気候の違いの補正のため
-tw_rain <- lda(rain ~ temp + solar + wind + month,
-               data=tw_rdata,
-               subset=idx) # 一部のデータで推定，12ヶ月分の例とは別の指定の仕方
-plot(tw_rain)
-tw_rpred <- predict(tw_rain, newdata=tw_rdata) # 全データを予測
-table(true=tw_rdata$rain[idx], est=tw_rpred$class[idx])
-table(true=tw_rdata$rain[-idx], est=tw_rpred$class[-idx])
+#' 雨の有無を識別する例
+tw_rain <- tw_data |>
+  mutate(rain = factor(rain > 0), # 雨の有無でラベル化する
+         month = as_factor(month)) # 月ごとの気候の違いの補正のため
+tw_rain_lda <- lda(rain ~ temp + solar + wind + month,
+                   data = tw_rain,
+                   subset = idx) # 一部のデータで推定，12ヶ月分の例とは別の指定の仕方
+tw_rain_lda_fitted <- predict(tw_rain_lda)
+as_tibble(tw_rain_lda_fitted[["x"]]) |> # 判別関数値の視覚化
+  mutate(rain = tw_rain[["rain"]][idx]) |> 
+  ggplot(aes(x = LD1, fill = rain)) + 
+  geom_histogram(aes(y = after_stat(density)), bins = 30) +
+  facet_grid(rain ~ .) 
+
+#' 全データを予測
+tw_rain_lda_predict <- predict(tw_rain_lda, newdata = tw_rain) 
+table(true = tw_rain[["rain"]][idx], # 推定に用いたデータの混同行列
+      predict = tw_rain_lda_predict[["class"]][idx])
+table(true = tw_rain[["rain"]][-idx], # 未知データに対する予測の混同行列
+      predict = tw_rain_lda_predict[["class"]][-idx])
