@@ -11,9 +11,10 @@ library(ggfortify)
 #' ---------------------------------------------------------------------------
 #' @practice 線形判別
 
+#' パッケージの読み込み
+library(MASS)
+
 #' 東京の気象データによる判別分析
-library(MASS) # パッケージの読み込み
-#' データの整理
 tw_data <- read_csv("data/tokyo_weather.csv")
 tw_subset  <- tw_data |> 
   filter(month %in% c(9,10)) |> # 9,10月のデータ

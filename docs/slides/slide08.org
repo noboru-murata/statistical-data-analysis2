@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2023-11-24 14:01:04 mura>
+# Time-stamp: <2023-11-28 11:14:07 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/org/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -13,11 +13,12 @@
 :END:
 
 * COMMENT メモ
-- 第3講以降は同じファイルを使うように整理する
-- 同じタイトルの項目にはメモを入れる
-- 演習の内容が異なるので演習は2つ作る形で対応
+[[file:README.org]]
 
 * COMMENT 講義の内容
+:PROPERTIES:
+:ID:       CE72CD31-63E0-44B8-ADB3-D9E175DD6B30
+:END:
 # 早稲田大学
 - *第1日 : 判別分析の考え方*
 - 第2日 : 分析の評価
@@ -467,7 +468,8 @@
       tw_data <- read_csv("data/tokyo_weather.csv") 
       tw_subset  <- tw_data |>
         filter(month %in% c(9,10)) |>
-        select(temp, humid, month)
+        select(temp, humid, month) |>
+        mutate(month = as_factor(month)) # 月を因子化
     #+end_src
   - 半分のデータを用いて線形判別関数を構成し，残りのデータを用いて判別を行う
     #+begin_src R :eval no :tangle no
@@ -485,9 +487,10 @@
   #' @practice 線形判別
 #+end_src
 #+begin_src R :eval no :exports none
+  #' パッケージの読み込み
+  library(MASS)
+  
   #' 東京の気象データによる判別分析
-  library(MASS) # パッケージの読み込み
-  #' データの整理
   tw_data <- read_csv("data/tokyo_weather.csv")
   tw_subset  <- tw_data |> 
     filter(month %in% c(9,10)) |> # 9,10月のデータ
@@ -819,7 +822,7 @@
   - グループでの比較 : 最大の組合せ数 \(2^{K}-2\)
 - \(K{-}1\) 個の特徴量への変換
   - 説明変数の線形結合による特徴量の構成
-  - 異なる\(K\)個の点(かたまり)を\(K{-}1\)次元空間に配置
+  - 異なる\(K\)種の点の集合を\(K{-}1\)次元空間に配置
   - *Fisher の線形判別*
 
 ** 変動の分解
@@ -967,11 +970,13 @@
   - クラス内変動を一定にしてクラス間変動を最大化する
 
 ** Fisherの線形判別の解
-- \(\boldsymbol{\alpha}\) は \(W^{-1}B\) の固有値 (主成分分析の導出と同様)
+- \(\boldsymbol{\alpha}\) は \(W^{-1}B\) の固有ベクトル (主成分分析と同様)
   - \(K=2\) の場合 : 最大固有値を用いる (線形判別と一致)
     #+begin_quote
     \begin{equation}
-      \boldsymbol{\alpha}\propto W^{-1}(\mu_{1}-\mu_2)
+      \boldsymbol{\alpha}\propto
+      W^{-1}(\boldsymbol{\mu}_{1}-\boldsymbol{\mu}_2)
+      =\Sigma^{-1}(\boldsymbol{\mu}_{1}-\boldsymbol{\mu}_2)
     \end{equation}
     #+end_quote
   - 一般の \(K\) の場合 : 第1から第 \(K{-}1\) 固有値を用いる
@@ -980,6 +985,8 @@
     1. \(d_{k}=\sum_{l=1}^{K{-}1}(\boldsymbol{\alpha}_l^{\mathsf{T}}\boldsymbol{x}-\boldsymbol{\alpha}_l^{\mathsf{T}}\boldsymbol{\mu}_{k})^2\) 
        を計算
     2. 最小の \(d_{k}\) となるクラス \(k\) に判別
+  - 特徴量 \(Z\) の空間をクラスごとの平均を用いて Voronoi 分割している
+
 
 
 * 実習
@@ -1136,7 +1143,7 @@
 :PROPERTIES:
 :ID:       501D7D38-752C-46A6-A43B-D19B6533F359
 :END:
-- 10,11月のデータの散布図
+- 9,10月のデータの散布図
   #+begin_src R :file figs/08_pairs.png :exports results :results graphics
     #' 東京の気象データによる判別分析
     library(MASS) # パッケージの読み込み
@@ -1213,7 +1220,7 @@
 - 2次判別 (2値)
   #+begin_src R :file figs/08_qda.png :exports results :results graphics
       #' 2次判別関数を推定
-    tw_qda <- qda(formula = tw_model, data = tw_train)
+    tw_qda <- qda(formula = tw_model, data = tw_subset)
     tw_qda_fitted <- predict(tw_qda) # 判別関数によるクラス分類結果の取得
     #' 判別関数により予測されるラベルの図示
     tw_qda_grid <- predict(tw_qda, # 格子点上の判別関数値を計算
