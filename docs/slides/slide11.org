@@ -3,7 +3,7 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2022-12-16 16:12:59 mura>
+# Time-stamp: <2023-11-30 21:50:35 mura>
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
 #+STARTUP: hidestars content indent
@@ -289,22 +289,18 @@
 - 対象の変数 : \(\boldsymbol{X}=(X_1,X_2,\dotsc,X_{d})^{\mathsf{T}}\) (\(d\)次元)
 - 観測データ : \(n\) 個の個体の組
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      \{\boldsymbol{x}_{i}\}_{i=1}^{n}
-      =
-      \{(x_{i1},x_{i2},\dotsc,x_{id})^{\mathsf{T}}\}_{i=1}^{n}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    \{\boldsymbol{x}_{i}\}_{i=1}^{n}
+    =
+    \{(x_{i1},x_{i2},\dotsc,x_{id})^{\mathsf{T}}\}_{i=1}^{n}
+  \end{equation}
   #+end_quote
 - 個体とクラスタの対応 \(C\) を推定 
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      C(i)
-      =\text{(個体 \(i\) が属するクラスタ番号)}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    C(i)
+    =\text{(個体 \(i\) が属するクラスタ番号)}
+  \end{equation}
   #+end_quote
   - 対応 \(C\) の *全体の良さ* を評価する損失関数を設定
   - 観測データ
@@ -316,46 +312,38 @@
 - クラスタの個数 \(k\) を指定
 - 2つの個体 \(i,i'\) の *近さ=損失* を距離の二乗で評価
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      \|\boldsymbol{x}_i-\boldsymbol{x}_{i'}\|^2
-      =
-      \sum_{j=1}^{d}(x_{ij}-x_{i'j})^2
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    \|\boldsymbol{x}_i-\boldsymbol{x}_{i'}\|^2
+    =
+    \sum_{j=1}^{d}(x_{ij}-x_{i'j})^2
+  \end{equation}
   #+end_quote
 - 損失関数 \(W(C)\) : クラスタ内の平均の近さを評価
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      W(C)
-      =
-      \sum_{l=1}^k\frac{1}{n_l}\sum_{i:C(i)=l}\sum_{i':C(i')=l}\|\boldsymbol{x}_i-\boldsymbol{x}_{i'}\|^2
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    W(C)
+    =
+    \sum_{l=1}^k\frac{1}{n_l}\sum_{i:C(i)=l}\sum_{i':C(i')=l}\|\boldsymbol{x}_i-\boldsymbol{x}_{i'}\|^2
+  \end{equation}
   #+end_quote
   # (\(n_l\) はクラスタ \(l\) に属する個体の総数)
 
 ** \(k\)-平均法の性質
 - クラスタ \(l\) に属する個体の平均
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      \bar{\boldsymbol{x}}_l
-      =
-      \frac{1}{n_l}\sum_{i:C(i)=l}\boldsymbol{x}_i
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    \bar{\boldsymbol{x}}_l
+    =
+    \frac{1}{n_l}\sum_{i:C(i)=l}\boldsymbol{x}_i
+  \end{equation}
   #+end_quote
 - 損失関数 \(W(C)\) の等価な表現
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      W(C)
-      =
-      2\sum_{l=1}^k\sum_{i:C(i)=l}\|\boldsymbol{x}_i-\bar{\boldsymbol{x}}_{l}\|^2
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    W(C)
+    =
+    2\sum_{l=1}^k\sum_{i:C(i)=l}\|\boldsymbol{x}_i-\bar{\boldsymbol{x}}_{l}\|^2
+  \end{equation}
   #+end_quote
 - 最適な対応 \(C\) : クラスタ内変動の総和が最小
 
@@ -372,25 +360,21 @@
 - 以下の問に答えなさい
   - 損失関数 \(W(C)\) の等価な表現を示しなさい
     #+begin_quote
-    #+begin_src latex
-      \begin{align}
-	W(C)
-	&=
-   \sum_{l=1}^k\frac{1}{n_l}\sum_{i:C(i)=l}\sum_{i':C(i')=l}\|\boldsymbol{x}_i-\boldsymbol{x}_{i'}\|^2\\
-	&=
-   2\sum_{l=1}^k\sum_{i:C(i)=l}\|\boldsymbol{x}_i-\bar{\boldsymbol{x}}_{l}\|^2
-      \end{align}
-    #+end_src
+    \begin{align}
+      W(C)
+      &=
+        \sum_{l=1}^k\frac{1}{n_l}\sum_{i:C(i)=l}\sum_{i':C(i')=l}\|\boldsymbol{x}_i-\boldsymbol{x}_{i'}\|^2\\
+      &=
+        2\sum_{l=1}^k\sum_{i:C(i)=l}\|\boldsymbol{x}_i-\bar{\boldsymbol{x}}_{l}\|^2
+    \end{align}
     #+end_quote
   - 以下の\(\hat{\boldsymbol{\mu}}\)を求めなさい
     #+begin_quote
-    #+begin_src latex
-      \begin{equation}
-	\hat{\boldsymbol{\mu}}
-	=\arg\min_{\mu}
-	\sum_{i:C(i)=l}\|\boldsymbol{x}_i-\boldsymbol{\mu}\|^2
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      \hat{\boldsymbol{\mu}}
+      =\arg\min_{\mu}
+      \sum_{i:C(i)=l}\|\boldsymbol{x}_i-\boldsymbol{\mu}\|^2
+    \end{equation}
     #+end_quote
 
 ** 解答例
@@ -399,87 +383,79 @@
 :END:
 - 対称性に注意して標本平均のまわりで展開
   #+begin_quote
-  #+begin_src latex
-    \begin{align}
-      &\sum_{l=1}^k\frac{1}{n_l}\sum_{i:C(i)=l}\sum_{i':C(i')=l}
-	\|\boldsymbol{x}_i-\boldsymbol{x}_{i'}\|^2\\
-      &=
-	\sum_{l=1}^k\frac{1}{n_l}\sum_{i:C(i)=l}\sum_{i':C(i')=l}
-	\|\boldsymbol{x}_i-\bar{\boldsymbol{x}}_{l}+\bar{\boldsymbol{x}}_{l}-\boldsymbol{x}_{i'}\|^2\\
-      &=
-	\sum_{l=1}^k\frac{2}{n_l}\sum_{i:C(i)=l}\sum_{i':C(i')=l}
-	\|\boldsymbol{x}_i-\bar{\boldsymbol{x}}_{l}\|^2\\
-      &\quad-
-	\sum_{l=1}^k\frac{2}{n_l}\sum_{i:C(i)=l}\sum_{i':C(i')=l}
-	(\boldsymbol{x}_i-\bar{\boldsymbol{x}}_{l})^{\mathsf{T}}
-	(\boldsymbol{x}_{i'}-\bar{\boldsymbol{x}}_{l})
-    \end{align}
-  #+end_src
+  \begin{align}
+    &\sum_{l=1}^k\frac{1}{n_l}\sum_{i:C(i)=l}\sum_{i':C(i')=l}
+      \|\boldsymbol{x}_i-\boldsymbol{x}_{i'}\|^2\\
+    &=
+      \sum_{l=1}^k\frac{1}{n_l}\sum_{i:C(i)=l}\sum_{i':C(i')=l}
+      \|\boldsymbol{x}_i-\bar{\boldsymbol{x}}_{l}+\bar{\boldsymbol{x}}_{l}-\boldsymbol{x}_{i'}\|^2\\
+    &=
+      \sum_{l=1}^k\frac{2}{n_l}\sum_{i:C(i)=l}\sum_{i':C(i')=l}
+      \|\boldsymbol{x}_i-\bar{\boldsymbol{x}}_{l}\|^2\\
+    &\quad-
+      \sum_{l=1}^k\frac{2}{n_l}\sum_{i:C(i)=l}\sum_{i':C(i')=l}
+      (\boldsymbol{x}_i-\bar{\boldsymbol{x}}_{l})^{\mathsf{T}}
+      (\boldsymbol{x}_{i'}-\bar{\boldsymbol{x}}_{l})
+  \end{align}
   #+end_quote
 
 #+reveal: split
 - 中心化したデータの標本平均が0であることを利用
   #+begin_quote
-  #+begin_src latex
-    \begin{align}
-      &=
-	2\sum_{l=1}^k\sum_{i:C(i)=l}
-	\|\boldsymbol{x}_i-\bar{\boldsymbol{x}}_{l}\|^2\\
-      &\quad-
-	\sum_{l=1}^k\frac{2}{n_l}
-	\sum_{i:C(i)=l}(\boldsymbol{x}_i-\bar{\boldsymbol{x}}_{l})^{\mathsf{T}}
-	\sum_{i':C(i')=l}(\boldsymbol{x}_{i'}-\bar{\boldsymbol{x}}_{l})\\
-      &=
-	2\sum_{l=1}^k\sum_{i:C(i)=l}
-	\|\boldsymbol{x}_i-\bar{\boldsymbol{x}}_{l}\|^2
-    \end{align}
-  #+end_src
+  \begin{align}
+    &=
+      2\sum_{l=1}^k\sum_{i:C(i)=l}
+      \|\boldsymbol{x}_i-\bar{\boldsymbol{x}}_{l}\|^2\\
+    &\quad-
+      \sum_{l=1}^k\frac{2}{n_l}
+      \sum_{i:C(i)=l}(\boldsymbol{x}_i-\bar{\boldsymbol{x}}_{l})^{\mathsf{T}}
+      \sum_{i':C(i')=l}(\boldsymbol{x}_{i'}-\bar{\boldsymbol{x}}_{l})\\
+    &=
+      2\sum_{l=1}^k\sum_{i:C(i)=l}
+      \|\boldsymbol{x}_i-\bar{\boldsymbol{x}}_{l}\|^2
+  \end{align}
   #+end_quote
 
 #+reveal: split
 - 以下の不等式が成立
   #+begin_quote
-  #+begin_src latex
-    \begin{align}
-      \sum_{i:C(i)=l}\|\boldsymbol{x}_{i}-\boldsymbol{\mu}\|^{2}
-      &=
-	\sum_{i:C(i)=l}
-	\|\boldsymbol{x}_{i}-\bar{\boldsymbol{x}}_{l}
-	+
-	\bar{\boldsymbol{x}}_{l}-\boldsymbol{\mu}\|^{2}\\
-      &=
-	\sum_{i:C(i)=l}
-	\|\boldsymbol{x}_{i}-\bar{\boldsymbol{x}}_{l}\|^{2}
-	+
-	\sum_{i:C(i)=l}
-	\|\bar{\boldsymbol{x}}_{l}-\boldsymbol{\mu}\|^{2}\\
-      &\quad+
-	2\sum_{i:C(i)=l}
-	(\boldsymbol{x}_{i}-\bar{\boldsymbol{x}}_{l})^{\mathsf{T}}
-	(\bar{\boldsymbol{x}}_{l}-\boldsymbol{\mu})\\
-      &=
-	\sum_{i:C(i)=l}
-	\|\boldsymbol{x}_{i}-\bar{\boldsymbol{x}}_{l}\|^{2}
-	+
-	n_{l}\|\bar{\boldsymbol{x}}_{l}-\boldsymbol{\mu}\|^{2}\\
-      &\ge
-	\sum_{i:C(i)=l}
-	\|\boldsymbol{x}_{i}-\bar{\boldsymbol{x}}_{l}\|^{2}
-    \end{align}
-  #+end_src
+  \begin{align}
+    \sum_{i:C(i)=l}\|\boldsymbol{x}_{i}-\boldsymbol{\mu}\|^{2}
+    &=
+      \sum_{i:C(i)=l}
+      \|\boldsymbol{x}_{i}-\bar{\boldsymbol{x}}_{l}
+      +
+      \bar{\boldsymbol{x}}_{l}-\boldsymbol{\mu}\|^{2}\\
+    &=
+      \sum_{i:C(i)=l}
+      \|\boldsymbol{x}_{i}-\bar{\boldsymbol{x}}_{l}\|^{2}
+      +
+      \sum_{i:C(i)=l}
+      \|\bar{\boldsymbol{x}}_{l}-\boldsymbol{\mu}\|^{2}\\
+    &\quad+
+      2\sum_{i:C(i)=l}
+      (\boldsymbol{x}_{i}-\bar{\boldsymbol{x}}_{l})^{\mathsf{T}}
+      (\bar{\boldsymbol{x}}_{l}-\boldsymbol{\mu})\\
+    &=
+      \sum_{i:C(i)=l}
+      \|\boldsymbol{x}_{i}-\bar{\boldsymbol{x}}_{l}\|^{2}
+      +
+      n_{l}\|\bar{\boldsymbol{x}}_{l}-\boldsymbol{\mu}\|^{2}\\
+    &\ge
+      \sum_{i:C(i)=l}
+      \|\boldsymbol{x}_{i}-\bar{\boldsymbol{x}}_{l}\|^{2}
+  \end{align}
   #+end_quote
 
 #+reveal: split
 - 等号の成立の条件より
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      \hat{\boldsymbol{\mu}}
-      =\arg\min_{\mu}
-      \sum_{i:C(i)=l}\|\boldsymbol{x}_i-\boldsymbol{\mu}\|^2
-      =\bar{\boldsymbol{x}}_{l}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    \hat{\boldsymbol{\mu}}
+    =\arg\min_{\mu}
+    \sum_{i:C(i)=l}\|\boldsymbol{x}_i-\boldsymbol{\mu}\|^2
+    =\bar{\boldsymbol{x}}_{l}
+  \end{equation}
   クラスタの標本平均を中心とすればよい
   #+end_quote
 
@@ -496,15 +472,13 @@
   - 基本的な考え方 : *Lloyd-Forgyのアルゴリズム*
     #+begin_quote
     標本平均と変動の平方和の性質を利用
-    #+begin_src latex
-      \begin{equation}
-	\bar{\boldsymbol{x}}_l
-	=\arg\min_{\mu}
-	\sum_{i:C(i)=l}\|\boldsymbol{x}_i-\boldsymbol{\mu}\|^2
-	\quad
-	\text{(クラスタ\(l\)の標本平均)}
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      \bar{\boldsymbol{x}}_l
+      =\arg\min_{\mu}
+      \sum_{i:C(i)=l}\|\boldsymbol{x}_i-\boldsymbol{\mu}\|^2
+      \quad
+      \text{(クラスタ\(l\)の標本平均)}
+    \end{equation}
     #+end_quote
 
 ** Lloyd-Forgyのアルゴリズム
@@ -512,25 +486,21 @@
    \(\boldsymbol{\mu}_1,\boldsymbol{\mu}_2,\dots,\boldsymbol{\mu}_k\) を与える
 2. 各データの所属クラスタ番号 \(C(i)\) を求める
    #+begin_quote
-   #+begin_src latex
-     \begin{equation}
-       C(i)
-       =
-       \arg\min_l\|\boldsymbol{x}_i-\boldsymbol{\mu}_l\|
-     \end{equation}
-   #+end_src
+   \begin{equation}
+     C(i)
+     =
+     \arg\min_l\|\boldsymbol{x}_i-\boldsymbol{\mu}_l\|
+   \end{equation}
    #+end_quote
 3. 各クラスタ中心 \(\boldsymbol{\mu}_l\;(l=1,2,\dotsc,k)\) を更新する
    #+begin_quote
-   #+begin_src latex
-     \begin{equation}
-       \boldsymbol{\mu}_l
-       =
-       \frac{1}{n_l}\sum_{i:C(i)=l}\boldsymbol{x}_i,
-       \quad
-       n_l=|\{\boldsymbol{x}_i|C(i)=l\}|
-     \end{equation}
-   #+end_src
+   \begin{equation}
+     \boldsymbol{\mu}_l
+     =
+     \frac{1}{n_l}\sum_{i:C(i)=l}\boldsymbol{x}_i,
+     \quad
+     n_l=|\{\boldsymbol{x}_i|C(i)=l\}|
+   \end{equation}
    # (\(n_l\) は \(C(i)=l\) となるデータの総数)
    #+end_quote
 4. 中心が変化しなくなるまで 2,3 を繰り返す
@@ -543,14 +513,12 @@
 - 一般には複数の初期値をランダムに試して損失を最小とする解を採用する
 - 平均の代わりにメドイド (medoid; 中心にある観測値) を用いる方法もある
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      \boldsymbol{x}^{\mathrm{medoid}}_{l}
-      =\arg\min_{\boldsymbol{x}_{i}}
-      \sum_{i':C(i')=l}
-      \|\boldsymbol{x}_{i}-\boldsymbol{x}_{i'}\|^2
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    \boldsymbol{x}^{\mathrm{medoid}}_{l}
+    =\arg\min_{\boldsymbol{x}_{i}}
+    \sum_{i':C(i')=l}
+    \|\boldsymbol{x}_{i}-\boldsymbol{x}_{i'}\|^2
+  \end{equation}
   #+end_quote
 
 ** 事例
@@ -934,13 +902,11 @@
   \(\boldsymbol{p},\boldsymbol{q}\)
   を確率ベクトルとして
   定義される確率分布の距離
-  #+begin_src latex
-    \begin{equation}
-      d_{\mathrm{hel}}(\boldsymbol{p},\boldsymbol{q})
-      =
-      \frac{1}{\sqrt{2}}d_{\mathrm{euc}}(\sqrt{\boldsymbol{p}},\sqrt{\boldsymbol{q}})
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    d_{\mathrm{hel}}(\boldsymbol{p},\boldsymbol{q})
+    =
+    \frac{1}{\sqrt{2}}d_{\mathrm{euc}}(\sqrt{\boldsymbol{p}},\sqrt{\boldsymbol{q}})
+  \end{equation}
   #+end_quote
 
 #+reveal: split
@@ -987,43 +953,35 @@
 - 評価の対象
   - データ \(\boldsymbol{x}_i\) と最初に統合されたクラスタ \(C\) の距離
     #+begin_quote
-    #+begin_src latex
-      \begin{equation}
-	d_i
-	=
-	D({\boldsymbol{x}_i},C)
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      d_i
+      =
+      D({\boldsymbol{x}_i},C)
+    \end{equation}
     #+end_quote
   - 最後に統合された2つのクラスタ \(C',C''\) の距離
     #+begin_quote
-    #+begin_src latex
-      \begin{equation}
-	D
-	=
-	D(C',C'')
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      D
+      =
+      D(C',C'')
+    \end{equation}
     #+end_quote
 - *凝集係数* (agglomerative coefficient)
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      AC
-      =
-      \frac{1}{n}\sum_{i=1}^{n}\left(1-\frac{d_i}{D}\right)
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    AC
+    =
+    \frac{1}{n}\sum_{i=1}^{n}\left(1-\frac{d_i}{D}\right)
+  \end{equation}
   #+end_quote
 
 ** 凝集係数の性質
 - 定義より
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      0\le AC\le 1
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    0\le AC\le 1
+  \end{equation}
   #+end_quote
   - 1に近いほどクラスタ構造が明瞭
 - banner plot: 各 \((1-{d_i}/{D})\) を並べた棒グラフ
@@ -1033,29 +991,23 @@
 - 評価の対象
   - \(\boldsymbol{x}_i\) を含むクラスタ \(C^1\) と \(\boldsymbol{x}_i\) の距離
     #+begin_quote
-    #+begin_src latex
-      \begin{equation}
-	d^1_i=D({\boldsymbol{x}_i},C^1\setminus{\boldsymbol{x}_i})
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      d^1_i=D({\boldsymbol{x}_i},C^1\setminus{\boldsymbol{x}_i})
+    \end{equation}
     #+end_quote
   - 一番近いクラスタ \(C^2\) と \(\boldsymbol{x}_i\) の距離
     #+begin_quote
-    #+begin_src latex
-      \begin{equation}
-	d^2_i=D({\boldsymbol{x}_i},C^2)
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      d^2_i=D({\boldsymbol{x}_i},C^2)
+    \end{equation}
     #+end_quote
 - *シルエット係数* (silhouette coefficient)
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      S_i
-      =
-      \frac{d^2_i-d^1_i}{\max(d^1_i,d^2_i)}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    S_i
+    =
+    \frac{d^2_i-d^1_i}{\max(d^1_i,d^2_i)}
+  \end{equation}
   #+end_quote
 
   # #   - データ \(\boldsymbol{x}_i\) が含まれているクラスタ: \(C^1\)
@@ -1080,11 +1032,9 @@
 ** シルエット係数の性質
 - 定義より
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      -1\le S_i\le 1
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    -1\le S_i\le 1
+  \end{equation}
   #+end_quote
   - 1に近いほど適切なクラスタリング
 - 全体の良さを評価するには \(S_i\) の平均を用いる
@@ -1103,19 +1053,15 @@
 - 以下の問に答えなさい
   - 群平均法において凝集係数が以下を満たすことを示しなさい
     #+begin_quote
-    #+begin_src latex
-      \begin{equation}
-	0\le AC\le 1
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      0\le AC\le 1
+    \end{equation}
     #+end_quote
   - シルエット係数が以下を満たすことを示しなさい
     #+begin_quote
-    #+begin_src latex
-      \begin{equation}
-	-1\le S_i\le 1
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      -1\le S_i\le 1
+    \end{equation}
     #+end_quote
 
 ** 解答例
@@ -1124,63 +1070,51 @@
 :END:
 - 2つのクラスタ\(C_{a},C_{b}\)が最も近いとする
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-	 D(C_{c},C_{d})\ge D(C_{a},C_{b}),
-	 \quad\forall c,d
-    \end{equation}
-  #+end_src
+  \begin{equation}
+       D(C_{c},C_{d})\ge D(C_{a},C_{b}),
+       \quad\forall c,d
+  \end{equation}
   #+end_quote
 
 #+reveal: split
 - 統合して計算される距離では下が成立
   #+begin_quote
-  #+begin_src latex
-    \begin{align}
-	 D(C_{a}+C_{b}, C_{c})
-	 &=
-	   \frac{|C_{a}|D(C_{a},C_{c})+|C_{b}|D(C_{b},C_{c})}{|C_{a}|+|C_{b}|}\\
-	 &\ge
-	   \frac{|C_{a}|D(C_{a},C_{b})+|C_{b}|D(C_{a},C_{b})}{|C_{a}|+|C_{b}|}\\
-	 &=D(C_{a},C_{b})
-    \end{align}
-  #+end_src
+  \begin{align}
+       D(C_{a}+C_{b}, C_{c})
+       &=
+         \frac{|C_{a}|D(C_{a},C_{c})+|C_{b}|D(C_{b},C_{c})}{|C_{a}|+|C_{b}|}\\
+       &\ge
+         \frac{|C_{a}|D(C_{a},C_{b})+|C_{b}|D(C_{a},C_{b})}{|C_{a}|+|C_{b}|}\\
+       &=D(C_{a},C_{b})
+  \end{align}
   統合した結果，それより短い距離が現れることはない
   #+end_quote
 
 #+reveal: split
 - 以上より
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-	 0\le d_{i}\le D
-    \end{equation}
-    \begin{equation}
-	 0\le 1-\frac{d_i}{D}\le 1
-    \end{equation}
-  #+end_src
+  \begin{equation}
+       0\le d_{i}\le D
+  \end{equation}
+  \begin{equation}
+       0\le 1-\frac{d_i}{D}\le 1
+  \end{equation}
   よって
-  #+begin_src latex
-    \begin{equation}
-	 0\le AC\le 1
-    \end{equation}
-  #+end_src
+  \begin{equation}
+       0\le AC\le 1
+  \end{equation}
   #+end_quote
 
 #+reveal: split
 - 非負値の大小関係に注意する
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-	 -\max(d^{1}_{i},d^{2}_{i})\le d^{2}_{i}-d^{1}_{i}\le\max(d^{1}_{i},d^{2}_{i})
-    \end{equation}
-  #+end_src
+  \begin{equation}
+       -\max(d^{1}_{i},d^{2}_{i})\le d^{2}_{i}-d^{1}_{i}\le\max(d^{1}_{i},d^{2}_{i})
+  \end{equation}
   より
-  #+begin_src latex
-    \begin{equation}
-	 -1\le S_i\le 1
-    \end{equation}
-  #+end_src
+  \begin{equation}
+       -1\le S_i\le 1
+  \end{equation}
   #+end_quote
   
 
@@ -1314,13 +1248,11 @@
     \(\boldsymbol{p},\boldsymbol{q}\)
     を確率ベクトルとして
     定義される確率分布の距離
-    #+begin_src latex
-      \begin{equation}
-	d_{\mathrm{hel}}(\boldsymbol{p},\boldsymbol{q})
-	=
-	\frac{1}{\sqrt{2}}d_{\mathrm{euc}}(\sqrt{\boldsymbol{p}},\sqrt{\boldsymbol{q}})
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      d_{\mathrm{hel}}(\boldsymbol{p},\boldsymbol{q})
+      =
+      \frac{1}{\sqrt{2}}d_{\mathrm{euc}}(\sqrt{\boldsymbol{p}},\sqrt{\boldsymbol{q}})
+    \end{equation}
     #+end_quote
   - クラスタ数4-10のシルエット係数を比較しなさい
   - 適当と思われるクラスタ数による分析を行いなさい

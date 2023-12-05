@@ -68,6 +68,8 @@ tw_subset12 |>
   bind_cols(tw_lda12_fitted[["posterior"]]) |>
   roc_auc(truth = month, `1`:`12`)
 
+#' ---------------------------------------------------------------------------
+
 #' Wine Quality Data Set を用いた判別分析
 wq_data <-
   read_delim("https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-red.csv",
@@ -120,7 +122,7 @@ autoplot(wq_qda_test_cm, type = "heatmap") +
   labs(title = "Quadratic Discriminant (test data)")
 
 #' ---------------------------------------------------------------------------
-#' @practice 予測誤差の評価
+#' @practice LOO交叉検証法による予測誤差の評価
 
 #' MASS::biopsy による誤差の評価
 #' データの整理
@@ -150,6 +152,11 @@ autoplot(bio_qda_loo_cm, type = "heatmap") +
   labs(title = "Test Error (LOO CV)")
 #' あてはめ値による評価は LOO CV より若干良くなっており
 #' あてはめ値では精度を過剰に評価する可能性があることが示唆される
+
+#' ---------------------------------------------------------------------------
+
+#' ---------------------------------------------------------------------------
+#' @practice k-重交叉検証法による予測誤差の評価
 
 #' Wine Quality Data Set による誤差の評価
 #' 既に整理してある 'wq_data/wq_split' を用いる
@@ -222,3 +229,5 @@ wq_qda_cv <- wq_workflow |>
   fit_resamples(resamples = wq_folds,
                 metrics = wq_metrics)
 wq_qda_cv |> collect_metrics()
+
+#' ---------------------------------------------------------------------------

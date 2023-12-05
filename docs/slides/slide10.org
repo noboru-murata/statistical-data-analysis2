@@ -3,7 +3,7 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@eb.waseda.ac.jp
 #+DATE: 
-# Time-stamp: <2022-12-16 12:32:31 mura>
+# Time-stamp: <2023-11-30 21:46:02 mura>
 #+STARTUP: hidestars content indent
 :REVEAL:
 #+INCLUDE: "./reveal.js/org/mycourse.org"
@@ -360,12 +360,10 @@
 ** データ間の距離
 - データ : 変数の値を成分としてもつベクトル
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      \boldsymbol{x}=(x_{1},\dotsc,x_{d})^{\mathsf{T}},
-      \boldsymbol{y}=(y_{1},\dotsc,y_{d})^{\mathsf{T}}\in\mathbb{R}^{d}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    \boldsymbol{x}=(x_{1},\dotsc,x_{d})^{\mathsf{T}},
+    \boldsymbol{y}=(y_{1},\dotsc,y_{d})^{\mathsf{T}}\in\mathbb{R}^{d}
+  \end{equation}
   #+end_quote
 - 距離 : \(d(\boldsymbol{x},\boldsymbol{y})\)
 - 代表的なデータ間の距離
@@ -377,36 +375,30 @@
 - 最も一般的な距離
 - 各成分の差の2乗和の平方根 (2ノルム)
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      d(\boldsymbol{x},\boldsymbol{y})
-      =\sqrt{(x_{1}-y_{1})^{2}+\dotsb+(x_{d}-y_{d})^{2}}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    d(\boldsymbol{x},\boldsymbol{y})
+    =\sqrt{(x_{1}-y_{1})^{2}+\dotsb+(x_{d}-y_{d})^{2}}
+  \end{equation}
   #+end_quote
 
 ** Manhattan 距離
 - 後述する Minkowski 距離の \(p=1\) の場合
 - 格子状に引かれた路に沿って移動するときの距離
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      d(\boldsymbol{x},\boldsymbol{y})
-      =|x_{1}-y_{1}|+\dotsb+|x_{d}-y_{d}|
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    d(\boldsymbol{x},\boldsymbol{y})
+    =|x_{1}-y_{1}|+\dotsb+|x_{d}-y_{d}|
+  \end{equation}
   #+end_quote
 
 ** Minkowski 距離
 - Euclid 距離を \(p\) 乗に一般化した距離
 - 各成分の差の \(p\) 乗和の \(p\) 乗根(\(p\)-ノルム)
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      d(\boldsymbol{x},\boldsymbol{y})
-      =\bigl\{|x_{1}-y_{1}|^{p}+\dotsb+|x_{d}-y_{d}|^{p}\bigr\}^{1/p}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    d(\boldsymbol{x},\boldsymbol{y})
+    =\bigl\{|x_{1}-y_{1}|^{p}+\dotsb+|x_{d}-y_{d}|^{p}\bigr\}^{1/p}
+  \end{equation}
   #+end_quote
 
 ** その他の距離
@@ -431,12 +423,10 @@
     \(p\to\infty\)
     とするとどのような距離となるか答えなさい
     #+begin_quote
-    #+begin_src latex
-      \begin{equation}
-	d(\boldsymbol{x},\boldsymbol{y})
-	=\bigl\{|x_{1}-y_{1}|^{p}+\dotsb+|x_{d}-y_{d}|^{p}\bigr\}^{1/p}
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      d(\boldsymbol{x},\boldsymbol{y})
+      =\bigl\{|x_{1}-y_{1}|^{p}+\dotsb+|x_{d}-y_{d}|^{p}\bigr\}^{1/p}
+    \end{equation}
     #+end_quote
 
 ** 解答例
@@ -446,67 +436,57 @@
 - 2変数の実数値関数で以下の3つの条件を満たす
   #+begin_quote
   - 非退化性
-    #+begin_src latex
-      \begin{equation}
-	x=y \Leftrightarrow d(x,y)=0
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      x=y \Leftrightarrow d(x,y)=0
+    \end{equation}
   - 対称性
-    #+begin_src latex
-      \begin{equation}
-	d(x,y)=d(y,x)
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      d(x,y)=d(y,x)
+    \end{equation}
   - 劣加法性 (三角不等式の成立)
-    #+begin_src latex
-      \begin{equation}
-	d(x,y)+d(y,z)\ge d(x,z)
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      d(x,y)+d(y,z)\ge d(x,z)
+    \end{equation}
   #+end_quote
 
 #+reveal: split
 - 非負性 \(d(x,y)\ge 0\) は3つの条件から自然に導かれる
   #+begin_quote
-  #+begin_src latex
-    \begin{align}
-      &d(x,y)+d(y,x)\ge d(x,x)&&\text{(劣加法性)}\\
-      &d(x,y)+d(x,y)\ge d(x,x)&&\text{(対称性)}\\
-      &2d(x,y)\ge 0&&\text{(非退化性)}\\
-      &d(x,y)\ge 0
-    \end{align}
-  #+end_src
+  \begin{align}
+    &d(x,y)+d(y,x)\ge d(x,x)&&\text{(劣加法性)}\\
+    &d(x,y)+d(x,y)\ge d(x,x)&&\text{(対称性)}\\
+    &2d(x,y)\ge 0&&\text{(非退化性)}\\
+    &d(x,y)\ge 0
+  \end{align}
   #+end_quote
 
 #+reveal: split
 - 最大の要素に着目して計算すればよい
   #+begin_quote
-  #+begin_src latex
-    \begin{align}
-      \lim_{p\to\infty} d(\boldsymbol{x},\boldsymbol{y})
-      &=
-	\lim_{p\to\infty} 
-	\bigl\{|x_{1}-y_{1}|^{p}+\dotsb+|x_{d}-y_{d}|^{p}\bigr\}^{1/p}\\
-      &=
-	\lim_{p\to\infty} \max_{k}|x_{k}-y_{k}|
-	\left\{
-	\left(\frac{|x_{1}-y_{1}|}{\max_{k}|x_{k}-y_{k}|}
-	\right)^{p}
-	\right.\\
-      &\qquad
-	+\dotsb
-	\left.
-	\left(\frac{|x_{d}-y_{d}|}{\max_{k}|x_{k}-y_{k}|}
-	\right)^{p}
-	\right\}^{1/p}\\
-      &=
-	\max_{k}|x_{k}-y_{k}|
-	\lim_{p\to\infty} 
-	\text{(1以上の有限値)}^{1/p}\\
-      &=
-	\max_{k}|x_{k}-y_{k}|
-    \end{align}
-  #+end_src
+  \begin{align}
+    \lim_{p\to\infty} d(\boldsymbol{x},\boldsymbol{y})
+    &=
+      \lim_{p\to\infty} 
+      \bigl\{|x_{1}-y_{1}|^{p}+\dotsb+|x_{d}-y_{d}|^{p}\bigr\}^{1/p}\\
+    &=
+      \lim_{p\to\infty} \max_{k}|x_{k}-y_{k}|
+      \left\{
+      \left(\frac{|x_{1}-y_{1}|}{\max_{k}|x_{k}-y_{k}|}
+      \right)^{p}
+      \right.\\
+    &\qquad
+      +\dotsb
+      \left.
+      \left(\frac{|x_{d}-y_{d}|}{\max_{k}|x_{k}-y_{k}|}
+      \right)^{p}
+      \right\}^{1/p}\\
+    &=
+      \max_{k}|x_{k}-y_{k}|
+      \lim_{p\to\infty} 
+      \text{(1以上の有限値)}^{1/p}\\
+    &=
+      \max_{k}|x_{k}-y_{k}|
+  \end{align}
   #+end_quote
   - Chebyshev 距離(最大距離，チェス盤距離)という
     # Čebyšëv
@@ -514,12 +494,10 @@
 #+reveal: split
 - \(p\to-\infty\) の場合は以下となることを確認せよ
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      \lim_{p\to-\infty} d(\boldsymbol{x},\boldsymbol{y})
-      =\min_{k}|x_{k}-y_{k}|
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    \lim_{p\to-\infty} d(\boldsymbol{x},\boldsymbol{y})
+    =\min_{k}|x_{k}-y_{k}|
+  \end{equation}
   #+end_quote
   
 
@@ -645,13 +623,11 @@
 ** クラスタ間の距離
 - クラスタ : いくつかのデータ点からなる集合
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      C_{a}=\left\{\boldsymbol{x}_{i}|i\in\Lambda_{a}\right\},\;
-      C_{b}=\left\{\boldsymbol{x}_{j}|j\in\Lambda_{b}\right\},\quad
-      C_{a}\cap C_{b}=\emptyset
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    C_{a}=\left\{\boldsymbol{x}_{i}|i\in\Lambda_{a}\right\},\;
+    C_{b}=\left\{\boldsymbol{x}_{j}|j\in\Lambda_{b}\right\},\quad
+    C_{a}\cap C_{b}=\emptyset
+  \end{equation}
   #+end_quote
 - 2つのクラスタ間の距離 : \(D(C_{a},C_{b})\)
   - データ点の距離から陽に定義する方法
@@ -664,65 +640,53 @@
 ** 最短距離法
 - 最も近い対象間の距離を用いる方法
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      D(C_{a},C_{b})
-      =\min_{\boldsymbol{x}\in C_{a},\;\boldsymbol{y}\in C_{b}} d(\boldsymbol{x},\boldsymbol{y})
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    D(C_{a},C_{b})
+    =\min_{\boldsymbol{x}\in C_{a},\;\boldsymbol{y}\in C_{b}} d(\boldsymbol{x},\boldsymbol{y})
+  \end{equation}
   #+end_quote
 - 統合前後のクラスタ間の関係
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      D(C_{a}+ C_{b}, C_{c})
-      =\min\bigl\{D(C_{a},C_{c}), D(C_{b},C_{c})\bigr\}
-      % =\min\left\{D(C_{a},C_{c}), D(C_{b},C_{c})\right\}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    D(C_{a}+ C_{b}, C_{c})
+    =\min\bigl\{D(C_{a},C_{c}), D(C_{b},C_{c})\bigr\}
+    % =\min\left\{D(C_{a},C_{c}), D(C_{b},C_{c})\right\}
+  \end{equation}
   #+end_quote
 
 ** 最長距離法
 - 最も遠い対象間の距離を用いる方法
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      D(C_{a},C_{b})
-      =\max_{\boldsymbol{x}\in C_{a},\;\boldsymbol{y}\in C_{b}} d(\boldsymbol{x},\boldsymbol{y})
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    D(C_{a},C_{b})
+    =\max_{\boldsymbol{x}\in C_{a},\;\boldsymbol{y}\in C_{b}} d(\boldsymbol{x},\boldsymbol{y})
+  \end{equation}
   #+end_quote
 - 統合前後のクラスタ間の関係
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      D(C_{a}+ C_{b}, C_{c})
-      =\max\bigl\{D(C_{a},C_{c}), D(C_{b},C_{c})\bigr\}
-      % =\max\left\{D(C_{a},C_{c}), D(C_{b},C_{c})\right\}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    D(C_{a}+ C_{b}, C_{c})
+    =\max\bigl\{D(C_{a},C_{c}), D(C_{b},C_{c})\bigr\}
+    % =\max\left\{D(C_{a},C_{c}), D(C_{b},C_{c})\right\}
+  \end{equation}
   #+end_quote
 
 ** 群平均法
 - 全ての対象間の平均距離を用いる方法
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      D(C_{a},C_{b})
-      =\frac{1}{|C_{a}||C_{b}|}
-      \sum_{\boldsymbol{x}\in C_{a},\;\boldsymbol{y}\in C_{b}} d(\boldsymbol{x},\boldsymbol{y})
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    D(C_{a},C_{b})
+    =\frac{1}{|C_{a}||C_{b}|}
+    \sum_{\boldsymbol{x}\in C_{a},\;\boldsymbol{y}\in C_{b}} d(\boldsymbol{x},\boldsymbol{y})
+  \end{equation}
   #+end_quote
   - ただし \(|C_{a}|\), \(|C_{b}|\) はクラスタ内の要素の数を表す
 - 統合前後のクラスタ間の関係
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      D(C_{a}+ C_{b}, C_{c})
-      =\frac{|C_{a}|D(C_{a},C_{c})+|C_{b}|D(C_{b},C_{c})}{|C_{a}|+|C_{b}|}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    D(C_{a}+ C_{b}, C_{c})
+    =\frac{|C_{a}|D(C_{a},C_{c})+|C_{b}|D(C_{b},C_{c})}{|C_{a}|+|C_{b}|}
+  \end{equation}
   #+end_quote
 
 ** 距離計算に関する注意
@@ -747,22 +711,18 @@
 - 以下の問に答えなさい
   - 群平均法におけるクラスタの距離の定義
     #+begin_quote
-    #+begin_src latex
-      \begin{equation}
-	D(C_{a},C_{b})
-	=\frac{1}{|C_{a}||C_{b}|}
-	\sum_{\boldsymbol{x}\in C_{a},\;\boldsymbol{y}\in C_{b}} d(\boldsymbol{x},\boldsymbol{y})
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      D(C_{a},C_{b})
+      =\frac{1}{|C_{a}||C_{b}|}
+      \sum_{\boldsymbol{x}\in C_{a},\;\boldsymbol{y}\in C_{b}} d(\boldsymbol{x},\boldsymbol{y})
+    \end{equation}
     #+end_quote
     から統合前後のクラスタの距離の関係
     #+begin_quote
-    #+begin_src latex
-      \begin{equation}
-	D(C_{a}+ C_{b}, C_{c})
-	=\frac{|C_{a}|D(C_{a},C_{c})+|C_{b}|D(C_{b},C_{c})}{|C_{a}|+|C_{b}|}
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      D(C_{a}+ C_{b}, C_{c})
+      =\frac{|C_{a}|D(C_{a},C_{c})+|C_{b}|D(C_{b},C_{c})}{|C_{a}|+|C_{b}|}
+    \end{equation}
     #+end_quote
     を導け
 
@@ -772,51 +732,47 @@
 :END:
 - 定義に従って計算する
   #+begin_quote
-  #+begin_src latex
-    \begin{align}
-      D(C_{a}+C_{b}, C_{c})
-      &=
-	\frac{1}{|C_{a}+C_{b}||C_{c}|}
-	\sum_{\boldsymbol{x}\in C_{a}+C_{b},\;\boldsymbol{y}\in C_{c}}
-	d(\boldsymbol{x},\boldsymbol{y})\\
-      &=
-	\frac{1}{|C_{a}+C_{b}||C_{c}|}
-	\sum_{\boldsymbol{x}\in C_{a},\;\boldsymbol{y}\in C_{c}}
-	d(\boldsymbol{x},\boldsymbol{y})\\
-      &\qquad+
-	\frac{1}{|C_{a}+C_{b}||C_{c}|}
-	\sum_{\boldsymbol{x}\in C_{b},\;\boldsymbol{y}\in C_{c}}
-	d(\boldsymbol{x},\boldsymbol{y})\\
-    \end{align}
-  #+end_src
+  \begin{align}
+    D(C_{a}+C_{b}, C_{c})
+    &=
+      \frac{1}{|C_{a}+C_{b}||C_{c}|}
+      \sum_{\boldsymbol{x}\in C_{a}+C_{b},\;\boldsymbol{y}\in C_{c}}
+      d(\boldsymbol{x},\boldsymbol{y})\\
+    &=
+      \frac{1}{|C_{a}+C_{b}||C_{c}|}
+      \sum_{\boldsymbol{x}\in C_{a},\;\boldsymbol{y}\in C_{c}}
+      d(\boldsymbol{x},\boldsymbol{y})\\
+    &\qquad+
+      \frac{1}{|C_{a}+C_{b}||C_{c}|}
+      \sum_{\boldsymbol{x}\in C_{b},\;\boldsymbol{y}\in C_{c}}
+      d(\boldsymbol{x},\boldsymbol{y})\\
+  \end{align}
   #+end_quote
 
 #+reveal: split
 - (続き)
   #+begin_quote
-  #+begin_src latex
-    \begin{align}
-      &=
-	\frac{|C_{a}||C_{c}|}{|C_{a}+C_{b}||C_{c}|}
-	\frac{1}{|C_{a}||C_{c}|}
-	\sum_{\boldsymbol{x}\in C_{a},\;\boldsymbol{y}\in C_{c}}
-	d(\boldsymbol{x},\boldsymbol{y})\\
-      &\qquad+
-	\frac{|C_{b}||C_{c}|}{|C_{a}+C_{b}||C_{c}|}
-	\frac{1}{|C_{b}||C_{c}|}
-	\sum_{\boldsymbol{x}\in C_{b},\;\boldsymbol{y}\in C_{c}}
-	d(\boldsymbol{x},\boldsymbol{y})\\
-      &=
-	\frac{|C_{a}||C_{c}|}{|C_{a}+C_{b}||C_{c}|}
-	D(C_{a}, C_{c})
-	+
-	\frac{|C_{b}||C_{c}|}{|C_{a}+C_{b}||C_{c}|}
-	D(C_{b}, C_{c})\\
-      &=
-	\frac{|C_{a}|D(C_{a}, C_{c})+|C_{b}|D(C_{b}, C_{c})}
-	{|C_{a}|+|C_{b}|}
-    \end{align}
-  #+end_src
+  \begin{align}
+    &=
+      \frac{|C_{a}||C_{c}|}{|C_{a}+C_{b}||C_{c}|}
+      \frac{1}{|C_{a}||C_{c}|}
+      \sum_{\boldsymbol{x}\in C_{a},\;\boldsymbol{y}\in C_{c}}
+      d(\boldsymbol{x},\boldsymbol{y})\\
+    &\qquad+
+      \frac{|C_{b}||C_{c}|}{|C_{a}+C_{b}||C_{c}|}
+      \frac{1}{|C_{b}||C_{c}|}
+      \sum_{\boldsymbol{x}\in C_{b},\;\boldsymbol{y}\in C_{c}}
+      d(\boldsymbol{x},\boldsymbol{y})\\
+    &=
+      \frac{|C_{a}||C_{c}|}{|C_{a}+C_{b}||C_{c}|}
+      D(C_{a}, C_{c})
+      +
+      \frac{|C_{b}||C_{c}|}{|C_{a}+C_{b}||C_{c}|}
+      D(C_{b}, C_{c})\\
+    &=
+      \frac{|C_{a}|D(C_{a}, C_{c})+|C_{b}|D(C_{b}, C_{c})}
+      {|C_{a}|+|C_{b}|}
+  \end{align}
   #+end_quote
 
 
@@ -995,13 +951,11 @@
     \(\boldsymbol{p},\boldsymbol{q}\)
     を確率ベクトルとして
     定義される確率分布の間の距離
-    #+begin_src latex
-      \begin{equation}
-	d_{hel}(\boldsymbol{p},\boldsymbol{q})
-	=
-	\frac{1}{\sqrt{2}}d_{euc}(\sqrt{\boldsymbol{p}},\sqrt{\boldsymbol{q}})
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      d_{hel}(\boldsymbol{p},\boldsymbol{q})
+      =
+      \frac{1}{\sqrt{2}}d_{euc}(\sqrt{\boldsymbol{p}},\sqrt{\boldsymbol{q}})
+    \end{equation}
     #+end_quote
   - 群平均法による階層的クラスタリングを行いなさい
   - クラスタ数を定めて2次元でのクラスタ表示を作成しなさい

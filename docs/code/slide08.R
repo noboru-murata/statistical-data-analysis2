@@ -236,3 +236,5 @@ table(true = tw_rain[["rain"]][idx], # 推定に用いたデータの混同行�
       predict = tw_rain_lda_predict[["class"]][idx])
 table(true = tw_rain[["rain"]][-idx], # 未知データに対する予測の混同行列
       predict = tw_rain_lda_predict[["class"]][-idx])
+
+#' ---------------------------------------------------------------------------

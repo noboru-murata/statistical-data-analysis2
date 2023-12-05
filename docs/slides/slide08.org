@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2023-11-28 11:14:07 mura>
+# Time-stamp: <2023-12-05 11:42:02 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/org/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -419,11 +419,11 @@
 :reveal_background: #fef4f4
 :END:
 # 東京大学
-** R : 線形判別関数 ~MASS::lda()~
+** R : 線形判別
 :PROPERTIES:
 :ID:       BB276D04-1D56-40CC-898A-800551D44DFD
 :END:
-- データフレームに対する分析
+- 関数 ~MASS::lda()~ 
   #+begin_src R :eval no :tangle no
     library(MASS) # パッケージの読み込み
     lda(formula, data, ..., subset, na.action)
@@ -431,7 +431,7 @@
     #' data: 必要な情報を含むデータフレーム
     #' 詳細は '?MASS::lda' を参照
   #+end_src
-- 判別結果の取得
+- 判別結果取得のための関数
   #+begin_src R :eval no :tangle no
     predict(object, newdata, prior = object$prior, dimen,
             method = c("plug-in", "predictive", "debiased"), ...)
@@ -722,11 +722,11 @@
 :reveal_background: #fef4f4
 :END:
 # 東京大学
-** R : 2次判別関数 ~MASS::qda()~
+** R : 2次判別
 :PROPERTIES:
 :ID:       B4D138CC-63A9-4EDB-ABD4-3CC6E5E769F0
 :END:
-- データフレームに対する分析
+- 関数 ~MASS::qda()~
   #+begin_src R :eval no :tangle no
     library(MASS) # 既に読み込んでいる場合は不要
     qda(formula, data, ..., subset, na.action)
@@ -734,7 +734,7 @@
     #' data: 必要な情報を含むデータフレーム
     #' 詳細は '?MASS::qda' を参照
   #+end_src
-- 判別結果の取得
+- 判別結果取得のための関数
   #+begin_src R :eval no :tangle no
     predict(object, newdata, prior = object$prior,
             method = c("plug-in", "predictive", "debiased", "looCV"), ...)
@@ -1126,6 +1126,9 @@
         predict = tw_rain_lda_predict[["class"]][idx])
   table(true = tw_rain[["rain"]][-idx], # 未知データに対する予測の混同行列
         predict = tw_rain_lda_predict[["class"]][-idx])
+#+end_src
+#+begin_src R :exports none
+  #' ---------------------------------------------------------------------------
 #+end_src
 
 
