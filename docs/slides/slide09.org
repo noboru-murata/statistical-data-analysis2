@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2023-12-05 11:44:28 mura>
+# Time-stamp: <2023-12-05 11:59:07 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/org/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -20,8 +20,8 @@
 :ID:       51934CE4-A9B9-4CAB-965A-9DFB4AFE7B7A
 :END:
 # 早稲田大学
-- 第1日 : 判別分析の考え方
-- *第2日 : 分析の評価*
+- 第1回 : 判別分析の考え方
+- *第2回 : 分析の評価*
 
 #+begin_src R :exports none :tangle no
   setwd("~/Desktop/lectures/mva/course")
@@ -58,8 +58,8 @@
 :ID:       4BDC5A54-EE17-4A76-8EA7-06BEA1841BA7
 :END:
 # 東京大学
-- 第1日 : 判別分析の考え方
-- *第2日 : 分析の評価*
+- 第1回 : 判別分析の考え方
+- *第2回 : 分析の評価*
 
 #+begin_src R :exports none :tangle no
   setwd("~/Desktop/lectures/u-tokyo/autumn/course")
@@ -1550,8 +1550,8 @@
 
     
 * 次回の予定
-- *第1日 : クラスタ分析の考え方と階層的方法*
-- 第2日 : 非階層的方法と分析の評価
+- *第1回 : クラスタ分析の考え方と階層的方法*
+- 第2回 : 非階層的方法と分析の評価
 
 
 * Footnotes

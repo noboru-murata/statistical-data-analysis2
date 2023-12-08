@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2023-12-05 11:42:02 mura>
+# Time-stamp: <2023-12-08 15:18:54 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/org/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -13,15 +13,15 @@
 :END:
 
 * COMMENT メモ
-[[file:README.org]]
+[[file:README.org::第8講]]
 
 * COMMENT 講義の内容
 :PROPERTIES:
 :ID:       CE72CD31-63E0-44B8-ADB3-D9E175DD6B30
 :END:
 # 早稲田大学
-- *第1日 : 判別分析の考え方*
-- 第2日 : 分析の評価
+- *第1回 : 判別分析の考え方*
+- 第2回 : 分析の評価
 
 #+begin_src R :exports none :tangle no
   setwd("~/Desktop/lectures/mva/course")
@@ -327,7 +327,8 @@
   \begin{align}
     &p_{k}(\boldsymbol{x}) < p_{l}(\boldsymbol{x})\\
     &\Leftrightarrow
-      f_{k}(\boldsymbol{x})\pi_{k} < f_l(\boldsymbol{x})\pi_l\\
+      f_{k}(\boldsymbol{x})\pi_{k} < f_l(\boldsymbol{x})\pi_l
+      \quad\text{(分母は共通)}\\
     &\Leftrightarrow
       \log f_{k}(\boldsymbol{x})+\log\pi_{k} < \log f_l(\boldsymbol{x})+\log\pi_l\\
     &\Leftrightarrow
@@ -338,6 +339,7 @@
       \Sigma^{-1}(\boldsymbol{x}-\boldsymbol{\mu}_l)+\log\pi_l\\
     &\Leftrightarrow
       \delta_{k}(\boldsymbol{x}) < \delta_l(\boldsymbol{x})
+      \quad\text{(2次の項は右辺と左辺で共通)}
   \end{align}
   #+end_quote
 
@@ -622,8 +624,8 @@
   \begin{align}
     &p_{k}(\boldsymbol{x}) < p_l(\boldsymbol{x})\\
     &\Leftrightarrow 
-      f_{k}(\boldsymbol{x})\pi_{k} < f_l(\boldsymbol{x})\pi_l\\
-    &\qquad\text{(分母は共通)}\\
+      f_{k}(\boldsymbol{x})\pi_{k} < f_l(\boldsymbol{x})\pi_l
+      \quad\text{(分母は共通)}\\
     &\Leftrightarrow
       \log f_{k}(\boldsymbol{x})+\log\pi_{k} < \log f_l(\boldsymbol{x})+\log\pi_l\\
     &\Leftrightarrow
@@ -637,8 +639,7 @@
       \Sigma_l^{-1}(\boldsymbol{x}-\boldsymbol{\mu}_l)
       +\log\pi_l\\
     &\Leftrightarrow
-      \delta_{k}(\boldsymbol{x}) < \delta_l(\boldsymbol{x})\\
-    &\qquad\text{(2次の項は右辺と左辺で共通)}
+      \delta_{k}(\boldsymbol{x}) < \delta_l(\boldsymbol{x})
   \end{align}
   #+end_quote
 
@@ -786,7 +787,7 @@
 
   #' 試験データによる評価
   tw_qda_predict <- predict(tw_qda, newdata = tw_test) 
-    table(true = tw_test[["month"]], # 混同行列
+  table(true = tw_test[["month"]], # 混同行列
         predict = tw_qda_predict[["class"]])
   tibble(true = tw_test[["month"]]) |> # 比較表
     mutate(predict = tw_qda_predict[["class"]]) |>
@@ -1089,7 +1090,7 @@
   p + geom_point(data = # 判別関数値と予測ラベルのデータフレームを作成
                    bind_cols(tw_lda3_grid[["x"]],
                              predict = tw_lda3_grid[["class"]]),
-                 aes(colour = predict), alpha = 0.2)
+                 aes(colour = predict), alpha = 0.1)
 
   #' 12ヶ月分のデータを用いる
   #' 数が多いのでサンプリングする

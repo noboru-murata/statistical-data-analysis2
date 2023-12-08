@@ -127,7 +127,7 @@ tibble(true = tw_train[["month"]]) |>
 
 #' 試験データによる評価
 tw_qda_predict <- predict(tw_qda, newdata = tw_test) 
-  table(true = tw_test[["month"]], # 混同行列
+table(true = tw_test[["month"]], # 混同行列
       predict = tw_qda_predict[["class"]])
 tibble(true = tw_test[["month"]]) |> # 比較表
   mutate(predict = tw_qda_predict[["class"]]) |>
@@ -199,7 +199,7 @@ print(p)
 p + geom_point(data = # 判別関数値と予測ラベルのデータフレームを作成
                  bind_cols(tw_lda3_grid[["x"]],
                            predict = tw_lda3_grid[["class"]]),
-               aes(colour = predict), alpha = 0.2)
+               aes(colour = predict), alpha = 0.1)
 
 #' 12ヶ月分のデータを用いる
 #' 数が多いのでサンプリングする
