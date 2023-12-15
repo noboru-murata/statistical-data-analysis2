@@ -1,126 +1,78 @@
 #+TITLE: クラスタ分析 
 #+SUBTITLE: 非階層的方法と分析の評価
 #+AUTHOR: 村田 昇
-#+EMAIL: noboru.murata@eb.waseda.ac.jp
+#+EMAIL: noboru.murata@gmail.com
 #+DATE: 
-# Time-stamp: <2023-11-30 21:50:35 mura>
-:REVEAL:
-#+INCLUDE: "./reveal.js/org/mycourse.org"
 #+STARTUP: hidestars content indent
+# Time-stamp: <2023-12-13 16:48:38 mura>
+:REVEAL:
+#+SETUPFILE: "./reveal.js/org/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
 # <m C-i でlatex block (math env用)
 # C-c '
 :END:
 
 * COMMENT メモ
-- 第3講以降は同じファイルを使うように整理する
-- 同じタイトルの項目にはメモを入れる
-- 演習の内容が異なるので演習は2つ作る形で対応
-- kmeansなどの引数・返り値についてはhelpを参照するように誘導
-- 関数の紹介の書き方を少し整理して整合性をもたせるようにする
-- 例文・雛型を作るべきかもしれない (template.orgとか)
+[[file:README.org::第11講]]
   
 * COMMENT 講義の内容
 # 早稲田大学
-- 第1日 : クラスタ分析の考え方と階層的方法
-- *第2日 : 非階層的方法と分析の評価*
+- 第1回 : クラスタ分析の考え方と階層的方法
+- *第2回 : 非階層的方法と分析の評価*
 
-#+begin_src R :eval no :exports none :tangle yes
-  ### 第11講 資料
+#+begin_src R :exports none :tangle no
+  setwd("~/Desktop/lectures/mva/course")
 #+end_src
 #+begin_src R :exports none
-  setwd("~/Desktop/lectures/mva/course")
+  ### 第11講 資料
+  library(conflicted)
+  conflicts_prefer(
+    dplyr::filter(),
+    dplyr::select(),
+    dplyr::lag(),
+  )
+  library(tidyverse)
+  library(GGally)
+  library(ggfortify)
+  library(cluster)
+  library(ggdendro)
+  #' 日本語表示・色の設定 (ggplot)
+  theme_set(theme_gray(base_size = 16))
+  if(Sys.info()[["sysname"]] == "Darwin") { # MacOSか確認
+    if(length(grep("BIZUDPGothic", systemfonts::system_fonts()[["name"]]))>0) 
+      theme_update(text = element_text(family = "BIZUDGothic-Regular"))
+    else
+      theme_update(text = element_text(family = "HiraMaruProN-W4"))}
+  library(see)
+  options(ggplot2.discrete.colour = function() scale_colour_material(),
+          ggplot2.discrete.fill = function() scale_fill_material())
 #+end_src
 
 * 講義概要
+:PROPERTIES:
+:ID:       6411F06A-9DF9-4E9A-AE03-52D6A80FE3EF
+:END:
 # 東京大学
-- 第1日 : クラスタ分析の考え方と階層的方法
-- *第2日 : 非階層的方法と分析の評価*
+- 第1回 : クラスタ分析の考え方と階層的方法
+- *第2回 : 非階層的方法と分析の評価*
 
-#+begin_src R :eval no :exports none :tangle yes
-  ### 
-  ### 第11講 サンプルコード
-  ###
-#+end_src
-#+begin_src R :exports none
+#+begin_src R :exports none :tangle no
   setwd("~/Desktop/lectures/u-tokyo/autumn/course")
+  library(gt)
+#+end_src
+#+begin_src R :exports none 
+  ### 第11講 サンプルコード
+  library(conflicted)
+  conflicts_prefer(
+    dplyr::filter(),
+    dplyr::select(),
+    dplyr::lag(),
+  )
+  library(tidyverse)
+  library(ggfortify)
+  library(cluster)
 #+end_src
 
-* COMMENT 演習 (早稲田大学雛型)
-:PROPERTIES:
-:reveal_background: #fef4f4
-:END:
-# 早稲田大学
-** 問題
-:PROPERTIES:
-:reveal_background: #fef4f4
-:END:
-- について以下を示しなさい．
-  - である．
-    #+begin_quote
-    #+begin_src latex
-    #+end_src
-    #+end_quote
-
-** 解答例
-:PROPERTIES:
-:reveal_background: #fef4f4
-:END:
-- いずれも定義にもとづいて計算すればよい
-  #+begin_quote
-  #+begin_src latex
-  #+end_src
-  #+end_quote
-
-* COMMENT 演習 (東京大学雛型)
-:PROPERTIES:
-:reveal_background: #fef4f4
-:END:
-# 東京大学
-** R : 概要
-:PROPERTIES:
-:reveal_background: #fef4f4
-:END:
-- ほげほげな方法:
-  #+begin_src R :eval no
-  #+end_src
-  
-** データセット
-:PROPERTIES:
-:reveal_background: #fef4f4
-:END:
-- 以下のデータセットを使用します
-  - ~xxx~
-    #+begin_quote
-    データの素性
-    #+end_quote
-    [[https://www.foo.com/]]
-
-** 練習問題
-:PROPERTIES:
-:reveal_background: #fef4f4
-:END:
-- 構成しなさい
-  - データ
-    #+begin_quote
-    formulaなどを与える
-    #+end_quote
-
-#+begin_src R :eval no :exports none :tangle yes
-  ###
-  ### 練習問題 
-  ###
-
-  ## 
-  ## 分析
-  ##
-#+end_src
-
-** COMMENT 講義資料: 概略
-:PROPERTIES:
-:reveal_background: #EEEEFF
-:END:
-- [[./code/bar.r][bar.r]] を確認してみよう
 
   
 * クラスタ分析の復習
@@ -220,6 +172,9 @@
 #+end_rightcol40    
 
 ** 階層的クラスタリング
+:PROPERTIES:
+:ID:       41C635C9-2F63-41F1-B272-09A6D04A78B5
+:END:
 #+begin_leftcol
 - 凝集的手続き
   1. データ・クラスタ間の距離を定義
@@ -230,56 +185,59 @@
   4. クラスタ数が1つになるまで2-3の手続きを繰り返す
 #+end_leftcol
 #+begin_rightcol
-#+header: :width 600 :height 1000 :res 100
+#+header: :width 600 :height 1000
 #+begin_src R :file figs/11_hclst.png :exports results :results graphics
   library(cluster)
-  js_data <- read.csv("data/japan_social.csv", row.names=1)
-  pref <- read.csv(file="data/prefecture.csv", row.names=1)
-  rownames(js_data) <- pref$jp
+  js_data <- bind_cols(
+    read_csv(file="data/japan_social.csv"),
+    read_csv(file="data/prefecture.csv"))
   myPlot <- function(k) {
-    tmpa <- js_data[8:14,]
+    if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
+    tmpa <- js_data |>
+      slice(8:14) |>
+      select(2:6,jp) |>
+      column_to_rownames(var = "jp")
+    # tmpa <- js_data[8:14,]
     tmpb <- list(c(1,2,3,4,1,6,7),
-		 c(1,2,3,1,1,6,7),
-		 c(1,2,2,1,1,6,7),
-		 c(1,2,2,1,1,6,1),
-		 c(1,1,1,1,1,6,1),
-		 c(1,1,1,1,1,1,1))
+                 c(1,2,3,1,1,6,7),
+                 c(1,2,2,1,1,6,7),
+                 c(1,2,2,1,1,6,1),
+                 c(1,1,1,1,1,6,1),
+                 c(1,1,1,1,1,1,1))
     clusplot(x=tmpa,
-	     clus=c(1,2,3,4,5,6,7),
-	     diss=FALSE,
-	     stand=TRUE, lines=0, labels=3, 
-	     main=NULL, sub=NULL, cex=1,
-	     xlab="", ylab="", axes=FALSE,
-	     xlim=c(-2.5,1.5), ylim=c(-1.5,2.2),
-	     col.p="blue", col.clus="white", shade=FALSE)
-    box()
+             clus=c(1,2,3,4,5,6,7),
+             diss=FALSE,
+             stand=TRUE, lines=0, labels=3, 
+             main=NULL, sub=NULL, cex=1,
+             xlim=c(-2.5,2.5), ylim=c(-2.5,2.5),
+             xaxt="n", yaxt="n", ann=FALSE,
+             col.p="blue", col.txt="darkgray", col.clus="white", shade=FALSE)
     if(k>0) {
       for(i in 1:k) {
-	clusplot(x=tmpa,
-		 clus=tmpb[[i]],
-		 diss=FALSE,
-		 stand=TRUE, add=TRUE, span=FALSE,
-		 lines=0, lwd=2, col.p="blue", col.clus="orange")
+        clusplot(x=tmpa,
+                 clus=tmpb[[i]],
+                 diss=FALSE, cex=0.2,
+                 stand=TRUE, add=TRUE, span=FALSE,
+                 lines=0, lwd=2, col.p="blue", col.clus="orange")
       }
     }
   }
   if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
   par(mfrow=c(4,2), mar=rep(0.5,4))
-  myPlot(0)
-  myPlot(1)
-  myPlot(2)
-  myPlot(3)
-  myPlot(4)
-  myPlot(5)
-  myPlot(6)
-  plot(agnes(scale(js_data[8:14,])), which.plots=2,
-       main="",sub="",xlab="")
+  for(i in 0:6) myPlot(i)
+  js_data |>
+    slice(8:14) |>
+    select(2:6,jp) |>
+    column_to_rownames(var = "jp") |>
+    scale() |>
+    agnes() |>
+    plot(which.plots=2, main="",sub="",xlab="")
 #+end_src
 
-#+CAPTION: 凝集的手続きの例
-#+NAME: fig:11_hclst
-#+ATTR_HTML: height 100%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: 凝集的手続きの例
+#+name: fig:11_hclst
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
 [[file:figs/11_hclst.png]]
 #+end_rightcol
 
@@ -308,7 +266,7 @@
     に最適な対応
     \(\{C(i)\}_{i=1}^{n}\) を決定
 
-** \(k\)-平均法の損失関数
+** @@latex:@@\(k\)-平均法の損失関数
 - クラスタの個数 \(k\) を指定
 - 2つの個体 \(i,i'\) の *近さ=損失* を距離の二乗で評価
   #+begin_quote
@@ -328,7 +286,7 @@
   #+end_quote
   # (\(n_l\) はクラスタ \(l\) に属する個体の総数)
 
-** \(k\)-平均法の性質
+** @@latex:@@\(k\)-平均法の性質
 - クラスタ \(l\) に属する個体の平均
   #+begin_quote
   \begin{equation}
@@ -348,7 +306,7 @@
 - 最適な対応 \(C\) : クラスタ内変動の総和が最小
 
 
-* COMMENT 演習
+* 演習
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
@@ -508,8 +466,7 @@
 ** アルゴリズムの性質
 - 結果は *確率的*
   - 初期値 \(\boldsymbol{\mu}_1,\boldsymbol{\mu}_2,\dots,\boldsymbol{\mu}_k\) に依存
-  - アルゴリズムの成否は確率的 \\
-    (最適解が得られない場合もある)
+  - アルゴリズムの成否は確率的なため，最適解が得られない場合もある
 - 一般には複数の初期値をランダムに試して損失を最小とする解を採用する
 - 平均の代わりにメドイド (medoid; 中心にある観測値) を用いる方法もある
   #+begin_quote
@@ -522,6 +479,9 @@
   #+end_quote
 
 ** 事例
+:PROPERTIES:
+:ID:       5DF1EC41-AF81-47B0-A847-0EB32710158C
+:END:
 - 都道府県別好きなおむすびの具(一部)での例
   #+begin_src R :file figs/11_nhclst0.png :exports results :results graphics
     om_data <- read.csv(file="data/omusubi.csv", row.names=1)
@@ -658,6 +618,9 @@
 :END:
 # 東京大学
 ** R : 関数 ~kmeans()~
+:PROPERTIES:
+:ID:       BF14B712-D1D7-4CDA-BE9C-3BDCFDD7822F
+:END:
 - \(k\)-平均法を実行するための標準的な関数
   #+begin_src R :eval no
     kmeans(x, centers, iter.max = 10, nstart = 1,
@@ -675,6 +638,7 @@
 ** 練習問題
 :PROPERTIES:
 :reveal_background: #fef4f4
+:ID:       F4543112-3BC2-4689-8887-5510E8A66EE1
 :END:
 - データセット ~japan_social.csv~ を用いて
   以下を確認しなさい
@@ -723,6 +687,9 @@
 #+end_src
 
 ** R : 関数 ~cluster::pam()~
+:PROPERTIES:
+:ID:       23F6D185-357C-4973-95B4-184D0335F0BC
+:END:
 - \(k\)-メドイド法を実行するための関数
   #+begin_src R :eval no
     pam(x, k, metric = "euclidean", stand = FALSE)
@@ -742,6 +709,7 @@
 ** 練習問題
 :PROPERTIES:
 :reveal_background: #fef4f4
+:ID:       95C3E2F9-62C2-48DA-A6D2-F3315F356388
 :END:
 - データセット ~japan_social.csv~ を用いて
   以下を確認しなさい
@@ -802,9 +770,12 @@
 #+end_src
 
 
-* COMMENT 解析事例
+* 解析事例
 # 早稲田大学
 ** 都道府県別の社会生活統計指標
+:PROPERTIES:
+:ID:       4724A63D-8650-4583-8996-DD8E06C7BA77
+:END:
 - データの属性
   #+begin_example
   Forest : 森林面積割合 (%) 2014年
@@ -887,6 +858,9 @@
 [[file:figs/11_jspam.png]]
 
 ** 都道府県別好きなおむすびの具
+:PROPERTIES:
+:ID:       0EB616B0-E044-4E30-BB4C-602C3A1C135F
+:END:
 - データの属性
   #+begin_example
   Q2. おむすびの具では何が一番好きですか？
@@ -1041,7 +1015,7 @@
 - 距離の計算を適切に行えば階層的方法でも利用可
 
 
-* COMMENT 演習
+* 演習
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
@@ -1124,6 +1098,9 @@
 :END:
 # 東京大学
 ** R : 関数 ~cluster::agnes()~ の場合
+:PROPERTIES:
+:ID:       5EFEBBAA-7795-4ED3-9A25-C5506764F4B9
+:END:
 - 関数 ~agnes()~ による凝集係数の取得
   #+begin_src R :eval no
     ### 凝集係数の取得
@@ -1141,6 +1118,7 @@
 ** 練習問題
 :PROPERTIES:
 :reveal_background: #fef4f4
+:ID:       EAEFCCDA-22C8-40F1-8F9A-462C6E2AD824
 :END:
 - データセット ~japan_social.csv~ を用いて
   以下を検討しなさい
@@ -1216,6 +1194,9 @@
 #+end_src
 
 ** R : 関数 ~cluster::pam()~ の場合
+:PROPERTIES:
+:ID:       6AF1B625-7D2F-40F4-9AC5-236684343A73
+:END:
 - 関数 ~pam()~ によるシルエット係数の取得
   #+begin_src R :eval no
     ### シルエット係数関連の情報取得
@@ -1240,6 +1221,7 @@
 ** 練習問題
 :PROPERTIES:
 :reveal_background: #fef4f4
+:ID:       AA8EF433-1EEC-4705-BFB1-EE300889D6F1
 :END:
 - データセット ~omusubi.csv~ を用いて
   以下を検討しなさい
@@ -1298,9 +1280,12 @@
 #+end_src
 
 
-* COMMENT 解析事例
+* 解析事例
 # 早稲田大学
 ** 都道府県別の社会生活統計指標
+:PROPERTIES:
+:ID:       491B5831-261E-423F-BFCF-E6B0721A90B1
+:END:
 - 凝集係数を用いて階層的方法の距離を検討
 - ユークリッド距離とマンハッタン距離を比較
   - 正規化は共通 (平均0，絶対偏差1)
@@ -1389,6 +1374,9 @@ file:figs/11_jsdendroman.png
   #+end_src
      
 ** 都道府県別好きなおむすびの具
+:PROPERTIES:
+:ID:       930CC123-5CB9-4266-B82D-D0095A28DBF9
+:END:
 - シルエット係数を用いて非階層的方法のクラスタ数を検討
   - データ距離はHellinger距離
   - クラスタ距離は群平均法

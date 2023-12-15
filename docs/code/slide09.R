@@ -48,6 +48,11 @@ tw_subset |>
 tw_subset12  <- tw_data |>
   select(temp, solar, wind, humid, month) |>
   mutate(month = as_factor(month))
+#' @notes
+#' 'Jan', 'Feb' などの文字を扱いたい場合は 'as_factor' のかわりに
+#' 'month(month, label = TRUE)' とすればよい
+#' その場合，列名の指定なども '`Jan`:`Dec`' などと変わるので注意
+#' 
 #' 判別関数を作成
 tw_lda12 <- lda(month ~ ., # 右辺の . は month 以外の全てを説明変数として指定
                 data = tw_subset12)
@@ -131,7 +136,8 @@ bio_data <- as_tibble(biopsy) |>
   select(-ID)  # IDを除く
 
 bio_data |>
-  GGally::ggpairs(aes(colour = class))
+  GGally::ggpairs(diag = list(mapping = aes(colour = class)),
+                  lower = list(mapping = aes(colour = class)))
 
 #' 2次判別の LOO CV による評価の例 (線形判別も同様)
 bio_formula <- class ~ . 
@@ -174,7 +180,7 @@ wq_lda_loo_cm <- training(wq_split) |> # LOO CV 予測誤差による評価
   bind_cols(fitted = wq_lda_loo[["class"]]) |>
   conf_mat(truth = grade, estimate = fitted)
 wq_lda_loo_cm |> autoplot(type = "heatmap") +
-  labs(title = "LOO CV Error (LDA)")
+  labs(title = "LOO CV (LDA)")
 #' 線形判別の過学習は微小
 
 #' 2次判別の LOO CV 
@@ -190,7 +196,7 @@ wq_qda_loo_cm <- training(wq_split) |> # LOO CV 予測誤差による評価
   bind_cols(fitted = wq_qda_loo[["class"]]) |>
   conf_mat(truth = grade, estimate = fitted)
 wq_qda_loo_cm |> autoplot(type = "heatmap") +
-  labs(title = "LOO CV Error (QDA)")
+  labs(title = "LOO CV (QDA)")
 #' 2次判別は若干過学習している
 
 #' LOO CV による線形・2次判別の予測誤差の比較

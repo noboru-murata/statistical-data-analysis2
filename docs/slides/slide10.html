@@ -46,8 +46,8 @@
 
 </section>
 <section>
-<section id="slide-org6664551">
-<h2 id="org6664551">講義概要</h2>
+<section id="slide-org2f88da7">
+<h2 id="org2f88da7">講義概要</h2>
 <ul>
 <li><b>第1回 : 基本的な考え方と階層的方法</b></li>
 <li>第2回 : 非階層的方法と分析の評価</li>
@@ -57,13 +57,120 @@
 </section>
 </section>
 <section>
-<section id="slide-orgc9f8d8a">
-<h2 id="orgc9f8d8a">クラスタ分析の考え方</h2>
-<div class="outline-text-2" id="text-orgc9f8d8a">
+<section id="slide-orgd462210">
+<h2 id="orgd462210">事例</h2>
+<div class="outline-text-2" id="text-orgd462210">
 </div>
 </section>
-<section id="slide-org5901c3e">
-<h3 id="org5901c3e">クラスタ分析</h3>
+<section id="slide-org3fae7a1">
+<h3 id="org3fae7a1">実データによる例</h3>
+<ul>
+<li>総務省統計局より取得した都道府県別の社会生活統計指標の一部
+<ul>
+<li>総務省 <a href="https://www.e-stat.go.jp/SG1/estat/List.do?bid=000001083999&amp;cycode=0">https://www.e-stat.go.jp/SG1/estat/List.do?bid=000001083999&amp;cycode=0</a></li>
+<li>データ <a href="https://noboru-murata.github.io/statistical-data-analysis2/data/data06.zip">https://noboru-murata.github.io/statistical-data-analysis2/data/data06.zip</a></li>
+
+</ul></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org8044fb8">
+<h3 id="org8044fb8">実データによる例</h3>
+<ul>
+<li>総務省統計局より取得した都道府県別の社会生活統計指標の一部
+<ul>
+<li>総務省 <a href="https://www.e-stat.go.jp/SG1/estat/List.do?bid=000001083999&amp;cycode=0">https://www.e-stat.go.jp/SG1/estat/List.do?bid=000001083999&amp;cycode=0</a></li>
+<li>データ <a href="https://noboru-murata.github.io/multivariate-analysis/data/japan_social.csv">https://noboru-murata.github.io/multivariate-analysis/data/japan_social.csv</a></li>
+
+</ul></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org555eeb2">
+<h3 id="org555eeb2">データの概要</h3>
+<font size=5>
+
+<table style="text-align:center"><caption><strong>社会生活統計指標</strong></caption>
+<tr><td colspan="7" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">Pref</td><td>Forest</td><td>Agri</td><td>Ratio</td><td>Land</td><td>Goods</td><td>Area</td></tr>
+<tr><td colspan="7" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">Hokkaido</td><td>67.9</td><td>1150.6</td><td>4.23</td><td>96.8</td><td>283.3</td><td>1</td></tr>
+<tr><td style="text-align:left">Aomori</td><td>63.8</td><td>444.7</td><td>1.03</td><td>186</td><td>183</td><td>2</td></tr>
+<tr><td style="text-align:left">Iwate</td><td>74.9</td><td>334.3</td><td>1.01</td><td>155.2</td><td>179.4</td><td>2</td></tr>
+<tr><td style="text-align:left">Miyagi</td><td>55.9</td><td>299.9</td><td>1.84</td><td>125.3</td><td>365.9</td><td>2</td></tr>
+<tr><td style="text-align:left">Akita</td><td>70.5</td><td>268.7</td><td>0.81</td><td>98.5</td><td>153.3</td><td>2</td></tr>
+<tr><td style="text-align:left">Yamagata</td><td>68.7</td><td>396.3</td><td>0.88</td><td>174.1</td><td>157.5</td><td>2</td></tr>
+<tr><td style="text-align:left">Fukushima</td><td>67.9</td><td>236.4</td><td>1.51</td><td>127.1</td><td>184.5</td><td>2</td></tr>
+<tr><td style="text-align:left">Ibaraki</td><td>31</td><td>479</td><td>2.3</td><td>249.1</td><td>204.9</td><td>3</td></tr>
+<tr><td style="text-align:left">Tochigi</td><td>53.2</td><td>402.6</td><td>1.55</td><td>199.6</td><td>204.3</td><td>3</td></tr>
+<tr><td style="text-align:left">Gumma</td><td>63.8</td><td>530.6</td><td>1.55</td><td>321.6</td><td>270</td><td>3</td></tr>
+<tr><td style="text-align:left">Saitama</td><td>31.9</td><td>324.7</td><td>5.72</td><td>247</td><td>244.7</td><td>3</td></tr>
+<tr><td style="text-align:left">Chiba</td><td>30.4</td><td>565.5</td><td>4.9</td><td>326.1</td><td>219.7</td><td>3</td></tr>
+<tr><td style="text-align:left">Tokyo</td><td>34.8</td><td>268.5</td><td>10.63</td><td>404.7</td><td>1062.6</td><td>3</td></tr>
+<tr><td style="text-align:left">Kanagawa</td><td>38.8</td><td>322.8</td><td>7.18</td><td>396.4</td><td>246.1</td><td>3</td></tr>
+<tr><td style="text-align:left">Niigata</td><td>63.5</td><td>308.6</td><td>1.81</td><td>141.9</td><td>205.5</td><td>4</td></tr>
+<tr><td colspan="7" style="border-bottom: 1px solid black"></td></tr></table>
+
+</font>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org96fb9af">
+<h3 id="org96fb9af">分析の概要</h3>
+<ul>
+<li><p>
+データの散布図
+</p></li>
+
+</ul>
+
+
+<div id="org5710395" class="figure">
+<p><img src="figs/10_pairs.png" alt="10_pairs.png" />
+</p>
+<p><span class="figure-number">Figure 1: </span>散布図</p>
+</div>
+
+<div class="slide-footer"><br></div>
+</section>
+<section>
+<ul>
+<li><p>
+主成分得点の表示
+</p></li>
+
+</ul>
+
+
+<div id="org52e9747" class="figure">
+<p><img src="figs/10_pcaplot.png" alt="10_pcaplot.png" />
+</p>
+<p><span class="figure-number">Figure 2: </span>主成分得点による散布図</p>
+</div>
+
+<div class="slide-footer"><br></div>
+</section>
+<section>
+<ul>
+<li>クラスタ分析の例</li>
+
+</ul>
+
+<div id="org5b035ff" class="figure">
+<p><img src="figs/10_clusplot.png" alt="10_clusplot.png" />
+</p>
+<p><span class="figure-number">Figure 3: </span>散布図上のクラスタ構造 (クラスタ分析の概念図)</p>
+</div>
+<div class="slide-footer"><br></div>
+</section>
+</section>
+<section>
+<section id="slide-orgcdda6fb">
+<h2 id="orgcdda6fb">クラスタ分析の考え方</h2>
+<div class="outline-text-2" id="text-orgcdda6fb">
+</div>
+</section>
+<section id="slide-org9d18581">
+<h3 id="org9d18581">クラスタ分析</h3>
 <ul>
 <li><p>
 クラスタ分析 (<b>cluster analysis</b>) の目的
@@ -87,8 +194,8 @@
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org1a12da4">
-<h3 id="org1a12da4">クラスタ分析の考え方</h3>
+<section id="slide-orga36c58d">
+<h3 id="orga36c58d">クラスタ分析の考え方</h3>
 <ul>
 <li>階層的方法
 <ul>
@@ -112,134 +219,15 @@
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org7b1e8f5">
-<h3 id="org7b1e8f5">実データによる例</h3>
-<ul>
-<li>総務省統計局より取得した都道府県別の社会生活統計指標の一部
-<ul>
-<li>総務省 <a href="https://www.e-stat.go.jp/SG1/estat/List.do?bid=000001083999&amp;cycode=0">https://www.e-stat.go.jp/SG1/estat/List.do?bid=000001083999&amp;cycode=0</a></li>
-<li>データ <a href="https://noboru-murata.github.io/multivariate-analysis/data/japan_social.csv">https://noboru-murata.github.io/multivariate-analysis/data/japan_social.csv</a></li>
-
-</ul></li>
-
-</ul>
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-org8e087a7">
-<h3 id="org8e087a7">実データによる例</h3>
-<ul>
-<li>総務省統計局より取得した都道府県別の社会生活統計指標の一部
-<ul>
-<li>総務省 <a href="https://www.e-stat.go.jp/SG1/estat/List.do?bid=000001083999&amp;cycode=0">https://www.e-stat.go.jp/SG1/estat/List.do?bid=000001083999&amp;cycode=0</a></li>
-<li>データ <a href="https://noboru-murata.github.io/statistical-data-analysis2/data/data06.zip">https://noboru-murata.github.io/statistical-data-analysis2/data/data06.zip</a></li>
-
-</ul></li>
-
-</ul>
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-org8ba0d94">
-<h3 id="org8ba0d94">分析の概要</h3>
-<ul>
-<li><p>
-データ(の一部)の内容
-</p>
-<font size=5>
-
-<table style="text-align:center"><caption><strong>社会生活統計指標</strong></caption>
-<tr><td colspan="7" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">Pref</td><td>Forest</td><td>Agri</td><td>Ratio</td><td>Land</td><td>Goods</td><td>Area</td></tr>
-<tr><td colspan="7" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">Hokkaido</td><td>67.9</td><td>1150.6</td><td>4.23</td><td>96.8</td><td>283.3</td><td>1</td></tr>
-<tr><td style="text-align:left">Aomori</td><td>63.8</td><td>444.7</td><td>1.03</td><td>186</td><td>183</td><td>2</td></tr>
-<tr><td style="text-align:left">Iwate</td><td>74.9</td><td>334.3</td><td>1.01</td><td>155.2</td><td>179.4</td><td>2</td></tr>
-<tr><td style="text-align:left">Miyagi</td><td>55.9</td><td>299.9</td><td>1.84</td><td>125.3</td><td>365.9</td><td>2</td></tr>
-<tr><td style="text-align:left">Akita</td><td>70.5</td><td>268.7</td><td>0.81</td><td>98.5</td><td>153.3</td><td>2</td></tr>
-<tr><td style="text-align:left">Yamagata</td><td>68.7</td><td>396.3</td><td>0.88</td><td>174.1</td><td>157.5</td><td>2</td></tr>
-<tr><td style="text-align:left">Fukushima</td><td>67.9</td><td>236.4</td><td>1.51</td><td>127.1</td><td>184.5</td><td>2</td></tr>
-<tr><td style="text-align:left">Ibaraki</td><td>31</td><td>479</td><td>2.3</td><td>249.1</td><td>204.9</td><td>3</td></tr>
-<tr><td style="text-align:left">Tochigi</td><td>53.2</td><td>402.6</td><td>1.55</td><td>199.6</td><td>204.3</td><td>3</td></tr>
-<tr><td style="text-align:left">Gumma</td><td>63.8</td><td>530.6</td><td>1.55</td><td>321.6</td><td>270</td><td>3</td></tr>
-<tr><td style="text-align:left">Saitama</td><td>31.9</td><td>324.7</td><td>5.72</td><td>247</td><td>244.7</td><td>3</td></tr>
-<tr><td style="text-align:left">Chiba</td><td>30.4</td><td>565.5</td><td>4.9</td><td>326.1</td><td>219.7</td><td>3</td></tr>
-<tr><td style="text-align:left">Tokyo</td><td>34.8</td><td>268.5</td><td>10.63</td><td>404.7</td><td>1062.6</td><td>3</td></tr>
-<tr><td style="text-align:left">Kanagawa</td><td>38.8</td><td>322.8</td><td>7.18</td><td>396.4</td><td>246.1</td><td>3</td></tr>
-<tr><td style="text-align:left">Niigata</td><td>63.5</td><td>308.6</td><td>1.81</td><td>141.9</td><td>205.5</td><td>4</td></tr>
-<tr><td colspan="7" style="border-bottom: 1px solid black"></td></tr></table>
-
-</font></li>
-
-</ul>
-
-<div class="slide-footer"><br></div>
 </section>
 <section>
-<ul>
-<li><p>
-データの散布図
-</p></li>
-
-</ul>
-
-
-<div id="orgd374cd6" class="figure">
-<p><img src="figs/10_pairs.png" alt="10_pairs.png" />
-</p>
-<p><span class="figure-number">Figure 1: </span>散布図</p>
-</div>
-
-<div class="slide-footer"><br></div>
-</section>
-<section>
-<ul>
-<li><p>
-主成分得点の表示
-</p></li>
-
-</ul>
-
-
-<div id="orgb3642cd" class="figure">
-<p><img src="figs/10_pcaplot.png" alt="10_pcaplot.png" />
-</p>
-<p><span class="figure-number">Figure 2: </span>主成分得点による散布図</p>
-</div>
-
-<div class="slide-footer"><br></div>
-</section>
-<section>
-
-<div id="orgc515798" class="figure">
-<p><img src="figs/10_clusplot.png" alt="10_clusplot.png" />
-</p>
-<p><span class="figure-number">Figure 3: </span>散布図上のクラスタ構造 (クラスタ分析の概念図)</p>
-</div>
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-org96cee1d">
-<h3 id="org96cee1d">分析の概要その2</h3>
-<ul>
-<li><p>
-データ(の一部)の内容
-</p>
-<font size=5>
-library(package, pos = pos, lib.loc = lib.loc, character.only = TRUE,  でエラー: 
-   ‘gt’ という名前のパッケージはありません
-as_raw_html(gt(slice(js_data, 1:15))) でエラー: 
-   関数 "as_raw_html" を見つけることができませんでした
-
-</font></li>
-
-</ul>
-<div class="slide-footer"><br></div>
-</section>
-</section>
-<section>
-<section id="slide-orgc7e45d9">
-<h2 id="orgc7e45d9">階層的方法</h2>
-<div class="outline-text-2" id="text-orgc7e45d9">
+<section id="slide-orge4f27eb">
+<h2 id="orge4f27eb">階層的方法</h2>
+<div class="outline-text-2" id="text-orge4f27eb">
 </div>
 </section>
-<section id="slide-orga1b3d42">
-<h3 id="orga1b3d42">凝集的クラスタリング</h3>
+<section id="slide-orgcb0851d">
+<h3 id="orgcb0851d">凝集的クラスタリング</h3>
 <ol>
 <li>データ・クラスタ間の距離を定義する
 <ul>
@@ -260,8 +248,8 @@ as_raw_html(gt(slice(js_data, 1:15))) でエラー:
 </ol>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org8f6fd29">
-<h3 id="org8f6fd29">事例</h3>
+<section id="slide-org88a381c">
+<h3 id="org88a381c">事例</h3>
 <ul>
 <li><p>
 <span style="color:green;">社会生活統計指標の一部(関東)</span>
@@ -270,7 +258,7 @@ as_raw_html(gt(slice(js_data, 1:15))) でエラー:
 </ul>
 
 
-<div id="orgc4094da" class="figure">
+<div id="orgb70771d" class="figure">
 <p><img src="figs/10_hclst0.png" alt="10_hclst0.png" />
 </p>
 <p><span class="figure-number">Figure 4: </span>凝集的クラスタリング</p>
@@ -280,7 +268,7 @@ as_raw_html(gt(slice(js_data, 1:15))) でエラー:
 </section>
 <section>
 
-<div id="orgc2c3201" class="figure">
+<div id="org93bd529" class="figure">
 <p><img src="figs/10_hclst1.png" alt="10_hclst1.png" />
 </p>
 <p><span class="figure-number">Figure 5: </span>クラスタリングの手続き (その1)</p>
@@ -290,7 +278,7 @@ as_raw_html(gt(slice(js_data, 1:15))) でエラー:
 </section>
 <section>
 
-<div id="org70b8031" class="figure">
+<div id="orgf440124" class="figure">
 <p><img src="figs/10_hclst2.png" alt="10_hclst2.png" />
 </p>
 <p><span class="figure-number">Figure 6: </span>クラスタリングの手続き (その2)</p>
@@ -300,7 +288,7 @@ as_raw_html(gt(slice(js_data, 1:15))) でエラー:
 </section>
 <section>
 
-<div id="org861f66e" class="figure">
+<div id="org63ea893" class="figure">
 <p><img src="figs/10_hclst3.png" alt="10_hclst3.png" />
 </p>
 <p><span class="figure-number">Figure 7: </span>クラスタリングの手続き (その3)</p>
@@ -310,7 +298,7 @@ as_raw_html(gt(slice(js_data, 1:15))) でエラー:
 </section>
 <section>
 
-<div id="orgbba83d6" class="figure">
+<div id="org638d9c2" class="figure">
 <p><img src="figs/10_hclst4.png" alt="10_hclst4.png" />
 </p>
 <p><span class="figure-number">Figure 8: </span>クラスタリングの手続き (その4)</p>
@@ -321,7 +309,7 @@ as_raw_html(gt(slice(js_data, 1:15))) でエラー:
 </section>
 <section>
 
-<div id="orgf6ec1d5" class="figure">
+<div id="org9f6e8e0" class="figure">
 <p><img src="figs/10_hclst5.png" alt="10_hclst5.png" />
 </p>
 <p><span class="figure-number">Figure 9: </span>クラスタリングの手続き (その5)</p>
@@ -332,7 +320,7 @@ as_raw_html(gt(slice(js_data, 1:15))) でエラー:
 </section>
 <section>
 
-<div id="org6cff7b1" class="figure">
+<div id="org24aa637" class="figure">
 <p><img src="figs/10_hclst6.png" alt="10_hclst6.png" />
 </p>
 <p><span class="figure-number">Figure 10: </span>クラスタリングの手続き (その6)</p>
@@ -342,7 +330,7 @@ as_raw_html(gt(slice(js_data, 1:15))) でエラー:
 </section>
 <section>
 
-<div id="org6ea2fb4" class="figure">
+<div id="orgf90e3e3" class="figure">
 <p><img src="figs/10_dendro.png" alt="10_dendro.png" />
 </p>
 <p><span class="figure-number">Figure 11: </span>デンドログラムによるクラスタ構造の表示</p>
@@ -351,13 +339,13 @@ as_raw_html(gt(slice(js_data, 1:15))) でエラー:
 </section>
 </section>
 <section>
-<section id="slide-org62093c0">
-<h2 id="org62093c0">データ間の距離</h2>
-<div class="outline-text-2" id="text-org62093c0">
+<section id="slide-org0cbf308">
+<h2 id="org0cbf308">データ間の距離</h2>
+<div class="outline-text-2" id="text-org0cbf308">
 </div>
 </section>
-<section id="slide-org1d582e6">
-<h3 id="org1d582e6">データ間の距離</h3>
+<section id="slide-orga745b33">
+<h3 id="orga745b33">データ間の距離</h3>
 <ul>
 <li><p>
 データ : 変数の値を成分としてもつベクトル
@@ -383,8 +371,8 @@ as_raw_html(gt(slice(js_data, 1:15))) でエラー:
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org24eea18">
-<h3 id="org24eea18">Euclide 距離</h3>
+<section id="slide-org67cad2b">
+<h3 id="org67cad2b">Euclide 距離</h3>
 <ul>
 <li>最も一般的な距離</li>
 <li><p>
@@ -403,8 +391,8 @@ as_raw_html(gt(slice(js_data, 1:15))) でエラー:
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgf3c6c97">
-<h3 id="orgf3c6c97">Manhattan 距離</h3>
+<section id="slide-org24f33aa">
+<h3 id="org24f33aa">Manhattan 距離</h3>
 <ul>
 <li>後述する Minkowski 距離の \(p=1\) の場合</li>
 <li><p>
@@ -423,8 +411,8 @@ as_raw_html(gt(slice(js_data, 1:15))) でエラー:
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org6c35ab6">
-<h3 id="org6c35ab6">Minkowski 距離</h3>
+<section id="slide-org4d8ff18">
+<h3 id="org4d8ff18">Minkowski 距離</h3>
 <ul>
 <li>Euclid 距離を \(p\) 乗に一般化した距離</li>
 <li><p>
@@ -443,8 +431,8 @@ as_raw_html(gt(slice(js_data, 1:15))) でエラー:
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgc2fc362">
-<h3 id="orgc2fc362">その他の距離</h3>
+<section id="slide-orge8c6a0c">
+<h3 id="orge8c6a0c">その他の距離</h3>
 <ul>
 <li>類似度や乖離度などデータ間に自然に定義されるものを用いることは可能
 <ul>
@@ -459,12 +447,12 @@ as_raw_html(gt(slice(js_data, 1:15))) でエラー:
 </section>
 </section>
 <section>
-<section id="slide-orga6ed45d" data-background="#fef4f4">
-<h2 id="orga6ed45d">演習</h2>
+<section id="slide-orgf44c18a" data-background="#fef4f4">
+<h2 id="orgf44c18a">演習</h2>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org80e9bd2" data-background="#fef4f4">
-<h3 id="org80e9bd2">問題</h3>
+<section id="slide-org97195ed" data-background="#fef4f4">
+<h3 id="org97195ed">問題</h3>
 <ul>
 <li>以下の問に答えなさい
 <ul>
@@ -489,8 +477,8 @@ Minkowski 距離において
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org9117e3c" data-background="#fef4f4">
-<h3 id="org9117e3c">解答例</h3>
+<section id="slide-orgd14e7eb" data-background="#fef4f4">
+<h3 id="orgd14e7eb">解答例</h3>
 <ul>
 <li><p>
 2変数の実数値関数で以下の3つの条件を満たす
@@ -616,12 +604,12 @@ Minkowski 距離において
 </section>
 </section>
 <section>
-<section id="slide-orgd244fc3" data-background="#fef4f4">
-<h2 id="orgd244fc3">実習</h2>
+<section id="slide-orgb47976d" data-background="#fef4f4">
+<h2 id="orgb47976d">実習</h2>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgea4ca63" data-background="#fef4f4">
-<h3 id="orgea4ca63">R : 関数 <code>dist()</code></h3>
+<section id="slide-org1cd9585" data-background="#fef4f4">
+<h3 id="org1cd9585">R : 関数 <code>dist()</code></h3>
 <ul>
 <li><p>
 データフレームを用いた基本的な計算方法
@@ -647,8 +635,8 @@ as.matrix(dst)[i，j]
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orga2d21bd" data-background="#fef4f4">
-<h3 id="orga2d21bd">R : 関数 <code>cluster::daisy()</code></h3>
+<section id="slide-org1b39e17" data-background="#fef4f4">
+<h3 id="org1b39e17">R : 関数 <code>cluster::daisy()</code></h3>
 <ul>
 <li><code>cluster</code>: クラスタ分析用のパッケージ</li>
 <li><p>
@@ -675,8 +663,8 @@ as.matrix(dsy)[i，j]
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgb156ec0" data-background="#fef4f4">
-<h3 id="orgb156ec0">練習問題</h3>
+<section id="slide-orge99262d" data-background="#fef4f4">
+<h3 id="orge99262d">練習問題</h3>
 <ul>
 <li><p>
 都道府県別の社会生活統計指標を用いて以下を確認しなさい
@@ -701,13 +689,13 @@ js_data &lt;- read.csv(file="data/japan_social.csv", row.names=1)
 </section>
 </section>
 <section>
-<section id="slide-org47cfcda">
-<h2 id="org47cfcda">クラスタ間の距離</h2>
-<div class="outline-text-2" id="text-org47cfcda">
+<section id="slide-org4a9fa9f">
+<h2 id="org4a9fa9f">クラスタ間の距離</h2>
+<div class="outline-text-2" id="text-org4a9fa9f">
 </div>
 </section>
-<section id="slide-orgeb286df">
-<h3 id="orgeb286df">クラスタ間の距離</h3>
+<section id="slide-org09b6647">
+<h3 id="org09b6647">クラスタ間の距離</h3>
 <ul>
 <li><p>
 クラスタ : いくつかのデータ点からなる集合
@@ -739,8 +727,8 @@ js_data &lt;- read.csv(file="data/japan_social.csv", row.names=1)
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org179d698">
-<h3 id="org179d698">最短距離法</h3>
+<section id="slide-org620f08f">
+<h3 id="org620f08f">最短距離法</h3>
 <ul>
 <li><p>
 最も近い対象間の距離を用いる方法
@@ -771,8 +759,8 @@ js_data &lt;- read.csv(file="data/japan_social.csv", row.names=1)
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org07494a8">
-<h3 id="org07494a8">最長距離法</h3>
+<section id="slide-org4013864">
+<h3 id="org4013864">最長距離法</h3>
 <ul>
 <li><p>
 最も遠い対象間の距離を用いる方法
@@ -803,8 +791,8 @@ js_data &lt;- read.csv(file="data/japan_social.csv", row.names=1)
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org8346e64">
-<h3 id="org8346e64">群平均法</h3>
+<section id="slide-org15f2790">
+<h3 id="org15f2790">群平均法</h3>
 <ul>
 <li><p>
 全ての対象間の平均距離を用いる方法
@@ -839,8 +827,8 @@ js_data &lt;- read.csv(file="data/japan_social.csv", row.names=1)
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org59bdc06">
-<h3 id="org59bdc06">距離計算に関する注意</h3>
+<section id="slide-org6404892">
+<h3 id="org6404892">距離計算に関する注意</h3>
 <ul>
 <li>データの性質に応じて距離は適宜使い分ける
 <ul>
@@ -861,12 +849,12 @@ js_data &lt;- read.csv(file="data/japan_social.csv", row.names=1)
 </section>
 </section>
 <section>
-<section id="slide-orgbe7e2d5" data-background="#fef4f4">
-<h2 id="orgbe7e2d5">演習</h2>
+<section id="slide-org19a7dca" data-background="#fef4f4">
+<h2 id="org19a7dca">演習</h2>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org047a3a6" data-background="#fef4f4">
-<h3 id="org047a3a6">問題</h3>
+<section id="slide-orgf32f1ab" data-background="#fef4f4">
+<h3 id="orgf32f1ab">問題</h3>
 <ul>
 <li>以下の問に答えなさい
 <ul>
@@ -904,8 +892,8 @@ js_data &lt;- read.csv(file="data/japan_social.csv", row.names=1)
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org78d5bf8" data-background="#fef4f4">
-<h3 id="org78d5bf8">解答例</h3>
+<section id="slide-orga2fa114" data-background="#fef4f4">
+<h3 id="orga2fa114">解答例</h3>
 <ul>
 <li><p>
 定義に従って計算する
@@ -972,12 +960,12 @@ js_data &lt;- read.csv(file="data/japan_social.csv", row.names=1)
 </section>
 </section>
 <section>
-<section id="slide-org2b69570" data-background="#fef4f4">
-<h2 id="org2b69570">実習</h2>
+<section id="slide-org57d07a0" data-background="#fef4f4">
+<h2 id="org57d07a0">実習</h2>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgec5a7e0" data-background="#fef4f4">
-<h3 id="orgec5a7e0">R : 関数 <code>hclust()</code></h3>
+<section id="slide-orga2eb831" data-background="#fef4f4">
+<h3 id="orga2eb831">R : 関数 <code>hclust()</code></h3>
 <ul>
 <li><p>
 距離行列を用いた階層的クラスタリング
@@ -1005,8 +993,8 @@ rect.hclust(tree = hclst, k = NULL, h = NULL)
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org7687e06" data-background="#fef4f4">
-<h3 id="org7687e06">練習問題</h3>
+<section id="slide-org17cfbb9" data-background="#fef4f4">
+<h3 id="org17cfbb9">練習問題</h3>
 <ul>
 <li>都道府県別の社会生活統計指標を用いて以下の分析を行いなさい
 <ul>
@@ -1019,8 +1007,8 @@ rect.hclust(tree = hclst, k = NULL, h = NULL)
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org6417450" data-background="#fef4f4">
-<h3 id="org6417450">R : 関数 <code>cluster::agnes()</code></h3>
+<section id="slide-orgc1bbcec" data-background="#fef4f4">
+<h3 id="orgc1bbcec">R : 関数 <code>cluster::agnes()</code></h3>
 <ul>
 <li><p>
 <code>cluster</code> パッケージによる階層的クラスタリング
@@ -1044,8 +1032,8 @@ plot(agns, which.plots=2)
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgb7d4df5" data-background="#fef4f4">
-<h3 id="orgb7d4df5">R : 関数 <code>cluster::clusplot()</code></h3>
+<section id="slide-orgb8ffab7" data-background="#fef4f4">
+<h3 id="orgb8ffab7">R : 関数 <code>cluster::clusplot()</code></h3>
 <ul>
 <li><p>
 2次元でのクラスタ表示
@@ -1068,8 +1056,8 @@ plot(agns, which.plots=2)
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orge79d34e" data-background="#fef4f4">
-<h3 id="orge79d34e">データセットの準備</h3>
+<section id="slide-org3ebdce4" data-background="#fef4f4">
+<h3 id="org3ebdce4">データセットの準備</h3>
 <ul>
 <li>Webアンケート (都道府県別好きなおむすびの具)
 <ul>
@@ -1111,8 +1099,8 @@ Q4. おむすびといえば、どういう形ですか？
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org238e06c" data-background="#fef4f4">
-<h3 id="org238e06c">練習問題</h3>
+<section id="slide-orgf3d09e0" data-background="#fef4f4">
+<h3 id="orgf3d09e0">練習問題</h3>
 <ul>
 <li><p>
 上記のデータを用いて以下の分析を行いなさい
@@ -1152,17 +1140,17 @@ Hellinger距離を用いて距離行列を作成しなさい
 </section>
 </section>
 <section>
-<section id="slide-orgbe02b3b">
-<h2 id="orgbe02b3b">解析事例</h2>
+<section id="slide-orgbd98f8f">
+<h2 id="orgbd98f8f">解析事例</h2>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org521efc4">
-<h3 id="org521efc4">都道府県別の社会生活統計指標</h3>
+<section id="slide-org2a6ad93">
+<h3 id="org2a6ad93">都道府県別の社会生活統計指標</h3>
 <ul>
 <li><p>
 各データを正規化
 </p>
-<pre class="example" id="org3482cd5">
+<pre class="example" id="org1cb8ec6">
 Forest : 森林面積割合 (%) 2014年
 Agri : 就業者１人当たり農業産出額(販売農家）(万円) 2014年
 Ratio : 全国総人口に占める人口割合 (%) 2015年
@@ -1177,7 +1165,7 @@ Goods : 商業年間商品販売額［卸売業＋小売業］（事業所当た
 </section>
 <section>
 
-<div id="org35b3098" class="figure">
+<div id="orgf3d35e2" class="figure">
 <p><img src="figs/10_jsclst.png" alt="10_jsclst.png" />
 </p>
 <p><span class="figure-number">Figure 12: </span>社会生活統計指標のクラスタ分析 (デンドログラム)</p>
@@ -1188,15 +1176,15 @@ Goods : 商業年間商品販売額［卸売業＋小売業］（事業所当た
 </section>
 <section>
 
-<div id="org18f6efa" class="figure">
+<div id="orge8a155c" class="figure">
 <p><img src="figs/10_jscut.png" alt="10_jscut.png" />
 </p>
 <p><span class="figure-number">Figure 13: </span>クラスタの分割</p>
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgf0983f8">
-<h3 id="orgf0983f8">都道府県別好きなおむすびの具</h3>
+<section id="slide-org2d73d9c">
+<h3 id="org2d73d9c">都道府県別好きなおむすびの具</h3>
 <ul>
 <li>Webアンケート
 <ul>
@@ -1215,7 +1203,7 @@ Goods : 商業年間商品販売額［卸売業＋小売業］（事業所当た
 <li><p>
 アンケート概要 (Q2の結果を利用)
 </p>
-<pre class="example" id="orge5ca18e">
+<pre class="example" id="org14a0ad8">
 【応募期間】 2009年1月4日～2009年2月28日
 【応募方法】 インターネット、携帯ウェブ
 
@@ -1245,15 +1233,29 @@ Goods : 商業年間商品販売額［卸売業＋小売業］（事業所当た
 <li><p>
 データの内容
 </p>
-<pre class="example">
-library(package, pos = pos, lib.loc = lib.loc, character.only = TRUE,  でエラー: 
-   ‘ggdendro’ という名前のパッケージはありません
+<pre class="example" id="orgfa6292f">
+[1mindexing[0m [34momusubi.csv[0m [=========================================] [32m434.19MB/s[0m, eta: [36m 0s[0m                                                                                                                        [1mRows: [22m[34m47[39m [1mColumns: [22m[34m9[39m
+[36m──[39m [1mColumn specification[22m [36m─────────────────────────────────────────────────────────────[39m
+[1mDelimiter:[22m ","
+[31mchr[39m (1): prefecture
+[32mdbl[39m (8): ume, shake, kobu, katsuo, mentai, tarako, tuna, etc
+
+[36mℹ[39m Use `spec()` to retrieve the full column specification for this data.
+[36mℹ[39m Specify the column types or set `show_col_types = FALSE` to quiet this message.
+[1mindexed[0m [32m0B[0m in [36m 0s[0m, [32m0B/s[0m[1mindexed[0m [32m1.00TB[0m in [36m 0s[0m, [32m4.66PB/s[0m                                                                                   [1mRows: [22m[34m47[39m [1mColumns: [22m[34m5[39m
+[36m──[39m [1mColumn specification[22m [36m─────────────────────────────────────────────────────────────[39m
+[1mDelimiter:[22m ","
+[31mchr[39m (4): jp, en, area_jp, area_en
+[32mdbl[39m (1): num
+
+[36mℹ[39m Use `spec()` to retrieve the full column specification for this data.
+[36mℹ[39m Specify the column types or set `show_col_types = FALSE` to quiet this message.
 </pre></li>
 
 </ul>
 
 
-<div id="org0633fe8" class="figure">
+<div id="org8b2b0d0" class="figure">
 <p><img src="figs/10_ombar.png" alt="10_ombar.png" />
 </p>
 <p><span class="figure-number">Figure 14: </span>県別の人気比率</p>
@@ -1263,7 +1265,7 @@ library(package, pos = pos, lib.loc = lib.loc, character.only = TRUE,  でエラ
 </section>
 <section>
 
-<div id="orge9db590" class="figure">
+<div id="orge21e594" class="figure">
 <p><img src="figs/10_ompairs.png" alt="10_ompairs.png" />
 </p>
 <p><span class="figure-number">Figure 15: </span>データの散布図</p>
@@ -1275,7 +1277,7 @@ library(package, pos = pos, lib.loc = lib.loc, character.only = TRUE,  でエラ
 </section>
 <section>
 
-<div id="org861cfbe" class="figure">
+<div id="orge4c8e9b" class="figure">
 <p><img src="figs/10_omclst.png" alt="10_omclst.png" />
 </p>
 <p><span class="figure-number">Figure 16: </span>県別の人気比率</p>
@@ -1284,8 +1286,8 @@ library(package, pos = pos, lib.loc = lib.loc, character.only = TRUE,  でエラ
 </section>
 </section>
 <section>
-<section id="slide-org040ccc9">
-<h2 id="org040ccc9">次回の予定</h2>
+<section id="slide-org21cd8ba">
+<h2 id="org21cd8ba">次回の予定</h2>
 <ul>
 <li>第1回 : 基本的な考え方と階層的方法</li>
 <li><b>第2回 : 非階層的方法と分析の評価</b></li>

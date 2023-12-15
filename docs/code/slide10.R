@@ -15,8 +15,7 @@ js_data <- read_csv("data/japan_social.csv") |>
 
 #' データの視覚化
 js_data |> # 散布図．いくつかの変数は相関強いことがわかる
-  select(where(is.double)) |>  # 都道府県名・地方区分は削除
-  GGally::ggpairs()
+  GGally::ggpairs(columns = 2:6, aes(colour = Area), upper = "blank")
 
 js_data |> 
   column_to_rownames(var = "Pref") |> 
@@ -42,34 +41,40 @@ js_data |>
   theme(legend.position = c(.9,.2))
 
 library(cluster)
-js_data <- read.csv(file="data/japan_social.csv", row.names=1)
-pref <- read.csv(file="data/prefecture.csv", row.names=1)
+js_data <- bind_cols(
+  read_csv(file="data/japan_social.csv"),
+  read_csv(file="data/prefecture.csv"))
 rownames(js_data) <- pref$jp
 myPlot <- function(k) {
-	if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
-	tmpa <- js_data[8:14,]
-	tmpb <- list(c(1,2,3,4,1,6,7),
-		     c(1,2,3,1,1,6,7),
-		     c(1,2,2,1,1,6,7),
-		     c(1,2,2,1,1,6,1),
-		     c(1,1,1,1,1,6,1),
-		     c(1,1,1,1,1,1,1))
-	clusplot(x=tmpa,
-		 clus=c(1,2,3,4,5,6,7),
-		 diss=FALSE,
-		 stand=TRUE, lines=0, labels=3, 
-		 main=NULL, sub=NULL, cex=1,
-		 xlim=c(-2.5,1.5), ylim=c(-1.5,2.2),
-		 col.p="blue", col.clus="white", shade=FALSE)
-	if(k>0) {
-	    for(i in 1:k) {
-		clusplot(x=tmpa,
-			 clus=tmpb[[i]],
-			 diss=FALSE,
-			 stand=TRUE, add=TRUE, span=FALSE,
-			 lines=0, lwd=2, col.p="blue", col.clus="orange")
-	    }
-	}
+  if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
+  tmpa <- js_data |>
+    slice(8:14) |>
+    select(2:6,jp) |>
+    column_to_rownames(var = "jp")
+  # tmpa <- js_data[8:14,]
+  tmpb <- list(c(1,2,3,4,1,6,7),
+               c(1,2,3,1,1,6,7),
+               c(1,2,2,1,1,6,7),
+               c(1,2,2,1,1,6,1),
+               c(1,1,1,1,1,6,1),
+               c(1,1,1,1,1,1,1))
+  clusplot(x=tmpa,
+           clus=c(1,2,3,4,5,6,7),
+           diss=FALSE,
+           stand=TRUE, lines=0, labels=3, 
+           main=NULL, sub=NULL, cex=1,
+           xlim=c(-2.5,2.5), ylim=c(-2.5,2.5),
+           xaxt="n", yaxt="n", ann=FALSE,
+           col.p="blue", col.txt="darkgray", col.clus="white", shade=FALSE)
+  if(k>0) {
+    for(i in 1:k) {
+      clusplot(x=tmpa,
+               clus=tmpb[[i]],
+               diss=FALSE, cex=0.2,
+               stand=TRUE, add=TRUE, span=FALSE,
+               lines=0, lwd=2, col.p="blue", col.clus="orange")
+    }
+  }
 }
 myPlot(0)
 
@@ -86,8 +91,13 @@ myPlot(5)
 myPlot(6)
 
 if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
-plot(agnes(scale(js_data[8:14,])), which.plots=2,
-     main="",sub="",xlab="")
+js_data |>
+  slice(8:14) |>
+  select(2:6,jp) |>
+  column_to_rownames(var = "jp") |>
+  scale() |>
+  agnes() |>
+  plot(which.plots=2, main="",sub="",xlab="")
 
 ### 距離の計算，返値は dist class (特殊なベクトル)
 dst <- dist(x, method = "euclidean", diag = FALSE, upper = FALSE)
@@ -330,42 +340,49 @@ library(ggfortify)
 library(GGally)
 library(ggdendro)
 ## データの読み込み("omusubi.csv"を用いる)
-om_data <- read.csv(file="data/omusubi.csv", row.names=1)
-pref <- read.csv(file="data/prefecture.csv", row.names=1)
-## 表示
-## foo <- head(om_data,10) # print(om_data)
-## rbind(c("Name",names(foo)),data.frame(rownames(foo),foo))
-## 1つだと処理が難しいので北海道は東北に含める
-areaname <- c("tohoku","kanto","chubu", 
-              "kinki","chugoku","chikoku","kyushu")
-area <- rep(areaname,c(7,7,9,7,5,4,8))
-rownames(om_data) <- pref$jp
+om_data <- bind_cols(
+  read_csv(file="data/omusubi.csv"),
+  read_csv(file="data/prefecture.csv"))
 
 ## 県別の人気比率:
-om_long <- om_data %>%
-    tibble::rownames_to_column(var = "prefecture") %>%
-    pivot_longer(-prefecture)
-ggplot(om_long,aes(x=prefecture,y=value,fill=name)) +
-    geom_bar(stat="identity",position="fill") +
+    om_data |>
+      select(ume:etc,jp) |>
+      set_names(c("梅","鮭","昆布","鰹","明太子","鱈子","ツナ","その他","県名")) |>
+      pivot_longer(-県名) |>
+      mutate(県名 = fct_rev(as_factor(県名)),
+             name = as_factor(name)) |>
+#      ggplot(aes(x = 県名, y = value)) +
+     ggplot(aes(x = 県名, y = value, fill = name)) +
+  #    geom_bar(stat="identity",position="fill") +
+      geom_bar(stat="identity",position=position_stack(reverse=TRUE)) +
     coord_flip() +
-    scale_x_discrete(limits=rev(rownames(om_data))) +
-    labs(title="おむすびの具 県別人気アンケート (2009)",
-         x="県名",y="人気比率") +
-    theme(legend.position="top",
-          text=element_text(family="HiraMaruProN-W4"))
+      ##    scale_x_discrete(limits=rev(rownames(om_data))) +
+      labs(title = "おむすびの具 県別人気アンケート (2009)",
+           y = "人気比率", fill = "具材") +
+      theme(legend.position = "top",
+            text = element_text(family="HiraMaruProN-W4"))
 
-## データの散布図: 
-ggpairs(data.frame(om_data,area),
-        columns=1:ncol(om_data), mapping=aes(colour=area)) +
-    labs(title="おむすびの具 県別人気アンケート (2009)") +
+## データの散布図:
+om_data |>
+  select(ume:etc,jp,area_jp) |>
+  set_names(c("梅","鮭","昆布","鰹","明太子","鱈子","ツナ","その他","県名","地方")) |>
+  GGally::ggpairs(
+          columns=1:8,
+          mapping  = aes(colour = 地方),
+          upper = "blank"
+          ) +
     theme(text=element_text(family="HiraMaruProN-W4"))
 
 ## 距離計算
-dst <- daisy(sqrt(om_data)) # Hellinger距離
-## 階層的クラスタリング:
-hclst <- agnes(dst) # dianaという関数もある
-ggdendrogram(as.dendrogram(hclst),
-             rotate=TRUE, theme_dendro=FALSE) +
-    labs(title="おむすびの具人気アンケートによるクラスタ分析",
-         x="県名",y="距離") +
-    theme(text=element_text(family="HiraMaruProN-W4"))
+om_data |>
+  select(ume:etc,jp) |>
+  set_names(c("梅","鮭","昆布","鰹","明太子","鱈子","ツナ","その他","県名")) |>
+  column_to_rownames(var = "県名") |>
+  sqrt() |>
+  daisy() |>
+  agnes() |>
+  as.dendrogram() |>
+  ggdendrogram(rotate=TRUE, theme_dendro=FALSE) +
+  labs(title="おむすびの具人気アンケートによるクラスタ分析",
+       x="県名",y="距離") +
+  theme(text=element_text(family="HiraMaruProN-W4"))

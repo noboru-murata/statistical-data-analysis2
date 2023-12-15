@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2023-12-05 11:59:07 mura>
+# Time-stamp: <2023-12-15 12:24:53 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/org/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -276,6 +276,15 @@
   \end{align}
   #+end_quote
   - 再現率(真陽性率)と適合率の(重み付き)調和平均
+    #+begin_quote
+    \begin{equation}
+      \text{調和平均}
+      <
+      \text{相乗平均}
+      <
+      \text{相加平均}
+    \end{equation}
+    #+end_quote
 
 ** Cohen の kappa 値
 - 定義 (Cohen's *kappa measure*)
@@ -298,12 +307,13 @@
 
 ** 受信者動作特性曲線
 - *ROC曲線* (receiver operating characteristic curve)
-- 2値判別における判別関数を用いた判定方法の一般形
+- 2値判別関数\(\delta\)を用いた判定方法の一般形 \\
+  (\(c\)は事前確率に依存する項とも考えられる)
   #+begin_quote
   \begin{equation}
-    H(x;c) =
+    H(\boldsymbol{x};c) =
     \begin{cases}
-      \text{陽性},&\delta(x)>c\\
+      \text{陽性},&\delta(\boldsymbol{x})>c\\
       \text{陰性},&\text{それ以外}
     \end{cases}
   \end{equation}
@@ -320,11 +330,14 @@
 
 #+reveal: split
 - *ROC曲線* : \(H(x;c)\)の\(c\)を自由に動かし\(x\)軸に偽陽性率，\(y\)軸に真陽性率を描画したもの
-  - 定義から陽性率も偽陽性率もクラス事前分布によらない
   - 一般にROC曲線は\((0,0)\)と\((1,1)\)を結ぶ右肩上りの曲線
+  - 理想的な判別関数は\((0,1)\)(完全な判別)を通る
   - 曲線と\(x\)軸で囲まれた面積が広い \(\Leftrightarrow\) 良い判別方法
+#  - 様々なクラス事前分布に対する真陽性率と偽陽性率の関係
+#  - クラス事前分布によらない真陽性率と偽陽性率の関係
 - *AUC* : 上記の面積 (area under the ROC curve)
-  - 2値判別の難しさを測る基準の一つ
+  - ROC曲線を数量化する方法の一つ
+  - 判別関数の良さ(2値判別の難しさ)を測る基準の一つ
 
 
 * COMMENT 演習
@@ -880,6 +893,11 @@
   tw_subset12  <- tw_data |>
     select(temp, solar, wind, humid, month) |>
     mutate(month = as_factor(month))
+  #' @notes
+  #' 'Jan', 'Feb' などの文字を扱いたい場合は 'as_factor' のかわりに
+  #' 'month(month, label = TRUE)' とすればよい
+  #' その場合，列名の指定なども '`Jan`:`Dec`' などと変わるので注意
+  #' 
   #' 判別関数を作成
   tw_lda12 <- lda(month ~ ., # 右辺の . は month 以外の全てを説明変数として指定
                   data = tw_subset12)
@@ -1027,7 +1045,7 @@
 - *cross-validation (CV)* 
 - \(k\)-重交叉検証法 (\(k\)-fold cross-validation; \(k\)-fold CV)
   - \(n\) 個のデータを \(k\) ブロックにランダムに分割
-  - 第 \(i\) ブロックを除いた \(k-1\) ブロックで判別関数を推定
+  - 第 \(i\) ブロックを除いた \(k{-}1\) ブロックで判別関数を推定
   - 除いておいた第 \(i\) ブロックで予測誤差を評価
   - \(i=1,\dotsc,k\) で繰り返し \(k\) 個の予測誤差で評価 (平均や分散)
 - leave-one-out法 (leave-one-out CV; LOO-CV)
@@ -1076,7 +1094,8 @@
     select(-ID)  # IDを除く
 
   bio_data |>
-    GGally::ggpairs(aes(colour = class))
+    GGally::ggpairs(diag = list(mapping = aes(colour = class)),
+                    lower = list(mapping = aes(colour = class)))
 
   #' 2次判別の LOO CV による評価の例 (線形判別も同様)
   bio_formula <- class ~ . 
@@ -1132,7 +1151,7 @@
     #' 詳細は 'rsample::vfold_cv' を参照
     vfold_cv(data, v = 10, repeats = 1,
              strata = NULL, breaks = 4, pool = 0.1, ...)
-    #' 最も簡単な処理の流れ(以下の関数を組わ合せ)
+    #' 最も簡単な処理の流れ(以下の関数の組わ合わせ)
     #' 詳細は 'workflows::workflow'
     #' および 'tune::fit_resamples' を参照
     workflow() |> 
@@ -1194,7 +1213,7 @@
     bind_cols(fitted = wq_lda_loo[["class"]]) |>
     conf_mat(truth = grade, estimate = fitted)
   wq_lda_loo_cm |> autoplot(type = "heatmap") +
-    labs(title = "LOO CV Error (LDA)")
+    labs(title = "LOO CV (LDA)")
   #' 線形判別の過学習は微小
 
   #' 2次判別の LOO CV 
@@ -1210,7 +1229,7 @@
     bind_cols(fitted = wq_qda_loo[["class"]]) |>
     conf_mat(truth = grade, estimate = fitted)
   wq_qda_loo_cm |> autoplot(type = "heatmap") +
-    labs(title = "LOO CV Error (QDA)")
+    labs(title = "LOO CV (QDA)")
   #' 2次判別は若干過学習している
 
   #' LOO CV による線形・2次判別の予測誤差の比較
