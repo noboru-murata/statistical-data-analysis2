@@ -6,7 +6,7 @@ draft = false
 weight = 1011
 +++
 
-<span class="timestamp-wrapper"><span class="timestamp">&lt;2023-03-31 Fri&gt; </span></span> 更新
+<span class="timestamp-wrapper"><span class="timestamp">&lt;2023-12-19 Tue&gt; </span></span> 更新
 
 
 ## スライド {#スライド}
@@ -22,4 +22,4 @@ weight = 1011
 ## 付録 {#付録}
 
 -   [RScript](https://noboru-murata.github.io/statistical-data-analysis2/code/slide10.R)
--   [都道府県別のおむすびの具の好み](https://noboru-murata.github.io/statistical-data-analysis2/data/omusubi.csv)
+-   [練習問題用データセット](https://noboru-murata.github.io/statistical-data-analysis2/data/data10.zip)

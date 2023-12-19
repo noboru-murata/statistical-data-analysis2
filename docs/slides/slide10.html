@@ -46,8 +46,8 @@
 
 </section>
 <section>
-<section id="slide-org2f88da7">
-<h2 id="org2f88da7">講義概要</h2>
+<section id="slide-org4b6a478">
+<h2 id="org4b6a478">講義概要</h2>
 <ul>
 <li><b>第1回 : 基本的な考え方と階層的方法</b></li>
 <li>第2回 : 非階層的方法と分析の評価</li>
@@ -57,39 +57,37 @@
 </section>
 </section>
 <section>
-<section id="slide-orgd462210">
-<h2 id="orgd462210">事例</h2>
-<div class="outline-text-2" id="text-orgd462210">
+<section id="slide-org316d066">
+<h2 id="org316d066">事例</h2>
+<div class="outline-text-2" id="text-org316d066">
 </div>
 </section>
-<section id="slide-org3fae7a1">
-<h3 id="org3fae7a1">実データによる例</h3>
+<section id="slide-orga844b6e">
+<h3 id="orga844b6e">実データによる例</h3>
 <ul>
 <li>総務省統計局より取得した都道府県別の社会生活統計指標の一部
 <ul>
 <li>総務省 <a href="https://www.e-stat.go.jp/SG1/estat/List.do?bid=000001083999&amp;cycode=0">https://www.e-stat.go.jp/SG1/estat/List.do?bid=000001083999&amp;cycode=0</a></li>
-<li>データ <a href="https://noboru-murata.github.io/statistical-data-analysis2/data/data06.zip">https://noboru-murata.github.io/statistical-data-analysis2/data/data06.zip</a></li>
+<li><p>
+データ <a href="https://noboru-murata.github.io/statistical-data-analysis2/data/data06.zip">https://noboru-murata.github.io/statistical-data-analysis2/data/data06.zip</a>
+</p>
+<pre class="example" id="org79d78b4">
+Pref : 都道府県名
+Forest : 森林面積割合 (%) 2014年
+Agri : 就業者１人当たり農業産出額(販売農家）(万円) 2014年
+Ratio : 全国総人口に占める人口割合 (%) 2015年
+Land : 土地生産性（耕地面積１ヘクタール当たり）(万円) 2014年
+Goods : 商業年間商品販売額［卸売業＋小売業］（事業所当たり）(百万円) 2013年
+Area : 地方区分
+</pre></li>
 
 </ul></li>
 
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org8044fb8">
-<h3 id="org8044fb8">実データによる例</h3>
-<ul>
-<li>総務省統計局より取得した都道府県別の社会生活統計指標の一部
-<ul>
-<li>総務省 <a href="https://www.e-stat.go.jp/SG1/estat/List.do?bid=000001083999&amp;cycode=0">https://www.e-stat.go.jp/SG1/estat/List.do?bid=000001083999&amp;cycode=0</a></li>
-<li>データ <a href="https://noboru-murata.github.io/multivariate-analysis/data/japan_social.csv">https://noboru-murata.github.io/multivariate-analysis/data/japan_social.csv</a></li>
-
-</ul></li>
-
-</ul>
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-org555eeb2">
-<h3 id="org555eeb2">データの概要</h3>
+<section id="slide-org7aa95ad">
+<h3 id="org7aa95ad">データの概要</h3>
 <font size=5>
 
 <table style="text-align:center"><caption><strong>社会生活統計指標</strong></caption>
@@ -114,17 +112,10 @@
 </font>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org96fb9af">
-<h3 id="org96fb9af">分析の概要</h3>
-<ul>
-<li><p>
-データの散布図
-</p></li>
+<section id="slide-org4bd6d3d">
+<h3 id="org4bd6d3d">分析の目的</h3>
 
-</ul>
-
-
-<div id="org5710395" class="figure">
+<div id="org14bc6d9" class="figure">
 <p><img src="figs/10_pairs.png" alt="10_pairs.png" />
 </p>
 <p><span class="figure-number">Figure 1: </span>散布図</p>
@@ -133,15 +124,8 @@
 <div class="slide-footer"><br></div>
 </section>
 <section>
-<ul>
-<li><p>
-主成分得点の表示
-</p></li>
 
-</ul>
-
-
-<div id="org52e9747" class="figure">
+<div id="org50a5621" class="figure">
 <p><img src="figs/10_pcaplot.png" alt="10_pcaplot.png" />
 </p>
 <p><span class="figure-number">Figure 2: </span>主成分得点による散布図</p>
@@ -150,12 +134,8 @@
 <div class="slide-footer"><br></div>
 </section>
 <section>
-<ul>
-<li>クラスタ分析の例</li>
 
-</ul>
-
-<div id="org5b035ff" class="figure">
+<div id="org1f777a4" class="figure">
 <p><img src="figs/10_clusplot.png" alt="10_clusplot.png" />
 </p>
 <p><span class="figure-number">Figure 3: </span>散布図上のクラスタ構造 (クラスタ分析の概念図)</p>
@@ -164,13 +144,13 @@
 </section>
 </section>
 <section>
-<section id="slide-orgcdda6fb">
-<h2 id="orgcdda6fb">クラスタ分析の考え方</h2>
-<div class="outline-text-2" id="text-orgcdda6fb">
+<section id="slide-org30c8fc1">
+<h2 id="org30c8fc1">クラスタ分析の考え方</h2>
+<div class="outline-text-2" id="text-org30c8fc1">
 </div>
 </section>
-<section id="slide-org9d18581">
-<h3 id="org9d18581">クラスタ分析</h3>
+<section id="slide-org215f571">
+<h3 id="org215f571">クラスタ分析</h3>
 <ul>
 <li><p>
 クラスタ分析 (<b>cluster analysis</b>) の目的
@@ -194,8 +174,8 @@
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orga36c58d">
-<h3 id="orga36c58d">クラスタ分析の考え方</h3>
+<section id="slide-org540c75c">
+<h3 id="org540c75c">クラスタ分析の考え方</h3>
 <ul>
 <li>階層的方法
 <ul>
@@ -221,13 +201,13 @@
 </section>
 </section>
 <section>
-<section id="slide-orge4f27eb">
-<h2 id="orge4f27eb">階層的方法</h2>
-<div class="outline-text-2" id="text-orge4f27eb">
+<section id="slide-org0835722">
+<h2 id="org0835722">階層的方法</h2>
+<div class="outline-text-2" id="text-org0835722">
 </div>
 </section>
-<section id="slide-orgcb0851d">
-<h3 id="orgcb0851d">凝集的クラスタリング</h3>
+<section id="slide-orge2de4a7">
+<h3 id="orge2de4a7">凝集的クラスタリング</h3>
 <ol>
 <li>データ・クラスタ間の距離を定義する
 <ul>
@@ -248,8 +228,8 @@
 </ol>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org88a381c">
-<h3 id="org88a381c">事例</h3>
+<section id="slide-org959b8b2">
+<h3 id="org959b8b2">事例</h3>
 <ul>
 <li><p>
 <span style="color:green;">社会生活統計指標の一部(関東)</span>
@@ -258,7 +238,7 @@
 </ul>
 
 
-<div id="orgb70771d" class="figure">
+<div id="org65a15e5" class="figure">
 <p><img src="figs/10_hclst0.png" alt="10_hclst0.png" />
 </p>
 <p><span class="figure-number">Figure 4: </span>凝集的クラスタリング</p>
@@ -268,7 +248,7 @@
 </section>
 <section>
 
-<div id="org93bd529" class="figure">
+<div id="orgf3f4e68" class="figure">
 <p><img src="figs/10_hclst1.png" alt="10_hclst1.png" />
 </p>
 <p><span class="figure-number">Figure 5: </span>クラスタリングの手続き (その1)</p>
@@ -278,7 +258,7 @@
 </section>
 <section>
 
-<div id="orgf440124" class="figure">
+<div id="org667f691" class="figure">
 <p><img src="figs/10_hclst2.png" alt="10_hclst2.png" />
 </p>
 <p><span class="figure-number">Figure 6: </span>クラスタリングの手続き (その2)</p>
@@ -288,7 +268,7 @@
 </section>
 <section>
 
-<div id="org63ea893" class="figure">
+<div id="orgb1cf522" class="figure">
 <p><img src="figs/10_hclst3.png" alt="10_hclst3.png" />
 </p>
 <p><span class="figure-number">Figure 7: </span>クラスタリングの手続き (その3)</p>
@@ -298,7 +278,7 @@
 </section>
 <section>
 
-<div id="org638d9c2" class="figure">
+<div id="org64e74c5" class="figure">
 <p><img src="figs/10_hclst4.png" alt="10_hclst4.png" />
 </p>
 <p><span class="figure-number">Figure 8: </span>クラスタリングの手続き (その4)</p>
@@ -309,7 +289,7 @@
 </section>
 <section>
 
-<div id="org9f6e8e0" class="figure">
+<div id="org4346bed" class="figure">
 <p><img src="figs/10_hclst5.png" alt="10_hclst5.png" />
 </p>
 <p><span class="figure-number">Figure 9: </span>クラスタリングの手続き (その5)</p>
@@ -320,7 +300,7 @@
 </section>
 <section>
 
-<div id="org24aa637" class="figure">
+<div id="orgd5e464f" class="figure">
 <p><img src="figs/10_hclst6.png" alt="10_hclst6.png" />
 </p>
 <p><span class="figure-number">Figure 10: </span>クラスタリングの手続き (その6)</p>
@@ -330,7 +310,7 @@
 </section>
 <section>
 
-<div id="orgf90e3e3" class="figure">
+<div id="org7bcdbc1" class="figure">
 <p><img src="figs/10_dendro.png" alt="10_dendro.png" />
 </p>
 <p><span class="figure-number">Figure 11: </span>デンドログラムによるクラスタ構造の表示</p>
@@ -339,13 +319,13 @@
 </section>
 </section>
 <section>
-<section id="slide-org0cbf308">
-<h2 id="org0cbf308">データ間の距離</h2>
-<div class="outline-text-2" id="text-org0cbf308">
+<section id="slide-org5f47f84">
+<h2 id="org5f47f84">データ間の距離</h2>
+<div class="outline-text-2" id="text-org5f47f84">
 </div>
 </section>
-<section id="slide-orga745b33">
-<h3 id="orga745b33">データ間の距離</h3>
+<section id="slide-org57a0dba">
+<h3 id="org57a0dba">データ間の距離</h3>
 <ul>
 <li><p>
 データ : 変数の値を成分としてもつベクトル
@@ -371,8 +351,8 @@
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org67cad2b">
-<h3 id="org67cad2b">Euclide 距離</h3>
+<section id="slide-org7b07e50">
+<h3 id="org7b07e50">Euclid 距離</h3>
 <ul>
 <li>最も一般的な距離</li>
 <li><p>
@@ -391,8 +371,8 @@
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org24f33aa">
-<h3 id="org24f33aa">Manhattan 距離</h3>
+<section id="slide-orga6453ff">
+<h3 id="orga6453ff">Manhattan 距離</h3>
 <ul>
 <li>後述する Minkowski 距離の \(p=1\) の場合</li>
 <li><p>
@@ -411,8 +391,8 @@
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org4d8ff18">
-<h3 id="org4d8ff18">Minkowski 距離</h3>
+<section id="slide-org6115a3d">
+<h3 id="org6115a3d">Minkowski 距離</h3>
 <ul>
 <li>Euclid 距離を \(p\) 乗に一般化した距離</li>
 <li><p>
@@ -431,8 +411,8 @@
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orge8c6a0c">
-<h3 id="orge8c6a0c">その他の距離</h3>
+<section id="slide-org3fa31e3">
+<h3 id="org3fa31e3">その他の距離</h3>
 <ul>
 <li>類似度や乖離度などデータ間に自然に定義されるものを用いることは可能
 <ul>
@@ -447,232 +427,95 @@
 </section>
 </section>
 <section>
-<section id="slide-orgf44c18a" data-background="#fef4f4">
-<h2 id="orgf44c18a">演習</h2>
+<section id="slide-org53d0918" data-background="#fef4f4">
+<h2 id="org53d0918">実習</h2>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org97195ed" data-background="#fef4f4">
-<h3 id="org97195ed">問題</h3>
+<section id="slide-org06aef6b" data-background="#fef4f4">
+<h3 id="org06aef6b">R : クラスタ分析</h3>
 <ul>
-<li>以下の問に答えなさい
+<li>関連するのパッケージ
 <ul>
-<li>距離の定義を述べなさい</li>
-<li><p>
-Minkowski 距離において
-\(p\to\infty\)
-とするとどのような距離となるか答えなさい
-</p>
-<blockquote>
-<div>
-\begin{equation}
-  d(\boldsymbol{x},\boldsymbol{y})
-  =\bigl\{|x_{1}-y_{1}|^{p}+\dotsb+|x_{d}-y_{d}|^{p}\bigr\}^{1/p}
-\end{equation}
+<li><b>stats</b> : base R の基本的な統計に関するパッケージ
+<ul>
+<li>関数 <code>dist()</code>, <code>kmeans()</code> など</li>
+<li>標準でインストールされている</li>
 
-</div>
-</blockquote></li>
+</ul></li>
+<li><b>cluster</b> : Kaufman and Rousseeuw (1990) にもとづくパッケージ
+<ul>
+<li>関数 <code>daisy()</code>, <code>agnes()</code>, <code>pam()</code> など</li>
+<li>標準でインストールされている</li>
+
+</ul></li>
+<li><b>ggfortify</b> : 関数 <code>autoplot()</code> を使うためのパッケージ
+<ul>
+<li>既に導入済み(回帰，主成分，判別分析でも利用)</li>
+
+</ul></li>
+<li><p>
+<b>ggdendro</b> : ggplotによるデンドログラム描画のパッケージ
+</p>
+<div class="org-src-container">
+
+<pre><code class="R" >#' 最初に一度だけ以下のいずれかを実行しておく
+#'  - Package タブから ggdendro をインストール
+#'  - コンソール上で次のコマンドを実行 'install.packages("ggdendro")'
+</code></pre>
+</div></li>
 
 </ul></li>
 
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgd14e7eb" data-background="#fef4f4">
-<h3 id="orgd14e7eb">解答例</h3>
+<section id="slide-org48b4fd9" data-background="#fef4f4">
+<h3 id="org48b4fd9">R : データ間の距離の計算</h3>
 <ul>
 <li><p>
-2変数の実数値関数で以下の3つの条件を満たす
-</p>
-<blockquote>
-<ul>
-<li><p>
-非退化性
-</p>
-<div>
-\begin{equation}
-  x=y \Leftrightarrow d(x,y)=0
-\end{equation}
-
-</div></li>
-<li><p>
-対称性
-</p>
-<div>
-\begin{equation}
-  d(x,y)=d(y,x)
-\end{equation}
-
-</div></li>
-<li><p>
-劣加法性 (三角不等式の成立)
-</p>
-<div>
-\begin{equation}
-  d(x,y)+d(y,z)\ge d(x,z)
-\end{equation}
-
-</div></li>
-
-</ul>
-</blockquote></li>
-
-</ul>
-
-<div class="slide-footer"><br></div>
-</section>
-<section data-background="#fef4f4">
-<ul>
-<li><p>
-非負性 \(d(x,y)\ge 0\) は3つの条件から自然に導かれる
-</p>
-<blockquote>
-<div>
-\begin{align}
-  &d(x,y)+d(y,x)\ge d(x,x)&&\text{(劣加法性)}\\
-  &d(x,y)+d(x,y)\ge d(x,x)&&\text{(対称性)}\\
-  &2d(x,y)\ge 0&&\text{(非退化性)}\\
-  &d(x,y)\ge 0
-\end{align}
-
-</div>
-</blockquote></li>
-
-</ul>
-
-<div class="slide-footer"><br></div>
-</section>
-<section data-background="#fef4f4">
-<ul>
-<li><p>
-最大の要素に着目して計算すればよい
-</p>
-<blockquote>
-<div>
-\begin{align}
-  \lim_{p\to\infty} d(\boldsymbol{x},\boldsymbol{y})
-  &=
-    \lim_{p\to\infty} 
-    \bigl\{|x_{1}-y_{1}|^{p}+\dotsb+|x_{d}-y_{d}|^{p}\bigr\}^{1/p}\\
-  &=
-    \lim_{p\to\infty} \max_{k}|x_{k}-y_{k}|
-    \left\{
-    \left(\frac{|x_{1}-y_{1}|}{\max_{k}|x_{k}-y_{k}|}
-    \right)^{p}
-    \right.\\
-  &\qquad
-    +\dotsb
-    \left.
-    \left(\frac{|x_{d}-y_{d}|}{\max_{k}|x_{k}-y_{k}|}
-    \right)^{p}
-    \right\}^{1/p}\\
-  &=
-    \max_{k}|x_{k}-y_{k}|
-    \lim_{p\to\infty} 
-    \text{(1以上の有限値)}^{1/p}\\
-  &=
-    \max_{k}|x_{k}-y_{k}|
-\end{align}
-
-</div>
-</blockquote>
-<ul>
-<li>Chebyshev 距離(最大距離，チェス盤距離)という</li>
-
-</ul></li>
-
-</ul>
-
-<div class="slide-footer"><br></div>
-</section>
-<section data-background="#fef4f4">
-<ul>
-<li><p>
-\(p\to-\infty\) の場合は以下となることを確認せよ
-</p>
-<blockquote>
-<div>
-\begin{equation}
-  \lim_{p\to-\infty} d(\boldsymbol{x},\boldsymbol{y})
-  =\min_{k}|x_{k}-y_{k}|
-\end{equation}
-
-</div>
-</blockquote></li>
-
-</ul>
-<div class="slide-footer"><br></div>
-</section>
-</section>
-<section>
-<section id="slide-orgb47976d" data-background="#fef4f4">
-<h2 id="orgb47976d">実習</h2>
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-org1cd9585" data-background="#fef4f4">
-<h3 id="org1cd9585">R : 関数 <code>dist()</code></h3>
-<ul>
-<li><p>
-データフレームを用いた基本的な計算方法
+関数 <code>stats::dist()</code> 
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >### 距離の計算，返値は dist class (特殊なベクトル)
-dst &lt;- dist(x, method = "euclidean", diag = FALSE, upper = FALSE)
-## x: データフレーム
-## method: 距離 (標準はユークリッド距離，他は"manhattan","minkowski"など)
-## diag: 対角成分を持たせるか 
-## upper: 上三角成分を持たせるか (標準は下三角成分のみ)
+<pre><code class="R" >dist(x, method = "euclidean", diag = FALSE, upper = FALSE, p = 2)
+#' x: データフレーム
+#' method: 距離 (標準はユークリッド距離，他は"manhattan","minkowski"など)
+#' diag: 対角成分を持たせるか 
+#' upper: 上三角成分を持たせるか (標準は下三角成分のみ)
+#' 返値は dist class
+</code></pre>
+</div></li>
+<li><p>
+関数 <code>cluster::daisy()</code> 
+</p>
+<div class="org-src-container">
 
-### 距離行列全体の表示
-dst # または print(dst)
-
-### 特定の成分の取得
-as.matrix(dst)[i，j]
-## i,j: 行・列の指定 (数値ベクトル，データフレームの行名)
+<pre><code class="R" >daisy(x, metric = c("euclidean", "manhattan", "gower"),
+      stand = FALSE, type = list(), weights = rep.int(1, p),
+      warnBin = warnType, warnAsym = warnType, warnConst = warnType,
+      warnType = TRUE)
+#' x: データフレーム
+#' metric: 距離 (標準はユークリッド距離，他は"manhattan"など)
+#' stand: 正規化(平均と絶対偏差の平均による)の有無
+#' 返値は dissimilarity class
 </code></pre>
 </div></li>
 
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org1b39e17" data-background="#fef4f4">
-<h3 id="org1b39e17">R : 関数 <code>cluster::daisy()</code></h3>
-<ul>
-<li><code>cluster</code>: クラスタ分析用のパッケージ</li>
-<li><p>
-関数 <code>dist()</code> とほぼ同様
-</p>
-<div class="org-src-container">
-
-<pre><code class="R" >### パッケージの読み込み (標準で含まれているのでinstallは不要)
-library(cluster) # require(cluster)
-### 距離の計算，返値は dissimilarity class (distとほぼ互換)
-dsy &lt;- daisy(x, metric = "euclidean", stand = FALSE)
-## x: データフレーム
-## metric: 距離 (標準はユークリッド距離，他は"manhattan"など)
-## stand: 正規化(平均と絶対偏差の平均による)の有無
-
-### 距離行列全体の表示
-dsy # または print(dsy)
-### 特定の成分の取得
-as.matrix(dsy)[i，j]
-## i,j: 行・列の指定 (数値ベクトル，データフレームの行名)
-</code></pre>
-</div></li>
-
-</ul>
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-orge99262d" data-background="#fef4f4">
-<h3 id="orge99262d">練習問題</h3>
+<section id="slide-org062420e" data-background="#fef4f4">
+<h3 id="org062420e">練習問題</h3>
 <ul>
 <li><p>
 都道府県別の社会生活統計指標を用いて以下を確認しなさい
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >### データの読み込み 
-js_data &lt;- read.csv(file="data/japan_social.csv", row.names=1)
+<pre><code class="R" >#' データの読み込み方の例
+js_df &lt;- read_csv("data/japan_social.csv") |&gt;
+  column_to_rownames(var = "Pref") |&gt; # 'Pref'を行名に変換
+  select(-Area) # 地方名は除く
 </code></pre>
 </div>
 <ul>
@@ -689,13 +532,13 @@ js_data &lt;- read.csv(file="data/japan_social.csv", row.names=1)
 </section>
 </section>
 <section>
-<section id="slide-org4a9fa9f">
-<h2 id="org4a9fa9f">クラスタ間の距離</h2>
-<div class="outline-text-2" id="text-org4a9fa9f">
+<section id="slide-org37dee56">
+<h2 id="org37dee56">クラスタ間の距離</h2>
+<div class="outline-text-2" id="text-org37dee56">
 </div>
 </section>
-<section id="slide-org09b6647">
-<h3 id="org09b6647">クラスタ間の距離</h3>
+<section id="slide-org74d9c40">
+<h3 id="org74d9c40">クラスタ間の距離</h3>
 <ul>
 <li><p>
 クラスタ : いくつかのデータ点からなる集合
@@ -727,8 +570,8 @@ js_data &lt;- read.csv(file="data/japan_social.csv", row.names=1)
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org620f08f">
-<h3 id="org620f08f">最短距離法</h3>
+<section id="slide-orgd0b8a22">
+<h3 id="orgd0b8a22">最短距離法</h3>
 <ul>
 <li><p>
 最も近い対象間の距離を用いる方法
@@ -759,8 +602,8 @@ js_data &lt;- read.csv(file="data/japan_social.csv", row.names=1)
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org4013864">
-<h3 id="org4013864">最長距離法</h3>
+<section id="slide-org1f0b76a">
+<h3 id="org1f0b76a">最長距離法</h3>
 <ul>
 <li><p>
 最も遠い対象間の距離を用いる方法
@@ -791,8 +634,8 @@ js_data &lt;- read.csv(file="data/japan_social.csv", row.names=1)
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org15f2790">
-<h3 id="org15f2790">群平均法</h3>
+<section id="slide-orgd83c203">
+<h3 id="orgd83c203">群平均法</h3>
 <ul>
 <li><p>
 全ての対象間の平均距離を用いる方法
@@ -827,8 +670,8 @@ js_data &lt;- read.csv(file="data/japan_social.csv", row.names=1)
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org6404892">
-<h3 id="org6404892">距離計算に関する注意</h3>
+<section id="slide-org72bbdb3">
+<h3 id="org72bbdb3">距離計算に関する注意</h3>
 <ul>
 <li>データの性質に応じて距離は適宜使い分ける
 <ul>
@@ -849,75 +692,35 @@ js_data &lt;- read.csv(file="data/japan_social.csv", row.names=1)
 </section>
 </section>
 <section>
-<section id="slide-org19a7dca" data-background="#fef4f4">
-<h2 id="org19a7dca">演習</h2>
+<section id="slide-orgb495b9d" data-background="#fef4f4">
+<h2 id="orgb495b9d">実習</h2>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgf32f1ab" data-background="#fef4f4">
-<h3 id="orgf32f1ab">問題</h3>
-<ul>
-<li>以下の問に答えなさい
+<section id="slide-org026cae5" data-background="#fef4f4">
+<h3 id="org026cae5">R : 階層的クラスタリング</h3>
 <ul>
 <li><p>
-群平均法におけるクラスタの距離の定義
+関数 <code>stats::hclust()</code> 
 </p>
-<blockquote>
-<div>
-\begin{equation}
-  D(C_{a},C_{b})
-  =\frac{1}{|C_{a}||C_{b}|}
-  \sum_{\boldsymbol{x}\in C_{a},\;\boldsymbol{y}\in C_{b}} d(\boldsymbol{x},\boldsymbol{y})
-\end{equation}
+<div class="org-src-container">
 
-</div>
-</blockquote>
-<p>
-から統合前後のクラスタの距離の関係
-</p>
-<blockquote>
-<div>
-\begin{equation}
-  D(C_{a}+ C_{b}, C_{c})
-  =\frac{|C_{a}|D(C_{a},C_{c})+|C_{b}|D(C_{b},C_{c})}{|C_{a}|+|C_{b}|}
-\end{equation}
-
-</div>
-</blockquote>
-<p>
-を導け
-</p></li>
-
-</ul></li>
-
-</ul>
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-orga2fa114" data-background="#fef4f4">
-<h3 id="orga2fa114">解答例</h3>
-<ul>
+<pre><code class="R" >hclust(d, method = "complete", members = NULL)
+#' d: 距離行列
+#' method: 分析法 (標準は最長距離法，他は"single","average"など)
+</code></pre>
+</div></li>
 <li><p>
-定義に従って計算する
+分析のための補助的な関数
 </p>
-<blockquote>
-<div>
-\begin{align}
-  D(C_{a}+C_{b}, C_{c})
-  &=
-    \frac{1}{|C_{a}+C_{b}||C_{c}|}
-    \sum_{\boldsymbol{x}\in C_{a}+C_{b},\;\boldsymbol{y}\in C_{c}}
-    d(\boldsymbol{x},\boldsymbol{y})\\
-  &=
-    \frac{1}{|C_{a}+C_{b}||C_{c}|}
-    \sum_{\boldsymbol{x}\in C_{a},\;\boldsymbol{y}\in C_{c}}
-    d(\boldsymbol{x},\boldsymbol{y})\\
-  &\qquad+
-    \frac{1}{|C_{a}+C_{b}||C_{c}|}
-    \sum_{\boldsymbol{x}\in C_{b},\;\boldsymbol{y}\in C_{c}}
-    d(\boldsymbol{x},\boldsymbol{y})\\
-\end{align}
+<div class="org-src-container">
 
-</div>
-</blockquote></li>
+<pre><code class="R" >#' stats::cutree() - デンドログラムに基づくクラスタの分割 
+cutree(tree, k = NULL, h = NULL)
+#' tree: stats::hclust() の返値
+#' k: クラスタの数を指定して分割
+#' h: クラスタの高さを指定して分割
+</code></pre>
+</div></li>
 
 </ul>
 
@@ -926,75 +729,70 @@ js_data &lt;- read.csv(file="data/japan_social.csv", row.names=1)
 <section data-background="#fef4f4">
 <ul>
 <li><p>
-(続き)
-</p>
-<blockquote>
-<div>
-\begin{align}
-  &=
-    \frac{|C_{a}||C_{c}|}{|C_{a}+C_{b}||C_{c}|}
-    \frac{1}{|C_{a}||C_{c}|}
-    \sum_{\boldsymbol{x}\in C_{a},\;\boldsymbol{y}\in C_{c}}
-    d(\boldsymbol{x},\boldsymbol{y})\\
-  &\qquad+
-    \frac{|C_{b}||C_{c}|}{|C_{a}+C_{b}||C_{c}|}
-    \frac{1}{|C_{b}||C_{c}|}
-    \sum_{\boldsymbol{x}\in C_{b},\;\boldsymbol{y}\in C_{c}}
-    d(\boldsymbol{x},\boldsymbol{y})\\
-  &=
-    \frac{|C_{a}||C_{c}|}{|C_{a}+C_{b}||C_{c}|}
-    D(C_{a}, C_{c})
-    +
-    \frac{|C_{b}||C_{c}|}{|C_{a}+C_{b}||C_{c}|}
-    D(C_{b}, C_{c})\\
-  &=
-    \frac{|C_{a}|D(C_{a}, C_{c})+|C_{b}|D(C_{b}, C_{c})}
-    {|C_{a}|+|C_{b}|}
-\end{align}
-
-</div>
-</blockquote></li>
-
-</ul>
-<div class="slide-footer"><br></div>
-</section>
-</section>
-<section>
-<section id="slide-org57d07a0" data-background="#fef4f4">
-<h2 id="org57d07a0">実習</h2>
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-orga2eb831" data-background="#fef4f4">
-<h3 id="orga2eb831">R : 関数 <code>hclust()</code></h3>
-<ul>
-<li><p>
-距離行列を用いた階層的クラスタリング
+視覚化のための関数 (base R 系)
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >hclst &lt;- hclust(d, method = "complete")
-## d: 距離行列
-## method: 分析法 (標準は最長距離法，他は"single","average"など)
+<pre><code class="R" >#' stats::plot.hclust() - 系統樹の表示
+plot(x, labels = NULL, hang = 0.1, check = TRUE,
+     axes = TRUE, frame.plot = FALSE, ann = TRUE,
+     main = "Cluster Dendrogram",
+     sub = NULL, xlab = NULL, ylab = "Height", ...)
+#' x: stats::hclust() の返値
 
-### 系統樹の表示 (一般的な plot のオプションが利用可能)
-plot(hclst)
+#' stats::rect.hclust() - クラスタの分割表示 (cutreeとほぼ同様)
+rect.hclust(tree, k = NULL, which = NULL, x = NULL, h = NULL,
+            border = 2, cluster = NULL)
+#' tree: stats::hclust() の返値
+</code></pre>
+</div></li>
+<li><p>
+視覚化のための関数 (ggplot 系)
+</p>
+<div class="org-src-container">
 
-### クラスタの分割
-cutree(tree = hclst, k = NULL, h = NULL)
-## tree: hclustの結果を指定
-## k: クラスタ数を指定して分割
-## h: クラスタ距離を指定して分割
-
-### クラスタの分割表示 (cutree とほぼ同様のオプション)
-rect.hclust(tree = hclst, k = NULL, h = NULL)
+<pre><code class="R" >ggdendrogram(data,
+             segments = TRUE, labels = TRUE, leaf_labels = TRUE,
+             rotate = FALSE, theme_dendro = TRUE, ...)
+#' data: stats::hclust(), stats::dendrogram() などの返値
 </code></pre>
 </div></li>
 
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org17cfbb9" data-background="#fef4f4">
-<h3 id="org17cfbb9">練習問題</h3>
+<section id="slide-orgbdb9fdb" data-background="#fef4f4">
+<h3 id="orgbdb9fdb">R : 2次元でのクラスタ表示</h3>
+<ul>
+<li><p>
+関数 <code>cluster::clusplot()</code> 
+</p>
+<div class="org-src-container">
+
+<pre><code class="R" >clusplot(x, clus, diss = FALSE, stand = FALSE,
+         lines = 2, shade = FALSE, color = FALSE,
+         labels= 0, plotchar = TRUE,
+         col.p = "dark green", col.txt = col.p, col.clus = 5，...)
+#' x: データフレーム
+#' clus: クラスタ分割
+#' stand: 正規化の有無
+#' lines: クラスタ間の繋がりの表示 (0:無，1:外，2:中心)
+#' shade: 網掛けの有無
+#' labels: ラベルの表示 (0:無，2:データとクラスタ, 3:データ, 4:クラスタ, など)
+#' col.p/txt/clue: データ点・文字・クラスタの色指定
+#' 詳細は '?cluster::clusplot.default()' を参照
+</code></pre>
+</div>
+<ul>
+<li>同様な目的では関数 <code>ggfortify::autoplot()</code> が利用可能</li>
+
+</ul></li>
+
+</ul>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-org6bd8254" data-background="#fef4f4">
+<h3 id="org6bd8254">練習問題</h3>
 <ul>
 <li>都道府県別の社会生活統計指標を用いて以下の分析を行いなさい
 <ul>
@@ -1007,57 +805,42 @@ rect.hclust(tree = hclst, k = NULL, h = NULL)
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgc1bbcec" data-background="#fef4f4">
-<h3 id="orgc1bbcec">R : 関数 <code>cluster::agnes()</code></h3>
+<section id="slide-orgdf2bdc7" data-background="#fef4f4">
+<h3 id="orgdf2bdc7">R : <code>package::cluster</code> の利用</h3>
 <ul>
 <li><p>
-<code>cluster</code> パッケージによる階層的クラスタリング
+関数 <code>cluster::agnes()</code> 
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >agns &lt;- agnes(x, metric = "euclidean", stand = FALSE,
-              method = "average")
-## x: データフレーム，または距離行列
-## metric: 距離 (標準はユークリッド距離，他は"manhattan"など)
-## stand: 正規化(平均と絶対偏差の平均による)の有無
-## method: 分析法 (標準は群平均法，他は"single","complete"など)
-
-### 系統樹の表示 (一般的な plot のオプションが利用可能)
-plot(agns, which.plots=2)
-## which.plots=1 は評価の際に利用
+<pre><code class="R" >agnes(x, diss = inherits(x, "dist"), metric = "euclidean",
+      stand = FALSE, method = "average", par.method,
+      keep.diss = n &lt; 100, keep.data = !diss, trace.lev = 0)
+#' x: データフレーム，または距離行列
+#' metric: 距離 (標準はユークリッド距離，他は 'manhattan' など)
+#' stand: 正規化(平均と絶対偏差の平均による)の有無
+#' method: 分析法 (標準は群平均法，他は 'single', 'complete' など)
 </code></pre>
 </div></li>
-<li>関数 <code>cutree()</code>, <code>rect.hclust()</code> も利用可能</li>
-
-</ul>
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-orgb8ffab7" data-background="#fef4f4">
-<h3 id="orgb8ffab7">R : 関数 <code>cluster::clusplot()</code></h3>
-<ul>
 <li><p>
-2次元でのクラスタ表示
+視覚化のための補助的な関数 (base R系)
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >clusplot(x, clus, stand =FALSE, 
-             lines = 2, shade = FALSE, labels= 0, 
-             col.p = "dark green", col.txt = col.p, col.clus = 5)
-## x: データフレーム
-## clus: クラスタ分割
-## stand: 正規化の有無
-## lines: クラスタ間の繋がりの表示 (0:無，1:外，2:中心)
-## shade: 網掛けの有無
-## labels: ラベルの表示 (0:無，2:データとクラスタ, 3:データ, 4:クラスタ, など)
-## col.p/txt/clue: データ点・文字・クラスタの色指定
+<pre><code class="R" >#' cluster::plot.agnes() - 系統樹および凝集係数の表示
+plot(x, ask = FALSE, which.plots = NULL, main = NULL,
+     sub = paste("Agglomerative Coefficient = ",round(x$ac, digits = 2)),
+     adj = 0, nmax.lab = 35, max.strlen = 5, xax.pretty = TRUE, ...)
+#' x: cluster::agnes() の返値
+#' which.plots: 1 - banner plot, 2 - dendrogram
 </code></pre>
 </div></li>
 
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org3ebdce4" data-background="#fef4f4">
-<h3 id="org3ebdce4">データセットの準備</h3>
+<section id="slide-orgc5f86c6" data-background="#fef4f4">
+<h3 id="orgc5f86c6">データセットの準備</h3>
 <ul>
 <li>Webアンケート (都道府県別好きなおむすびの具)
 <ul>
@@ -1099,16 +882,17 @@ Q4. おむすびといえば、どういう形ですか？
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgf3d09e0" data-background="#fef4f4">
-<h3 id="orgf3d09e0">練習問題</h3>
+<section id="slide-orgf5d54c2" data-background="#fef4f4">
+<h3 id="orgf5d54c2">練習問題</h3>
 <ul>
 <li><p>
 上記のデータを用いて以下の分析を行いなさい
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >### データの読み込み 
-om_data &lt;- read.csv(file="data/omusubi.csv", row.names=1)
+<pre><code class="R" >#' データの読み込み 
+om_data &lt;- read_csv(file = "data/omusubi.csv")
+om_df &lt;- om_data |&gt; column_to_rownames(var = "Pref")
 </code></pre>
 </div>
 <ul>
@@ -1140,154 +924,8 @@ Hellinger距離を用いて距離行列を作成しなさい
 </section>
 </section>
 <section>
-<section id="slide-orgbd98f8f">
-<h2 id="orgbd98f8f">解析事例</h2>
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-org2a6ad93">
-<h3 id="org2a6ad93">都道府県別の社会生活統計指標</h3>
-<ul>
-<li><p>
-各データを正規化
-</p>
-<pre class="example" id="org1cb8ec6">
-Forest : 森林面積割合 (%) 2014年
-Agri : 就業者１人当たり農業産出額(販売農家）(万円) 2014年
-Ratio : 全国総人口に占める人口割合 (%) 2015年
-Land : 土地生産性（耕地面積１ヘクタール当たり）(万円) 2014年
-Goods : 商業年間商品販売額［卸売業＋小売業］（事業所当たり）(百万円) 2013年
-</pre></li>
-<li>Euclid 距離 + 群平均法</li>
-
-</ul>
-
-<div class="slide-footer"><br></div>
-</section>
-<section>
-
-<div id="orgf3d35e2" class="figure">
-<p><img src="figs/10_jsclst.png" alt="10_jsclst.png" />
-</p>
-<p><span class="figure-number">Figure 12: </span>社会生活統計指標のクラスタ分析 (デンドログラム)</p>
-</div>
-
-
-<div class="slide-footer"><br></div>
-</section>
-<section>
-
-<div id="orge8a155c" class="figure">
-<p><img src="figs/10_jscut.png" alt="10_jscut.png" />
-</p>
-<p><span class="figure-number">Figure 13: </span>クラスタの分割</p>
-</div>
-<div class="slide-footer"><br></div>
-</section>
-<section id="slide-org2d73d9c">
-<h3 id="org2d73d9c">都道府県別好きなおむすびの具</h3>
-<ul>
-<li>Webアンケート
-<ul>
-<li>「ごはんを食べよう国民運動推進協議会」(平成30年解散) <br />
-<a href="http://www.gohan.gr.jp/result/09/anketo09.html">http://www.gohan.gr.jp/result/09/anketo09.html</a> (閉鎖)</li>
-<li>データ <a href="https://noboru-murata.github.io/multivariate-analysis/data/omusubi.csv">https://noboru-murata.github.io/multivariate-analysis/data/omusubi.csv</a></li>
-
-</ul></li>
-
-</ul>
-
-<div class="slide-footer"><br></div>
-</section>
-<section>
-<ul>
-<li><p>
-アンケート概要 (Q2の結果を利用)
-</p>
-<pre class="example" id="org14a0ad8">
-【応募期間】 2009年1月4日～2009年2月28日
-【応募方法】 インターネット、携帯ウェブ
-
-【内　　容】
- Q1. おむすびを最近１週間に、何個食べましたか？
-     そのうち市販のおむすびは何個でしたか？
- Q2. おむすびの具では何が一番好きですか？
-     A.梅 B.鮭 C.昆布 D.かつお E.明太子 F.たらこ Ｇ.ツナ H.その他
- Q3. おむすびのことをあなたはなんと呼んでいますか？
-     A.おにぎり B.おむすび C.その他
- Q4. おむすびといえば、どういう形ですか？
-     A.三角形 B.丸形 C.俵形 D.その他
-
-【回答者数】
- 男性     9,702人     32.0%
- 女性    20,616人     68.0%
- 総数    30,318人    100.0%
-</pre></li>
-<li>Hellinger 距離 + 群平均法</li>
-
-</ul>
-
-<div class="slide-footer"><br></div>
-</section>
-<section>
-<ul>
-<li><p>
-データの内容
-</p>
-<pre class="example" id="orgfa6292f">
-[1mindexing[0m [34momusubi.csv[0m [=========================================] [32m434.19MB/s[0m, eta: [36m 0s[0m                                                                                                                        [1mRows: [22m[34m47[39m [1mColumns: [22m[34m9[39m
-[36m──[39m [1mColumn specification[22m [36m─────────────────────────────────────────────────────────────[39m
-[1mDelimiter:[22m ","
-[31mchr[39m (1): prefecture
-[32mdbl[39m (8): ume, shake, kobu, katsuo, mentai, tarako, tuna, etc
-
-[36mℹ[39m Use `spec()` to retrieve the full column specification for this data.
-[36mℹ[39m Specify the column types or set `show_col_types = FALSE` to quiet this message.
-[1mindexed[0m [32m0B[0m in [36m 0s[0m, [32m0B/s[0m[1mindexed[0m [32m1.00TB[0m in [36m 0s[0m, [32m4.66PB/s[0m                                                                                   [1mRows: [22m[34m47[39m [1mColumns: [22m[34m5[39m
-[36m──[39m [1mColumn specification[22m [36m─────────────────────────────────────────────────────────────[39m
-[1mDelimiter:[22m ","
-[31mchr[39m (4): jp, en, area_jp, area_en
-[32mdbl[39m (1): num
-
-[36mℹ[39m Use `spec()` to retrieve the full column specification for this data.
-[36mℹ[39m Specify the column types or set `show_col_types = FALSE` to quiet this message.
-</pre></li>
-
-</ul>
-
-
-<div id="org8b2b0d0" class="figure">
-<p><img src="figs/10_ombar.png" alt="10_ombar.png" />
-</p>
-<p><span class="figure-number">Figure 14: </span>県別の人気比率</p>
-</div>
-
-<div class="slide-footer"><br></div>
-</section>
-<section>
-
-<div id="orge21e594" class="figure">
-<p><img src="figs/10_ompairs.png" alt="10_ompairs.png" />
-</p>
-<p><span class="figure-number">Figure 15: </span>データの散布図</p>
-</div>
-
-
-
-<div class="slide-footer"><br></div>
-</section>
-<section>
-
-<div id="orge4c8e9b" class="figure">
-<p><img src="figs/10_omclst.png" alt="10_omclst.png" />
-</p>
-<p><span class="figure-number">Figure 16: </span>県別の人気比率</p>
-</div>
-<div class="slide-footer"><br></div>
-</section>
-</section>
-<section>
-<section id="slide-org21cd8ba">
-<h2 id="org21cd8ba">次回の予定</h2>
+<section id="slide-orgcecd855">
+<h2 id="orgcecd855">次回の予定</h2>
 <ul>
 <li>第1回 : 基本的な考え方と階層的方法</li>
 <li><b>第2回 : 非階層的方法と分析の評価</b></li>

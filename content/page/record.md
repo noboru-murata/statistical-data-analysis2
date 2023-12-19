@@ -16,7 +16,7 @@ weight = 1016
 -   [第6講 (2023年11月17日)](https://u-tokyo-ac-jp.zoom.us/rec/share/Wj4eZkxVMuzvdITrMW13KNH1zBI9QAVwph_k3BPNg26fweuGDQtSL6McbX1FBHKY.h1sTP2zRAKDlTLHo?startTime=1700207480000)
 -   [第7講 (2023年12月1日)](https://u-tokyo-ac-jp.zoom.us/rec/share/tB1F3cSUv_tAsrReepuuyee7FHSsQw2ikXzQnnOqB7BKch4wzEvqjifjf8V4_GG-.3E-jVTVLoaEIKFqC?startTime=1701417066000)
 -   [第8講 (2023年12月8日)](https://u-tokyo-ac-jp.zoom.us/rec/share/csy53tXx8v9wb3PO5AHB27X5KjpOoAMUdTrf_HIovbscVuq5u0uwDFxBzdU-wVnC.kOaOEFDUCIVIX58P?startTime=1702021838000)
--   第9講 (2023年12月15日)
+-   [第9講 (2023年12月15日)](https://u-tokyo-ac-jp.zoom.us/rec/share/1um05R2uiZ3TwlkukGoYkXF7TNxvNI-zMv3OMd7NM5VqBgaUd7foPen2O-7BihkY.VUlpSQalYRU3GFED?startTime=1702626685000)
 -   第10講 (2023年12月22日)
 -   第11講 (2024年1月5日)
 -   第12講 (2024年1月19日)
