@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2023-12-13 16:48:38 mura>
+# Time-stamp: <2023-12-19 17:44:41 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/org/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -16,6 +16,9 @@
 [[file:README.org::第11講]]
   
 * COMMENT 講義の内容
+:PROPERTIES:
+:ID:       1957D10C-281F-41A0-ACE9-1119E2E55796
+:END:
 # 早稲田大学
 - 第1回 : クラスタ分析の考え方と階層的方法
 - *第2回 : 非階層的方法と分析の評価*
@@ -30,7 +33,7 @@
     dplyr::filter(),
     dplyr::select(),
     dplyr::lag(),
-  )
+    )
   library(tidyverse)
   library(GGally)
   library(ggfortify)
@@ -151,7 +154,7 @@
       }
     }
   }
-  if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
+  if(Sys.info()["sysname"]=="Darwin"){par(family="BIZUDGothic-Regular")}
   par(mfrow=c(4,2), mar=rep(0.5,4))
   myPlot(0)
   myPlot(1)
@@ -192,7 +195,7 @@
     read_csv(file="data/japan_social.csv"),
     read_csv(file="data/prefecture.csv"))
   myPlot <- function(k) {
-    if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
+    if(Sys.info()["sysname"]=="Darwin"){par(family="BIZUDGothic-Regular")}
     tmpa <- js_data |>
       slice(8:14) |>
       select(2:6,jp) |>
@@ -222,7 +225,7 @@
       }
     }
   }
-  if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
+  if(Sys.info()["sysname"]=="Darwin"){par(family="BIZUDGothic-Regular")}
   par(mfrow=c(4,2), mar=rep(0.5,4))
   for(i in 0:6) myPlot(i)
   js_data |>
@@ -284,7 +287,7 @@
     \sum_{l=1}^k\frac{1}{n_l}\sum_{i:C(i)=l}\sum_{i':C(i')=l}\|\boldsymbol{x}_i-\boldsymbol{x}_{i'}\|^2
   \end{equation}
   #+end_quote
-  # (\(n_l\) はクラスタ \(l\) に属する個体の総数)
+#  - (\(n_l\) はクラスタ \(l\) に属する個体数)
 
 ** @@latex:@@\(k\)-平均法の性質
 - クラスタ \(l\) に属する個体の平均
@@ -292,7 +295,8 @@
   \begin{equation}
     \bar{\boldsymbol{x}}_l
     =
-    \frac{1}{n_l}\sum_{i:C(i)=l}\boldsymbol{x}_i
+    \frac{1}{n_l}\sum_{i:C(i)=l}\boldsymbol{x}_i,
+    \quad\text{(\(n_l\) はクラスタ \(l\) に属する個体数)}
   \end{equation}
   #+end_quote
 - 損失関数 \(W(C)\) の等価な表現
@@ -306,7 +310,7 @@
 - 最適な対応 \(C\) : クラスタ内変動の総和が最小
 
 
-* 演習
+* COMMENT 演習
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
@@ -483,47 +487,48 @@
 :ID:       5DF1EC41-AF81-47B0-A847-0EB32710158C
 :END:
 - 都道府県別好きなおむすびの具(一部)での例
-  #+begin_src R :file figs/11_nhclst0.png :exports results :results graphics
-    om_data <- read.csv(file="data/omusubi.csv", row.names=1)
-    pref <- read.csv(file="data/prefecture.csv", row.names=1)
-    rownames(om_data) <- pref$jp
 
-    om_subset <- om_data[-c(8:14,24:30),]
+#+begin_src R :file figs/11_nhclst0.png :exports results :results graphics
+  om_data <- bind_cols(
+    read_csv(file="data/omusubi.csv"),
+    read_csv(file="data/prefecture.csv"))
+  om_subset <- om_data |>
+    select(ume:etc,jp) |>
+    slice(-c(8:14,24:30)) |>
+    column_to_rownames(var = "jp") |>
+    set_names(c("梅","鮭","昆布","鰹","明太子","鱈子","ツナ","その他")) 
+  n <- nrow(om_subset)
 
-    n <- nrow(om_subset)
+  jdx <- 1:ncol(om_subset) # jdx <- sample(ncol(om_subset),2)
+  om_pca <- prcomp(om_subset[,jdx])
 
-    jdx <- 1:ncol(om_subset) # jdx <- sample(ncol(om_subset),2)
-    om_pca <- prcomp(om_subset[,jdx])
-
-    if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
-    plot(predict(om_pca),
-	 col="blue", pch=19, cex=0.5,
-	 xlab="Component 1", ylab="Component 2")
-    text(transform(predict(om_pca), PC2=PC2+0.5),
-	 labels=rownames(om_subset), col="blue", cex=1)
-  #+end_src
-
-#+CAPTION: 非階層的クラスタリング
-#+NAME: fig:11_nhclst0
-#+ATTR_HTML: height 100%
-#+ATTR_LATEX: :width 0.6\linewidth
+  if(Sys.info()["sysname"]=="Darwin"){par(family="BIZUDGothic-Regular")}
+  plot(predict(om_pca),
+       col="blue", pch=19, cex=0.5,
+       xaxt="n", yaxt="n", ann=FALSE)
+  text(transform(predict(om_pca), PC2=PC2+0.5),
+       labels=rownames(om_subset), col="blue", cex=1)
+#+end_src
+#+caption: 非階層的クラスタリング
+#+name: fig:11_nhclst0
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
 [[file:figs/11_nhclst0.png]]
-
 #+reveal: split
 #+begin_src R :file figs/11_nhclst1.png :exports results :results graphics
   ## 図示のための関数
   myPlot <- function(cntr) {
     dsy <- daisy(rbind(om_subset[,jdx],cntr))
     clst <- apply(as.matrix(dsy)[1:n,(1:k)+n],
-		  1,
-		  function(x){which.min(x)})
+                  1,
+                  function(x){which.min(x)})
     plot(predict(om_pca), col=clst, pch=clst, type="n",
-	 xlab="Component 1", ylab="Component 2")
+         xaxt="n", yaxt="n", ann=FALSE)
     text(predict(om_pca), labels=clst, col=clst, cex=1.5)
     points(predict(om_pca,newdata=cntr), col=1:k, pch=19, cex=2)
     cntr <- aggregate(. ~ clst,
-		      data=data.frame(om_subset[,jdx],clst),
-		      mean)[,-1]
+                      data=data.frame(om_subset[,jdx],clst),
+                      mean)[,-1]
     return(cntr)
   }
   set.seed(1212)
@@ -533,82 +538,79 @@
   ## 
   cntr <- myPlot(cntr)
 #+end_src
-
-#+CAPTION: Lloyd-Forgyのアルゴリズム (その1)
-#+NAME: fig:11_nhclst1
-#+ATTR_HTML: height 100%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: Lloyd-Forgyのアルゴリズム (その1)
+#+name: fig:11_nhclst1
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
 [[file:figs/11_nhclst1.png]]
 
 #+reveal: split
 #+begin_src R :file figs/11_nhclst2.png :exports results :results graphics
   cntr <- myPlot(cntr)
 #+end_src
-
-#+CAPTION: Lloyd-Forgyのアルゴリズム (その2)
-#+NAME: fig:11_nhclst2
-#+ATTR_HTML: height 100%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: Lloyd-Forgyのアルゴリズム (その2)
+#+name: fig:11_nhclst2
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
 [[file:figs/11_nhclst2.png]]
 
 #+reveal: split
 #+begin_src R :file figs/11_nhclst3.png :exports results :results graphics
   cntr <- myPlot(cntr)
 #+end_src
- 
-#+CAPTION: Lloyd-Forgyのアルゴリズム (その3)
-#+NAME: fig:11_nhclst3
-#+ATTR_HTML: height 100%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: Lloyd-Forgyのアルゴリズム (その3)
+#+name: fig:11_nhclst3
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
 [[file:figs/11_nhclst3.png]]
 
 #+reveal: split
 #+begin_src R :file figs/11_nhclst4.png :exports results :results graphics
    cntr <- myPlot(cntr)
 #+end_src
-#+CAPTION: Lloyd-Forgyのアルゴリズム (その4)
-#+NAME: fig:11_nhclst4
-#+ATTR_HTML: height 100%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: Lloyd-Forgyのアルゴリズム (その4)
+#+name: fig:11_nhclst4
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
 [[file:figs/11_nhclst4.png]]
 
 #+reveal: split
 #+begin_src R :file figs/11_nhclst5.png :exports results :results graphics
    cntr <- myPlot(cntr)
 #+end_src
-#+CAPTION: Lloyd-Forgyのアルゴリズム (その5)
-#+NAME: fig:11_nhclst5
-#+ATTR_HTML: height 100%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: Lloyd-Forgyのアルゴリズム (その5)
+#+name: fig:11_nhclst5
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
 [[file:figs/11_nhclst5.png]]
 
 #+reveal: split
 #+begin_src R :file figs/11_nhclst6.png :exports results :results graphics
    cntr <- myPlot(cntr)
 #+end_src
-#+CAPTION: Lloyd-Forgyのアルゴリズム (その6)
-#+NAME: fig:11_nhclst6
-#+ATTR_HTML: height 100%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: Lloyd-Forgyのアルゴリズム (その6)
+#+name: fig:11_nhclst6
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
 [[file:figs/11_nhclst6.png]]
 
 #+reveal: split
 #+begin_src R :file figs/11_nhclst.png :exports results :results graphics
-   if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
+   if(Sys.info()["sysname"]=="Darwin"){par(family="BIZUDGothic-Regular")}
    dsy <- daisy(rbind(om_subset[,jdx],cntr))
    clst <- apply(as.matrix(dsy)[1:n,(1:k)+n],
                  1,
                  function(x){which.min(x)})
    plot(predict(om_pca),
         col="blue", pch=19, cex=0.5,
-        xlab="Component 1", ylab="Component 2")
+        xaxt="n", yaxt="n", ann=FALSE)
    text(transform(predict(om_pca), PC2=PC2+0.5),
         labels=rownames(om_subset), col=clst, cex=1)
 #+end_src
-#+CAPTION: クラスタリングの結果
-#+NAME: fig:11_nhclst
-#+ATTR_HTML: height 100%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: クラスタリングの結果
+#+name: fig:11_nhclst
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
 [[file:figs/11_nhclst.png]]
  
 
@@ -770,7 +772,7 @@
 #+end_src
 
 
-* 解析事例
+* COMMENT 解析事例
 # 早稲田大学
 ** 都道府県別の社会生活統計指標
 :PROPERTIES:
@@ -788,73 +790,80 @@
 
 #+reveal: split
 - ユークリッド距離 + k-平均法 
-  #+begin_src R :exports results :tangle yes
+  #+begin_src R :exports none
     ### 総務省統計局の統計データによる例
     library(cluster)
     library(RColorBrewer)
-    js_data <- read.csv(file="data/japan_social.csv", row.names=1)
-    pref <- read.csv(file="data/prefecture.csv", row.names=1)
-    rownames(js_data) <- pref$jp
+    js_data <- bind_cols(
+      read_csv(file="data/japan_social.csv"),
+      read_csv(file="data/prefecture.csv"))
 
     ## k-平均法の実行: 
     set.seed(1234)
     k <- 7 # 分割数を指定
-    js_km <- kmeans(scale(js_data), centers=k, nstart=20)
-
+    js_km <- js_data |>
+      select(Pref,Forest:Goods) |>
+      column_to_rownames(var = "Pref") |>
+      scale() |>
+      kmeans(centers=k, nstart=20)
+  #+end_src
+  #+begin_src R :exports results
     ## 結果の確認 (各クラスター内の県名を表示)
     for(i in 1:k){
-	   cat("=== cluster",i,"===\n")
-	   print(pref$jp[js_km$cluster==i])
+           cat("=== cluster",i,"===\n")
+           print(js_data[["jp"]][js_km$cluster==i])
     }
   #+end_src
   
-# #+reveal: split
-#+begin_src R :file figs/11_jskmeans.png :exports results :results graphics :tangle yes
-  if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
-  clusplot(x=js_data,
-	      clus=js_km$cluster,
-	      diss=FALSE,
-	      stand=TRUE, lines=0, labels=3, 
-	      main=NULL, sub=NULL, cex=0.8,
-	      col.p=brewer.pal(k,"Dark2")[js_km$cluster],
-	      col.clus="orange", shade=FALSE)
+#+reveal: split
+#+begin_src R :file figs/11_jskmeans.png :exports results :results graphics
+  js_km |>
+    autoplot(data = js_data,
+             frame = TRUE,
+             frame.type = "convex",
+             label = TRUE,
+             label.repel = TRUE,
+             label.show.legend = FALSE)
 #+end_src
-#+CAPTION: ユークリッド距離 + k-平均法 
-#+NAME: fig:11_jskmeans
-#+ATTR_HTML: height 100%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: ユークリッド距離 + k-平均法 
+#+name: fig:11_jskmeans
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
 [[file:figs/11_jskmeans.png]]
 
 #+reveal: split
 - ユークリッド距離 + k-メドイド法 
   #+begin_src R :exports results :tangle yes
     ## k-medoids の実行
-    js_pam <- pam(scale(js_data),
-		     k=k)
-		     ## metric="manhattan", stand=TRUE)
-
+    js_pam <- js_data |>
+      select(Pref,Forest:Goods) |>
+      column_to_rownames(var = "Pref") |>
+      scale() |>
+      pam(k=k)
+    ## metric="manhattan", stand=TRUE)
+  #+end_src
+  #+begin_src R :exports results
     ## 結果の確認 (各クラスター内の県名を表示)
     for(i in 1:k){
-	 cat("=== cluster",i,"===\n")
-	 print(pref$jp[js_pam$clustering==i])
+           cat("=== cluster",i,"===\n")
+           print(js_data[["jp"]][js_pam$clustering==i])
     }
   #+end_src
 
-# #+reveal: split
-#+begin_src R :file figs/11_jspam.png :exports results :results graphics :tangle yes
-  if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
-  clusplot(x=js_data,
-	      clus=js_pam$clustering,
-	      diss=FALSE,
-	      stand=TRUE, lines=0, labels=3, 
-	      main=NULL, sub=NULL, cex=0.8,
-	      col.p=brewer.pal(k,"Dark2")[js_pam$clustering],
-	      col.clus="orange", shade=FALSE)
+#+reveal: split
+#+begin_src R :file figs/11_jspam.png :exports results :results graphics
+  js_pam |>
+    autoplot(# data = js_data,
+             frame = TRUE,
+             frame.type = "convex",
+             label = TRUE,
+             label.repel = TRUE,
+             label.show.legend = FALSE)
 #+end_src
-#+CAPTION: ユークリッド距離 + k-メドイド法 
-#+NAME: fig:11_jspam
-#+ATTR_HTML: height 100%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: ユークリッド距離 + k-メドイド法 
+#+name: fig:11_jspam
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
 [[file:figs/11_jspam.png]]
 
 ** 都道府県別好きなおむすびの具
@@ -870,7 +879,7 @@
    女性    20,616人	    68.0%
    総数    30,318人	   100.0%
   #+end_example
-  に対する回答を県別に集計
+  - 回答を県別に集計
 - Hellinger距離を利用
   #+begin_quote
   \(\boldsymbol{p},\boldsymbol{q}\)
@@ -884,41 +893,44 @@
   #+end_quote
 
 #+reveal: split
-- Hellinger距離 + k-メドイド法 
-  #+begin_src R :exports results :tangle yes
-    om_data <- read.csv(file="data/omusubi.csv", row.names=1)
-    pref <- read.csv(file="data/prefecture.csv", row.names=1)
-    rownames(om_data) <- pref$jp
-
-    ## k-medoids の実行
+- Hellinger距離 + k-メドイド法
+  #+begin_src R :exports none
+    #' データの読み込み("omusubi.csv"を用いる)
+    om_data <- bind_cols(
+      read_csv(file="data/omusubi.csv"),
+      read_csv(file="data/prefecture.csv"))
+    #' k-medoids の実行
     k <- 6
-    om_pam <- pam(daisy(sqrt(om_data)),
-		  k=k,
-		  stand=TRUE)
-
+    om_pam <- om_data |>
+      select(ume:etc,jp) |>
+      column_to_rownames(var = "jp") |>
+      sqrt() |> # Hellinger dist. daisy() |> 
+      pam(k = k) # stand=TRUE は不要
+  #+end_src
+  #+begin_src R :exports results
     ## 結果の確認 (各クラスター内の県名を表示)
     for(i in 1:k){
-        cat("=== cluster",i,"===\n")
-        print(pref$jp[om_pam$clustering==i])
+      cat("=== cluster",i,"===\n")
+      print(names(which(om_pam$clustering==i)))
     }
   #+end_src
 
-# #+reveal: split
-#+begin_src R :file figs/11_ompam.png :exports results :results graphics :tangle yes
-  if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
-  clusplot(x=om_data,
-	   clus=om_pam$clustering,
-	   diss=FALSE,
-	   stand=TRUE, lines=0, labels=3, 
-	   main=NULL, sub=NULL, cex=0.8,
-	   col.p=brewer.pal(k,"Dark2")[om_pam$clustering],
-	   col.clus="orange", shade=FALSE)
+#+reveal: split
+#+begin_src R :file figs/11_ompam.png :exports results :results graphics
+  om_pam |>
+    autoplot(# data = om_data,
+             frame = TRUE,
+             frame.type = "convex",
+             label = TRUE,
+             label.repel = TRUE,
+             label.family = "BIZUDGothic-Regular",
+             label.show.legend = FALSE)
 #+end_src
 
-#+CAPTION: Hellinger距離 + k-メドイド法 
-#+NAME: fig:11_ompam
-#+ATTR_HTML: height 100%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: Hellinger距離 + k-メドイド法 
+#+name: fig:11_ompam
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
 [[file:figs/11_ompam.png]]
    
 
@@ -1015,7 +1027,7 @@
 - 距離の計算を適切に行えば階層的方法でも利用可
 
 
-* 演習
+* COMMENT 演習
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
@@ -1280,7 +1292,7 @@
 #+end_src
 
 
-* 解析事例
+* COMMENT 解析事例
 # 早稲田大学
 ** 都道府県別の社会生活統計指標
 :PROPERTIES:
@@ -1292,85 +1304,99 @@
   - クラスタ距離は群平均法
     
 #+reveal: split
-#+begin_src R :file figs/11_jsbannereuc.png :exports results :results graphics :tangle yes
-  js_agn.euc <- agnes(js_data,
-		      metric="euclidean",
-		      stand=TRUE,
-		      method="average")
-  if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
-  plot(js_agn.euc, which.plots=1,
-	  nmax.lab=50, 
-	  max.strlen=5, 
-	  cex.axis=0.5,
-	  main="")
+#+begin_src R :file figs/11_jsbannereuc.png :exports results :results graphics
+  js_agnes_euc <- js_data |>
+    select(Forest:Goods,jp) |>
+    column_to_rownames(var = "jp") |>
+    agnes(metric = "euclidean",
+          stand = TRUE,
+          method = "average")
+  if(Sys.info()["sysname"]=="Darwin"){par(family="BIZUDGothic-Regular")}
+  plot(js_agnes_euc, which.plots=1,
+       sub = paste("凝集係数 = ",round(js_agnes_euc$ac, digits = 3)),
+       nmax.lab=50, 
+       max.strlen=5, 
+       cex.axis=0.5,
+       main="")
 #+end_src
-
-#+CAPTION: 凝集係数 (ユークリッド距離)
-#+NAME: fig:11_jsbannereuc
-#+ATTR_HTML: height 100%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: 凝集係数 (ユークリッド距離)
+#+name: fig:11_jsbannereuc
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
 file:figs/11_jsbannereuc.png
   
 #+reveal: split
-#+begin_src R :file figs/11_jsdendroeuc.png :exports results :results graphics :tangle yes
-  if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
-  plot(js_agn.euc, which.plots=2,
-	  cex=0.8, xlab="", main="")
+#+begin_src R :file figs/11_jsdendroeuc.png :exports results :results graphics
+  js_agnes_euc |>
+    as.dendrogram() |>
+    ggdendrogram(rotate = TRUE, theme_dendro = FALSE) +
+    labs(title = "Euclid 距離 + 群平均法",
+         x = "県名", y = "距離") +
+    theme(axis.text.y = element_text(size = 9))
 #+end_src
-
-#+CAPTION: デンドログラム (ユークリッド距離)
-#+NAME: fig:11_jsdendroeuc
-#+ATTR_HTML: height 100%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: デンドログラム (ユークリッド距離)
+#+name: fig:11_jsdendroeuc
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
 file:figs/11_jsdendroeuc.png
 
 #+reveal: split
-#+begin_src R :file figs/11_jsbannerman.png :exports results :results graphics :tangle yes
-  js_agn.man <- agnes(js_data,
-		      metric="manhattan",
-		      stand=TRUE,
-		      method="average")
-  if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
-  plot(js_agn.man, which.plots=1,
-	  nmax.lab=50, 
-	  max.strlen=5, 
-	  cex.axis=0.5,
-	  main="")
+#+begin_src R :file figs/11_jsbannerman.png :exports results :results graphics
+  js_agnes_man <- js_data |>
+    select(Forest:Goods,jp) |>
+    column_to_rownames(var = "jp") |>
+    agnes(metric = "manhattan",
+          stand = TRUE,
+          method = "average")
+  if(Sys.info()["sysname"]=="Darwin"){par(family="BIZUDGothic-Regular")}
+  plot(js_agnes_man, which.plots=1,
+       sub = paste("凝集係数 = ",round(js_agnes_man$ac, digits = 3)),
+       nmax.lab=50, 
+       max.strlen=5, 
+       cex.axis=0.5,
+       main="")
 #+end_src
-
-#+CAPTION: 凝集係数 (マンハッタン距離)
-#+NAME: fig:11_jsbannerman
-#+ATTR_HTML: height 100%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: 凝集係数 (マンハッタン距離)
+#+name: fig:11_jsbannerman
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
 file:figs/11_jsbannerman.png
   
 #+reveal: split
-#+begin_src R :file figs/11_jsdendroman.png :exports results :results graphics :tangle yes
-  if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
-  plot(js_agn.man, which.plots=2,
-	  cex=0.8, xlab="", main="")
+#+begin_src R :file figs/11_jsdendroman.png :exports results :results graphics
+  js_agnes_man |>
+    as.dendrogram() |>
+    ggdendrogram(rotate = TRUE, theme_dendro = FALSE) +
+    labs(title = "Manhattan 距離 + 群平均法",
+         x = "県名", y = "距離") +
+    theme(axis.text.y = element_text(size = 9))
 #+end_src
-
-#+CAPTION: デンドログラム (マンハッタン距離)
-#+NAME: fig:11_jsdendroman
-#+ATTR_HTML: height 100%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: デンドログラム (マンハッタン距離)
+#+name: fig:11_jsdendroman
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
 file:figs/11_jsdendroman.png
 
 #+reveal: split
 - 一部のデータの距離が大きいと凝集係数は大きくなりがち (理由を考えてみよう)
 - 北海道，東京，宮崎，鹿児島を除いて再計算する 
-  #+begin_src R :exports results :tangle yes
+  #+begin_src R :exports results
     cat("凝集係数 (ユークリッド距離)\n")
-    summary(agnes(js_data[-c(1,13,45,46),],
-		     metric="euclidean",
-		     stand=TRUE,
-		     method="average"))$ac
+    (js_data |>
+      select(Forest:Goods,jp) |>
+      slice(-c(1,13,45,46)) |>
+      column_to_rownames(var = "jp") |>
+      agnes(metric = "euclidean",
+            stand = TRUE,
+            method = "average"))$ac |> round(digits = 3)
     cat("凝集係数 (マンハッタン距離)\n")
-    summary(agnes(js_data[-c(1,13,45,46),],
-		     metric="manhattan",
-		     stand=TRUE,
-		     method="average"))$ac
+    (js_data |>
+      select(Forest:Goods,jp) |>
+      slice(-c(1,13,45,46)) |>
+      column_to_rownames(var = "jp") |>
+      agnes(metric = "manhattan",
+            stand = TRUE,
+            method = "average"))$ac |> round(digits = 3)
   #+end_src
      
 ** 都道府県別好きなおむすびの具
@@ -1383,85 +1409,88 @@ file:figs/11_jsdendroman.png
 - クラスタ数を4-10として比較
   #+begin_src R :exports results :tangle yes
     ## さまざまなクラスタ数で平均シルエット係数を確認
-    om_dsy <- daisy(sqrt(om_data))
+    om_data_hel <- om_data |>
+      select(ume:etc,jp) |>
+      column_to_rownames(var = "jp") |>
+      sqrt() # Hellinger dist.用
+    om_sil <- tibble(k = 4:10, sil = NULL)
     cat("シルエット係数\n")
-    for(k in 4:10){
-	   cat("k =",k," ")
-	   print(summary(pam(om_dsy,k=k))$silinfo$avg.width)
+    for(i in 1:nrow(om_sil)){
+      k <- om_sil[i,][["k"]]
+      om_sil[i,"sil"] <- round(pam(om_data_hel, k = k)$silinfo$avg.width, digits = 3)
+      cat(om_sil[i,][["sil"]], " (k = ",k,")\n", sep="")
     }
   #+end_src
 
-# #+reveal: split
-#+begin_src R :file figs/11_omsil7.png :exports results :results graphics :tangle yes
-  if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
-  plot(pam(om_dsy,k=7), which.plot=2,
-	  nmax.lab=50, 
-	  max.strlen=5, 
-	  cex.names=0.5,
-	  main="")
+#+reveal: split
+#+begin_src R :file figs/11_omsil7.png :exports results :results graphics
+  om_data_hel |>
+    pam(k = 7) |>
+    silhouette() |>
+    autoplot() +
+    labs(x = "都道府県(クラスタ)",
+         y = "シルエット係数")
 #+end_src
-
-#+CAPTION: シルエット係数 (k=7)
-#+NAME: fig:11_omsil7
-#+ATTR_HTML: height 100%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: シルエット係数の分布 (k=7)
+#+name: fig:11_omsil7
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
 file:figs/11_omsil7.png
 
 #+reveal: split
-#+begin_src R :file figs/11_omsil8.png :exports results :results graphics :tangle yes
-  if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
-  plot(pam(om_dsy,k=8), which.plot=2,
-	  nmax.lab=50, 
-	  max.strlen=5, 
-	  cex.names=0.5,
-	  main="")
+#+begin_src R :file figs/11_omsil8.png :exports results :results graphics
+  om_data_hel |>
+    pam(k = 8) |>
+    silhouette() |>
+    autoplot() +
+    labs(x = "都道府県(クラスタ)",
+         y = "シルエット係数")
 #+end_src
-
-#+CAPTION: シルエット係数 (k=8)
-#+NAME: fig:11_omsil8
-#+ATTR_HTML: height 100%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: シルエット係数の分布 (k=8)
+#+name: fig:11_omsil8
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
 file:figs/11_omsil8.png
 
 #+reveal: split
-#+begin_src R :file figs/11_omsil9.png :exports results :results graphics :tangle yes
-  if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
-  plot(pam(om_dsy,k=9), which.plot=2,
-	  nmax.lab=50, 
-	  max.strlen=5, 
-	  cex.names=0.5,
-	  main="")
+#+begin_src R :file figs/11_omsil9.png :exports results :results graphics
+  om_data_hel |>
+    pam(k = 9) |>
+    silhouette() |>
+    autoplot() +
+    labs(x = "都道府県(クラスタ)",
+         y = "シルエット係数")
 #+end_src
-
-#+CAPTION: シルエット係数 (k=9)
-#+NAME: fig:11_omsil9
-#+ATTR_HTML: height 100%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: シルエット係数の分布 (k=9)
+#+name: fig:11_omsil9
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
 file:figs/11_omsil9.png
 
 #+reveal: split
-#+begin_src R :file figs/11_omclusplot8.png :exports results :results graphics :tangle yes
+#+begin_src R :file figs/11_omclusplot8.png :exports results :results graphics
   ## k=8が良さそう
-  if(Sys.info()["sysname"]=="Darwin"){par(family="HiraginoSans-W4")}
-  k <- 8
-  om_pam <- pam(om_dsy,k=k)
-  plot(om_pam, which.plot=1,
-	  stand=TRUE, lines=0, labels=3,
-	  main="", vsub=NULL, cex=0.8,
-	  col.p=brewer.pal(k,"Dark2")[om_pam$clustering],
-	  col.clus="orange", shade=FALSE)
+  om_data_hel |>
+    pam(k = 8) |>
+    autoplot(# data = om_data,
+             frame = TRUE,
+             frame.type = "convex",
+             label = TRUE,
+             label.repel = TRUE,
+             label.family = "BIZUDGothic-Regular",
+             label.show.legend = FALSE)
 #+end_src
-
-#+CAPTION: 非階層的クラスタリング (k=8)
-#+NAME: fig:11_omclusplot8
-#+ATTR_HTML: height 100%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: 非階層的クラスタリング (k=8)
+#+name: fig:11_omclusplot8
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
 [[file:figs/11_omclusplot8.png]]
 
 
 * 次回の予定
-- *第1日 : 時系列の基本モデル*
-- 第2日 : モデルの推定と予測  
+- *第1回 : 時系列の基本モデル*
+- 第2回 : モデルの推定と予測  
+
 
 * Footnotes
 * COMMENT ローカル変数

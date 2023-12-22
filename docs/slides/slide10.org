@@ -3,7 +3,7 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
-# Time-stamp: <2023-12-19 17:19:26 mura>
+# Time-stamp: <2023-12-22 12:48:19 mura>
 #+STARTUP: hidestars content indent
 :REVEAL:
 #+SETUPFILE: "./reveal.js/org/mycourse.org"
@@ -550,7 +550,7 @@
 :reveal_background: #fef4f4
 :ID:       122E64CD-BC8C-4ECB-96C9-29443B23443D
 :END:
-- 関連するのパッケージ
+- 関連するパッケージ
   - *stats* : base R の基本的な統計に関するパッケージ
     - 関数 ~dist()~, ~kmeans()~ など
     - 標準でインストールされている
@@ -880,7 +880,14 @@
   #+end_src
 
 #+reveal: split
-- 視覚化のための関数 (base R 系)
+- 視覚化のための関数 (ggplot 系)
+  #+begin_src R :eval no :tangle no
+    ggdendrogram(data,
+                 segments = TRUE, labels = TRUE, leaf_labels = TRUE,
+                 rotate = FALSE, theme_dendro = TRUE, ...)
+    #' data: stats::hclust(), stats::dendrogram() などの返値
+  #+end_src
+- 視覚化のための関数 (graphics 系)
   #+begin_src R :eval no :tangle no
     #' stats::plot.hclust() - 系統樹の表示
     plot(x, labels = NULL, hang = 0.1, check = TRUE,
@@ -894,20 +901,26 @@
                 border = 2, cluster = NULL)
     #' tree: stats::hclust() の返値
   #+end_src
-- 視覚化のための関数 (ggplot 系)
-  #+begin_src R :eval no :tangle no
-    ggdendrogram(data,
-                 segments = TRUE, labels = TRUE, leaf_labels = TRUE,
-                 rotate = FALSE, theme_dendro = TRUE, ...)
-    #' data: stats::hclust(), stats::dendrogram() などの返値
-  #+end_src
   
 ** R : 2次元でのクラスタ表示
 :PROPERTIES:
 :reveal_background: #fef4f4
 :ID:       06758554-01AD-44DD-B4A1-25B987E163B4
 :END:
-- 関数 ~cluster::clusplot()~ 
+- 関数 ~ggfortify::autoplot()~ (ggplot 系)
+  #+begin_src R :eval no :tangle no
+    autoplot(object, data = NULL, frame = FALSE,
+             scale = 1, x = 1, y = 2,
+             variance_percentage = TRUE, ...)
+    #' object: stats::prcomp() などの返値
+    #' data: 描画に必要な追加データ
+    #' frame: クラスタごと(colourなどで指定)に凸包または楕円を描画
+    #' 詳細は '?ggfortify::autoplot.pca_common()/ggbiplot()'を参照
+  #+end_src
+  - クラスタの分割には関数 cutree() を利用する
+  - 2次元の散布図の作成には主成分分析などを利用する
+#+reveal: split
+- 関数 ~cluster::clusplot()~ (graphics 系)
   #+begin_src R :eval no :tangle no
     clusplot(x, clus, diss = FALSE, stand = FALSE,
              lines = 2, shade = FALSE, color = FALSE,
@@ -922,7 +935,15 @@
     #' col.p/txt/clue: データ点・文字・クラスタの色指定
     #' 詳細は '?cluster::clusplot.default()' を参照
   #+end_src
-  - 同様な目的では関数 ~ggfortify::autoplot()~ が利用可能
+
+# - 関数 ~ggfortify::autoplot()~ 
+#   #+begin_src R :eval no :tangle no
+#     autoplot(object, data = NULL, colour = "cluster", ...)
+#     #' object: stats::kmeans(), cluster::pam() などの返値
+#     #' data: クラスタリングに用いたデータ (kmeansの場合に必要)
+#     #' 詳細は '?ggfortify::autoplot.kmeans()' を参照
+#   #+end_src
+
 
 ** COMMENT 演習: 階層的クラスタリング
 :PROPERTIES:
@@ -1180,7 +1201,7 @@
                   fill = as_factor(cluster)),
               alpha = 0.3, show.legend = FALSE)
   #' @notes
-  #' 'package::cluster' には base R 流の描画関数が含まれている
+  #' 'package::cluster' には graphics 系の描画関数が含まれている
   #' 例えば上記と同様なグラフは以下のようにして書ける
   if(Sys.info()["sysname"]=="Darwin"){par(family="HiraMaruProN-W4")}
   plot(om_agnes, which.plot = 2, cex = 0.8,

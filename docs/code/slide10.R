@@ -263,7 +263,7 @@ om_agnes |>
                 fill = as_factor(cluster)),
             alpha = 0.3, show.legend = FALSE)
 #' @notes
-#' 'package::cluster' には base R 流の描画関数が含まれている
+#' 'package::cluster' には graphics 系の描画関数が含まれている
 #' 例えば上記と同様なグラフは以下のようにして書ける
 if(Sys.info()["sysname"]=="Darwin"){par(family="HiraMaruProN-W4")}
 plot(om_agnes, which.plot = 2, cex = 0.8,
