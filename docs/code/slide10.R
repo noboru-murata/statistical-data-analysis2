@@ -242,7 +242,19 @@ om_df |>
            label = TRUE,
            label.repel = TRUE,
            label.size = 3,
-           label.family = label_family)
+           label.family = label_family,
+           label.show.legend = FALSE)
+om_df |>
+  prcomp() |>
+  autoplot(data = tibble(cluster = factor(om_clust)),
+           colour = 'cluster',
+           frame = TRUE,
+           frame.type = "norm", # 各クラスタを正規分布で近似して楕円を描く
+           label = TRUE,
+           label.repel = TRUE,
+           label.size = 3,
+           label.family = label_family,
+           label.show.legend = FALSE)
 #' @notes
 #' ggplotでは繁雑となるが下記のような図を描くこともできる
 om_dendr <- dendro_data(om_agnes, type="rectangle") # ggplot用に変換
@@ -266,8 +278,11 @@ om_agnes |>
 #' 'package::cluster' には graphics 系の描画関数が含まれている
 #' 例えば上記と同様なグラフは以下のようにして書ける
 if(Sys.info()["sysname"]=="Darwin"){par(family="HiraMaruProN-W4")}
-plot(om_agnes, which.plot = 2, cex = 0.8,
+plot(om_agnes, which.plot = 2, cex = 0.8, # 関数plot.agnes()を使う場合
      main = "Dendrogram of Omusubi Data")
+plot(as.dendrogram(om_agnes), # 関数plot.dendrogram()を使う場合
+     main = "Dendrogram of Omusubi Data")
+rect.hclust(om_agnes, k = k, border = (1:k)+1)
 clusplot(x = om_df,
          clus = cutree(om_agnes, k = k),
          labels = 2,
