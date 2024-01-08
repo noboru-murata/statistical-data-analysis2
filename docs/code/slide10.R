@@ -275,6 +275,26 @@ om_agnes |>
                 fill = as_factor(cluster)),
             alpha = 0.3, show.legend = FALSE)
 #' @notes
+#' 繁雑な処理を関数化するには例えば以下のようにすればよい
+rect_agnes <- function(x, k) {
+  rect <- left_join(label(dendro_data(x, type="rectangle")),
+                    tibble(label = rownames(x$data),
+                           cluster = cutree(x, k = k))) |>
+  group_by(cluster) |>
+  summarize(xmin = min(x)-0.3, xmax = max(x)+0.3) |>
+  mutate(ymax = mean(sort(x$height, decreasing = TRUE)[k-0:1]))
+}
+om_agnes |>
+  as.dendrogram() |>
+  ggdendrogram(rotate = TRUE, theme_dendro = FALSE) +
+  geom_rect(data = rect_agnes(om_agnes, k = k),
+            aes(xmin = xmin, xmax = xmax, ymin = 0, ymax = ymax,
+                fill = as_factor(cluster)),
+            alpha = 0.3, show.legend = FALSE) +
+  labs(title = "クラスタの分割",
+       x = "県名", y = "距離") +
+  theme(axis.text.x = element_text(size = 9)) 
+#' @notes
 #' 'package::cluster' には graphics 系の描画関数が含まれている
 #' 例えば上記と同様なグラフは以下のようにして書ける
 if(Sys.info()["sysname"]=="Darwin"){par(family="HiraMaruProN-W4")}

@@ -1,123 +1,72 @@
 #+TITLE: 時系列解析
 #+SUBTITLE: モデルの推定と予測
 #+AUTHOR: 村田 昇
-#+EMAIL: noboru.murata@eb.waseda.ac.jp
+#+EMAIL: noboru.murata@gmail.com
 #+DATE: 
-# Time-stamp: <2023-01-16 17:34:28 mura>
-:REVEAL:
-#+INCLUDE: "./reveal.js/org/mycourse.org"
 #+STARTUP: hidestars content indent
+# Time-stamp: <2024-01-04 14:55:53 mura>
+:REVEAL:
+#+SETUPFILE: "./reveal.js/org/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
 # <m C-i でlatex block (math env用)
 # C-c '
 :END:
 
 * COMMENT メモ
-- 第3講以降は同じファイルを使うように整理する
-- 同じタイトルの項目にはメモを入れる
-- 演習の内容が異なるので演習は2つ作る形で対応
+[[file:README.org::第13講]]
 
-* 講義の内容
+* COMMENT 講義の内容
 # 早稲田大学
-- 第1日 : 時系列の基本モデル
-- *第2日 : モデルの推定と予測*
+- 第1回 : 時系列の基本モデル
+- *第2回 : モデルの推定と予測*
 
-#+begin_src R :eval no :exports none :tangle yes
-  ### 第13講 資料
-#+end_src
-#+begin_src R :exports none
+#+begin_src R :exports none :tangle no
   setwd("~/Desktop/lectures/mva/course")
 #+end_src
-
-* COMMENT 講義概要
-# 東京大学
-- 第1日 : 時系列の基本モデル
-- *第2日 : モデルの推定と予測*
-
-#+begin_src R :eval no :exports none :tangle yes
-  ### 
-  ### 第13講 サンプルコード
-  ###
-#+end_src
 #+begin_src R :exports none
+  ### 第13講 資料
+  library(conflicted)
+  conflicts_prefer(
+    dplyr::filter(),
+    dplyr::select(),
+    dplyr::lag(),
+    )
+  library(tidyverse)
+  library(GGally)
+  library(ggfortify)
+  library(cluster)
+  library(ggdendro)
+  #' 日本語表示・色の設定 (ggplot)
+  theme_set(theme_gray(base_size = 16))
+  if(Sys.info()[["sysname"]] == "Darwin") { # MacOSか確認
+    if(length(grep("BIZUDPGothic", systemfonts::system_fonts()[["name"]]))>0) 
+      theme_update(text = element_text(family = "BIZUDGothic-Regular"))
+    else
+      theme_update(text = element_text(family = "HiraMaruProN-W4"))}
+  library(see)
+  options(ggplot2.discrete.colour = function() scale_colour_material(),
+          ggplot2.discrete.fill = function() scale_fill_material())
+#+end_src
+
+* 講義概要
+# 東京大学
+- 第1回 : 時系列の基本モデル
+- *第2回 : モデルの推定と予測*
+
+#+begin_src R :exports none :tangle no
   setwd("~/Desktop/lectures/u-tokyo/autumn/course")
 #+end_src
-
-* COMMENT 演習 (早稲田大学雛型)
-:PROPERTIES:
-:reveal_background: #fef4f4
-:END:
-# 早稲田大学
-** 問題
-:PROPERTIES:
-:reveal_background: #fef4f4
-:END:
-- について以下を示しなさい．
-  - である．
-    #+begin_quote
-    #+begin_src latex
-    #+end_src
-    #+end_quote
-
-** 解答例
-:PROPERTIES:
-:reveal_background: #fef4f4
-:END:
-- いずれも定義にもとづいて計算すればよい
-  #+begin_quote
-  #+begin_src latex
-  #+end_src
-  #+end_quote
-
-* COMMENT 演習 (東京大学雛型)
-:PROPERTIES:
-:reveal_background: #f4fef4
-:END:
-# 東京大学
-** R: 概要
-:PROPERTIES:
-:reveal_background: #f4fef4
-:END:
-- ほげほげな方法:
-  #+begin_src R :eval no
-  #+end_src
-  
-** データセット
-:PROPERTIES:
-:reveal_background: #f4fef4
-:END:
-- 以下のデータセットを使用します
-  - ~xxx~
-    #+begin_quote
-    データの素性
-    #+end_quote
-    [[https://www.foo.com/]]
-
-** 練習問題
-:PROPERTIES:
-:reveal_background: #f4fef4
-:END:
-- 構成しなさい
-  - データ
-    #+begin_quote
-    formulaなどを与える
-    #+end_quote
-
-#+begin_src R :eval no :exports none :tangle yes
-  ###
-  ### 練習問題 
-  ###
-
-  ## 
-  ## 分析
-  ##
+#+begin_src R :exports none
+  ### 第13講 サンプルコード
+  library(conflicted)
+  conflicts_prefer(
+    dplyr::filter(),
+    dplyr::select(),
+    dplyr::lag(),
+  )
+  library(tidyverse)
+  library(ggfortify)
 #+end_src
-
-** COMMENT 講義資料: 概略
-:PROPERTIES:
-:reveal_background: #EEEEFF
-:END:
-- [[./code/bar.r][bar.r]] を確認してみよう
 
 
 * 時系列解析の復習
@@ -136,11 +85,9 @@
 - *確率過程*
   #+begin_quote
   時間を添え字として持つ確率変数列
-  #+begin_src latex
-    \begin{equation}
-      X_{t},\;t=1,\dotsc,T
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    X_{t},\;t=1,\dotsc,T
+  \end{equation}
   #+end_quote
 - *弱定常過程* : 以下の性質をもつ確率過程 \(X_t\)
   - \(X_{t}\)の平均は時点\(t\)によらない
@@ -157,16 +104,14 @@
   である確率変数の
   確率分布\(P\)からの
   独立かつ同分布な確率変数列
-  #+begin_src latex
-    \begin{equation}
-      X_{t}
-      =
-      \epsilon_{t},
-      \quad
-      \epsilon_{t}
-      \overset{i.i.d.}{\sim} P
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    X_{t}
+    =
+    \epsilon_{t},
+    \quad
+    \epsilon_{t}
+    \overset{i.i.d.}{\sim} P
+  \end{equation}
   #+end_quote
   - 記号 \(\mathrm{WN}(0,\sigma^{2})\) で表記
   - *定常* な確率過程
@@ -175,15 +120,13 @@
 - 定義
   #+begin_quote
   \(\mu,\alpha\) を定数として
-  #+begin_src latex
-    \begin{equation}
-      X_{t}=\mu+\alpha t+\epsilon_{t},
-      \quad
-      \epsilon_{t}
-      \sim
-      \mathrm{WN}(0,\sigma^2)
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    X_{t}=\mu+\alpha t+\epsilon_{t},
+    \quad
+    \epsilon_{t}
+    \sim
+    \mathrm{WN}(0,\sigma^2)
+  \end{equation}
   で定義される確率過程
   #+end_quote
   - *非定常* な確率過程
@@ -193,15 +136,13 @@
 - 定義
   #+begin_quote
   \(X_0\) を定数もしくは確率変数として
-  #+begin_src latex
-    \begin{equation}
-      X_{t}=X_{t-1}+\epsilon_{t},
-      \quad
-      \epsilon_{t}
-      \sim
-      \mathrm{WN}(0,\sigma^2)
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    X_{t}=X_{t-1}+\epsilon_{t},
+    \quad
+    \epsilon_{t}
+    \sim
+    \mathrm{WN}(0,\sigma^2)
+  \end{equation}
   で帰納的に定義される確率過程
   #+end_quote
   - 分散が時間とともに増加・記憶のあるモデル
@@ -212,15 +153,13 @@
   #+begin_quote
   \(a_1,\dotsc,a_p\)を定数とし，
   \(X_1,\dotsc,X_p\)が初期値として与えられたとき，
-  #+begin_src latex
-    \begin{equation}
-      X_{t}=a_1X_{t-1}+\cdots+a_pX_{t-p}+\epsilon_{t},
-      \quad
-      \epsilon_{t}
-      \sim
-      \mathrm{WN}(0,\sigma^2)
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    X_{t}=a_1X_{t-1}+\cdots+a_pX_{t-p}+\epsilon_{t},
+    \quad
+    \epsilon_{t}
+    \sim
+    \mathrm{WN}(0,\sigma^2)
+  \end{equation}
   で帰納的に定義される確率過程
   #+end_quote
   - ランダムウォークの一般化
@@ -232,17 +171,15 @@
   #+begin_quote
   \(b_1,\dotsc,b_q\)を定数とし，
   \(X_1,\dotsc,X_q\)が初期値として与えられたとき
-  #+begin_src latex
-    \begin{equation}
-      X_{t}
-      =
-      b_1\epsilon_{t-1}+\cdots+b_q\epsilon_{t-q}+\epsilon_{t},
-      \quad
-      \epsilon_{t}
-      \sim
-      \mathrm{WN}(0,\sigma^2)
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    X_{t}
+    =
+    b_1\epsilon_{t-1}+\cdots+b_q\epsilon_{t-q}+\epsilon_{t},
+    \quad
+    \epsilon_{t}
+    \sim
+    \mathrm{WN}(0,\sigma^2)
+  \end{equation}
   で定義される確率過程
   #+end_quote
   - 有限長の記憶のあるモデル
@@ -253,20 +190,18 @@
   #+begin_quote
   \(a_1,\dotsc,a_p,b_1,\dotsc,b_q\) を定数とし，
   \(X_1,\dotsc,X_{\max\{p,q\}}\) が初期値として与えられたとき
-  #+begin_src latex
-    \begin{align}
-      X_{t}
-      &=
-	a_1X_{t-1}+\cdots+a_pX_{t-p}\\
-      &\quad+
-	b_1\epsilon_{t-1}+\cdots+b_q\epsilon_{t-q}
-	+\epsilon_{t},\\
-      &\quad
-	\epsilon_{t}
-	\sim
-	\mathrm{WN}(0,\sigma^2)
-    \end{align}
-  #+end_src
+  \begin{align}
+    X_{t}
+    &=
+      a_1X_{t-1}+\cdots+a_pX_{t-p}\\
+    &\quad+
+      b_1\epsilon_{t-1}+\cdots+b_q\epsilon_{t-q}
+      +\epsilon_{t},\\
+    &\quad
+      \epsilon_{t}
+      \sim
+      \mathrm{WN}(0,\sigma^2)
+  \end{align}
   で帰納的に定まる確率過程
   #+end_quote
   - AR・MAモデルの一般化・基本的な時系列モデル
@@ -277,25 +212,21 @@
   - \(X_{t}\) と \(X_{t+h}\) の共分散は時点\(t\)によらずラグ\(h\)のみで定まる
     #+begin_quote
     *自己共分散* (定常過程の性質よりラグは\(h\ge0\)を考えればよい)
-    #+begin_src latex
-      \begin{equation}
-	\gamma(h)
-	=
-	\mathrm{Cov}(X_{t},X_{t+h})
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      \gamma(h)
+      =
+      \mathrm{Cov}(X_{t},X_{t+h})
+    \end{equation}
     #+end_quote
   - \(X_{t}\) と \(X_{t+h}\) の相関も\(t\)によらずラグ\(h\)のみで定まる
     #+begin_quote
     *自己相関*
-    #+begin_src latex
-      \begin{equation}
-	\rho(h)
-	=\gamma(h)/\gamma(0)
-	=
-	\mathrm{Cov}(X_{t},X_{t+h})/\mathrm{Var}(X_{t})
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      \rho(h)
+      =\gamma(h)/\gamma(0)
+      =
+      \mathrm{Cov}(X_{t},X_{t+h})/\mathrm{Var}(X_{t})
+    \end{equation}
     #+end_quote
 - 異なる時点間での観測データの従属関係を要約するための最も基本的な統計量
 
@@ -502,88 +433,78 @@
   - \(X_{t}\) と \(X_{t+h}\) の共分散は時点\(t\)によらずラグ\(h\)のみで定まる
     #+begin_quote
     *自己共分散* 
-    #+begin_src latex
-      \begin{equation}
-	\gamma(h)
-	=
-	\mathrm{Cov}(X_{t},X_{t+h})
-	=
-	\mathbb{E}[X_{t}X_{t+h}]
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      \gamma(h)
+      =
+      \mathrm{Cov}(X_{t},X_{t+h})
+      =
+      \mathbb{E}[X_{t}X_{t+h}]
+    \end{equation}
     #+end_quote
   - \(X_{t}\)と\(X_{t+h}\)の相関も\(t\)によらずラグ\(h\)のみで定まる
     #+begin_quote
     *自己相関係数*
-    #+begin_src latex
-      \begin{equation}
-	\rho(h)
-	=\mathrm{Cov}(X_{t},X_{t+h})/\mathrm{Var}(X_{t})
-	=\gamma(h)/\gamma(0)
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      \rho(h)
+      =\mathrm{Cov}(X_{t},X_{t+h})/\mathrm{Var}(X_{t})
+      =\gamma(h)/\gamma(0)
+    \end{equation}
     #+end_quote
 
 ** 自己共分散とARモデル
 - AR(p)モデル : 
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      X_{t}
-      =
-      a_{1}X_{t-1}+a_{2}X_{t-2}+\dotsb+a_{p}X_{t-p}+\epsilon_{t}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    X_{t}
+    =
+    a_{1}X_{t-1}+a_{2}X_{t-2}+\dotsb+a_{p}X_{t-p}+\epsilon_{t}
+  \end{equation}
   #+end_quote
 - 係数と自己共分散の関係
   # ラグ\(h>0\)の自己共分散
   #+begin_quote
-  #+begin_src latex
-    \begin{align}
-      \gamma(h)
-      &=
-	\mathbb{E}[X_{t}X_{t+h}]\\
-      &=
-	\mathbb{E}[X_{t}(a_{1}X_{t+h-1}+\dotsb+a_{p}X_{t+h-p}+\epsilon_{t+h})]\\
-      &=
-	a_{1}\mathbb{E}[X_{t}X_{t+h-1}]
-	+\dotsb
-	+a_{p}\mathbb{E}[X_{t}X_{t+h-p}]
-	+\mathbb{E}[X_{t}\epsilon_{t+h}]\\
-      &=
-	a_{1}\gamma(h-1)
-	+\dotsb+
-	a_{p}\gamma(h-p)
-    \end{align}
-  #+end_src
+  \begin{align}
+    \gamma(h)
+    &=
+      \mathbb{E}[X_{t}X_{t+h}]\\
+    &=
+      \mathbb{E}[X_{t}(a_{1}X_{t+h-1}+\dotsb+a_{p}X_{t+h-p}+\epsilon_{t+h})]\\
+    &=
+      a_{1}\mathbb{E}[X_{t}X_{t+h-1}]
+      +\dotsb
+      +a_{p}\mathbb{E}[X_{t}X_{t+h-p}]
+      +\mathbb{E}[X_{t}\epsilon_{t+h}]\\
+    &=
+      a_{1}\gamma(h-1)
+      +\dotsb+
+      a_{p}\gamma(h-p)
+  \end{align}
   #+end_quote
 
 ** Yule-Walker方程式
 - \(1\le h\le p\) を考えると以下の関係が成り立つ
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      \begin{pmatrix}
-	\gamma(1)\\
-	\gamma(2)\\
-	\vdots\\
-	\gamma(p)
-      \end{pmatrix}
-      =
-      \begin{pmatrix}
-	\gamma(0)&\gamma(-1)&\dots&\gamma(-p+1)\\
-	\gamma(1)&\gamma(0)&\dots&\gamma(-p+2)\\
-	\vdots&\vdots&\ddots&\vdots\\
-	\gamma(p-1)&\gamma(p-2)&\dots&\gamma(0)
-      \end{pmatrix}
-      \begin{pmatrix}
-	a_{1}\\
-	a_{2}\\
-	\vdots\\
-	a_{p}
-      \end{pmatrix}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    \begin{pmatrix}
+      \gamma(1)\\
+      \gamma(2)\\
+      \vdots\\
+      \gamma(p)
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+      \gamma(0)&\gamma(-1)&\dots&\gamma(-p+1)\\
+      \gamma(1)&\gamma(0)&\dots&\gamma(-p+2)\\
+      \vdots&\vdots&\ddots&\vdots\\
+      \gamma(p-1)&\gamma(p-2)&\dots&\gamma(0)
+    \end{pmatrix}
+    \begin{pmatrix}
+      a_{1}\\
+      a_{2}\\
+      \vdots\\
+      a_{p}
+    \end{pmatrix}
+  \end{equation}
   #+end_quote
   - 行列は Toeplitz 行列と呼ばれる
   - 行列が正則ならばARの係数は一意に求まる
@@ -591,13 +512,11 @@
 ** 偏自己相関
 - AR(p)モデル
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      X_{t}
-      =
-      a_{1}X_{t-1}+a_{2}X_{t-2}+\dotsb+a_{p}X_{t-p}+\epsilon_{t}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    X_{t}
+    =
+    a_{1}X_{t-1}+a_{2}X_{t-2}+\dotsb+a_{p}X_{t-p}+\epsilon_{t}
+  \end{equation}
   #+end_quote
   - ラグ\(p\)の *偏自己相関係数*
     #+begin_quote
@@ -607,13 +526,11 @@
   - ラグ\(p\)の特別な *自己相関係数* 
     #+begin_quote
     \(a_{1}=a_{2}=\dotsb=a_{p-1}=0\)のときの\(a_{p}\) (*特殊なモデルにおける解釈*)
-    #+begin_src latex
-      \begin{equation}
-	\mathbb{E}[X_{t}X_{t+p}]=a_{p}\mathbb{E}[X_{t}X_{t}]
-	\;\Rightarrow\; \gamma(p)=a_{p}\gamma(0)
-	\;\Rightarrow\; \rho(p)=a_{p}
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      \mathbb{E}[X_{t}X_{t+p}]=a_{p}\mathbb{E}[X_{t}X_{t}]
+      \;\Rightarrow\; \gamma(p)=a_{p}\gamma(0)
+      \;\Rightarrow\; \rho(p)=a_{p}
+    \end{equation}
     #+end_quote
 
 #+reveal: split
@@ -686,17 +603,15 @@
 :reveal_background: #fef4f4
 :END:
 - 以下で定義されるMA(1)について問に答えなさい
-  #+begin_src latex
-    \begin{equation}
-      X_{t}
-      =
-      b_{1}\epsilon_{t-1}+\epsilon_{t},
-      \quad
-      \epsilon_{t}
-      \sim
-      \mathrm{WN}(0,\sigma^2)
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    X_{t}
+    =
+    b_{1}\epsilon_{t-1}+\epsilon_{t},
+    \quad
+    \epsilon_{t}
+    \sim
+    \mathrm{WN}(0,\sigma^2)
+  \end{equation}
   - ラグ2までの自己共分散係数を求めなさい
   - 自己相関係数とパラメタ\(b_{1}\)が満すべき方程式を求めなさい
 
@@ -706,71 +621,65 @@
 :END:
 - 平均0であることに注意して定義通り計算する
   #+begin_quote
-  #+begin_src latex
-    \begin{align}
-      \gamma(0)
-      &=
-	\mathbb{E}[X_{t}X_{t}]
-	=
-	\mathbb{E}[(b_{1}\epsilon_{t-1}+\epsilon_{t})^{2}]\\
-      &=
-	b_{1}^{2}\mathbb{E}[\epsilon_{t-1}^{2}]
-	+2b_{1}\mathbb{E}[\epsilon_{t-1}\epsilon_{t}]
-	+\mathbb{E}[\epsilon_{t}^{2}]\\
-      &=
-	(b_{1}^{2}+1)\sigma^{2}\\
-      \gamma(1)
-      &=
-	\mathbb{E}[X_{t}X_{t+1}]
-	=
-	\mathbb{E}[(b_{1}\epsilon_{t-1}+\epsilon_{t})(b_{1}\epsilon_{t}+\epsilon_{t+1})]\\
-      &=
-	b_{1}^{2}\mathbb{E}[\epsilon_{t-1}\epsilon_{t}]
-	+b_{1}\mathbb{E}[\epsilon_{t-1}\epsilon_{t+1}]
-	+b_{1}\mathbb{E}[\epsilon_{t}\epsilon_{t}]
-	+\mathbb{E}[\epsilon_{t}\epsilon_{t+1}]\\
-      &=
-	b_{1}\sigma^{2}\\
-      \gamma(2)
-      &=
-	\mathbb{E}[X_{t}X_{t+2}]
-	=
-	\mathbb{E}[(b_{1}\epsilon_{t-1}+\epsilon_{t})(b_{1}\epsilon_{t+1}+\epsilon_{t+2})]\\
-      &=
-	b_{1}^{2}\mathbb{E}[\epsilon_{t-1}\epsilon_{t+1}]
-	+b_{1}\mathbb{E}[\epsilon_{t-1}\epsilon_{t+2}]
-	+b_{1}\mathbb{E}[\epsilon_{t}\epsilon_{t+1}]
-	+\mathbb{E}[\epsilon_{t}\epsilon_{t+2}]\\
-      &=
-	0
-    \end{align}
-  #+end_src
+  \begin{align}
+    \gamma(0)
+    &=
+      \mathbb{E}[X_{t}X_{t}]
+      =
+      \mathbb{E}[(b_{1}\epsilon_{t-1}+\epsilon_{t})^{2}]\\
+    &=
+      b_{1}^{2}\mathbb{E}[\epsilon_{t-1}^{2}]
+      +2b_{1}\mathbb{E}[\epsilon_{t-1}\epsilon_{t}]
+      +\mathbb{E}[\epsilon_{t}^{2}]\\
+    &=
+      (b_{1}^{2}+1)\sigma^{2}\\
+    \gamma(1)
+    &=
+      \mathbb{E}[X_{t}X_{t+1}]
+      =
+      \mathbb{E}[(b_{1}\epsilon_{t-1}+\epsilon_{t})(b_{1}\epsilon_{t}+\epsilon_{t+1})]\\
+    &=
+      b_{1}^{2}\mathbb{E}[\epsilon_{t-1}\epsilon_{t}]
+      +b_{1}\mathbb{E}[\epsilon_{t-1}\epsilon_{t+1}]
+      +b_{1}\mathbb{E}[\epsilon_{t}\epsilon_{t}]
+      +\mathbb{E}[\epsilon_{t}\epsilon_{t+1}]\\
+    &=
+      b_{1}\sigma^{2}\\
+    \gamma(2)
+    &=
+      \mathbb{E}[X_{t}X_{t+2}]
+      =
+      \mathbb{E}[(b_{1}\epsilon_{t-1}+\epsilon_{t})(b_{1}\epsilon_{t+1}+\epsilon_{t+2})]\\
+    &=
+      b_{1}^{2}\mathbb{E}[\epsilon_{t-1}\epsilon_{t+1}]
+      +b_{1}\mathbb{E}[\epsilon_{t-1}\epsilon_{t+2}]
+      +b_{1}\mathbb{E}[\epsilon_{t}\epsilon_{t+1}]
+      +\mathbb{E}[\epsilon_{t}\epsilon_{t+2}]\\
+    &=
+      0
+  \end{align}
   #+end_quote
 
 #+reveal: split
 - ラグ3以降も自己共分散は0となることに注意する
   #+begin_quote
-  #+begin_src latex
-    \begin{align}
-      \gamma(0)
-      &=
-	(b_{1}^{2}+1)\sigma^{2}\\
-      \gamma(1)
-      &=
-	b_{1}\sigma^{2}
-    \end{align}
-  #+end_src
+  \begin{align}
+    \gamma(0)
+    &=
+      (b_{1}^{2}+1)\sigma^{2}\\
+    \gamma(1)
+    &=
+      b_{1}\sigma^{2}
+  \end{align}
   \(\sigma^{2}\)を消去して以下が得られる
-  #+begin_src latex
-    \begin{equation}
-      \gamma(1)/\gamma(0)
-      =\frac{b_{1}}{b_{1}^{2}+1}
-      =\rho(1)
-    \end{equation}
-    \begin{equation}
-      \rho(1)b_{1}^{2}-b_{1}+\rho(1)=0
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    \gamma(1)/\gamma(0)
+    =\frac{b_{1}}{b_{1}^{2}+1}
+    =\rho(1)
+  \end{equation}
+  \begin{equation}
+    \rho(1)b_{1}^{2}-b_{1}+\rho(1)=0
+  \end{equation}
   \(\rho(1)\)の値によっては解が求められない場合もある
   #+end_quote
      
@@ -902,27 +811,23 @@
 - 定常過程とみなせるように変換して分析
   - 階差の利用
     #+begin_quote
-    #+begin_src latex
-      \begin{equation}
-	X_{t}=X_{t-1}+\epsilon_{t}
-	\quad\Rightarrow\quad
-	Y_{t}=X_{t}-X_{t-1}=\epsilon_{t}
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      X_{t}=X_{t-1}+\epsilon_{t}
+      \quad\Rightarrow\quad
+      Y_{t}=X_{t}-X_{t-1}=\epsilon_{t}
+    \end{equation}
     #+end_quote
     - ランダムウォーク : 階差をとるとホワイトノイズ(定常過程)
     - *ARIMA過程* : 階差をとるとARMA過程になる確率過程 
   - 対数変換の利用
     #+begin_quote
-    #+begin_src latex
-      \begin{equation}
-	X_{t}=(1+\epsilon_{t})X_{t-1}
-	\quad\Rightarrow\quad
-	Y_{t}=\log(X_{t})-\log(X_{t-1})
-	=\log(1+\epsilon_{t})
-	\simeq\epsilon_{t}
-      \end{equation}
-    #+end_src
+    \begin{equation}
+      X_{t}=(1+\epsilon_{t})X_{t-1}
+      \quad\Rightarrow\quad
+      Y_{t}=\log(X_{t})-\log(X_{t-1})
+      =\log(1+\epsilon_{t})
+      \simeq\epsilon_{t}
+    \end{equation}
     #+end_quote
     - 対数変換と階差で微小な比率の変動を抽出
 
@@ -1063,11 +968,9 @@
 ** 分解による予測
 - トレンド成分+季節成分+ランダム成分への分解
   #+begin_quote
-  #+begin_src latex
-    \begin{equation}
-      X_{t}=T_{t}+S_{t}+R_{t}
-    \end{equation}
-  #+end_src
+  \begin{equation}
+    X_{t}=T_{t}+S_{t}+R_{t}
+  \end{equation}
   #+end_quote
   - トレンド成分 : 時間の関数やランダムウォークなどを想定
   - 季節成分 : 周期的な関数を想定

@@ -372,7 +372,7 @@ silhouette(cutree(om_agnes, k = k),
 #' グラフに合わせた要素名を取り出すには例えば以下のようにすれば良い
 silhouette(cutree(om_agnes, k = k), daisy(om_df_hel)) |>
   as_tibble() |>
-  mutate(perfecture=rownames(om_df_hel)) |>
+  mutate(prefecture=rownames(om_df_hel)) |>
   arrange(desc(cluster), desc(sil_width))
 
 #' ---------------------------------------------------------------------------

@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-01-04 14:38:15 mura>
+# Time-stamp: <2024-01-08 10:20:29 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/org/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -1229,7 +1229,7 @@
 :END:
 - 関数 ~cluster::agnes()~ の返値の情報
   #+begin_src R :eval no :tangle no
-    object[["ac"]] # 凝集係数の取得 (agnes.object$ac でも良い)
+    object[["ac"]] # 凝集係数の取得 (object$ac でも良い)
     object[["height"]] # デンドログラムの高さ(結合時のクラスタ距離)
     object[["order.lab"]] # デンドログラムの並び順のラベル
     #' object: cluster::agnes() の返値
@@ -1583,7 +1583,7 @@
   #' グラフに合わせた要素名を取り出すには例えば以下のようにすれば良い
   silhouette(cutree(om_agnes, k = k), daisy(om_df_hel)) |>
     as_tibble() |>
-    mutate(perfecture=rownames(om_df_hel)) |>
+    mutate(prefecture=rownames(om_df_hel)) |>
     arrange(desc(cluster), desc(sil_width))
 #+end_src
 #+begin_src R :exports none
