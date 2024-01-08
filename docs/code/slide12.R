@@ -7,35 +7,21 @@ conflicts_prefer(
 )
 library(tidyverse)
 library(ggfortify)
+library(forecast)
 
-ts(data = NA, start = 1, end = numeric(), frequency = 1)
-## data: ベクトル，または行列(データフレーム)
-## start: 開始時刻
-## end: 終了時刻
-## frequency: 単位時間あたりの観測回数
-ts(data = x) # t=1,2,... を添字とする時系列
+x <- rnorm(24) # 正規分布のホワイトノイズ
+ts(data = x) # t=1,2,... を添字とする単純な時系列
 ts(data = x, start = c(2020,1), frequency =12) # 2020年1月からの月ごと
 ts(data = x, start = c(2020,3), frequency =4) # 四半期ごと
 
-## 基本的なplotの使い方
+#' 単一時系列の描画
 x <- rnorm(240) # 正規分布のホワイトノイズ
-plot(ts(x, start=c(2000,1), frequency=12)) # 2000年からの毎月のデータを想定
-## 複数の系列を表示する場合
-y <- rt(240,df=4) # t-分布のホワイトノイズ
-z <- ts(data.frame(x,y),
-	    start=c(2000,1), frequency=12) 
-plot(z, col="red") # 指定しなければ個別にグラフを描画
-plot(z, plot.type="single", col=c("red","blue"))
-
-## 基本的なplotの使い方
-x <- rnorm(240) # 正規分布のホワイトノイズ
-plot(ts(x, start=c(2000,1), frequency=12)) # 2000年からの毎月のデータを想定
-## 複数の系列を表示する場合
-y <- rt(240,df=4) # t-分布のホワイトノイズ
-z <- ts(data.frame(x,y),
-	    start=c(2000,1), frequency=12) 
-plot(z, col="red") # 指定しなければ個別にグラフを描画
-plot(z, plot.type="single", col=c("red","blue"))
+autoplot(ts(x, start = c(2000,1), frequency = 12)) # 2000年1月から毎月のデータ
+#' 複数の系列を表示する場合
+y <- rt(240, df=4) # t-分布のホワイトノイズ
+z <- ts(tibble(x,y), start = c(2000,1), frequency = 12) 
+autoplot(z, ts.colour = "red") # 既定値では個別のグラフ
+autoplot(z, facets = FALSE) # facetsを偽とすれば同一のグラフ
 
 #' ---------------------------------------------------------------------------
 #' @practice 基本的な時系列モデル
@@ -118,7 +104,7 @@ x[1:2] <- epsilon[1:2] # 初期値は(epsilon1, epsilon2)
 for(t in 3:Tmax) {
   x[t] <- a %*% x[t-1:2] + epsilon[t] # %*% はベクトルの内積計算
 }
-autoplot(ts(x)) # 時系列classに変換して表示
+autoplot(ts(x)) # tsオブジェクトに変換して表示
 
 #' 複数の系列を表示
 my_ar <- function(a, epsilon){ # 以下に一連の手続きを記述して関数化しておく
@@ -140,7 +126,9 @@ autoplot(ts(x))
 #' 生成の元となるノイズを渡す形で定義してある
 
 #' データフレームを作成して表示
-ts(replicate(K, my_ar(a = a, epsilon = rnorm(Tmax)))) |>
+#' (後の演習で作成した時系列データを利用する)
+ts_ar <- ts(replicate(K, my_ar(a = a, epsilon = rnorm(Tmax))))
+ts_ar |>
   autoplot(facets = FALSE) +
   theme(legend.position = "none") + 
   labs(title = "AR(2)", x = "Time", y = "Observation")
@@ -166,7 +154,8 @@ my_ma <- function(b, epsilon){
   }
   return(x)
 }
-ts(replicate(K, my_ma(b = b, epsilon = rnorm(Tmax)))) |>
+ts_ma <- ts(replicate(K, my_ma(b = b, epsilon = rnorm(Tmax))))
+ts_ma |>
   autoplot(facets = FALSE) +
   theme(legend.position = "none") + 
   labs(title = "MA(2)", x = "Time", y = "Observation")
@@ -196,10 +185,74 @@ my_arma <- function(a, b, epsilon){
   }
   return(x)
 }
-ts(replicate(K, my_arma(a = a, b = b, epsilon = rnorm(Tmax)))) |>
+ts_arma <- ts(replicate(K, my_arma(a = a, b = b, epsilon = rnorm(Tmax))))
+ts_arma |>
   autoplot(facets = FALSE) +
   theme(legend.position = "none") + 
   labs(title = "ARMA(2,1)", x = "Time", y = "Observation")
-#' 関数 filter や arima.sim などを利用することもできる
+#' @notes
+#' ここでは時系列の生成過程を知ってもらうために自作の関数を作成したが，
+#' 関数 stats::arima.sim() や stats::filter() などを利用することもできる
+#' 上記のARMA(2,1)のシミュレーションは以下のようにして行うことができる
+arima.sim(model = list(ar = c(0.8, -0.64), # ARの係数ベクトル
+                       ma = c(-0.5)),      # MAの係数ベクトル
+          n = Tmax, # 時系列の長さ
+          innov = epsilon) # 乱数系列を渡す場合(渡さなければ標準正規乱数が使われる)
+#' 詳細は '?stats::arima.sim()' を参照
+
+#' ---------------------------------------------------------------------------
+
+autoplot(acf(arima.sim(model = list(ar = c(0.8, -0.64),
+                                    ma = c(-0.5)),
+                       n = 200),
+             plot = FALSE),
+         main = "ACF of ARMA(2,1)")
+
+#' ---------------------------------------------------------------------------
+#' @practice 自己相関
+
+K <- 4 # 表示する時系列の数 (4つを並べて比較する)
+#' AR(2)モデルの自己相関
+for(i in 1:K) { # blockの中なので明示的にprintする必要がある
+  p <- autoplot(acf(ts_ar[,i], plot = FALSE),
+                main = paste("AR series", i))
+  print(p) # 代入したものを表示
+}
+
+#' MA(2)モデルの自己相関
+for(i in 1:K) { # 関数print()に直接渡しても良い
+  print(autoplot(acf(ts_ma[,i], plot = FALSE),
+                 main = paste("MA series", i)))
+}
+
+#' ARMA(2,1)モデルの自己相関
+for(i in 1:K) { # pipe演算子で渡しても良い
+  autoplot(acf(ts_arma[,i], plot = FALSE),
+           main = paste("ARMA series", i)) |> print()
+}
+
+#' @notes
+#' 図ごとにグラフを色を変える場合にはcolourオプションを指定する
+#' ggplot の標準色で色分けするには関数scales::hue_pal()を利用して
+#' 例えば以下のようにすれば良い
+for(i in 1:K) {
+  autoplot(acf(ts_arma[,i], plot = FALSE),
+           ## パレットhue_pal()をK分割してi番目の色を指定する
+           colour = scales::hue_pal()(K)[i], 
+           main = paste("ARMA series", i)) |> print()
+}
+#' patchworkパッケージを利用してggplotオブジェクトを複数並べることができる
+library(patchwork)
+patch <- list()
+for(i in 1:K) { # ggplotオブジェクトをリストに保存する
+  patch[[i]] <- autoplot(acf(ts_arma[,i], plot = FALSE),
+                         colour = scales::hue_pal()(K)[i])
+}
+patch[[1]] + patch[[2]] # 1と2を横に並べる
+patch[[3]] / patch[[4]] # 3と4を縦に並べる
+patch[[1]] + patch[[2]] + patch[[3]] + patch[[4]] # 多数あると適宜配分
+#' オブジェクトが多い場合は関数stats::do.callを利用すればよい
+do.call("wrap_plots", patch) # patchwork::wrap_plotsがリストpatchを処理
+do.call("wrap_plots", patch) + plot_layout(ncol = 1) # layoutの指定
 
 #' ---------------------------------------------------------------------------

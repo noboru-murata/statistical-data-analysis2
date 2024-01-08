@@ -3,7 +3,7 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
-# Time-stamp: <2024-01-08 10:15:14 mura>
+# Time-stamp: <2024-01-08 16:12:12 mura>
 #+STARTUP: hidestars content indent
 :REVEAL:
 #+SETUPFILE: "./reveal.js/org/mycourse.org"
@@ -552,12 +552,13 @@
 :END:
 - 関連するパッケージ
   - *stats* : base R の基本的な統計に関するパッケージ
-    - 関数 ~dist()~, ~kmeans()~ など
+    - 関数 ~dist()~, ~hclust~, ~kmeans()~ など
     - 標準でインストールされている
   - *cluster* : Kaufman and Rousseeuw (1990) にもとづくパッケージ
     - 関数 ~daisy()~, ~agnes()~, ~pam()~ など
     - 標準でインストールされている
-  - *ggfortify* : 関数 ~autoplot()~ を使うためのパッケージ
+  - *ggfortify* : ggplotによる描画を補助するパッケージ
+    - 関数 ~autoplot()~ など
     - 既に導入済み(回帰，主成分，判別分析でも利用)
   - *ggdendro* : ggplotによるデンドログラム描画のパッケージ
     #+begin_src R :exports code :tangle no
