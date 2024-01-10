@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-01-04 14:55:53 mura>
+# Time-stamp: <2024-01-09 15:26:30 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/org/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -36,6 +36,8 @@
   library(ggfortify)
   library(cluster)
   library(ggdendro)
+  library(scales)
+  library(patchwork)
   #' 日本語表示・色の設定 (ggplot)
   theme_set(theme_gray(base_size = 16))
   if(Sys.info()[["sysname"]] == "Darwin") { # MacOSか確認
@@ -66,6 +68,7 @@
   )
   library(tidyverse)
   library(ggfortify)
+  library(forecast)
 #+end_src
 
 
@@ -231,120 +234,121 @@
 - 異なる時点間での観測データの従属関係を要約するための最も基本的な統計量
 
 #+reveal: split
-#+begin_src R :file figs/13_ar.png :exports results :results graphics :tangle yes
-  ## ARMA過程を生成する関数
-  myARMA <- function(a, b, epsilon){
-    p <- length(a)
-    q <- length(b)
-    r <- max(p,q)
-    Tmax <- length(epsilon) # 時系列の長さを取得
-    x <- double(Tmax)
-    x[1:r] <- epsilon[1:r]
-    for(t in (r+1):Tmax) {
-      x[t] <- a %*% x[t-1:p] + b %*% epsilon[t-1:q] + epsilon[t]
-    }
-    return(x)
-  }
-  
+#+begin_src R :file figs/13_ar.png :exports results :results graphics :tangle no
+  #' 時系列の生成
   set.seed(1234) # 乱数のシード
   Tmax <- 500 # 時系列の長さ t=1,..,Tmax
   K <- 4 # 表示する時系列の数 (4つを並べて比較する)
-  library(RColorBrewer)
-  my_col <- brewer.pal(K,"Dark2")
-  df.ar <- ts(replicate(K, myARMA(a=c(0.67, 0.26), b=c(0),
-				  epsilon=rnorm(Tmax))))
-  df.ma <- ts(replicate(K, myARMA(a=c(0), b=c(0.44, 0.08),
-				  epsilon=rnorm(Tmax))))
-  df.arma <- ts(replicate(K, myARMA(a=c(0.8, -0.64), b=c(-0.5),
-				    epsilon=rnorm(Tmax))))
-  
-  plot(x=df.ar, plot.type="single",
-       ylab="value", col=my_col,
-       main=expression(X[t] == 0.67*X[t-1] + 0.26*X[t-2] + epsilon[t]))
+  ts_ar <- ts(replicate(K, arima.sim(list(ar = c(0.67, 0.26)),
+                                     n = Tmax,
+                                     innov = rnorm(Tmax))))
+  ts_ma <- ts(replicate(K, arima.sim(list(ma = c(0.44, -0.28)),
+                                     n = Tmax,
+                                     innov = rnorm(Tmax))))
+  ts_arma <- ts(replicate(K, arima.sim(list(ar = c(0.8, -0.64),
+                                            ma = c(-0.5)),
+                                     n = Tmax,
+                                     innov = rnorm(Tmax))))
+  ts_arima <- ts(replicate(K, arima.sim(list(order = c(2,1,1),
+                                             ar = c(0.8, -0.64),
+                                             ma = c(-0.5)),
+                                     n = Tmax,
+                                     innov = rnorm(Tmax))))
+  #' AR(2)の描画
+  ts_ar |>
+    autoplot(facets = FALSE) +
+    theme(legend.position = "none") + 
+    labs(title = expression(X[t] == 0.67*X[t-1] + 0.26*X[t-2] + epsilon[t]),
+         x = "Time", y = "Observation")
 #+end_src
-   
-#+CAPTION: 同じモデルに従うAR過程の例
-#+NAME: fig:13_ar
-#+ATTR_HTML: height 100%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: 同じモデルに従うAR過程の例
+#+name: fig:13_ar
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
 [[file:figs/13_ar.png]]
 
 #+reveal: split
-#+begin_src R :file figs/13_aracf.png :exports results :results graphics :tangle yes
-  ### AR(2)モデルの自己相関
-  orgpar <- par(mfrow=c(2,2)) # グラフを2x2(行方向の順)に並べる
+#+begin_src R :file figs/13_aracf.png :exports results :results graphics :tangle no
+  #' AR(2)モデルの自己相関
+  library(patchwork)
+  patch <- list()
   for(i in 1:K) {
-    acf(df.ar[,i], col=my_col[i], main=paste("AR series",i))
+    patch[[i]] <- autoplot(acf(ts_ar[,i], plot = FALSE),
+                           colour = hue_pal()(K)[i],
+                           main = paste("AR series:", i))
   }
-  par(orgpar)
+  do.call("wrap_plots", patch)
 #+end_src
-
-#+CAPTION: AR過程の自己相関
-#+NAME: fig:13_aracf
-#+ATTR_HTML: height 100%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: AR過程の自己相関
+#+name: fig:13_aracf
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
 [[file:figs/13_aracf.png]]
    
 #+reveal: split
 #+begin_src R :file figs/13_ma.png :exports results :results graphics :tangle yes
-  plot(x=df.ma, plot.type="single",
-       ylab="value", col=my_col,
-       main=expression(X[t] == 0.44*epsilon[t-1] + 0.08*epsilon[t-2] + epsilon[t]))
+  #' MA(2)の描画
+  ts_ma |>
+    autoplot(facets = FALSE) +
+    theme(legend.position = "none") + 
+    labs(title = expression(X[t] == 0.44*epsilon[t-1] - 0.28*epsilon[t-2] + epsilon[t]),
+         x = "Time", y = "Observation")
 #+end_src
-
-#+CAPTION: 同じモデルに従うMA過程の例
-#+NAME: fig:13_ma
-#+ATTR_HTML: height 100%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: 同じモデルに従うMA過程の例
+#+name: fig:13_ma
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
 [[file:figs/13_ma.png]]
 
 #+reveal: split
 #+begin_src R :file figs/13_maacf.png :exports results :results graphics :tangle yes
-  ### MA(2)モデルの自己相関
-  orgpar <- par(mfrow=c(2,2))
+  #' MA(2)モデルの自己相関
   for(i in 1:K) {
-      acf(df.ma[,i], col=my_col[i], main=paste("MA series",i))
+    patch[[i]] <- autoplot(acf(ts_ma[,i], plot = FALSE),
+                           colour = hue_pal()(K)[i],
+                           main = paste("MA series:", i))
   }
-  par(orgpar)
+  do.call("wrap_plots", patch)
 #+end_src
-   
-#+CAPTION: MA過程の自己相関
-#+NAME: fig:13_maacf
-#+ATTR_HTML: height 100%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: MA過程の自己相関
+#+name: fig:13_maacf
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
 [[file:figs/13_maacf.png]]
 
 #+reveal: split
-#+begin_src R :file figs/13_arma.png :exports results :results graphics :tangle yes
-  plot(x=df.arma, plot.type="single",
-       ylab="value", col=my_col,
-       main=expression(X[t] == 0.8*X[t-1] - 0.64*X[t-2] - 0.5*epsilon[t-1] + epsilon[t]))
+#+begin_src R :file figs/13_arma.png :exports results :results graphics :tangle no
+  #' ARMA(2,1)の描画
+  ts_arma |>
+    autoplot(facets = FALSE) +
+    theme(legend.position = "none") + 
+    labs(title = expression(X[t] == 0.8*X[t-1] - 0.64*X[t-2] - 0.5*epsilon[t-1] + epsilon[t]),
+         x = "Time", y = "Observation")
 #+end_src
-
-#+CAPTION: 同じモデルに従うARMA過程の例
-#+NAME: fig:13_arma
-#+ATTR_HTML: height 100%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: 同じモデルに従うARMA過程の例
+#+name: fig:13_arma
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
 [[file:figs/13_arma.png]]
 
 #+reveal: split
 #+begin_src R :file figs/13_armaacf.png :exports results :results graphics :tangle yes
-  ### ARMA(2,1)モデルの自己相関
-  orgpar <- par(mfrow=c(2,2))
+  #' ARMA(2,1)モデルの自己相関
   for(i in 1:K) {
-      acf(df.arma[,i], col=my_col[i], main=paste("ARMA series",i))
+    patch[[i]] <- autoplot(acf(ts_arma[,i], plot = FALSE),
+                           colour = hue_pal()(K)[i],
+                           main = paste("ARMA series:", i))
   }
-  par(orgpar)
+  do.call("wrap_plots", patch)
 #+end_src
-
-#+CAPTION: ARMA過程の自己相関
-#+NAME: fig:13_armaacf
-#+ATTR_HTML: height 100%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: ARMA過程の自己相関
+#+name: fig:13_armaacf
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
 [[file:figs/13_armaacf.png]]
    
    
-* COMMENT 実習(復習)
+* 実習(復習)
 :PROPERTIES:
 :reveal_background: #f4fef4
 :END:
@@ -374,11 +378,11 @@
   - MA過程についても同様な比較を行いなさい
   - ARMA過程についても同様な比較を行いなさい
 
-#+begin_src R :eval no :exports none :tangle yes
-  ### 
-  ### 練習問題 自己相関
-  ### 
-  
+#+begin_src R :exports none
+  #' ---------------------------------------------------------------------------
+  #' @practice 自己相関
+#+end_src
+#+begin_src R :eval no :exports none
   ## ARMA過程を生成する関数
   myARMA <- function(a, b, epsilon){
       p <- length(a)
@@ -424,6 +428,9 @@
       acf(df.arma[,i], col=my_col[i], main=paste("ARMA series",i))
   }
   par(orgpar) # もとのparの内容に戻す
+#+end_src
+#+begin_src R :exports none
+  #' ---------------------------------------------------------------------------
 #+end_src
 
 
@@ -534,51 +541,51 @@
     #+end_quote
 
 #+reveal: split
-#+begin_src R :file figs/13_arpacf.png :exports results :results graphics :tangle yes
-  ### AR(2)モデルの偏自己相関
-  orgpar <- par(mfrow=c(2,2)) # グラフを2x2(行方向の順)に並べる
+#+begin_src R :file figs/13_arpacf.png :exports results :results graphics :tangle no
+  #' AR(2)モデルの偏自己相関
   for(i in 1:K) {
-      pacf(df.ar[,i], col=my_col[i], main=paste("AR series",i))
+    patch[[i]] <- autoplot(pacf(ts_ar[,i], plot = FALSE),
+                           colour = hue_pal()(K)[i],
+                           main = paste("AR series:", i))
   }
-  par(orgpar)
+  do.call("wrap_plots", patch)
 #+end_src
-
-#+CAPTION: AR過程の偏自己相関
-#+NAME: fig:13_arpacf
-#+ATTR_HTML: height 100%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: AR過程の偏自己相関
+#+name: fig:13_arpacf
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
 [[file:figs/13_arpacf.png]]
 
 #+reveal: split
-#+begin_src R :file figs/13_mapacf.png :exports results :results graphics :tangle yes
-  ### MA(2)モデルの偏自己相関
-  orgpar <- par(mfrow=c(2,2))
+#+begin_src R :file figs/13_mapacf.png :exports results :results graphics :tangle no
+  #' MA(2)モデルの偏自己相関
   for(i in 1:K) {
-      pacf(df.ma[,i], col=my_col[i], main=paste("MA series",i))
+    patch[[i]] <- autoplot(pacf(ts_ma[,i], plot = FALSE),
+                           colour = hue_pal()(K)[i],
+                           main = paste("MA series:", i))
   }
-  par(orgpar)
+  do.call("wrap_plots", patch)
 #+end_src
-
-#+CAPTION: MA過程の偏自己相関
-#+NAME: fig:13_mapacf
-#+ATTR_HTML: height 100%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: MA過程の偏自己相関
+#+name: fig:13_mapacf
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
 [[file:figs/13_mapacf.png]]
 
 #+reveal: split
 #+begin_src R :file figs/13_armapacf.png :exports results :results graphics :tangle yes
-  ### ARMA(2,1)モデルの偏自己相関
-  orgpar <- par(mfrow=c(2,2))
+  #' ARMA(2,1)モデルの偏自己相関
   for(i in 1:K) {
-      pacf(df.arma[,i], col=my_col[i], main=paste("ARMA series",i))
+    patch[[i]] <- autoplot(pacf(ts_arma[,i], plot = FALSE),
+                           colour = hue_pal()(K)[i],
+                           main = paste("ARMA series:", i))
   }
-  par(orgpar)
+  do.call("wrap_plots", patch)
 #+end_src
-
-#+CAPTION: ARMA過程の偏自己相関
-#+NAME: fig:13_armapacf
-#+ATTR_HTML: height 100%
-#+ATTR_LATEX: :width 0.6\linewidth
+#+caption: ARMA過程の偏自己相関
+#+name: fig:13_armapacf
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
 [[file:figs/13_armapacf.png]]
    
 ** モデルの推定に関する補足
@@ -872,19 +879,19 @@
   - 気温のデータおよびその階差の性質を検討しなさい
   - 関数 ~auto.arima()~ を用いてモデルを作成しなさい
 
-#+begin_src R :eval no :exports none :tangle yes
-  ### 
-  ### 練習問題 東京の気温データの時系列モデル
-  ### 
-  
+#+begin_src R :exports none
+  #' ---------------------------------------------------------------------------
+  #' @practice 東京の気温データの時系列モデル
+#+end_src
+#+begin_src R :eval no :exports none
   ## パッケージの読み込み (既に読み込んでいれば不要 )
-  library(zoo) 
+  # library(zoo) 
   library(forecast)
   tw_data <- read.csv("data/tokyo_weather.csv")
   tw_zoo <- with(tw_data,
                  zoo(temp,
                      order.by = as.Date(paste(year,month,day,sep="-"))))
-  
+
   ## データの視覚化を行う
   plot(tw_zoo, col="red",
        xlab="month", ylab="degree", main="Temperature in Tokyo")
@@ -896,11 +903,14 @@
   acf(tw_zoo)       # 減衰が遅いので差分をとった方が良さそう
   plot(diff(tw_zoo)) # 階差系列の視覚化
   acf(diff(tw_zoo))  # 階差系列の自己相関
-  
+
   ## 階差系列にARMAモデルをあてはめる (d=1)
   tw_fit <- auto.arima(tw_zoo, d=1, D=0)
   summary(tw_fit) # 推定されたモデルの仕様を表示
   acf(resid(tw_fit)) # そこそこあてはまりは良さそう
+#+end_src
+#+begin_src R :exports none
+  #' ---------------------------------------------------------------------------
 #+end_src
 
 
@@ -914,27 +924,41 @@
 - 階差による変換は累積(階差の逆変換)により推定
 
 #+reveal: split
-
 #+name: fig:13_pred_wn
-#+begin_src R :file figs/13_pred_wn.png :exports results :results graphics
-  library(forecast)
-  library(tidyverse)
-  library(ggfortify)
-  ## ARMA過程を生成する関数
-  myARMA <- function(a, b, epsilon){
-    p <- length(a)
-    q <- length(b)
-    r <- max(p,q)
-    Tmax <- length(epsilon) # 時系列の長さを取得
-    x <- double(Tmax)
-    x[1:r] <- epsilon[1:r]
-    for(t in (r+1):Tmax) {
-      x[t] <- a %*% x[t-1:p] + b %*% epsilon[t-1:q] + epsilon[t]
-    }
-    return(x)
-  }
-  ## ホワイトノイズの予測
-  autoplot(forecast(myARMA(a=c(0),b=c(0),rnorm(180)),h=20),col=2)
+#+begin_src R :file figs/13_pred_wn.png :exports results :results graphics :tangle no
+  ## library(forecast)
+  ## library(tidyverse)
+  ## library(ggfortify)
+  ## ## ARMA過程を生成する関数
+  ## myARMA <- function(a, b, epsilon){
+  ##   p <- length(a)
+  ##   q <- length(b)
+  ##   r <- max(p,q)
+  ##   Tmax <- length(epsilon) # 時系列の長さを取得
+  ##   x <- double(Tmax)
+  ##   x[1:r] <- epsilon[1:r]
+  ##   for(t in (r+1):Tmax) {
+  ##     x[t] <- a %*% x[t-1:p] + b %*% epsilon[t-1:q] + epsilon[t]
+  ##   }
+  ##   return(x)
+  ## }
+  ## ## ホワイトノイズの予測
+  ## autoplot(forecast(myARMA(a=c(0),b=c(0),rnorm(180)),h=20),col=2)
+  Tmax <- 180 # 時系列の長さ
+  Hmax <- 20  # 予測系列の長さ
+  foo <-
+    arima.sim(list(order = c(0,0,0)),
+              n = Tmax)
+  bar <-
+    auto.arima(foo)
+  foo |>
+    forecast(h = Hmax, model = bar) |>
+    autoplot(ylab = "Observation")
+  ## arima.sim(list(order = c(0,0,0)),
+  ##           n = Tmax) |>
+  ##   forecast(h = Hmax, model = "Arima") |>
+  ##   autoplot(main = "Forecasts from WN",
+  ##            ylab = "Observation")
 #+end_src
 #+caption: ホワイトノイズの予測
 #+attr_html: height 100%
@@ -954,7 +978,6 @@
 [[file:figs/13_pred_rw.png]]
 
 #+reveal: split
-
 #+name: fig:13_pred_arma
 #+begin_src R :file figs/13_pred_arma.png :exports results :results graphics
   ## ARMA 過程の予測

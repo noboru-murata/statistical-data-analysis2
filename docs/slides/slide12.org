@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-01-08 17:14:47 mura>
+# Time-stamp: <2024-01-10 17:27:04 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/org/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -32,12 +32,10 @@
     dplyr::lag(),
     )
   library(tidyverse)
-  library(GGally)
-  library(ggfortify)
-  library(cluster)
-  library(ggdendro)
+  library(forecast)
   library(scales)
   library(patchwork)
+  library(gt)
   #' 日本語表示・色の設定 (ggplot)
   theme_set(theme_gray(base_size = 16))
   if(Sys.info()[["sysname"]] == "Darwin") { # MacOSか確認
@@ -60,8 +58,7 @@
 
 #+begin_src R :exports none :tangle no
   setwd("~/Desktop/lectures/u-tokyo/autumn/course")
-  library(patchwork)
-  library(scales)
+  library(gt)
 #+end_src
 #+begin_src R :exports none
   ### 第12講 サンプルコード
@@ -70,12 +67,86 @@
     dplyr::filter(),
     dplyr::select(),
     dplyr::lag(),
-  )
+    )
   library(tidyverse)
-  library(ggfortify)
   library(forecast)
+  library(patchwork)
+  library(scales)
 #+end_src
 
+* 事例
+** データの概要
+- 米国の航空機旅客量の変遷データ
+  - ~datasets::AirPassengers~ (Rに標準で収録)
+  - 1949年から1960年までの月別
+  - 出典
+    #+begin_quote
+    Box, G. E. P., Jenkins, G. M. and Reinsel, G. C. (1976) Time
+    Series Analysis, Forecasting and Control. Third
+    Edition. Holden-Day. Series G.
+    #+end_quote
+  
+#+reveal: split
+#+begin_src R :exports none :tangle no
+  #' 表の作成
+  ap_tbl <- 
+    tibble(data = AirPassengers,
+           year = trunc(time(AirPassengers)),
+           month = month.abb[cycle(AirPassengers)]) |>
+    pivot_wider(names_from = month,
+                values_from = data)
+#+end_src
+#+begin_src R :exports results :results output html :tangle no
+  #' データの表示(reveal用)
+  ap_tbl |> gt() |> as_raw_html()
+#+end_src
+#+begin_src R :exports results :results value scalar latex :tangle no
+  #' データの表示(latex用)
+  ap_tbl |> gt() |> as_latex() |> as.character()
+#+end_src
+
+#+reveal: split
+#+name: fig:12_ap_display
+#+begin_src R :file figs/12_ap_display.png :exports results :results graphics :tangle no
+  ggtsdisplay(AirPassengers)
+#+end_src
+#+caption: 航空機旅客量データと自己・偏自己相関
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/12_ap_display.png]]
+
+#+reveal: split
+#+name: fig:12_ap_decompose
+#+begin_src R :file figs/12_ap_decompose.png :exports results :results graphics :tangle no
+  decompose(AirPassengers, "multiplicative") |> autoplot()
+#+end_src
+#+caption: 時系列の分解による表現
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/12_ap_decompose.png]]
+
+** データのモデル化
+#+name: fig:12_ap_arima
+#+begin_src R :file figs/12_ap_arima.png :exports results :results graphics :tangle no
+  tibble(data = AirPassengers,
+         fitted = auto.arima(AirPassengers) |> fitted()) |>
+    ts() |>
+    autoplot(ylab = NULL, main = "ARIMA model")
+#+end_src
+#+caption: モデルの推定とあてはめ
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/12_ap_arima.png]]
+
+** モデルにもとづく予測
+#+name: fig:12_ap_predict
+#+begin_src R :file figs/12_ap_predict.png :exports results :results graphics :tangle no
+  auto.arima(AirPassengers) |> forecast(h = 36) |> autoplot(ylab = NULL)
+#+end_src
+#+caption: 航空機旅客量の予測
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/12_ap_predict.png]]
 
 * 時系列解析の概要
 ** 時系列解析とは
@@ -377,15 +448,14 @@
     - 関数 ~ts()~, ~acf()~ など
     - 標準でインストールされている
   - *forecast* : 時系列モデルの推定・予測のためのパッケージ
+    - 関数 ~forecast()~, ~Acf()~, ~autoplot()~ など
     #+begin_src R :exports code :tangle no
       #' 最初に一度だけ以下のいずれかを実行しておく
       #'  - Package タブから forecast をインストール
       #'  - コンソール上で次のコマンドを実行 'install.packages("forecast")'
     #+end_src
     - ~zoo~, ~xts~ などの時系列パッケージも同時にインストールされる
-  - *ggfortify* : ggplotによる描画を補助するパッケージ
-    - 関数 ~autoplot()~ など
-    - 既に導入済み
+    - ~ggfortify~ でも時系列を扱うことはできるが挙動が微妙に異なる
 
 ** R : 時系列の作成
 :PROPERTIES:
@@ -438,13 +508,13 @@
 :reveal_background: #fef4f4
 :ID:       10AAB94B-BC6A-4B39-9DFF-A31B8C960646
 :END:
-- 関数 ggfortify::autoplot()
+- 関数 forecast::autoplot()
   #+begin_src R :eval no :tangle no
     autoplot(object,
-             facets = TRUE, nrow = NULL, ncol = 1, scales = "free_y",
-             ts.geom = "line", ts.colour = NULL, ts.size = NULL, ts.linetype = NULL,
-             ts.alpha = NULL, ts.fill = NULL, ts.shape = NULL, ...)
-    #' 詳細は '?ggfortify::autoplot.ts()'を参照
+      colour = TRUE, facets = FALSE,
+      xlab = "Time", ylab = deparse(substitute(object)),
+      main = NULL, ...)
+    #' 詳細は '?forecast::autoplot.ts()'を参照
   #+end_src
   - [[color:green][典型的な使い方]]
     #+begin_src R :eval no :tangle yes
@@ -454,8 +524,9 @@
       #' 複数の系列を表示する場合
       y <- rt(240, df=4) # t-分布のホワイトノイズ
       z <- ts(tibble(x,y), start = c(2000,1), frequency = 12) 
-      autoplot(z, ts.colour = "red") # 既定値では個別のグラフ
-      autoplot(z, facets = FALSE) # facetsを偽とすれば同一のグラフ
+      autoplot(z) # 既定値では同一のグラフで色を変えて描画
+      autoplot(z, facets = TRUE) # facetsを真とすれば個別のグラフ
+      autoplot(z, facets = TRUE, colour = TRUE) # 色を変えることも可能
     #+end_src
 
 ** COMMENT 演習: ホワイトノイズを作ってみる
@@ -508,11 +579,13 @@
   autoplot(x)
   #' @notes
   #' 色や線種を指定することもできる
-  #' また ggplot オブジェクトとして修飾することも可能
   autoplot(x,
-           ts.colour = "blue",
-           ts.linetype = "dotted") +
-    labs(x = "Time", y = "Observation")
+           colour = "blue",
+           linetype = "dotted",
+           xlab = "Time", ylab = "Observation")
+  #' ggplot オブジェクトとして修飾することも可能
+  autoplot(x, colour = "blue") +
+    labs(x = "time", y = "observation")
 
   #' トレンドのあるホワイトノイズ
   x <- ts(rnorm(Tmax, sd=2) -1 + 0.05*(1:Tmax))
@@ -535,28 +608,29 @@
   #' ホワイトノイズの生成と図示
   z <- ts(replicate(K, # K回以下の関数を実行する
                     rnorm(Tmax, sd = 2)))
-  autoplot(z) # 各系列を個別に表示する
-  autoplot(z, facets = FALSE) # 同じグラフに重ね描きする
-  autoplot(z, facets = FALSE) +
-    theme(legend.position = "none") + #' 凡例を削除
+  autoplot(z) # 同じグラフに重ね描きする
+  autoplot(z, show.legend = FALSE) # 凡例を削除 
+  autoplot(z, facets = TRUE) # 各系列を個別に表示する
+  autoplot(z, facets = TRUE,
+           main = "white noise", # タイトル，軸ラベルの指定
+           xlab = "time", ylab = "observation") 
+  autoplot(z, show.legend = FALSE) +
     labs(title = expression(X[t] == epsilon[t]), # 数式で表示
-         x = "Time", y = "Observation")
+         y = "Observations")
 
   #' トレンドのあるホワイトノイズ
   z <- ts(replicate(K,
                     rnorm(Tmax, sd = 2) -1 + 0.05*(1:Tmax)))
-  autoplot(z, facets = FALSE) +
-    theme(legend.position = "none") + 
+  autoplot(z, show.legend = FALSE) +
     labs(title = expression(X[t] == -1 + 0.05 * t + epsilon[t]),
-         x = "Time", y = "Observation")
+         y = "Observations")
 
   #' ランダムウォーク
   z <- ts(replicate(K,
                     cumsum(rnorm(Tmax, sd=2))))
-  autoplot(z, facets = FALSE) +
-    theme(legend.position = "none") + 
+  autoplot(z, show.legend = FALSE) +
     labs(title = expression(X[t] == X[t-1] + epsilon[t]),
-         x = "Time", y = "Observation")
+         y = "Observations")
 #+end_src
 #+begin_src R :exports none
   #' ---------------------------------------------------------------------------
@@ -905,7 +979,8 @@
   for(t in 3:Tmax) {
     x[t] <- a %*% x[t-1:2] + epsilon[t] # %*% はベクトルの内積計算
   }
-  autoplot(ts(x)) # tsオブジェクトに変換して表示
+  x |> ts() |> # tsオブジェクトに変換して表示
+    autoplot(ylab = "Observation")
 
   #' 複数の系列を表示
   my_ar <- function(a, epsilon){ # 以下に一連の手続きを記述して関数化しておく
@@ -920,7 +995,8 @@
   }
   #' 使い方は a と epsilon(ホワイトノイズ)を指定する
   x <- my_ar(a = c(0.6, 0.3, 0.1), epsilon = rnorm(100))
-  autoplot(ts(x))
+  x |> ts() |> 
+    autoplot(ylab = "Observation")
   #' @notes
   #' 関数の引数として Tmax を指定する方法もあるが
   #' 様々な分布のホワイトノイズを試したい場合もあるので
@@ -930,9 +1006,8 @@
   #' (後の演習で作成した時系列データを利用する)
   ts_ar <- ts(replicate(K, my_ar(a = a, epsilon = rnorm(Tmax))))
   ts_ar |>
-    autoplot(facets = FALSE) +
-    theme(legend.position = "none") + 
-    labs(title = "AR(2)", x = "Time", y = "Observation")
+    autoplot(show.legend = FALSE) +
+    labs(title = "AR(2)", y = "Observations")
 
   #' MA(2)モデルのシミュレーション
   b <- c(0.44, 0.08) # MAの係数
@@ -942,7 +1017,8 @@
   for(t in 3:Tmax) {
     x[t] <- b %*% epsilon[t-1:2] + epsilon[t]
   }
-  autoplot(ts(x))
+  x |> ts() |>
+    autoplot(ylab = "Observation")
 
   #' 複数の系列を表示
   my_ma <- function(b, epsilon){
@@ -957,9 +1033,8 @@
   }
   ts_ma <- ts(replicate(K, my_ma(b = b, epsilon = rnorm(Tmax))))
   ts_ma |>
-    autoplot(facets = FALSE) +
-    theme(legend.position = "none") + 
-    labs(title = "MA(2)", x = "Time", y = "Observation")
+    autoplot(show.legend = FALSE) +
+    labs(title = "MA(2)", y = "Observations")
 
   #' ARMA(2,1)モデルのシミュレーション
   a <- c(0.8, -0.64) # ARの係数
@@ -971,7 +1046,8 @@
     x[t] <- a %*% x[t-1:2] + b %*% epsilon[t-1] + epsilon[t]
     #' bは1次元なのでこの問題では b*epsilon でも可
   }
-  plot(ts(x))
+  x |> ts() |>
+    autoplot(ylab = "Observation")
 
   #' 複数の系列を表示
   my_arma <- function(a, b, epsilon){
@@ -988,9 +1064,8 @@
   }
   ts_arma <- ts(replicate(K, my_arma(a = a, b = b, epsilon = rnorm(Tmax))))
   ts_arma |>
-    autoplot(facets = FALSE) +
-    theme(legend.position = "none") + 
-    labs(title = "ARMA(2,1)", x = "Time", y = "Observation")
+    autoplot(show.legend = FALSE) +
+    labs(title = "ARMA(2,1)", y = "Observation")
   #' @notes
   #' ここでは時系列の生成過程を知ってもらうために自作の関数を作成したが，
   #' 関数 stats::arima.sim() や stats::filter() などを利用することもできる
@@ -1134,10 +1209,10 @@
   a <- c(0.669, 0.263) # ARの係数
   patch <- list()
   for(i in 1:K) {
-    patch[[i]] <- autoplot(acf(my_ar(a = a, epsilon = rnorm(Tmax)),
-                               plot = FALSE),
-                           colour = hue_pal()(K)[i],
-                           main = paste("Series:", i))
+    patch[[i]] <-
+      ggAcf(my_ar(a = a, epsilon = rnorm(Tmax)),
+            colour = hue_pal()(K)[i]) +
+      labs(title = paste("Series:", i))
   }
   do.call("wrap_plots", patch)
 #+end_src
@@ -1153,10 +1228,10 @@
   set.seed(123)
   b <- c(0.438, 0.078) # MAの係数
   for(i in 1:K) {
-    patch[[i]] <- autoplot(acf(my_ma(b = b, epsilon = rnorm(Tmax)),
-                               plot = FALSE),
-                           colour = hue_pal()(K)[i],
-                           main = paste("Series:", i))
+    patch[[i]] <-
+      ggAcf(my_ma(b = b, epsilon = rnorm(Tmax)),
+            colour = hue_pal()(K)[i]) +
+      labs(title = paste("Series:", i))
   }
   do.call("wrap_plots", patch)
 #+end_src
@@ -1173,10 +1248,10 @@
   a <- c(0.8, -0.64) # ARの係数
   b <- -0.5          # MAの係数
   for(i in 1:K) {
-    patch[[i]] <- autoplot(acf(my_arma(a = a, b = b, epsilon = rnorm(Tmax)),
-                               plot = FALSE),
-                           colour = hue_pal()(K)[i],
-                           main = paste("Series:", i))
+    patch[[i]] <-
+      ggAcf(my_arma(a = a, b = b, epsilon = rnorm(Tmax)),
+            colour = hue_pal()(K)[i]) +
+      labs(title = paste("Series:", i))
   }
   do.call("wrap_plots", patch)
 #+end_src
@@ -1267,11 +1342,12 @@
 :reveal_background: #fef4f4
 :END:
 # 東京大学
-** R : 自己相関・自己共分散の計算
+** R : 自己相関・自己共分散の計算・描画
 :PROPERTIES:
 :reveal_background: #fef4f4
+:ID:       53DE1CC8-0CB7-45DE-9186-B05CDAD42779
 :END:
-- 関数 ~stats::acf()~
+- 関数 ~stats::acf()~ 
   #+begin_src R :eval no :tangle no
     acf(x, lag.max = NULL,
         type = c("correlation", "covariance", "partial"),
@@ -1283,27 +1359,28 @@
     #' na.action: 欠損値の処理，標準は欠損を含むと計算しない
     #' demean: 共分散の計算において平均を引くか否か
   #+end_src
-** R : 自己相関・自己共分散グラフの描画
-:PROPERTIES:
-:reveal_background: #fef4f4
-:ID:       DADF6958-51CA-4315-82A5-5589457C7441
-:END:
-- 関数 ggfortify::autoplot()
+  - 引数 ~plot~ の真偽で描画(graphics系)・計算のみを制御できる
+
+#+reveal: split
+- 関数 forecast::Acf()
   #+begin_src R :eval no :tangle no
-    autoplot(object, colour = "#000000", linetype = "solid",
-      conf.int = TRUE, conf.int.colour = "#0000FF", conf.int.linetype = "dashed",
-      conf.int.fill = NULL, conf.int.alpha = 0.3, conf.int.value = 0.95,
-      conf.int.type = "white", ...)
-    #' object: 関数acfの返値
-    #' 詳細は '?ggfortify::autoplot.acf()'を参照
+    Acf(x, lag.max = NULL,
+        type = c("correlation", "covariance", "partial"),
+        plot = TRUE, na.action = na.contiguous, demean = TRUE, ...)
+    #' x: 時系列データ
+    #' lag.max: 計算するラグの最大値
+    #' type: 標準は相関, 共分散と偏相関を選ぶこともできる
+    #' plot: 描画するか否か
+    #' na.action: 欠損値の処理，標準は欠損を含むと計算しない
+    #' demean: 共分散の計算において平均を引くか否か
   #+end_src
+  - 関数 ~acf()~ とほぼ同様(lag=0を表示しない)に描画(graphics系)・計算を行う
+  - ggplot系の関数 ~ggAcf()~ もある(指定できるオプションは描画以外は同じ)
   - [[color:green][典型的な使い方]]
     #+begin_src R :eval no :tangle yes
-      autoplot(acf(arima.sim(model = list(ar = c(0.8, -0.64),
-                                          ma = c(-0.5)),
-                             n = 200),
-                   plot = FALSE),
-               main = "ACF of ARMA(2,1)")
+      ggAcf(arima.sim(model = list(ar = c(0.8, -0.64),
+                                   ma = c(-0.5)),
+                      n = 200))
     #+end_src
     
 ** 練習問題
@@ -1317,7 +1394,6 @@
   - MA過程についても同様な比較を行いなさい
   - ARMA過程についても同様な比較を行いなさい
 
-
 #+begin_src R :exports none
   #' ---------------------------------------------------------------------------
   #' @practice 自己相関
@@ -1325,40 +1401,61 @@
 #+begin_src R :eval no :exports none
   K <- 4 # 表示する時系列の数 (4つを並べて比較する)
   #' AR(2)モデルの自己相関
-  for(i in 1:K) { # blockの中なので明示的にprintする必要がある
-    p <- autoplot(acf(ts_ar[,i], plot = FALSE),
-                  main = paste("AR series", i))
-    print(p) # 代入したものを表示
+  for(i in 1:K) { # graphics系での描画
+    Acf(ts_ar[,i]) # 時系列オブジェクト名がそのままタイトルになる
+  }
+  #' 引数 main/xlab/ylab などが利用できる
+  for(i in 1:K) { 
+    Acf(ts_ar[,i], 
+        main = paste("AR series", i)) # タイトルはセンタリングされる
   }
 
   #' MA(2)モデルの自己相関
-  for(i in 1:K) { # 関数print()に直接渡しても良い
-    print(autoplot(acf(ts_ma[,i], plot = FALSE),
-                   main = paste("MA series", i)))
+  for(i in 1:K) { # ggplot系での描画(こちらを推奨)
+    p <- # ggplot系の関数をblock内で使う場合は明示的にprintする必要がある
+      ggAcf(ts_ma[,i]) 
+    print(p) 
+  }
+  #' ggplotオブジェクトとして修飾できる
+  for(i in 1:K) {
+    p <- 
+      ggAcf(ts_ma[,i],
+            colour = "orange") + # 引数 colour で色を変更
+      ylim(-0.5,1) + # 値域を固定
+      labs(title = paste("MA series", i)) # タイトルを変更
+    print(p) 
   }
 
   #' ARMA(2,1)モデルの自己相関
-  for(i in 1:K) { # pipe演算子で渡しても良い
-    autoplot(acf(ts_arma[,i], plot = FALSE),
-             main = paste("ARMA series", i)) |> print()
+  for(i in 1:K) { # 計算結果を利用して描画することもできる
+    autoplot(Acf(ts_arma[,i], plot = FALSE)) |>
+      print() # pipe演算子で関数print()に渡しても良い
   }
-
+  #' autoplotの出力もggplotオブジェクトとして修飾できる
+  for(i in 1:K) { 
+    (autoplot(Acf(ts_arma[,i], plot = FALSE)) +
+     labs(title = paste("ARMA series", i))) |>
+      print() # 修飾を含めてpipe演算子に渡す場合は()でオブジェクト全体を括る
+  }
   #' @notes
   #' 図ごとにグラフを色を変える場合にはcolourオプションを指定する
   #' ggplot の標準色で色分けするには関数scales::hue_pal()を利用して
   #' 例えば以下のようにすれば良い
   for(i in 1:K) {
-    autoplot(acf(ts_arma[,i], plot = FALSE),
-             ## パレットhue_pal()をK分割してi番目の色を指定する
-             colour = scales::hue_pal()(K)[i], 
-             main = paste("ARMA series", i)) |> print()
+    p <- 
+      ggAcf(ts_arma[,i], 
+            ## パレットhue_pal()をK分割してi番目の色を指定する
+            colour = scales::hue_pal()(K)[i]) +
+      labs(main = paste("ARMA series", i))
+    print(p)
   }
+  #' @notes
   #' patchworkパッケージを利用してggplotオブジェクトを複数並べることができる
   library(patchwork)
   patch <- list()
   for(i in 1:K) { # ggplotオブジェクトをリストに保存する
-    patch[[i]] <- autoplot(acf(ts_arma[,i], plot = FALSE),
-                           colour = scales::hue_pal()(K)[i])
+    patch[[i]] <- ggAcf(ts_arma[,i], 
+                        colour = scales::hue_pal()(K)[i])
   }
   patch[[1]] + patch[[2]] # 1と2を横に並べる
   patch[[3]] / patch[[4]] # 3と4を縦に並べる
