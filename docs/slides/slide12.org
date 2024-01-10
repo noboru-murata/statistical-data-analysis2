@@ -1,10 +1,10 @@
-#+TITLE: 時系列解析
 #+SUBTITLE: 時系列の基本モデル
+#+TITLE: 時系列解析
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-01-10 17:27:04 mura>
+# Time-stamp: <2024-01-10 17:42:40 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/org/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -16,6 +16,9 @@
 [[file:README.org::第12講]]
 
 * COMMENT 講義の内容
+:PROPERTIES:
+:ID:       80D38122-6D21-4493-B8F9-B89F29097EFE
+:END:
 # 早稲田大学
 - *第1回 : 時系列の基本モデル*
 - 第2回 : モデルの推定と予測
@@ -131,7 +134,8 @@
   tibble(data = AirPassengers,
          fitted = auto.arima(AirPassengers) |> fitted()) |>
     ts() |>
-    autoplot(ylab = NULL, main = "ARIMA model")
+    autoplot(ylab = NULL, main = "ARIMA model") +
+    theme(legend.position = c(0.9,0.1))
 #+end_src
 #+caption: モデルの推定とあてはめ
 #+attr_html: height 100%
@@ -1212,6 +1216,7 @@
     patch[[i]] <-
       ggAcf(my_ar(a = a, epsilon = rnorm(Tmax)),
             colour = hue_pal()(K)[i]) +
+      ylim(-0.25,1) +
       labs(title = paste("Series:", i))
   }
   do.call("wrap_plots", patch)
@@ -1231,6 +1236,7 @@
     patch[[i]] <-
       ggAcf(my_ma(b = b, epsilon = rnorm(Tmax)),
             colour = hue_pal()(K)[i]) +
+      ylim(-0.2,0.4) +
       labs(title = paste("Series:", i))
   }
   do.call("wrap_plots", patch)
@@ -1251,6 +1257,7 @@
     patch[[i]] <-
       ggAcf(my_arma(a = a, b = b, epsilon = rnorm(Tmax)),
             colour = hue_pal()(K)[i]) +
+      ylim(-0.5,0.3) +
       labs(title = paste("Series:", i))
   }
   do.call("wrap_plots", patch)
