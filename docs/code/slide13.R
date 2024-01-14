@@ -1,86 +1,94 @@
-### 
 ### 第13講 サンプルコード
-###
+library(conflicted)
+conflicts_prefer(
+  dplyr::filter(),
+  dplyr::select(),
+  dplyr::lag(),
+)
+library(tidyverse)
+library(forecast)
+library(patchwork)
+library(scales)
 
-## ARMA過程を生成する関数
-myARMA <- function(a, b, epsilon){
-  p <- length(a)
-  q <- length(b)
-  r <- max(p,q)
-  Tmax <- length(epsilon) # 時系列の長さを取得
-  x <- double(Tmax)
-  x[1:r] <- epsilon[1:r]
-  for(t in (r+1):Tmax) {
-    x[t] <- a %*% x[t-1:p] + b %*% epsilon[t-1:q] + epsilon[t]
-  }
-  return(x)
-}
+#' @excercise 自己相関・自己共分散の計算・描画
 
-set.seed(1234) # 乱数のシード
+ggAcf(arima.sim(model = list(ar = c(0.8, -0.64),
+                             ma = c(-0.5)),
+                n = 200))
+
+#' ---------------------------------------------------------------------------
+#' @practice 自己相関
+
+#' 前回作成した自作の関数 my_arma() を利用しても良いが
+#' 今回は関数 arima.sim() を用いた方法を紹介する
 Tmax <- 500 # 時系列の長さ t=1,..,Tmax
 K <- 4 # 表示する時系列の数 (4つを並べて比較する)
-library(RColorBrewer)
-my_col <- brewer.pal(K,"Dark2")
-df.ar <- ts(replicate(K, myARMA(a=c(0.67, 0.26), b=c(0),
-				epsilon=rnorm(Tmax))))
-df.ma <- ts(replicate(K, myARMA(a=c(0), b=c(0.44, 0.08),
-				epsilon=rnorm(Tmax))))
-df.arma <- ts(replicate(K, myARMA(a=c(0.8, -0.64), b=c(-0.5),
-				  epsilon=rnorm(Tmax))))
+ts_ar <- ts(replicate(K, arima.sim(list(ar = c(0.67, 0.26)),
+                                   n = Tmax,
+                                   innov = rnorm(Tmax))))
+ts_ma <- ts(replicate(K, arima.sim(list(ma = c(0.44, -0.28)),
+                                   n = Tmax,
+                                   innov = rnorm(Tmax))))
+ts_arma <- ts(replicate(K, arima.sim(list(ar = c(0.8, -0.64),
+                                          ma = c(-0.5)),
+                                     n = Tmax,
+                                     innov = rnorm(Tmax))))
 
-plot(x=df.ar, plot.type="single",
-     ylab="value", col=my_col,
-     main=expression(X[t] == 0.67*X[t-1] + 0.26*X[t-2] + epsilon[t]))
-
-### AR(2)モデルの自己相関
-orgpar <- par(mfrow=c(2,2)) # グラフを2x2(行方向の順)に並べる
+#' AR(2)モデルの自己相関(patchworkパッケージを用いてグラフを2x2に並べる)
+patch <- list()
 for(i in 1:K) {
-  acf(df.ar[,i], col=my_col[i], main=paste("AR series",i))
+  patch[[i]] <-
+    ggAcf(ts_ar[,i],
+          colour = hue_pal()(K)[i]) +
+    ylim(-0.3,1) + # y軸の範囲を指定して4つのグラフの表示を揃える
+    labs(title = paste("AR Series:", i))
 }
-par(orgpar)
+do.call("wrap_plots", patch)
 
-plot(x=df.ma, plot.type="single",
-     ylab="value", col=my_col,
-     main=expression(X[t] == 0.44*epsilon[t-1] + 0.08*epsilon[t-2] + epsilon[t]))
-
-### MA(2)モデルの自己相関
-orgpar <- par(mfrow=c(2,2))
+#' MA(2)モデルの自己相関
 for(i in 1:K) {
-    acf(df.ma[,i], col=my_col[i], main=paste("MA series",i))
+  patch[[i]] <-
+    ggAcf(ts_ma[,i],
+          colour = hue_pal()(K)[i]) +
+    ylim(-0.3,0.4) +
+    labs(title = paste("MA series:", i))
 }
-par(orgpar)
+do.call("wrap_plots", patch)
 
-plot(x=df.arma, plot.type="single",
-     ylab="value", col=my_col,
-     main=expression(X[t] == 0.8*X[t-1] - 0.64*X[t-2] - 0.5*epsilon[t-1] + epsilon[t]))
-
-### ARMA(2,1)モデルの自己相関
-orgpar <- par(mfrow=c(2,2))
+#' ARMA(2,1)モデルの自己相関
 for(i in 1:K) {
-    acf(df.arma[,i], col=my_col[i], main=paste("ARMA series",i))
+  patch[[i]] <-
+    ggAcf(ts_arma[,i],
+          colour = hue_pal()(K)[i]) +
+    ylim(-0.6,0.4) +
+    labs(title = paste("ARMA Series:", i))
 }
-par(orgpar)
+do.call("wrap_plots", patch)
 
-### AR(2)モデルの偏自己相関
-orgpar <- par(mfrow=c(2,2)) # グラフを2x2(行方向の順)に並べる
-for(i in 1:K) {
-    pacf(df.ar[,i], col=my_col[i], main=paste("AR series",i))
-}
-par(orgpar)
+#' ---------------------------------------------------------------------------
 
-### MA(2)モデルの偏自己相関
-orgpar <- par(mfrow=c(2,2))
+#' ARMA(2,1)モデルの偏自己相関
 for(i in 1:K) {
-    pacf(df.ma[,i], col=my_col[i], main=paste("MA series",i))
+  patch[[i]] <-
+    ggPacf(ts_arma[,i], 
+           colour = hue_pal()(K)[i]) +
+    ylim(-0.6,0.4) +
+    labs(title = paste("ARMA series:", i))
 }
-par(orgpar)
+do.call("wrap_plots", patch)
 
-### ARMA(2,1)モデルの偏自己相関
-orgpar <- par(mfrow=c(2,2))
-for(i in 1:K) {
-    pacf(df.arma[,i], col=my_col[i], main=paste("ARMA series",i))
-}
-par(orgpar)
+#' @excercise ARモデルの推定
+
+x <- arima.sim(model = list(ar = c(0.7,-0.6, 0.5)), n = 1000)
+ar(x) 
+ar(x, method = "mle")
+
+#' @excercise ARIMAモデルの推定
+
+x <- arima.sim(model = list(ar = c(0.7,-0.6,0.5)), n = 1000)
+auto.arima(x)  
+y <- arima.sim(list(order = c(2,1,1), ar = c(0.8,-0.64), ma = c(-0.5)), n = 1000)
+auto.arima(y)
 
 ### 
 ### 練習問題 ARMAモデルの推定
@@ -138,12 +146,32 @@ plot(resid(est.arma)) # 推定されたモデルの残差
 acf(resid(est.arma))  # 推定されたモデルの残差の自己相関
 ## 残差は無相関になっていることが確認できる
 
-### 
-### 練習問題 東京の気温データの時系列モデル
-### 
+library(zoo) # forecast を利用すると自動的に読み込まれる
+zoo(x = NULL, order.by = index(x), frequency = NULL, ...)
+## x: ベクトル，行列
+## order.by: 成分の目盛
+## frequency: 季節成分の周期
+x.zoo <- zoo(x, # データに日付の情報を付加する例 (Dateクラスで指定)
+		 order.by = seq(from=as.Date("2021-01-01"), 
+				to=as.Date("2021-12-31"), by=1))
+start(x.zoo) # index(x.zoo)[1] 最初の日付
+end(x.zoo) # index(x.zoo)[length(x.zoo)] 最後の日付
+
+window(x, start = NULL, end = NULL)
+## x: ベクトル，行列
+## start: 開始時点
+## end: 終了時点
+window(x, # データに日付の情報が入っている場合 (zooの例)
+	   start="2021-12-01", # Dateクラスの標準の書き方
+	   end="2021/12/31") # Dateクラスはこちらでも解釈可能
+
+tw_data <- read.csv("data/tokyo_weather.csv")
+
+#' ---------------------------------------------------------------------------
+#' @practice 東京の気温データの時系列モデル
 
 ## パッケージの読み込み (既に読み込んでいれば不要 )
-library(zoo) 
+# library(zoo) 
 library(forecast)
 tw_data <- read.csv("data/tokyo_weather.csv")
 tw_zoo <- with(tw_data,
@@ -166,6 +194,326 @@ acf(diff(tw_zoo))  # 階差系列の自己相関
 tw_fit <- auto.arima(tw_zoo, d=1, D=0)
 summary(tw_fit) # 推定されたモデルの仕様を表示
 acf(resid(tw_fit)) # そこそこあてはまりは良さそう
+
+#' ---------------------------------------------------------------------------
+
+## ランダムウォークの予測
+autoplot(forecast(myARMA(a=c(1),b=c(0),rnorm(180)),h=20),col=2)
+
+## ARMA 過程の予測
+autoplot(forecast(myARMA(a=c(0.8, -0.64),b=c(-0.5),rnorm(180)),h=20),col=2)
+
+### 基本的な時系列モデルによる予測
+### 厚生労働省のCOVID-19の感染者数データを用いた例
+
+## パッケージの読み込み
+library(forecast)
+library(tidyverse)
+library(scales) # 年月日表示
+library(plotly) 
+library(zoo)    # 時系列表示
+library(ggfortify)
+
+## データの取得と整理 
+patients <-
+    read.csv("https://covid19.mhlw.go.jp/public/opendata/newly_confirmed_cases_daily.csv") %>%
+    dplyr::rename(date=1, patients=2) %>% 
+    dplyr::mutate(date=as.Date(date))
+## 時系列データ(zooクラス)への変更
+patients <- with(patients,
+                   zoo(x=patients, order.by=date))
+
+## データの視覚化
+p <-
+    ggplot(data = fortify(patients, melt = TRUE),
+           mapping = aes(x = Index,
+                         y = Value)) +
+    scale_x_date(labels = date_format("%y-%m-%d"), # 年月日表示
+                 breaks = date_breaks("1 month")) + # 週毎
+    theme(axis.text.x = element_text(angle = 90, 
+                                     vjust = 0.5, hjust=1)) +
+    labs(title = "COVID-19 patients in Japan",
+         x = "date",
+         y = "number of patients")
+## 棒グラフ
+print(p + geom_col(fill="skyblue")) # グラフ出力
+
+## 第3波 (2020/9/15-2021/1/31)
+p <-
+  ggplot(data = fortify(window(patients,
+                               start="2020-09-15",
+                               end="2021-01-31"),
+                        melt = TRUE),
+         mapping = aes(x = Index,
+                       y = Value)) +
+  scale_x_date(labels = date_format("%y-%m-%d"), # 年月日表示
+               breaks = date_breaks("1 week")) + # 週毎
+  theme(axis.text.x = element_text(angle = 90, 
+                                   vjust = 0.5, hjust=1)) +
+  labs(title = "COVID-19 patients in Japan",
+       x = "date",
+       y = "number of patients")
+## 棒グラフ
+print(p + geom_col(fill="skyblue")) # グラフ出力
+
+## 9月以降の第3波を対象とする
+train <- window(patients,
+                start="2020-09-15",
+                end="2020-11-30")
+test <- window(patients,
+               start="2020-12-01")
+
+## 階差系列の性質
+autoplot(diff(train)) +
+  labs(x = "date",
+       y = "D(patients)")
+
+autoplot(acf(diff(train), plot = FALSE), # 自己相関
+         conf.int.fill = "royalblue",
+         conf.int.alpha =0.2,
+         conf.int.value = 0.7,
+         conf.int.type = "ma") +
+  labs(title = "D(patients)") +
+  ylim(c(-0.5,1.0))
+
+autoplot(pacf(diff(train), plot = FALSE), # 偏自己相関
+         conf.int.fill = "royalblue",
+         conf.int.alpha =0.2,
+         conf.int.value = 0.7) +
+  labs(title = "D(patients)",
+       y = "PACF") +
+  ylim(c(-0.5,1.0))
+
+## 対数変換を確認する
+ltrain <- log(train)
+autoplot(diff(ltrain)) +
+    labs(x = "date",
+         y = "D(log(patients))")
+
+autoplot(acf(diff(ltrain), plot = FALSE), # 自己相関
+         conf.int.fill = "royalblue",
+         conf.int.alpha =0.2,
+         conf.int.value = 0.7,
+         conf.int.type = "ma") +
+  labs(title = "D(log(patients))") +
+  ylim(c(-0.5,1.0))
+
+autoplot(pacf(diff(ltrain), plot = FALSE), # 偏自己相関
+         conf.int.fill = "royalblue",
+         conf.int.alpha =0.2,
+         conf.int.value = 0.7) +
+  labs(title = "D(log(patients))",
+       y = "PACF") +
+  ylim(c(-0.5,1.0))
+
+## 7日の周期性を確認する
+autoplot(diff(diff(ltrain), lag=7)) +
+    labs(x = "date",
+         y = "D7*D(log(patients))")
+
+autoplot(acf(diff(diff(ltrain), lag=7), plot = FALSE), # 自己相関
+         conf.int.fill = "royalblue",
+         conf.int.alpha =0.2,
+         conf.int.value = 0.7,
+         conf.int.type = "ma") +
+  labs(title = "D7*D(log(patients))") +
+  ylim(c(-0.5,1.0))
+
+autoplot(pacf(diff(diff(ltrain), lag=7), plot = FALSE), # 偏自己相関
+         conf.int.fill = "royalblue",
+         conf.int.alpha =0.2,
+         conf.int.value = 0.7) +
+  labs(title = "D7*D(log(patients))",
+       y = "PACF") +
+  ylim(c(-0.5,1.0))
+
+## drift付きのARIMAモデルの次数を自動推定
+est.arima <- forecast::auto.arima(ltrain)
+## 推定されたモデルを表示
+print(est.arima)
+## SARIMAモデルを当て嵌める場合は周期を指定する．
+## frequency(ltrain) <- 7 # 7日周期の成分を仮定
+## (est.arima7 <- auto.arima(ltrain))
+## このデータではモデルの推定はうまくいかない
+
+## モデルによる当て嵌めの視覚化
+p <- 
+  ggplot(data = fortify(est.arima) %>%
+           dplyr::mutate(Index=as.Date(Index)),
+         mapping = aes(x = Index,
+                       y = Data)) +
+  geom_line(colour = "skyblue") +
+  geom_line(mapping = aes(y = Fitted),
+            colour = "orange") +
+  scale_x_date(labels = date_format("%y-%m-%d"), 
+               breaks = date_breaks("1 week")) + 
+  theme(axis.text.x = element_text(angle = 90,
+                                   vjust = 0.5, hjust=1)) +
+  labs(title = "Fitted by ARIMA model",
+       x = "date",
+       y = "log(patients)")
+print(p)
+
+## 診断プロット
+tsdiag(est.arima)
+## 残差に相関が残っているので，優れたモデルという訳ではない
+
+## 12月以降(最大60日)を予測してみる
+p <- 
+  ggplot(data = fortify(forecast(est.arima,
+                                 h=min(length(test),60))) %>%
+           dplyr::mutate(Index=as.Date(Index)) %>%
+           left_join(fortify(test), by = "Index"), 
+         mapping = aes(x = Index,
+                       y = exp(Data)),
+         na.rm = TRUE) +
+  geom_line(colour = "skyblue",
+            na.rm = TRUE) +
+  geom_line(mapping = aes(y = test),
+            colour = "red",
+            na.rm = TRUE) +
+  geom_line(mapping = aes(y = exp(`Point Forecast`)),
+            colour = "royalblue",
+            na.rm = TRUE) +
+  geom_ribbon(mapping = aes(ymin = exp(`Lo 80`),
+                            ymax = exp(`Hi 80`)),
+              fill = "royalblue", alpha = 0.3,
+              na.rm = TRUE) +
+  ## geom_ribbon(mapping = aes(ymin = exp(`Lo 95`),
+  ##   			ymax = exp(`Hi 95`)),
+  ##   	  fill = "royalblue", alpha = 0.1,
+  ##   	  na.rm = TRUE) +
+  scale_x_date(labels = date_format("%y-%m-%d"), 
+               breaks = date_breaks("1 week")) + 
+  theme(axis.text.x = element_text(angle = 90,
+                                   vjust = 0.5, hjust=1)) +
+  labs(title = "Prediction by ARIMA model",
+       x = "date",
+       y = "number of patients")
+print(p)
+
+## 第8波 (2022/10/10-現在)
+p <-
+  ggplot(data = fortify(window(patients,
+                               start="2022-10-10"),
+                        melt = TRUE),
+         mapping = aes(x = Index,
+                       y = Value)) +
+  scale_x_date(labels = date_format("%y-%m-%d"), # 年月日表示
+               breaks = date_breaks("1 week")) + # 週毎
+  theme(axis.text.x = element_text(angle = 90, 
+                                   vjust = 0.5, hjust=1)) +
+  labs(title = "COVID-19 patients in Japan",
+       x = "date",
+       y = "number of patients")
+## 棒グラフ
+print(p + geom_col(fill="skyblue")) # グラフ出力
+
+## 9月以降の第3波を対象とする
+  train <- window(patients,
+                  start="2022-11-01",
+                  end="2022-11-30")
+#                  start="2022-10-10",
+#                  end="2022-11-10")
+  test <- window(patients,
+                 start="2022-12-01")
+#                 start="2022-11-11")
+  ltrain <- log(train)
+
+  ## 第3波で推定された次数のARIMAモデルを利用
+  est.arima <- forecast::Arima(log(train),c(2,1,2),include.drift=TRUE)
+  ## 推定されたモデルを表示
+  print(est.arima)
+  ## 自動選択だと良いモデルが選択されない
+  ## est.arima <- forecast::auto.arima(ltrain)
+  ## SARIMAモデルを当て嵌める場合は周期を指定する．
+  ## frequency(ltrain) <- 7 # 7日周期の成分を仮定
+  ##  (est.arima7 <- auto.arima(ltrain))
+  ## このデータではモデルの推定はうまくいかない
+
+## 診断プロット
+tsdiag(est.arima)
+## 残差に相関が残っているので，優れたモデルという訳ではない
+
+## モデルによる当て嵌めの視覚化
+p <- 
+  ggplot(data = fortify(est.arima) %>%
+           dplyr::mutate(Index=as.Date(Index)),
+         mapping = aes(x = Index,
+                       y = Data)) +
+  geom_line(colour = "skyblue") +
+  geom_line(mapping = aes(y = Fitted),
+            colour = "orange") +
+  scale_x_date(labels = date_format("%y-%m-%d"), 
+               breaks = date_breaks("1 week")) + 
+  theme(axis.text.x = element_text(angle = 90,
+                                   vjust = 0.5, hjust=1)) +
+  labs(title = "Fitted by ARIMA model",
+       x = "date",
+       y = "log(patients)")
+print(p)
+
+## 12月以降(最大60日)を予測してみる
+p <- 
+  ggplot(data = fortify(forecast(est.arima,
+                                 h=min(length(test),60))) %>%
+           dplyr::mutate(Index=as.Date(Index)) %>%
+           left_join(fortify(test), by = "Index"), 
+         mapping = aes(x = Index,
+                       y = exp(Data)),
+         na.rm = TRUE) +
+  geom_line(colour = "skyblue",
+            na.rm = TRUE) +
+  geom_line(mapping = aes(y = test),
+            colour = "red",
+            na.rm = TRUE) +
+  geom_line(mapping = aes(y = exp(`Point Forecast`)),
+            colour = "royalblue",
+            na.rm = TRUE) +
+  geom_ribbon(mapping = aes(ymin = exp(`Lo 80`),
+                            ymax = exp(`Hi 80`)),
+              fill = "royalblue", alpha = 0.3,
+              na.rm = TRUE) +
+  ## geom_ribbon(mapping = aes(ymin = exp(`Lo 95`),
+  ##   			ymax = exp(`Hi 95`)),
+  ##   	  fill = "royalblue", alpha = 0.1,
+  ##   	  na.rm = TRUE) +
+  scale_x_date(labels = date_format("%y-%m-%d"), 
+               breaks = date_breaks("1 week")) + 
+  theme(axis.text.x = element_text(angle = 90,
+                                   vjust = 0.5, hjust=1)) +
+  labs(title = "Prediction by ARIMA model",
+       x = "date",
+       y = "number of patients")
+print(p)
+
+predict(object, newdata, n.ahead = 1, se.fit = TRUE, ...)
+## object: ar また arima による推定結果
+## newdata: 予測対象のデータ (arの場合のみ)
+## n.ahead: n期先の予測
+## se.fit: 標準誤差を付加するか否か
+x.fit <- arima(x, order=c(0,1,1),
+		   seasona=list(order=c(0,1,1), period=12))
+x.prd <- predict(x.fit, n.ahead=10)
+x.prd$pred # 予測値 (標準誤差は $se)
+
+forecast(object, h)
+## object: ar また arima による推定結果
+## h: h期先の予測 (指定しないと2周期または10期先を予測)
+x.fit <- auto.arima(x, d=1, D=1)
+x.prd <- forecast(x.fit, h=10)
+x.prd$mean # 予測値 (信頼区間は $upper/$lower)
+plot(x.prd) # 全体を視覚化
+
+StructTS(x, type = "level", fixed = NULL, ...)
+## x: 時系列データ
+## type: "level" 平均の変動をランダムウォークでモデル化
+##       "trend" 平均と傾きをランダムウォークでモデル化
+##       "BSM" 季節成分を含むモデル (frequencyが必要)
+## fixed: ホワイトノイズの分散の指定
+x.sts <- StructTS(x, type = "trend", fixed = c(0.1,NA,NA))
+## 平均のホワイトノイズの分散を0.1，傾きとランダム成分の分散は推定
+forecast(x.sts, h=10) # predictを使うことも可
 
 ### 
 ### 練習問題 東京の気温の予測
