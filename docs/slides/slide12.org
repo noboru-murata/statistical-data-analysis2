@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-01-14 17:51:51 mura>
+# Time-stamp: <2024-01-16 15:56:38 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/org/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -464,15 +464,16 @@
     - 関数 ~ts()~, ~acf()~ など
     - 標準でインストールされている
   - *fable/tsibble/feasts* : 時系列のためのパッケージ
+    - https://tidyverts.org (開発元)
+    - ~forecast~ パッケージの tidyverse 版
     - 関数 ~ARIMA()~, ~ACF()~, ~autoplot()~ など
     #+begin_src R :exports code :tangle no
       #' 最初に一度だけ以下のいずれかを実行しておく
       #'  - Package タブから fable/tsibble/feasts をインストール
       #'  - コンソール上で次のコマンドを実行 'install.packages(c("fable","tsibble","feasts")'
     #+end_src
-    - ~forecast~ パッケージの tidyverse 版
-    - ~ggfortify~ でも時系列を扱うことはできるが挙動が微妙に異なる
-
+    - https://otexts.com/fpp3/ (textbook)
+      
 ** R : 時系列の作成
 :PROPERTIES:
 :reveal_background: #fef4f4
@@ -498,6 +499,30 @@
     #+end_src
     - ~ts~ オブジェクトは通常その時間情報を利用して処理が行われるため
       関数によっては扱いがベクトルと異なる場合があるので注意
+
+#+reveal: split
+- 関数 ~tsibble::tsibble()~ (tidyverse系)
+  #+begin_src R :eval no :tangle no
+    tsibble(..., key = NULL, index, regular = TRUE, .drop = TRUE)
+    #' ...: データ
+    #' key: indexの補助情報(同じ時間の異なるデータを表す)
+    #' index: 時間情報を表す列を設定
+  #+end_src
+- 関数 ~tsibble::as_tsibble()~
+  #+begin_src R :eval no :tangle no
+    as_tsibble(x, key = NULL, index,
+               regular = TRUE, validate = TRUE, .drop = TRUE, ...)
+    #' x: データ(時系列オブジェクトやデータフレーム)
+  #+end_src
+  - [[color:green][典型的な使い方]]
+    #+begin_src R :eval no :tangle yes
+      tsibble(date = as_date("2024-01-01") + 0:9,
+              value = rnorm(10))
+      tibble(year = 2001:2020,
+             value = rnorm(20)) |>
+        as_tsibble(index = year) # yearを時間情報に指定
+      AirPassengers |> as_tsibble() # 時系列オブジェクトの変換
+    #+end_src
 
 ** COMMENT R : 関数 ~plot()~
 :PROPERTIES:

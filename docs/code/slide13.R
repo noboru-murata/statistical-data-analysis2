@@ -6,15 +6,15 @@ conflicts_prefer(
   dplyr::lag(),
 )
 library(tidyverse)
-library(forecast)
-library(patchwork)
-library(scales)
+library(fable)
+library(tsibble)
+library(feasts)
 
-#' @excercise 自己相関・自己共分散の計算・描画
-
-ggAcf(arima.sim(model = list(ar = c(0.8, -0.64),
-                             ma = c(-0.5)),
-                n = 200))
+toy_acf <- arima.sim(model = list(ar = c(0.8, -0.64),
+                                  ma = c(-0.5)),
+                     n = 200) |>
+  as_tsibble() |> ACF(value) 
+toy_acf |> autoplot()
 
 #' ---------------------------------------------------------------------------
 #' @practice 自己相関
@@ -34,746 +34,372 @@ ts_arma <- ts(replicate(K, arima.sim(list(ar = c(0.8, -0.64),
                                      n = Tmax,
                                      innov = rnorm(Tmax))))
 
-#' AR(2)モデルの自己相関(patchworkパッケージを用いてグラフを2x2に並べる)
-patch <- list()
-for(i in 1:K) {
-  patch[[i]] <-
-    ggAcf(ts_ar[,i],
-          colour = hue_pal()(K)[i]) +
-    ylim(-0.3,1) + # y軸の範囲を指定して4つのグラフの表示を揃える
-    labs(title = paste("AR Series:", i))
-}
-do.call("wrap_plots", patch)
+#' AR(2)モデルの自己相関
+ts_ar |> as_tsibble() |> ACF(value) |> autoplot()
+ts_ar |> as_tsibble() |> ACF(value) |>
+    autoplot() + # 格子状に並べるには facet を指定する
+    facet_wrap(key ~ .) + # 適宜調整してくれる
+    labs(title = "AR(2)")
 
 #' MA(2)モデルの自己相関
-for(i in 1:K) {
-  patch[[i]] <-
-    ggAcf(ts_ma[,i],
-          colour = hue_pal()(K)[i]) +
-    ylim(-0.3,0.4) +
-    labs(title = paste("MA series:", i))
-}
-do.call("wrap_plots", patch)
+ts_ma |> as_tsibble() |> ACF(value) |>
+    autoplot() + 
+    facet_wrap(key ~ .) +
+    labs(title = "MA(2)")
 
 #' ARMA(2,1)モデルの自己相関
-for(i in 1:K) {
-  patch[[i]] <-
-    ggAcf(ts_arma[,i],
-          colour = hue_pal()(K)[i]) +
-    ylim(-0.6,0.4) +
-    labs(title = paste("ARMA Series:", i))
-}
-do.call("wrap_plots", patch)
+ts_arma |> as_tsibble() |> ACF(value) |>
+    autoplot() + 
+    facet_wrap(key ~ .) +
+    labs(title = "ARMA(2,1)")
 
 #' ---------------------------------------------------------------------------
 
-#' ARMA(2,1)モデルの偏自己相関
-for(i in 1:K) {
-  patch[[i]] <-
-    ggPacf(ts_arma[,i], 
-           colour = hue_pal()(K)[i]) +
-    ylim(-0.6,0.4) +
-    labs(title = paste("ARMA series:", i))
-}
-do.call("wrap_plots", patch)
-
 #' @excercise ARモデルの推定
 
-x <- arima.sim(model = list(ar = c(0.7,-0.6, 0.5)), n = 1000)
-ar(x) 
-ar(x, method = "mle")
+toy_ar <- arima.sim(model = list(ar = c(0.7,-0.6, 0.5)),
+                    n = 1000) |> as_tsibble()
+toy_ar |> model(AR(value)) # モデルを自動選択する場合
+toy_ar |> model(AR(value ~ order(3))) # モデルの次数を指定する場合
+toy_ar |> model(AR(value ~ 0 + order(3))) # 平均項を含めない場合
 
 #' @excercise ARIMAモデルの推定
 
-x <- arima.sim(model = list(ar = c(0.7,-0.6,0.5)), n = 1000)
-auto.arima(x)  
-y <- arima.sim(list(order = c(2,1,1), ar = c(0.8,-0.64), ma = c(-0.5)), n = 1000)
-auto.arima(y)
+toy_arima <- arima.sim(model = list(order = c(2,1,2),
+                                 ar = c(0.8,-0.5),
+                                 ma = c(-0.2,0.2)),
+                    n = 1000) |> as_tsibble()
+toy_arima |> model(ARIMA(value)) # 自動選択
+toy_arima |> model(ARIMA(value ~ 0 + pdq(2,1,2))) # 次数を指定
 
-### 
-### 練習問題 ARMAモデルの推定
-### 
+#' @excercise モデルの評価
 
-## ARMA過程を生成する関数
-myARMA <- function(a, b, epsilon){
-    p <- length(a)
-    q <- length(b)
-    r <- max(p,q)
-    Tmax <- length(epsilon) # 時系列の長さを取得
-    x <- double(Tmax)
-    x[1:r] <- epsilon[1:r]
-    for(t in (r+1):Tmax) {
-        x[t] <- a %*% x[t-1:p] + b %*% epsilon[t-1:q] + epsilon[t]
-    }
-    return(x)
-}
+toy_fit <- toy_arima |> model(ARIMA(value))
+toy_fit |> accuracy()
+toy_fit |> glance()
+toy_fit |> gg_tsresiduals()
 
-## AR(2)過程の生成 (以下は前回の例を利用，自由に変更せよ)
-x.ar <- ts(myARMA(a=c(0.67, 0.26),
-                  b=0,
-                  epsilon=rnorm(1000))) # 時系列の長さも自由に変更せよ
-## 関数 ar による自動推定
-est.ar <- ar(x.ar) 
-print(est.ar) # ある程度長い系列であれば良い推定が得られる
+#' ---------------------------------------------------------------------------
+#' @practice AR/ARMAモデルの推定
 
-## ARMA(2,1)過程の生成
-x.arma <- ts(myARMA(a=c(0.8, -0.64),
-                    b=c(-0.5),
-                    epsilon=rnorm(1000))) 
-## 関数 arima による手動推定
-est.arma0 <- arima(x.arma, order=c(2, 0, 1)) # 正しいモデル
-est.arma1 <- arima(x.arma, order=c(3, 0, 1))
-est.arma2 <- arima(x.arma, order=c(2, 0, 2))
-print(est.arma0)
-print(est.arma1)
-print(est.arma2)
-## 尤度(likelihood)は大きい方が観測データへのあてはまりは良い
-## AICは小さい方が良い予測が良いことが期待される
+#' AR(2)過程の生成
+toy_ar <- arima.sim(model = list(ar = c(0.67, 0.26)),
+                       n = 5000) |> # 時系列の長さも自由に変更せよ
+    as_tsibble()
+#' 関数 fabletools::model() + fable::AR() による推定
+toy_ar_fit <- # 自動的に推定されたモデルを保存
+    toy_ar |> model(AR(value)) 
+toy_ar_fit |> report()   # 推定されたモデル
+toy_ar_fit |> tidy()     # 推定された係数とその評価
+toy_ar_fit |> accuracy() # 推定されたモデルのあてはまりの評価
+toy_ar_fit |> glance()   # 推定されたモデルの情報量規準など
+#' ある程度長い系列であれば良い推定が得られる
+#' n = 1000 などとして試してみよ
 
-## 関数 auto.arima による自動推定
-## パッケージの読み込み
-library(forecast) # 既に読み込んでいれば不要 
-est.arma <- auto.arima(x.arma, d=0, D=0)
-print(est.arma)
-## 必ずしも正しいモデルが推定される訳ではないことに注意
-## 特に短い時系列では推定が難しい場合が多い
-## 生成する系列の長さを変えて実験してみよう
+#' ARMA(2,1)過程の生成
+toy_arma <- arima.sim(model = list(ar = c(0.67, 0.26), ma = c(-0.5)),
+                      n = 2000) |> 
+    as_tsibble()
+#' 関数 fabletools::model() + fable::ARIMA() による推定
+toy_arma_fit <- # 自動的に推定されたモデルを保存
+    toy_arma |> model(
+                    model0 = ARIMA(value ~ pdq(2,0,1)), # 正しいモデル
+                    model1 = ARIMA(value ~ pdq(3,0,1)), # 間違ったモデル
+                    model2 = ARIMA(value ~ pdq(2,0,2)), # 間違ったモデル
+                    auto0  = ARIMA(value ~ pdq(d = 0)), # ARMAで自動推定(階差を取らない)
+                    auto1  = ARIMA(value), # ARIMA全体で自動推定(モデルとしてはかなり冗長)
+                    )
+toy_arma_fit # 推定されたモデルの表示
+toy_arma_fit |> glance() # 推定されたモデルの評価
+toy_arma_fit |> glance() |> arrange(AIC) # AIC順に並べる
+#' 対数尤度(log_lik)は大きい方が観測データへのあてはまりは良い
+#' AICは小さい方が良い予測が良いことが期待される
+#' 自動推定では必ずしも正しいモデルが推定される訳ではないことに注意
+#' 特に短い時系列では推定が難しい場合が多い
+#' 生成する系列の長さを変えて実験してみよう
 
-## 自己相関係数による評価
-plot(x.arma) # 元の時系列
-acf(x.arma)  # 元の時系列の自己相関
-plot(resid(est.arma)) # 推定されたモデルの残差
-acf(resid(est.arma))  # 推定されたモデルの残差の自己相関
-## 残差は無相関になっていることが確認できる
+#' 残差の評価
+toy_arma_fit |> select(model0) |> # 正しいモデル
+    gg_tsresiduals()
+toy_arma_fit |> select(auto0) |>  # 自動推定されたARMAモデル
+    gg_tsresiduals()
+#' 残差は無相関になっていることが確認できる
 
-library(zoo) # forecast を利用すると自動的に読み込まれる
-zoo(x = NULL, order.by = index(x), frequency = NULL, ...)
-## x: ベクトル，行列
-## order.by: 成分の目盛
-## frequency: 季節成分の周期
-x.zoo <- zoo(x, # データに日付の情報を付加する例 (Dateクラスで指定)
-		 order.by = seq(from=as.Date("2021-01-01"), 
-				to=as.Date("2021-12-31"), by=1))
-start(x.zoo) # index(x.zoo)[1] 最初の日付
-end(x.zoo) # index(x.zoo)[length(x.zoo)] 最後の日付
+#' ---------------------------------------------------------------------------
 
-window(x, start = NULL, end = NULL)
-## x: ベクトル，行列
-## start: 開始時点
-## end: 終了時点
-window(x, # データに日付の情報が入っている場合 (zooの例)
-	   start="2021-12-01", # Dateクラスの標準の書き方
-	   end="2021/12/31") # Dateクラスはこちらでも解釈可能
+tsibble(date = as_date("2024-01-01") + 0:9,
+        value = rnorm(10))
+tibble(year = 2001:2020,
+       value = rnorm(20)) |>
+  as_tsibble(index = year) # yearを時間情報に指定
+AirPassengers |> as_tsibble() # 時系列オブジェクトの変換
 
-tw_data <- read.csv("data/tokyo_weather.csv")
+AirPassengers |>
+  as_tsibble() |>
+  filter_index("1955-10" ~ "1956-03")
+
+tw_data <- read_csv("data/tokyo_weather.csv")
 
 #' ---------------------------------------------------------------------------
 #' @practice 東京の気温データの時系列モデル
 
-## パッケージの読み込み (既に読み込んでいれば不要 )
-# library(zoo) 
-library(forecast)
-tw_data <- read.csv("data/tokyo_weather.csv")
-tw_zoo <- with(tw_data,
-               zoo(temp,
-                   order.by = as.Date(paste(year,month,day,sep="-"))))
+#' データの整理
+tw_data <- read_csv("data/tokyo_weather.csv")
+tw_tsbl <- tw_data |>
+    mutate(date = as.Date(paste(year, month, day, sep = "-"))) |>
+    select(date, temp) |>
+    as_tsibble(index = date) # date を時系列の index に指定
 
-## データの視覚化を行う
-plot(tw_zoo, col="red",
-     xlab="month", ylab="degree", main="Temperature in Tokyo")
-plot(window(tw_zoo, # 一部を切り出して視覚化する
-            start=as.Date("2021-06-01"),
-            end=as.Date("2021-07-31")),
-     col="red",
-     xlab="date", ylab="degree", main="Temperature (June-July)")
-acf(tw_zoo)       # 減衰が遅いので差分をとった方が良さそう
-plot(diff(tw_zoo)) # 階差系列の視覚化
-acf(diff(tw_zoo))  # 階差系列の自己相関
+#' データの視覚化
+tw_tsbl |>
+    autoplot(temp, colour = "red") +
+    labs(title = "Temperature in Tokyo",
+         x = "date", y = "temperature")
+tw_tsbl |> # 一部を切り出して視覚化する
+    filter_index("2022-06-01" ~ "2022-07-31") |>
+    autoplot(temp, colour = "red") +
+    labs(title = "Temperature in Tokyo",
+         x = "date", y = "temperature")
 
-## 階差系列にARMAモデルをあてはめる (d=1)
-tw_fit <- auto.arima(tw_zoo, d=1, D=0)
-summary(tw_fit) # 推定されたモデルの仕様を表示
-acf(resid(tw_fit)) # そこそこあてはまりは良さそう
+#' データの性質を確認
+tw_tsbl |> ACF(temp) |> # 自己相関
+    autoplot() # 減衰が遅いので差分をとった方が良さそう
+tw_tsbl |> 
+    autoplot(difference(temp), colour = "orange")
+tw_tsbl |> ACF(difference(temp)) |> # 階差系列の自己相関
+    autoplot() 
+
+#' 階差系列にARMAモデルをあてはめる (d=1)
+tw_fit <- tw_tsbl |>
+  model(ARIMA(temp ~ pdq(d = 1) + PDQ(D = 0)))
+report(tw_fit) # 推定されたモデルの仕様を表示
+tw_fit |> # 残差の評価
+  gg_tsresiduals() # そこそこあてはまりは良さそう
+tw_fit |> # データとあてはめ値の比較
+    augment() |>
+    autoplot(temp) +
+    geom_line(aes(y = .fitted), # y軸にあてはめ値を指定
+              colour = "blue", alpha = 0.3) +
+    labs(title = "Fitted by ARIMA model",
+         x = "date", y = "temperature")
 
 #' ---------------------------------------------------------------------------
 
-## ランダムウォークの予測
-autoplot(forecast(myARMA(a=c(1),b=c(0),rnorm(180)),h=20),col=2)
+#' 後半を予測してみる
+cp_3rd_arima |> 
+  forecast(h = nrow(cp_3rd_test)) |>
+  autoplot(cp_3rd_train, level = 80) +
+  autolayer(cp_3rd_test, colour = "red") +
+  labs(title = "Prediction by ARIMA model")
 
-## ARMA 過程の予測
-autoplot(forecast(myARMA(a=c(0.8, -0.64),b=c(-0.5),rnorm(180)),h=20),col=2)
+#' @excercise 時系列の予測
 
-### 基本的な時系列モデルによる予測
-### 厚生労働省のCOVID-19の感染者数データを用いた例
+as_tsibble(AirPassengers) |>
+  model(ARIMA(log(value))) |>
+  forecast(h = 36) |> autoplot(AirPassengers)
 
-## パッケージの読み込み
-library(forecast)
-library(tidyverse)
-library(scales) # 年月日表示
-library(plotly) 
-library(zoo)    # 時系列表示
-library(ggfortify)
+#' @excercise ETSモデルの推定
 
-## データの取得と整理 
-patients <-
-    read.csv("https://covid19.mhlw.go.jp/public/opendata/newly_confirmed_cases_daily.csv") %>%
-    dplyr::rename(date=1, patients=2) %>% 
-    dplyr::mutate(date=as.Date(date))
-## 時系列データ(zooクラス)への変更
-patients <- with(patients,
-                   zoo(x=patients, order.by=date))
+as_tsibble(AirPassengers) |>
+  model(ETS(value ~ season("M"))) |>
+  components() |> autoplot()
 
-## データの視覚化
-p <-
-    ggplot(data = fortify(patients, melt = TRUE),
-           mapping = aes(x = Index,
-                         y = Value)) +
-    scale_x_date(labels = date_format("%y-%m-%d"), # 年月日表示
-                 breaks = date_breaks("1 month")) + # 週毎
-    theme(axis.text.x = element_text(angle = 90, 
-                                     vjust = 0.5, hjust=1)) +
+#' ---------------------------------------------------------------------------
+#' @practice 時系列の予測
+
+#' 厚生労働省のCOVID-19の感染者数データ
+#' 以下は解析事例で紹介した内容
+#' データの取得と整理 
+cp_tbl <-
+    read_csv("https://covid19.mhlw.go.jp/public/opendata/newly_confirmed_cases_daily.csv") |>
+    select(1:2) |>
+    set_names(c("date","patients")) |>
+    mutate(date = as_date(date))
+#' 時系列データ(tsibbleクラス)への変更
+cp_tsbl <-
+    cp_tbl |>
+    as_tsibble(index = date)
+#' データ(全国・全期間)の表示
+cp_tsbl |>
+    autoplot(patients, colour = "skyblue") +
+    geom_col(fill = "skyblue") + # 塗り潰しを行う
     labs(title = "COVID-19 patients in Japan",
          x = "date",
          y = "number of patients")
-## 棒グラフ
-print(p + geom_col(fill="skyblue")) # グラフ出力
+#'
+#' 第3波 (2020/9/15-2021/1/31) に着目する
+#' 
+cp_3rd_train <- # 訓練データ
+    cp_tsbl |>
+    filter_index("2020-09-15" ~ "2020-11-30")
+cp_3rd_test <-  # 試験データ
+    cp_tsbl |>
+    filter_index("2020-12-01" ~ "2021-01-31")
+#' 第3波の表示
+bind_rows(cp_3rd_train,cp_3rd_test) |>
+    autoplot(patients, colour = "skyblue") +
+    geom_col(fill = "skyblue") + # 塗り潰しを行う
+    labs(title = "COVID-19 patients in Japan",
+         x = "date",
+         y = "number of patients")
+#' 階差系列の描画
+cp_3rd_train |>
+    gg_tsdisplay(difference(patients),
+                 plot_type = "partial")
+#' 7日周期の影響があることがわかる
+#' 対数変換+階差系列の描画
+cp_3rd_train |>
+    gg_tsdisplay(difference(log(patients)),
+                 plot_type = "partial")
+#' やはり7日周期の影響があることがわかる
+#' 7日の周期(季節成分)での階差系列の描画
+cp_3rd_train |>
+    gg_tsdisplay(difference(difference(log(patients), lag = 7)),
+                 lag_max = 21,
+                 plot_type = "partial")
+#' 7日の相関は負になっているので，季節階差は取らなくても良さそう
+#' 以下では対数変換した系列に対してARIMAモデルをあてはめる
+cp_3rd_arima <-
+    cp_3rd_train |>
+    model(ARIMA(log(patients) ~ PDQ(D = 0)))
+#' 推定結果の検討
+cp_3rd_arima |> report()
+cp_3rd_arima |> accuracy()
+cp_3rd_arima |> glance()
+#' データとあてはめ値を表示
+cp_3rd_arima |>
+    augment() |>
+    autoplot(patients, colour = "skyblue") +
+    geom_line(aes(y = .fitted), colour = "orange") +
+    labs(title = "Fitted by ARIMA model",
+         x = "date", y = "log(patients)")
+#' 残差の診断
+cp_3rd_arima |> gg_tsresiduals()
+#' 残差の相関はだいぶ消えているので，そこそこ良いモデルといえそう
+#' 後半を予測してみる
+cp_3rd_arima |> 
+    forecast(h = nrow(cp_3rd_test)) |>
+    autoplot(cp_3rd_train, level = 80) +
+    autolayer(cp_3rd_test, colour = "red") +
+    labs(title = "Prediction by ARIMA model")
 
-## 第3波 (2020/9/15-2021/1/31)
-p <-
-  ggplot(data = fortify(window(patients,
-                               start="2020-09-15",
-                               end="2021-01-31"),
-                        melt = TRUE),
-         mapping = aes(x = Index,
-                       y = Value)) +
-  scale_x_date(labels = date_format("%y-%m-%d"), # 年月日表示
-               breaks = date_breaks("1 week")) + # 週毎
-  theme(axis.text.x = element_text(angle = 90, 
-                                   vjust = 0.5, hjust=1)) +
-  labs(title = "COVID-19 patients in Japan",
-       x = "date",
-       y = "number of patients")
-## 棒グラフ
-print(p + geom_col(fill="skyblue")) # グラフ出力
+#' AirPassengersデータの分析
+#' データの時間に関する情報を表示 (月ごとのデータ)
+AirPassengers |> tsp()
 
-## 9月以降の第3波を対象とする
-train <- window(patients,
-                start="2020-09-15",
-                end="2020-11-30")
-test <- window(patients,
-               start="2020-12-01")
+#' データの表示
+AirPassengers |> as_tsibble() |>
+    autoplot(value) +
+    labs(title = "AirPassengers",
+         x = "Year", y = "Passengers/1000")
+#' ほぼ線形のトレンドと増大する分散変動があることがわかる
 
-## 階差系列の性質
-autoplot(diff(train)) +
-  labs(x = "date",
-       y = "D(patients)")
+#' 対数変換データの表示
+AirPassengers |> log() |> as_tsibble() |>
+    autoplot(value) +
+    labs(title = "AirPassengers",
+         x = "Year", y = "log(Passengers/1000)")
+#' 対数変換により分散変動が安定化していることがわかる
 
-autoplot(acf(diff(train), plot = FALSE), # 自己相関
-         conf.int.fill = "royalblue",
-         conf.int.alpha =0.2,
-         conf.int.value = 0.7,
-         conf.int.type = "ma") +
-  labs(title = "D(patients)") +
-  ylim(c(-0.5,1.0))
+#' 以下では対数変換したデータを扱う
+ap_tsbl <- AirPassengers |> as_tsibble()
+ap_train <- ap_tsbl |> filter_index(~ "1958-12") # 訓練データ
+ap_test  <- ap_tsbl |> filter_index("1959-01" ~ .) # 試験データ(2年分)
 
-autoplot(pacf(diff(train), plot = FALSE), # 偏自己相関
-         conf.int.fill = "royalblue",
-         conf.int.alpha =0.2,
-         conf.int.value = 0.7) +
-  labs(title = "D(patients)",
-       y = "PACF") +
-  ylim(c(-0.5,1.0))
+#' まずトレンド(明らかな上昇傾向)について考察
+#' 階差を取ることにより定常化できるか検討
+ap_train |> 
+    gg_tsdisplay(difference(log(value)),
+                 plot_type = "partial") 
+#' lag=12(1年),24(2年)に強い自己相関(季節成分)がある
+#' lag=12(1年)に偏自己相関は残っている
 
-## 対数変換を確認する
-ltrain <- log(train)
-autoplot(diff(ltrain)) +
-    labs(x = "date",
-         y = "D(log(patients))")
+#' 季節成分について考察
+#' 12ヶ月で階差を取って同様に検討
+ap_train |> 
+    gg_tsdisplay(difference(difference(log(value), lag = 12)),
+                 lag_max = 36,
+                 plot_type = "partial")
+#' lag=1,3,12(1年) に若干偏自己相関が残っている
+#' lag=36(3年) まで見ると上記以外の偏自己相関は誤差内
 
-autoplot(acf(diff(ltrain), plot = FALSE), # 自己相関
-         conf.int.fill = "royalblue",
-         conf.int.alpha =0.2,
-         conf.int.value = 0.7,
-         conf.int.type = "ma") +
-  labs(title = "D(log(patients))") +
-  ylim(c(-0.5,1.0))
+#' SARIMAモデルの作成
+#' 階差および季節成分の自己相関・偏自己相関から
+#'  階差系列については ARMA(pまたはq=1-3)，
+#'  季節成分 については ARMA(pまたはq=1-2)
+#' あたりを考える必要がありそう
 
-autoplot(pacf(diff(ltrain), plot = FALSE), # 偏自己相関
-         conf.int.fill = "royalblue",
-         conf.int.alpha =0.2,
-         conf.int.value = 0.7) +
-  labs(title = "D(log(patients))",
-       y = "PACF") +
-  ylim(c(-0.5,1.0))
+#' いくつかのARIMAモデルの推定
+ap_fit <-
+    ap_train |>
+    model(
+        `arima(0,1,2)(0,1,1)` = ARIMA(log(value) ~ pdq(0,1,2) + PDQ(0,1,1)),
+        `arima d=1 D=1` = ARIMA(log(value) ~ pdq(d = 1) + PDQ(D = 1)),
+        `arima auto` = ARIMA(log(value)),
+        `ets` = ETS(log(value)),
+        )
 
-## 7日の周期性を確認する
-autoplot(diff(diff(ltrain), lag=7)) +
-    labs(x = "date",
-         y = "D7*D(log(patients))")
+#' 次数を指定したモデル order=pdq(0,1,2), seasonal=PDQ(0,1,1)
+ap_fit |> select(`arima(0,1,2)(0,1,1)`) |> report() # 推定されたモデルの概要
+ap_fit |> select(`arima(0,1,2)(0,1,1)`) |>
+    gg_tsresiduals() # 残差の診断(モデルの診断)
+ap_fit |> select(`arima(0,1,2)(0,1,1)`) |>
+    augment() |> features(.innov, ljung_box, lag = 12) # Ljung-Box検定
+#' 残差の自己相関は小さいが残差の正規性は低い
+#' 残差に関する Ljung-Box 検定は
+#' - 帰無仮説 : 残差は無作為
+#' - 対立仮説 : 残差は無作為でない
+#' であるので，p値が高い方が良い
 
-autoplot(acf(diff(diff(ltrain), lag=7), plot = FALSE), # 自己相関
-         conf.int.fill = "royalblue",
-         conf.int.alpha =0.2,
-         conf.int.value = 0.7,
-         conf.int.type = "ma") +
-  labs(title = "D7*D(log(patients))") +
-  ylim(c(-0.5,1.0))
+#' 検討結果を踏まえ階差・季節成分の階差を指定した推定
+ap_fit |> select(`arima d=1 D=1`) |> report() 
+ap_fit |> select(`arima d=1 D=1`) |>
+    gg_tsresiduals() 
+ap_fit |> select(`arima d=1 D=1`) |>
+    augment() |> features(.innov, ljung_box, lag = 12)
 
-autoplot(pacf(diff(diff(ltrain), lag=7), plot = FALSE), # 偏自己相関
-         conf.int.fill = "royalblue",
-         conf.int.alpha =0.2,
-         conf.int.value = 0.7) +
-  labs(title = "D7*D(log(patients))",
-       y = "PACF") +
-  ylim(c(-0.5,1.0))
+#' 自動的にモデル選択を行う
+ap_fit |> select(`arima auto`) |> report() 
+#' いずれにせよAIC最小のモデルは以下となる
+#' order = pdq(0,1,1), seasonal = PDQ(0,1,1)
+#' 以降，このモデルを利用する
 
-## drift付きのARIMAモデルの次数を自動推定
-est.arima <- forecast::auto.arima(ltrain)
-## 推定されたモデルを表示
-print(est.arima)
-## SARIMAモデルを当て嵌める場合は周期を指定する．
-## frequency(ltrain) <- 7 # 7日周期の成分を仮定
-## (est.arima7 <- auto.arima(ltrain))
-## このデータではモデルの推定はうまくいかない
+#' 予測値と信頼区間の描画
+ap_fit |> select(`arima auto`) |>
+    forecast(h = nrow(ap_test)) |>
+    autoplot(ap_train) +
+    autolayer(ap_test, value, colour = "purple") +
+    labs(title = "Forecast from SARIMA model",
+         x = "Year", y = "Passengers/1000")
 
-## モデルによる当て嵌めの視覚化
-p <- 
-  ggplot(data = fortify(est.arima) %>%
-           dplyr::mutate(Index=as.Date(Index)),
-         mapping = aes(x = Index,
-                       y = Data)) +
-  geom_line(colour = "skyblue") +
-  geom_line(mapping = aes(y = Fitted),
-            colour = "orange") +
-  scale_x_date(labels = date_format("%y-%m-%d"), 
-               breaks = date_breaks("1 week")) + 
-  theme(axis.text.x = element_text(angle = 90,
-                                   vjust = 0.5, hjust=1)) +
-  labs(title = "Fitted by ARIMA model",
-       x = "date",
-       y = "log(patients)")
-print(p)
+#' 時系列の分解
+#' ETS (exponential smoothing) モデル
+#' トレンド(level+slope) + 季節(12ヶ月周期) + ランダム
+ap_fit |> select(`ets`) |> report() 
+ap_fit |> select(`ets`) |> gg_tsresiduals() 
+ap_fit |> select(`ets`) |> augment() |> features(.innov, ljung_box, lag = 12)
+#' 残差に周期構造が残っているので帰無仮説が棄却される
 
-## 診断プロット
-tsdiag(est.arima)
-## 残差に相関が残っているので，優れたモデルという訳ではない
+#' 予測値と信頼区間の描画
+ap_fit |> select(`ets`) |>
+    forecast(h = nrow(ap_test)) |>
+    autoplot(ap_train) +
+    autolayer(ap_test, value, colour = "purple") +
+    labs(title = "Forecast from ETS model",
+         x = "Year", y = "Passengers/1000")
 
-## 12月以降(最大60日)を予測してみる
-p <- 
-  ggplot(data = fortify(forecast(est.arima,
-                                 h=min(length(test),60))) %>%
-           dplyr::mutate(Index=as.Date(Index)) %>%
-           left_join(fortify(test), by = "Index"), 
-         mapping = aes(x = Index,
-                       y = exp(Data)),
-         na.rm = TRUE) +
-  geom_line(colour = "skyblue",
-            na.rm = TRUE) +
-  geom_line(mapping = aes(y = test),
-            colour = "red",
-            na.rm = TRUE) +
-  geom_line(mapping = aes(y = exp(`Point Forecast`)),
-            colour = "royalblue",
-            na.rm = TRUE) +
-  geom_ribbon(mapping = aes(ymin = exp(`Lo 80`),
-                            ymax = exp(`Hi 80`)),
-              fill = "royalblue", alpha = 0.3,
-              na.rm = TRUE) +
-  ## geom_ribbon(mapping = aes(ymin = exp(`Lo 95`),
-  ##   			ymax = exp(`Hi 95`)),
-  ##   	  fill = "royalblue", alpha = 0.1,
-  ##   	  na.rm = TRUE) +
-  scale_x_date(labels = date_format("%y-%m-%d"), 
-               breaks = date_breaks("1 week")) + 
-  theme(axis.text.x = element_text(angle = 90,
-                                   vjust = 0.5, hjust=1)) +
-  labs(title = "Prediction by ARIMA model",
-       x = "date",
-       y = "number of patients")
-print(p)
+#' ARIMAとETSの比較
+ap_train |>
+    autoplot(value) +
+    geom_line(aes(y = .fitted, colour = .model),
+              data = ap_fit |> select(`arima auto`,`ets`) |> augment()) +
+    labs(title = "ARIMA vs ETS (fitted)",
+         x = "Year", y = "Passengers/1000")
+ap_fit |> select(`arima auto`,`ets`) |>
+    forecast(h = nrow(ap_test)) |>
+    autoplot(ap_train, level = NULL) +
+    autolayer(ap_test, value, colour = "violet") +
+    labs(title = "ARIMA vs ETS (forecast)",
+         x = "Year", y = "Passengers/1000")
 
-## 第8波 (2022/10/10-現在)
-p <-
-  ggplot(data = fortify(window(patients,
-                               start="2022-10-10"),
-                        melt = TRUE),
-         mapping = aes(x = Index,
-                       y = Value)) +
-  scale_x_date(labels = date_format("%y-%m-%d"), # 年月日表示
-               breaks = date_breaks("1 week")) + # 週毎
-  theme(axis.text.x = element_text(angle = 90, 
-                                   vjust = 0.5, hjust=1)) +
-  labs(title = "COVID-19 patients in Japan",
-       x = "date",
-       y = "number of patients")
-## 棒グラフ
-print(p + geom_col(fill="skyblue")) # グラフ出力
-
-## 9月以降の第3波を対象とする
-  train <- window(patients,
-                  start="2022-11-01",
-                  end="2022-11-30")
-#                  start="2022-10-10",
-#                  end="2022-11-10")
-  test <- window(patients,
-                 start="2022-12-01")
-#                 start="2022-11-11")
-  ltrain <- log(train)
-
-  ## 第3波で推定された次数のARIMAモデルを利用
-  est.arima <- forecast::Arima(log(train),c(2,1,2),include.drift=TRUE)
-  ## 推定されたモデルを表示
-  print(est.arima)
-  ## 自動選択だと良いモデルが選択されない
-  ## est.arima <- forecast::auto.arima(ltrain)
-  ## SARIMAモデルを当て嵌める場合は周期を指定する．
-  ## frequency(ltrain) <- 7 # 7日周期の成分を仮定
-  ##  (est.arima7 <- auto.arima(ltrain))
-  ## このデータではモデルの推定はうまくいかない
-
-## 診断プロット
-tsdiag(est.arima)
-## 残差に相関が残っているので，優れたモデルという訳ではない
-
-## モデルによる当て嵌めの視覚化
-p <- 
-  ggplot(data = fortify(est.arima) %>%
-           dplyr::mutate(Index=as.Date(Index)),
-         mapping = aes(x = Index,
-                       y = Data)) +
-  geom_line(colour = "skyblue") +
-  geom_line(mapping = aes(y = Fitted),
-            colour = "orange") +
-  scale_x_date(labels = date_format("%y-%m-%d"), 
-               breaks = date_breaks("1 week")) + 
-  theme(axis.text.x = element_text(angle = 90,
-                                   vjust = 0.5, hjust=1)) +
-  labs(title = "Fitted by ARIMA model",
-       x = "date",
-       y = "log(patients)")
-print(p)
-
-## 12月以降(最大60日)を予測してみる
-p <- 
-  ggplot(data = fortify(forecast(est.arima,
-                                 h=min(length(test),60))) %>%
-           dplyr::mutate(Index=as.Date(Index)) %>%
-           left_join(fortify(test), by = "Index"), 
-         mapping = aes(x = Index,
-                       y = exp(Data)),
-         na.rm = TRUE) +
-  geom_line(colour = "skyblue",
-            na.rm = TRUE) +
-  geom_line(mapping = aes(y = test),
-            colour = "red",
-            na.rm = TRUE) +
-  geom_line(mapping = aes(y = exp(`Point Forecast`)),
-            colour = "royalblue",
-            na.rm = TRUE) +
-  geom_ribbon(mapping = aes(ymin = exp(`Lo 80`),
-                            ymax = exp(`Hi 80`)),
-              fill = "royalblue", alpha = 0.3,
-              na.rm = TRUE) +
-  ## geom_ribbon(mapping = aes(ymin = exp(`Lo 95`),
-  ##   			ymax = exp(`Hi 95`)),
-  ##   	  fill = "royalblue", alpha = 0.1,
-  ##   	  na.rm = TRUE) +
-  scale_x_date(labels = date_format("%y-%m-%d"), 
-               breaks = date_breaks("1 week")) + 
-  theme(axis.text.x = element_text(angle = 90,
-                                   vjust = 0.5, hjust=1)) +
-  labs(title = "Prediction by ARIMA model",
-       x = "date",
-       y = "number of patients")
-print(p)
-
-predict(object, newdata, n.ahead = 1, se.fit = TRUE, ...)
-## object: ar また arima による推定結果
-## newdata: 予測対象のデータ (arの場合のみ)
-## n.ahead: n期先の予測
-## se.fit: 標準誤差を付加するか否か
-x.fit <- arima(x, order=c(0,1,1),
-		   seasona=list(order=c(0,1,1), period=12))
-x.prd <- predict(x.fit, n.ahead=10)
-x.prd$pred # 予測値 (標準誤差は $se)
-
-forecast(object, h)
-## object: ar また arima による推定結果
-## h: h期先の予測 (指定しないと2周期または10期先を予測)
-x.fit <- auto.arima(x, d=1, D=1)
-x.prd <- forecast(x.fit, h=10)
-x.prd$mean # 予測値 (信頼区間は $upper/$lower)
-plot(x.prd) # 全体を視覚化
-
-StructTS(x, type = "level", fixed = NULL, ...)
-## x: 時系列データ
-## type: "level" 平均の変動をランダムウォークでモデル化
-##       "trend" 平均と傾きをランダムウォークでモデル化
-##       "BSM" 季節成分を含むモデル (frequencyが必要)
-## fixed: ホワイトノイズの分散の指定
-x.sts <- StructTS(x, type = "trend", fixed = c(0.1,NA,NA))
-## 平均のホワイトノイズの分散を0.1，傾きとランダム成分の分散は推定
-forecast(x.sts, h=10) # predictを使うことも可
-
-### 
-### 練習問題 東京の気温の予測
-### 
-
-## パッケージの読み込み (既に読み込んでいれば不要)
-library(zoo) 
-library(forecast) 
-
-## データの読み込み (既に行っていれば不要)
-tw_data <- read.csv("data/tokyo_weather.csv")
-tw_zoo <- with(tw_data,
-               zoo(temp,
-                   order.by = as.Date(paste(year,month,day,sep="-"))))
-## データの整理
-tw_train <- window(tw_zoo, # 6月までのデータ (訓練データ)
-                   end="2021-06-30")  
-tw_test  <- window(tw_zoo, # 7月のデータ (試験データ)
-                   start="2021-07-01", end="2021-07-31") 
-
-## auto.arima による推定
-(tw_auto <- auto.arima(tw_train, d=1, D=0)) 
-(tw_fcst <- forecast(tw_auto, h=length(tw_test)))
-
-## 視覚化
-plot(tw_fcst) # X軸が無粋 (1970-01-01からの日数)
-
-## X軸の書き直し
-plot(tw_fcst, xaxt="n",
-     xlim=c(as.Date("2021-06-01"), as.Date("2021-07-31")))
-axis(side=1, # x軸を指定
-     at=index(tw_zoo), # 文字を書く座標軸上の位置
-     labels=index(tw_zoo), # ラベル
-     las=2, # 垂直に表示
-     cex.axis=0.7) # 文字の大きさを調整
-lines(tw_test, col="red") # 真値を重ね描き
-
-## 別の書き方
-plot(window(tw_zoo, start="2021-06-01", end="2021-07-31"),
-     col="darkgray",
-     xlab="date", ylab="temperature")
-with(tw_fcst, lines(mean, col="red", lwd=3))    # 予測値
-with(tw_fcst, lines(upper[,1], col="orange", lwd=3)) # +80%信頼区間
-with(tw_fcst, lines(upper[,2], col="orchid", lwd=3)) # +95%信頼区間
-with(tw_fcst, lines(lower[,1], col="orange", lwd=3)) # -80%信頼区間
-with(tw_fcst, lines(lower[,2], col="orchid", lwd=3)) # -95%信頼区間
-
-## StructTS による推定
-(tw_sts <- StructTS(tw_train, type="trend", fixed=c(0.1,NA,NA)))
-(tw_fsts <- forecast(tw_sts, h=length(tw_test)))
-
-## 分解結果の表示 
-plot(merge(tw_train, fitted(tw_sts)), col="blue")
-
-## 視覚化
-plot(tw_fsts, xaxt="n",
-     xlim=c(as.Date("2021-06-01"), as.Date("2021-07-31")))
-axis(side=1, # x軸を指定
-     at=index(tw_zoo), # 文字を書く座標軸上の位置
-     labels=index(tw_zoo), # ラベル
-     las=2, # 垂直に表示
-     cex.axis=0.7) # 文字の大きさを調整
-lines(tw_test, col="red") # 真値を重ね描き
-
-### 
-### 練習問題 AirPassengersデータの分析
-### 
-
-## AirPassengersデータの読み込み
-library(forecast)
-data(AirPassengers)
-tsp(AirPassengers) # データの時間に関する情報を表示 (月ごとのデータ)
-plot(AirPassengers, col="blue") # データの表示
-plot(log(AirPassengers), col="blue") # 対数変換データの表示
-## 対数変換により分散変動が安定化していることがわかる
-
-## 以下では対数変換したデータを扱う
-ap_train <- window(log(AirPassengers), end=c(1957,12))  # 訓練データ
-ap_test  <- window(log(AirPassengers), start=c(1958,1)) # 試験データ
-
-## まずトレンド(明らかな上昇傾向)について考察
-## 階差を取ることにより定常化できるか検討
-plot(diff(ap_train), col="blue") 
-acf(diff(ap_train))  # 自己相関
-pacf(diff(ap_train)) # 偏自己相関
-## lag=1(1年)に強い(偏)自己相関(季節成分)がある
-
-## 季節成分について考察
-## 12ヶ月で階差を取って同様に検討
-plot(diff(diff(ap_train), lag=12), col="blue")
-acf(diff(diff(ap_train), lag=12), lag.max=24)  # 自己相関
-pacf(diff(diff(ap_train), lag=12), lag.max=24) # 偏自己相関
-
-## lag=1/12,3/12,1 に若干偏自己相関が残っている
-## lag=2 (2年) まで見ると自己相関も偏自己相関も誤差内
-
-## SARIMAモデルの作成
-##  階差系列については ARMA(1-3)，
-##  季節成分 については ARMA(1-2)
-## あたりを考える必要がありそう
-
-## 関数arimaを用いる場合
-## 季節成分によるARMA項の指定はseasonalオプションを用いる
-## 例えば seasonal=list(order=c(0,1,2),period=12) で
-## 差分(1階)= e(t) + b(12)*e(t-12) + b(24)*e(t-24) のMA(2)モデルを指定
-## orderとseasonal/orderでそれぞれ1ヶ月階差と12ヶ月階差を取ることに注意
-## seasonalのperiodは既定値では時系列のfrequencyを用いるので通常は指定不要
-## 例
-(ap_arima <- arima(ap_train,
-                   order=c(0,1,2), # 階差1のMA(2)
-                   seasonal=list(order=c(0,1,1)))) # 12ヶ月階差1のMA(1)
-tsdiag(ap_arima) # 時系列モデルの診断図
-
-## 自動的にモデル選択を行う
-(ap_auto <- auto.arima(ap_train, d=1, D=1))
-tsdiag(ap_auto) # 時系列モデルの診断図
-## AIC最小のモデルは以下となる
-## arima(x, order=c(0,1,1), seasonal=list(order=c(0,1,1)))
-
-## 予測値と標準偏差の計算
-plot(forecast(ap_auto, h=length(ap_test))) # 対数変換していることに注意
-lines(ap_test, col="red") # 真の値
-
-## 関数 predict を利用して元のデータ空間に戻す
-ap_pred <- predict(ap_auto, n.ahead=length(ap_test))
-
-## 対数データにおける予測+/-標準偏差の表示
-library(tseries)
-seqplot.ts(x=ap_train, y=ap_test,
-           colx="gray", coly="red", 
-           ylab="passengers/month (log)")
-with(ap_pred,
-     lines(pred, col="blue", lwd=2))
-with(ap_pred, lines(pred+1.96*se, col="darkblue")) # 95%の信頼区間
-with(ap_pred, lines(pred-1.96*se, col="darkblue")) # 1.28なら80%
-
-## もとのデータの空間に戻してみる (指数変換 <-> 対数変換)
-seqplot.ts(x=exp(ap_train), y=exp(ap_test),
-           colx="gray", coly="red",
-           ylab="passengers/month")
-with(ap_pred,
-     lines(exp(pred), col="blue", lwd=2))
-with(ap_pred, lines(exp(pred+1.96*se), col="darkblue")) 
-with(ap_pred, lines(exp(pred-1.96*se), col="darkblue"))
-
-## 時系列の分解
-## basic structure model による分析
-## トレンド(level+slope) + 季節(12ヶ月周期) + ランダム
-## 自動的にモデル選択を行う
-(ap_sts <- StructTS(ap_train, type="BSM"))
-plot(cbind(obs=ap_train, fit=fitted(ap_sts))) # 分解結果の視覚化
-tsdiag(ap_sts) # 時系列モデルの診断図
-## slopeの変動が季節成分の影響を受けて大きいので，推定に制限を付ける
-(ap_sts <- StructTS(ap_train, type="BSM",
-                    fixed=c(NA,0,NA,NA))) # slopeの推定を滑らかに
-plot(cbind(obs=ap_train, fit=fitted(ap_sts))) 
-tsdiag(ap_sts) 
-## fixed=c(0,0,NA,NA) とすればlevelの推定も滑らかになる
-
-## 予測値と標準偏差の計算
-plot(forecast(ap_sts, h=length(ap_test))) # 対数変換していることに注意
-lines(ap_test, col="red") # 真の値
-
-## 関数 predict を利用して元のデータ空間に戻す
-ap_psts <- predict(ap_sts, n.ahead=length(ap_test))
-seqplot.ts(x=exp(ap_train), y=exp(ap_test),
-           colx="gray", coly="red",
-           ylab="passengers/month")
-with(ap_psts,
-     lines(exp(pred), col="blue", lwd=2))
-with(ap_psts, lines(exp(pred+1.96*se), col="darkblue")) 
-with(ap_psts, lines(exp(pred-1.96*se), col="darkblue"))
-
-### 
-### 練習問題 厚生労働省のCOVID-19の感染者数データ
-### 
-
-## データの取得と整理 
-cp_data <- subset(
-    x = read.csv("https://covid19.mhlw.go.jp/public/opendata/newly_confirmed_cases_daily.csv"),
-    select = 1:2)
-names(cp_data) <- c("date","patients")
-cp_data$date <- as.Date(cp_data$date)
-head(cp_data)
-
-## 時系列データ(zooクラス)への変更
-cp_zoo <- with(cp_data,zoo(x=patients, order.by=date))
-plot(cp_zoo, col="blue")
-
-## 対象を限定する
-cp_sub <- window(cp_zoo, start="2022-06-01")
-
-plot(diff(cp_sub), col="blue") 
-acf(diff(cp_sub))  # 自己相関
-pacf(diff(cp_sub)) # 偏自己相関
-## 7日周期の影響があることがわかる
-plot(diff(diff(cp_sub), lag=7), col="blue")
-acf(diff(diff(cp_sub), lag=7), lag.max=21)
-pacf(diff(diff(cp_sub), lag=7), lag.max=21)
-
-## 対数変換を確認する
-cp_log <- log(cp_sub)
-plot(diff(cp_log), col="blue") 
-acf(diff(cp_log))  # 自己相関
-pacf(diff(cp_log)) # 偏自己相関
-plot(diff(diff(cp_log), lag=7), col="blue")
-acf(diff(diff(cp_log), lag=7), lag.max=21)
-pacf(diff(diff(cp_log), lag=7), lag.max=21)
-
-## cp_log にもとづいて予測を行う
-
-## auto.arima による方法
-## 周期を指定して分析してみる
-frequency(cp_log) <- 7 # 7日周期の成分を仮定
-(cp_auto <- auto.arima(cp_log))
-## モデルの推定としてはうまくいかない，おそらく周期性が曖昧なため
-frequency(cp_log) <- 1 # 周期なしとして推定
-(cp_auto <- auto.arima(cp_log))
-## ARIMA(3,1,4)としてモデル化
-tsdiag(cp_auto)
-## 残差に相関が残っているので，優れたモデルという訳ではない
-plot(cp_log, col="blue", ylab="log(patients)")
-lines(fitted(cp_auto), col="orange")
-## 50日先まで予測してみる
-cp_date <- seq(from=start(cp_zoo), to=as.Date("2023-03-31"), by=1)
-plot(forecast(cp_auto, h=50), xaxt="n")
-axis(side=1, 
-     at=cp_date, labels=cp_date, las=2, 
-     cex.axis=0.7) 
-## 対数変換
-cp_fauto <- forecast(cp_auto, h=50)
-seqplot.ts(x=as.ts(cp_sub), y=exp(with(cp_fauto, mean)),
-           colx="gray", coly="red",
-           ylab="patients")
-with(cp_fauto, lines(exp(lower[,1]), col="darkblue")) # 80%信頼区間
-with(cp_fauto, lines(exp(upper[,1]), col="darkblue")) 
-
-## StructTS による方法
-(cp_sts <- StructTS(cp_log))
-plot(fitted(cp_sts))
-plot(forecast(cp_sts, h=50), xaxt="n")
-lines(cp_log)
-axis(side=1, 
-     at=cp_date, labels=cp_date, las=2, 
-     cex.axis=0.7)
-## 対数変換
-## StructTSの返値は少し整理が必要なので注意 (別の書き方の例)
-cp_fsts <- forecast(cp_sts, h=50)
-plot(c(exp(cp_log), # zooクラスを連結する
-       zoo(exp(with(cp_fsts, upper[,1])), 
-           order.by=as.Date(with(cp_fsts, index(mean))))),
-     col="white", ylab="patients", xlab="", xaxt="n")
-axis(side=1, 
-     at=cp_date, labels=cp_date, las=2, 
-     cex.axis=0.7)
-lines(exp(cp_log), col="gray")
-with(cp_fsts, lines(exp(mean), col="blue"))
-with(cp_fsts, lines(ts(exp(lower[,1]),
-                       start=with(cp_fsts, start(mean))),
-                    col="darkblue")) # 80%信頼区間
-with(cp_fsts, lines(ts(exp(upper[,1]),
-                       start=with(cp_fsts, start(mean))),
-                    col="darkblue")) # 80%信頼区間
+#' ---------------------------------------------------------------------------
