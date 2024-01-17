@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-01-16 17:53:15 mura>
+# Time-stamp: <2024-01-17 17:25:11 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/org/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -1647,7 +1647,7 @@
   cp_3rd_arima |> 
     forecast(h = nrow(cp_3rd_test)) |>
     autoplot(cp_3rd_train, level = 80) +
-    autolayer(cp_3rd_test, colour = "red") +
+    autolayer(cp_3rd_test, .vars = patients, colour = "red") +
     labs(title = "Prediction by ARIMA model")
 #+end_src
 #+caption: 予測値 (60日分，80%信頼区間)
@@ -2224,97 +2224,164 @@
   #' 以下は解析事例で紹介した内容
   #' データの取得と整理 
   cp_tbl <-
-      read_csv("https://covid19.mhlw.go.jp/public/opendata/newly_confirmed_cases_daily.csv") |>
-      select(1:2) |>
-      set_names(c("date","patients")) |>
-      mutate(date = as_date(date))
+    read_csv("https://covid19.mhlw.go.jp/public/opendata/newly_confirmed_cases_daily.csv") |>
+    select(1:2) |>
+    set_names(c("date","patients")) |>
+    mutate(date = as_date(date))
   #' 時系列データ(tsibbleクラス)への変更
   cp_tsbl <-
-      cp_tbl |>
-      as_tsibble(index = date)
+    cp_tbl |>
+    as_tsibble(index = date)
   #' データ(全国・全期間)の表示
   cp_tsbl |>
-      autoplot(patients, colour = "skyblue") +
-      geom_col(fill = "skyblue") + # 塗り潰しを行う
-      labs(title = "COVID-19 patients in Japan",
-           x = "date",
-           y = "number of patients")
+    autoplot(patients, colour = "skyblue") +
+    geom_col(fill = "skyblue") + # 塗り潰しを行う
+    labs(title = "COVID-19 patients in Japan",
+         x = "date",
+         y = "number of patients")
   #'
   #' 第3波 (2020/9/15-2021/1/31) に着目する
   #' 
   cp_3rd_train <- # 訓練データ
-      cp_tsbl |>
-      filter_index("2020-09-15" ~ "2020-11-30")
+    cp_tsbl |>
+    filter_index("2020-09-15" ~ "2020-11-30")
   cp_3rd_test <-  # 試験データ
-      cp_tsbl |>
-      filter_index("2020-12-01" ~ "2021-01-31")
+    cp_tsbl |>
+    filter_index("2020-12-01" ~ "2021-01-31")
   #' 第3波の表示
   bind_rows(cp_3rd_train,cp_3rd_test) |>
-      autoplot(patients, colour = "skyblue") +
-      geom_col(fill = "skyblue") + # 塗り潰しを行う
-      labs(title = "COVID-19 patients in Japan",
-           x = "date",
-           y = "number of patients")
+    autoplot(patients, colour = "skyblue") +
+    geom_col(fill = "skyblue") + # 塗り潰しを行う
+    labs(title = "COVID-19 patients in Japan",
+         x = "date",
+         y = "number of patients")
   #' 階差系列の描画
   cp_3rd_train |>
-      gg_tsdisplay(difference(patients),
-                   plot_type = "partial")
+    gg_tsdisplay(difference(patients),
+                 plot_type = "partial")
   #' 7日周期の影響があることがわかる
   #' 対数変換+階差系列の描画
   cp_3rd_train |>
-      gg_tsdisplay(difference(log(patients)),
-                   plot_type = "partial")
+    gg_tsdisplay(difference(log(patients)),
+                 plot_type = "partial")
   #' やはり7日周期の影響があることがわかる
   #' 7日の周期(季節成分)での階差系列の描画
   cp_3rd_train |>
-      gg_tsdisplay(difference(difference(log(patients), lag = 7)),
-                   lag_max = 21,
-                   plot_type = "partial")
+    gg_tsdisplay(difference(difference(log(patients), lag = 7)),
+                 lag_max = 21,
+                 plot_type = "partial")
   #' 7日の相関は負になっているので，季節階差は取らなくても良さそう
   #' 以下では対数変換した系列に対してARIMAモデルをあてはめる
   cp_3rd_arima <-
-      cp_3rd_train |>
-      model(ARIMA(log(patients) ~ PDQ(D = 0)))
+    cp_3rd_train |>
+    model(ARIMA(log(patients) ~ PDQ(D = 0)))
   #' 推定結果の検討
   cp_3rd_arima |> report()
   cp_3rd_arima |> accuracy()
   cp_3rd_arima |> glance()
   #' データとあてはめ値を表示
   cp_3rd_arima |>
-      augment() |>
-      autoplot(patients, colour = "skyblue") +
-      geom_line(aes(y = .fitted), colour = "orange") +
-      labs(title = "Fitted by ARIMA model",
-           x = "date", y = "log(patients)")
+    augment() |>
+    autoplot(patients, colour = "skyblue") +
+    geom_line(aes(y = .fitted), colour = "orange") +
+    labs(title = "Fitted by ARIMA model",
+         x = "date", y = "log(patients)")
   #' 残差の診断
   cp_3rd_arima |> gg_tsresiduals()
   #' 残差の相関はだいぶ消えているので，そこそこ良いモデルといえそう
   #' 後半を予測してみる
   cp_3rd_arima |> 
-      forecast(h = nrow(cp_3rd_test)) |>
-      autoplot(cp_3rd_train, level = 80) +
-      autolayer(cp_3rd_test, colour = "red") +
-      labs(title = "Prediction by ARIMA model")
+    forecast(h = nrow(cp_3rd_test)) |>
+    autoplot(cp_3rd_train, level = 80) +
+    autolayer(cp_3rd_test, .vars = patients, colour = "red") +
+    labs(title = "Prediction by ARIMA model")
+  #' 感染が収まるまでの増加傾向を上手く推定できている
+
+  #' 
+  #' 第8波 (2022/11/01-2023/1/31) に着目する
+  #' 
+  cp_8th_train <- # 訓練データ
+    cp_tsbl |>
+    filter_index("2022-11-01" ~ "2022-11-30")
+  cp_8th_test <-  # 試験データ
+    cp_tsbl |>
+    filter_index("2022-12-01" ~ "2023-01-31")
+  #' 第8波の表示
+  bind_rows(cp_8th_train,cp_8th_test) |>
+    autoplot(patients, colour = "skyblue") +
+    geom_col(fill = "skyblue") + # 塗り潰しを行う
+    labs(title = "COVID-19 patients in Japan",
+         x = "date",
+         y = "number of patients")
+  #' 階差系列の描画
+  cp_8th_train |>
+    gg_tsdisplay(difference(patients),
+                 plot_type = "partial")
+  #' 対数変換+階差系列の描画
+  cp_8th_train |>
+    gg_tsdisplay(difference(log(patients)),
+                 plot_type = "partial")
+  #' 7日の周期(季節成分)での階差系列の描画
+  cp_8th_train |>
+    gg_tsdisplay(difference(difference(log(patients), lag = 7)),
+                 lag_max = 21,
+                 plot_type = "partial")
+  #' 対数変換した系列に対してARIMAモデルをあてはめる
+  cp_8th_arima <-
+    cp_8th_train |>
+    model(ARIMA(log(patients) ~ PDQ(D = 0)))
+  #' 推定結果の検討
+  cp_8th_arima |> report()
+  cp_8th_arima |> accuracy()
+  cp_8th_arima |> glance()
+  #' データとあてはめ値を表示
+  cp_8th_arima |>
+    augment() |>
+    autoplot(patients, colour = "skyblue") +
+    geom_line(aes(y = .fitted), colour = "orange") +
+    labs(title = "Fitted by ARIMA model",
+         x = "date", y = "log(patients)")
+  #' 残差の診断
+  cp_8th_arima |> gg_tsresiduals()
+  #' 後半の予測
+  cp_8th_arima |> 
+    forecast(h = nrow(cp_8th_test)) |>
+    autoplot(cp_8th_train, level = 80) +
+    autolayer(cp_8th_test, .vars = patients, colour = "red") +
+    labs(title = "Prediction by ARIMA model")
+  #'
+  #' その他の方法
+  #' fableに実装されているいくつかの方法で予測してみる
+  cp_8th_models <-
+    cp_8th_train |>
+    model( # 自動推定
+      naive  = NAIVE(log(patients)),  # random walk model
+      arima  = ARIMA(log(patients) ~ pdq() + PDQ(0,0,0)),
+      sarima = ARIMA(log(patients) ~ pdq() + PDQ(D = 0)),
+      ets    = ETS(log(patients)),    # exponential smoothing
+      )
+  cp_8th_models |>
+    forecast(h = nrow(cp_8th_test)) |>
+    autoplot(cp_8th_train, level = NULL) +
+    autolayer(cp_8th_test, .vars = patients, colour = "gray") +
+    labs(title = "Prediction by various models")
 #+end_src
 #+begin_src R :eval no :exports none
   #' AirPassengersデータの分析
   #' データの時間に関する情報を表示 (月ごとのデータ)
   AirPassengers |> tsp()
-
   #' データの表示
   AirPassengers |> as_tsibble() |>
       autoplot(value) +
       labs(title = "AirPassengers",
            x = "Year", y = "Passengers/1000")
   #' ほぼ線形のトレンドと増大する分散変動があることがわかる
-
   #' 対数変換データの表示
   AirPassengers |> log() |> as_tsibble() |>
       autoplot(value) +
       labs(title = "AirPassengers",
            x = "Year", y = "log(Passengers/1000)")
   #' 対数変換により分散変動が安定化していることがわかる
-
   #' 以下では対数変換したデータを扱う
   ap_tsbl <- AirPassengers |> as_tsibble()
   ap_train <- ap_tsbl |> filter_index(~ "1958-12") # 訓練データ
@@ -2327,7 +2394,6 @@
                    plot_type = "partial") 
   #' lag=12(1年),24(2年)に強い自己相関(季節成分)がある
   #' lag=12(1年)に偏自己相関は残っている
-
   #' 季節成分について考察
   #' 12ヶ月で階差を取って同様に検討
   ap_train |> 
@@ -2336,23 +2402,20 @@
                    plot_type = "partial")
   #' lag=1,3,12(1年) に若干偏自己相関が残っている
   #' lag=36(3年) まで見ると上記以外の偏自己相関は誤差内
-
   #' SARIMAモデルの作成
   #' 階差および季節成分の自己相関・偏自己相関から
   #'  階差系列については ARMA(pまたはq=1-3)，
   #'  季節成分 については ARMA(pまたはq=1-2)
   #' あたりを考える必要がありそう
-
   #' いくつかのARIMAモデルの推定
   ap_fit <-
       ap_train |>
-      model(
+      model( # 名前に特殊な文字を含む場合は``で括る
           `arima(0,1,2)(0,1,1)` = ARIMA(log(value) ~ pdq(0,1,2) + PDQ(0,1,1)),
           `arima d=1 D=1` = ARIMA(log(value) ~ pdq(d = 1) + PDQ(D = 1)),
           `arima auto` = ARIMA(log(value)),
           `ets` = ETS(log(value)),
           )
-
   #' 次数を指定したモデル order=pdq(0,1,2), seasonal=PDQ(0,1,1)
   ap_fit |> select(`arima(0,1,2)(0,1,1)`) |> report() # 推定されたモデルの概要
   ap_fit |> select(`arima(0,1,2)(0,1,1)`) |>
@@ -2364,20 +2427,17 @@
   #' - 帰無仮説 : 残差は無作為
   #' - 対立仮説 : 残差は無作為でない
   #' であるので，p値が高い方が良い
-
   #' 検討結果を踏まえ階差・季節成分の階差を指定した推定
   ap_fit |> select(`arima d=1 D=1`) |> report() 
   ap_fit |> select(`arima d=1 D=1`) |>
       gg_tsresiduals() 
   ap_fit |> select(`arima d=1 D=1`) |>
       augment() |> features(.innov, ljung_box, lag = 12)
-
   #' 自動的にモデル選択を行う
   ap_fit |> select(`arima auto`) |> report() 
   #' いずれにせよAIC最小のモデルは以下となる
   #' order = pdq(0,1,1), seasonal = PDQ(0,1,1)
   #' 以降，このモデルを利用する
-
   #' 予測値と信頼区間の描画
   ap_fit |> select(`arima auto`) |>
       forecast(h = nrow(ap_test)) |>
@@ -2385,7 +2445,6 @@
       autolayer(ap_test, value, colour = "purple") +
       labs(title = "Forecast from SARIMA model",
            x = "Year", y = "Passengers/1000")
-
   #' 時系列の分解
   #' ETS (exponential smoothing) モデル
   #' トレンド(level+slope) + 季節(12ヶ月周期) + ランダム
@@ -2393,7 +2452,6 @@
   ap_fit |> select(`ets`) |> gg_tsresiduals() 
   ap_fit |> select(`ets`) |> augment() |> features(.innov, ljung_box, lag = 12)
   #' 残差に周期構造が残っているので帰無仮説が棄却される
-
   #' 予測値と信頼区間の描画
   ap_fit |> select(`ets`) |>
       forecast(h = nrow(ap_test)) |>
@@ -2401,7 +2459,6 @@
       autolayer(ap_test, value, colour = "purple") +
       labs(title = "Forecast from ETS model",
            x = "Year", y = "Passengers/1000")
-
   #' ARIMAとETSの比較
   ap_train |>
       autoplot(value) +
