@@ -185,13 +185,6 @@ tw_fit |> # データとあてはめ値の比較
 
 #' ---------------------------------------------------------------------------
 
-#' 後半を予測してみる
-cp_3rd_arima |> 
-  forecast(h = nrow(cp_3rd_test)) |>
-  autoplot(cp_3rd_train, level = 80) +
-  autolayer(cp_3rd_test, .vars = patients, colour = "red") +
-  labs(title = "Prediction by ARIMA model")
-
 #' @excercise 時系列の予測
 
 as_tsibble(AirPassengers) |>
