@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-01-16 15:56:38 mura>
+# Time-stamp: <2024-01-19 15:43:16 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/org/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -115,7 +115,7 @@
 #+begin_src R :file figs/12_ap_display.png :exports results :results graphics :tangle no
   AirPassengers |> as_tsibble() |> gg_tsdisplay()
 #+end_src
-#+caption: 航空機旅客量データと自己・偏自己相関
+#+caption: 航空機旅客量データ・自己相関・季節性の確認
 #+attr_html: height 100%
 #+attr_latex: :width 0.6\linewidth
 [[file:figs/12_ap_display.png]]
@@ -142,8 +142,8 @@
   ap_arima |>
     augment() |>
     autoplot(value) +
-    geom_line(aes(y = .fitted), colour = "red") +
-    labs(title = "ARIMA model") 
+    geom_line(aes(y = .fitted), colour = "violet") +
+    labs(title = "SARIMA model") 
 #+end_src
 #+caption: モデルの推定とあてはめ
 #+attr_html: height 100%
@@ -156,7 +156,7 @@
   ap_arima |>
     forecast(h = 36) |>
     autoplot(AirPassengers) +
-    labs(title = "Forecast from ARIMA model")
+    labs(title = "Forecast with SARIMA model")
 #+end_src
 #+caption: 航空機旅客量の予測
 #+attr_html: height 100%
@@ -219,7 +219,7 @@
       \mathrm{WN}(0,\sigma^2)
     \end{equation}
     #+end_quote
-- 独立であるため系列としての予測は不可能
+- 独立であるため系列としての予測(点推定)は不可能
 
 #+reveal: split
 #+name: fig:12_wn
@@ -1171,7 +1171,7 @@
   - 2つの独立なランダムウォークは高い確率で"相関"を持つ
     - 独立な時系列にも関わらず見掛けの相関が現れることがある
     - http://tylervigen.com/spurious-correlations
-  - [[color:gray][因果推論などの潜伏変数とは異なる問題]]
+  - 因果推論などの潜伏変数とは異なる問題
 ** 非定常過程の取り扱い
 - 定常過程とみなせるように変換して分析を実行
   - 階差系列
@@ -1298,7 +1298,7 @@
     patch[[i]] <-
       forecast::ggAcf(my_arma(a = a, b = b, epsilon = rnorm(Tmax)),
             colour = scales::hue_pal()(K)[i]) +
-      ylim(-0.5,0.3) +
+      ylim(-0.5,0.35) +
       labs(title = paste("Series:", i))
   }
   do.call("wrap_plots", patch)

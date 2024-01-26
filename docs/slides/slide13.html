@@ -46,8 +46,8 @@
 
 </section>
 <section>
-<section id="slide-orgc1b5b61">
-<h2 id="orgc1b5b61">講義概要</h2>
+<section id="slide-org67672da">
+<h2 id="org67672da">講義概要</h2>
 <ul>
 <li>第1回 : 時系列の基本モデル</li>
 <li><b>第2回 : モデルの推定と予測</b></li>
@@ -57,13 +57,13 @@
 </section>
 </section>
 <section>
-<section id="slide-orgb02e536">
-<h2 id="orgb02e536">時系列解析の復習</h2>
-<div class="outline-text-2" id="text-orgb02e536">
+<section id="slide-org3877323">
+<h2 id="org3877323">時系列解析の復習</h2>
+<div class="outline-text-2" id="text-org3877323">
 </div>
 </section>
-<section id="slide-org9c29313">
-<h3 id="org9c29313">時系列解析とは</h3>
+<section id="slide-org3dfca2c">
+<h3 id="org3dfca2c">時系列解析とは</h3>
 <ul>
 <li>時系列データ
 <ul>
@@ -87,8 +87,8 @@
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org0ca3539">
-<h3 id="org0ca3539">時系列モデルと定常性</h3>
+<section id="slide-orgd02e804">
+<h3 id="orgd02e804">時系列モデルと定常性</h3>
 <ul>
 <li><p>
 <b>確率過程</b>
@@ -118,8 +118,8 @@
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgcf5aa62">
-<h3 id="orgcf5aa62">ホワイトノイズ</h3>
+<section id="slide-orgc115096">
+<h3 id="orgc115096">ホワイトノイズ</h3>
 <ul>
 <li><p>
 定義
@@ -152,8 +152,8 @@
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org83045ef">
-<h3 id="org83045ef">トレンドのあるホワイトノイズ</h3>
+<section id="slide-org1163b48">
+<h3 id="org1163b48">トレンドのあるホワイトノイズ</h3>
 <ul>
 <li><p>
 定義
@@ -185,8 +185,8 @@
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org0e38c9b">
-<h3 id="org0e38c9b">ランダムウォーク</h3>
+<section id="slide-orgbbe59f9">
+<h3 id="orgbbe59f9">ランダムウォーク</h3>
 <ul>
 <li><p>
 定義
@@ -218,8 +218,8 @@
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org623f9c1">
-<h3 id="org623f9c1">自己回帰過程</h3>
+<section id="slide-org76fb136">
+<h3 id="org76fb136">自己回帰過程</h3>
 <ul>
 <li><p>
 定義 (次数\(p\)のARモデル)
@@ -253,8 +253,8 @@
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org3924ac2">
-<h3 id="org3924ac2">移動平均過程</h3>
+<section id="slide-orgea8f3ed">
+<h3 id="orgea8f3ed">移動平均過程</h3>
 <ul>
 <li><p>
 定義 (次数\(q\) のMAモデル)
@@ -289,8 +289,8 @@
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orge09fbc9">
-<h3 id="orge09fbc9">自己回帰移動平均過程</h3>
+<section id="slide-orgf7d4ba7">
+<h3 id="orgf7d4ba7">自己回帰移動平均過程</h3>
 <ul>
 <li><p>
 定義 (次数\((p,q)\)のARMAモデル)
@@ -328,8 +328,8 @@
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org7866820">
-<h3 id="org7866820">自己共分散・自己相関</h3>
+<section id="slide-org90a02e4">
+<h3 id="org90a02e4">自己共分散・自己相関</h3>
 <ul>
 <li>弱定常な確率過程 : \(X_{t},\;t=1,\dotsc,T\)
 <ul>
@@ -371,12 +371,52 @@
 <li>異なる時点間での観測データの従属関係を要約するための最も基本的な統計量</li>
 
 </ul>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgd265f31">
+<h3 id="orgd265f31">標本自己共分散・標本自己相関</h3>
+<ul>
+<li>観測データ \(X_1,\dotsc,X_{T}\) からの推定
+<ul>
+<li><p>
+ラグ\(h\)の自己共分散の推定 : 標本自己共分散
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  \hat\gamma(h)
+  =
+  \frac{1}{T}\sum_{t=1}^{T-h}(X_{t}-\bar{X})(X_{t+h}-\bar{X})
+\end{equation}
+
+</div>
+</blockquote>
+<p>
+\(\bar{X}=\frac{1}{T}\sum_{t=1}^TX_{t}\) は標本平均
+</p></li>
+<li><p>
+ラグ\(h\)での自己相関の推定 : 標本自己相関
+</p>
+<blockquote>
+<div>
+\begin{equation}
+  \hat\gamma(h)/\hat\gamma(0)
+  =
+  \frac{\sum_{t=1}^{T-h}(X_{t}-\bar{X})(X_{t+h}-\bar{X})}{\sum_{t=1}^T(X_{t}-\bar{X})^2}
+\end{equation}
+
+</div>
+</blockquote></li>
+
+</ul></li>
+
+</ul>
 
 <div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="org33b16af" class="figure">
+<div id="orgbe2519d" class="figure">
 <p><img src="figs/13_ar.png" alt="13_ar.png" />
 </p>
 <p><span class="figure-number">Figure 1: </span>同じモデルに従うAR過程の例</p>
@@ -386,7 +426,7 @@
 </section>
 <section>
 
-<div id="orgad51946" class="figure">
+<div id="org78639dc" class="figure">
 <p><img src="figs/13_aracf.png" alt="13_aracf.png" />
 </p>
 <p><span class="figure-number">Figure 2: </span>AR過程の自己相関</p>
@@ -396,7 +436,7 @@
 </section>
 <section>
 
-<div id="orgd32cc34" class="figure">
+<div id="org92d7a59" class="figure">
 <p><img src="figs/13_ma.png" alt="13_ma.png" />
 </p>
 <p><span class="figure-number">Figure 3: </span>同じモデルに従うMA過程の例</p>
@@ -406,7 +446,7 @@
 </section>
 <section>
 
-<div id="org9ca5fa9" class="figure">
+<div id="org36b8ccd" class="figure">
 <p><img src="figs/13_maacf.png" alt="13_maacf.png" />
 </p>
 <p><span class="figure-number">Figure 4: </span>MA過程の自己相関</p>
@@ -416,7 +456,7 @@
 </section>
 <section>
 
-<div id="org6b8f3cb" class="figure">
+<div id="orgf39bac2" class="figure">
 <p><img src="figs/13_arma.png" alt="13_arma.png" />
 </p>
 <p><span class="figure-number">Figure 5: </span>同じモデルに従うARMA過程の例</p>
@@ -426,7 +466,7 @@
 </section>
 <section>
 
-<div id="org733fd77" class="figure">
+<div id="orgc782d8e" class="figure">
 <p><img src="figs/13_armaacf.png" alt="13_armaacf.png" />
 </p>
 <p><span class="figure-number">Figure 6: </span>ARMA過程の自己相関</p>
@@ -435,12 +475,12 @@
 </section>
 </section>
 <section>
-<section id="slide-orge137e60" data-background="#fef4f4">
-<h2 id="orge137e60">実習(復習)</h2>
+<section id="slide-orgcb97c4d" data-background="#fef4f4">
+<h2 id="orgcb97c4d">実習(復習)</h2>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgd5c86e0" data-background="#fef4f4">
-<h3 id="orgd5c86e0">R : 自己相関・自己共分散の計算・描画</h3>
+<section id="slide-org93b0dd3" data-background="#fef4f4">
+<h3 id="org93b0dd3">R : 自己相関・自己共分散の計算・描画</h3>
 <ul>
 <li><p>
 関数 feats::ACF()
@@ -478,8 +518,8 @@ toy_acf |&gt; autoplot()
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org039cbd3" data-background="#fef4f4">
-<h3 id="org039cbd3">練習問題</h3>
+<section id="slide-org5669ba2" data-background="#fef4f4">
+<h3 id="org5669ba2">練習問題</h3>
 <ul>
 <li>以下の問に答えなさい
 <ul>
@@ -495,13 +535,13 @@ toy_acf |&gt; autoplot()
 </section>
 </section>
 <section>
-<section id="slide-org6ce48fd">
-<h2 id="org6ce48fd">ARモデルの推定</h2>
-<div class="outline-text-2" id="text-org6ce48fd">
+<section id="slide-orga144ce0">
+<h2 id="orga144ce0">ARモデルの推定</h2>
+<div class="outline-text-2" id="text-orga144ce0">
 </div>
 </section>
-<section id="slide-org10723ec">
-<h3 id="org10723ec">自己共分散・自己相関</h3>
+<section id="slide-org4286a6f">
+<h3 id="org4286a6f">自己共分散・自己相関</h3>
 <ul>
 <li>平均\(0\)の弱定常な確率過程 : \(X_{t},\;t=1,\dotsc,T\)
 <ul>
@@ -545,8 +585,8 @@ toy_acf |&gt; autoplot()
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org2fabbdd">
-<h3 id="org2fabbdd">自己共分散とARモデル</h3>
+<section id="slide-org41d6bbb">
+<h3 id="org41d6bbb">自己共分散とARモデル</h3>
 <ul>
 <li><p>
 AR(p)モデル : 
@@ -590,8 +630,8 @@ AR(p)モデル :
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org22f7dd6">
-<h3 id="org22f7dd6">Yule-Walker方程式</h3>
+<section id="slide-org9f3c05d">
+<h3 id="org9f3c05d">Yule-Walker方程式</h3>
 <ul>
 <li><p>
 \(1\le h\le p\) を考えると以下の関係が成り立つ
@@ -631,8 +671,8 @@ AR(p)モデル :
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org8e3098b">
-<h3 id="org8e3098b">偏自己相関</h3>
+<section id="slide-orge5678b9">
+<h3 id="orge5678b9">偏自己相関</h3>
 <ul>
 <li><p>
 AR(p)モデル
@@ -662,7 +702,7 @@ AR(p)モデルを仮定したときの\(a_{p}\)の推定値
 </p>
 <blockquote>
 <p>
-\(a_{1}=a_{2}=\dotsb=a_{p-1}=0\)のときの\(a_{p}\) (<b>特殊なモデルにおける解釈</b>)
+\(a_{1}=a_{2}=\dotsb=a_{p-1}=0\)のときの\(\rho(p)\) (<b>特殊なモデルにおける解釈</b>)
 </p>
 <div>
 \begin{equation}
@@ -682,7 +722,7 @@ AR(p)モデルを仮定したときの\(a_{p}\)の推定値
 </section>
 <section>
 
-<div id="orgd4331f2" class="figure">
+<div id="org7fa836d" class="figure">
 <p><img src="figs/13_arpacf.png" alt="13_arpacf.png" />
 </p>
 <p><span class="figure-number">Figure 7: </span>AR過程の偏自己相関</p>
@@ -692,7 +732,7 @@ AR(p)モデルを仮定したときの\(a_{p}\)の推定値
 </section>
 <section>
 
-<div id="org3ab7b93" class="figure">
+<div id="org8af11f8" class="figure">
 <p><img src="figs/13_mapacf.png" alt="13_mapacf.png" />
 </p>
 <p><span class="figure-number">Figure 8: </span>MA過程の偏自己相関</p>
@@ -702,15 +742,15 @@ AR(p)モデルを仮定したときの\(a_{p}\)の推定値
 </section>
 <section>
 
-<div id="org8a3035c" class="figure">
+<div id="orgcab912c" class="figure">
 <p><img src="figs/13_armapacf.png" alt="13_armapacf.png" />
 </p>
 <p><span class="figure-number">Figure 9: </span>ARMA過程の偏自己相関</p>
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orge2f31c6">
-<h3 id="orge2f31c6">モデルの推定に関する補足</h3>
+<section id="slide-orgd59e83d">
+<h3 id="orgd59e83d">モデルの推定に関する補足</h3>
 <ul>
 <li>ARMAモデルの推定方法は主に以下の3つ
 <ul>
@@ -734,8 +774,8 @@ AR(p)モデルを仮定したときの\(a_{p}\)の推定値
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgafe71a3">
-<h3 id="orgafe71a3">非定常過程の変換</h3>
+<section id="slide-org83fd667">
+<h3 id="org83fd667">非定常過程の変換</h3>
 <ul>
 <li>定常過程とみなせるように変換して分析
 <ul>
@@ -784,12 +824,12 @@ AR(p)モデルを仮定したときの\(a_{p}\)の推定値
 </section>
 </section>
 <section>
-<section id="slide-orgd6ffcfd" data-background="#fef4f4">
-<h2 id="orgd6ffcfd">実習</h2>
+<section id="slide-org9ff56a4" data-background="#fef4f4">
+<h2 id="org9ff56a4">実習</h2>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgbd1873a" data-background="#fef4f4">
-<h3 id="orgbd1873a">R : ARモデルの推定</h3>
+<section id="slide-orgcd5d79d" data-background="#fef4f4">
+<h3 id="orgcd5d79d">R : ARモデルの推定</h3>
 <ul>
 <li><p>
 関数 <code>fabletools::model()</code> 
@@ -835,8 +875,8 @@ toy_ar |&gt; model(AR(value ~ 0 + order(3))) # 平均項を含めない場合
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org32472ec" data-background="#fef4f4">
-<h3 id="org32472ec">R : ARIMAモデルの推定</h3>
+<section id="slide-orgac5e2a2" data-background="#fef4f4">
+<h3 id="orgac5e2a2">R : ARIMAモデルの推定</h3>
 <ul>
 <li><p>
 関数 <code>fable::ARIMA()</code> 
@@ -872,8 +912,8 @@ toy_arima |&gt; model(ARIMA(value ~ 0 + pdq(2,1,2))) # 次数を指定
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgaa5cd7a" data-background="#fef4f4">
-<h3 id="orgaa5cd7a">R : モデルを扱うための補助的な関数</h3>
+<section id="slide-org2bad540" data-background="#fef4f4">
+<h3 id="org2bad540">R : モデルを扱うための補助的な関数</h3>
 <ul>
 <li><p>
 関数 <code>fabletools::report()</code>
@@ -893,7 +933,7 @@ toy_arima |&gt; model(ARIMA(value ~ 0 + pdq(2,1,2))) # 次数を指定
 
 </ul></li>
 <li><p>
-関数 <code>fabletools::tidy.mdl_df()</code> 
+関数 <code>fabletools::tidy()</code> 
 </p>
 <ul>
 <li>係数の取得</li>
@@ -903,6 +943,7 @@ toy_arima |&gt; model(ARIMA(value ~ 0 + pdq(2,1,2))) # 次数を指定
 
 <pre><code class="R" >tidy(object, ...) 
 #' object: 推定された時系列モデル
+#' 詳細は '?fabletools::tidy.mdl_df' を参照
 </code></pre>
 </div>
 <ul>
@@ -917,7 +958,7 @@ toy_arima |&gt; model(ARIMA(value ~ 0 + pdq(2,1,2))) # 次数を指定
 <section data-background="#fef4f4">
 <ul>
 <li><p>
-関数 <code>fabletools::augment.mdl_df()</code>
+関数 <code>fabletools::augment()</code>
 </p>
 <ul>
 <li>あてはめ値・残差などの取得</li>
@@ -927,6 +968,7 @@ toy_arima |&gt; model(ARIMA(value ~ 0 + pdq(2,1,2))) # 次数を指定
 
 <pre><code class="R" >augment(object, ...) 
 #' object: 推定された時系列モデル
+#' 詳細は '?fabletools::augment.mdl_df' を参照
 </code></pre>
 </div>
 <ul>
@@ -938,11 +980,11 @@ toy_arima |&gt; model(ARIMA(value ~ 0 + pdq(2,1,2))) # 次数を指定
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orge0bf0dc" data-background="#fef4f4">
-<h3 id="orge0bf0dc">R : モデルの評価</h3>
+<section id="slide-orgc44a760" data-background="#fef4f4">
+<h3 id="orgc44a760">R : モデルの評価</h3>
 <ul>
 <li><p>
-関数 <code>fabletools::accuracy.mdl_df()</code>
+関数 <code>fabletools::accuracy()</code>
 </p>
 <ul>
 <li>精度評価の取得</li>
@@ -952,10 +994,11 @@ toy_arima |&gt; model(ARIMA(value ~ 0 + pdq(2,1,2))) # 次数を指定
 
 <pre><code class="R" >accuracy(object, ...) 
 #' object: 推定された時系列モデル
+#' 詳細は '?fabletools::accuracy.mdl_df' を参照
 </code></pre>
 </div></li>
 <li><p>
-関数 <code>fabletools::glance.mdl_df()</code>
+関数 <code>fabletools::glance()</code>
 </p>
 <ul>
 <li>情報量規準などの取得</li>
@@ -965,6 +1008,7 @@ toy_arima |&gt; model(ARIMA(value ~ 0 + pdq(2,1,2))) # 次数を指定
 
 <pre><code class="R" >glance(object, ...) 
 #' object: 推定された時系列モデル
+#' 詳細は '?fabletools::glance.mdl_df' を参照
 </code></pre>
 </div></li>
 
@@ -1002,8 +1046,8 @@ toy_fit |&gt; gg_tsresiduals()
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgc2f56a7" data-background="#fef4f4">
-<h3 id="orgc2f56a7">練習問題</h3>
+<section id="slide-orgb170398" data-background="#fef4f4">
+<h3 id="orgb170398">練習問題</h3>
 <ul>
 <li>以下の問に答えなさい
 <ul>
@@ -1016,8 +1060,8 @@ toy_fit |&gt; gg_tsresiduals()
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgbdebff6" data-background="#fef4f4">
-<h3 id="orgbdebff6">R : 時系列クラスの作成(再掲)</h3>
+<section id="slide-orga5510f2" data-background="#fef4f4">
+<h3 id="orga5510f2">R : 時系列クラスの作成(再掲)</h3>
 <ul>
 <li><p>
 関数 <code>tsibble::tsibble()</code>
@@ -1060,8 +1104,8 @@ AirPassengers |&gt; as_tsibble() # 時系列オブジェクトの変換
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org6bc23b8" data-background="#fef4f4">
-<h3 id="org6bc23b8">R : 部分系列の切り出し</h3>
+<section id="slide-orgb41f32a" data-background="#fef4f4">
+<h3 id="orgb41f32a">R : 部分系列の切り出し</h3>
 <ul>
 <li><p>
 関数 <code>tsibble::filter_index()</code>
@@ -1090,8 +1134,8 @@ AirPassengers |&gt; as_tsibble() # 時系列オブジェクトの変換
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org6c38293" data-background="#fef4f4">
-<h3 id="org6c38293">練習問題</h3>
+<section id="slide-org2147cb2" data-background="#fef4f4">
+<h3 id="org2147cb2">練習問題</h3>
 <ul>
 <li><p>
 東京の気候データを用いて以下の問に答えなさい
@@ -1113,13 +1157,13 @@ AirPassengers |&gt; as_tsibble() # 時系列オブジェクトの変換
 </section>
 </section>
 <section>
-<section id="slide-org2bc21d9">
-<h2 id="org2bc21d9">モデルによる予測</h2>
-<div class="outline-text-2" id="text-org2bc21d9">
+<section id="slide-orgf7d3e54">
+<h2 id="orgf7d3e54">モデルによる予測</h2>
+<div class="outline-text-2" id="text-orgf7d3e54">
 </div>
 </section>
-<section id="slide-org2a62526">
-<h3 id="org2a62526">ARMAモデルによる予測</h3>
+<section id="slide-org9ca7ca6">
+<h3 id="org9ca7ca6">ARMAモデルによる予測</h3>
 <ul>
 <li>推定したモデルを用いて\(n\)期先を予測
 <ul>
@@ -1130,6 +1174,7 @@ AirPassengers |&gt; as_tsibble() # 時系列オブジェクトの変換
 </ul></li>
 <li>いずれも \(n\)が大きいと不確定性が増大</li>
 <li>階差による変換は累積(階差の逆変換)により推定</li>
+<li>推定したノイズの不確定性にもとづき信頼区間を構成</li>
 
 </ul>
 
@@ -1137,15 +1182,15 @@ AirPassengers |&gt; as_tsibble() # 時系列オブジェクトの変換
 </section>
 <section>
 
-<div id="org754021f" class="figure">
+<div id="org3ab27a1" class="figure">
 <p><img src="figs/13_ap_arima.png" alt="13_ap_arima.png" />
 </p>
 <p><span class="figure-number">Figure 10: </span>ARIMAモデル(階差ありARMA)による予測</p>
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgb210017">
-<h3 id="orgb210017">分解モデルによる予測</h3>
+<section id="slide-orga9b503d">
+<h3 id="orga9b503d">分解モデルによる予測</h3>
 <ul>
 <li><p>
 トレンド成分+季節成分+ランダム成分への分解
@@ -1182,12 +1227,53 @@ AirPassengers |&gt; as_tsibble() # 時系列オブジェクトの変換
 </ul></li>
 
 </ul>
+<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orga3d31a5">
+<h3 id="orga3d31a5">Holt-Winter の方法</h3>
+<ul>
+<li><p>
+指数平滑化を用いた加法的分解モデルによる予測
+</p>
+<blockquote>
+<div>
+\begin{align}
+  l_{t} &= \alpha (x_{t}-s_{t{-}m}) + (1-\alpha) (l_{t{-}1}+b_{t{-}1})\\
+  b_{t} &= \beta (l_{t}-l_{t{-}1}) + (1-\beta) b_{t{-}1}\\
+  s_{t} &= \gamma (x_{t}-l_{t}) + (1-\gamma) s_{t{-}m}\\
+  \hat{x}_{t{+}h|t} &= l_{t} + b_{t}\times h + s_{t{-}m{+}h}
+\end{align}
+
+</div>
+</blockquote>
+<ul>
+<li>\(l_{t},b_{t}\)は時刻\(t\)における平均と傾きの推定値</li>
+<li>\(s_{t}\)は時刻\(t\)における季節成分，\(m\)は季節性の周期</li>
+
+</ul></li>
+
+</ul>
+
+<div class="slide-footer"><br></div>
+</section>
+<section>
+<ul>
+<li>時刻\(t,t{-}1\)における推定を平滑化して推定量を構成</li>
+<li>ETS (error-trend-seasonal) モデルの一つ
+<ul>
+<li>基本的な考え方は乗法的分解に拡張可能</li>
+<li>拡張したのがETSモデルとも言える</li>
+
+</ul></li>
+<li>状態空間モデルの特殊な場合とも考えられる</li>
+
+</ul>
 
 <div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="org80cc2e1" class="figure">
+<div id="org85d0d60" class="figure">
 <p><img src="figs/13_ap_ets.png" alt="13_ap_ets.png" />
 </p>
 <p><span class="figure-number">Figure 11: </span>ETSモデル(expornential smoothing)による予測</p>
@@ -1196,13 +1282,13 @@ AirPassengers |&gt; as_tsibble() # 時系列オブジェクトの変換
 </section>
 </section>
 <section>
-<section id="slide-org2bc1c53">
-<h2 id="org2bc1c53">解析事例</h2>
-<div class="outline-text-2" id="text-org2bc1c53">
+<section id="slide-orge22e1f2">
+<h2 id="orge22e1f2">解析事例</h2>
+<div class="outline-text-2" id="text-orge22e1f2">
 </div>
 </section>
-<section id="slide-org38d7c74">
-<h3 id="org38d7c74">COVID-19 の感染者数の分析</h3>
+<section id="slide-org1f7474e">
+<h3 id="org1f7474e">COVID-19 の感染者数の分析</h3>
 <ul>
 <li>厚生労働省の COVID-19 のデータ
 <ul>
@@ -1223,30 +1309,30 @@ AirPassengers |&gt; as_tsibble() # 時系列オブジェクトの変換
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orga3a8727">
-<h3 id="orga3a8727">感染者数の推移</h3>
+<section id="slide-orgcff14ae">
+<h3 id="orgcff14ae">感染者数の推移</h3>
 
-<div id="org7283201" class="figure">
+<div id="org677ec55" class="figure">
 <p><img src="figs/13_patients.png" alt="13_patients.png" />
 </p>
 <p><span class="figure-number">Figure 12: </span>全国の感染者数</p>
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgda00b62">
-<h3 id="orgda00b62">第3波における感染者数の推移</h3>
+<section id="slide-org8bd2d75">
+<h3 id="org8bd2d75">第3波における感染者数の推移</h3>
 
-<div id="org1430d0f" class="figure">
+<div id="orgf430f15" class="figure">
 <p><img src="figs/13_3wave_patients.png" alt="13_3wave_patients.png" />
 </p>
 <p><span class="figure-number">Figure 13: </span>第3波の感染者数</p>
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org79405b6">
-<h3 id="org79405b6">基礎分析 (分析対象 : 2020/9/15-11/30)</h3>
+<section id="slide-org36a59d8">
+<h3 id="org36a59d8">基礎分析 (分析対象 : 2020/9/15-11/30)</h3>
 
-<div id="orga1b9b32" class="figure">
+<div id="org7ee3ef9" class="figure">
 <p><img src="figs/13_3wave.png" alt="13_3wave.png" />
 </p>
 <p><span class="figure-number">Figure 14: </span>時系列 (階差)</p>
@@ -1256,7 +1342,7 @@ AirPassengers |&gt; as_tsibble() # 時系列オブジェクトの変換
 </section>
 <section>
 
-<div id="org55a686e" class="figure">
+<div id="org50f5012" class="figure">
 <p><img src="figs/13_3wave_log.png" alt="13_3wave_log.png" />
 </p>
 <p><span class="figure-number">Figure 15: </span>時系列 (対数変換+階差)</p>
@@ -1266,20 +1352,20 @@ AirPassengers |&gt; as_tsibble() # 時系列オブジェクトの変換
 </section>
 <section>
 
-<div id="org104b62b" class="figure">
+<div id="org674657b" class="figure">
 <p><img src="figs/13_3wave_log7.png" alt="13_3wave_log7.png" />
 </p>
 <p><span class="figure-number">Figure 16: </span>時系列 (対数変換+階差+7日階差)</p>
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org9237278">
-<h3 id="org9237278">ARIMA モデルによる推定</h3>
+<section id="slide-org279339b">
+<h3 id="org279339b">ARIMA モデルによる推定</h3>
 <ul>
 <li>推定された ARIMA モデル</li>
 
 </ul>
-<pre class="example" id="orgd97db25">
+<pre class="example" id="org2b8d8b4">
 Series: patients 
 Model: ARIMA(1,1,1)(2,0,0)[7] 
 Transformation: log(patients) 
@@ -1297,7 +1383,7 @@ AIC=-20.07   AICc=-19.21   BIC=-8.42
 </section>
 <section>
 
-<div id="orgd3eb795" class="figure">
+<div id="orgb1355c7" class="figure">
 <p><img src="figs/13_3wave_arima_est.png" alt="13_3wave_arima_est.png" />
 </p>
 <p><span class="figure-number">Figure 17: </span>あてはめ値</p>
@@ -1307,7 +1393,7 @@ AIC=-20.07   AICc=-19.21   BIC=-8.42
 </section>
 <section>
 
-<div id="org4b92769" class="figure">
+<div id="orgfd267c6" class="figure">
 <p><img src="figs/13_3wave_arima_diag.png" alt="13_3wave_arima_diag.png" />
 </p>
 <p><span class="figure-number">Figure 18: </span>診断プロット</p>
@@ -1317,15 +1403,15 @@ AIC=-20.07   AICc=-19.21   BIC=-8.42
 </section>
 <section>
 
-<div id="orgfdd6675" class="figure">
+<div id="org8e01e51" class="figure">
 <p><img src="figs/13_3wave_arima_pred.png" alt="13_3wave_arima_pred.png" />
 </p>
 <p><span class="figure-number">Figure 19: </span>予測値 (60日分，80%信頼区間)</p>
 </div>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-org388384a">
-<h3 id="org388384a">まとめ</h3>
+<section id="slide-orgc2f7492">
+<h3 id="orgc2f7492">まとめ</h3>
 <ul>
 <li>感染者数の推移は非定常なデータ</li>
 <li><p>
@@ -1345,12 +1431,12 @@ AIC=-20.07   AICc=-19.21   BIC=-8.42
 </section>
 </section>
 <section>
-<section id="slide-orgd9df8d5" data-background="#fef4f4">
-<h2 id="orgd9df8d5">実習</h2>
+<section id="slide-orgd29e080" data-background="#fef4f4">
+<h2 id="orgd29e080">実習</h2>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgb528624" data-background="#fef4f4">
-<h3 id="orgb528624">R : 時系列の予測</h3>
+<section id="slide-org9148b1e" data-background="#fef4f4">
+<h3 id="org9148b1e">R : 時系列の予測</h3>
 <ul>
 <li><p>
 関数 <code>fable::forecast()</code> 
@@ -1375,7 +1461,7 @@ AIC=-20.07   AICc=-19.21   BIC=-8.42
 </code></pre>
 </div>
 <ul>
-<li>描画には <code>fabletools::aotoplot.fbl_ts()</code> が利用される</li>
+<li>描画には <code>fabletools::autoplot.fbl_ts()</code> が利用される</li>
 
 </ul></li>
 
@@ -1384,8 +1470,8 @@ AIC=-20.07   AICc=-19.21   BIC=-8.42
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgefe490e" data-background="#fef4f4">
-<h3 id="orgefe490e">R : 分解モデルの推定</h3>
+<section id="slide-org166eddf" data-background="#fef4f4">
+<h3 id="org166eddf">R : 分解モデルの推定</h3>
 <ul>
 <li><p>
 関数 <code>fable::ETS()</code> 
@@ -1418,8 +1504,8 @@ AIC=-20.07   AICc=-19.21   BIC=-8.42
 </ul>
 <div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgfc7ddfb" data-background="#fef4f4">
-<h3 id="orgfc7ddfb">練習問題</h3>
+<section id="slide-orgdb5621d" data-background="#fef4f4">
+<h3 id="orgdb5621d">練習問題</h3>
 <ul>
 <li>以下の問に答えなさい
 <ul>

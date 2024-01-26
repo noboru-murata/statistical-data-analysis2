@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-01-17 17:25:11 mura>
+# Time-stamp: <2024-01-26 15:22:04 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/org/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -16,6 +16,9 @@
 [[file:README.org::第13講]]
 
 * COMMENT 講義の内容
+:PROPERTIES:
+:ID:       5C729A97-F442-48A4-A49D-CB1782F2F0B6
+:END:
 # 早稲田大学
 - 第1回 : 時系列の基本モデル
 - *第2回 : モデルの推定と予測*
@@ -216,9 +219,6 @@
   - *定常にも非定常にもなる*
 
 ** 自己共分散・自己相関
-:PROPERTIES:
-:ID:       DCD23A71-81FB-4580-8244-2E68778E5687
-:END:
 - 弱定常な確率過程 : \(X_{t},\;t=1,\dotsc,T\)
   - \(X_{t}\) と \(X_{t+h}\) の共分散は時点\(t\)によらずラグ\(h\)のみで定まる
     #+begin_quote
@@ -240,6 +240,26 @@
     \end{equation}
     #+end_quote
 - 異なる時点間での観測データの従属関係を要約するための最も基本的な統計量
+
+** 標本自己共分散・標本自己相関
+- 観測データ \(X_1,\dotsc,X_{T}\) からの推定
+  - ラグ\(h\)の自己共分散の推定 : 標本自己共分散
+    #+begin_quote
+    \begin{equation}
+      \hat\gamma(h)
+      =
+      \frac{1}{T}\sum_{t=1}^{T-h}(X_{t}-\bar{X})(X_{t+h}-\bar{X})
+    \end{equation}
+    #+end_quote
+    \(\bar{X}=\frac{1}{T}\sum_{t=1}^TX_{t}\) は標本平均
+  - ラグ\(h\)での自己相関の推定 : 標本自己相関
+    #+begin_quote
+    \begin{equation}
+      \hat\gamma(h)/\hat\gamma(0)
+      =
+      \frac{\sum_{t=1}^{T-h}(X_{t}-\bar{X})(X_{t+h}-\bar{X})}{\sum_{t=1}^T(X_{t}-\bar{X})^2}
+    \end{equation}
+    #+end_quote
 
 #+reveal: split
 #+begin_src R :file figs/13_ar.png :exports results :results graphics :tangle no
@@ -300,7 +320,7 @@
   ts_ma |>
     as_tsibble() |>
     autoplot(value, show.legend = FALSE) +
-    labs(title = expression(X[t] == 0.44*epsilon[t-1] + 0.08*epsilon[t-2] + epsilon[t]),
+    labs(title = expression(X[t] == 0.44*epsilon[t-1] - 0.28*epsilon[t-2] + epsilon[t]),
          x = "Time", y = "Observation")
 #+end_src
 #+caption: 同じモデルに従うMA過程の例
@@ -316,7 +336,7 @@
     patch[[i]] <-
       forecast::ggAcf(ts_ma[,i],
             colour = scales::hue_pal()(K)[i]) +
-      ylim(-0.2,0.4) +
+      ylim(-0.3,0.4) +
       labs(title = paste("Series:", i))
   }
   do.call("wrap_plots", patch)
@@ -349,7 +369,7 @@
     patch[[i]] <-
       forecast::ggAcf(ts_arma[,i],
             colour = scales::hue_pal()(K)[i]) +
-      ylim(-0.5,0.3) +
+      ylim(-0.6,0.4) +
       labs(title = paste("Series:", i))
   }
   do.call("wrap_plots", patch)
@@ -455,16 +475,12 @@
   Tmax <- 500 # 時系列の長さ t=1,..,Tmax
   K <- 4 # 表示する時系列の数 (4つを並べて比較する)
   ts_ar <- ts(replicate(K, arima.sim(list(ar = c(0.67, 0.26)),
-                                     n = Tmax,
-                                     innov = rnorm(Tmax))))
+                                     n = Tmax)))
   ts_ma <- ts(replicate(K, arima.sim(list(ma = c(0.44, -0.28)),
-                                     n = Tmax,
-                                     innov = rnorm(Tmax))))
+                                     n = Tmax)))
   ts_arma <- ts(replicate(K, arima.sim(list(ar = c(0.8, -0.64),
                                             ma = c(-0.5)),
-                                       n = Tmax,
-                                       innov = rnorm(Tmax))))
-
+                                       n = Tmax)))
   #' AR(2)モデルの自己相関
   ts_ar |> as_tsibble() |> ACF(value) |> autoplot()
   ts_ar |> as_tsibble() |> ACF(value) |>
@@ -483,6 +499,25 @@
       autoplot() + 
       facet_wrap(key ~ .) +
       labs(title = "ARMA(2,1)")
+  #' @notes
+  #' 同じホワイトノイズでAR,MA,ARMAを生成するには以下のようにすればよい
+  epsilon <- rnorm(Tmax)
+  toy_ar <- arima.sim(list(ar = c(0.67, 0.26)),
+                      n = Tmax,
+                      innov = epsilon)
+  toy_ma <- arima.sim(list(ma = c(0.44, -0.28)),
+                      n = Tmax,
+                      innov = epsilon)
+  toy_arma <- arima.sim(list(ar = c(0.8, -0.64),
+                             ma = c(-0.5)),
+                        n = Tmax,
+                        innov = epsilon)
+  ts(bind_cols(`1.AR`=toy_ar, `2.MA`=toy_ma, `3.ARMA`=toy_arma)) |> 
+    as_tsibble() |> ACF(value) |> autoplot()
+  #' @notes
+  #' facet はそのままだとアルファベット順に並べられるので，
+  #' ここでは簡単に番号を付けて回避している
+
 #+end_src
 #+begin_src R :exports none
   #' ---------------------------------------------------------------------------
@@ -590,7 +625,7 @@
     #+end_quote
   - ラグ\(p\)の特別な *自己相関係数* 
     #+begin_quote
-    \(a_{1}=a_{2}=\dotsb=a_{p-1}=0\)のときの\(a_{p}\) (*特殊なモデルにおける解釈*)
+    \(a_{1}=a_{2}=\dotsb=a_{p-1}=0\)のときの\(\rho(p)\) (*特殊なモデルにおける解釈*)
     \begin{equation}
       \mathbb{E}[X_{t}X_{t+p}]=a_{p}\mathbb{E}[X_{t}X_{t}]
       \;\Rightarrow\; \gamma(p)=a_{p}\gamma(0)
@@ -605,7 +640,7 @@
     patch[[i]] <-
       forecast::ggPacf(ts_ar[,i], 
                        colour = scales::hue_pal()(K)[i]) +
-      ylim(-0.2,1) +
+      ylim(-0.25,1) +
       labs(title = paste("AR series:", i))
   }
   do.call("wrap_plots", patch)
@@ -979,20 +1014,22 @@
     #' object: 推定された時系列モデル
   #+end_src
   - fitted.values() でも可
-- 関数 ~fabletools::tidy.mdl_df()~ 
+- 関数 ~fabletools::tidy()~ 
   - 係数の取得
   #+begin_src R :eval no :tangle no
     tidy(object, ...) 
     #' object: 推定された時系列モデル
+    #' 詳細は '?fabletools::tidy.mdl_df' を参照
   #+end_src
   - ~coef()~ でも可
 
 #+reveal: split    
-- 関数 ~fabletools::augment.mdl_df()~
+- 関数 ~fabletools::augment()~
   - あてはめ値・残差などの取得
   #+begin_src R :eval no :tangle no
     augment(object, ...) 
     #' object: 推定された時系列モデル
+    #' 詳細は '?fabletools::augment.mdl_df' を参照
   #+end_src
   - あてはめ値は ~fitted()/fitted.values()~ でも可 
   - 残差は ~residuals()/resid()~ でも可
@@ -1002,17 +1039,19 @@
 :reveal_background: #fef4f4
 :ID:       39D2C3C7-DE66-4A8C-A4D3-500348BD5C28
 :END:
-- 関数 ~fabletools::accuracy.mdl_df()~
+- 関数 ~fabletools::accuracy()~
   - 精度評価の取得
   #+begin_src R :eval no :tangle no
     accuracy(object, ...) 
     #' object: 推定された時系列モデル
+    #' 詳細は '?fabletools::accuracy.mdl_df' を参照
   #+end_src
-- 関数 ~fabletools::glance.mdl_df()~
+- 関数 ~fabletools::glance()~
   - 情報量規準などの取得
   #+begin_src R :eval no :tangle no
     glance(object, ...) 
     #' object: 推定された時系列モデル
+    #' 詳細は '?fabletools::glance.mdl_df' を参照
   #+end_src
 
 #+reveal: split
@@ -1118,9 +1157,9 @@
   #' 残差の評価
   toy_arma_fit |> select(model0) |> # 正しいモデル
       gg_tsresiduals()
-  toy_arma_fit |> select(auto0) |>  # 自動推定されたARMAモデル
-      gg_tsresiduals()
   #' 残差は無相関になっていることが確認できる
+  toy_arma_fit |> select(auto1) |>  # 自動推定されたARMAモデル
+      gg_tsresiduals()
 #+end_src
 #+begin_src R :exports none
   #' ---------------------------------------------------------------------------
@@ -1305,6 +1344,7 @@
   - ARMAモデル : 上記の複合
 - いずれも \(n\)が大きいと不確定性が増大
 - 階差による変換は累積(階差の逆変換)により推定
+- 推定したノイズの不確定性にもとづき信頼区間を構成
 
 #+reveal: split
 #+begin_src R :file figs/13_ap_arima.png :exports results :results graphics :tangle no
@@ -1348,6 +1388,26 @@
 - 分解の考え方
   - ランダム成分 : 適切な幅の移動平均が0
   - 季節成分 : 1周期の平均が0
+
+** Holt-Winter の方法
+- 指数平滑化を用いた加法的分解モデルによる予測
+  #+begin_quote
+  \begin{align}
+    l_{t} &= \alpha (x_{t}-s_{t{-}m}) + (1-\alpha) (l_{t{-}1}+b_{t{-}1})\\
+    b_{t} &= \beta (l_{t}-l_{t{-}1}) + (1-\beta) b_{t{-}1}\\
+    s_{t} &= \gamma (x_{t}-l_{t}) + (1-\gamma) s_{t{-}m}\\
+    \hat{x}_{t{+}h|t} &= l_{t} + b_{t}\times h + s_{t{-}m{+}h}
+  \end{align}
+  #+end_quote
+  - \(l_{t},b_{t}\)は時刻\(t\)における平均と傾きの推定値
+  - \(s_{t}\)は時刻\(t\)における季節成分，\(m\)は季節性の周期
+
+#+reveal: split
+- 時刻\(t,t{-}1\)における推定を平滑化して推定量を構成
+- ETS (error-trend-seasonal) モデルの一つ
+  - 基本的な考え方は乗法的分解に拡張可能
+  - 拡張したのがETSモデルとも言える
+- 状態空間モデルの特殊な場合とも考えられる
 
 #+reveal: split
 #+begin_src R :file figs/13_ap_ets.png :exports results :results graphics :tangle no
@@ -1642,7 +1702,7 @@
 
 #+reveal: split
 #+name: fig:13_3wave_arima_pred
-#+begin_src R :file figs/13_3wave_arima_pred.png :exports results :results graphics
+#+begin_src R :file figs/13_3wave_arima_pred.png :exports results :results graphics :tangle no
   #' 後半を予測してみる
   cp_3rd_arima |> 
     forecast(h = nrow(cp_3rd_test)) |>
@@ -2073,7 +2133,7 @@
         model(ARIMA(log(value))) |>
         forecast(h = 36) |> autoplot(AirPassengers)
     #+end_src
-    - 描画には ~fabletools::aotoplot.fbl_ts()~ が利用される
+    - 描画には ~fabletools::autoplot.fbl_ts()~ が利用される
 
 ** R : 分解モデルの推定
 :PROPERTIES:

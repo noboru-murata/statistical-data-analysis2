@@ -24,16 +24,12 @@ toy_acf |> autoplot()
 Tmax <- 500 # 時系列の長さ t=1,..,Tmax
 K <- 4 # 表示する時系列の数 (4つを並べて比較する)
 ts_ar <- ts(replicate(K, arima.sim(list(ar = c(0.67, 0.26)),
-                                   n = Tmax,
-                                   innov = rnorm(Tmax))))
+                                   n = Tmax)))
 ts_ma <- ts(replicate(K, arima.sim(list(ma = c(0.44, -0.28)),
-                                   n = Tmax,
-                                   innov = rnorm(Tmax))))
+                                   n = Tmax)))
 ts_arma <- ts(replicate(K, arima.sim(list(ar = c(0.8, -0.64),
                                           ma = c(-0.5)),
-                                     n = Tmax,
-                                     innov = rnorm(Tmax))))
-
+                                     n = Tmax)))
 #' AR(2)モデルの自己相関
 ts_ar |> as_tsibble() |> ACF(value) |> autoplot()
 ts_ar |> as_tsibble() |> ACF(value) |>
@@ -52,6 +48,24 @@ ts_arma |> as_tsibble() |> ACF(value) |>
     autoplot() + 
     facet_wrap(key ~ .) +
     labs(title = "ARMA(2,1)")
+#' @notes
+#' 同じホワイトノイズでAR,MA,ARMAを生成するには以下のようにすればよい
+epsilon <- rnorm(Tmax)
+toy_ar <- arima.sim(list(ar = c(0.67, 0.26)),
+                    n = Tmax,
+                    innov = epsilon)
+toy_ma <- arima.sim(list(ma = c(0.44, -0.28)),
+                    n = Tmax,
+                    innov = epsilon)
+toy_arma <- arima.sim(list(ar = c(0.8, -0.64),
+                           ma = c(-0.5)),
+                      n = Tmax,
+                      innov = epsilon)
+ts(bind_cols(`1.AR`=toy_ar, `2.MA`=toy_ma, `3.ARMA`=toy_arma)) |> 
+  as_tsibble() |> ACF(value) |> autoplot()
+#' @notes
+#' facet はそのままだとアルファベット順に並べられるので，
+#' ここでは簡単に番号を付けて回避している
 
 #' ---------------------------------------------------------------------------
 
@@ -121,9 +135,9 @@ toy_arma_fit |> glance() |> arrange(AIC) # AIC順に並べる
 #' 残差の評価
 toy_arma_fit |> select(model0) |> # 正しいモデル
     gg_tsresiduals()
-toy_arma_fit |> select(auto0) |>  # 自動推定されたARMAモデル
-    gg_tsresiduals()
 #' 残差は無相関になっていることが確認できる
+toy_arma_fit |> select(auto1) |>  # 自動推定されたARMAモデル
+    gg_tsresiduals()
 
 #' ---------------------------------------------------------------------------
 
