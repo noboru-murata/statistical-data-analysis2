@@ -22,4 +22,5 @@ weight = 1002
 ## 付録 {#付録}
 
 -   [Quarto](https://noboru-murata.github.io/statistical-data-analysis2/code/slide01.qmd)
--   [RScript](https://noboru-murata.github.io/statistical-data-analysis2/code/slide01.R)
+-   [R Script](https://noboru-murata.github.io/statistical-data-analysis2/code/slide01.R)
+-   [データセット](https://noboru-murata.github.io/statistical-data-analysis2/data/data01.zip)
