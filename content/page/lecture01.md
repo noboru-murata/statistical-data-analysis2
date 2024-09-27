@@ -6,7 +6,7 @@ draft = false
 weight = 1002
 +++
 
-<span class="timestamp-wrapper"><span class="timestamp">&lt;2023-09-30 Sat&gt; </span></span> 更新
+<span class="timestamp-wrapper"><span class="timestamp">&lt;2024-09-27 Fri&gt; </span></span> 更新
 
 
 ## スライド {#スライド}
@@ -21,4 +21,5 @@ weight = 1002
 
 ## 付録 {#付録}
 
+-   [Quarto](https://noboru-murata.github.io/statistical-data-analysis2/code/slide01.qmd)
 -   [RScript](https://noboru-murata.github.io/statistical-data-analysis2/code/slide01.R)

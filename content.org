@@ -38,14 +38,16 @@
 :EXPORT_FILE_NAME: lecture01
 :EXPORT_DATE: <2020-09-21 Mon>
 :END:
-<2023-09-30 Sat> 更新 
+<2024-09-27 Fri> 更新 
 ** スライド
 #+hugo: {{< myslide base="statistical-data-analysis2" name="slide01" >}}
 ** ハンドアウト
 - [[github:pdfs/slide01.pdf][PDF file]]
 ** 付録
-- [[github:code/slide01.R][RScript]]
-
+- [[github:code/slide01.qmd][Quarto]]
+- [[github:code/slide01.R][R Script]]
+- [[github:data/data01.zip][データセット]]
+  
 * 第2講
 :PROPERTIES:
 :EXPORT_FILE_NAME: lecture02
