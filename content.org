@@ -38,7 +38,7 @@
 :EXPORT_FILE_NAME: lecture01
 :EXPORT_DATE: <2020-09-21 Mon>
 :END:
-<2024-09-27 Fri> 更新 
+<2024-10-02 Wed> 更新 
 ** スライド
 #+hugo: {{< myslide base="statistical-data-analysis2" name="slide01" >}}
 ** ハンドアウト
@@ -53,7 +53,7 @@
 :EXPORT_FILE_NAME: lecture02
 :EXPORT_DATE: <2020-09-19 Sat>
 :END:
-<2023-10-15 Sun> 更新
+<2024-10-02 Wed> 更新
 ** スライド
 #+hugo: {{< myslide base="statistical-data-analysis2" name="slide02" >}}
 ** ハンドアウト
