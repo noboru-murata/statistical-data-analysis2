@@ -11,22 +11,19 @@
 
 <link rel="stylesheet" href="./reveal.js/dist/theme/oer-reveal.css" id="theme"/>
 
-<link rel="stylesheet" href="./reveal.js/plugin/toc-progress/toc-progress.css"/>
-
-<link rel="stylesheet" href="./reveal.js/dist/theme/toc-style.css"/>
-
 <link rel="stylesheet" href="./reveal.js/dist/theme/fonts/source-sans-pro/source-sans-pro.css"/>
 
-<link rel="stylesheet" href="./reveal.js/plugin/accessibility/helper.css"/>
+<link rel="stylesheet" href="./reveal.js/plugin/menu/menu.css"/>
+
+<link rel="stylesheet" href="./reveal.js/plugin/drawer/drawer.css"/>
 
 <link rel="stylesheet" href="./reveal.js/dist/theme/mycourse.css"/>
-<link rel="stylesheet" href="./reveal.js/plugin/highlight/zenburn.css"/>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </head>
 <body>
 <div class="reveal">
 <div class="slides">
-<section id="sec-title-slide" data-state="no-toc-progress">
+<section id="sec-title-slide">
 <!-- This is an HTML template for the title slide. -->
 <!-- Embed logos as necessary. -->
 <!-- <a class="nooutlink" href="url"><img class="state-background your-logo-class" src="whatever.png" alt="Whatever" /></a> -->
@@ -46,25 +43,24 @@
 
 </section>
 <section>
-<section id="slide-orga8b86dc">
-<h2 id="orga8b86dc">講義概要</h2>
+<section id="slide-org0deec28">
+<h2 id="org0deec28">講義概要</h2>
 <ul>
 <li>データの取り扱い</li>
 <li>描画の基礎</li>
 <li>確率シミュレーション</li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-org84f5a7a">
-<h2 id="org84f5a7a">データフレーム</h2>
-<div class="outline-text-2" id="text-org84f5a7a">
+<section id="slide-org9b1eebb">
+<h2 id="org9b1eebb">データフレーム</h2>
+<div class="outline-text-2" id="text-org9b1eebb">
 </div>
 </section>
-<section id="slide-org4555db7">
-<h3 id="org4555db7">データ構造</h3>
+<section id="slide-orgfcab641">
+<h3 id="orgfcab641">データ構造</h3>
 <ul>
 <li>Rに用意されている基本的なデータ構造
 <ul>
@@ -81,10 +77,9 @@
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org81a0f73">
-<h3 id="org81a0f73">データフレーム</h3>
+<section id="slide-org4f7789b">
+<h3 id="org4f7789b">データフレーム</h3>
 <ul>
 <li>複数の個体について，いくつかの属性を集計した表
 <ul>
@@ -160,10 +155,9 @@
 </blockquote></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org6c08cee">
-<h3 id="org6c08cee">&ldquo;base R&rdquo; vs &ldquo;tidyverse&rdquo;</h3>
+<section id="slide-orgf278ea8">
+<h3 id="orgf278ea8">&ldquo;base R&rdquo; vs &ldquo;tidyverse&rdquo;</h3>
 <ul>
 <li>データ操作とグラフィクスの枠組
 <ul>
@@ -182,19 +176,18 @@
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >#' 最初に一度だけ以下のいずれかを実行しておく
-#'  - Package タブから tidyverse をインストール
-#'  - コンソール上で次のコマンドを実行 'install.packages("tidyverse")'
-#' tidyverse パッケージの読み込み
-library(tidyverse)
-</code></pre>
+<pre class="src src-R"><span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#26368;&#21021;&#12395;&#19968;&#24230;&#12384;&#12369;&#20197;&#19979;&#12398;&#12356;&#12378;&#12428;&#12363;&#12434;&#23455;&#34892;&#12375;&#12390;&#12362;&#12367;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;">  - Package &#12479;&#12502;&#12363;&#12425; tidyverse &#12434;&#12452;&#12531;&#12473;&#12488;&#12540;&#12523;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;">  - &#12467;&#12531;&#12477;&#12540;&#12523;&#19978;&#12391;&#27425;&#12398;&#12467;&#12510;&#12531;&#12489;&#12434;&#23455;&#34892; 'install.packages("tidyverse")'</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> tidyverse &#12497;&#12483;&#12465;&#12540;&#12472;&#12398;&#35501;&#12415;&#36796;&#12415;</span>
+<span style="color: #bd93f9;">library</span>(tidyverse)
+</pre>
 </div></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org71aacae">
-<h3 id="org71aacae">データフレームの作成</h3>
+<section id="slide-org281d5eb">
+<h3 id="org281d5eb">データフレームの作成</h3>
 <ul>
 <li>作成方法はいくつか用意されている
 <ul>
@@ -209,20 +202,19 @@ library(tidyverse)
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >#' 同じ長さのベクトル(関数 base::c() で作成)を並べる (関数 tibble::tibble())
-#' (... &lt;- ...) は代入した結果を表示
-(foo &lt;- tibble(one = c(1,2,3),two = c("AB","CD","EF"))) 
-(bar &lt;- tibble(three = c("x","y","z"),four = c(0.9,0.5,-0.3)))
-#' データフレームを結合する (関数 dplyr::bind_cols())
-(baz &lt;- bind_cols(foo,bar)) # bind columns
-</code></pre>
+<pre class="src src-R"><span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#21516;&#12376;&#38263;&#12373;&#12398;&#12505;&#12463;&#12488;&#12523;(&#38306;&#25968; base::c() &#12391;&#20316;&#25104;)&#12434;&#20006;&#12409;&#12427; (&#38306;&#25968; tibble::tibble())</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> (... &lt;- ...) &#12399;&#20195;&#20837;&#12375;&#12383;&#32080;&#26524;&#12434;&#34920;&#31034;</span>
+(foo <span style="color: #bd93f9;">&lt;-</span> tibble(one = c(1,2,3),two = c(<span style="color: #f1fa8c;">"AB"</span>,<span style="color: #f1fa8c;">"CD"</span>,<span style="color: #f1fa8c;">"EF"</span>))) 
+(bar <span style="color: #bd93f9;">&lt;-</span> tibble(three = c(<span style="color: #f1fa8c;">"x"</span>,<span style="color: #f1fa8c;">"y"</span>,<span style="color: #f1fa8c;">"z"</span>),four = c(0.9,0.5,-0.3)))
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12434;&#32080;&#21512;&#12377;&#12427; (&#38306;&#25968; dplyr::bind_cols())</span>
+(baz <span style="color: #bd93f9;">&lt;-</span> bind_cols(foo,bar)) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">bind columns</span>
+</pre>
 </div></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org1964631" data-background="#fef4f4">
-<h3 id="org1964631">練習問題</h3>
+<section id="slide-orgfa2f395" data-background="#fef4f4">
+<h3 id="orgfa2f395">練習問題</h3>
 <ul>
 <li><p>
 次の表に対応するデータフレームを作成しなさい
@@ -294,17 +286,16 @@ library(tidyverse)
 </table></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-org1fdf569">
-<h2 id="org1fdf569">ファイルの操作</h2>
-<div class="outline-text-2" id="text-org1fdf569">
+<section id="slide-org0fd8980">
+<h2 id="org0fd8980">ファイルの操作</h2>
+<div class="outline-text-2" id="text-org0fd8980">
 </div>
 </section>
-<section id="slide-orgfa3cc13">
-<h3 id="orgfa3cc13">ファイルを用いたデータの読み書き</h3>
+<section id="slide-orgc86137c">
+<h3 id="orgc86137c">ファイルを用いたデータの読み書き</h3>
 <ul>
 <li>解析においてはデータファイルの操作が必要
 <ul>
@@ -321,10 +312,9 @@ library(tidyverse)
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org9cdf7b6">
-<h3 id="org9cdf7b6">作業ディレクトリ</h3>
+<section id="slide-org8a0e1b8">
+<h3 id="org8a0e1b8">作業ディレクトリ</h3>
 <ul>
 <li>作業ディレクトリとファイルに関する注意
 <ul>
@@ -341,34 +331,32 @@ library(tidyverse)
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org7ec6691">
-<h3 id="org7ec6691">CSV ファイルの操作</h3>
+<section id="slide-orge45626c">
+<h3 id="orge45626c">CSV ファイルの操作</h3>
 <ul>
 <li><p>
 関数 <code>readr::write_csv()</code> : ファイルの書き出し
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >write_csv(x, file = "ファイル名") # データフレームxをファイルに書き出す
-</code></pre>
+<pre class="src src-R">write_csv(x, file = <span style="color: #f1fa8c;">"&#12501;&#12449;&#12452;&#12523;&#21517;"</span>) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;x&#12434;&#12501;&#12449;&#12452;&#12523;&#12395;&#26360;&#12365;&#20986;&#12377;</span>
+</pre>
 </div></li>
 <li><p>
 関数 <code>readr::read_csv()</code> : ファイルの読み込み
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >y &lt;- read_csv(file = "ファイル名") # 変数yにCSVファイルの内容を読み込む
-</code></pre>
+<pre class="src src-R">y <span style="color: #bd93f9;">&lt;-</span> read_csv(file = <span style="color: #f1fa8c;">"&#12501;&#12449;&#12452;&#12523;&#21517;"</span>) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#22793;&#25968;y&#12395;CSV&#12501;&#12449;&#12452;&#12523;&#12398;&#20869;&#23481;&#12434;&#35501;&#12415;&#36796;&#12416;</span>
+</pre>
 </div></li>
 <li>Rの標準関数 base::data.frame() とは行名の扱いに違いがあるので注意</li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orga5fd75b" data-background="#fef4f4">
-<h3 id="orga5fd75b">練習問題</h3>
+<section id="slide-org9745ea8" data-background="#fef4f4">
+<h3 id="org9745ea8">練習問題</h3>
 <ul>
 <li>前の演習で作成したデータフレームを適当なファイルに書き出しなさい</li>
 <li>書き出したファイルから別の変数に読み込みなさい</li>
@@ -376,17 +364,16 @@ library(tidyverse)
 変数 <code>pcr_data</code> に読み込みなさい</li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-org26569d6">
-<h2 id="org26569d6">データフレームの操作</h2>
-<div class="outline-text-2" id="text-org26569d6">
+<section id="slide-org96a6f01">
+<h2 id="org96a6f01">データフレームの操作</h2>
+<div class="outline-text-2" id="text-org96a6f01">
 </div>
 </section>
-<section id="slide-orgc7318eb">
-<h3 id="orgc7318eb">要素の選択</h3>
+<section id="slide-org7fed67b">
+<h3 id="org7fed67b">要素の選択</h3>
 <ul>
 <li>選択方法はいくつか用意されている
 <ul>
@@ -400,39 +387,38 @@ library(tidyverse)
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >z &lt;- tibble(one = c(1,2,3),
-                two = c("AB","CD","EF"),
+<pre class="src src-R">z <span style="color: #bd93f9;">&lt;-</span> tibble(one = c(1,2,3),
+                two = c(<span style="color: #f1fa8c;">"AB"</span>,<span style="color: #f1fa8c;">"CD"</span>,<span style="color: #f1fa8c;">"EF"</span>),
                 three = 6:8)
-z[1,2] # 1行2列の要素を選択
-z[-c(1,3),] # 1,3行を除外
-z[c(TRUE,FALSE,TRUE),] # 1,3行を選択
-z[,"two"] # 列名"two"を選択(1列のデータフレームになる)
-z["two"]  # 上記と同様の結果
-z[,c("one","three")] # 列名"one"と"three"を選択(データフレームになる)
-z[c("one","three")]  # 上記と同様の結果
-z[["two"]] # 列名"two"のベクトルを選択(1列の場合しか使えない)
-z$two      # 上記と同様の結果
-</code></pre>
+z[1,2] <span style="color: #6272a4;"># </span><span style="color: #6272a4;">1&#34892;2&#21015;&#12398;&#35201;&#32032;&#12434;&#36984;&#25246;</span>
+z[-c(1,3),] <span style="color: #6272a4;"># </span><span style="color: #6272a4;">1,3&#34892;&#12434;&#38500;&#22806;</span>
+z[c(<span style="color: #8be9fd; font-style: italic;">TRUE</span>,<span style="color: #8be9fd; font-style: italic;">FALSE</span>,<span style="color: #8be9fd; font-style: italic;">TRUE</span>),] <span style="color: #6272a4;"># </span><span style="color: #6272a4;">1,3&#34892;&#12434;&#36984;&#25246;</span>
+z[,<span style="color: #f1fa8c;">"two"</span>] <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#21015;&#21517;"two"&#12434;&#36984;&#25246;(1&#21015;&#12398;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12395;&#12394;&#12427;)</span>
+z[<span style="color: #f1fa8c;">"two"</span>]  <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#19978;&#35352;&#12392;&#21516;&#27096;&#12398;&#32080;&#26524;</span>
+z[,c(<span style="color: #f1fa8c;">"one"</span>,<span style="color: #f1fa8c;">"three"</span>)] <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#21015;&#21517;"one"&#12392;"three"&#12434;&#36984;&#25246;(&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12395;&#12394;&#12427;)</span>
+z[c(<span style="color: #f1fa8c;">"one"</span>,<span style="color: #f1fa8c;">"three"</span>)]  <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#19978;&#35352;&#12392;&#21516;&#27096;&#12398;&#32080;&#26524;</span>
+z[[<span style="color: #f1fa8c;">"two"</span>]] <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#21015;&#21517;"two"&#12398;&#12505;&#12463;&#12488;&#12523;&#12434;&#36984;&#25246;(1&#21015;&#12398;&#22580;&#21512;&#12375;&#12363;&#20351;&#12360;&#12394;&#12356;)</span>
+z$two      <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#19978;&#35352;&#12392;&#21516;&#27096;&#12398;&#32080;&#26524;</span>
+</pre>
 </div></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgdc3499e">
-<h3 id="orgdc3499e">部分集合(行)の選択</h3>
+<section id="slide-org77c44f4">
+<h3 id="org77c44f4">部分集合(行)の選択</h3>
 <ul>
 <li><p>
 関数 <code>dplyr::filter()</code> : 条件を指定して行を選択
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >filter(.data, ..., .by = NULL, .preserve = FALSE)
-#' .data: データフレーム 
-#' ...: 行に関する条件
-#' .by: グループ化を指定(実験的な実装)
-#' .preserve: グループ化を維持するか指定(実験的な実装)
-#' 詳細は '?dplyr::filter' を参照
-</code></pre>
+<pre class="src src-R">filter(.data, ..., .by = <span style="color: #8be9fd; font-style: italic;">NULL</span>, .preserve = <span style="color: #8be9fd; font-style: italic;">FALSE</span>)
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> .data: &#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512; </span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> ...: &#34892;&#12395;&#38306;&#12377;&#12427;&#26465;&#20214;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> .by: &#12464;&#12523;&#12540;&#12503;&#21270;&#12434;&#25351;&#23450;(&#23455;&#39443;&#30340;&#12394;&#23455;&#35013;)</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> .preserve: &#12464;&#12523;&#12540;&#12503;&#21270;&#12434;&#32173;&#25345;&#12377;&#12427;&#12363;&#25351;&#23450;(&#23455;&#39443;&#30340;&#12394;&#23455;&#35013;)</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#35443;&#32048;&#12399; '?dplyr::filter' &#12434;&#21442;&#29031;</span>
+</pre>
 </div></li>
 <li>行に関する条件指定には以下を用いることができる
 <ul>
@@ -443,21 +429,20 @@ z$two      # 上記と同様の結果
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org46f93ce">
-<h3 id="org46f93ce">部分集合(列)の選択</h3>
+<section id="slide-orga387ccb">
+<h3 id="orga387ccb">部分集合(列)の選択</h3>
 <ul>
 <li><p>
 関数 <code>dplyr::select()</code> : 条件を指定して列を選択
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >select(.data, ...)
-#' .data: データフレーム 
-#' ...: 列に関する条件(列の番号，名前，名前に関する条件式を利用する)
-#' 詳細は '?dplyr::select' を参照
-</code></pre>
+<pre class="src src-R">select(.data, ...)
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> .data: &#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512; </span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> ...: &#21015;&#12395;&#38306;&#12377;&#12427;&#26465;&#20214;(&#21015;&#12398;&#30058;&#21495;&#65292;&#21517;&#21069;&#65292;&#21517;&#21069;&#12395;&#38306;&#12377;&#12427;&#26465;&#20214;&#24335;&#12434;&#21033;&#29992;&#12377;&#12427;)</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#35443;&#32048;&#12399; '?dplyr::select' &#12434;&#21442;&#29031;</span>
+</pre>
 </div></li>
 <li>条件指定には例えば以下のような方法がある
 <ul>
@@ -469,10 +454,9 @@ z$two      # 上記と同様の結果
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orge87ec51">
-<h3 id="orge87ec51">パイプ演算子</h3>
+<section id="slide-org4d06aa0">
+<h3 id="org4d06aa0">パイプ演算子</h3>
 <ul>
 <li>処理を順次結合する演算子 (いくつか定義がある)
 <ul>
@@ -485,73 +469,70 @@ z$two      # 上記と同様の結果
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >#' 前に作成したデータフレーム z を用いた例
-(foo &lt;- filter(z, three &gt;= 7)) # 列 three の値が7以上の行を選択
-(bar &lt;- select(foo, c(one, three))) # 列 one,three を選択
-#' パイプを用いると以下のように書ける
+<pre class="src src-R"><span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#21069;&#12395;&#20316;&#25104;&#12375;&#12383;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512; z &#12434;&#29992;&#12356;&#12383;&#20363;</span>
+(foo <span style="color: #bd93f9;">&lt;-</span> filter(z, three &gt;= 7)) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#21015; three &#12398;&#20516;&#12364;7&#20197;&#19978;&#12398;&#34892;&#12434;&#36984;&#25246;</span>
+(bar <span style="color: #bd93f9;">&lt;-</span> select(foo, c(one, three))) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#21015; one,three &#12434;&#36984;&#25246;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#12497;&#12452;&#12503;&#12434;&#29992;&#12356;&#12427;&#12392;&#20197;&#19979;&#12398;&#12424;&#12358;&#12395;&#26360;&#12369;&#12427;</span>
 z |&gt; filter(three &gt;= 7) |&gt; select(one, three)
-#' 別の例
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#21029;&#12398;&#20363;</span>
 z |&gt; 
-  filter(one != 2) |&gt;        # 列 one の値が2でない行を選択
-  select(starts_with("t")) # 列 "t"wo,"t"hree を選択
-</code></pre>
+  filter(one != 2) |&gt;        <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#21015; one &#12398;&#20516;&#12364;2&#12391;&#12394;&#12356;&#34892;&#12434;&#36984;&#25246;</span>
+  select(starts_with(<span style="color: #f1fa8c;">"t"</span>)) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#21015; "t"wo,"t"hree &#12434;&#36984;&#25246;</span>
+</pre>
 </div></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org25ee4ab">
-<h3 id="org25ee4ab">データフレームの形の変更</h3>
+<section id="slide-org6786f15">
+<h3 id="org6786f15">データフレームの形の変更</h3>
 <ul>
 <li><p>
 関数 <code>dplyr::pivot_longer()</code> : 同じ属性の列をまとめる
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >pivot_longer(
+<pre class="src src-R">pivot_longer(
   data,
   cols,
   ...,
-  cols_vary = "fastest",
-  names_to = "name", names_prefix = NULL, names_sep = NULL, names_pattern = NULL,
-  names_ptypes = NULL, names_transform = NULL, names_repair = "check_unique",
-  values_to = "value", values_drop_na = FALSE, values_ptypes = NULL,
-  values_transform = NULL
+  cols_vary = <span style="color: #f1fa8c;">"fastest"</span>,
+  names_to = <span style="color: #f1fa8c;">"name"</span>, names_prefix = <span style="color: #8be9fd; font-style: italic;">NULL</span>, names_sep = <span style="color: #8be9fd; font-style: italic;">NULL</span>, names_pattern = <span style="color: #8be9fd; font-style: italic;">NULL</span>,
+  names_ptypes = <span style="color: #8be9fd; font-style: italic;">NULL</span>, names_transform = <span style="color: #8be9fd; font-style: italic;">NULL</span>, names_repair = <span style="color: #f1fa8c;">"check_unique"</span>,
+  values_to = <span style="color: #f1fa8c;">"value"</span>, values_drop_na = <span style="color: #8be9fd; font-style: italic;">FALSE</span>, values_ptypes = <span style="color: #8be9fd; font-style: italic;">NULL</span>,
+  values_transform = <span style="color: #8be9fd; font-style: italic;">NULL</span>
 )
-#' data: データフレーム
-#' cols: 操作の対象とする列(列の番号，名前，名前に関する条件式など)
-#' names_to: 対象の列名をラベルとする新しい列の名前(既定値は"name")
-#' values_to: 対象の列の値を保存する新しい列の名前(既定値は"value")
-#' 詳細は '?dplyr::pivot_longer' を参照
-</code></pre>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> data: &#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> cols: &#25805;&#20316;&#12398;&#23550;&#35937;&#12392;&#12377;&#12427;&#21015;(&#21015;&#12398;&#30058;&#21495;&#65292;&#21517;&#21069;&#65292;&#21517;&#21069;&#12395;&#38306;&#12377;&#12427;&#26465;&#20214;&#24335;&#12394;&#12393;)</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> names_to: &#23550;&#35937;&#12398;&#21015;&#21517;&#12434;&#12521;&#12505;&#12523;&#12392;&#12377;&#12427;&#26032;&#12375;&#12356;&#21015;&#12398;&#21517;&#21069;(&#26082;&#23450;&#20516;&#12399;"name")</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> values_to: &#23550;&#35937;&#12398;&#21015;&#12398;&#20516;&#12434;&#20445;&#23384;&#12377;&#12427;&#26032;&#12375;&#12356;&#21015;&#12398;&#21517;&#21069;(&#26082;&#23450;&#20516;&#12399;"value")</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#35443;&#32048;&#12399; '?dplyr::pivot_longer' &#12434;&#21442;&#29031;</span>
+</pre>
 </div></li>
 <li>列ごとのグラフを視覚化する際に多用する</li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org59b51e3">
-<h3 id="org59b51e3">変更の例</h3>
+<section id="slide-orgbad0cf7">
+<h3 id="orgbad0cf7">変更の例</h3>
 <ul>
 <li><p>
 <span style="color:green;">成績表の形式の変更</span>
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >#' 練習問題の成績表を用いた例
+<pre class="src src-R"><span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#32244;&#32722;&#21839;&#38988;&#12398;&#25104;&#32318;&#34920;&#12434;&#29992;&#12356;&#12383;&#20363;</span>
 pivot_longer(grade_data,
-             !name, # name 列以外をまとめる
-             names_to = "subject") # もとの列名を subject 列にまとめる
-#' この例ではもとのデータフレームに "name" という列があるため
-#' 既定値は使えないので，科目を表す "subject" を用いている
-</code></pre>
+             !name, <span style="color: #6272a4;"># </span><span style="color: #6272a4;">name &#21015;&#20197;&#22806;&#12434;&#12414;&#12392;&#12417;&#12427;</span>
+             names_to = <span style="color: #f1fa8c;">"subject"</span>) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#12418;&#12392;&#12398;&#21015;&#21517;&#12434; subject &#21015;&#12395;&#12414;&#12392;&#12417;&#12427;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#12371;&#12398;&#20363;&#12391;&#12399;&#12418;&#12392;&#12398;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12395; "name" &#12392;&#12356;&#12358;&#21015;&#12364;&#12354;&#12427;&#12383;&#12417;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#26082;&#23450;&#20516;&#12399;&#20351;&#12360;&#12394;&#12356;&#12398;&#12391;&#65292;&#31185;&#30446;&#12434;&#34920;&#12377; "subject" &#12434;&#29992;&#12356;&#12390;&#12356;&#12427;</span>
+</pre>
 </div></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orge738295" data-background="#fef4f4">
-<h3 id="orge738295">練習問題</h3>
+<section id="slide-org818e6fb" data-background="#fef4f4">
+<h3 id="org818e6fb">練習問題</h3>
 <ul>
 <li><code>pcr_case_daily.csv</code> から以下の条件を満たすデータを取り出しなさい
 <ul>
@@ -563,16 +544,14 @@ pivot_longer(grade_data,
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-orgc2f8098">
-<h2 id="orgc2f8098">データフレームの集約</h2>
-<div class="slide-footer"><br></div>
+<section id="slide-org86c43ae">
+<h2 id="org86c43ae">データフレームの集約</h2>
 </section>
-<section id="slide-org086aef8">
-<h3 id="org086aef8">統計量の計算</h3>
+<section id="slide-org3737af0">
+<h3 id="org3737af0">統計量の計算</h3>
 <ul>
 <li>データを集約した値 = 統計量
 <ul>
@@ -587,73 +566,70 @@ pivot_longer(grade_data,
 <li>これ以外にも沢山あるので調べてみよう</li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org9d7b48a">
-<h3 id="org9d7b48a">列ごとの集約</h3>
+<section id="slide-org5c47a81">
+<h3 id="org5c47a81">列ごとの集約</h3>
 <ul>
 <li><p>
 関数 <code>dplyr::summarise()</code> : 行ごとに計算する
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >summarise(.data, ..., .by = NULL, .groups = NULL)
-#' .data: データフレーム
-#' ...: 求めたい統計量を計算するための処理を記述
-#' .by: グループ化を指定(実験的な実装)
-#' .groups: グループ化の結果を指定(実験的な実装)
-</code></pre>
+<pre class="src src-R">summarise(.data, ..., .by = <span style="color: #8be9fd; font-style: italic;">NULL</span>, .groups = <span style="color: #8be9fd; font-style: italic;">NULL</span>)
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> .data: &#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> ...: &#27714;&#12417;&#12383;&#12356;&#32113;&#35336;&#37327;&#12434;&#35336;&#31639;&#12377;&#12427;&#12383;&#12417;&#12398;&#20966;&#29702;&#12434;&#35352;&#36848;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> .by: &#12464;&#12523;&#12540;&#12503;&#21270;&#12434;&#25351;&#23450;(&#23455;&#39443;&#30340;&#12394;&#23455;&#35013;)</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> .groups: &#12464;&#12523;&#12540;&#12503;&#21270;&#12398;&#32080;&#26524;&#12434;&#25351;&#23450;(&#23455;&#39443;&#30340;&#12394;&#23455;&#35013;)</span>
+</pre>
 </div></li>
 <li><p>
 <span style="color:green;">平均の算出</span>
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >#' 練習問題のデータフレームを用いた例
+<pre class="src src-R"><span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#32244;&#32722;&#21839;&#38988;&#12398;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12434;&#29992;&#12356;&#12383;&#20363;</span>
 grade_data |&gt;
-  summarise(math_mean = mean(math), nums = n()) # 数学の平均を求める
+  summarise(math_mean = mean(math), nums = n()) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#25968;&#23398;&#12398;&#24179;&#22343;&#12434;&#27714;&#12417;&#12427;</span>
 grade_data |&gt;
-  summarise(across(!name, mean)) # 名前の列以外の平均を求める
-</code></pre>
+  summarise(across(!name, mean)) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#21517;&#21069;&#12398;&#21015;&#20197;&#22806;&#12398;&#24179;&#22343;&#12434;&#27714;&#12417;&#12427;</span>
+</pre>
 </div></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org66e50f3">
-<h3 id="org66e50f3">グループごとの操作</h3>
+<section id="slide-orgc415f27">
+<h3 id="orgc415f27">グループごとの操作</h3>
 <ul>
 <li><p>
 関数 <code>dplyr::group_by()</code> : グループ化を行う
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >group_by(.data, ..., .add = FALSE, .drop = group_by_drop_default(.data))
-#' .data: データフレーム
-#' ...: グループ化を行う項目を含む列や条件を記述
-#' .add: グループ化の上書きを制御(既定値FALSEは上書き)
-#' .drop: グループ化に関与しない因子の扱い方
-</code></pre>
+<pre class="src src-R">group_by(.data, ..., .add = <span style="color: #8be9fd; font-style: italic;">FALSE</span>, .drop = group_by_drop_default(.data))
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> .data: &#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> ...: &#12464;&#12523;&#12540;&#12503;&#21270;&#12434;&#34892;&#12358;&#38917;&#30446;&#12434;&#21547;&#12416;&#21015;&#12420;&#26465;&#20214;&#12434;&#35352;&#36848;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> .add: &#12464;&#12523;&#12540;&#12503;&#21270;&#12398;&#19978;&#26360;&#12365;&#12434;&#21046;&#24481;(&#26082;&#23450;&#20516;FALSE&#12399;&#19978;&#26360;&#12365;)</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> .drop: &#12464;&#12523;&#12540;&#12503;&#21270;&#12395;&#38306;&#19982;&#12375;&#12394;&#12356;&#22240;&#23376;&#12398;&#25201;&#12356;&#26041;</span>
+</pre>
 </div></li>
 <li><p>
 <span style="color:green;">グループごとに集計</span>
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >#' pcr_data を用いた例
-#' 医療機関(mi)のPCR件数を各月で集計する
-#' 日付の扱いに関数 lubridate::year(), lubridate::month() を利用
+<pre class="src src-R"><span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> pcr_data &#12434;&#29992;&#12356;&#12383;&#20363;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#21307;&#30274;&#27231;&#38306;(mi)&#12398;PCR&#20214;&#25968;&#12434;&#21508;&#26376;&#12391;&#38598;&#35336;&#12377;&#12427;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#26085;&#20184;&#12398;&#25201;&#12356;&#12395;&#38306;&#25968; lubridate::year(), lubridate::month() &#12434;&#21033;&#29992;</span>
 pcr_data |&gt;
-  group_by(year = year(date), month = month(date)) |&gt; # 年と月でグループ化
-  summarise(mi_total = sum(mi)) # mi の合計値を計算する
-</code></pre>
+  group_by(year = year(date), month = month(date)) |&gt; <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#24180;&#12392;&#26376;&#12391;&#12464;&#12523;&#12540;&#12503;&#21270;</span>
+  summarise(mi_total = sum(mi)) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">mi &#12398;&#21512;&#35336;&#20516;&#12434;&#35336;&#31639;&#12377;&#12427;</span>
+</pre>
 </div></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orga56fa9c" data-background="#fef4f4">
-<h3 id="orga56fa9c">練習問題</h3>
+<section id="slide-org0d986a9" data-background="#fef4f4">
+<h3 id="org0d986a9">練習問題</h3>
 <ul>
 <li><code>pcr_case_daily.csv</code> を集計しなさい
 <ul>
@@ -670,17 +646,16 @@ pcr_data |&gt;
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-org8e4ef6d">
-<h2 id="org8e4ef6d">参考</h2>
-<div class="outline-text-2" id="text-org8e4ef6d">
+<section id="slide-org45a5866">
+<h2 id="org45a5866">参考</h2>
+<div class="outline-text-2" id="text-org45a5866">
 </div>
 </section>
-<section id="slide-orgc9b59ef">
-<h3 id="orgc9b59ef">その他の資料</h3>
+<section id="slide-org393b15a">
+<h3 id="org393b15a">その他の資料</h3>
 <ul>
 <li>詳細なデータの取り扱いについては以下を参照
 <ul>
@@ -710,17 +685,16 @@ pcr_data |&gt;
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-orgb8fc1bc">
-<h2 id="orgb8fc1bc">描画の基礎</h2>
-<div class="outline-text-2" id="text-orgb8fc1bc">
+<section id="slide-orge2e1d1f">
+<h2 id="orge2e1d1f">描画の基礎</h2>
+<div class="outline-text-2" id="text-orge2e1d1f">
 </div>
 </section>
-<section id="slide-orgcc23b23">
-<h3 id="orgcc23b23">データの可視化</h3>
+<section id="slide-org7c7e3d2">
+<h3 id="org7c7e3d2">データの可視化</h3>
 <ul>
 <li>データ全体の特徴や傾向を把握するための直感的で効果的な方法</li>
 <li>R言語には極めて多彩な作図機能が用意されている
@@ -734,67 +708,64 @@ pcr_data |&gt;
 図中の文字の大きさなどを指定することができる</li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org240f413">
-<h3 id="org240f413">描画の初期化</h3>
+<section id="slide-orgd69cca1">
+<h3 id="orgd69cca1">描画の初期化</h3>
 <ul>
 <li><p>
 <code>package::ggplot2</code> ではさまざまな作図関数を追加しながら描画する
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >初期化のための関数 + 
-  作図のための関数 + ... +
-  装飾のための関数 + ... # 関数が生成するオブジェクトに変更分を随時追加する
-</code></pre>
+<pre class="src src-R">&#21021;&#26399;&#21270;&#12398;&#12383;&#12417;&#12398;&#38306;&#25968; + 
+  &#20316;&#22259;&#12398;&#12383;&#12417;&#12398;&#38306;&#25968; + ... +
+  &#35013;&#39166;&#12398;&#12383;&#12417;&#12398;&#38306;&#25968; + ... <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#38306;&#25968;&#12364;&#29983;&#25104;&#12377;&#12427;&#12458;&#12502;&#12472;&#12455;&#12463;&#12488;&#12395;&#22793;&#26356;&#20998;&#12434;&#38543;&#26178;&#36861;&#21152;&#12377;&#12427;</span>
+</pre>
 </div></li>
 <li><p>
 関数 <code>ggplot2::ggplot()</code> : 初期化
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >ggplot(data = NULL, mapping = aes(), ..., environment = parent.frame())
-#' data: データフレーム
-#' mapping: 描画の基本となる"審美的マップ"(xy軸，色，形，塗り潰しなど)の設定
-#' environment: 互換性のための変数(廃止)
-#' 詳細は '?ggplot2::ggplot' を参照
-</code></pre>
+<pre class="src src-R">ggplot(data = <span style="color: #8be9fd; font-style: italic;">NULL</span>, mapping = aes(), ..., environment = parent.frame())
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> data: &#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> mapping: &#25551;&#30011;&#12398;&#22522;&#26412;&#12392;&#12394;&#12427;"&#23529;&#32654;&#30340;&#12510;&#12483;&#12503;"(xy&#36600;&#65292;&#33394;&#65292;&#24418;&#65292;&#22615;&#12426;&#28528;&#12375;&#12394;&#12393;)&#12398;&#35373;&#23450;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> environment: &#20114;&#25563;&#24615;&#12398;&#12383;&#12417;&#12398;&#22793;&#25968;(&#24259;&#27490;)</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#35443;&#32048;&#12399; '?ggplot2::ggplot' &#12434;&#21442;&#29031;</span>
+</pre>
 </div></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgdd74c69">
-<h3 id="orgdd74c69">基本的な描画 (折線グラフ)</h3>
+<section id="slide-org847b6ea">
+<h3 id="org847b6ea">基本的な描画 (折線グラフ)</h3>
 <ul>
 <li><p>
 関数 <code>ggplot2::geom_line()</code> : 線の描画
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >geom_line(
-  mapping = NULL,
-  data = NULL,
-  stat = "identity",
-  position = "identity",
+<pre class="src src-R">geom_line(
+  mapping = <span style="color: #8be9fd; font-style: italic;">NULL</span>,
+  data = <span style="color: #8be9fd; font-style: italic;">NULL</span>,
+  stat = <span style="color: #f1fa8c;">"identity"</span>,
+  position = <span style="color: #f1fa8c;">"identity"</span>,
   ...,
-  na.rm = FALSE, orientation = NA, show.legend = NA, inherit.aes = TRUE
+  na.rm = <span style="color: #8be9fd; font-style: italic;">FALSE</span>, orientation = <span style="color: #8be9fd; font-style: italic;">NA</span>, show.legend = <span style="color: #8be9fd; font-style: italic;">NA</span>, inherit.aes = <span style="color: #8be9fd; font-style: italic;">TRUE</span>
 )
-#' mapping: "審美的"マップの設定
-#' data: データフレーム
-#' stat: 統計的な処理の指定
-#' position: 描画位置の調整
-#' ...: その他の描画オプション
-#' na.rm: NA(欠損値)の削除(既定値は削除しない)
-#' show.legend: 凡例の表示(既定値は表示)
-#' 詳細は '?ggplot2::geom_line' を参照
-</code></pre>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> mapping: "&#23529;&#32654;&#30340;"&#12510;&#12483;&#12503;&#12398;&#35373;&#23450;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> data: &#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> stat: &#32113;&#35336;&#30340;&#12394;&#20966;&#29702;&#12398;&#25351;&#23450;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> position: &#25551;&#30011;&#20301;&#32622;&#12398;&#35519;&#25972;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> ...: &#12381;&#12398;&#20182;&#12398;&#25551;&#30011;&#12458;&#12503;&#12471;&#12519;&#12531;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> na.rm: NA(&#27424;&#25613;&#20516;)&#12398;&#21066;&#38500;(&#26082;&#23450;&#20516;&#12399;&#21066;&#38500;&#12375;&#12394;&#12356;)</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> show.legend: &#20961;&#20363;&#12398;&#34920;&#31034;(&#26082;&#23450;&#20516;&#12399;&#34920;&#31034;)</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#35443;&#32048;&#12399; '?ggplot2::geom_line' &#12434;&#21442;&#29031;</span>
+</pre>
 </div></li>
 
 </ul>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 <ul>
@@ -803,23 +774,22 @@ pcr_data |&gt;
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >pcr_data |&gt; # パイプ演算子でデータフレームを関数 ggplot2::ggplot() に渡す
-  ggplot(aes(x = date)) + # date をx軸に指定
-  geom_line(aes(y = ai), colour = "blue") + # 行政検査を青
-  geom_line(aes(y = mi), colour = "red") +  # 医療機関を赤
-  labs(y = "number of tests") # y軸のラベルを変更
-</code></pre>
+<pre class="src src-R">pcr_data |&gt; <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#12497;&#12452;&#12503;&#28436;&#31639;&#23376;&#12391;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12434;&#38306;&#25968; ggplot2::ggplot() &#12395;&#28193;&#12377;</span>
+  ggplot(aes(x = date)) + <span style="color: #6272a4;"># </span><span style="color: #6272a4;">date &#12434;x&#36600;&#12395;&#25351;&#23450;</span>
+  geom_line(aes(y = ai), colour = <span style="color: #f1fa8c;">"blue"</span>) + <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#34892;&#25919;&#26908;&#26619;&#12434;&#38738;</span>
+  geom_line(aes(y = mi), colour = <span style="color: #f1fa8c;">"red"</span>) +  <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#21307;&#30274;&#27231;&#38306;&#12434;&#36196;</span>
+  labs(y = <span style="color: #f1fa8c;">"number of tests"</span>) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">y&#36600;&#12398;&#12521;&#12505;&#12523;&#12434;&#22793;&#26356;</span>
+</pre>
 </div>
 
 
-<div id="org96730e4" class="figure">
+<div id="orge8d6a74" class="figure">
 <p><img src="figs/02-geomline-geomline.png" alt="02-geomline-geomline.png" width="50%" />
 </p>
 </div></li>
 
 </ul>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 <ul>
@@ -828,23 +798,22 @@ pcr_data |&gt;
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >pcr_data |&gt; select(!c(sub,total)) |&gt; # 集計値を除く
-  pivot_longer(!date, names_to = "organ", values_to = "nums") |&gt; 
+<pre class="src src-R">pcr_data |&gt; select(!c(sub,total)) |&gt; <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#38598;&#35336;&#20516;&#12434;&#38500;&#12367;</span>
+  pivot_longer(!date, names_to = <span style="color: #f1fa8c;">"organ"</span>, values_to = <span style="color: #f1fa8c;">"nums"</span>) |&gt; 
   ggplot(aes(x = date, y = nums, colour = organ)) + geom_line() +
-  labs(title = "PCR Tests in Various Organizatios",
-       x = "Date", y = "Number of Tests") # xy軸のラベルを変更
-</code></pre>
+  labs(title = <span style="color: #f1fa8c;">"PCR Tests in Various Organizatios"</span>,
+       x = <span style="color: #f1fa8c;">"Date"</span>, y = <span style="color: #f1fa8c;">"Number of Tests"</span>) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">xy&#36600;&#12398;&#12521;&#12505;&#12523;&#12434;&#22793;&#26356;</span>
+</pre>
 </div>
 
 
-<div id="org0f69687" class="figure">
+<div id="org5c00bb7" class="figure">
 <p><img src="figs/02-geomline.png" alt="02-geomline.png" width="50%" />
 </p>
 </div></li>
 
 </ul>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 <ul>
@@ -853,54 +822,52 @@ pcr_data |&gt;
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >pcr_data |&gt; select(!c(sub,total)) |&gt; 
-  pivot_longer(!date, names_to = "organ", values_to = "nums") |&gt; 
+<pre class="src src-R">pcr_data |&gt; select(!c(sub,total)) |&gt; 
+  pivot_longer(!date, names_to = <span style="color: #f1fa8c;">"organ"</span>, values_to = <span style="color: #f1fa8c;">"nums"</span>) |&gt; 
   ggplot(aes(x = date, y = nums, colour = organ)) +
-  labs(title = "PCR Tests in Various Organizatios", x = "Date", y = "Number of Tests") +
-  geom_line(show.legend  =  FALSE) + # 凡例を消す
-  facet_grid(vars(organ)) # "organ" ごとに異なる図を並べる
-</code></pre>
+  labs(title = <span style="color: #f1fa8c;">"PCR Tests in Various Organizatios"</span>, x = <span style="color: #f1fa8c;">"Date"</span>, y = <span style="color: #f1fa8c;">"Number of Tests"</span>) +
+  geom_line(show.legend  =  <span style="color: #8be9fd; font-style: italic;">FALSE</span>) + <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#20961;&#20363;&#12434;&#28040;&#12377;</span>
+  facet_grid(vars(organ)) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">"organ" &#12372;&#12392;&#12395;&#30064;&#12394;&#12427;&#22259;&#12434;&#20006;&#12409;&#12427;</span>
+</pre>
 </div>
 
 
-<div id="org019d833" class="figure">
+<div id="orgfcf0a6b" class="figure">
 <p><img src="figs/02-geomline-facetgrid.png" alt="02-geomline-facetgrid.png" width="50%" />
 </p>
 </div></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org2222bac">
-<h3 id="org2222bac">基本的な描画 (散布図)</h3>
+<section id="slide-org2bc0956">
+<h3 id="org2bc0956">基本的な描画 (散布図)</h3>
 <ul>
 <li><p>
 関数 <code>ggplot2::geom_point()</code> : 点の描画
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >geom_point(
-  mapping = NULL,
-  data = NULL,
-  stat = "identity",
-  position = "identity",
+<pre class="src src-R">geom_point(
+  mapping = <span style="color: #8be9fd; font-style: italic;">NULL</span>,
+  data = <span style="color: #8be9fd; font-style: italic;">NULL</span>,
+  stat = <span style="color: #f1fa8c;">"identity"</span>,
+  position = <span style="color: #f1fa8c;">"identity"</span>,
   ...,
-  na.rm = FALSE, show.legend = NA, inherit.aes = TRUE
+  na.rm = <span style="color: #8be9fd; font-style: italic;">FALSE</span>, show.legend = <span style="color: #8be9fd; font-style: italic;">NA</span>, inherit.aes = <span style="color: #8be9fd; font-style: italic;">TRUE</span>
 )
-#' mapping: 審美的マップの設定
-#' data: データフレーム
-#' stat: 統計的な処理の指定
-#' position: 描画位置の調整
-#' ...: その他の描画オプション
-#' na.rm: NA(欠損値)の削除(既定値は削除しない)
-#' show.legend: 凡例の表示(既定値は表示)
-#' 詳細は '?ggplot2::geom_point' を参照
-</code></pre>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> mapping: &#23529;&#32654;&#30340;&#12510;&#12483;&#12503;&#12398;&#35373;&#23450;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> data: &#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> stat: &#32113;&#35336;&#30340;&#12394;&#20966;&#29702;&#12398;&#25351;&#23450;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> position: &#25551;&#30011;&#20301;&#32622;&#12398;&#35519;&#25972;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> ...: &#12381;&#12398;&#20182;&#12398;&#25551;&#30011;&#12458;&#12503;&#12471;&#12519;&#12531;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> na.rm: NA(&#27424;&#25613;&#20516;)&#12398;&#21066;&#38500;(&#26082;&#23450;&#20516;&#12399;&#21066;&#38500;&#12375;&#12394;&#12356;)</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> show.legend: &#20961;&#20363;&#12398;&#34920;&#31034;(&#26082;&#23450;&#20516;&#12399;&#34920;&#31034;)</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#35443;&#32048;&#12399; '?ggplot2::geom_point' &#12434;&#21442;&#29031;</span>
+</pre>
 </div></li>
 
 </ul>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 <ul>
@@ -909,24 +876,23 @@ pcr_data |&gt;
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >if(Sys.info()["sysname"] == "Darwin") { # MacOSか調べて日本語フォントを指定
-  theme_update(text = element_text(family = "HiraginoSans-W4"))}
+<pre class="src src-R"><span style="color: #ff79c6; font-weight: bold;">if</span>(Sys.info()[<span style="color: #f1fa8c;">"sysname"</span>] == <span style="color: #f1fa8c;">"Darwin"</span>) { <span style="color: #6272a4;"># </span><span style="color: #6272a4;">MacOS&#12363;&#35519;&#12409;&#12390;&#26085;&#26412;&#35486;&#12501;&#12457;&#12531;&#12488;&#12434;&#25351;&#23450;</span>
+  theme_update(text = element_text(family = <span style="color: #f1fa8c;">"HiraginoSans-W4"</span>))}
 pcr_data |&gt; 
-  ggplot(aes(x = niid, y = mi)) + # x軸を niid，y軸を mi に設定
-  geom_point(colour = "blue", shape = 19) + # 色と形を指定(点の形は '?points' を参照)
-  labs(x = pcr_colnames["niid"], y = pcr_colnames["mi"]) # 軸の名前を指定
-</code></pre>
+  ggplot(aes(x = niid, y = mi)) + <span style="color: #6272a4;"># </span><span style="color: #6272a4;">x&#36600;&#12434; niid&#65292;y&#36600;&#12434; mi &#12395;&#35373;&#23450;</span>
+  geom_point(colour = <span style="color: #f1fa8c;">"blue"</span>, shape = 19) + <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#33394;&#12392;&#24418;&#12434;&#25351;&#23450;(&#28857;&#12398;&#24418;&#12399; '?points' &#12434;&#21442;&#29031;)</span>
+  labs(x = pcr_colnames[<span style="color: #f1fa8c;">"niid"</span>], y = pcr_colnames[<span style="color: #f1fa8c;">"mi"</span>]) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#36600;&#12398;&#21517;&#21069;&#12434;&#25351;&#23450;</span>
+</pre>
 </div>
 
 
-<div id="orgc1dc9c2" class="figure">
+<div id="org0717747" class="figure">
 <p><img src="figs/02-geompoint.png" alt="02-geompoint.png" width="50%" />
 </p>
 </div></li>
 
 </ul>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 <ul>
@@ -935,25 +901,24 @@ pcr_data |&gt;
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >pcr_data |&gt; 
+<pre class="src src-R">pcr_data |&gt; 
   ggplot(aes(x = niid, y = mi)) + 
-  geom_point(colour = "blue", shape = 19) + 
-  scale_x_log10() + scale_y_log10() + # 各軸を対数で表示
-  labs(x = pcr_colnames["niid"], y = pcr_colnames["mi"]) 
-</code></pre>
+  geom_point(colour = <span style="color: #f1fa8c;">"blue"</span>, shape = 19) + 
+  scale_x_log10() + scale_y_log10() + <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#21508;&#36600;&#12434;&#23550;&#25968;&#12391;&#34920;&#31034;</span>
+  labs(x = pcr_colnames[<span style="color: #f1fa8c;">"niid"</span>], y = pcr_colnames[<span style="color: #f1fa8c;">"mi"</span>]) 
+</pre>
 </div>
 
 
-<div id="orgffcbda5" class="figure">
+<div id="org1b494ab" class="figure">
 <p><img src="figs/02-geompoint-scalelog.png" alt="02-geompoint-scalelog.png" width="50%" />
 </p>
 </div></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org26da94c">
-<h3 id="org26da94c">基本的な描画 (散布図行列)</h3>
+<section id="slide-org9923e1c">
+<h3 id="org9923e1c">基本的な描画 (散布図行列)</h3>
 <ul>
 <li>散布図行列は複数の散布図を行列状に配置したもの</li>
 <li><p>
@@ -961,31 +926,30 @@ pcr_data |&gt;
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >#' 必要であれば 'install.packages("GGally")' を実行
-library(GGally) # パッケージのロード
+<pre class="src src-R"><span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#24517;&#35201;&#12391;&#12354;&#12428;&#12400; 'install.packages("GGally")' &#12434;&#23455;&#34892;</span>
+<span style="color: #bd93f9;">library</span>(GGally) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#12497;&#12483;&#12465;&#12540;&#12472;&#12398;&#12525;&#12540;&#12489;</span>
 ggpairs(
-  data, mapping = NULL,
+  data, mapping = <span style="color: #8be9fd; font-style: italic;">NULL</span>,
   columns = 1:ncol(data),
-  upper = list(continuous = "cor", combo = "box_no_facet", discrete = "count", na = "na"),
-  lower = list(continuous = "points", combo = "facethist", discrete = "facetbar", na = "na"),
-  diag = list(continuous = "densityDiag", discrete = "barDiag", na = "naDiag"),
+  upper = list(continuous = <span style="color: #f1fa8c;">"cor"</span>, combo = <span style="color: #f1fa8c;">"box_no_facet"</span>, discrete = <span style="color: #f1fa8c;">"count"</span>, na = <span style="color: #f1fa8c;">"na"</span>),
+  lower = list(continuous = <span style="color: #f1fa8c;">"points"</span>, combo = <span style="color: #f1fa8c;">"facethist"</span>, discrete = <span style="color: #f1fa8c;">"facetbar"</span>, na = <span style="color: #f1fa8c;">"na"</span>),
+  diag = list(continuous = <span style="color: #f1fa8c;">"densityDiag"</span>, discrete = <span style="color: #f1fa8c;">"barDiag"</span>, na = <span style="color: #f1fa8c;">"naDiag"</span>),
   ...,
-  axisLabels = c("show", "internal", "none"),
+  axisLabels = c(<span style="color: #f1fa8c;">"show"</span>, <span style="color: #f1fa8c;">"internal"</span>, <span style="color: #f1fa8c;">"none"</span>),
   columnLabels = colnames(data[columns]),
-  legend = NULL
+  legend = <span style="color: #8be9fd; font-style: italic;">NULL</span>
 )
-#' columns: 表示するデータフレームの列を指定
-#' upper/lower/diag: 行列の上三角・下三角・対角の表示内容を設定
-#' axisLabels: 各グラフの軸名の扱い方を指定
-#' columnLabels: 表示する列のラベルを設定(既定値はデータフレームの列名)
-#' legend: 凡例の設定(どの成分を使うか指定)
-#' 詳細は '?GGally::ggpairs' を参照
-</code></pre>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> columns: &#34920;&#31034;&#12377;&#12427;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12398;&#21015;&#12434;&#25351;&#23450;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> upper/lower/diag: &#34892;&#21015;&#12398;&#19978;&#19977;&#35282;&#12539;&#19979;&#19977;&#35282;&#12539;&#23550;&#35282;&#12398;&#34920;&#31034;&#20869;&#23481;&#12434;&#35373;&#23450;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> axisLabels: &#21508;&#12464;&#12521;&#12501;&#12398;&#36600;&#21517;&#12398;&#25201;&#12356;&#26041;&#12434;&#25351;&#23450;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> columnLabels: &#34920;&#31034;&#12377;&#12427;&#21015;&#12398;&#12521;&#12505;&#12523;&#12434;&#35373;&#23450;(&#26082;&#23450;&#20516;&#12399;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12398;&#21015;&#21517;)</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> legend: &#20961;&#20363;&#12398;&#35373;&#23450;(&#12393;&#12398;&#25104;&#20998;&#12434;&#20351;&#12358;&#12363;&#25351;&#23450;)</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#35443;&#32048;&#12399; '?GGally::ggpairs' &#12434;&#21442;&#29031;</span>
+</pre>
 </div></li>
 
 </ul>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 <ul>
@@ -994,21 +958,20 @@ ggpairs(
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >pcr_data |&gt;
-  select(!c(date,sub,total)) |&gt; # 日付と集計値を除いて必要なデータフレームに整形
-  ggpairs() # 標準の散布図行列
-</code></pre>
+<pre class="src src-R">pcr_data |&gt;
+  select(!c(date,sub,total)) |&gt; <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#26085;&#20184;&#12392;&#38598;&#35336;&#20516;&#12434;&#38500;&#12356;&#12390;&#24517;&#35201;&#12394;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12395;&#25972;&#24418;</span>
+  ggpairs() <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#27161;&#28310;&#12398;&#25955;&#24067;&#22259;&#34892;&#21015;</span>
+</pre>
 </div>
 
 
-<div id="org627ef2a" class="figure">
+<div id="org943dcef" class="figure">
 <p><img src="figs/02-ggpairs.png" alt="02-ggpairs.png" width="50%" />
 </p>
 </div></li>
 
 </ul>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 <ul>
@@ -1017,26 +980,25 @@ ggpairs(
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >pcr_data |&gt; select(!c(sub,total)) |&gt; # 日付から四半期の因子を作成
-  mutate(quarter = as_factor(quarter(date, with_year = TRUE))) |&gt;
-  ggpairs(columns = 2:8, columnLabels = pcr_colnames[-c(1,8,10)], axisLabels = "none",
-          aes(colour = quarter), legend = c(2,1), # 四半期ごとに色づけて(1,1)の凡例を使用
-          upper = "blank", diag = list(continuous = "barDiag")) +
-  theme(legend.position = "top") # 凡例を上に表示
-</code></pre>
+<pre class="src src-R">pcr_data |&gt; select(!c(sub,total)) |&gt; <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#26085;&#20184;&#12363;&#12425;&#22235;&#21322;&#26399;&#12398;&#22240;&#23376;&#12434;&#20316;&#25104;</span>
+  mutate(quarter = as_factor(quarter(date, with_year = <span style="color: #8be9fd; font-style: italic;">TRUE</span>))) |&gt;
+  ggpairs(columns = 2:8, columnLabels = pcr_colnames[-c(1,8,10)], axisLabels = <span style="color: #f1fa8c;">"none"</span>,
+          aes(colour = quarter), legend = c(2,1), <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#22235;&#21322;&#26399;&#12372;&#12392;&#12395;&#33394;&#12389;&#12369;&#12390;(1,1)&#12398;&#20961;&#20363;&#12434;&#20351;&#29992;</span>
+          upper = <span style="color: #f1fa8c;">"blank"</span>, diag = list(continuous = <span style="color: #f1fa8c;">"barDiag"</span>)) +
+  theme(legend.position = <span style="color: #f1fa8c;">"top"</span>) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#20961;&#20363;&#12434;&#19978;&#12395;&#34920;&#31034;</span>
+</pre>
 </div>
 
 
-<div id="org15ee4bd" class="figure">
+<div id="org83c7c21" class="figure">
 <p><img src="figs/02-ggpairs-quarter.png" alt="02-ggpairs-quarter.png" width="50%" />
 </p>
 </div></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgdb6e5a6">
-<h3 id="orgdb6e5a6">図の保存</h3>
+<section id="slide-org189fa10">
+<h3 id="org189fa10">図の保存</h3>
 <ul>
 <li>RStudioの機能を使う (少数の場合はこちらが簡便)
 <ul>
@@ -1050,26 +1012,25 @@ ggpairs(
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >ggsave(
+<pre class="src src-R">ggsave(
   filename,
   plot = last_plot(),
-  device = NULL,
-  path = NULL, scale = 1, width = NA, height = NA,
-  units = c("in", "cm", "mm", "px"), dpi = 300, limitsize = TRUE, bg = NULL,
+  device = <span style="color: #8be9fd; font-style: italic;">NULL</span>,
+  path = <span style="color: #8be9fd; font-style: italic;">NULL</span>, scale = 1, width = <span style="color: #8be9fd; font-style: italic;">NA</span>, height = <span style="color: #8be9fd; font-style: italic;">NA</span>,
+  units = c(<span style="color: #f1fa8c;">"in"</span>, <span style="color: #f1fa8c;">"cm"</span>, <span style="color: #f1fa8c;">"mm"</span>, <span style="color: #f1fa8c;">"px"</span>), dpi = 300, limitsize = <span style="color: #8be9fd; font-style: italic;">TRUE</span>, bg = <span style="color: #8be9fd; font-style: italic;">NULL</span>,
   ...
 )
-#' filename: ファイル名
-#' plot: 保存する描画オブジェクト
-#' device: 保存する形式("pdf","jpeg","png"など)
-#' 詳細は"?ggplot2::ggsave"を参照
-</code></pre>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> filename: &#12501;&#12449;&#12452;&#12523;&#21517;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> plot: &#20445;&#23384;&#12377;&#12427;&#25551;&#30011;&#12458;&#12502;&#12472;&#12455;&#12463;&#12488;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> device: &#20445;&#23384;&#12377;&#12427;&#24418;&#24335;("pdf","jpeg","png"&#12394;&#12393;)</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#35443;&#32048;&#12399;"?ggplot2::ggsave"&#12434;&#21442;&#29031;</span>
+</pre>
 </div></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org04257e8" data-background="#fef4f4">
-<h3 id="org04257e8">練習問題</h3>
+<section id="slide-orgef2aa8c" data-background="#fef4f4">
+<h3 id="orgef2aa8c">練習問題</h3>
 <ul>
 <li><code>pcr_case_daily.csv</code> を用いて以下の描画を行いなさい
 <ul>
@@ -1081,17 +1042,16 @@ ggpairs(
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-org555fbae">
-<h2 id="org555fbae">さまざまなグラフ</h2>
-<div class="outline-text-2" id="text-org555fbae">
+<section id="slide-org3afd49b">
+<h2 id="org3afd49b">さまざまなグラフ</h2>
+<div class="outline-text-2" id="text-org3afd49b">
 </div>
 </section>
-<section id="slide-org5ed97c9">
-<h3 id="org5ed97c9">ヒストグラム</h3>
+<section id="slide-org8759d68">
+<h3 id="org8759d68">ヒストグラム</h3>
 <ul>
 <li><p>
 データの値の範囲をいくつかの区間に分割し，
@@ -1104,22 +1064,21 @@ ggpairs(
 </ul>
 <div class="org-src-container">
 
-<pre><code class="R" >geom_histogram(
-  mapping = NULL, data = NULL, stat = "bin", position = "stack",
+<pre class="src src-R">geom_histogram(
+  mapping = <span style="color: #8be9fd; font-style: italic;">NULL</span>, data = <span style="color: #8be9fd; font-style: italic;">NULL</span>, stat = <span style="color: #f1fa8c;">"bin"</span>, position = <span style="color: #f1fa8c;">"stack"</span>,
   ...,
-  binwidth = NULL,
-  bins = NULL,
-  na.rm = FALSE, orientation = NA, show.legend = NA, inherit.aes = TRUE
+  binwidth = <span style="color: #8be9fd; font-style: italic;">NULL</span>,
+  bins = <span style="color: #8be9fd; font-style: italic;">NULL</span>,
+  na.rm = <span style="color: #8be9fd; font-style: italic;">FALSE</span>, orientation = <span style="color: #8be9fd; font-style: italic;">NA</span>, show.legend = <span style="color: #8be9fd; font-style: italic;">NA</span>, inherit.aes = <span style="color: #8be9fd; font-style: italic;">TRUE</span>
 )
-#' binwidth: ヒストグラムのビンの幅を指定
-#' bins: ヒストグラムのビンの数を指定
-#' 詳細は '?ggplot2::geom_histogram' を参照
-</code></pre>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> binwidth: &#12498;&#12473;&#12488;&#12464;&#12521;&#12512;&#12398;&#12499;&#12531;&#12398;&#24133;&#12434;&#25351;&#23450;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> bins: &#12498;&#12473;&#12488;&#12464;&#12521;&#12512;&#12398;&#12499;&#12531;&#12398;&#25968;&#12434;&#25351;&#23450;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#35443;&#32048;&#12399; '?ggplot2::geom_histogram' &#12434;&#21442;&#29031;</span>
+</pre>
 </div></li>
 
 </ul>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 <ul>
@@ -1128,25 +1087,24 @@ ggpairs(
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >#' 行政検査(ai)での検査件数の分布
+<pre class="src src-R"><span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#34892;&#25919;&#26908;&#26619;(ai)&#12391;&#12398;&#26908;&#26619;&#20214;&#25968;&#12398;&#20998;&#24067;</span>
 pcr_data |&gt;
-  ggplot(aes(x = ai)) + # 分布を描画する列を指定
-  geom_histogram(bins = 30, fill = "lightblue", colour = "blue") +
-  labs(x = pcr_colnames["ai"], y = "頻度", title = "検査件数のヒストグラム")
-</code></pre>
+  ggplot(aes(x = ai)) + <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#20998;&#24067;&#12434;&#25551;&#30011;&#12377;&#12427;&#21015;&#12434;&#25351;&#23450;</span>
+  geom_histogram(bins = 30, fill = <span style="color: #f1fa8c;">"lightblue"</span>, colour = <span style="color: #f1fa8c;">"blue"</span>) +
+  labs(x = pcr_colnames[<span style="color: #f1fa8c;">"ai"</span>], y = <span style="color: #f1fa8c;">"&#38971;&#24230;"</span>, title = <span style="color: #f1fa8c;">"&#26908;&#26619;&#20214;&#25968;&#12398;&#12498;&#12473;&#12488;&#12464;&#12521;&#12512;"</span>)
+</pre>
 </div>
 
 
-<div id="org62addc2" class="figure">
+<div id="org12f1f33" class="figure">
 <p><img src="figs/02-geomhistogram.png" alt="02-geomhistogram.png" width="50%" />
 </p>
 </div></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org764125c">
-<h3 id="org764125c">箱ひげ図</h3>
+<section id="slide-orgdb85f86">
+<h3 id="orgdb85f86">箱ひげ図</h3>
 <ul>
 <li><p>
 データ散らばり具合を考察するための図
@@ -1161,24 +1119,23 @@ pcr_data |&gt;
 
 <div class="org-src-container">
 
-<pre><code class="R" >geom_boxplot(
-  mapping = NULL, data = NULL, stat = "boxplot", position = "dodge2",
+<pre class="src src-R">geom_boxplot(
+  mapping = <span style="color: #8be9fd; font-style: italic;">NULL</span>, data = <span style="color: #8be9fd; font-style: italic;">NULL</span>, stat = <span style="color: #f1fa8c;">"boxplot"</span>, position = <span style="color: #f1fa8c;">"dodge2"</span>,
   ...,
-  outlier.colour = NULL, outlier.color = NULL, outlier.fill = NULL,
-  outlier.shape = 19, outlier.size = 1.5, outlier.stroke = 0.5, outlier.alpha = NULL,
-  notch = FALSE, notchwidth = 0.5, varwidth = FALSE,
-  na.rm = FALSE, orientation = NA, show.legend = NA, inherit.aes = TRUE
+  outlier.colour = <span style="color: #8be9fd; font-style: italic;">NULL</span>, outlier.color = <span style="color: #8be9fd; font-style: italic;">NULL</span>, outlier.fill = <span style="color: #8be9fd; font-style: italic;">NULL</span>,
+  outlier.shape = 19, outlier.size = 1.5, outlier.stroke = 0.5, outlier.alpha = <span style="color: #8be9fd; font-style: italic;">NULL</span>,
+  notch = <span style="color: #8be9fd; font-style: italic;">FALSE</span>, notchwidth = 0.5, varwidth = <span style="color: #8be9fd; font-style: italic;">FALSE</span>,
+  na.rm = <span style="color: #8be9fd; font-style: italic;">FALSE</span>, orientation = <span style="color: #8be9fd; font-style: italic;">NA</span>, show.legend = <span style="color: #8be9fd; font-style: italic;">NA</span>, inherit.aes = <span style="color: #8be9fd; font-style: italic;">TRUE</span>
 )
-#' ourlier.*: 外れ値の描画方法の指定
-#' notch*: ボックスの切れ込みの設定
-#' varwidth: ボックスの幅でデータ数を表示
-#' 詳細は '?ggplot2::geom_boxplot' を参照
-</code></pre>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> ourlier.*: &#22806;&#12428;&#20516;&#12398;&#25551;&#30011;&#26041;&#27861;&#12398;&#25351;&#23450;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> notch*: &#12508;&#12483;&#12463;&#12473;&#12398;&#20999;&#12428;&#36796;&#12415;&#12398;&#35373;&#23450;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> varwidth: &#12508;&#12483;&#12463;&#12473;&#12398;&#24133;&#12391;&#12487;&#12540;&#12479;&#25968;&#12434;&#34920;&#31034;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#35443;&#32048;&#12399; '?ggplot2::geom_boxplot' &#12434;&#21442;&#29031;</span>
+</pre>
 </div></li>
 
 </ul>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 <ul>
@@ -1187,27 +1144,26 @@ pcr_data |&gt;
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >#' 大学等(univ)での検査件数の分布(2021年分)
+<pre class="src src-R"><span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#22823;&#23398;&#31561;(univ)&#12391;&#12398;&#26908;&#26619;&#20214;&#25968;&#12398;&#20998;&#24067;(2021&#24180;&#20998;)</span>
 pcr_data |&gt;
-  filter(year(date) == 2021) |&gt; # 2021年を抽出
-  mutate(date = as_factor(month(date))) |&gt; # 月を因子化する
-  ggplot(aes(x = date, y = univ)) + # 月毎に集計する
-  geom_boxplot(fill = "orange") + # 塗り潰しの色を指定
-  labs(title = "月ごとの検査件数 (2021年)", x = "月", y = pcr_colnames["univ"])
-</code></pre>
+  filter(year(date) == 2021) |&gt; <span style="color: #6272a4;"># </span><span style="color: #6272a4;">2021&#24180;&#12434;&#25277;&#20986;</span>
+  mutate(date = as_factor(month(date))) |&gt; <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#26376;&#12434;&#22240;&#23376;&#21270;&#12377;&#12427;</span>
+  ggplot(aes(x = date, y = univ)) + <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#26376;&#27598;&#12395;&#38598;&#35336;&#12377;&#12427;</span>
+  geom_boxplot(fill = <span style="color: #f1fa8c;">"orange"</span>) + <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#22615;&#12426;&#28528;&#12375;&#12398;&#33394;&#12434;&#25351;&#23450;</span>
+  labs(title = <span style="color: #f1fa8c;">"&#26376;&#12372;&#12392;&#12398;&#26908;&#26619;&#20214;&#25968; (2021&#24180;)"</span>, x = <span style="color: #f1fa8c;">"&#26376;"</span>, y = pcr_colnames[<span style="color: #f1fa8c;">"univ"</span>])
+</pre>
 </div>
 
 
-<div id="org3e34a15" class="figure">
+<div id="org9944367" class="figure">
 <p><img src="figs/02-geomboxplot.png" alt="02-geomboxplot.png" width="50%" />
 </p>
 </div></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org87c892a">
-<h3 id="org87c892a">棒グラフ</h3>
+<section id="slide-org3f9c21a">
+<h3 id="org3f9c21a">棒グラフ</h3>
 <ul>
 <li><p>
 項目ごとの量を並べて表示した図
@@ -1224,22 +1180,21 @@ pcr_data |&gt;
 </ul>
 <div class="org-src-container">
 
-<pre><code class="R" >geom_bar(
-  mapping = NULL, data = NULL, stat = "count", position = "stack",
+<pre class="src src-R">geom_bar(
+  mapping = <span style="color: #8be9fd; font-style: italic;">NULL</span>, data = <span style="color: #8be9fd; font-style: italic;">NULL</span>, stat = <span style="color: #f1fa8c;">"count"</span>, position = <span style="color: #f1fa8c;">"stack"</span>,
   ...,
   just = 0.5,
-  width = NULL,
-  na.rm = FALSE, orientation = NA, show.legend = NA, inherit.aes = TRUE
+  width = <span style="color: #8be9fd; font-style: italic;">NULL</span>,
+  na.rm = <span style="color: #8be9fd; font-style: italic;">FALSE</span>, orientation = <span style="color: #8be9fd; font-style: italic;">NA</span>, show.legend = <span style="color: #8be9fd; font-style: italic;">NA</span>, inherit.aes = <span style="color: #8be9fd; font-style: italic;">TRUE</span>
 )
-#' just: 目盛と棒の位置の調整(既定値は真中)
-#' width: 棒の幅の調整(既定値は目盛の間隔の90%)
-#' 詳細は '?ggplot2::geom_bar' を参照
-</code></pre>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> just: &#30446;&#30427;&#12392;&#26834;&#12398;&#20301;&#32622;&#12398;&#35519;&#25972;(&#26082;&#23450;&#20516;&#12399;&#30495;&#20013;)</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> width: &#26834;&#12398;&#24133;&#12398;&#35519;&#25972;(&#26082;&#23450;&#20516;&#12399;&#30446;&#30427;&#12398;&#38291;&#38548;&#12398;90%)</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#35443;&#32048;&#12399; '?ggplot2::geom_bar' &#12434;&#21442;&#29031;</span>
+</pre>
 </div></li>
 
 </ul>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 <ul>
@@ -1248,36 +1203,34 @@ pcr_data |&gt;
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >#' 機関ごとの月の検査件数の推移 (2021年分)
+<pre class="src src-R"><span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#27231;&#38306;&#12372;&#12392;&#12398;&#26376;&#12398;&#26908;&#26619;&#20214;&#25968;&#12398;&#25512;&#31227; (2021&#24180;&#20998;)</span>
 pcr_data |&gt;
   filter(year(date) == 2021) |&gt;
-  mutate(month = as_factor(month(date))) |&gt; # 月を作成
-  select(!c(date,sub,total)) |&gt; # 機関に限定
-  group_by(month) |&gt; # 月でグループ化
-  summarize(across(everything(), sum)) |&gt; # 全て(月以外)を集計
-  pivot_longer(!month, names_to = "organ", values_to = "nums",
+  mutate(month = as_factor(month(date))) |&gt; <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#26376;&#12434;&#20316;&#25104;</span>
+  select(!c(date,sub,total)) |&gt; <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#27231;&#38306;&#12395;&#38480;&#23450;</span>
+  group_by(month) |&gt; <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#26376;&#12391;&#12464;&#12523;&#12540;&#12503;&#21270;</span>
+  summarize(across(everything(), sum)) |&gt; <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#20840;&#12390;(&#26376;&#20197;&#22806;)&#12434;&#38598;&#35336;</span>
+  pivot_longer(!month, names_to = <span style="color: #f1fa8c;">"organ"</span>, values_to = <span style="color: #f1fa8c;">"nums"</span>,
                names_transform = list(organ = as_factor)) |&gt;
-  ## 最後のオプションは organ 列のラベルを出てきた順で因子化して元の列の並びにしている
+  <span style="color: #6272a4;">## </span><span style="color: #6272a4;">&#26368;&#24460;&#12398;&#12458;&#12503;&#12471;&#12519;&#12531;&#12399; organ &#21015;&#12398;&#12521;&#12505;&#12523;&#12434;&#20986;&#12390;&#12365;&#12383;&#38918;&#12391;&#22240;&#23376;&#21270;&#12375;&#12390;&#20803;&#12398;&#21015;&#12398;&#20006;&#12403;&#12395;&#12375;&#12390;&#12356;&#12427;</span>
   ggplot(aes(x = organ, y = nums, fill = month)) +
-  geom_bar(stat = "identity", position = "dodge", na.rm = TRUE) +
-  theme(legend.position = "top") + guides(fill = guide_legend(nrow = 1))
-</code></pre>
+  geom_bar(stat = <span style="color: #f1fa8c;">"identity"</span>, position = <span style="color: #f1fa8c;">"dodge"</span>, na.rm = <span style="color: #8be9fd; font-style: italic;">TRUE</span>) +
+  theme(legend.position = <span style="color: #f1fa8c;">"top"</span>) + guides(fill = guide_legend(nrow = 1))
+</pre>
 </div></li>
 
 </ul>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="org565b33d" class="figure">
+<div id="orgd30a7bd" class="figure">
 <p><img src="figs/02-geombar.png" alt="02-geombar.png" width="50%" />
 </p>
 </div>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org15154f0" data-background="#fef4f4">
-<h3 id="org15154f0">練習問題</h3>
+<section id="slide-org240e7e4" data-background="#fef4f4">
+<h3 id="org240e7e4">練習問題</h3>
 <ul>
 <li>適当なデータに対してグラフの作成を行ってみよう
 <ul>
@@ -1288,17 +1241,16 @@ pcr_data |&gt;
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-orgc5254e8">
-<h2 id="orgc5254e8">参考</h2>
-<div class="outline-text-2" id="text-orgc5254e8">
+<section id="slide-org343a6f1">
+<h2 id="org343a6f1">参考</h2>
+<div class="outline-text-2" id="text-org343a6f1">
 </div>
 </section>
-<section id="slide-orgf3372ea">
-<h3 id="orgf3372ea">その他の資料</h3>
+<section id="slide-orgead80f3">
+<h3 id="orgead80f3">その他の資料</h3>
 <ul>
 <li>より詳細なグラフの描画については以下を参照して下さい
 <ul>
@@ -1330,17 +1282,16 @@ pcr_data |&gt;
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-orge13ecac">
-<h2 id="orge13ecac">疑似乱数</h2>
-<div class="outline-text-2" id="text-orge13ecac">
+<section id="slide-org025c982">
+<h2 id="org025c982">疑似乱数</h2>
+<div class="outline-text-2" id="text-org025c982">
 </div>
 </section>
-<section id="slide-org8f533c5">
-<h3 id="org8f533c5">疑似乱数とは</h3>
+<section id="slide-orgdcfc27b">
+<h3 id="orgdcfc27b">疑似乱数とは</h3>
 <ul>
 <li>コンピューターで生成された数列のこと</li>
 <li>完全にランダムに数字を発生されることは不可能</li>
@@ -1349,10 +1300,9 @@ pcr_data |&gt;
 乱数の &ldquo;シード値&rdquo; を指定して再現性を担保 (関数 <code>set.seed()</code>)</li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org16ae291">
-<h3 id="org16ae291">基本的な乱数</h3>
+<section id="slide-org76659ab">
+<h3 id="org76659ab">基本的な乱数</h3>
 <ul>
 <li><b>ランダムサンプリング</b> : 与えられた集合の要素を無作為抽出することで発生する乱数</li>
 <li><b>二項乱数</b> : 「確率 \(p\) で表がでるコインを \(n\) 回投げた際の表が出る回数」に対応する乱数</li>
@@ -1360,10 +1310,9 @@ pcr_data |&gt;
 <li><b>正規乱数</b> : 平均 \(\mu\), 分散 \(\sigma^2\) の正規分布に従う乱数</li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org19a2de9">
-<h3 id="org19a2de9">乱数を生成する関数</h3>
+<section id="slide-org8eedd06">
+<h3 id="org8eedd06">乱数を生成する関数</h3>
 <ul>
 <li>関数 <code>base::sample()</code> : ランダムサンプリング</li>
 <li>関数 <code>stats::rbinom()</code> : 二項乱数</li>
@@ -1371,10 +1320,9 @@ pcr_data |&gt;
 <li>関数 <code>stats::rnorm()</code> : 正規乱数</li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org35c35e6" data-background="#fef4f4">
-<h3 id="org35c35e6">練習問題</h3>
+<section id="slide-org6845c27" data-background="#fef4f4">
+<h3 id="org6845c27">練習問題</h3>
 <ul>
 <li>ヘルプを用いて以下の関数を調べよ
 <ul>
@@ -1393,27 +1341,25 @@ pcr_data |&gt;
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-org062d7c4">
-<h2 id="org062d7c4">モンテカルロ法</h2>
-<div class="outline-text-2" id="text-org062d7c4">
+<section id="slide-org1f31be8">
+<h2 id="org1f31be8">モンテカルロ法</h2>
+<div class="outline-text-2" id="text-org1f31be8">
 </div>
 </section>
-<section id="slide-org0a8d1b1">
-<h3 id="org0a8d1b1">モンテカルロ法とは</h3>
+<section id="slide-orga52a0c0">
+<h3 id="orga52a0c0">モンテカルロ法とは</h3>
 <ul>
 <li>乱数を使った統計実験</li>
 <li>計算機上でランダムネスを実現 (擬似乱数)</li>
 <li>ランダムネスから導かれる種々の数学的結果を観察</li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgdb24ba7">
-<h3 id="orgdb24ba7">例 : 中心極限定理</h3>
+<section id="slide-orgc8c0c7c">
+<h3 id="orgc8c0c7c">例 : 中心極限定理</h3>
 <ul>
 <li><p>
 定理
@@ -1440,7 +1386,6 @@ pcr_data |&gt;
 
 </ul>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 <ul>
@@ -1449,38 +1394,37 @@ pcr_data |&gt;
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >#' 確率変数の分布の設定 (例 : 区間[-1,1]の一様乱数)
-mc_rand &lt;- function(n) { # n個の乱数を生成
-  return(runif(n,min = -1,max = 1))
+<pre class="src src-R"><span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#30906;&#29575;&#22793;&#25968;&#12398;&#20998;&#24067;&#12398;&#35373;&#23450; (&#20363; : &#21306;&#38291;[-1,1]&#12398;&#19968;&#27096;&#20081;&#25968;)</span>
+<span style="color: #50fa7b; font-weight: bold;">mc_rand</span> <span style="color: #bd93f9;">&lt;-</span> <span style="color: #ff79c6; font-weight: bold;">function</span>(n) { <span style="color: #6272a4;"># </span><span style="color: #6272a4;">n&#20491;&#12398;&#20081;&#25968;&#12434;&#29983;&#25104;</span>
+  <span style="color: #ff79c6; font-weight: bold;">return</span>(runif(n, min = -1, max = 1))
 }
-#' 標本平均の計算
-mc_mean &lt;- function(n) { # n個のデータで計算
-  return(mean(mc_rand(n)))
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#27161;&#26412;&#24179;&#22343;&#12398;&#35336;&#31639;</span>
+<span style="color: #50fa7b; font-weight: bold;">mc_mean</span> <span style="color: #bd93f9;">&lt;-</span> <span style="color: #ff79c6; font-weight: bold;">function</span>(n) { <span style="color: #6272a4;"># </span><span style="color: #6272a4;">n&#20491;&#12398;&#12487;&#12540;&#12479;&#12391;&#35336;&#31639;</span>
+  <span style="color: #ff79c6; font-weight: bold;">return</span>(mean(mc_rand(n)))
 }
-#' Monte-Carlo実験
-set.seed(123) # 実験を再現したい場合はシード値を指定する
-mu &lt;- 0; sigma &lt;- sqrt(1/3) # 理論平均と標準偏差
-mc &lt;- 5000 # 実験の繰り返し回数
-for(n in c(1,2,4,8,16)){ # nを変えて実験
-  p &lt;- tibble(x = replicate(mc, mc_mean(n))) |&gt; # mc回実験し標本平均を記録
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> Monte-Carlo&#23455;&#39443;</span>
+set.seed(123) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#23455;&#39443;&#12434;&#20877;&#29694;&#12375;&#12383;&#12356;&#22580;&#21512;&#12399;&#12471;&#12540;&#12489;&#20516;&#12434;&#25351;&#23450;&#12377;&#12427;</span>
+mu <span style="color: #bd93f9;">&lt;-</span> 0; sigma <span style="color: #bd93f9;">&lt;-</span> sqrt(1/3) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#29702;&#35542;&#24179;&#22343;&#12392;&#27161;&#28310;&#20559;&#24046;</span>
+mc_num <span style="color: #bd93f9;">&lt;-</span> 5000 <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#23455;&#39443;&#12398;&#32368;&#12426;&#36820;&#12375;&#22238;&#25968;</span>
+<span style="color: #ff79c6; font-weight: bold;">for</span>(n <span style="color: #ff79c6; font-weight: bold;">in</span> c(1,2,4,8,16)){ <span style="color: #6272a4;"># </span><span style="color: #6272a4;">n&#12434;&#22793;&#12360;&#12390;&#23455;&#39443;</span>
+  p <span style="color: #bd93f9;">&lt;-</span> tibble(x = replicate(mc_num, mc_mean(n))) |&gt; <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#32368;&#12426;&#36820;&#12375;&#23455;&#39443;&#12375;&#27161;&#26412;&#24179;&#22343;&#12434;&#35352;&#37682;</span>
     ggplot(aes(x)) + 
-    geom_histogram(aes(y = after_stat(density)), # 密度表示
-                   fill = "orchid", alpha = 0.5, # 塗り潰しの色
-                   colour = "purple") + # 境界線の色
-    geom_function(fun = \(x) dnorm(x, mean = mu, sd = sigma/sqrt(n)),
-                  colour = "orange", linewidth = 1.5) + # 理論曲線を重ねる
-    labs(x = expression(bar(X)), # x軸の表示
-         title = paste0("n=",n)) # タイトルにnを記載
-  print(p) # for 文の中では明示的に print する必要がある
+    geom_histogram(aes(y = after_stat(density)), <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#23494;&#24230;&#34920;&#31034;</span>
+                   fill = <span style="color: #f1fa8c;">"orchid"</span>, alpha = 0.5, <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#22615;&#12426;&#28528;&#12375;&#12398;&#33394;</span>
+                   colour = <span style="color: #f1fa8c;">"purple"</span>) + <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#22659;&#30028;&#32218;&#12398;&#33394;</span>
+    geom_function(fun = <span style="color: #ff79c6; font-weight: bold;">\</span>(x) dnorm(x, mean = mu, sd = sigma/sqrt(n)),
+                  colour = <span style="color: #f1fa8c;">"orange"</span>, linewidth = 1.5) + <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#29702;&#35542;&#26354;&#32218;&#12434;&#37325;&#12397;&#12427;</span>
+    labs(x = expression(bar(X)), <span style="color: #6272a4;"># </span><span style="color: #6272a4;">x&#36600;&#12398;&#34920;&#31034;</span>
+         title = paste0(<span style="color: #f1fa8c;">"n="</span>, n)) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#12479;&#12452;&#12488;&#12523;&#12395;n&#12434;&#35352;&#36617;</span>
+  print(p) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">for &#25991;&#12398;&#20013;&#12391;&#12399;&#26126;&#31034;&#30340;&#12395; print &#12377;&#12427;&#24517;&#35201;&#12364;&#12354;&#12427;</span>
 }
-</code></pre>
+</pre>
 </div></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org1253d1c">
-<h3 id="org1253d1c">例 : コイン投げの賭け</h3>
+<section id="slide-org513d21f">
+<h3 id="org513d21f">例 : コイン投げの賭け</h3>
 <ul>
 <li>AとBの二人で交互にコインを投げる．
 最初に表が出た方を勝ちとするとき，
@@ -1490,14 +1434,13 @@ AとBそれぞれの勝率はいくつとなるか？</li>
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >sample(0:1,1) # 0と1が入った壺からから1つ選ぶ
-rbinom(1,size = 1,prob = 0.5) # 表裏が等確率で出る1枚のコインを1回投げる
-</code></pre>
+<pre class="src src-R">sample(0:1, 1) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">0&#12392;1&#12364;&#20837;&#12387;&#12383;&#22778;&#12363;&#12425;&#12363;&#12425;1&#12388;&#36984;&#12406;</span>
+rbinom(1, size = 1, prob = 0.5) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#34920;&#35023;&#12364;&#31561;&#30906;&#29575;&#12391;&#20986;&#12427;1&#26522;&#12398;&#12467;&#12452;&#12531;&#12434;1&#22238;&#25237;&#12370;&#12427;</span>
+</pre>
 </div></li>
 
 </ul>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 <ul>
@@ -1506,29 +1449,28 @@ rbinom(1,size = 1,prob = 0.5) # 表裏が等確率で出る1枚のコインを1�
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >#' コイン投げの試行 (いろいろな書き方があるので以下は一例)
-mc_trial &lt;- function(){
-  while(TRUE){ # 永久に回るループ
-    if(rbinom(1,size = 1,prob = 0.5)==1){return("A")} # Aが表で終了
-    if(rbinom(1,size = 1,prob = 0.5)==1){return("B")} # Bが表で終了
-    #' どちらも裏ならもう一度ループ
+<pre class="src src-R"><span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#12467;&#12452;&#12531;&#25237;&#12370;&#12398;&#35430;&#34892; (&#12356;&#12429;&#12356;&#12429;&#12394;&#26360;&#12365;&#26041;&#12364;&#12354;&#12427;&#12398;&#12391;&#20197;&#19979;&#12399;&#19968;&#20363;)</span>
+<span style="color: #50fa7b; font-weight: bold;">mc_trial</span> <span style="color: #bd93f9;">&lt;-</span> <span style="color: #ff79c6; font-weight: bold;">function</span>(){
+  <span style="color: #ff79c6; font-weight: bold;">while</span>(<span style="color: #8be9fd; font-style: italic;">TRUE</span>){ <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#27704;&#20037;&#12395;&#22238;&#12427;&#12523;&#12540;&#12503;</span>
+    <span style="color: #ff79c6; font-weight: bold;">if</span>(rbinom(1, size = 1, prob = 0.5)==1){<span style="color: #ff79c6; font-weight: bold;">return</span>(<span style="color: #f1fa8c;">"A"</span>)} <span style="color: #6272a4;"># </span><span style="color: #6272a4;">A&#12364;&#34920;&#12391;&#32066;&#20102;</span>
+    <span style="color: #ff79c6; font-weight: bold;">if</span>(rbinom(1, size = 1, prob = 0.5)==1){<span style="color: #ff79c6; font-weight: bold;">return</span>(<span style="color: #f1fa8c;">"B"</span>)} <span style="color: #6272a4;"># </span><span style="color: #6272a4;">B&#12364;&#34920;&#12391;&#32066;&#20102;</span>
+    <span style="color: #6272a4;">#</span><span style="color: #6272a4;">' &#12393;&#12385;&#12425;&#12418;&#35023;&#12394;&#12425;&#12418;&#12358;&#19968;&#24230;&#12523;&#12540;&#12503;</span>
   }
 }
-#' Monte-Carlo実験
-set.seed(8888) # 実験を再現したい場合はシード値を指定する
-mc &lt;- 10000 # 実験回数を設定 
-mc_data &lt;- replicate(mc, mc_trial()) 
-#' 簡単な集計
-table(mc_data)    # 頻度
-table(mc_data)/mc # 確率(推定値)
-</code></pre>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> Monte-Carlo&#23455;&#39443;</span>
+set.seed(8888) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#23455;&#39443;&#12434;&#20877;&#29694;&#12375;&#12383;&#12356;&#22580;&#21512;&#12399;&#12471;&#12540;&#12489;&#20516;&#12434;&#25351;&#23450;&#12377;&#12427;</span>
+mc_num <span style="color: #bd93f9;">&lt;-</span> 10000 <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#23455;&#39443;&#22238;&#25968;&#12434;&#35373;&#23450; </span>
+mc_data <span style="color: #bd93f9;">&lt;-</span> replicate(mc_num, mc_trial()) 
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#31777;&#21336;&#12394;&#38598;&#35336;</span>
+table(mc_data)        <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#38971;&#24230;</span>
+table(mc_data)/mc_num <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#30906;&#29575;(&#25512;&#23450;&#20516;)</span>
+</pre>
 </div></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgf047a0f" data-background="#fef4f4">
-<h3 id="orgf047a0f">練習問題</h3>
+<section id="slide-orge1c1e5a" data-background="#fef4f4">
+<h3 id="orge1c1e5a">練習問題</h3>
 <ul>
 <li>以下の簡単な双六ゲームの実験を行ってみよう
 <ul>
@@ -1540,17 +1482,16 @@ table(mc_data)/mc # 確率(推定値)
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-org120584c">
-<h2 id="org120584c">参考</h2>
-<div class="outline-text-2" id="text-org120584c">
+<section id="slide-orgae29673">
+<h2 id="orgae29673">参考</h2>
+<div class="outline-text-2" id="text-orgae29673">
 </div>
 </section>
-<section id="slide-org7053f0c">
-<h3 id="org7053f0c">その他の資料</h3>
+<section id="slide-org36c89ea">
+<h3 id="org36c89ea">その他の資料</h3>
 <ul>
 <li>より詳細な確率シミュレーションについては以下を参照して下さい
 <ul>
@@ -1579,26 +1520,27 @@ R言語の基礎 第5章 (pp71-82)
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-org279a624">
-<h2 id="org279a624">次回の予定</h2>
+<section id="slide-org2611587">
+<h2 id="org2611587">次回の予定</h2>
 <ul>
 <li><b>第1回: 回帰モデルの考え方と推定</b></li>
 <li>第2回: モデルの評価</li>
 <li>第3回: モデルによる予測と発展的なモデル</li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </div>
 </div>
 <script src="./reveal.js/dist/reveal.js"></script>
 <script src="./reveal.js/plugin/notes/notes.js"></script>
 <script src="./reveal.js/plugin/search/search.js"></script>
 <script src="./reveal.js/plugin/zoom/zoom.js"></script>
-<script src="./reveal.js/plugin/highlight/highlight.js"></script>
+<script src="./reveal.js/plugin/menu/menu.js"></script>
+<script src="./reveal.js/plugin/spotlight/spotlight.js"></script>
+<script src="./reveal.js/plugin/drawer/drawer.js"></script>
+<script src="./reveal.js/dist/theme/hidelinks.js"></script>
 <script>
 // Full list of configuration options available here:
 // https://github.com/hakimel/reveal.js#configuration
@@ -1611,7 +1553,7 @@ center: true,
 slideNumber: 'c',
 rollingLinks: false,
 keyboard: true,
-mouseWheel: false,
+mouseWheel: true,
 fragmentInURL: true,
 hashOneBasedIndex: false,
 pdfSeparateFragments: false,
@@ -1619,16 +1561,15 @@ overview: true,
 
 transition: 'fade',
 transitionSpeed: 'default',
-spotlight: { size: 90, initialPresentationMode: false }, chalkboard: { toggleChalkboardButton: { left: '80px' }, toggleNotesButton: { left: '130px'}}, keyboard: { 69: function() { RevealChalkboard.toggleNotesCanvas() }, 87: function() { RevealChalkboard.toggleChalkboard() }, 67: function() { RevealChalkboard.clear() }, 82: function() { RevealChalkboard.reset() }, 68: function() { RevealChalkboard.download() }, 88: function() { RevealChalkboard.colorNext() }, 89: function() { RevealChalkboard.colorPrev() }, 84: function() { RevealSpotlight.toggleSpotlight() }, 81: function() { RevealSpotlight.togglePresentationMode()}},
+showNotes: window.location.search.match( /print-pdf/gi ) ? 'separate-page' : false,
+spotlight: { size: 80, initialPresentationMode: false, }, drawer: { toggleDrawKey: "d", toggleBoardKey: "c", pathSize: 3, }, keyboard: { 81: function() { RevealSpotlight.toggleSpotlight()}, 87: function() { RevealSpotlight.togglePresentationMode();}, },
 
 // Plugins with reveal.js 4.x
-plugins: [ RevealNotes, RevealSearch, RevealZoom, RevealHighlight ],
+plugins: [ RevealNotes, RevealSearch, RevealZoom, RevealMenu, RevealSpotlight, RevealDrawer ],
 
 // Optional libraries used to extend reveal.js
 dependencies: [
-{ src: './reveal.js/plugin/menu/menu.js'},
-{ src: './reveal.js/plugin/chalkboard/chalkboard.js'},
-{ src: './reveal.js/plugin/spotlight/spotlight.js'}]
+]
 
 });
 </script>

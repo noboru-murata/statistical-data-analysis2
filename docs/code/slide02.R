@@ -519,7 +519,7 @@ tibble(x = mc_data) |> # ヒストグラムを出力
   ggplot(aes(x)) + 
   geom_histogram(binwidth = 1,
                  fill = "slateblue", alpha = 0.5, # 塗り潰しの色
-                 colour = "slateblue") # 塗り潰しの色
+                 colour = "slateblue") # 縁の色
 #' 同じ試行でも関数の作り方はいろいろある
 mc_trial <- function() {
   which.max(cumsum(sample(1:6, 100, replace = TRUE)) >= 100)
@@ -531,6 +531,6 @@ tibble(x = mc_data) |> # ヒストグラムを出力
   ggplot(aes(x)) + 
   geom_histogram(binwidth = 1,
                  fill = "slateblue", alpha = 0.5, # 塗り潰しの色
-                 colour = "slateblue") # 塗り潰しの色
+                 colour = "slateblue") # 縁の色
 
 #' ---------------------------------------------------------------------------
