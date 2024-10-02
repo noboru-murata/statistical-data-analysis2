@@ -44,7 +44,7 @@
 ** ハンドアウト
 - [[github:pdfs/slide01.pdf][PDF file]]
 ** 付録
-- [[github:code/slide01.qmd][Quarto]]
+- [[github:code/practice01.qmd][Quarto]] ([[github:code/practice01.html][HTML]]) 
 - [[github:code/slide01.R][R Script]]
 - [[github:data/data01.zip][データセット]]
   
@@ -59,7 +59,8 @@
 ** ハンドアウト
 - [[github:pdfs/slide02.pdf][PDF file]]
 ** 付録
-- [[github:code/slide02.R][RScript]]
+- [[github:code/practice02.qmd][Quarto]] ([[github:code/practice02.html][HTML]])
+- [[github:code/slide02.R][R Script]]
 - [[github:data/data02.zip][練習問題用データセット]] \\
   ダウンロードして unzip すると文字コード utf-8 のファイルになります．
 
