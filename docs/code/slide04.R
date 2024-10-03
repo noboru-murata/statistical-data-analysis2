@@ -144,12 +144,12 @@ mc_trial <- function(){
 }
 
 #' 数値実験 (少数で確認してみる)
-mc <- 5 # 実験回数
-replicate(mc, mc_trial())
+mc_num <- 5 # 実験回数
+replicate(mc_num, mc_trial())
 
 #' 数値実験
-mc <- 5000 # 実験回数
-mc_data <- replicate(mc, mc_trial()) |> # mc回試行を行う
+mc_num <- 5000 # 実験回数
+mc_data <- replicate(mc_num, mc_trial()) |> # mc_num回試行を行う
   t() |> as_tibble() # 得られる結果を転置してデータフレームにする
 names(mc_data) <- names(beta) # 列名を変更(上書き)
 
@@ -223,9 +223,9 @@ mc_trial <- function(){
 }
 
 #' 数値実験
-mc <- 5000 # 実験回数
+mc_num <- 5000 # 実験回数
 mc_data <- 
-  replicate(mc, mc_trial()) |> # mc回の試行
+  replicate(mc_num, mc_trial()) |> # mc_num回の試行
   t() |> as_tibble() # データフレームの作成
 
 #' 各回帰係数の標準誤差の分布
@@ -305,9 +305,9 @@ mc_trial <- function(){
 }
 
 #' 数値実験
-mc <- 5000 # 実験回数
+mc_num <- 5000 # 実験回数
 mc_data <- 
-  replicate(mc, mc_trial()) |> t() |> as_tibble()
+  replicate(mc_num, mc_trial()) |> t() |> as_tibble()
 #' 各回帰係数のt統計量の分布
 n <- nrow(x_obs) # データ数 n
 p <- 2 # 説明変数の次元
@@ -370,9 +370,9 @@ summary(lm(temp ~ solar, data = tw_subset))
   }
 
   #' 数値実験 (帰無仮説が成り立つ場合)
-  mc <- 5000 # 実験回数
+  mc_num <- 5000 # 実験回数
   mc_data <- 
-    replicate(mc, mc_trial()) |> as_tibble_col("fstat")
+    replicate(mc_num, mc_trial()) |> as_tibble_col("fstat")
   #' 1次元なので転置は不要．ただし列名の設定が必要
 
   #' モデルのF統計量の分布
@@ -389,7 +389,7 @@ summary(lm(temp ~ solar, data = tw_subset))
   #' 数値実験 (帰無仮説が成り立たない場合)
   beta <- c(-1, 2, 0) # x1の係数 : 帰無仮説が成り立たない
   mc_data <-
-    replicate(mc, mc_trial()) |> as_tibble_col("fstat") 
+    replicate(mc_num, mc_trial()) |> as_tibble_col("fstat") 
 
   #' モデルのF統計量の分布は帰無分布に従わない
   mc_data |>

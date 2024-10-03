@@ -48,9 +48,9 @@ s3d$plane3d(adv_lm3, col = "blue", # 回帰式の定める平面の追加
 tw_data <- read_csv("data/tokyo_weather.csv")
 
 #' モデルの推定: 8月の"気温"を目的変数，"日射量・気圧"を説明変数とする
-tw_model <- temp ~ solar + press # モデル式の定義 
-class(tw_model)                  # formula class であることを確認
-(tw_lm <- lm(tw_model, # 回帰係数の推定
+tw_formula <- temp ~ solar + press # モデル式の定義 
+class(tw_formula)                  # formula class であることを確認
+(tw_lm <- lm(tw_formula, # 回帰係数の推定
              data = tw_data, 
              subset =  month==8)) # 8月のデータの抽出
 (tw_df <- as_tibble(model.frame(tw_lm))) # 推定に用いたデータフレームの抽出
@@ -71,7 +71,7 @@ s3d$plane3d(tw_lm, col = "blue", # 回帰式の定める平面の追加
 #' ---------------------------------------------------------------------------
 
 #' @notes
-#' 行列の転置を計算する関数 t() と積を組み合わせてもよい
+#' 行列の転置を計算する関数t()と積を組み合わせてもよい
 #'   crossprod(X,Y) = t(X) %*% Y
 #' XY^T = (X^TY)^T を計算する関数 tcrossprod() もある
 #'   tcrossprod(X,Y) = X %*% t(Y)
@@ -137,9 +137,9 @@ Y <- model.frame(adv_lm3)[[1]]           # 目的変数の取得
 S+Sr # Sy と同じになっている
 
 #' 東京の気候データ
-tw_model # モデルの確認
+tw_formula # モデルの確認
 #' 以下は目的変数を推定結果に含める方法
-tw_lm <- lm(tw_model,
+tw_lm <- lm(tw_formula,
             data = tw_data, 
             subset = month == 8, # 8月のデータの抽出
              y = TRUE) # 目的変数をyとして返すように指定
@@ -157,12 +157,12 @@ S+Sr # Sy と同じになっている
 #' 広告費と売上データ
 
 #' モデルの比較
-adv_model1 <- sales ~ TV
-adv_model2 <- sales ~ radio
-adv_model3 <- sales ~ TV + radio
-adv_lm1 <- lm(adv_model1, data=adv_data, y=TRUE)
-adv_lm2 <- lm(adv_model2, data=adv_data, y=TRUE)
-adv_lm3 <- lm(adv_model3, data=adv_data, y=TRUE)
+adv_formula1 <- sales ~ TV
+adv_formula2 <- sales ~ radio
+adv_formula3 <- sales ~ TV + radio
+adv_lm1 <- lm(adv_formula1, data=adv_data, y = TRUE)
+adv_lm2 <- lm(adv_formula2, data=adv_data, y = TRUE)
+adv_lm3 <- lm(adv_formula3, data=adv_data, y = TRUE)
 summary(adv_lm1)$adj.r.squared # 自由度調整済み決定係数
 summary(adv_lm2)$adj.r.squared # (model1より減少)
 summary(adv_lm3)$adj.r.squared # (model1より上昇)
@@ -183,12 +183,12 @@ adv_data |>
 
 #' モデルの比較
 tw_subset <- tw_data |> filter(month == 8) # 8月のデータの抽出
-tw_model1 <- temp ~ solar
-tw_model2 <- temp ~ solar + press
-tw_model3 <- temp ~ solar + press + cloud
-tw_lm1 <- lm(tw_model1, data=tw_subset, y=TRUE)
-tw_lm2 <- lm(tw_model2, data=tw_subset, y=TRUE)
-tw_lm3 <- lm(tw_model3, data=tw_subset, y=TRUE)
+tw_formula1 <- temp ~ solar
+tw_formula2 <- temp ~ solar + press
+tw_formula3 <- temp ~ solar + press + cloud
+tw_lm1 <- lm(tw_formula1, data=tw_subset, y = TRUE)
+tw_lm2 <- lm(tw_formula2, data=tw_subset, y = TRUE)
+tw_lm3 <- lm(tw_formula3, data=tw_subset, y = TRUE)
 summary(tw_lm1)$adj.r.squared # 自由度調整済み決定係数
 summary(tw_lm2)$adj.r.squared # (model1より上昇)
 summary(tw_lm3)$adj.r.squared # (model2より上昇)

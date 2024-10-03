@@ -11,22 +11,19 @@
 
 <link rel="stylesheet" href="./reveal.js/dist/theme/oer-reveal.css" id="theme"/>
 
-<link rel="stylesheet" href="./reveal.js/plugin/toc-progress/toc-progress.css"/>
-
-<link rel="stylesheet" href="./reveal.js/dist/theme/toc-style.css"/>
-
 <link rel="stylesheet" href="./reveal.js/dist/theme/fonts/source-sans-pro/source-sans-pro.css"/>
 
-<link rel="stylesheet" href="./reveal.js/plugin/accessibility/helper.css"/>
+<link rel="stylesheet" href="./reveal.js/plugin/menu/menu.css"/>
 
-<link rel="stylesheet" href="./reveal.js/dist/theme/mycourse.css"/>
-<link rel="stylesheet" href="./reveal.js/plugin/highlight/zenburn.css"/>
+<link rel="stylesheet" href="./reveal.js/plugin/drawer/drawer.css"/>
+
+<link rel="stylesheet" href="./reveal.js/local/mycourse.css"/>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </head>
 <body>
 <div class="reveal">
 <div class="slides">
-<section id="sec-title-slide" data-state="no-toc-progress">
+<section id="sec-title-slide">
 <!-- This is an HTML template for the title slide. -->
 <!-- Embed logos as necessary. -->
 <!-- <a class="nooutlink" href="url"><img class="state-background your-logo-class" src="whatever.png" alt="Whatever" /></a> -->
@@ -46,25 +43,24 @@
 
 </section>
 <section>
-<section id="slide-orgd2184f2">
-<h2 id="orgd2184f2">講義概要</h2>
+<section id="slide-orgcdf2d94">
+<h2 id="orgcdf2d94">講義概要</h2>
 <ul>
 <li>第1回: 回帰モデルの考え方と推定</li>
 <li>第2回: モデルの評価</li>
 <li><b>第3回: モデルによる予測と発展的なモデル</b></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-orgae1523d">
-<h2 id="orgae1523d">回帰分析の復習</h2>
-<div class="outline-text-2" id="text-orgae1523d">
+<section id="slide-orge549420">
+<h2 id="orge549420">回帰分析の復習</h2>
+<div class="outline-text-2" id="text-orge549420">
 </div>
 </section>
-<section id="slide-orgb080f65">
-<h3 id="orgb080f65">線形回帰モデル</h3>
+<section id="slide-org2d66a7f">
+<h3 id="org2d66a7f">線形回帰モデル</h3>
 <ul>
 <li><b>目的変数</b> を <b>説明変数</b> で説明する関係式を構成
 <ul>
@@ -97,10 +93,9 @@
 </blockquote></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orga44cb72">
-<h3 id="orga44cb72">問題設定</h3>
+<section id="slide-org10252b2">
+<h3 id="org10252b2">問題設定</h3>
 <ul>
 <li><p>
 確率モデル
@@ -130,10 +125,9 @@
 </blockquote></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgba11c5f">
-<h3 id="orgba11c5f">解とその一意性</h3>
+<section id="slide-org12c4c8d">
+<h3 id="org12c4c8d">解とその一意性</h3>
 <ul>
 <li><p>
 解の条件 : <b>正規方程式</b>
@@ -163,46 +157,28 @@
 </blockquote></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-org7a72e6e">
-<h2 id="org7a72e6e">解析の事例</h2>
-<div class="outline-text-2" id="text-org7a72e6e">
+<section id="slide-org3c77631">
+<h2 id="org3c77631">解析の事例</h2>
+<div class="outline-text-2" id="text-org3c77631">
 </div>
 </section>
-<section id="slide-org210ef27">
-<h3 id="org210ef27">東京の8月の気候の分析</h3>
+<section id="slide-org268cd3a">
+<h3 id="org268cd3a">東京の8月の気候の分析</h3>
 <ul>
 <li><p>
 データの一部
 </p>
 <font size=5>
-
-<table style="text-align:center"><caption><strong>東京の8月の気候</strong></caption>
-<tr><td colspan="10" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">日付</td><td>気温</td><td>降雨</td><td>日射</td><td>降雪</td><td>風向</td><td>風速</td><td>気圧</td><td>湿度</td><td>雲量</td></tr>
-<tr><td colspan="10" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">2022-08-01</td><td>30.6</td><td>0</td><td>24.53</td><td>0</td><td>SSE</td><td>2.8</td><td>1010.1</td><td>72</td><td>8.8</td></tr>
-<tr><td style="text-align:left">2022-08-02</td><td>31.6</td><td>0</td><td>24.78</td><td>0</td><td>SSE</td><td>2.5</td><td>1008.8</td><td>71</td><td>9.8</td></tr>
-<tr><td style="text-align:left">2022-08-03</td><td>31.5</td><td>0</td><td>21.24</td><td>0</td><td>SSE</td><td>2.3</td><td>1005.1</td><td>75</td><td>7.3</td></tr>
-<tr><td style="text-align:left">2022-08-04</td><td>24.6</td><td>18</td><td>3.46</td><td>0</td><td>NE</td><td>2.7</td><td>1006</td><td>89</td><td>10</td></tr>
-<tr><td style="text-align:left">2022-08-05</td><td>23.8</td><td>0</td><td>7.65</td><td>0</td><td>NE</td><td>2.9</td><td>1006.1</td><td>83</td><td>9.8</td></tr>
-<tr><td style="text-align:left">2022-08-06</td><td>25.2</td><td>0</td><td>17.06</td><td>0</td><td>SSE</td><td>2.4</td><td>1008.1</td><td>73</td><td>10</td></tr>
-<tr><td style="text-align:left">2022-08-07</td><td>27.6</td><td>0</td><td>14.45</td><td>0</td><td>SSE</td><td>2.2</td><td>1009.3</td><td>80</td><td>8.3</td></tr>
-<tr><td style="text-align:left">2022-08-08</td><td>29.8</td><td>0</td><td>22.52</td><td>0</td><td>S</td><td>4.5</td><td>1008.5</td><td>75</td><td>4.8</td></tr>
-<tr><td style="text-align:left">2022-08-09</td><td>30.9</td><td>0</td><td>25.5</td><td>0</td><td>S</td><td>5.5</td><td>1006.9</td><td>69</td><td>6.8</td></tr>
-<tr><td style="text-align:left">2022-08-10</td><td>30.5</td><td>0</td><td>25.99</td><td>0</td><td>S</td><td>5.3</td><td>1007.2</td><td>70</td><td>6</td></tr>
-<tr><td style="text-align:left">2022-08-11</td><td>29.5</td><td>0</td><td>22.9</td><td>0</td><td>S</td><td>5.4</td><td>1007.5</td><td>75</td><td>6</td></tr>
-<tr><td style="text-align:left">2022-08-12</td><td>28.3</td><td>2</td><td>15.36</td><td>0</td><td>S</td><td>5.8</td><td>1007.5</td><td>81</td><td>9.8</td></tr>
-<tr><td style="text-align:left">2022-08-13</td><td>25.5</td><td>47.5</td><td>4.53</td><td>0</td><td>S</td><td>4.8</td><td>1005.6</td><td>94</td><td>10</td></tr>
-<tr><td style="text-align:left">2022-08-14</td><td>28.2</td><td>0</td><td>16.28</td><td>0</td><td>SSE</td><td>2.6</td><td>1003</td><td>84</td><td>8.8</td></tr>
-<tr><td colspan="10" style="border-bottom: 1px solid black"></td></tr></table>
+loadNamespace(x) でエラー: 
+  ‘stargazer’ という名前のパッケージはありません
 
 </font></li>
 
 </ul>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 <ul>
@@ -217,10 +193,9 @@
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orga742894">
-<h3 id="orga742894">分析の視覚化</h3>
+<section id="slide-org517a733">
+<h3 id="org517a733">分析の視覚化</h3>
 <ul>
 <li><p>
 関連するデータの散布図
@@ -229,13 +204,12 @@
 </ul>
 
 
-<div id="org1adc1f8" class="figure">
+<div id="orgd23d214" class="figure">
 <p><img src="figs/05_pairs.png" alt="05_pairs.png" />
 </p>
 <p><span class="figure-number">Figure 1: </span>散布図</p>
 </div>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 <ul>
@@ -246,15 +220,14 @@
 </ul>
 
 
-<div id="org2c080d4" class="figure">
+<div id="org301c455" class="figure">
 <p><img src="figs/05_models.png" alt="05_models.png" />
 </p>
 <p><span class="figure-number">Figure 2: </span>モデルの比較</p>
 </div>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgb839ce3">
-<h3 id="orgb839ce3">寄与率</h3>
+<section id="slide-orgdd285b4">
+<h3 id="orgdd285b4">寄与率</h3>
 <ul>
 <li><p>
 <b>決定係数</b> (R-squared)
@@ -289,37 +262,23 @@
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgcf3c5ba">
-<h3 id="orgcf3c5ba">モデルの評価</h3>
+<section id="slide-org134c742">
+<h3 id="org134c742">モデルの評価</h3>
 <ul>
 <li><p>
 決定係数(\(R^{2}\), Adjusted \(R^{2}\))
 </p>
 <font size=4>
-
-<table style="text-align:center"><caption><strong>寄与率によるモデルの比較</strong></caption>
-<tr><td colspan="6" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"></td><td colspan="5">目的変数</td></tr>
-<tr><td></td><td colspan="5" style="border-bottom: 1px solid black"></td></tr>
-<tr><td style="text-align:left"></td><td colspan="5">気温</td></tr>
-<tr><td style="text-align:left"></td><td>モデル1</td><td>モデル2</td><td>モデル3</td><td>モデル4</td><td>モデル5</td></tr>
-<tr><td colspan="6" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">気圧</td><td>-0.178 (0.127)</td><td></td><td>-0.223<sup>***</sup> (0.068)</td><td>-0.214<sup>***</sup> (0.067)</td><td>-0.242<sup>***</sup> (0.068)</td></tr>
-<tr><td style="text-align:left">日射</td><td></td><td>0.297<sup>***</sup> (0.041)</td><td>0.306<sup>***</sup> (0.036)</td><td>0.366<sup>***</sup> (0.056)</td><td>0.348<sup>***</sup> (0.045)</td></tr>
-<tr><td style="text-align:left">湿度</td><td></td><td></td><td></td><td>0.071 (0.051)</td><td></td></tr>
-<tr><td style="text-align:left">雲量</td><td></td><td></td><td></td><td></td><td>0.238 (0.161)</td></tr>
-<tr><td style="text-align:left">Constant</td><td>206.535 (127.430)</td><td>22.969<sup>***</sup> (0.690)</td><td>247.477<sup>***</sup> (68.433)</td><td>231.843<sup>***</sup> (68.254)</td><td>263.717<sup>***</sup> (67.941)</td></tr>
-<tr><td colspan="6" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">R<sup>2</sup></td><td>0.064</td><td>0.641</td><td>0.741</td><td>0.758</td><td>0.760</td></tr>
-<tr><td style="text-align:left">Adjusted R<sup>2</sup></td><td>0.031</td><td>0.628</td><td>0.722</td><td>0.731</td><td>0.733</td></tr>
-<tr><td colspan="6" style="border-bottom: 1px solid black"></td></tr></table>
+loadNamespace(x) でエラー: 
+  ‘stargazer’ という名前のパッケージはありません
 
 </font></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org532d259">
-<h3 id="org532d259">\(F\)統計量による検定</h3>
+<section id="slide-org4f680b9">
+<h3 id="org4f680b9">\(F\)統計量による検定</h3>
 <ul>
 <li>説明変数のうち1つでも役に立つか否かを検定する
 <ul>
@@ -342,40 +301,23 @@
 <li>\(p\)値: 自由度 \(p,n{-}p{-}1\) の \(F\)分布で計算</li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org4e8e7cf">
-<h3 id="org4e8e7cf">モデルの評価</h3>
+<section id="slide-org90ce9e1">
+<h3 id="org90ce9e1">モデルの評価</h3>
 <ul>
 <li><p>
 \(F\)統計量
 </p>
 <font size=4>
-
-<table style="text-align:center"><caption><strong>F統計量によるモデルの比較</strong></caption>
-<tr><td colspan="6" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"></td><td colspan="5">目的変数</td></tr>
-<tr><td></td><td colspan="5" style="border-bottom: 1px solid black"></td></tr>
-<tr><td style="text-align:left"></td><td colspan="5">気温</td></tr>
-<tr><td style="text-align:left"></td><td>モデル1</td><td>モデル2</td><td>モデル3</td><td>モデル4</td><td>モデル5</td></tr>
-<tr><td colspan="6" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">気圧</td><td>-0.178 (0.127)</td><td></td><td>-0.223<sup>***</sup> (0.068)</td><td>-0.214<sup>***</sup> (0.067)</td><td>-0.242<sup>***</sup> (0.068)</td></tr>
-<tr><td style="text-align:left">日射</td><td></td><td>0.297<sup>***</sup> (0.041)</td><td>0.306<sup>***</sup> (0.036)</td><td>0.366<sup>***</sup> (0.056)</td><td>0.348<sup>***</sup> (0.045)</td></tr>
-<tr><td style="text-align:left">湿度</td><td></td><td></td><td></td><td>0.071 (0.051)</td><td></td></tr>
-<tr><td style="text-align:left">雲量</td><td></td><td></td><td></td><td></td><td>0.238 (0.161)</td></tr>
-<tr><td style="text-align:left">Constant</td><td>206.535 (127.430)</td><td>22.969<sup>***</sup> (0.690)</td><td>247.477<sup>***</sup> (68.433)</td><td>231.843<sup>***</sup> (68.254)</td><td>263.717<sup>***</sup> (67.941)</td></tr>
-<tr><td colspan="6" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">R<sup>2</sup></td><td>0.064</td><td>0.641</td><td>0.741</td><td>0.758</td><td>0.760</td></tr>
-<tr><td style="text-align:left">Adjusted R<sup>2</sup></td><td>0.031</td><td>0.628</td><td>0.722</td><td>0.731</td><td>0.733</td></tr>
-<tr><td style="text-align:left">Residual Std. Error</td><td>2.463 (df = 29)</td><td>1.526 (df = 29)</td><td>1.320 (df = 28)</td><td>1.298 (df = 27)</td><td>1.293 (df = 27)</td></tr>
-<tr><td style="text-align:left">F Statistic</td><td>1.973 (df = 1; 29)</td><td>51.743<sup>***</sup> (df = 1; 29)</td><td>39.964<sup>***</sup> (df = 2; 28)</td><td>28.174<sup>***</sup> (df = 3; 27)</td><td>28.484<sup>***</sup> (df = 3; 27)</td></tr>
-<tr><td colspan="6" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"><em>Note:</em></td><td colspan="5" style="text-align:right"><sup>*</sup>p<0.1; <sup>**</sup>p<0.05; <sup>***</sup>p<0.01</td></tr>
-</table>
+loadNamespace(x) でエラー: 
+  ‘stargazer’ という名前のパッケージはありません
 
 </font></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgd994a3a">
-<h3 id="orgd994a3a">\(t\)統計量による検定</h3>
+<section id="slide-org64e6926">
+<h3 id="org64e6926">\(t\)統計量による検定</h3>
 <ul>
 <li>回帰係数 \(\beta_j\) が回帰式に寄与するか否かを検定する
 <ul>
@@ -397,45 +339,23 @@
 <li>\(p\)値: 自由度 \(n{-}p{-}1\) の \(t\)分布を用いて計算</li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org0b8c2ae">
-<h3 id="org0b8c2ae">モデルの評価</h3>
+<section id="slide-org5716f43">
+<h3 id="org5716f43">モデルの評価</h3>
 <ul>
 <li><p>
 \(t\)統計量
 </p>
 <font size=4>
-
-<table style="text-align:center"><caption><strong>t統計量によるモデルの比較</strong></caption>
-<tr><td colspan="6" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"></td><td colspan="5">目的変数</td></tr>
-<tr><td></td><td colspan="5" style="border-bottom: 1px solid black"></td></tr>
-<tr><td style="text-align:left"></td><td colspan="5">気温</td></tr>
-<tr><td style="text-align:left"></td><td>モデル1</td><td>モデル2</td><td>モデル3</td><td>モデル4</td><td>モデル5</td></tr>
-<tr><td colspan="6" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">気圧</td><td>-0.178 (0.127)</td><td></td><td>-0.223<sup>***</sup> (0.068)</td><td>-0.214<sup>***</sup> (0.067)</td><td>-0.242<sup>***</sup> (0.068)</td></tr>
-<tr><td style="text-align:left"></td><td>t = -1.405</td><td></td><td>t = -3.281</td><td>t = -3.185</td><td>t = -3.566</td></tr>
-<tr><td style="text-align:left"></td><td>p = 0.171</td><td></td><td>p = 0.003</td><td>p = 0.004</td><td>p = 0.002</td></tr>
-<tr><td style="text-align:left">日射</td><td></td><td>0.297<sup>***</sup> (0.041)</td><td>0.306<sup>***</sup> (0.036)</td><td>0.366<sup>***</sup> (0.056)</td><td>0.348<sup>***</sup> (0.045)</td></tr>
-<tr><td style="text-align:left"></td><td></td><td>t = 7.193</td><td>t = 8.547</td><td>t = 6.582</td><td>t = 7.699</td></tr>
-<tr><td style="text-align:left"></td><td></td><td>p = 0.00000</td><td>p = 0.000</td><td>p = 0.00000</td><td>p = 0.00000</td></tr>
-<tr><td style="text-align:left">湿度</td><td></td><td></td><td></td><td>0.071 (0.051)</td><td></td></tr>
-<tr><td style="text-align:left"></td><td></td><td></td><td></td><td>t = 1.390</td><td></td></tr>
-<tr><td style="text-align:left"></td><td></td><td></td><td></td><td>p = 0.176</td><td></td></tr>
-<tr><td style="text-align:left">雲量</td><td></td><td></td><td></td><td></td><td>0.238 (0.161)</td></tr>
-<tr><td style="text-align:left"></td><td></td><td></td><td></td><td></td><td>t = 1.474</td></tr>
-<tr><td style="text-align:left"></td><td></td><td></td><td></td><td></td><td>p = 0.152</td></tr>
-<tr><td style="text-align:left">Constant</td><td>206.535 (127.430)</td><td>22.969<sup>***</sup> (0.690)</td><td>247.477<sup>***</sup> (68.433)</td><td>231.843<sup>***</sup> (68.254)</td><td>263.717<sup>***</sup> (67.941)</td></tr>
-<tr><td style="text-align:left"></td><td>t = 1.621</td><td>t = 33.277</td><td>t = 3.616</td><td>t = 3.397</td><td>t = 3.882</td></tr>
-<tr><td style="text-align:left"></td><td>p = 0.116</td><td>p = 0.000</td><td>p = 0.002</td><td>p = 0.003</td><td>p = 0.001</td></tr>
-<tr><td colspan="6" style="border-bottom: 1px solid black"></td></tr><tr><td colspan="6" style="border-bottom: 1px solid black"></td></tr></table>
+loadNamespace(x) でエラー: 
+  ‘stargazer’ という名前のパッケージはありません
 
 </font></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org20a2168">
-<h3 id="org20a2168">診断プロットによる評価</h3>
+<section id="slide-orgb7a2e33">
+<h3 id="orgb7a2e33">診断プロットによる評価</h3>
 <ul>
 <li><p>
 モデル4
@@ -444,12 +364,11 @@
 </ul>
 
 
-<div id="org108d44f" class="figure">
+<div id="org4ac621f" class="figure">
 <p><img src="figs/05_diag_model4.png" alt="05_diag_model4.png" />
 </p>
 <p><span class="figure-number">Figure 3: </span>モデル4の診断</p>
 </div>
-<div class="slide-footer"><br></div>
 </section>
 <section>
 <ul>
@@ -460,22 +379,21 @@
 </ul>
 
 
-<div id="orgeda8067" class="figure">
+<div id="orge10d958" class="figure">
 <p><img src="figs/05_diag_model5.png" alt="05_diag_model5.png" />
 </p>
 <p><span class="figure-number">Figure 4: </span>モデル5の診断</p>
 </div>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-org333acea">
-<h2 id="org333acea">回帰モデルによる予測</h2>
-<div class="outline-text-2" id="text-org333acea">
+<section id="slide-orgfc651e6">
+<h2 id="orgfc651e6">回帰モデルによる予測</h2>
+<div class="outline-text-2" id="text-orgfc651e6">
 </div>
 </section>
-<section id="slide-org035944d">
-<h3 id="org035944d">予測</h3>
+<section id="slide-orgcee06c1">
+<h3 id="orgcee06c1">予測</h3>
 <ul>
 <li><p>
 新しいデータ (説明変数) \(\boldsymbol{x}\) に対する <b>予測値</b>
@@ -520,10 +438,9 @@
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgbe87b8b">
-<h3 id="orgbe87b8b">予測値の性質</h3>
+<section id="slide-org8fc863f">
+<h3 id="org8fc863f">予測値の性質</h3>
 <ul>
 <li><p>
 推定量は以下の性質をもつ多変量正規分布
@@ -561,17 +478,16 @@
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-org84434ea">
-<h2 id="org84434ea">信頼区間</h2>
-<div class="outline-text-2" id="text-org84434ea">
+<section id="slide-org8f3e07b">
+<h2 id="org8f3e07b">信頼区間</h2>
+<div class="outline-text-2" id="text-org8f3e07b">
 </div>
 </section>
-<section id="slide-orgb39d53e">
-<h3 id="orgb39d53e">最適な予測値との差</h3>
+<section id="slide-orgf550535">
+<h3 id="orgf550535">最適な予測値との差</h3>
 <ul>
 <li><p>
 差の分布は以下の平均・分散をもつ正規分布に従う
@@ -605,10 +521,9 @@
 </blockquote></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org33b61e0">
-<h3 id="org33b61e0">信頼区間</h3>
+<section id="slide-org13d797f">
+<h3 id="org13d797f">信頼区間</h3>
 <ul>
 <li><p>
 未知の分散を不偏分散で推定
@@ -654,17 +569,16 @@
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-org886c1ca">
-<h2 id="org886c1ca">予測区間</h2>
-<div class="outline-text-2" id="text-org886c1ca">
+<section id="slide-orgff5a4d3">
+<h2 id="orgff5a4d3">予測区間</h2>
+<div class="outline-text-2" id="text-orgff5a4d3">
 </div>
 </section>
-<section id="slide-org8f497d7">
-<h3 id="org8f497d7">観測値との差</h3>
+<section id="slide-org29fd4de">
+<h3 id="org29fd4de">観測値との差</h3>
 <ul>
 <li><p>
 差の分布は以下の平均・分散をもつ正規分布に従う
@@ -703,10 +617,9 @@
 </blockquote></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org1bddedc">
-<h3 id="org1bddedc">予測区間</h3>
+<section id="slide-org22c5e99">
+<h3 id="org22c5e99">予測区間</h3>
 <ul>
 <li><p>
 未知の分散を不偏分散で推定
@@ -754,71 +667,67 @@
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-org1b210d1" data-background="#fef4f4">
-<h2 id="org1b210d1">実習</h2>
-<div class="slide-footer"><br></div>
+<section id="slide-orgb6e4c37" data-background="#fef4f4">
+<h2 id="orgb6e4c37">実習</h2>
 </section>
-<section id="slide-org8402096">
-<h3 id="org8402096">R : 予測値と区間推定</h3>
+<section id="slide-orgf296aec">
+<h3 id="orgf296aec">R : 予測値と区間推定</h3>
 <ul>
 <li><p>
 関数 <code>stats::predict()</code> を用いた予測
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >#' モデルの作成
-toy_train &lt;- tibble(x1 = ..., x2 = ..., y = ...)
-toy_lm  &lt;- lm(y ~ x1 + x2, data = toy_train) 
-toy_train_fitted  &lt;- predict(toy_lm) # あてはめ値の計算
-#' 新しいデータの予測
-toy_test &lt;- tibble(x1 = ..., x2 = ...) # 予測したいデータの説明変数
-toy_test_fitted &lt;- predict(toy_lm, # 予測値の計算
+<pre class="src src-R"><span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#12514;&#12487;&#12523;&#12398;&#20316;&#25104;</span>
+toy_train <span style="color: #bd93f9;">&lt;-</span> tibble(x1 = ..., x2 = ..., y = ...)
+toy_lm  <span style="color: #bd93f9;">&lt;-</span> lm(y ~ x1 + x2, data = toy_train) 
+toy_train_fitted  <span style="color: #bd93f9;">&lt;-</span> predict(toy_lm) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#12354;&#12390;&#12399;&#12417;&#20516;&#12398;&#35336;&#31639;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#26032;&#12375;&#12356;&#12487;&#12540;&#12479;&#12398;&#20104;&#28204;</span>
+toy_test <span style="color: #bd93f9;">&lt;-</span> tibble(x1 = ..., x2 = ...) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#20104;&#28204;&#12375;&#12383;&#12356;&#12487;&#12540;&#12479;&#12398;&#35500;&#26126;&#22793;&#25968;</span>
+toy_test_fitted <span style="color: #bd93f9;">&lt;-</span> predict(toy_lm, <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#20104;&#28204;&#20516;&#12398;&#35336;&#31639;</span>
                            newdata = toy_test) 
-toy_test_conf &lt;- predict(toy_lm, newdata = toy_test, # 信頼区間
-                         interval="confidence", level=0.95) 
-toy_test_pred &lt;- predict(toy_lm, newdata = toy_test, # 予測区間
-                         interval="prediction", level=0.95) 
-#' 信頼区間，予測区間の水準の既定値は0.95
-</code></pre>
+toy_test_conf <span style="color: #bd93f9;">&lt;-</span> predict(toy_lm, newdata = toy_test, <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#20449;&#38972;&#21306;&#38291;</span>
+                         interval=<span style="color: #f1fa8c;">"confidence"</span>, level=0.95) 
+toy_test_pred <span style="color: #bd93f9;">&lt;-</span> predict(toy_lm, newdata = toy_test, <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#20104;&#28204;&#21306;&#38291;</span>
+                         interval=<span style="color: #f1fa8c;">"prediction"</span>, level=0.95) 
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#20449;&#38972;&#21306;&#38291;&#65292;&#20104;&#28204;&#21306;&#38291;&#12398;&#27700;&#28310;&#12398;&#26082;&#23450;&#20516;&#12399;0.95</span>
+</pre>
 </div></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org0d9d779">
-<h3 id="org0d9d779">R : モデルからの予測</h3>
+<section id="slide-orgde5cda9">
+<h3 id="orgde5cda9">R : モデルからの予測</h3>
 <ul>
 <li><p>
 東京の気候データによる例
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >#' 9,10月のデータでモデルを構築し，8,11月のデータを予測
-#' データの整理
-tw_data &lt;- read_csv("data/tokyo_weather.csv")
-tw_train &lt;- tw_data |&gt; # モデル推定用データ
-  filter(month %in% c(9,10)) # %in% は集合に含むかどうかを判定
-tw_test  &lt;- tw_data |&gt; # 予測用データ
-  filter(month %in% c(8,11))
-#' モデルの構築
-tw_model &lt;- temp ~ solar + press # モデルの定義 
-tw_lm &lt;- lm(tw_model, data = tw_train) # モデルの推定
-summary(tw_lm) # モデルの評価
-#' あてはめ値の計算
-tw_train_fitted &lt;- tw_train |&gt;
-  mutate(fitted = predict(tw_lm)) # データのあてはめ値
-tw_test_fitted &lt;- tw_test  |&gt;
-  mutate(fitted = predict(tw_lm, newdata = tw_test)) # 予測
-</code></pre>
+<pre class="src src-R"><span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> 9,10&#26376;&#12398;&#12487;&#12540;&#12479;&#12391;&#12514;&#12487;&#12523;&#12434;&#27083;&#31689;&#12375;&#65292;8,11&#26376;&#12398;&#12487;&#12540;&#12479;&#12434;&#20104;&#28204;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#12487;&#12540;&#12479;&#12398;&#25972;&#29702;</span>
+tw_data <span style="color: #bd93f9;">&lt;-</span> read_csv(<span style="color: #f1fa8c;">"data/tokyo_weather.csv"</span>)
+tw_train <span style="color: #bd93f9;">&lt;-</span> tw_data |&gt; <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#12514;&#12487;&#12523;&#25512;&#23450;&#29992;&#12487;&#12540;&#12479;</span>
+  filter(month <span style="color: #bd93f9;">%in%</span> c(9,10)) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">%in% &#12399;&#38598;&#21512;&#12395;&#21547;&#12416;&#12363;&#12393;&#12358;&#12363;&#12434;&#21028;&#23450;</span>
+tw_test  <span style="color: #bd93f9;">&lt;-</span> tw_data |&gt; <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#20104;&#28204;&#29992;&#12487;&#12540;&#12479;</span>
+  filter(month <span style="color: #bd93f9;">%in%</span> c(8,11))
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#12514;&#12487;&#12523;&#12398;&#27083;&#31689;</span>
+tw_model <span style="color: #bd93f9;">&lt;-</span> temp ~ solar + press <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#12514;&#12487;&#12523;&#12398;&#23450;&#32681; </span>
+tw_lm <span style="color: #bd93f9;">&lt;-</span> lm(tw_model, data = tw_train) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#12514;&#12487;&#12523;&#12398;&#25512;&#23450;</span>
+summary(tw_lm) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#12514;&#12487;&#12523;&#12398;&#35413;&#20385;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#12354;&#12390;&#12399;&#12417;&#20516;&#12398;&#35336;&#31639;</span>
+tw_train_fitted <span style="color: #bd93f9;">&lt;-</span> tw_train |&gt;
+  mutate(fitted = predict(tw_lm)) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#12487;&#12540;&#12479;&#12398;&#12354;&#12390;&#12399;&#12417;&#20516;</span>
+tw_test_fitted <span style="color: #bd93f9;">&lt;-</span> tw_test  |&gt;
+  mutate(fitted = predict(tw_lm, newdata = tw_test)) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#20104;&#28204;</span>
+</pre>
 </div></li>
 
 </ul>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 <ul>
@@ -827,45 +736,44 @@ tw_test_fitted &lt;- tw_test  |&gt;
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >#' 予測結果を図示
-bind_rows(tw_train_fitted, tw_test_fitted) |&gt; # 2つのデータフレームを結合
-  mutate(month = as_factor(month)) |&gt; # 月を因子化して表示に利用
+<pre class="src src-R"><span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#20104;&#28204;&#32080;&#26524;&#12434;&#22259;&#31034;</span>
+bind_rows(tw_train_fitted, tw_test_fitted) |&gt; <span style="color: #6272a4;"># </span><span style="color: #6272a4;">2&#12388;&#12398;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12434;&#32080;&#21512;</span>
+  mutate(month = as_factor(month)) |&gt; <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#26376;&#12434;&#22240;&#23376;&#21270;&#12375;&#12390;&#34920;&#31034;&#12395;&#21033;&#29992;</span>
   ggplot(aes(x = fitted, y = temp)) +
-  geom_point(aes(colour = month, shape = month)) + # 月ごとに色と形を変える
-  geom_abline(slope = 1, intercept = 0, # 予測が完全に正しい場合のガイド線
-              colour = "gray") +
-  labs(y = "observed")
-</code></pre>
+  geom_point(aes(colour = month, shape = month)) + <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#26376;&#12372;&#12392;&#12395;&#33394;&#12392;&#24418;&#12434;&#22793;&#12360;&#12427;</span>
+  geom_abline(slope = 1, intercept = 0, <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#20104;&#28204;&#12364;&#23436;&#20840;&#12395;&#27491;&#12375;&#12356;&#22580;&#21512;&#12398;&#12460;&#12452;&#12489;&#32218;</span>
+              colour = <span style="color: #f1fa8c;">"gray"</span>) +
+  labs(y = <span style="color: #f1fa8c;">"observed"</span>)
+</pre>
 </div></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org33f0e39">
-<h3 id="org33f0e39">R : 区間表示のための関数</h3>
+<section id="slide-org54c061c">
+<h3 id="org54c061c">R : 区間表示のための関数</h3>
 <ul>
 <li><p>
 関数 <code>ggplot2::geom_errorbar()</code> : 区間の表示
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >geom_errorbar(
-  mapping = NULL,
-  data = NULL,
-  stat = "identity",
-  position = "identity",
+<pre class="src src-R">geom_errorbar(
+  mapping = <span style="color: #8be9fd; font-style: italic;">NULL</span>,
+  data = <span style="color: #8be9fd; font-style: italic;">NULL</span>,
+  stat = <span style="color: #f1fa8c;">"identity"</span>,
+  position = <span style="color: #f1fa8c;">"identity"</span>,
   ...,
-  na.rm = FALSE,
-  orientation = NA,
-  show.legend = NA,
-  inherit.aes = TRUE
+  na.rm = <span style="color: #8be9fd; font-style: italic;">FALSE</span>,
+  orientation = <span style="color: #8be9fd; font-style: italic;">NA</span>,
+  show.legend = <span style="color: #8be9fd; font-style: italic;">NA</span>,
+  inherit.aes = <span style="color: #8be9fd; font-style: italic;">TRUE</span>
 )
-#' mapping: 区間を表すために xmin,xmax または ymin,ymax を与える
-#' data: データフレーム
-#' ...: その他の描画オプション
-#' orientation: 特別な場合に指定 (一般に向きは mapping で自動的決定)
-#' 詳細は '?ggplot2::geom_errorbar' を参照
-</code></pre>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> mapping: &#21306;&#38291;&#12434;&#34920;&#12377;&#12383;&#12417;&#12395; xmin,xmax &#12414;&#12383;&#12399; ymin,ymax &#12434;&#19982;&#12360;&#12427;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> data: &#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> ...: &#12381;&#12398;&#20182;&#12398;&#25551;&#30011;&#12458;&#12503;&#12471;&#12519;&#12531;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> orientation: &#29305;&#21029;&#12394;&#22580;&#21512;&#12395;&#25351;&#23450; (&#19968;&#33324;&#12395;&#21521;&#12365;&#12399; mapping &#12391;&#33258;&#21205;&#30340;&#27770;&#23450;)</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#35443;&#32048;&#12399; '?ggplot2::geom_errorbar' &#12434;&#21442;&#29031;</span>
+</pre>
 </div>
 <ul>
 <li>関数 <code>stats::predict()</code> の返り値 &rsquo;lwr/upr&rsquo; を用いればよい</li>
@@ -873,10 +781,9 @@ bind_rows(tw_train_fitted, tw_test_fitted) |&gt; # 2つのデータフレーム�
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgec1e349" data-background="#fef4f4">
-<h3 id="orgec1e349">練習問題</h3>
+<section id="slide-orga80c377" data-background="#fef4f4">
+<h3 id="orga80c377">練習問題</h3>
 <ul>
 <li><p>
 東京の気候データを用いて以下の実験を試みなさい
@@ -888,25 +795,24 @@ bind_rows(tw_train_fitted, tw_test_fitted) |&gt; # 2つのデータフレーム�
 </ul>
 <div class="org-src-container">
 
-<pre><code class="R" >#' 特定の月のデータを取り出すには，例えば以下のようにすればよい
-tw_data &lt;- read_csv("data/tokyo_weather.csv")
-tw_train &lt;- tw_data |&gt; filter(month == 8) # 単一の数字と比較
-tw_test  &lt;- tw_data |&gt; filter(month %in% c(9,10)) # 集合と比較
-</code></pre>
+<pre class="src src-R"><span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#29305;&#23450;&#12398;&#26376;&#12398;&#12487;&#12540;&#12479;&#12434;&#21462;&#12426;&#20986;&#12377;&#12395;&#12399;&#65292;&#20363;&#12360;&#12400;&#20197;&#19979;&#12398;&#12424;&#12358;&#12395;&#12377;&#12428;&#12400;&#12424;&#12356;</span>
+tw_data <span style="color: #bd93f9;">&lt;-</span> read_csv(<span style="color: #f1fa8c;">"data/tokyo_weather.csv"</span>)
+tw_train <span style="color: #bd93f9;">&lt;-</span> tw_data |&gt; filter(month == 8) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#21336;&#19968;&#12398;&#25968;&#23383;&#12392;&#27604;&#36611;</span>
+tw_test  <span style="color: #bd93f9;">&lt;-</span> tw_data |&gt; filter(month <span style="color: #bd93f9;">%in%</span> c(9,10)) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#38598;&#21512;&#12392;&#27604;&#36611;</span>
+</pre>
 </div></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-org36cddd3">
-<h2 id="org36cddd3">発展的なモデル</h2>
-<div class="outline-text-2" id="text-org36cddd3">
+<section id="slide-org52badfc">
+<h2 id="org52badfc">発展的なモデル</h2>
+<div class="outline-text-2" id="text-org52badfc">
 </div>
 </section>
-<section id="slide-org1fa0150">
-<h3 id="org1fa0150">非線形性を含むモデル</h3>
+<section id="slide-org0a97199">
+<h3 id="org0a97199">非線形性を含むモデル</h3>
 <ul>
 <li>目的変数 \(y\)</li>
 <li>説明変数 \(x_1,\dotsc,x_p\)</li>
@@ -918,10 +824,9 @@ tw_test  &lt;- tw_data |&gt; filter(month %in% c(9,10)) # 集合と比較
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org2c3601b">
-<h3 id="org2c3601b">カテゴリカル変数を含むモデル</h3>
+<section id="slide-orgc33b964">
+<h3 id="orgc33b964">カテゴリカル変数を含むモデル</h3>
 <ul>
 <li>数値ではないデータ
 <ul>
@@ -949,16 +854,14 @@ tw_test  &lt;- tw_data |&gt; filter(month %in% c(9,10)) # 集合と比較
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-org374d07d" data-background="#fef4f4">
-<h2 id="org374d07d">実習</h2>
-<div class="slide-footer"><br></div>
+<section id="slide-orgcbd62ad" data-background="#fef4f4">
+<h2 id="orgcbd62ad">実習</h2>
 </section>
-<section id="slide-orgddb84af" data-background="#fef4f4">
-<h3 id="orgddb84af">R : 線形でないモデル式の書き方</h3>
+<section id="slide-orgdedc35e" data-background="#fef4f4">
+<h3 id="orgdedc35e">R : 線形でないモデル式の書き方</h3>
 <ul>
 <li>交互作用を記述するためには特殊な記法がある</li>
 <li>非線形変換はそのまま関数を記述すればよい</li>
@@ -967,22 +870,21 @@ tw_test  &lt;- tw_data |&gt; filter(month %in% c(9,10)) # 集合と比較
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >#' 目的変数 Y, 説明変数 X1,X2,X3
-#' 交互作用を含む式 (formula) の書き方
-Y ~ X1 + X1:X2       # X1 + X1*X2
-Y ~ X1 * X2          # X1 + X2 + X1*X2
-Y ~ (X1 + X2 + X3)^2 # X1 + X2 + X3 + X1*X2 + X2*X3 + X3*X1
-#' 非線形変換を含む式 (formula) の書き方
-Y ~ f(X1)            # f(X1) (fは任意の関数)
-Y ~ X1 + I(X2^2)     # X1 + X2^2
-</code></pre>
+<pre class="src src-R"><span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#30446;&#30340;&#22793;&#25968; Y, &#35500;&#26126;&#22793;&#25968; X1,X2,X3</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#20132;&#20114;&#20316;&#29992;&#12434;&#21547;&#12416;&#24335; (formula) &#12398;&#26360;&#12365;&#26041;</span>
+Y ~ X1 + X1:X2       <span style="color: #6272a4;"># </span><span style="color: #6272a4;">X1 + X1*X2</span>
+Y ~ X1 * X2          <span style="color: #6272a4;"># </span><span style="color: #6272a4;">X1 + X2 + X1*X2</span>
+Y ~ (X1 + X2 + X3)^2 <span style="color: #6272a4;"># </span><span style="color: #6272a4;">X1 + X2 + X3 + X1*X2 + X2*X3 + X3*X1</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#38750;&#32218;&#24418;&#22793;&#25563;&#12434;&#21547;&#12416;&#24335; (formula) &#12398;&#26360;&#12365;&#26041;</span>
+Y ~ f(X1)            <span style="color: #6272a4;"># </span><span style="color: #6272a4;">f(X1) (f&#12399;&#20219;&#24847;&#12398;&#38306;&#25968;)</span>
+Y ~ X1 + I(X2^2)     <span style="color: #6272a4;"># </span><span style="color: #6272a4;">X1 + X2^2</span>
+</pre>
 </div></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orge20744c" data-background="#fef4f4">
-<h3 id="orge20744c">R : カテゴリカル変数の取り扱い</h3>
+<section id="slide-org9503978" data-background="#fef4f4">
+<h3 id="org9503978">R : カテゴリカル変数の取り扱い</h3>
 <ul>
 <li>何も宣言しなくても通常は適切に対応してくれる</li>
 <li><p>
@@ -990,27 +892,26 @@ Y ~ X1 + I(X2^2)     # X1 + X2^2
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >#' factor属性の与え方
-X &lt;- c("A", "S", "A", "B", "D")
-Y &lt;- c(85, 100, 80, 70, 30)
-toy_data1 &lt;- tibble(X, Y)
-toy_data2 &lt;- toy_data1 |&gt; # 因子化
-  mutate(X2 = factor(X))  # 関数as_factor()を用いてもよい
-str(toy_data2) # 作成したデータフレームの素性を見る
-toy_data3 &lt;- toy_data2 |&gt; # 順序付き(levels)の因子化
-  mutate(X3 = factor(X, levels=c("S","A","B","C","D")))
-str(toy_data3) # toy_data2とはfactorの順序が異なる
-toy_data4 &lt;- toy_data2 |&gt;
-  mutate(Y2 = factor(Y &gt; 60)) # 条件による因子化
-str(toy_data4) # 条件の真偽で2値に類別される
-</code></pre>
+<pre class="src src-R"><span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> factor&#23646;&#24615;&#12398;&#19982;&#12360;&#26041;</span>
+X <span style="color: #bd93f9;">&lt;-</span> c(<span style="color: #f1fa8c;">"A"</span>, <span style="color: #f1fa8c;">"S"</span>, <span style="color: #f1fa8c;">"A"</span>, <span style="color: #f1fa8c;">"B"</span>, <span style="color: #f1fa8c;">"D"</span>)
+Y <span style="color: #bd93f9;">&lt;-</span> c(85, 100, 80, 70, 30)
+toy_data1 <span style="color: #bd93f9;">&lt;-</span> tibble(X, Y)
+toy_data2 <span style="color: #bd93f9;">&lt;-</span> toy_data1 |&gt; <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#22240;&#23376;&#21270;</span>
+  mutate(X2 = factor(X))  <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#38306;&#25968;as_factor()&#12434;&#29992;&#12356;&#12390;&#12418;&#12424;&#12356;</span>
+str(toy_data2) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#20316;&#25104;&#12375;&#12383;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12398;&#32032;&#24615;&#12434;&#35211;&#12427;</span>
+toy_data3 <span style="color: #bd93f9;">&lt;-</span> toy_data2 |&gt; <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#38918;&#24207;&#20184;&#12365;(levels)&#12398;&#22240;&#23376;&#21270;</span>
+  mutate(X3 = factor(X, levels=c(<span style="color: #f1fa8c;">"S"</span>,<span style="color: #f1fa8c;">"A"</span>,<span style="color: #f1fa8c;">"B"</span>,<span style="color: #f1fa8c;">"C"</span>,<span style="color: #f1fa8c;">"D"</span>)))
+str(toy_data3) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">toy_data2&#12392;&#12399;factor&#12398;&#38918;&#24207;&#12364;&#30064;&#12394;&#12427;</span>
+toy_data4 <span style="color: #bd93f9;">&lt;-</span> toy_data2 |&gt;
+  mutate(Y2 = factor(Y &gt; 60)) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#26465;&#20214;&#12395;&#12424;&#12427;&#22240;&#23376;&#21270;</span>
+str(toy_data4) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#26465;&#20214;&#12398;&#30495;&#20605;&#12391;2&#20516;&#12395;&#39006;&#21029;&#12373;&#12428;&#12427;</span>
+</pre>
 </div></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgce7cf47" data-background="#fef4f4">
-<h3 id="orgce7cf47">練習問題</h3>
+<section id="slide-org1c11cf1" data-background="#fef4f4">
+<h3 id="org1c11cf1">練習問題</h3>
 <ul>
 <li>東京の気候データ(9-11月)を用いて
 気温を回帰する以下のモデルを検討しなさい
@@ -1031,32 +932,30 @@ str(toy_data4) # 条件の真偽で2値に類別される
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-orgc28f5dd">
-<h2 id="orgc28f5dd">補足</h2>
-<div class="slide-footer"><br></div>
+<section id="slide-org71d2a63">
+<h2 id="org71d2a63">補足</h2>
 </section>
-<section id="slide-org9542fe4">
-<h3 id="org9542fe4">R : モデルの探索</h3>
+<section id="slide-org72529bb">
+<h3 id="org72529bb">R : モデルの探索</h3>
 <ul>
 <li>変数が増えるとモデルの比較が困難</li>
 <li><p>
-関数 <code>stats::step()</code> により自動化することができる
+関数 <code>stats::step()</code> で自動化することができる
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >#' モデルの探索
-adv_data &lt;- read_csv('https://www.statlearning.com/s/Advertising.csv')
+<pre class="src src-R"><span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#12514;&#12487;&#12523;&#12398;&#25506;&#32034;</span>
+adv_data <span style="color: #bd93f9;">&lt;-</span> read_csv(<span style="color: #f1fa8c;">'https://www.statlearning.com/s/Advertising.csv'</span>)
 summary(lm(sales ~ radio, data = adv_data))
 summary(lm(sales ~ TV + radio, data = adv_data))
 summary(lm(sales ~ TV + radio + newspaper, data = adv_data))
-summary(adv_init &lt;- lm(sales ~ TV * radio * newspaper, data = adv_data))
-adv_opt &lt;- step(adv_init) # step関数による探索 (最大のモデルから削減増加を行う)
-summary(adv_opt) # 探索された(準)最適なモデルの確認
-</code></pre>
+summary(adv_init <span style="color: #bd93f9;">&lt;-</span> lm(sales ~ TV * radio * newspaper, data = adv_data))
+adv_opt <span style="color: #bd93f9;">&lt;-</span> step(adv_init) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#26368;&#22823;&#12398;&#12514;&#12487;&#12523;&#12363;&#12425;&#21066;&#28187;&#22679;&#21152;&#12395;&#12424;&#12427;&#25506;&#32034;</span>
+summary(adv_opt) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#25506;&#32034;&#12373;&#12428;&#12383;(&#28310;)&#26368;&#36969;&#12394;&#12514;&#12487;&#12523;&#12398;&#30906;&#35469;</span>
+</pre>
 </div>
 <ul>
 <li>全探索ではないので最適とは限らないことに注意は必要</li>
@@ -1064,10 +963,9 @@ summary(adv_opt) # 探索された(準)最適なモデルの確認
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org1eee67a">
-<h3 id="org1eee67a">R : package::broom</h3>
+<section id="slide-org3f9a675">
+<h3 id="org3f9a675">R : package::broom</h3>
 <ul>
 <li>関数 base::summary() の tidyverse 版</li>
 <li><p>
@@ -1081,18 +979,17 @@ summary(adv_opt) # 探索された(準)最適なモデルの確認
 </ul>
 <div class="org-src-container">
 
-<pre><code class="R" >#' 推定結果の tibble 形式での表示
-broom::tidy(adv_opt) # coef(summary(adv_opt)) と同じ内容
-broom::glance(adv_opt) # 決定係数やF値などを整理
-broom::augment(adv_opt) # あてはめ値・残差などを整理
-</code></pre>
+<pre class="src src-R"><span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#25512;&#23450;&#32080;&#26524;&#12398; tibble &#24418;&#24335;&#12391;&#12398;&#34920;&#31034;</span>
+broom::tidy(adv_opt) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">coef(summary(adv_opt)) &#12392;&#21516;&#12376;&#20869;&#23481;</span>
+broom::glance(adv_opt) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#27770;&#23450;&#20418;&#25968;&#12420;F&#20516;&#12394;&#12393;&#12434;&#25972;&#29702;</span>
+broom::augment(adv_opt) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#12354;&#12390;&#12399;&#12417;&#20516;&#12539;&#27531;&#24046;&#12394;&#12393;&#12434;&#25972;&#29702;</span>
+</pre>
 </div></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org0c6071d">
-<h3 id="org0c6071d">R : package::car</h3>
+<section id="slide-org3709ab0">
+<h3 id="org3709ab0">R : package::car</h3>
 <ul>
 <li>回帰モデルの評価
 <ul>
@@ -1120,10 +1017,9 @@ broom::augment(adv_opt) # あてはめ値・残差などを整理
 </p></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org9474857">
-<h3 id="org9474857">例題</h3>
+<section id="slide-orgedf0603">
+<h3 id="orgedf0603">例題</h3>
 <ul>
 <li>これまでに用いたデータでモデルを更新して評価してみよう
 <ul>
@@ -1140,25 +1036,26 @@ broom::augment(adv_opt) # あてはめ値・残差などを整理
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-org08d40dd">
-<h2 id="org08d40dd">次回の予定</h2>
+<section id="slide-orge8a08c6">
+<h2 id="orge8a08c6">次回の予定</h2>
 <ul>
 <li><b>第1回: 主成分分析の考え方</b></li>
 <li>第2回: 分析の評価と視覚化</li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </div>
 </div>
 <script src="./reveal.js/dist/reveal.js"></script>
 <script src="./reveal.js/plugin/notes/notes.js"></script>
 <script src="./reveal.js/plugin/search/search.js"></script>
 <script src="./reveal.js/plugin/zoom/zoom.js"></script>
-<script src="./reveal.js/plugin/highlight/highlight.js"></script>
+<script src="./reveal.js/plugin/menu/menu.js"></script>
+<script src="./reveal.js/plugin/spotlight/spotlight.js"></script>
+<script src="./reveal.js/plugin/drawer/drawer.js"></script>
+<script src="./reveal.js/dist/theme/hidelinks.js"></script>
 <script>
 // Full list of configuration options available here:
 // https://github.com/hakimel/reveal.js#configuration
@@ -1171,7 +1068,7 @@ center: true,
 slideNumber: 'c',
 rollingLinks: false,
 keyboard: true,
-mouseWheel: false,
+mouseWheel: true,
 fragmentInURL: true,
 hashOneBasedIndex: false,
 pdfSeparateFragments: false,
@@ -1179,16 +1076,15 @@ overview: true,
 
 transition: 'fade',
 transitionSpeed: 'default',
-spotlight: { size: 90, initialPresentationMode: false }, chalkboard: { toggleChalkboardButton: { left: '80px' }, toggleNotesButton: { left: '130px'}}, keyboard: { 69: function() { RevealChalkboard.toggleNotesCanvas() }, 87: function() { RevealChalkboard.toggleChalkboard() }, 67: function() { RevealChalkboard.clear() }, 82: function() { RevealChalkboard.reset() }, 68: function() { RevealChalkboard.download() }, 88: function() { RevealChalkboard.colorNext() }, 89: function() { RevealChalkboard.colorPrev() }, 84: function() { RevealSpotlight.toggleSpotlight() }, 81: function() { RevealSpotlight.togglePresentationMode()}},
+showNotes: window.location.search.match( /print-pdf/gi ) ? 'separate-page' : false,
+spotlight: { size: 80, initialPresentationMode: false, }, drawer: { toggleDrawKey: "d", toggleBoardKey: "c", pathSize: 3, }, keyboard: { 81: function() { RevealSpotlight.toggleSpotlight()}, 87: function() { RevealSpotlight.togglePresentationMode();}, },
 
 // Plugins with reveal.js 4.x
-plugins: [ RevealNotes, RevealSearch, RevealZoom, RevealHighlight ],
+plugins: [ RevealNotes, RevealSearch, RevealZoom, RevealMenu, RevealSpotlight, RevealDrawer ],
 
 // Optional libraries used to extend reveal.js
 dependencies: [
-{ src: './reveal.js/plugin/menu/menu.js'},
-{ src: './reveal.js/plugin/chalkboard/chalkboard.js'},
-{ src: './reveal.js/plugin/spotlight/spotlight.js'}]
+]
 
 });
 </script>

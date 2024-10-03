@@ -324,10 +324,10 @@ summary(lm(sales ~ radio, data = adv_data))
 summary(lm(sales ~ TV + radio, data = adv_data))
 summary(lm(sales ~ TV + radio + newspaper, data = adv_data))
 summary(adv_init <- lm(sales ~ TV * radio * newspaper, data = adv_data))
-adv_opt <- step(adv_init) # step関数による探索 (最大のモデルから削減増加を行う)
+adv_opt <- step(adv_init) # 最大のモデルから削減増加による探索
 summary(adv_opt) # 探索された(準)最適なモデルの確認
 
 #' 推定結果の tibble 形式での表示
-broom::tidy(adv_opt)
-broom::glance(adv_opt)
-broom::augment(adv_opt)
+broom::tidy(adv_opt) # coef(summary(adv_opt)) と同じ内容
+broom::glance(adv_opt) # 決定係数やF値などを整理
+broom::augment(adv_opt) # あてはめ値・残差などを整理

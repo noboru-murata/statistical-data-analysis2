@@ -48,11 +48,13 @@ p +
 #' ---------------------------------------------------------------------------
 
 #' 中心化を行う
-X <- scale(toy_data, scale=FALSE) # help(scale) でオプション scale を確認
+X <- scale(toy_data, scale = FALSE)
+#' 詳細は '?base::scale' を参照
 #' Gram 行列を計算する
 G <- crossprod(X)
 #' 固有値・固有ベクトルを求める
-eigen(G) # help(eigen) で返り値を確認
+eigen(G) # 返り値 'values, vectors' を確認
+#' 詳細は '?base::eigen' を参照
 
 #' ---------------------------------------------------------------------------
 #' @practice 第1主成分の求め方

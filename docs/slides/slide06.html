@@ -11,22 +11,19 @@
 
 <link rel="stylesheet" href="./reveal.js/dist/theme/oer-reveal.css" id="theme"/>
 
-<link rel="stylesheet" href="./reveal.js/plugin/toc-progress/toc-progress.css"/>
-
-<link rel="stylesheet" href="./reveal.js/dist/theme/toc-style.css"/>
-
 <link rel="stylesheet" href="./reveal.js/dist/theme/fonts/source-sans-pro/source-sans-pro.css"/>
 
-<link rel="stylesheet" href="./reveal.js/plugin/accessibility/helper.css"/>
+<link rel="stylesheet" href="./reveal.js/plugin/menu/menu.css"/>
 
-<link rel="stylesheet" href="./reveal.js/dist/theme/mycourse.css"/>
-<link rel="stylesheet" href="./reveal.js/plugin/highlight/zenburn.css"/>
+<link rel="stylesheet" href="./reveal.js/plugin/drawer/drawer.css"/>
+
+<link rel="stylesheet" href="./reveal.js/local/mycourse.css"/>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </head>
 <body>
 <div class="reveal">
 <div class="slides">
-<section id="sec-title-slide" data-state="no-toc-progress">
+<section id="sec-title-slide">
 <!-- This is an HTML template for the title slide. -->
 <!-- Embed logos as necessary. -->
 <!-- <a class="nooutlink" href="url"><img class="state-background your-logo-class" src="whatever.png" alt="Whatever" /></a> -->
@@ -46,24 +43,23 @@
 
 </section>
 <section>
-<section id="slide-org97bb38b">
-<h2 id="org97bb38b">講義概要</h2>
+<section id="slide-orgc4eadff">
+<h2 id="orgc4eadff">講義概要</h2>
 <ul>
 <li><b>第1日 : 主成分分析の考え方</b></li>
 <li>第2日 : 分析の評価と視覚化</li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-org5f122ac">
-<h2 id="org5f122ac">主成分分析の考え方</h2>
-<div class="outline-text-2" id="text-org5f122ac">
+<section id="slide-org6564400">
+<h2 id="org6564400">主成分分析の考え方</h2>
+<div class="outline-text-2" id="text-org6564400">
 </div>
 </section>
-<section id="slide-orgeb593cc">
-<h3 id="orgeb593cc">主成分分析</h3>
+<section id="slide-orgb6f768e">
+<h3 id="orgb6f768e">主成分分析</h3>
 <ul>
 <li>多数の変量のもつ情報の分析・視覚化
 <ul>
@@ -78,10 +74,9 @@
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgf4bb732">
-<h3 id="orgf4bb732">分析の枠組み</h3>
+<section id="slide-org1738aa3">
+<h3 id="org1738aa3">分析の枠組み</h3>
 <ul>
 <li>\(x_{1},\dotsc,x_{p}\) : <b>変数</b></li>
 <li>\(z_{1},\dotsc,z_{d}\) : <b>特徴量</b> ( \(d\leq p\) )</li>
@@ -112,10 +107,9 @@
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org696a64a">
-<h3 id="org696a64a">主成分分析の用語</h3>
+<section id="slide-org7785e53">
+<h3 id="org7785e53">主成分分析の用語</h3>
 <ul>
 <li>特徴量 \(z_k\)
 <ul>
@@ -131,10 +125,9 @@
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org143fe4e">
-<h3 id="org143fe4e">分析の目的</h3>
+<section id="slide-orgb921106">
+<h3 id="orgb921106">分析の目的</h3>
 <ul>
 <li><p>
 目的
@@ -164,16 +157,14 @@
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-orgd1f893e" data-background="#fef4f4">
-<h2 id="orgd1f893e">実習</h2>
-<div class="slide-footer"><br></div>
+<section id="slide-org616d8c0" data-background="#fef4f4">
+<h2 id="org616d8c0">実習</h2>
 </section>
-<section id="slide-org39dc5dd" data-background="#fef4f4">
-<h3 id="org39dc5dd">R : 主成分分析を実行する関数</h3>
+<section id="slide-org1f106a0" data-background="#fef4f4">
+<h3 id="org1f106a0">R : 主成分分析を実行する関数</h3>
 <ul>
 <li>Rの標準的な関数
 <ul>
@@ -190,51 +181,49 @@
 <li>本講義では <code>prcomp()</code> を利用</li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgf1cf8c9" data-background="#fef4f4">
-<h3 id="orgf1cf8c9">R : 関数 <code>prcomp()</code> の使い方</h3>
+<section id="slide-org7f9ad4a" data-background="#fef4f4">
+<h3 id="org7f9ad4a">R : 関数 <code>prcomp()</code> の使い方</h3>
 <ul>
 <li><p>
 データフレームの全ての列を用いる場合
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >prcomp(x, retx = TRUE, center = TRUE, scale. = FALSE,
-       tol = NULL, rank. = NULL, ...)
-#' x: 必要な変数のみからなるデータフレーム
-#' center: 中心化(平均0)を行って処理するか否か
-#' scale.: 規格化(分散1)を行って処理するか否か
-</code></pre>
+<pre class="src src-R">prcomp(x, retx = <span style="color: #8be9fd; font-style: italic;">TRUE</span>, center = <span style="color: #8be9fd; font-style: italic;">TRUE</span>, scale. = <span style="color: #8be9fd; font-style: italic;">FALSE</span>,
+       tol = <span style="color: #8be9fd; font-style: italic;">NULL</span>, rank. = <span style="color: #8be9fd; font-style: italic;">NULL</span>, ...)
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> x: &#24517;&#35201;&#12394;&#22793;&#25968;&#12398;&#12415;&#12363;&#12425;&#12394;&#12427;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> center: &#20013;&#24515;&#21270;(&#24179;&#22343;0)&#12434;&#34892;&#12387;&#12390;&#20966;&#29702;&#12377;&#12427;&#12363;&#21542;&#12363;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> scale.: &#35215;&#26684;&#21270;(&#20998;&#25955;1)&#12434;&#34892;&#12387;&#12390;&#20966;&#29702;&#12377;&#12427;&#12363;&#21542;&#12363;</span>
+</pre>
 </div></li>
 <li><p>
 列名を指定する(formulaを用いる)場合
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >prcomp(formula, data = NULL, subset, na.action, ...)
-#' formula: ~ 変数名 (解析の対象を + で並べる) 左辺はないので注意
-#' data: 必要な変数を含むデータフレーム
-#' 詳細は '?stats::prcomp' を参照
-</code></pre>
+<pre class="src src-R">prcomp(formula, data = <span style="color: #8be9fd; font-style: italic;">NULL</span>, subset, na.action, ...)
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> formula: ~ &#22793;&#25968;&#21517; (&#35299;&#26512;&#12398;&#23550;&#35937;&#12434; + &#12391;&#20006;&#12409;&#12427;) &#24038;&#36794;&#12399;&#12394;&#12356;&#12398;&#12391;&#27880;&#24847;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> data: &#24517;&#35201;&#12394;&#22793;&#25968;&#12434;&#21547;&#12416;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#35443;&#32048;&#12399; '?stats::prcomp' &#12434;&#21442;&#29031;</span>
+</pre>
 </div></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgcd55bd1" data-background="#fef4f4">
-<h3 id="orgcd55bd1">R : 関数 <code>predict()</code> の使い方</h3>
+<section id="slide-org460e66b" data-background="#fef4f4">
+<h3 id="org460e66b">R : 関数 <code>predict()</code> の使い方</h3>
 <ul>
 <li><p>
 主成分得点を計算する関数
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >predict(object, newdata, ...)
-#' object: prcomp が出力したオブジェクト
-#' newdata: 主成分得点を計算するデータフレーム
-#' 詳細は '?stats::prcomp' または '?stats::predict.prcomp' を参照
-</code></pre>
+<pre class="src src-R">predict(object, newdata, ...)
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> object: prcomp &#12364;&#20986;&#21147;&#12375;&#12383;&#12458;&#12502;&#12472;&#12455;&#12463;&#12488;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> newdata: &#20027;&#25104;&#20998;&#24471;&#28857;&#12434;&#35336;&#31639;&#12377;&#12427;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#35443;&#32048;&#12399; '?stats::prcomp' &#12414;&#12383;&#12399; '?stats::predict.prcomp' &#12434;&#21442;&#29031;</span>
+</pre>
 </div>
 <ul>
 <li>&rsquo;newdata&rsquo; を省略すると分析に用いたデータフレームの得点が計算される</li>
@@ -242,10 +231,9 @@
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org3bb345a" data-background="#fef4f4">
-<h3 id="org3bb345a">練習問題</h3>
+<section id="slide-orgfd4da49" data-background="#fef4f4">
+<h3 id="orgfd4da49">練習問題</h3>
 <ul>
 <li>数値実験により主成分分析の考え方を確認しなさい
 <ul>
@@ -254,11 +242,11 @@
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >#' 観測データ (2次元) の作成 (aのスカラー倍に正規乱数を重畳)
-a &lt;- c(1, 2)/sqrt(5) # 主成分負荷量 (単位ベクトル)
-n &lt;- 100 # データ数
-toy_data &lt;- tibble(runif(n, -1, 1) %o% a + rnorm(2*n, sd = 0.3))
-</code></pre>
+<pre class="src src-R"><span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#35251;&#28204;&#12487;&#12540;&#12479; (2&#27425;&#20803;) &#12398;&#20316;&#25104; (a&#12398;&#12473;&#12459;&#12521;&#12540;&#20493;&#12395;&#27491;&#35215;&#20081;&#25968;&#12434;&#37325;&#30067;)</span>
+a <span style="color: #bd93f9;">&lt;-</span> c(1, 2)/sqrt(5) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#20027;&#25104;&#20998;&#36000;&#33655;&#37327; (&#21336;&#20301;&#12505;&#12463;&#12488;&#12523;)</span>
+n <span style="color: #bd93f9;">&lt;-</span> 100 <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#12487;&#12540;&#12479;&#25968;</span>
+toy_data <span style="color: #bd93f9;">&lt;-</span> tibble(runif(n, -1, 1) <span style="color: #bd93f9;">%o%</span> a + rnorm(2*n, sd = 0.3))
+</pre>
 </div></li>
 <li>観測データの散布図を作成</li>
 <li><p>
@@ -266,33 +254,32 @@ toy_data &lt;- tibble(runif(n, -1, 1) %o% a + rnorm(2*n, sd = 0.3))
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >prcomp(toy_data) # 全ての主成分を計算する
-a_hat &lt;- prcomp(toy_data)$rotation[,1] # 負荷量(rotation)の1列目が第1主成分
-</code></pre>
+<pre class="src src-R">prcomp(toy_data) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#20840;&#12390;&#12398;&#20027;&#25104;&#20998;&#12434;&#35336;&#31639;&#12377;&#12427;</span>
+a_hat <span style="color: #bd93f9;">&lt;-</span> prcomp(toy_data)$rotation[,1] <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#36000;&#33655;&#37327;(rotation)&#12398;1&#21015;&#30446;&#12364;&#31532;1&#20027;&#25104;&#20998;</span>
+</pre>
 </div></li>
 <li><p>
 散布図上に主成分負荷量を描画
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >geom_abline(slope = 傾き, intercept = 切片) # 指定の直線を追加できる
-</code></pre>
+<pre class="src src-R">geom_abline(slope = &#20670;&#12365;, intercept = &#20999;&#29255;) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#25351;&#23450;&#12398;&#30452;&#32218;&#12434;&#36861;&#21152;&#12391;&#12365;&#12427;</span>
+</pre>
 </div></li>
 
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-org8f0cbae">
-<h2 id="org8f0cbae">第1主成分の計算</h2>
-<div class="outline-text-2" id="text-org8f0cbae">
+<section id="slide-org0d5ece6">
+<h2 id="org0d5ece6">第1主成分の計算</h2>
+<div class="outline-text-2" id="text-org0d5ece6">
 </div>
 </section>
-<section id="slide-org5b8d9a0">
-<h3 id="org5b8d9a0">記号の準備</h3>
+<section id="slide-org0d73694">
+<h3 id="org0d73694">記号の準備</h3>
 <ul>
 <li>変数 : \(x_{1},\dotsc,x_{p}\) (\(p\)次元)</li>
 <li><p>
@@ -316,10 +303,9 @@ a_hat &lt;- prcomp(toy_data)$rotation[,1] # 負荷量(rotation)の1列目が第1
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgbf99fe6">
-<h3 id="orgbf99fe6">係数ベクトルによる射影</h3>
+<section id="slide-org7ba5bcf">
+<h3 id="org7ba5bcf">係数ベクトルによる射影</h3>
 <ul>
 <li><p>
 データ \(\boldsymbol{x}_{i}\) の \(\boldsymbol{a}\) 方向成分の長さ
@@ -349,20 +335,18 @@ a_hat &lt;- prcomp(toy_data)$rotation[,1] # 負荷量(rotation)の1列目が第1
 </blockquote></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org9702fc9">
-<h3 id="org9702fc9">幾何学的描像</h3>
+<section id="slide-orgae43287">
+<h3 id="orgae43287">幾何学的描像</h3>
 
-<div id="orgd04b2a8" class="figure">
+<div id="org6c11589" class="figure">
 <p><img src="./figs/pca-figure.png" alt="pca-figure.png" width="100%" />
 </p>
 <p><span class="figure-number">Figure 1: </span>観測データの直交射影 (\(p=2,n=2\) の場合)</p>
 </div>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgb1a5b8b">
-<h3 id="orgb1a5b8b">ベクトル \(\boldsymbol{a}\) の選択の指針</h3>
+<section id="slide-orgbca825f">
+<h3 id="orgbca825f">ベクトル \(\boldsymbol{a}\) の選択の指針</h3>
 <ul>
 <li><p>
 射影による特徴量の構成
@@ -406,10 +390,9 @@ a_hat &lt;- prcomp(toy_data)$rotation[,1] # 負荷量(rotation)の1列目が第1
 </blockquote></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org2bcff95">
-<h3 id="org2bcff95">ベクトル \(\boldsymbol{a}\) の最適化</h3>
+<section id="slide-orgd69913a">
+<h3 id="orgd69913a">ベクトル \(\boldsymbol{a}\) の最適化</h3>
 <ul>
 <li><p>
 最適化問題
@@ -437,17 +420,16 @@ a_hat &lt;- prcomp(toy_data)$rotation[,1] # 負荷量(rotation)の1列目が第1
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-org78208d6">
-<h2 id="org78208d6">第1主成分の解</h2>
-<div class="outline-text-2" id="text-org78208d6">
+<section id="slide-org96365fc">
+<h2 id="org96365fc">第1主成分の解</h2>
+<div class="outline-text-2" id="text-org96365fc">
 </div>
 </section>
-<section id="slide-org7c8c3f2">
-<h3 id="org7c8c3f2">行列による表現</h3>
+<section id="slide-org55ab2d0">
+<h3 id="org55ab2d0">行列による表現</h3>
 <ul>
 <li><p>
 中心化したデータ行列
@@ -488,10 +470,9 @@ a_hat &lt;- prcomp(toy_data)$rotation[,1] # 負荷量(rotation)の1列目が第1
 </blockquote></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orge680073">
-<h3 id="orge680073">ベクトル \(\boldsymbol{a}\) の解</h3>
+<section id="slide-org321fda9">
+<h3 id="org321fda9">ベクトル \(\boldsymbol{a}\) の解</h3>
 <ul>
 <li><p>
 最適化問題
@@ -512,7 +493,6 @@ a_hat &lt;- prcomp(toy_data)$rotation[,1] # 負荷量(rotation)の1列目が第1
 
 </ul>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 <ul>
@@ -554,7 +534,6 @@ a_hat &lt;- prcomp(toy_data)$rotation[,1] # 負荷量(rotation)の1列目が第1
 
 </ul>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 <ul>
@@ -577,10 +556,9 @@ a_hat &lt;- prcomp(toy_data)$rotation[,1] # 負荷量(rotation)の1列目が第1
 </blockquote></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgf3cf5bd">
-<h3 id="orgf3cf5bd">第1主成分</h3>
+<section id="slide-orgcdc9c07">
+<h3 id="orgcdc9c07">第1主成分</h3>
 <ul>
 <li><p>
 固有ベクトル\(\boldsymbol{a}\)に対する\(f(\boldsymbol{a})\)
@@ -616,16 +594,14 @@ a_hat &lt;- prcomp(toy_data)$rotation[,1] # 負荷量(rotation)の1列目が第1
 </blockquote></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-org40b0cbe" data-background="#fef4f4">
-<h2 id="org40b0cbe">実習</h2>
-<div class="slide-footer"><br></div>
+<section id="slide-org6b9a971" data-background="#fef4f4">
+<h2 id="org6b9a971">実習</h2>
 </section>
-<section id="slide-orga2b4f27" data-background="#fef4f4">
-<h3 id="orga2b4f27">練習問題</h3>
+<section id="slide-org9f08b10" data-background="#fef4f4">
+<h3 id="org9f08b10">練習問題</h3>
 <ul>
 <li>第1主成分とGram行列の固有ベクトルの関係を調べなさい
 <ul>
@@ -636,31 +612,30 @@ Gram 行列を計算し固有値・固有ベクトルを求める
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >#' 中心化を行う
-X &lt;- scale(toy_data, scale = FALSE)
-#' 詳細は '?base::scale' を参照
-#' Gram 行列を計算する
-G &lt;- crossprod(X)
-#' 固有値・固有ベクトルを求める
-eigen(G) # 返り値 'values, vectors' を確認
-#' 詳細は '?base::eigen' を参照
-</code></pre>
+<pre class="src src-R"><span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#20013;&#24515;&#21270;&#12434;&#34892;&#12358;</span>
+X <span style="color: #bd93f9;">&lt;-</span> scale(toy_data, scale = <span style="color: #8be9fd; font-style: italic;">FALSE</span>)
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#35443;&#32048;&#12399; '?base::scale' &#12434;&#21442;&#29031;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> Gram &#34892;&#21015;&#12434;&#35336;&#31639;&#12377;&#12427;</span>
+G <span style="color: #bd93f9;">&lt;-</span> crossprod(X)
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#22266;&#26377;&#20516;&#12539;&#22266;&#26377;&#12505;&#12463;&#12488;&#12523;&#12434;&#27714;&#12417;&#12427;</span>
+eigen(G) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#36820;&#12426;&#20516; 'values, vectors' &#12434;&#30906;&#35469;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#35443;&#32048;&#12399; '?base::eigen' &#12434;&#21442;&#29031;</span>
+</pre>
 </div></li>
 
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-org8e8f67d">
-<h2 id="org8e8f67d">Gram 行列の性質</h2>
-<div class="outline-text-2" id="text-org8e8f67d">
+<section id="slide-org6f3d0f0">
+<h2 id="org6f3d0f0">Gram 行列の性質</h2>
+<div class="outline-text-2" id="text-org6f3d0f0">
 </div>
 </section>
-<section id="slide-orga714d74">
-<h3 id="orga714d74">Gram 行列の固有値</h3>
+<section id="slide-org12d5058">
+<h3 id="org12d5058">Gram 行列の固有値</h3>
 <ul>
 <li>\(X^{\mathsf{T}}X\) は非負定値対称行列</li>
 <li>\(X^{\mathsf{T}}X\) の固有値は0以上の実数
@@ -692,10 +667,9 @@ eigen(G) # 返り値 'values, vectors' を確認
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org2f8be0d">
-<h3 id="org2f8be0d">Gram 行列のスペクトル分解</h3>
+<section id="slide-orgd219fe8">
+<h3 id="orgd219fe8">Gram 行列のスペクトル分解</h3>
 <ul>
 <li><p>
 \(\boldsymbol{a}_{1},\dotsc,\boldsymbol{a}_{p}\) は <b>互いに直交</b> するようとることができる
@@ -731,17 +705,16 @@ eigen(G) # 返り値 'values, vectors' を確認
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-org2833110">
-<h2 id="org2833110">第2主成分以降の計算</h2>
-<div class="outline-text-2" id="text-org2833110">
+<section id="slide-org8e1b922">
+<h2 id="org8e1b922">第2主成分以降の計算</h2>
+<div class="outline-text-2" id="text-org8e1b922">
 </div>
 </section>
-<section id="slide-org65cd813">
-<h3 id="org65cd813">第2主成分の考え方</h3>
+<section id="slide-org3fb7d80">
+<h3 id="org3fb7d80">第2主成分の考え方</h3>
 <ul>
 <li>第1主成分
 <ul>
@@ -778,10 +751,9 @@ eigen(G) # 返り値 'values, vectors' を確認
 </blockquote></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orge44018f">
-<h3 id="orge44018f">第2主成分の最適化</h3>
+<section id="slide-orgaa10f47">
+<h3 id="orgaa10f47">第2主成分の最適化</h3>
 <ul>
 <li><p>
 最適化問題
@@ -807,17 +779,16 @@ eigen(G) # 返り値 'values, vectors' を確認
 </blockquote></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-org8c1f8f2">
-<h2 id="org8c1f8f2">第2主成分以降の解</h2>
-<div class="outline-text-2" id="text-org8c1f8f2">
+<section id="slide-orgae64683">
+<h2 id="orgae64683">第2主成分以降の解</h2>
+<div class="outline-text-2" id="text-orgae64683">
 </div>
 </section>
-<section id="slide-orge525c44">
-<h3 id="orge525c44">行列による表現</h3>
+<section id="slide-org3865c23">
+<h3 id="org3865c23">行列による表現</h3>
 <ul>
 <li><p>
 中心化したデータ行列
@@ -841,7 +812,6 @@ eigen(G) # 返り値 'values, vectors' を確認
 
 </ul>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 <ul>
@@ -878,10 +848,9 @@ Gram 行列
 </blockquote></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org03f8626">
-<h3 id="org03f8626">第2主成分</h3>
+<section id="slide-org5e28c54">
+<h3 id="org5e28c54">第2主成分</h3>
 <ul>
 <li><p>
 Gram 行列 \(\tilde{X}^{\mathsf{T}}\tilde{X}\)
@@ -910,16 +879,14 @@ Gram 行列 \(\tilde{X}^{\mathsf{T}}\tilde{X}\)
 に対応する固有ベクトル \(\boldsymbol{a}_k\)</li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-org4adf798" data-background="#fef4f4">
-<h2 id="org4adf798">実習</h2>
-<div class="slide-footer"><br></div>
+<section id="slide-org62c0e52" data-background="#fef4f4">
+<h2 id="org62c0e52">実習</h2>
 </section>
-<section id="slide-orged72df8" data-background="#fef4f4">
-<h3 id="orged72df8">データセットの準備</h3>
+<section id="slide-org27e81d3" data-background="#fef4f4">
+<h3 id="org27e81d3">データセットの準備</h3>
 <ul>
 <li>主成分分析では以下のデータセットを使用する
 <ul>
@@ -949,10 +916,9 @@ Gram 行列 \(\tilde{X}^{\mathsf{T}}\tilde{X}\)
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org0f6eb99" data-background="#fef4f4">
-<h3 id="org0f6eb99">練習問題</h3>
+<section id="slide-org668b572" data-background="#fef4f4">
+<h3 id="org668b572">練習問題</h3>
 <ul>
 <li>前掲のデータを用いて主成分分析を行いなさい
 <ul>
@@ -961,8 +927,8 @@ Gram 行列 \(\tilde{X}^{\mathsf{T}}\tilde{X}\)
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >js_data &lt;- read_csv("data/japan_social.csv")
-</code></pre>
+<pre class="src src-R">js_data <span style="color: #bd93f9;">&lt;-</span> read_csv(<span style="color: #f1fa8c;">"data/japan_social.csv"</span>)
+</pre>
 </div></li>
 <li>データの散布図行列を描く</li>
 <li>各データの箱ひげ図を描き，変数の大きさを確認する</li>
@@ -971,34 +937,35 @@ Gram 行列 \(\tilde{X}^{\mathsf{T}}\tilde{X}\)
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >js_pca &lt;- prcomp(js_data[-c(1,7)], scale. = TRUE)
-#' '-c(1,7)' は都道府県名・地方区分を除く．関数 select() を利用することもできる
-#' 'scale.=TRUE' とすると変数を正規化してから解析する
-</code></pre>
+<pre class="src src-R">js_pca <span style="color: #bd93f9;">&lt;-</span> prcomp(js_data[-c(1,7)], scale. = <span style="color: #8be9fd; font-style: italic;">TRUE</span>)
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> '-c(1,7)' &#12399;&#37117;&#36947;&#24220;&#30476;&#21517;&#12539;&#22320;&#26041;&#21306;&#20998;&#12434;&#38500;&#12367;&#65294;&#38306;&#25968; select() &#12434;&#21033;&#29992;&#12377;&#12427;&#12371;&#12392;&#12418;&#12391;&#12365;&#12427;</span>
+<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> 'scale.=TRUE' &#12392;&#12377;&#12427;&#12392;&#22793;&#25968;&#12434;&#27491;&#35215;&#21270;&#12375;&#12390;&#12363;&#12425;&#35299;&#26512;&#12377;&#12427;</span>
+</pre>
 </div></li>
 
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-org0a109a6">
-<h2 id="org0a109a6">次回の予定</h2>
+<section id="slide-org58ead09">
+<h2 id="org58ead09">次回の予定</h2>
 <ul>
 <li>第1日 : 主成分分析の考え方</li>
 <li><b>第2日 : 分析の評価と視覚化</b></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </div>
 </div>
 <script src="./reveal.js/dist/reveal.js"></script>
 <script src="./reveal.js/plugin/notes/notes.js"></script>
 <script src="./reveal.js/plugin/search/search.js"></script>
 <script src="./reveal.js/plugin/zoom/zoom.js"></script>
-<script src="./reveal.js/plugin/highlight/highlight.js"></script>
+<script src="./reveal.js/plugin/menu/menu.js"></script>
+<script src="./reveal.js/plugin/spotlight/spotlight.js"></script>
+<script src="./reveal.js/plugin/drawer/drawer.js"></script>
+<script src="./reveal.js/dist/theme/hidelinks.js"></script>
 <script>
 // Full list of configuration options available here:
 // https://github.com/hakimel/reveal.js#configuration
@@ -1011,7 +978,7 @@ center: true,
 slideNumber: 'c',
 rollingLinks: false,
 keyboard: true,
-mouseWheel: false,
+mouseWheel: true,
 fragmentInURL: true,
 hashOneBasedIndex: false,
 pdfSeparateFragments: false,
@@ -1019,16 +986,15 @@ overview: true,
 
 transition: 'fade',
 transitionSpeed: 'default',
-spotlight: { size: 90, initialPresentationMode: false }, chalkboard: { toggleChalkboardButton: { left: '80px' }, toggleNotesButton: { left: '130px'}}, keyboard: { 69: function() { RevealChalkboard.toggleNotesCanvas() }, 87: function() { RevealChalkboard.toggleChalkboard() }, 67: function() { RevealChalkboard.clear() }, 82: function() { RevealChalkboard.reset() }, 68: function() { RevealChalkboard.download() }, 88: function() { RevealChalkboard.colorNext() }, 89: function() { RevealChalkboard.colorPrev() }, 84: function() { RevealSpotlight.toggleSpotlight() }, 81: function() { RevealSpotlight.togglePresentationMode()}},
+showNotes: window.location.search.match( /print-pdf/gi ) ? 'separate-page' : false,
+spotlight: { size: 80, initialPresentationMode: false, }, drawer: { toggleDrawKey: "d", toggleBoardKey: "c", pathSize: 3, }, keyboard: { 81: function() { RevealSpotlight.toggleSpotlight()}, 87: function() { RevealSpotlight.togglePresentationMode();}, },
 
 // Plugins with reveal.js 4.x
-plugins: [ RevealNotes, RevealSearch, RevealZoom, RevealHighlight ],
+plugins: [ RevealNotes, RevealSearch, RevealZoom, RevealMenu, RevealSpotlight, RevealDrawer ],
 
 // Optional libraries used to extend reveal.js
 dependencies: [
-{ src: './reveal.js/plugin/menu/menu.js'},
-{ src: './reveal.js/plugin/chalkboard/chalkboard.js'},
-{ src: './reveal.js/plugin/spotlight/spotlight.js'}]
+]
 
 });
 </script>
