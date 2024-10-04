@@ -11,21 +11,18 @@
 
 <link rel="stylesheet" href="./reveal.js/dist/theme/oer-reveal.css" id="theme"/>
 
-<link rel="stylesheet" href="./reveal.js/plugin/toc-progress/toc-progress.css"/>
-
-<link rel="stylesheet" href="./reveal.js/dist/theme/toc-style.css"/>
-
 <link rel="stylesheet" href="./reveal.js/dist/theme/fonts/source-sans-pro/source-sans-pro.css"/>
 
-<link rel="stylesheet" href="./reveal.js/plugin/accessibility/helper.css"/>
+<link rel="stylesheet" href="./reveal.js/plugin/menu/menu.css"/>
 
-<link rel="stylesheet" href="./reveal.js/dist/theme/mycourse.css"/>
-<link rel="stylesheet" href="./reveal.js/plugin/highlight/zenburn.css"/>
+<link rel="stylesheet" href="./reveal.js/plugin/drawer/drawer.css"/>
+
+<link rel="stylesheet" href="./reveal.js/local/mycourse.css"/>
 </head>
 <body>
 <div class="reveal">
 <div class="slides">
-<section id="sec-title-slide" data-state="no-toc-progress">
+<section id="sec-title-slide">
 <!-- This is an HTML template for the title slide. -->
 <!-- Embed logos as necessary. -->
 <!-- <a class="nooutlink" href="url"><img class="state-background your-logo-class" src="whatever.png" alt="Whatever" /></a> -->
@@ -44,15 +41,14 @@
 </div>
 
 </section>
-
 <section>
-<section id="slide-org872cdd2">
-<h2 id="org872cdd2">Rのインストール手順</h2>
-<div class="outline-text-2" id="text-org872cdd2">
+<section id="slide-org5770943">
+<h2 id="org5770943">Rのインストール手順</h2>
+<div class="outline-text-2" id="text-org5770943">
 </div>
 </section>
-<section id="slide-orga4a3f90">
-<h3 id="orga4a3f90">準備</h3>
+<section id="slide-org1b3358a">
+<h3 id="org1b3358a">準備</h3>
 <ol>
 <li><span class="underline">R: The R project for Statistical Computing</span>
 にアクセス
@@ -71,11 +67,9 @@
 </ul></li>
 
 </ol>
-<div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-org465ff1b">
-<h3 id="org465ff1b">Windowsの場合</h3>
+<section id="slide-orge2090d9">
+<h3 id="orge2090d9">Windowsの場合</h3>
 <ol>
 <li><span class="underline">Download R for Windows</span>
 をクリック</li>
@@ -87,11 +81,9 @@
 <li>指示に従って R をインストールする</li>
 
 </ol>
-<div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-orgf36ce28">
-<h3 id="orgf36ce28">Macの場合</h3>
+<section id="slide-org1d9a2f3">
+<h3 id="org1d9a2f3">Macの場合</h3>
 <ol>
 <li><span class="underline">Download R for (Mac) OS X</span>
 をクリック</li>
@@ -101,13 +93,11 @@
 <li>指示に従って R をインストールする</li>
 
 </ol>
-<div class="slide-footer"><br></div>
-
 </section>
 </section>
 <section>
-<section id="slide-orgf8f794c">
-<h2 id="orgf8f794c">RStudioのインストール手順</h2>
+<section id="slide-org29b027c">
+<h2 id="org29b027c">RStudioのインストール手順</h2>
 <ol>
 <li><span class="underline">Download RStudio - RStudio</span>
 にアクセス
@@ -122,13 +112,11 @@
 <li>指示に従って RStudio をインストールする</li>
 
 </ol>
-<div class="slide-footer"><br></div>
-
 </section>
 </section>
 <section>
-<section id="slide-orgc66778e">
-<h2 id="orgc66778e">参考</h2>
+<section id="slide-org9c9b031">
+<h2 id="org9c9b031">参考</h2>
 <ul>
 <li>以下のサイトは自習の助けになります
 <ul>
@@ -141,14 +129,16 @@
 <li><b>&ldquo;R オンライン 講座&rdquo;</b> などで検索して下さい</li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </div>
 </div>
 <script src="./reveal.js/dist/reveal.js"></script>
 <script src="./reveal.js/plugin/notes/notes.js"></script>
 <script src="./reveal.js/plugin/search/search.js"></script>
 <script src="./reveal.js/plugin/zoom/zoom.js"></script>
-<script src="./reveal.js/plugin/highlight/highlight.js"></script>
+<script src="./reveal.js/plugin/menu/menu.js"></script>
+<script src="./reveal.js/plugin/spotlight/spotlight.js"></script>
+<script src="./reveal.js/plugin/drawer/drawer.js"></script>
+<script src="./reveal.js/dist/theme/hidelinks.js"></script>
 <script>
 // Full list of configuration options available here:
 // https://github.com/hakimel/reveal.js#configuration
@@ -161,7 +151,7 @@ center: true,
 slideNumber: 'c',
 rollingLinks: false,
 keyboard: true,
-mouseWheel: false,
+mouseWheel: true,
 fragmentInURL: true,
 hashOneBasedIndex: false,
 pdfSeparateFragments: false,
@@ -169,16 +159,15 @@ overview: true,
 
 transition: 'fade',
 transitionSpeed: 'default',
-spotlight: { size: 90, initialPresentationMode: false }, chalkboard: { toggleChalkboardButton: { left: '80px' }, toggleNotesButton: { left: '130px'}}, keyboard: { 69: function() { RevealChalkboard.toggleNotesCanvas() }, 87: function() { RevealChalkboard.toggleChalkboard() }, 67: function() { RevealChalkboard.clear() }, 82: function() { RevealChalkboard.reset() }, 68: function() { RevealChalkboard.download() }, 88: function() { RevealChalkboard.colorNext() }, 89: function() { RevealChalkboard.colorPrev() }, 84: function() { RevealSpotlight.toggleSpotlight() }, 81: function() { RevealSpotlight.togglePresentationMode()}},
+showNotes: window.location.search.match( /print-pdf/gi ) ? 'separate-page' : false,
+spotlight: { size: 80, initialPresentationMode: false, }, drawer: { toggleDrawKey: "d", toggleBoardKey: "c", pathSize: 3, }, keyboard: { 81: function() { RevealSpotlight.toggleSpotlight()}, 87: function() { RevealSpotlight.togglePresentationMode();}, },
 
 // Plugins with reveal.js 4.x
-plugins: [ RevealNotes, RevealSearch, RevealZoom, RevealHighlight ],
+plugins: [ RevealNotes, RevealSearch, RevealZoom, RevealMenu, RevealSpotlight, RevealDrawer ],
 
 // Optional libraries used to extend reveal.js
 dependencies: [
-{ src: './reveal.js/plugin/menu/menu.js'},
-{ src: './reveal.js/plugin/chalkboard/chalkboard.js'},
-{ src: './reveal.js/plugin/spotlight/spotlight.js'}]
+]
 
 });
 </script>
