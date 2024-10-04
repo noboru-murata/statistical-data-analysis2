@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-10-03 17:56:17 mura>
+# Time-stamp: <2024-10-04 15:44:31 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -377,9 +377,9 @@
   - ファイル(の一部)を実行
   - ファイルを保存
 - 同一ファイル内でプログラムと文書の記述も可能
+  - *Quarto* (本講義でも利用)
   - R Markdown
-  - Quarto
-  (本講義では扱わない)
+
 
 ** ヘルプ (右下ペイン)
 - 各関数の詳細を記述したヘルプが参照可能
@@ -421,7 +421,8 @@
 # - 中断するときは *Close Project* を選択
   
 ** 終了時の注意
-- 終了時にコンソールに以下のメッセージが表示される場合がある
+- 終了時にコンソールに以下のメッセージ，
+  または同様の内容のダイアログボックスが表示される場合がある
   #+begin_src R :eval no :tangle no
     > q()
     Save workspace image? [y/n/c]:     
@@ -485,7 +486,7 @@
 ** エディタから実行する
 - 新規ファイルの作成 (以下のいずれか)
   - 左上の *+* から
-    *R Script* を選択
+    *R Script* (または *Quarto*) を選択
   - *File* から
     *New File* を選択，
     更に *R Script* を選択
@@ -499,16 +500,16 @@
     *Selected Line(s)* を選択
     (Ctrl/Command+Enter)
 
-** R Script ファイルを保存する
+** ファイルを保存する
 - 以下のいずれかで保存することができる
   - 左上のディスクのマークをクリック
   - *File* から 
     *Save* を選択 (Ctrl/Command+S)
 - ファイル作成に関する注意
   - 保存する時にファイル名の入力が求められる
-  - 拡張子は通常
-    *.R* または
-    *.r* を利用する
+    - *R Script* の拡張子は通常
+      *.R* または *.r* を利用
+    - *Quarto* の拡張子は *.qmd* を利用
   - *#* 以降の文字列は実行されないのでコメントとして有用
 
 ** 関数
