@@ -21,5 +21,5 @@ weight = 1004
 
 ## 付録 {#付録}
 
--   [RScript](https://noboru-murata.github.io/statistical-data-analysis2/code/slide03.R)
+-   [R Script](https://noboru-murata.github.io/statistical-data-analysis2/code/slide03.R)
 -   [練習問題用データセット](https://noboru-murata.github.io/statistical-data-analysis2/data/data03.zip)

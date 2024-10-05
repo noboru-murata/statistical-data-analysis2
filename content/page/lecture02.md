@@ -21,7 +21,7 @@ weight = 1003
 
 ## 付録 {#付録}
 
--   [Quarto](https://noboru-murata.github.io/statistical-data-analysis2/code/practice02.qmd) ([HTML](https://noboru-murata.github.io/statistical-data-analysis2/code/practice02.html))
+-   [Quarto](https://raw.githubusercontent.com/noboru-murata/statistical-data-analysis2/refs/heads/master/docs/code/practice02.qmd) ([HTML](https://noboru-murata.github.io/statistical-data-analysis2/code/practice02.html))
 -   [R Script](https://noboru-murata.github.io/statistical-data-analysis2/code/slide02.R)
 -   [練習問題用データセット](https://noboru-murata.github.io/statistical-data-analysis2/data/data02.zip) <br />
     ダウンロードして unzip すると文字コード utf-8 のファイルになります．
