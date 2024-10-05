@@ -21,6 +21,6 @@ weight = 1002
 
 ## 付録 {#付録}
 
--   [Quarto](https://noboru-murata.github.io/statistical-data-analysis2/code/practice01.qmd) ([HTML](https://noboru-murata.github.io/statistical-data-analysis2/code/practice01.html)) (演習などを整理)
+-   [Quarto](https://raw.githubusercontent.com/noboru-murata/statistical-data-analysis2/refs/heads/master/docs/code/practice01.qmd) ([HTML](https://noboru-murata.github.io/statistical-data-analysis2/code/practice01.html)) (演習などを整理)
 -   [R Script](https://noboru-murata.github.io/statistical-data-analysis2/code/slide01.R) (スライド内で用いた例や練習問題の解答例)
 -   [データセット](https://noboru-murata.github.io/statistical-data-analysis2/data/data01.zip) (練習問題で用いる配布データ)

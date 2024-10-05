@@ -3,6 +3,7 @@
 #+HUGO_WEIGHT: auto
 #+AUTHOR: Noboru Murata
 #+LINK: github https://noboru-murata.github.io/statistical-data-analysis2/
+#+LINK: githubraw https://raw.githubusercontent.com/noboru-murata/statistical-data-analysis2/refs/heads/master/docs/
 #+STARTUP: hidestars content indent
 # C-c C-e H A (generate MDs for all subtrees)
 
@@ -44,7 +45,7 @@
 ** ハンドアウト
 - [[github:pdfs/slide01.pdf][PDF file]]
 ** 付録
-- [[github:code/practice01.qmd][Quarto]] ([[github:code/practice01.html][HTML]]) (演習などを整理)
+- [[githubraw:code/practice01.qmd][Quarto]] ([[github:code/practice01.html][HTML]]) (演習などを整理)
 - [[github:code/slide01.R][R Script]] (スライド内で用いた例や練習問題の解答例)
 - [[github:data/data01.zip][データセット]] (練習問題で用いる配布データ)
   
