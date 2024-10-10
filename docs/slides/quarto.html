@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Quarto の使い方</title>
+<meta name="author" content="村田 昇"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="./reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="./reveal.js/dist/theme/oer-reveal.css" id="theme"/>
+
+<link rel="stylesheet" href="./reveal.js/dist/theme/fonts/source-sans-pro/source-sans-pro.css"/>
+
+<link rel="stylesheet" href="./reveal.js/plugin/menu/menu.css"/>
+
+<link rel="stylesheet" href="./reveal.js/plugin/drawer/drawer.css"/>
+
+<link rel="stylesheet" href="./reveal.js/local/mycourse.css"/>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<!-- This is an HTML template for the title slide. -->
+<!-- Embed logos as necessary. -->
+<!-- <a class="nooutlink" href="url"><img class="state-background your-logo-class" src="whatever.png" alt="Whatever" /></a> -->
+<div class="talk-title">
+    <h1 class="no-toc-progress">Quarto の使い方</h1>
+</div>
+<div class="talk-subtitle">
+    <p>文章とプログラムの記述</p>
+</div>
+<div class="keyboard-usage">
+    <p>(Press <code>?</code> for help, <code>n</code> and <code>p</code> for next and previous slide)</p>
+</div>
+<div class="talk-author">
+  <p>村田 昇<br />
+  </p>
+</div>
+
+</section>
+<section>
+<section id="slide-orgcacbf8f">
+<h2 id="orgcacbf8f">Quarto とは</h2>
+<div class="outline-text-2" id="text-orgcacbf8f">
+</div>
+</section>
+<section id="slide-org379d994">
+<h3 id="org379d994">Quarto の概要</h3>
+<ul>
+<li>Pandoc を利用した出版システム</li>
+<li>文章とプログラムをまとめて記述</li>
+<li>レポート，スライド，Webページを簡単に作成</li>
+<li>R 以外の言語 (Python や Julia) も利用可能</li>
+<li>R Markdown 形式の後継</li>
+
+</ul>
+</section>
+<section id="slide-org17faf56">
+<h3 id="org17faf56">Quarto の構造</h3>
+<ul>
+<li>3つの領域から構成
+<dl>
+<dt>YAMLヘッダー</dt><dd>文書全体の体裁を整えるための設定を行う</dd>
+<dt>コードチャンク</dt><dd>プログラムを記述する</dd>
+<dt>テキスト</dt><dd>markdown形式で文章を記述する</dd>
+
+</dl></li>
+
+</ul>
+</section>
+<section id="slide-org5485da4">
+<h3 id="org5485da4">YAMLヘッダー</h3>
+<ul>
+<li>文書の先頭に置く</li>
+<li><code>---</code> と <code>---</code> の間に必要な事項を記述する</li>
+<li><p>
+最も簡単な例は以下のとおり
+</p>
+<div class="org-src-container">
+
+<pre class="src src-yaml">---
+title: "この文書のタイトル"
+format: html
+editor: visual
+---
+</pre>
+</div>
+<ul>
+<li>出力フォーマットは HTML(webページ)</li>
+<li>エディタは visual モードを利用</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-org14a94e8">
+<h3 id="org14a94e8">コードチャンク</h3>
+<ul>
+<li>文書中の必要な場所に置く</li>
+<li>Rの場合 <code>```{r}</code> と <code>```</code> の間にコードを記述する</li>
+<li><p>
+例えば以下のように記述する
+</p>
+<div class="org-src-container">
+
+<pre class="src src-qmd"><span style="color: #d02b61; background-color: #3a3a3a;">```{</span><span style="color: #00aa80; background-color: #3a3a3a;">r</span><span style="color: #d02b61; background-color: #3a3a3a;">}</span>
+<span style="color: #d08928; background-color: #3a3a3a;">sigmoid &lt;- function(x, a = 1){ # &#12471;&#12464;&#12514;&#12452;&#12489;&#38306;&#25968;&#12434;&#23450;&#32681;&#12377;&#12427;</span>
+<span style="color: #d08928; background-color: #3a3a3a;">    y &lt;- 1 / (1 + exp(-a * x)) }</span>
+<span style="color: #d02b61; background-color: #3a3a3a;">```</span>
+</pre>
+</div>
+<ul>
+<li>チャンク間の情報(計算結果)は共有できる</li>
+<li>Rのコードはパッケージ <code>knitr</code> を利用して処理される
+<a href="https://quarto.org/docs/reference/cells/cells-knitr.html">https://quarto.org/docs/reference/cells/cells-knitr.html</a></li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-orgeb58e53">
+<h3 id="orgeb58e53">テキスト</h3>
+<ul>
+<li>一般的な markdown 文法で解釈される</li>
+<li>数式はTeXの基本的な記述を理解する
+<ul>
+<li>テキスト中は <code>$ 数式 $~，独立した表示は ~$$ 数式 $$</code></li>
+
+</ul></li>
+<li><p>
+以下は数式の記述の例である
+</p>
+<div class="org-src-container">
+
+<pre class="src src-qmd">&#27491;&#35215;&#20998;&#24067;&#12399; $<span style="color: #d02b61;">\</span>mathbb{R}=(-<span style="color: #d02b61;">\</span>infty,<span style="color: #d02b61;">\</span>infty)$ &#19978;&#12398;&#30906;&#29575;&#20998;&#24067;&#12391;&#65292;
+&#24179;&#22343; $<span style="color: #d02b61;">\</span>mu$ &#20998;&#25955; $<span style="color: #d02b61;">\</span>sigma^{2}$ &#12391;&#12354;&#12427;&#20998;&#24067;&#12398;&#23494;&#24230;&#38306;&#25968;&#12399;
+$$
+<span style="color: #d02b61;">\</span>phi(x) = <span style="color: #d02b61;">\</span>frac{1}{<span style="color: #d02b61;">\</span>sqrt{2<span style="color: #d02b61;">\</span>pi<span style="color: #d02b61;">\</span>sigma^{2}}}
+            e^{-<span style="color: #d02b61;">\</span>frac{(x-<span style="color: #d02b61;">\</span>mu)^{2}}{2<span style="color: #d02b61;">\</span>sigma^{2}}}
+$$
+&#12392;&#12394;&#12427;&#65294;
+</pre>
+</div></li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-orgeb9f351">
+<h2 id="orgeb9f351">RStudio での利用法</h2>
+<div class="outline-text-2" id="text-orgeb9f351">
+</div>
+</section>
+<section id="slide-orgb635acb">
+<h3 id="orgb635acb">Quarto ファイルの作成</h3>
+<ul>
+<li>左上の <code>＋</code> ボタン(または&ldquo;File/New File&rdquo;)を開く</li>
+<li>&ldquo;Quarto Document&rdquo; を選択する</li>
+<li>ダイアログに必要な情報を記入する
+<ul>
+<li>文書の &ldquo;Title/Author&rdquo; の設定</li>
+<li>フォーマットの選択 (HTML/PDF/Word)
+<ul>
+<li>講義ではHTMLを利用</li>
+
+</ul></li>
+
+</ul></li>
+<li>&ldquo;Create&rdquo; をクリックするとファイルが作成される
+<ul>
+<li>&ldquo;Create&rdquo; は雛型の文書付き</li>
+<li>&ldquo;Create Empty Document&rdquo; はYAMLヘッダーのみ
+<ul>
+<li>慣れたらこちらで</li>
+
+</ul></li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-org3a92412">
+<h3 id="org3a92412">エディタの設定</h3>
+<ul>
+<li>Quarto ファイルは左上のペインに表示される</li>
+<li>左上の &ldquo;Source/Visual&rdquo; ボタンでモードが変わる
+<ul>
+<li><b>Source</b> : 装飾なしのテキストエディタ</li>
+<li><b>Visual</b> : Markdown 記法に従った装飾ありの表示</li>
+
+</ul></li>
+<li>各モードでの注意
+<ul>
+<li>Visual モードは GUI を利用して装飾を変更する</li>
+<li>History 機能は現在 Source モードでしか機能しない</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-org9e22148">
+<h3 id="org9e22148">コードの入力と実行</h3>
+<ul>
+<li>コードを入力するにはチャンクを作成する
+<ul>
+<li>入力したい箇所にカーソルを移動</li>
+<li>上枠の <code>+C</code> (緑)ボタン(または&ldquo;Code/Insert Chunk&rdquo;)をクリック</li>
+
+</ul></li>
+<li><code>歯車</code> ボタンで実行時の出力先を設定する
+<ul>
+<li><b>&ldquo;Chunk Output Inline&rdquo;</b> : エディタ内に出力</li>
+<li><b>&ldquo;Chunk Output in Console&rdquo;</b> : コンソール内に出力
+<ul>
+<li>講義ではコンソールを利用</li>
+
+</ul></li>
+
+</ul></li>
+<li>実行法にはいくつかのオプションが用意されている
+<ul>
+<li><b><code>▶</code> (緑)</b> : チャンク内を実行</li>
+<li><b><code>▽</code></b> : そのチャンク以前を実行
+<ul>
+<li>カーソル位置のみ実行することも可能</li>
+<li>ショートカットキーも用意されている</li>
+
+</ul></li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-orgad1658b">
+<h3 id="orgad1658b">出版</h3>
+<ul>
+<li>全体をまとめて整形することができる</li>
+<li><code>歯車</code> ボタンで出力時の挙動を設定する
+<ul>
+<li><b>&ldquo;Preview in Window&rdquo;</b> : ブラウザに表示</li>
+<li><b>&ldquo;Preview in Viewer Pane&rdquo;</b> : RStudioのViewerペインに表示
+<ul>
+<li>講義では Viewer を利用</li>
+<li>Viewer の上の左から2番目のボタンでブラウザに送ることは可能</li>
+
+</ul></li>
+
+</ul></li>
+<li>Quarto と同じ場所にファイルは保存される
+<ul>
+<li>フォーマットによって拡張子が異なる</li>
+<li>付加的なファイルは &ldquo;ファイル名 + files&rdquo; に保存される</li>
+<li><p>
+単一のファイルにするにはYAMLヘッダーで以下を宣言する
+</p>
+<div class="org-src-container">
+
+<pre class="src src-yaml">---
+format:
+  html:
+    self-contained: true
+---
+</pre>
+</div></li>
+
+</ul></li>
+
+</ul>
+</div>
+</div>
+<script src="./reveal.js/dist/reveal.js"></script>
+<script src="./reveal.js/plugin/notes/notes.js"></script>
+<script src="./reveal.js/plugin/search/search.js"></script>
+<script src="./reveal.js/plugin/zoom/zoom.js"></script>
+<script src="./reveal.js/plugin/menu/menu.js"></script>
+<script src="./reveal.js/plugin/spotlight/spotlight.js"></script>
+<script src="./reveal.js/plugin/drawer/drawer.js"></script>
+<script src="./reveal.js/dist/theme/hidelinks.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: true,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: true,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: false,
+overview: true,
+
+transition: 'fade',
+transitionSpeed: 'default',
+showNotes: window.location.search.match( /print-pdf/gi ) ? 'separate-page' : false,
+spotlight: { size: 80, initialPresentationMode: false, }, drawer: { toggleDrawKey: "d", toggleBoardKey: "c", pathSize: 3, }, keyboard: { 81: function() { RevealSpotlight.toggleSpotlight()}, 87: function() { RevealSpotlight.togglePresentationMode();}, },
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealNotes, RevealSearch, RevealZoom, RevealMenu, RevealSpotlight, RevealDrawer ],
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+]
+
+});
+</script>
+</body>
+</html>
