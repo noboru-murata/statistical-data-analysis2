@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-10-03 17:56:43 mura>
+# Time-stamp: <2024-10-11 11:56:14 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -911,17 +911,19 @@
   #' (書き方はいろいろあるので，以下はあくまで一例)
 #+end_src
 #+begin_src R :eval no :exports none
+  #' データを確認する
+  pcr_data
   #' 検疫所(ciq)，地方衛生研究所.保健所(hc)，行政検査(ai)における検査件数の推移
   pcr_data |>
     select(c(date,ciq,hc,ai)) |> # 描画対象の列を抽出
-    pivot_longer(!date, names_to = "organ", values_to = "nums") |> # 
+    pivot_longer(!date, names_to = "organ", values_to = "nums") |>
     ggplot(aes(x = date, y = nums, colour = organ)) +
     geom_line() +
     labs(x = "日付", y = "検査件数")
   #' y軸を対数表示にする場合は以下のとおり
   pcr_data |>
     select(c(date,ciq,hc,ai)) |> # 描画対象の列を抽出
-    pivot_longer(!date, names_to = "organ", values_to = "nums") |> # 
+    pivot_longer(!date, names_to = "organ", values_to = "nums") |>
     ggplot(aes(x = date, y = nums, colour = organ)) +
     geom_line() +
     scale_y_log10() + # y軸を対数表示 (log10(0)=-Inf の警告が出る場合がある)

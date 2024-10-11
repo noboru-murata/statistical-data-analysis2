@@ -351,17 +351,19 @@ pcr_data |> select(!c(sub,total)) |> # 日付から四半期の因子を作成
 #' @practice 基本的なグラフの描画
 #' (書き方はいろいろあるので，以下はあくまで一例)
 
+#' データを確認する
+pcr_data
 #' 検疫所(ciq)，地方衛生研究所.保健所(hc)，行政検査(ai)における検査件数の推移
 pcr_data |>
   select(c(date,ciq,hc,ai)) |> # 描画対象の列を抽出
-  pivot_longer(!date, names_to = "organ", values_to = "nums") |> # 
+  pivot_longer(!date, names_to = "organ", values_to = "nums") |>
   ggplot(aes(x = date, y = nums, colour = organ)) +
   geom_line() +
   labs(x = "日付", y = "検査件数")
 #' y軸を対数表示にする場合は以下のとおり
 pcr_data |>
   select(c(date,ciq,hc,ai)) |> # 描画対象の列を抽出
-  pivot_longer(!date, names_to = "organ", values_to = "nums") |> # 
+  pivot_longer(!date, names_to = "organ", values_to = "nums") |>
   ggplot(aes(x = date, y = nums, colour = organ)) +
   geom_line() +
   scale_y_log10() + # y軸を対数表示 (log10(0)=-Inf の警告が出る場合がある)

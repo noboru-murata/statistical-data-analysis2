@@ -352,6 +352,17 @@ shortcut key が表示されますが，
 - x/y ペンの色の切り替え (巡回)
 - c 消去
 
+* Quartoの使い方
+:PROPERTIES:
+:EXPORT_HUGO_SECTION: ./post
+:EXPORT_FILE_NAME: post3
+:EXPORT_DATE: <2024-10-10 Thu>
+:END:
+** スライド
+#+hugo: {{< myslide base="statistical-data-analysis2" name="quarto" >}}
+** ハンドアウト   
+- [[github:pdfs/quarto.pdf][PDF file]]
+
 
 * COMMENT ローカル変数
 # Local Variables:

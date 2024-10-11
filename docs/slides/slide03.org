@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-10-03 17:55:17 mura>
+# Time-stamp: <2024-10-08 17:28:13 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -734,7 +734,8 @@
   #' 関数 stats::model.matrix() の返値は matrix class である
   #' 関数 stats::model.frame() の返値は data.frame class であり
   #' model.frame(...)[[k]] は data.frame ではなく vector になる
-  #' tibble(...)[[k]] は vector ではなく1列の tibble になるので注意
+  #' tibble(...)[[k]] は vector となるが，
+  #' tibble(...)[k] は vector ではなく1列の tibble になるので注意
   #' 関数 base::crossprod() の引数は厳密に vector/matrix であることを要請する
   #' 例えば adv_data は全て数値なので行列に変換が可能で計算できる
   crossprod(adv_data) # データフレームのままなので計算できない
