@@ -251,7 +251,7 @@
 :EXPORT_DATE: <2022-10-09 Sun>
 :ID:       71EEA7E3-75A0-4AB6-A547-C892A3D710FD
 :END:
-<2024-01-27 Sat> 更新
+<2024-10-11 Fri> 更新
 
 講義の進捗に合わせて追加します．
 - [[https://u-tokyo-ac-jp.zoom.us/rec/share/wVGzpxCui2uiQbrPf_kpBwOsDL13oIcGSjOAjv7cSz4hK9Yuxl0EvzqTLW_kbcJu.APVWLSozMn2nCmvc?startTime=1728028894000][第1講 (2024年10月4日)]]
