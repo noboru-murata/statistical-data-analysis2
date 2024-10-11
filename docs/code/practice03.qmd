@@ -21,10 +21,18 @@ editor: visual
 
 ## 準備
 
-以下で利用する `tidyverse` パッケージを読み込む．
+以下で利用する共通パッケージを読み込む．
 
 ```{r}
-library(tidyverse)
+library(conflicted) # 関数名の衝突を警告
+conflicts_prefer(   # 優先的に使う関数を指定
+  dplyr::filter(),
+  dplyr::select(),
+  dplyr::lag(),
+  )
+library(tidyverse)  
+library(broom)      # 解析結果を tibble 形式に集約
+library(gt)         # 表の作成
 ```
 
 ## 回帰係数の推定
@@ -270,20 +278,24 @@ S+Sr                                   # Sy と同じになっている
 ## 決定係数によるモデルの比較
 
 ### 問題
+
 決定係数を用いてモデルの比較を行いなさい．
 
--  広告費と売上データ
-   ```r
-   sales ~ TV
-   sales ~ radio
-   sales ~ TV + radio
-   ```
--  東京の8月の気候データ
-   ```r
-   temp ~ solar
-   temp ~ solar + press
-   temp ~ solar + press + cloud
-   ```
+-   広告費と売上データ
+
+    ``` r
+    sales ~ TV
+    sales ~ radio
+    sales ~ TV + radio
+    ```
+
+-   東京の8月の気候データ
+
+    ``` r
+    temp ~ solar
+    temp ~ solar + press
+    temp ~ solar + press + cloud
+    ```
 
 ### 解答例
 
@@ -334,18 +346,16 @@ summary(tw_lm3)$adj.r.squared # (model2より上昇)
 比較表を作成するには，推定されたモデルの情報を取得して tibble 形式のデータフレームを作成する `broom::glance()` を使って，例えば次のようにすれば良い．
 
 ```{r}
-bind_rows(
-    broom::glance(tw_lm1),
-    broom::glance(tw_lm2),
-    broom::glance(tw_lm3)) |>
-    mutate(model = c(deparse(tw_formula1), # 式を文字列に変換
-                     deparse(tw_formula2),
-                     deparse(tw_formula3)),
-           .before = 1) |> # model列を先頭に置く
+bind_rows( # 3つのモデルの評価指標を結合
+    glance(tw_lm1),
+    glance(tw_lm2),
+    glance(tw_lm3)) |>
+    mutate(model = map_vec(c(tw_formula1,tw_formula2,tw_formula3), deparse),
+           .before = 1) |> # モデル式を文字列に変換して先頭列に置く
     select(1:3) |> # 決定係数と自由度調整済み決定係数を表示
     set_names(c("モデル","決定係数","自由度調整済み決定係数")) |>
-    gt::gt() |>
-    gt::fmt_number(decimals = 3) # 表示を3桁に
+    gt() |>
+    fmt_number(decimals = 3) # 表示を3桁に
 ```
 
 予測値と実測値の比較は以下のようになる．

@@ -70,12 +70,13 @@
 :EXPORT_FILE_NAME: lecture03
 :EXPORT_DATE: <2020-09-19 Sat>
 :END:
-<2023-10-10 Tue> 更新
+<2024-10-11 Fri> 更新
 ** スライド
 #+hugo: {{< myslide base="statistical-data-analysis2" name="slide03" >}}
 ** ハンドアウト
 - [[github:pdfs/slide03.pdf][PDF file]]
 ** 付録
+- [[githubraw:code/practice03.qmd][Quarto]] ([[github:code/practice03.html][HTML]])
 - [[github:code/slide03.R][R Script]]
 - [[github:data/data03.zip][練習問題用データセット]]
 
