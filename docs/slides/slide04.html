@@ -43,8 +43,8 @@
 
 </section>
 <section>
-<section id="slide-orgb07c34c">
-<h2 id="orgb07c34c">講義概要</h2>
+<section id="slide-org631ff35">
+<h2 id="org631ff35">講義概要</h2>
 <ul>
 <li>第1回 : 回帰モデルの考え方と推定</li>
 <li><b>第2回 : モデルの評価</b></li>
@@ -54,13 +54,13 @@
 </section>
 </section>
 <section>
-<section id="slide-org4dfd8b1">
-<h2 id="org4dfd8b1">回帰分析の復習</h2>
-<div class="outline-text-2" id="text-org4dfd8b1">
+<section id="slide-orga0631e3">
+<h2 id="orga0631e3">回帰分析の復習</h2>
+<div class="outline-text-2" id="text-orga0631e3">
 </div>
 </section>
-<section id="slide-orge3a1c66">
-<h3 id="orge3a1c66">線形回帰モデル</h3>
+<section id="slide-org4d46aa0">
+<h3 id="org4d46aa0">線形回帰モデル</h3>
 <ul>
 <li><b>目的変数</b> を <b>説明変数</b> で説明する関係式を構成
 <ul>
@@ -94,8 +94,8 @@
 
 </ul>
 </section>
-<section id="slide-org56e4e0d">
-<h3 id="org56e4e0d">簡潔な表現のための行列</h3>
+<section id="slide-orgff018de">
+<h3 id="orgff018de">簡潔な表現のための行列</h3>
 <ul>
 <li><p>
 デザイン行列 (説明変数)
@@ -117,8 +117,8 @@
 
 </ul>
 </section>
-<section id="slide-org425b263">
-<h3 id="org425b263">簡潔な表現のためのベクトル</h3>
+<section id="slide-orga17f19b">
+<h3 id="orga17f19b">簡潔な表現のためのベクトル</h3>
 <ul>
 <li><p>
 ベクトル (目的変数・誤差・回帰係数)
@@ -154,8 +154,8 @@
 
 </ul>
 </section>
-<section id="slide-orgc17748f">
-<h3 id="orgc17748f">問題の記述</h3>
+<section id="slide-org444d71d">
+<h3 id="org444d71d">問題の記述</h3>
 <ul>
 <li><p>
 確率モデル
@@ -186,8 +186,8 @@
 
 </ul>
 </section>
-<section id="slide-orga20e3ea">
-<h3 id="orga20e3ea">解の表現</h3>
+<section id="slide-org6e8534c">
+<h3 id="org6e8534c">解の表現</h3>
 <ul>
 <li><p>
 解の条件 : <b>正規方程式</b>
@@ -218,8 +218,8 @@
 
 </ul>
 </section>
-<section id="slide-orgcade1b0">
-<h3 id="orgcade1b0">最小二乗推定量の性質</h3>
+<section id="slide-org477f2e4">
+<h3 id="org477f2e4">最小二乗推定量の性質</h3>
 <ul>
 <li><b>あてはめ値</b>
 \(\boldsymbol{\hat{y}}=X\boldsymbol{\hat{\beta}}\)
@@ -260,8 +260,8 @@
 
 </ul>
 </section>
-<section id="slide-orgbcac3bc">
-<h3 id="orgbcac3bc">寄与率</h3>
+<section id="slide-orgd848459">
+<h3 id="orgd848459">寄与率</h3>
 <ul>
 <li><p>
 <b>決定係数</b> (R-squared)
@@ -299,13 +299,13 @@
 </section>
 </section>
 <section>
-<section id="slide-org999ebc0">
-<h2 id="org999ebc0">解析の事例</h2>
-<div class="outline-text-2" id="text-org999ebc0">
+<section id="slide-org70e1897">
+<h2 id="org70e1897">解析の事例</h2>
+<div class="outline-text-2" id="text-org70e1897">
 </div>
 </section>
-<section id="slide-org0e2b5a3">
-<h3 id="org0e2b5a3">実データによる例</h3>
+<section id="slide-org33416f7">
+<h3 id="org33416f7">実データによる例</h3>
 <ul>
 <li>気象庁より取得した東京の気候データ (再掲)
 <ul>
@@ -316,15 +316,32 @@
 
 </ul>
 </section>
-<section id="slide-org3ea78a9">
-<h3 id="org3ea78a9">東京の8月の気候の分析</h3>
+<section id="slide-org5e00e06">
+<h3 id="org5e00e06">東京の8月の気候の分析</h3>
 <ul>
 <li><p>
 データの一部
 </p>
 <font size=5>
-loadNamespace(x) でエラー: 
-  ‘stargazer’ という名前のパッケージはありません
+
+<table style="text-align:center"><caption><strong>東京の8月の気候</strong></caption>
+<tr><td colspan="10" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">日付</td><td>気温</td><td>降雨</td><td>日射</td><td>降雪</td><td>風向</td><td>風速</td><td>気圧</td><td>湿度</td><td>雲量</td></tr>
+<tr><td colspan="10" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">2022-08-01</td><td>30.6</td><td>0</td><td>24.53</td><td>0</td><td>SSE</td><td>2.8</td><td>1010.1</td><td>72</td><td>8.8</td></tr>
+<tr><td style="text-align:left">2022-08-02</td><td>31.6</td><td>0</td><td>24.78</td><td>0</td><td>SSE</td><td>2.5</td><td>1008.8</td><td>71</td><td>9.8</td></tr>
+<tr><td style="text-align:left">2022-08-03</td><td>31.5</td><td>0</td><td>21.24</td><td>0</td><td>SSE</td><td>2.3</td><td>1005.1</td><td>75</td><td>7.3</td></tr>
+<tr><td style="text-align:left">2022-08-04</td><td>24.6</td><td>18</td><td>3.46</td><td>0</td><td>NE</td><td>2.7</td><td>1006</td><td>89</td><td>10</td></tr>
+<tr><td style="text-align:left">2022-08-05</td><td>23.8</td><td>0</td><td>7.65</td><td>0</td><td>NE</td><td>2.9</td><td>1006.1</td><td>83</td><td>9.8</td></tr>
+<tr><td style="text-align:left">2022-08-06</td><td>25.2</td><td>0</td><td>17.06</td><td>0</td><td>SSE</td><td>2.4</td><td>1008.1</td><td>73</td><td>10</td></tr>
+<tr><td style="text-align:left">2022-08-07</td><td>27.6</td><td>0</td><td>14.45</td><td>0</td><td>SSE</td><td>2.2</td><td>1009.3</td><td>80</td><td>8.3</td></tr>
+<tr><td style="text-align:left">2022-08-08</td><td>29.8</td><td>0</td><td>22.52</td><td>0</td><td>S</td><td>4.5</td><td>1008.5</td><td>75</td><td>4.8</td></tr>
+<tr><td style="text-align:left">2022-08-09</td><td>30.9</td><td>0</td><td>25.5</td><td>0</td><td>S</td><td>5.5</td><td>1006.9</td><td>69</td><td>6.8</td></tr>
+<tr><td style="text-align:left">2022-08-10</td><td>30.5</td><td>0</td><td>25.99</td><td>0</td><td>S</td><td>5.3</td><td>1007.2</td><td>70</td><td>6</td></tr>
+<tr><td style="text-align:left">2022-08-11</td><td>29.5</td><td>0</td><td>22.9</td><td>0</td><td>S</td><td>5.4</td><td>1007.5</td><td>75</td><td>6</td></tr>
+<tr><td style="text-align:left">2022-08-12</td><td>28.3</td><td>2</td><td>15.36</td><td>0</td><td>S</td><td>5.8</td><td>1007.5</td><td>81</td><td>9.8</td></tr>
+<tr><td style="text-align:left">2022-08-13</td><td>25.5</td><td>47.5</td><td>4.53</td><td>0</td><td>S</td><td>4.8</td><td>1005.6</td><td>94</td><td>10</td></tr>
+<tr><td style="text-align:left">2022-08-14</td><td>28.2</td><td>0</td><td>16.28</td><td>0</td><td>SSE</td><td>2.6</td><td>1003</td><td>84</td><td>8.8</td></tr>
+<tr><td style="text-align:left">2022-08-15</td><td>29.4</td><td>0</td><td>18.65</td><td>0</td><td>S</td><td>2.5</td><td>1003.4</td><td>78</td><td>8.8</td></tr>
+<tr><td colspan="10" style="border-bottom: 1px solid black"></td></tr></table>
 
 </font></li>
 
@@ -345,8 +362,8 @@ loadNamespace(x) でエラー:
 
 </ul>
 </section>
-<section id="slide-org833d1c5">
-<h3 id="org833d1c5">分析の視覚化</h3>
+<section id="slide-org2e56e75">
+<h3 id="org2e56e75">分析の視覚化</h3>
 <ul>
 <li><p>
 関連するデータの散布図
@@ -355,7 +372,7 @@ loadNamespace(x) でエラー:
 </ul>
 
 
-<div id="org8281b79" class="figure">
+<div id="org832ee77" class="figure">
 <p><img src="figs/04_pairs.png" alt="04_pairs.png" />
 </p>
 <p><span class="figure-number">Figure 1: </span>散布図</p>
@@ -371,7 +388,7 @@ loadNamespace(x) でエラー:
 </ul>
 
 
-<div id="org798a59c" class="figure">
+<div id="orgb17facd" class="figure">
 <p><img src="figs/04_model1.png" alt="04_model1.png" />
 </p>
 <p><span class="figure-number">Figure 2: </span>モデル1</p>
@@ -387,7 +404,7 @@ loadNamespace(x) でエラー:
 </ul>
 
 
-<div id="orgc5c5164" class="figure">
+<div id="orgdce8510" class="figure">
 <p><img src="figs/04_model2.png" alt="04_model2.png" />
 </p>
 <p><span class="figure-number">Figure 3: </span>モデル2</p>
@@ -403,7 +420,7 @@ loadNamespace(x) でエラー:
 </ul>
 
 
-<div id="org8c502e4" class="figure">
+<div id="org7b8f2e6" class="figure">
 <p><img src="figs/04_model3.png" alt="04_model3.png" />
 </p>
 <p><span class="figure-number">Figure 4: </span>モデル3</p>
@@ -419,21 +436,33 @@ loadNamespace(x) でエラー:
 </ul>
 
 
-<div id="orgfdc7ae1" class="figure">
+<div id="org101d839" class="figure">
 <p><img src="figs/04_models.png" alt="04_models.png" />
 </p>
 <p><span class="figure-number">Figure 5: </span>モデルの比較</p>
 </div>
 </section>
-<section id="slide-org73a6b0c">
-<h3 id="org73a6b0c">モデルの比較</h3>
+<section id="slide-org8c2b9bf">
+<h3 id="org8c2b9bf">モデルの比較</h3>
 <ul>
 <li><p>
 決定係数(\(R^{2}\), Adjusted \(R^{2}\))
 </p>
 <font size=5>
-loadNamespace(x) でエラー: 
-  ‘stargazer’ という名前のパッケージはありません
+
+<table style="text-align:center"><caption><strong>寄与率によるモデルの比較</strong></caption>
+<tr><td colspan="6" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"></td><td colspan="5">目的変数</td></tr>
+<tr><td></td><td colspan="5" style="border-bottom: 1px solid black"></td></tr>
+<tr><td style="text-align:left"></td><td colspan="5">気温</td></tr>
+<tr><td style="text-align:left"></td><td>モデル1</td><td>モデル2</td><td>モデル3</td><td>モデル4</td><td>モデル5</td></tr>
+<tr><td colspan="6" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">気圧</td><td>-0.178 (0.127)</td><td></td><td>-0.223 (0.068)</td><td>-0.214 (0.067)</td><td>-0.242 (0.068)</td></tr>
+<tr><td style="text-align:left">日射</td><td></td><td>0.297 (0.041)</td><td>0.306 (0.036)</td><td>0.366 (0.056)</td><td>0.348 (0.045)</td></tr>
+<tr><td style="text-align:left">湿度</td><td></td><td></td><td></td><td>0.071 (0.051)</td><td></td></tr>
+<tr><td style="text-align:left">雲量</td><td></td><td></td><td></td><td></td><td>0.238 (0.161)</td></tr>
+<tr><td style="text-align:left">Constant</td><td>206.535 (127.430)</td><td>22.969 (0.690)</td><td>247.477 (68.433)</td><td>231.843 (68.254)</td><td>263.717 (67.941)</td></tr>
+<tr><td colspan="6" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">R<sup>2</sup></td><td>0.064</td><td>0.641</td><td>0.741</td><td>0.758</td><td>0.760</td></tr>
+<tr><td style="text-align:left">Adjusted R<sup>2</sup></td><td>0.031</td><td>0.628</td><td>0.722</td><td>0.731</td><td>0.733</td></tr>
+<tr><td colspan="6" style="border-bottom: 1px solid black"></td></tr></table>
 
 </font></li>
 
@@ -441,13 +470,13 @@ loadNamespace(x) でエラー:
 </section>
 </section>
 <section>
-<section id="slide-org7024717">
-<h2 id="org7024717">あてはめ値の性質</h2>
-<div class="outline-text-2" id="text-org7024717">
+<section id="slide-org1028547">
+<h2 id="org1028547">あてはめ値の性質</h2>
+<div class="outline-text-2" id="text-org1028547">
 </div>
 </section>
-<section id="slide-orgf9b1c7d">
-<h3 id="orgf9b1c7d">あてはめ値</h3>
+<section id="slide-org9ea2133">
+<h3 id="org9ea2133">あてはめ値</h3>
 <ul>
 <li><p>
 さまざまな表現
@@ -478,8 +507,8 @@ loadNamespace(x) でエラー:
 
 </ul>
 </section>
-<section id="slide-org37d015e">
-<h3 id="org37d015e">あてはめ値と誤差</h3>
+<section id="slide-org2cb8315">
+<h3 id="org2cb8315">あてはめ値と誤差</h3>
 <ul>
 <li><p>
 残差と誤差の関係
@@ -508,8 +537,8 @@ loadNamespace(x) でエラー:
 
 </ul>
 </section>
-<section id="slide-orgce005b0">
-<h3 id="orgce005b0">ハット行列</h3>
+<section id="slide-orgac8514d">
+<h3 id="orgac8514d">ハット行列</h3>
 <ul>
 <li><p>
 定義
@@ -544,8 +573,8 @@ loadNamespace(x) でエラー:
 
 </ul>
 </section>
-<section id="slide-org217bafd">
-<h3 id="org217bafd">ハット行列の性質</h3>
+<section id="slide-orgb06d5a3">
+<h3 id="orgb06d5a3">ハット行列の性質</h3>
 <ul>
 <li>観測データ(デザイン行列)のみで計算される</li>
 <li>観測データと説明変数の関係を表す</li>
@@ -574,13 +603,13 @@ loadNamespace(x) でエラー:
 </section>
 </section>
 <section>
-<section id="slide-orgb465268">
-<h2 id="orgb465268">推定量の統計的性質</h2>
-<div class="outline-text-2" id="text-orgb465268">
+<section id="slide-orgfa20349">
+<h2 id="orgfa20349">推定量の統計的性質</h2>
+<div class="outline-text-2" id="text-orgfa20349">
 </div>
 </section>
-<section id="slide-org611dfd1">
-<h3 id="org611dfd1">最小二乗推定量の性質</h3>
+<section id="slide-org92cf270">
+<h3 id="org92cf270">最小二乗推定量の性質</h3>
 <ul>
 <li><p>
 推定量と誤差の関係
@@ -610,8 +639,8 @@ loadNamespace(x) でエラー:
 
 </ul>
 </section>
-<section id="slide-org7504e7b">
-<h3 id="org7504e7b">推定量の分布</h3>
+<section id="slide-orga182003">
+<h3 id="orga182003">推定量の分布</h3>
 <ul>
 <li><b>誤差の仮定</b> : 独立，平均0 分散 \(\sigma^{2}\) の正規分布</li>
 <li><p>
@@ -667,59 +696,59 @@ loadNamespace(x) でエラー:
 </section>
 </section>
 <section>
-<section id="slide-org3448c1f" data-background="#fef4f4">
-<h2 id="org3448c1f">実習</h2>
+<section id="slide-org7416d45" data-background="#fef4f4">
+<h2 id="org7416d45">実習</h2>
 </section>
-<section id="slide-org42117ca" data-background="#fef4f4">
-<h3 id="org42117ca">R : 乱数を用いた人工データの生成</h3>
+<section id="slide-orgbdab0c0" data-background="#fef4f4">
+<h3 id="orgbdab0c0">R : 乱数を用いた人工データの生成</h3>
 <ul>
 <li><p>
 <span style="color:green;">正規乱数を用いた線形単回帰モデル</span>
 </p>
 <div class="org-src-container">
 
-<pre class="src src-R">set.seed(987) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#20081;&#25968;&#12398;&#12471;&#12540;&#12489;&#20516;&#12434;&#35373;&#23450;</span>
-x_obs <span style="color: #bd93f9;">&lt;-</span> tibble(x0 = 1, x1 = c(1,3,5,7)) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#35500;&#26126;&#22793;&#25968;&#12398;&#35251;&#28204;&#20516;</span>
-epsilon <span style="color: #bd93f9;">&lt;-</span> rnorm(nrow(x_obs), sd = 0.5) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#35492;&#24046;&#38917;&#12398;&#29983;&#25104;</span>
-beta <span style="color: #bd93f9;">&lt;-</span> c(2, -3) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#22238;&#24112;&#20418;&#25968;</span>
-toy_data <span style="color: #bd93f9;">&lt;-</span> x_obs |&gt; <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#30446;&#30340;&#22793;&#25968;&#12398;&#35251;&#28204;&#20516;&#12434;&#36861;&#21152;</span>
-  mutate(y = as.vector(as.matrix(x_obs) <span style="color: #bd93f9;">%*%</span> beta) + epsilon)
-toy_lm <span style="color: #bd93f9;">&lt;-</span> lm(y ~ x1, data = toy_data) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#22238;&#24112;&#20418;&#25968;&#12398;&#25512;&#23450;</span>
-coef(toy_lm) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#22238;&#24112;&#20418;&#25968;&#12398;&#21462;&#24471;</span>
-summary(toy_lm) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#20998;&#26512;&#32080;&#26524;&#12398;&#27010;&#35201;&#12398;&#34920;&#31034;</span>
+<pre class="src src-R">set.seed(987) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#20081;&#25968;&#12398;&#12471;&#12540;&#12489;&#20516;&#12434;&#35373;&#23450;</span>
+x_obs <span style="color: #60aa00;">&lt;-</span> tibble(x0 = 1, x1 = c(1,3,5,7)) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#35500;&#26126;&#22793;&#25968;&#12398;&#35251;&#28204;&#20516;</span>
+epsilon <span style="color: #60aa00;">&lt;-</span> rnorm(nrow(x_obs), sd = 0.5) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#35492;&#24046;&#38917;&#12398;&#29983;&#25104;</span>
+beta <span style="color: #60aa00;">&lt;-</span> c(2, -3) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#22238;&#24112;&#20418;&#25968;</span>
+toy_data <span style="color: #60aa00;">&lt;-</span> x_obs |&gt; <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#30446;&#30340;&#22793;&#25968;&#12398;&#35251;&#28204;&#20516;&#12434;&#36861;&#21152;</span>
+  mutate(y = as.vector(as.matrix(x_obs) <span style="color: #60aa00;">%*%</span> beta) + epsilon)
+toy_lm <span style="color: #60aa00;">&lt;-</span> lm(y ~ x1, data = toy_data) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#22238;&#24112;&#20418;&#25968;&#12398;&#25512;&#23450;</span>
+coef(toy_lm) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#22238;&#24112;&#20418;&#25968;&#12398;&#21462;&#24471;</span>
+summary(toy_lm) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#20998;&#26512;&#32080;&#26524;&#12398;&#27010;&#35201;&#12398;&#34920;&#31034;</span>
 </pre>
 </div></li>
 
 </ul>
 </section>
-<section id="slide-orgb7a8640" data-background="#fef4f4">
-<h3 id="orgb7a8640">R : 数値実験 (Monte-Carlo法)</h3>
+<section id="slide-orgd79cbee" data-background="#fef4f4">
+<h3 id="orgd79cbee">R : 数値実験 (Monte-Carlo法)</h3>
 <ul>
 <li><p>
 実験のためのコードは以下のようになる
 </p>
 <div class="org-src-container">
 
-<pre class="src src-R">mc_num <span style="color: #bd93f9;">&lt;-</span> 5000 <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#23455;&#39443;&#22238;&#25968;&#12434;&#25351;&#23450;</span>
-<span style="color: #50fa7b; font-weight: bold;">mc_trial</span> <span style="color: #bd93f9;">&lt;-</span> <span style="color: #ff79c6; font-weight: bold;">function</span>() { <span style="color: #6272a4;"># </span><span style="color: #6272a4;">1&#22238;&#12398;&#35430;&#34892;&#12434;&#34892;&#12358;&#12503;&#12525;&#12464;&#12521;&#12512;</span>
-    <span style="color: #6272a4;">## </span><span style="color: #6272a4;">&#20081;&#25968;&#29983;&#25104;&#12392;&#25512;&#23450;&#12398;&#20966;&#29702;</span>
-    <span style="color: #ff79c6; font-weight: bold;">return</span>(&#36820;&#12426;&#20516;)} 
-mc_data <span style="color: #bd93f9;">&lt;-</span> 
-    replicate(mc_num, mc_trial()) |&gt; <span style="color: #6272a4;"># </span><span style="color: #6272a4;">Monte-Carlo&#23455;&#39443;</span>
-    t() |&gt; as_tibble() <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#36578;&#32622;(&#38306;&#25968;t())&#12375;&#12390;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12395;&#22793;&#25563;</span>
-<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#36969;&#20999;&#12394;&#32113;&#35336;&#12539;&#35222;&#35226;&#21270;&#20966;&#29702; (&#19979;&#35352;&#12399;&#20363;)</span>
+<pre class="src src-R">mc_num <span style="color: #60aa00;">&lt;-</span> 5000 <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#23455;&#39443;&#22238;&#25968;&#12434;&#25351;&#23450;</span>
+<span style="color: #b77fdb; font-weight: bold;">mc_trial</span> <span style="color: #60aa00;">&lt;-</span> <span style="color: #6c9ef8;">function</span>() { <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">1&#22238;&#12398;&#35430;&#34892;&#12434;&#34892;&#12358;&#12503;&#12525;&#12464;&#12521;&#12512;</span>
+    <span style="color: #808080; font-style: italic;">## </span><span style="color: #808080; font-style: italic;">&#20081;&#25968;&#29983;&#25104;&#12392;&#25512;&#23450;&#12398;&#20966;&#29702;</span>
+    <span style="color: #6c9ef8;">return</span>(&#36820;&#12426;&#20516;)} 
+mc_data <span style="color: #60aa00;">&lt;-</span> 
+    replicate(mc_num, mc_trial()) |&gt; <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">Monte-Carlo&#23455;&#39443;</span>
+    t() |&gt; as_tibble() <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#36578;&#32622;(&#38306;&#25968;t())&#12375;&#12390;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12395;&#22793;&#25563;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#36969;&#20999;&#12394;&#32113;&#35336;&#12539;&#35222;&#35226;&#21270;&#20966;&#29702; (&#19979;&#35352;&#12399;&#20363;)</span>
 mc_data |&gt;
-  summarise(across(everything(), var)) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#21508;&#21015;&#12398;&#20998;&#25955;&#12398;&#35336;&#31639;</span>
-ggpairs(mc_data) <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#25955;&#24067;&#22259;&#34892;&#21015;&#12398;&#25551;&#30011;</span>
-tibble(x = mc_data[[k]]) |&gt; <span style="color: #6272a4;"># </span><span style="color: #6272a4;">k&#21015;&#30446;&#12398;&#12505;&#12463;&#12488;&#12523;&#12391;&#26032;&#12375;&#12356;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12434;&#20316;&#25104;</span>
-  ggplot(aes(x = x)) + geom_histogram() <span style="color: #6272a4;"># </span><span style="color: #6272a4;">k&#21015;&#30446;&#12398;&#12487;&#12540;&#12479;&#12398;&#12498;&#12473;&#12488;&#12464;&#12521;&#12512;</span>
+  summarise(across(everything(), var)) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#21508;&#21015;&#12398;&#20998;&#25955;&#12398;&#35336;&#31639;</span>
+ggpairs(mc_data) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#25955;&#24067;&#22259;&#34892;&#21015;&#12398;&#25551;&#30011;</span>
+tibble(x = mc_data[[k]]) |&gt; <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">k&#21015;&#30446;&#12398;&#12505;&#12463;&#12488;&#12523;&#12391;&#26032;&#12375;&#12356;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12434;&#20316;&#25104;</span>
+  ggplot(aes(x = x)) + geom_histogram() <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">k&#21015;&#30446;&#12398;&#12487;&#12540;&#12479;&#12398;&#12498;&#12473;&#12488;&#12464;&#12521;&#12512;</span>
 </pre>
 </div></li>
 
 </ul>
 </section>
-<section id="slide-org26748f4" data-background="#fef4f4">
-<h3 id="org26748f4">練習問題</h3>
+<section id="slide-org9bc0a39" data-background="#fef4f4">
+<h3 id="org9bc0a39">練習問題</h3>
 <ul>
 <li>最小二乗推定量の性質を
 数値実験 (Monte-Carlo法) により
@@ -759,13 +788,13 @@ tibble(x = mc_data[[k]]) |&gt; <span style="color: #6272a4;"># </span><span styl
 </section>
 </section>
 <section>
-<section id="slide-org516e945">
-<h2 id="org516e945">誤差の評価</h2>
-<div class="outline-text-2" id="text-org516e945">
+<section id="slide-orgd3ce227">
+<h2 id="orgd3ce227">誤差の評価</h2>
+<div class="outline-text-2" id="text-orgd3ce227">
 </div>
 </section>
-<section id="slide-orge7c747c">
-<h3 id="orge7c747c">寄与率 (再掲)</h3>
+<section id="slide-org600f3fe">
+<h3 id="org600f3fe">寄与率 (再掲)</h3>
 <ul>
 <li><p>
 <b>決定係数 (R-squared)</b> 
@@ -805,8 +834,8 @@ tibble(x = mc_data[[k]]) |&gt; <span style="color: #6272a4;"># </span><span styl
 
 </ul>
 </section>
-<section id="slide-org82d2cf2">
-<h3 id="org82d2cf2">各係数の推定量の分布</h3>
+<section id="slide-orge00da68">
+<h3 id="orge00da68">各係数の推定量の分布</h3>
 <ul>
 <li>推定された回帰係数の精度を評価
 <ul>
@@ -847,8 +876,8 @@ tibble(x = mc_data[[k]]) |&gt; <span style="color: #6272a4;"># </span><span styl
 
 </ul>
 </section>
-<section id="slide-org662dd2f">
-<h3 id="org662dd2f">標準誤差</h3>
+<section id="slide-org0f87f4b">
+<h3 id="org0f87f4b">標準誤差</h3>
 <ul>
 <li><p>
 <b>標準誤差</b> (standard error)
@@ -881,11 +910,11 @@ tibble(x = mc_data[[k]]) |&gt; <span style="color: #6272a4;"># </span><span styl
 </section>
 </section>
 <section>
-<section id="slide-orgc6467cf" data-background="#fef4f4">
-<h2 id="orgc6467cf">実習</h2>
+<section id="slide-orgf15be54" data-background="#fef4f4">
+<h2 id="orgf15be54">実習</h2>
 </section>
-<section id="slide-org52732e9" data-background="#fef4f4">
-<h3 id="org52732e9">練習問題</h3>
+<section id="slide-org8ec478f" data-background="#fef4f4">
+<h3 id="org8ec478f">練習問題</h3>
 <ul>
 <li>数値実験により
 標準誤差の性質を確認しなさい
@@ -895,11 +924,11 @@ tibble(x = mc_data[[k]]) |&gt; <span style="color: #6272a4;"># </span><span styl
 </p>
 <div class="org-src-container">
 
-<pre class="src src-R"><span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#27161;&#28310;&#35492;&#24046;&#12399;&#20197;&#19979;&#12398;&#12424;&#12358;&#12395;&#12375;&#12390;&#21462;&#12426;&#20986;&#12379;&#12427;</span>
-toy_lm <span style="color: #bd93f9;">&lt;-</span> lm(formula, toy_data)
-summary(toy_lm)$coefficients <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#20418;&#25968;&#12395;&#38306;&#12377;&#12427;&#24773;&#22577;&#12399;&#12522;&#12473;&#12488;&#12398;&#35201;&#32032;&#12392;&#12375;&#12390;&#20445;&#31649;&#12373;&#12428;&#12390;&#12356;&#12427;</span>
-summary(toy_lm)$coefficients[,2]    <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#21015;&#30058;&#21495;&#12391;&#12398;&#25351;&#23450;</span>
-summary(toy_lm)$coef[,<span style="color: #f1fa8c;">"Std. Error"</span>] <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#21015;&#21517;&#12391;&#12398;&#25351;&#23450;&#65294;coef &#12392;&#30465;&#30053;&#12375;&#12390;&#12418;&#12424;&#12356;</span>
+<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#27161;&#28310;&#35492;&#24046;&#12399;&#20197;&#19979;&#12398;&#12424;&#12358;&#12395;&#12375;&#12390;&#21462;&#12426;&#20986;&#12379;&#12427;</span>
+toy_lm <span style="color: #60aa00;">&lt;-</span> lm(formula, toy_data)
+summary(toy_lm)$coefficients <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#20418;&#25968;&#12395;&#38306;&#12377;&#12427;&#24773;&#22577;&#12399;&#12522;&#12473;&#12488;&#12398;&#35201;&#32032;&#12392;&#12375;&#12390;&#20445;&#31649;&#12373;&#12428;&#12390;&#12356;&#12427;</span>
+summary(toy_lm)$coefficients[,2]    <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#21015;&#30058;&#21495;&#12391;&#12398;&#25351;&#23450;</span>
+summary(toy_lm)$coef[,<span style="color: #d08928;">"Std. Error"</span>] <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#21015;&#21517;&#12391;&#12398;&#25351;&#23450;&#65294;coef &#12392;&#30465;&#30053;&#12375;&#12390;&#12418;&#12424;&#12356;</span>
 </pre>
 </div></li>
 <li>広告費と売上データを用いて係数の精度を議論する</li>
@@ -911,13 +940,13 @@ summary(toy_lm)$coef[,<span style="color: #f1fa8c;">"Std. Error"</span>] <span s
 </section>
 </section>
 <section>
-<section id="slide-org2edbead">
-<h2 id="org2edbead">係数の評価</h2>
-<div class="outline-text-2" id="text-org2edbead">
+<section id="slide-orgf52b884">
+<h2 id="orgf52b884">係数の評価</h2>
+<div class="outline-text-2" id="text-orgf52b884">
 </div>
 </section>
-<section id="slide-org5eeae48">
-<h3 id="org5eeae48">\(t\)統計量</h3>
+<section id="slide-orgfe633e2">
+<h3 id="orgfe633e2">\(t\)統計量</h3>
 <ul>
 <li><p>
 <b>回帰係数の分布</b> に関する定理
@@ -955,8 +984,8 @@ summary(toy_lm)$coef[,<span style="color: #f1fa8c;">"Std. Error"</span>] <span s
 
 </ul>
 </section>
-<section id="slide-org12071f1">
-<h3 id="org12071f1">\(t\)統計量による検定</h3>
+<section id="slide-orgecc5229">
+<h3 id="orgecc5229">\(t\)統計量による検定</h3>
 <ul>
 <li>回帰係数 \(\beta_j\) が回帰式に寄与するか否かを検定
 <ul>
@@ -992,11 +1021,11 @@ summary(toy_lm)$coef[,<span style="color: #f1fa8c;">"Std. Error"</span>] <span s
 </section>
 </section>
 <section>
-<section id="slide-org23a932c" data-background="#fef4f4">
-<h2 id="org23a932c">実習</h2>
+<section id="slide-orgfb38960" data-background="#fef4f4">
+<h2 id="orgfb38960">実習</h2>
 </section>
-<section id="slide-orgbd4f1aa" data-background="#fef4f4">
-<h3 id="orgbd4f1aa">練習問題</h3>
+<section id="slide-orgd37fc55" data-background="#fef4f4">
+<h3 id="orgd37fc55">練習問題</h3>
 <ul>
 <li>数値実験により
 \(t\)統計量の性質を確認しなさい
@@ -1006,10 +1035,10 @@ summary(toy_lm)$coef[,<span style="color: #f1fa8c;">"Std. Error"</span>] <span s
 </p>
 <div class="org-src-container">
 
-<pre class="src src-R"><span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> t&#32113;&#35336;&#37327;&#12392;&#12381;&#12398;p&#20516;&#12399;&#20197;&#19979;&#12398;&#12424;&#12358;&#12395;&#12375;&#12390;&#21462;&#12426;&#20986;&#12379;&#12427;</span>
-toy_lm <span style="color: #bd93f9;">&lt;-</span> lm(formula, toy_data)
-summary(toy_lm)$coef[,c(<span style="color: #f1fa8c;">"t value"</span>,<span style="color: #f1fa8c;">"Pr(&gt;|t|)"</span>)] <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#21015;&#21517;&#12391;&#12398;&#25351;&#23450;</span>
-summary(toy_lm)$coef[,3:4] <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#21015;&#30058;&#21495;&#12391;&#12398;&#25351;&#23450;</span>
+<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> t&#32113;&#35336;&#37327;&#12392;&#12381;&#12398;p&#20516;&#12399;&#20197;&#19979;&#12398;&#12424;&#12358;&#12395;&#12375;&#12390;&#21462;&#12426;&#20986;&#12379;&#12427;</span>
+toy_lm <span style="color: #60aa00;">&lt;-</span> lm(formula, toy_data)
+summary(toy_lm)$coef[,c(<span style="color: #d08928;">"t value"</span>,<span style="color: #d08928;">"Pr(&gt;|t|)"</span>)] <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#21015;&#21517;&#12391;&#12398;&#25351;&#23450;</span>
+summary(toy_lm)$coef[,3:4] <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#21015;&#30058;&#21495;&#12391;&#12398;&#25351;&#23450;</span>
 </pre>
 </div></li>
 <li>広告費と売上データを用いて係数の有意性を議論する</li>
@@ -1021,13 +1050,13 @@ summary(toy_lm)$coef[,3:4] <span style="color: #6272a4;"># </span><span style="c
 </section>
 </section>
 <section>
-<section id="slide-org3a39640">
-<h2 id="org3a39640">モデルの評価</h2>
-<div class="outline-text-2" id="text-org3a39640">
+<section id="slide-org68912d4">
+<h2 id="org68912d4">モデルの評価</h2>
+<div class="outline-text-2" id="text-org68912d4">
 </div>
 </section>
-<section id="slide-orgfe83b28">
-<h3 id="orgfe83b28">\(F\)統計量</h3>
+<section id="slide-orga72adaf">
+<h3 id="orga72adaf">\(F\)統計量</h3>
 <ul>
 <li><p>
 <b>ばらつきの比</b> に関する定理 
@@ -1065,8 +1094,8 @@ summary(toy_lm)$coef[,3:4] <span style="color: #6272a4;"># </span><span style="c
 
 </ul>
 </section>
-<section id="slide-org5172fed">
-<h3 id="org5172fed">\(F\)統計量を用いた検定</h3>
+<section id="slide-orga59aae4">
+<h3 id="orga59aae4">\(F\)統計量を用いた検定</h3>
 <ul>
 <li>説明変数のうち1つでも役に立つか否かを検定
 <ul>
@@ -1103,11 +1132,11 @@ summary(toy_lm)$coef[,3:4] <span style="color: #6272a4;"># </span><span style="c
 </section>
 </section>
 <section>
-<section id="slide-org274d5af" data-background="#fef4f4">
-<h2 id="org274d5af">実習</h2>
+<section id="slide-org84326b2" data-background="#fef4f4">
+<h2 id="org84326b2">実習</h2>
 </section>
-<section id="slide-orgbf3c011" data-background="#fef4f4">
-<h3 id="orgbf3c011">練習問題</h3>
+<section id="slide-org135e635" data-background="#fef4f4">
+<h3 id="org135e635">練習問題</h3>
 <ul>
 <li>数値実験により
 \(F\)統計量の性質を確認しなさい
@@ -1117,10 +1146,10 @@ summary(toy_lm)$coef[,3:4] <span style="color: #6272a4;"># </span><span style="c
 </p>
 <div class="org-src-container">
 
-<pre class="src src-R"><span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> F&#32113;&#35336;&#37327;&#12392;&#12381;&#12398;&#33258;&#30001;&#24230;&#12399;&#20197;&#19979;&#12398;&#12424;&#12358;&#12395;&#12375;&#12390;&#21462;&#12426;&#20986;&#12379;&#12427;</span>
-toy_lm <span style="color: #bd93f9;">&lt;-</span> lm(formula, toy_data)
+<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> F&#32113;&#35336;&#37327;&#12392;&#12381;&#12398;&#33258;&#30001;&#24230;&#12399;&#20197;&#19979;&#12398;&#12424;&#12358;&#12395;&#12375;&#12390;&#21462;&#12426;&#20986;&#12379;&#12427;</span>
+toy_lm <span style="color: #60aa00;">&lt;-</span> lm(formula, toy_data)
 summary(toy_lm)$fstat
-summary(toy_lm)$fstatistic <span style="color: #6272a4;"># </span><span style="color: #6272a4;">&#30465;&#30053;&#12375;&#12394;&#12356;&#22580;&#21512;</span>
+summary(toy_lm)$fstatistic <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#30465;&#30053;&#12375;&#12394;&#12356;&#22580;&#21512;</span>
 </pre>
 </div></li>
 <li>広告費と売上データのモデルの有効性を議論しなさい</li>
@@ -1132,11 +1161,11 @@ summary(toy_lm)$fstatistic <span style="color: #6272a4;"># </span><span style="c
 </section>
 </section>
 <section>
-<section id="slide-orgaa1da88">
-<h2 id="orgaa1da88">補足</h2>
+<section id="slide-org3f97e6a">
+<h2 id="org3f97e6a">補足</h2>
 </section>
-<section id="slide-org521f837">
-<h3 id="org521f837">R : 診断プロット</h3>
+<section id="slide-org6e931b8">
+<h3 id="org6e931b8">R : 診断プロット</h3>
 <ul>
 <li><p>
 回帰モデルのあてはまりを視覚的に評価
@@ -1157,15 +1186,15 @@ summary(toy_lm)$fstatistic <span style="color: #6272a4;"># </span><span style="c
 </p>
 <div class="org-src-container">
 
-<pre class="src src-R"><span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#38306;&#25968; stats::lm() &#12395;&#12424;&#12427;&#25512;&#23450;&#32080;&#26524;&#12398;&#35386;&#26029;&#12503;&#12525;&#12483;&#12488;</span>
-tw_lm6 <span style="color: #bd93f9;">&lt;-</span> lm(temp ~ press + solar + rain, data = tw_subset)
-<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#38306;&#25968; ggfortify::autoplot() &#12434;&#21033;&#29992;&#12377;&#12427;</span>
-<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#24517;&#35201;&#12391;&#12354;&#12428;&#12400; 'install.packages("ggfortify")' &#12434;&#23455;&#34892;</span>
-<span style="color: #bd93f9;">library</span>(ggfortify)
+<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#38306;&#25968; stats::lm() &#12395;&#12424;&#12427;&#25512;&#23450;&#32080;&#26524;&#12398;&#35386;&#26029;&#12503;&#12525;&#12483;&#12488;</span>
+tw_lm6 <span style="color: #60aa00;">&lt;-</span> lm(temp ~ press + solar + rain, data = tw_subset)
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#38306;&#25968; ggfortify::autoplot() &#12434;&#21033;&#29992;&#12377;&#12427;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#24517;&#35201;&#12391;&#12354;&#12428;&#12400; 'install.packages("ggfortify")' &#12434;&#23455;&#34892;</span>
+<span style="color: #60aa00;">library</span>(ggfortify)
 autoplot(tw_lm6)
-<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#35386;&#26029;&#12503;&#12525;&#12483;&#12488;&#12399;1&#12363;&#12425;6&#12414;&#12391;&#29992;&#24847;&#12373;&#12428;&#12390;&#12362;&#12426; 1,2,3,5 &#12364;&#12414;&#12392;&#12417;&#12390;&#34920;&#31034;&#12373;&#12428;&#12427;</span>
-<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#20491;&#21029;&#12395;&#34920;&#31034;&#12377;&#12427;&#22580;&#21512;&#12399; 'autoplot(tw_lm6, which = 1)' &#12398;&#12424;&#12358;&#12395;&#25351;&#23450;&#12377;&#12427;</span>
-<span style="color: #6272a4; font-weight: bold;">#</span><span style="color: #6272a4; font-weight: bold;">'</span><span style="color: #6272a4;"> &#35443;&#32048;&#12399; '?ggfortify::autoplot.lm' &#12434;&#21442;&#29031;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35386;&#26029;&#12503;&#12525;&#12483;&#12488;&#12399;1&#12363;&#12425;6&#12414;&#12391;&#29992;&#24847;&#12373;&#12428;&#12390;&#12362;&#12426; 1,2,3,5 &#12364;&#12414;&#12392;&#12417;&#12390;&#34920;&#31034;&#12373;&#12428;&#12427;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#20491;&#21029;&#12395;&#34920;&#31034;&#12377;&#12427;&#22580;&#21512;&#12399; 'autoplot(tw_lm6, which = 1)' &#12398;&#12424;&#12358;&#12395;&#25351;&#23450;&#12377;&#12427;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35443;&#32048;&#12399; '?ggfortify::autoplot.lm' &#12434;&#21442;&#29031;</span>
 </pre>
 </div></li>
 
@@ -1173,8 +1202,8 @@ autoplot(tw_lm6)
 </section>
 </section>
 <section>
-<section id="slide-org6703d6d">
-<h2 id="org6703d6d">次回の予定</h2>
+<section id="slide-orgec2b1f5">
+<h2 id="orgec2b1f5">次回の予定</h2>
 <ul>
 <li>第1回 : 回帰モデルの考え方と推定</li>
 <li>第2回 : モデルの評価</li>
