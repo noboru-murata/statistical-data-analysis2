@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-10-11 11:56:14 mura>
+# Time-stamp: <2024-10-11 15:02:32 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -65,7 +65,7 @@
 :END:
 - データ操作とグラフィクスの枠組
   - *base R* : R の標準環境
-  - *tidyverse* : Hadley Wickham @RStudio による拡張パッケージ集
+  - *tidyverse* : Hadley Wickham @Posit による拡張パッケージ集
     - https://www.tidyverse.org/packages/
     - https://tidyverse.tidyverse.org/
 - 本講義では tidyverse を中心に説明

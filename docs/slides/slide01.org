@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-10-04 15:44:31 mura>
+# Time-stamp: <2024-10-11 16:35:50 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -54,7 +54,7 @@
 - https://www.r-project.org/ (プロジェクトのサイト)
 
 ** RStudioとは
-- RStudio社が開発している統合開発環境 (IDE)
+- Posit社が開発している統合開発環境 (IDE)
   - R によるデータ解析や統計計算・パッケージ開発を支援
   - OSに依存しない対話型操作環境を提供
 - 本講義ではRStudioを用いて説明を行う

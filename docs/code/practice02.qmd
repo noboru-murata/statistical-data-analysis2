@@ -17,6 +17,8 @@ citation-location: margin
 tbl-cap-location: margin
 fig-cap-location: margin
 editor: visual
+editor_options: 
+  chunk_output_type: console
 ---
 
 ## 準備

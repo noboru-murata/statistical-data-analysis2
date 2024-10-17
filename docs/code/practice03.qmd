@@ -39,7 +39,7 @@ library(gt)         # 表の作成
 
 ### 問題 (広告費と売上データ)
 
-データセット <https://www.statlearning.com/s/Advertising.csv> は 広告費(TV,radio,newspapers)と売上の関係を調べたもの [^1] である． このデータセットを用いて回帰式を推定しなさい．
+データセット <https://www.statlearning.com/s/Advertising.csv> は 広告費(TV,radio,newspapers)と売上の関係を調べたもの [^1] である． このデータセットを用いて以下の回帰式を推定しなさい．
 
 [^1]: Datasets in this presentation are taken from "An Introduction to Statistical Learning, with applications in R" (Springer, 2013) with permission from the authors: G. James, D. Witten, T. Hastie and R. Tibshirani. [参考](https://www.statlearning.com)
 
