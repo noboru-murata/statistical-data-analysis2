@@ -38,7 +38,6 @@ library(gt)         # 表の作成
 ```
 
 ## 回帰係数の推定
-
 ### 問題 (広告費と売上データ)
 
 データセット <https://www.statlearning.com/s/Advertising.csv> は 広告費(TV,radio,newspapers)と売上の関係を調べたもの [^2] である． このデータセットを用いて以下の回帰式を推定しなさい．
@@ -119,7 +118,7 @@ s3d$plane3d(adv_lm3, col = "blue",  # 回帰式の定める平面の追加
 
 ### 問題 (東京の気候データ)
 
-配布したデータセット `tokyo_weather.csv` は 気象庁より取得した東京の気候データを回帰分析用に整理したもの [^4] である． このデータセットのうち，8月の気候データを用いて，以下の回帰式を推定しなさい．
+配布したデータセット `tokyo_weather.csv` は 気象庁より取得した東京の気候データを回帰分析用に整理したもの [^4] である． このデータセットのうち，9月の気候データを用いて，以下の回帰式を推定しなさい．
 
 [^4]: [参考](https://www.data.jma.go.jp/gmd/risk/obsdl/index.php)
 
@@ -135,7 +134,7 @@ formula = temp ~ solar + press
 tw_data <- read_csv("data/tokyo_weather.csv")
 ```
 
-8月の"気温"を目的変数，"日射量・気圧"を説明変数とするモデルの推定を行う．
+9月の"気温"を目的変数，"日射量・気圧"を説明変数とするモデルの推定を行う．
 
 ```{r}
 #| fig-width: 7
@@ -166,7 +165,6 @@ s3d$plane3d(tw_lm, col = "blue",    # 回帰式の定める平面の追加
 ```
 
 ## 最小二乗推定量の性質
-
 ### 問題
 
 前問の推定結果を用いて，最小二乗推定量の以下の性質を確認しなさい．
@@ -237,7 +235,6 @@ crossprod(as.matrix(adv_data)) # 計算できる
 :::
 
 ## 残差の分解
-
 ### 問題
 
 前問の結果を用いて，残差の性質として以下の分解が成り立つことを確認しなさい．
@@ -302,7 +299,6 @@ augment(adv_lm3) # 残差やあてはめ値など
 :::
 
 ## 決定係数によるモデルの比較
-
 ### 問題
 
 決定係数を用いてモデルの比較を行いなさい．
@@ -315,7 +311,7 @@ augment(adv_lm3) # 残差やあてはめ値など
     sales ~ TV + radio
     ```
 
--   東京の8月の気候データ
+-   東京の9月の気候データ
 
     ``` r
     temp ~ solar
@@ -357,7 +353,7 @@ adv_data |>
 東京の気候データも同様で，モデルの比較は以下のとおりである．
 
 ```{r}
-tw_subset <- tw_data |> filter(month == 9) # 8月のデータの抽出
+tw_subset <- tw_data |> filter(month == 9) # 9月のデータの抽出
 tw_formula1 <- temp ~ solar
 tw_formula2 <- temp ~ solar + press
 tw_formula3 <- temp ~ solar + press + cloud

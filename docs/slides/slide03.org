@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-10-18 15:45:59 mura>
+# Time-stamp: <2024-10-18 22:36:20 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -1165,17 +1165,17 @@
 :ID:       335A639C-748D-4FC8-B0DB-471A3C0F38CB
 :END:
 - 決定係数を用いてモデルの比較を行いなさい
-  - 東京の9月の気候データ
-    #+begin_src R :eval no :tangle no
-      temp ~ solar
-      temp ~ solar + press
-      temp ~ solar + press + cloud
-    #+end_src
   - 広告費と売上データ
     #+begin_src R :eval no :tangle no
       sales ~ TV
       sales ~ radio
       sales ~ TV + radio
+    #+end_src
+  - 東京の9月の気候データ
+    #+begin_src R :eval no :tangle no
+      temp ~ solar
+      temp ~ solar + press
+      temp ~ solar + press + cloud
     #+end_src
 ** COMMENT 解答例
 #+begin_src R :eval no :exports none

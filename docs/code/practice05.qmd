@@ -1,0 +1,38 @@
+---
+title: "統計データ解析"
+subtitle: "第5講 サンプルコード"
+date: "`r Sys.Date()`"
+format:
+    html: 
+      toc: true
+      html-math-method: katex
+      self-contained: true
+      grid: 
+        margin-width: 350px
+execute: 
+  echo: true
+  warning: false
+reference-location: margin
+citation-location: margin
+tbl-cap-location: margin
+fig-cap-location: margin
+editor: visual
+---
+
+## 準備
+
+以下で利用する共通パッケージを読み込む．
+
+```{r}
+library(conflicted) # 関数名の衝突を警告
+conflicts_prefer(   # 優先的に使う関数を指定
+  dplyr::filter(),
+  dplyr::select(),
+  dplyr::lag(),
+  )
+library(tidyverse)  
+library(broom)      # 解析結果を tibble 形式に集約
+library(gt)         # 表の作成
+library(gtsummary)  # 分析結果の表の作成
+```
+
