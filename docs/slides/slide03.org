@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-10-17 11:53:44 mura>
+# Time-stamp: <2024-10-18 15:45:59 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -492,7 +492,7 @@
 :END:
 - データセット ~tokyo_weather.csv~ は
   気象庁より取得した東京の気候データを回帰分析用に整理したものである．
-  このデータセットのうち，8月の気候データを用いて，以下の回帰式を推定しなさい．
+  このデータセットのうち，9月の気候データを用いて，以下の回帰式を推定しなさい．
   #+begin_src R :eval no :tangle no
     formula = temp ~ solar + press
   #+end_src
@@ -504,7 +504,7 @@
 :ID:       9010402A-AC86-4A3F-9A0F-397A945FACB5
 :END:
 - 前掲のデータセットを用いて回帰式を構成しなさい
-  - 東京の8月の気候データ
+  - 東京の9月の気候データ
     #+begin_src R :eval no :tangle no
       formula = temp ~ solar + press
     #+end_src
@@ -564,12 +564,12 @@
   #' データの読み込み
   tw_data <- read_csv("data/tokyo_weather.csv")
 
-  #' モデルの推定: 8月の"気温"を目的変数，"日射量・気圧"を説明変数とする
+  #' モデルの推定: 9月の"気温"を目的変数，"日射量・気圧"を説明変数とする
   tw_formula <- temp ~ solar + press # モデル式の定義 
   class(tw_formula)                  # formula class であることを確認
   (tw_lm <- lm(tw_formula, # 回帰係数の推定
                data = tw_data, 
-               subset =  month==8)) # 8月のデータの抽出
+               subset =  month==9)) # 9月のデータの抽出
   (tw_df <- as_tibble(model.frame(tw_lm))) # 推定に用いたデータフレームの抽出
   ggpairs(tw_df) # 散布図
 
@@ -1015,7 +1015,7 @@
   #' 以下は目的変数を推定結果に含める方法
   tw_lm <- lm(tw_formula,
               data = tw_data, 
-              subset = month == 8, # 8月のデータの抽出
+              subset = month == 9, # 9月のデータの抽出
                y = TRUE) # 目的変数をyとして返すように指定
   Y <- with(tw_lm,y)                     # 目的変数の取得 (tw_lm$y でも可)
   (Sy <- sum((Y-mean(Y))^2))             # 目的変数のばらつき
@@ -1165,7 +1165,7 @@
 :ID:       335A639C-748D-4FC8-B0DB-471A3C0F38CB
 :END:
 - 決定係数を用いてモデルの比較を行いなさい
-  - 東京の8月の気候データ
+  - 東京の9月の気候データ
     #+begin_src R :eval no :tangle no
       temp ~ solar
       temp ~ solar + press
@@ -1212,7 +1212,7 @@
   #' 東京の気候データ
 
   #' モデルの比較
-  tw_subset <- tw_data |> filter(month == 8) # 8月のデータの抽出
+  tw_subset <- tw_data |> filter(month == 9) # 9月のデータの抽出
   tw_formula1 <- temp ~ solar
   tw_formula2 <- temp ~ solar + press
   tw_formula3 <- temp ~ solar + press + cloud
@@ -1274,7 +1274,7 @@
 
     #' データの読み込み
     tw_subset <- read_csv("data/tokyo_weather.csv") |>
-      filter(month == 8) |> # 8月のデータの抽出
+      filter(month == 9) |> # 9月のデータの抽出
       mutate(date = date(paste(year,month,day,sep="-")), .before = 1) |>
       select(-c(year,month,day,day_of_week)) |>
       set_names(c("日付","気温","降雨","日射","降雪","風向","風速","気圧","湿度","雲量"))

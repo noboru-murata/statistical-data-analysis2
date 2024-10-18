@@ -21,7 +21,9 @@ editor: visual
 
 ## 準備
 
-以下で利用する共通パッケージを読み込む．
+以下で利用する共通パッケージを読み込む．[^1]
+
+[^1]: 必要なパッケージは適宜追加して良い．
 
 ```{r}
 library(conflicted) # 関数名の衝突を警告
@@ -39,9 +41,9 @@ library(gt)         # 表の作成
 
 ### 問題 (広告費と売上データ)
 
-データセット <https://www.statlearning.com/s/Advertising.csv> は 広告費(TV,radio,newspapers)と売上の関係を調べたもの [^1] である． このデータセットを用いて以下の回帰式を推定しなさい．
+データセット <https://www.statlearning.com/s/Advertising.csv> は 広告費(TV,radio,newspapers)と売上の関係を調べたもの [^2] である． このデータセットを用いて以下の回帰式を推定しなさい．
 
-[^1]: Datasets in this presentation are taken from "An Introduction to Statistical Learning, with applications in R" (Springer, 2013) with permission from the authors: G. James, D. Witten, T. Hastie and R. Tibshirani. [参考](https://www.statlearning.com)
+[^2]: Datasets in this presentation are taken from "An Introduction to Statistical Learning, with applications in R" (Springer, 2013) with permission from the authors: G. James, D. Witten, T. Hastie and R. Tibshirani. [参考](https://www.statlearning.com)
 
 ``` r
 formula = sales ~ TV 
@@ -57,9 +59,13 @@ formula = sales ~ TV + radio
 adv_data <- read_csv("https://www.statlearning.com/s/Advertising.csv")
 ```
 
-GGally パッケージを利用して散布図を描く．
+GGally パッケージを利用して散布図を描く．[^3]
+
+[^3]: 標準設定では図は横長で描画される．この例では縦横が同じ大きさ(7inch)になるように指定している．
 
 ```{r}
+#| fig-width: 7
+#| fig-height: 7
 GGally::ggpairs(adv_data, columns = 2:5)
 ```
 
@@ -89,9 +95,13 @@ adv_data |>
 (adv_lm3 <- lm(sales ~ TV + radio, data = adv_data))
 ```
 
-3次元の散布図を描くために scatterplot3d パッケージを利用する．
+::: callout-tip
+3次元の散布図を描くには `scatterplot3d` パッケージを利用することができる．
 
 ```{r}
+#| label: fig-scatterplot3d
+#| fig-cap: "scatterplot3d による3次元散布図の例"
+#| column: margin
 library(scatterplot3d)
 s3d <- with(adv_data,
             scatterplot3d( 
@@ -105,12 +115,13 @@ s3d$plane3d(adv_lm3, col = "blue",  # 回帰式の定める平面の追加
             draw_polygon = TRUE,    # 平面の塗り潰しの設定
             polygon_args = list(col = rgb(0,0,1,0.2))) 
 ```
+:::
 
 ### 問題 (東京の気候データ)
 
-配布したデータセット `tokyo_weather.csv` は 気象庁より取得した東京の気候データを回帰分析用に整理したもの [^2] である． このデータセットのうち，8月の気候データを用いて，以下の回帰式を推定しなさい．
+配布したデータセット `tokyo_weather.csv` は 気象庁より取得した東京の気候データを回帰分析用に整理したもの [^4] である． このデータセットのうち，8月の気候データを用いて，以下の回帰式を推定しなさい．
 
-[^2]: [参考](https://www.data.jma.go.jp/gmd/risk/obsdl/index.php)
+[^4]: [参考](https://www.data.jma.go.jp/gmd/risk/obsdl/index.php)
 
 ```{r}
 formula = temp ~ solar + press
@@ -127,13 +138,15 @@ tw_data <- read_csv("data/tokyo_weather.csv")
 8月の"気温"を目的変数，"日射量・気圧"を説明変数とするモデルの推定を行う．
 
 ```{r}
+#| fig-width: 7
+#| fig-height: 7
 tw_formula <- temp ~ solar + press       # モデル式の定義 
 class(tw_formula)                        # formula class であることを確認
 (tw_lm <- lm(tw_formula,                 # 回帰係数の推定
              data = tw_data, 
-             subset =  month==8))        # 8月のデータの抽出
+             subset =  month==9))        # 9月のデータの抽出
 (tw_df <- as_tibble(model.frame(tw_lm))) # 推定に用いたデータフレームの抽出
-GGally::ggpairs(tw_df)                   # 散布図
+GGally::ggpairs(tw_df) # 散布図
 ```
 
 散布図と回帰式の定める平面の描画の3次元プロットを行う．
@@ -266,14 +279,27 @@ S+Sr                                     # Sy と同じになっている
 tw_formula                             # モデルの確認
 tw_lm <- lm(tw_formula,
             data = tw_data, 
-            subset = month == 8,       # 8月のデータの抽出
+            subset = month == 9,       # 9月のデータの抽出
             y = TRUE)                  # 目的変数をyとして返すように指定
-Y <- with(tw_lm,y)                     # 目的変数の取得 (tw_lm$y でも可)
+Y <- with(tw_lm, y)                    # 目的変数の取得 (tw_lm$y でも可)
 (Sy <- sum((Y-mean(Y))^2))             # 目的変数のばらつき
 (S <- sum(resid(tw_lm)^2))             # 残差のばらつき
 (Sr <- sum((fitted(tw_lm)-mean(Y))^2)) # 回帰のばらつき
 S+Sr                                   # Sy と同じになっている
 ```
+
+::: callout-tip
+関数 `base::summary()` で得られる情報は， 関数 `broom::tidy()` および関数 `broom::glance()` を用いると tibble 形式のデータフレームとして取得できる．
+
+関数 `stats::resid()` や `stats::fitted()` で得られる値は同様に 関数 `broom::augumet()` で取得できる．
+
+```{r}
+#| column: margin
+tidy(adv_lm3)    # 推定量に関する情報
+glance(adv_lm3)  # 推定結果を評価する統計量
+augment(adv_lm3) # 残差やあてはめ値など
+```
+:::
 
 ## 決定係数によるモデルの比較
 
@@ -331,7 +357,7 @@ adv_data |>
 東京の気候データも同様で，モデルの比較は以下のとおりである．
 
 ```{r}
-tw_subset <- tw_data |> filter(month == 8) # 8月のデータの抽出
+tw_subset <- tw_data |> filter(month == 9) # 8月のデータの抽出
 tw_formula1 <- temp ~ solar
 tw_formula2 <- temp ~ solar + press
 tw_formula3 <- temp ~ solar + press + cloud
