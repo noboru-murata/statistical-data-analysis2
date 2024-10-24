@@ -9,7 +9,7 @@ if(Sys.info()["sysname"] == "Darwin") { # MacOSか調べて日本語フォント
 
 #' データの読み込み
 tw_subset <- read_csv("data/tokyo_weather.csv") |>
-  filter(month == 8) |> # 8月のデータの抽出
+  filter(month == 9) |> # 9月のデータの抽出
   mutate(date = date(paste(year,month,day,sep="-")), .before = 1) |>
   select(-c(year,month,day,day_of_week)) |>
   set_names(c("日付","気温","降雨","日射","降雪","風向","風速","気圧","湿度","雲量"))
@@ -34,9 +34,6 @@ tw_subset |> View() # 左上ペインに表として表示
 tw_subset |>
   select(気温,気圧,日射,湿度,雲量) |>
   GGally::ggpairs()
-## tw_subset |>
-##   select(temp,press,solar,humid,cloud) |>
-##   GGally::ggpairs(columnLabels=c("気温","気圧","日射","湿度","雲量"))
 
 #' モデル1の推定結果
 tw_subset |>

@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-10-17 12:40:47 mura>
+# Time-stamp: <2024-10-24 17:26:22 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -242,7 +242,7 @@
 
     #' データの読み込み
     tw_subset <- read_csv("data/tokyo_weather.csv") |>
-      filter(month == 8) |> # 8月のデータの抽出
+      filter(month == 9) |> # 9月のデータの抽出
       mutate(date = date(paste(year,month,day,sep="-")), .before = 1) |>
       select(-c(year,month,day,day_of_week)) |>
       set_names(c("日付","気温","降雨","日射","降雪","風向","風速","気圧","湿度","雲量"))
@@ -313,9 +313,6 @@
     tw_subset |>
       select(気温,気圧,日射,湿度,雲量) |>
       GGally::ggpairs()
-    ## tw_subset |>
-    ##   select(temp,press,solar,humid,cloud) |>
-    ##   GGally::ggpairs(columnLabels=c("気温","気圧","日射","湿度","雲量"))
   #+end_src
 
 #+caption: 散布図
@@ -1013,11 +1010,11 @@
   #+begin_src R :eval no :tangle no
     mc_num <- 5000 # 実験回数を指定
     mc_trial <- function() { # 1回の試行を行うプログラム
-        ## 乱数生成と推定の処理
-        return(返り値)} 
+      ## 乱数生成と推定の処理
+      return(返り値)} 
     mc_data <- 
-        replicate(mc_num, mc_trial()) |> # Monte-Carlo実験
-        t() |> as_tibble() # 転置(関数t())してデータフレームに変換
+      replicate(mc_num, mc_trial()) |> # Monte-Carlo実験
+      t() |> as_tibble() # 転置(関数t())してデータフレームに変換
     #' 適切な統計・視覚化処理 (下記は例)
     mc_data |>
       summarise(across(everything(), var)) # 各列の分散の計算
@@ -1271,9 +1268,10 @@
     #+begin_src R :eval no :tangle no
       #' 標準誤差は以下のようにして取り出せる
       toy_lm <- lm(formula, toy_data)
-      summary(toy_lm)$coefficients # 係数に関する情報はリストの要素として保管されている
+      summary(toy_lm)$coefficients        # 係数に関する情報はリストの要素として保管されている
       summary(toy_lm)$coefficients[,2]    # 列番号での指定
       summary(toy_lm)$coef[,"Std. Error"] # 列名での指定．coef と省略してもよい
+      tidy(toy_lm) # 関数 broom::tidy() でも同様に取得できる
     #+end_src
   - 広告費と売上データを用いて係数の精度を議論する
   - 東京の気候データを用いて係数の精度を議論する
@@ -1510,6 +1508,7 @@
       toy_lm <- lm(formula, toy_data)
       summary(toy_lm)$coef[,c("t value","Pr(>|t|)")] # 列名での指定
       summary(toy_lm)$coef[,3:4] # 列番号での指定
+      tidy(toy_lm) # 関数 broom::tidy() を用いてもよい
     #+end_src
   - 広告費と売上データを用いて係数の有意性を議論する
   - 東京の気候データを用いて係数の有意性を議論する
@@ -1661,6 +1660,7 @@
       toy_lm <- lm(formula, toy_data)
       summary(toy_lm)$fstat
       summary(toy_lm)$fstatistic # 省略しない場合
+      glance(toy_lm) # 関数 broom::glance() を用いてもよい
     #+end_src
   - 広告費と売上データのモデルの有効性を議論しなさい
   - 東京の気候データのモデルの有効性を議論しなさい

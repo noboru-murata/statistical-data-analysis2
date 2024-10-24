@@ -12,7 +12,8 @@ weight = 1016
 
 -   [第1講 (2024年10月4日)](https://u-tokyo-ac-jp.zoom.us/rec/share/wVGzpxCui2uiQbrPf_kpBwOsDL13oIcGSjOAjv7cSz4hK9Yuxl0EvzqTLW_kbcJu.APVWLSozMn2nCmvc?startTime=1728028894000)
 -   [第2講 (2024年10月11日)](https://u-tokyo-ac-jp.zoom.us/rec/share/g_oEK04oEeGB85ARxvEQ0a-II15Acqu_NOp_NSpLMXllGwlw13t_J8SapdK1hnfv.O_nn0M97ejkpNevi?startTime=1728633622000)
--   第3講 (2024年10月18日)
+-   [第3講 (2024年10月18日)](https://u-tokyo-ac-jp.zoom.us/rec/share/g2sJbJPCLYZ9ffPF_QZQLqNJ-ZyJHfaN2FL5_Tr8G0iRKOd1DTrOB_Z8B0Nsu6GR.4uAfi4YjdwhX8Kk4?startTime=1729238416000)
+-   第4講 (2024年10月25日)
 
 ---
 

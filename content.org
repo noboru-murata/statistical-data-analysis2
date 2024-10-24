@@ -85,13 +85,14 @@
 :EXPORT_FILE_NAME: lecture04
 :EXPORT_DATE: <2020-09-19 Sat>
 :END:
-<2023-10-16 Mon> 更新
+<2024-10-24 Thu> 更新
 ** スライド
 #+hugo: {{< myslide base="statistical-data-analysis2" name="slide04" >}}
 ** ハンドアウト
 - [[github:pdfs/slide04.pdf][PDF file]]
 ** 付録
-- [[github:code/slide04.R][RScript]]
+- [[githubraw:code/practice04.qmd][Quarto]] ([[github:code/practice04.html][HTML]])
+- [[github:code/slide04.R][R Script]]
 
 * 第5講
 :PROPERTIES:
@@ -256,7 +257,8 @@
 講義の進捗に合わせて追加します．
 - [[https://u-tokyo-ac-jp.zoom.us/rec/share/wVGzpxCui2uiQbrPf_kpBwOsDL13oIcGSjOAjv7cSz4hK9Yuxl0EvzqTLW_kbcJu.APVWLSozMn2nCmvc?startTime=1728028894000][第1講 (2024年10月4日)]]
 - [[https://u-tokyo-ac-jp.zoom.us/rec/share/g_oEK04oEeGB85ARxvEQ0a-II15Acqu_NOp_NSpLMXllGwlw13t_J8SapdK1hnfv.O_nn0M97ejkpNevi?startTime=1728633622000][第2講 (2024年10月11日)]]
-- 第3講 (2024年10月18日)
+- [[https://u-tokyo-ac-jp.zoom.us/rec/share/g2sJbJPCLYZ9ffPF_QZQLqNJ-ZyJHfaN2FL5_Tr8G0iRKOd1DTrOB_Z8B0Nsu6GR.4uAfi4YjdwhX8Kk4?startTime=1729238416000][第3講 (2024年10月18日)]]
+- 第4講 (2024年10月25日)
 
 -----
 以下は2023年度の記録

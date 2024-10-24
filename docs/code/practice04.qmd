@@ -193,10 +193,11 @@ for(k in 1:2) {
 -   人工データを用いて標準誤差と真の誤差を比較する． 標準誤差は以下のようにして取り出せる．
 
     ``` r
+    toy_lm <- lm(formula, toy_data)
     summary(toy_lm)$coefficients        # 係数に関する情報はリストの要素として保管されている
     summary(toy_lm)$coefficients[,2]    # 列番号での指定
     summary(toy_lm)$coef[,"Std. Error"] # 列名での指定．coef と省略してもよい
-    toy_lm <- lm(formula, toy_data)
+    tidy(toy_lm) # 関数 broom::tidy() でも同様に取得できる
     ```
 
 -   広告費と売上データを用いて係数の精度を議論する．
@@ -308,7 +309,7 @@ tbl_merge(
 
 東京の気候データによる分析は以下のとおりである．
 
-まず，データを読み込み，8月のデータを抽出して整理する．
+まず，データを読み込み，9月のデータを抽出して整理する．
 
 ```{r}
 tw_subset <-
@@ -363,12 +364,13 @@ summary(tw_lm3)$coef[,1:2] # cloud の標準誤差が大きく精度が悪いこ
 
 -   人工データを用いて $t$ 統計量の分布を確認する．
 
-    t統計量とそのp値は以下のようにして取り出せる．
+    $t$ 統計量とそのp値は以下のようにして取り出せる．
 
     ``` r
     toy_lm <- lm(formula, toy_data)
     summary(toy_lm)$coef[,c("t value","Pr(>|t|)")] # 列名での指定
-    summary(toy_lm)$coef[,3:4] # 列番号での指定
+    summary(toy_lm)$coef[,3:4]                     # 列番号での指定
+    tidy(toy_lm) # 関数 broom::tidy() を用いてもよい
     ```
 
 -   広告費と売上データを用いて係数の有意性を議論する．
@@ -377,7 +379,7 @@ summary(tw_lm3)$coef[,1:2] # cloud の標準誤差が大きく精度が悪いこ
 
 ### 解答例
 
-人工データによる $t$ 統計量の性質を調べるために，以下のような重回帰モデル(適宜変更して構わない)での試行を設定する．
+人工データにより $t$ 統計量の性質を調べるために，以下のような重回帰モデル(適宜変更して構わない)での試行を設定する．
 
 ```{r}
 set.seed(2525) # 乱数のシード値 (適宜変更せよ)
@@ -465,4 +467,140 @@ tbl_merge(
     tab_spanner = c("モデル1","モデル2","モデル3"))
 ```
 
-press単体では係数の推定精度も決定係数も低いが，solarと組み合わせることにより精度が上がり説明力も高くなる． また，組み合わせた方が自由度調整済決定係数はsolar単体より大きくなる．
+press単体では係数の推定精度も決定係数も低いが，solarと組み合わせることにより精度が上がり説明力も高くなることがわかる．
+
+## $F$ 統計量の性質
+
+### 問題
+
+数値実験により $F$ 統計量の性質を確認しなさい．
+
+-   人工データを用いて $F$ 統計量の分布を確認しなさい．
+
+    $F$ 統計量とその自由度は以下のようにして取り出せる．
+
+    ``` r
+    toy_lm <- lm(formula, toy_data)
+    summary(toy_lm)$fstat
+    summary(toy_lm)$fstatistic # 省略しない場合
+    glance(toy_lm) # 関数 broom::glance() を用いてもよい
+    ```
+
+-   広告費と売上データのモデルの有効性を議論しなさい．
+
+-   東京の気候データのモデルの有効性を議論しなさい．
+
+### 解答例
+
+人工データにより $F$ 統計量の性質を調べるために，前出の重回帰モデルを利用することにする．
+
+```{r}
+set.seed(2525) # 乱数のシード (適宜変更せよ)
+x_obs <- tibble(x0 = 1,
+                x1 = c(1, 20, 13, 9, 5, 15, 19, 8, 3, 4), # 説明変数1
+                x2 = c(3, 19, 1, 4, 18, 7, 2, 10, 6, 12)) # 説明変数2
+beta <- c(-1, 0, 0) # (切片, x1の係数, x2の係数)
+sigma <-  sqrt(2) # 誤差の標準偏差(分散の平方根)
+mc_trial <- function(){ 
+    epsilon <- rnorm(nrow(x_obs), sd = sigma) # 誤差項
+    toy_data <- x_obs |> # 目的変数の観測値を追加
+        mutate(y = as.vector(as.matrix(x_obs) %*% beta) + epsilon)
+    toy_lm <- lm(y ~ x1 + x2, data = toy_data) # 回帰係数の推定
+    return(summary(toy_lm)$fstat[1]) # F統計量を返す
+}
+```
+
+上記の設定では $x1,x2$ の係数はどちらも0なので帰無仮説が成り立つことに注意する． まず，帰無仮説が成り立つ場合の数値実験を行う．
+
+```{r}
+mc_num <- 5000 # 実験回数
+mc_data <- 
+    replicate(mc_num, mc_trial()) |> as_tibble_col("fstat")
+```
+
+実験結果は1次元なので転置は不要であるが，ここでは列名の設定をしておく．
+
+モデルの $F$ 統計量の分布を図示すると以下のようになる．
+
+```{r}
+n <- nrow(x_obs) # データ数
+p <- 2 # 説明変数の次元
+mc_data |>
+    ggplot(aes(x = fstat)) + 
+    geom_histogram(aes(y = after_stat(density)), bins = 30,
+                   fill = "lightblue", colour = "blue") +
+    geom_function(fun = \(x) df(x, df1 = p, df2 = n-p-1), # 自由度p,n-p-1のF-分布
+                  colour = "orchid") +
+    labs(x = "F statistic", title="null hypothesis is true")
+```
+
+回帰式の設定を変更して帰無仮説が成り立たない場合の数値実験を行う．
+
+```{r}
+beta <- c(-1, 2, 0) # x1の係数 : 帰無仮説が成り立たない
+mc_data <-
+    replicate(mc_num, mc_trial()) |> as_tibble_col("fstat") 
+```
+
+モデルの $F$ 統計量の分布を図示すると帰無分布に従わないことがわかる．
+
+```{r}
+mc_data |>
+    ggplot(aes(x = fstat)) + 
+    geom_histogram(aes(y = after_stat(density)), bins = 30,
+                   fill = "lightblue", colour = "blue") +
+    geom_function(fun = \(x) df(x, df1 = p, df2 = n-p-1), # 自由度p,n-p-1のF-分布
+                  colour = "orchid") +
+    labs(x = "F statistic", title="null hypothesis is false")
+```
+
+次に広告費と売上データを用いて，説明変数が1つのモデルの有効性を比較してみる．
+
+```{r}
+summary(lm(sales ~ TV, data = adv_data)) 
+summary(lm(sales ~ radio, data = adv_data)) 
+summary(lm(sales ~ newspaper, data = adv_data))
+```
+
+`radio`, `newspaper` は決定係数は小さく説明力は無いが，$F$ 統計量はそれなりに小さいのでモデルの有効性が無いとは言えない．
+
+関数 gtsummary::tbl_regression() を利用してまとめる場合は，例えば以下のようにすればよい．
+
+```{r}
+my_gts <- function(x){ # 表示する項目を整理した関数を用意する
+    tbl_regression(x) |>
+        add_glance_table(include = c("adj.r.squared","statistic","p.value")) }
+tbl_merge(
+    tbls = list(
+        my_gts(lm(sales ~ TV, data = adv_data)),
+        my_gts(lm(sales ~ radio, data = adv_data)),
+        my_gts(lm(sales ~ newspaper, data = adv_data))),
+    tab_spanner = c("モデル1","モデル2","モデル3")) |>
+    modify_table_body( ~ .x |> # characteristic を並べ変える
+                           arrange(factor(variable,
+                                          levels = c("TV","radio","newspaper"))))
+```
+
+東京の気候データでは `press`, `solar`, `rain` によるモデルを検討してみる．
+
+```{r}
+summary(lm(temp ~ press, data = tw_subset))
+summary(lm(temp ~ press + solar, data = tw_subset))
+summary(lm(temp ~ press + solar + rain, data = tw_subset))
+```
+
+`press` のみではモデルの有効性があるとは言えないが， `solar` と組み合わせることにより有効性が確認できる． `rain` を加えても `press` の係数に変化は見られないが， `solar` の係数が変化し決定係数が大きくなることから `solar` と `rain` が相補的にモデルの精度を上げている可能性が示唆される．
+
+表形式にまとめると以下のようになる．
+
+```{r}
+my_gts <- function(x){ # 表示する項目を整理した関数を用意する
+    tbl_regression(x) |>
+        add_glance_table(include = c("adj.r.squared","statistic","p.value")) }
+tbl_merge(
+    tbls = list(
+        my_gts(lm(temp ~ press + solar + rain, data = tw_subset)),
+        my_gts(lm(temp ~ press + solar, data = tw_subset)),
+        my_gts(lm(temp ~ press, data = tw_subset))),
+    tab_spanner = c("モデル1","モデル2","モデル3"))
+```
