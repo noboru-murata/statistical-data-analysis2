@@ -50,7 +50,8 @@ tw_subset |>
 #' モデル3の推定結果
 if(Sys.info()[["sysname"]] == "Darwin") par(family = "HiraginoSans-W4")
 s3d <- scatterplot3d::scatterplot3d( 
-                        tw_subset[c("気圧","日射","気温")], # x,y,z の順
+                        as.data.frame(tw_subset[c("気圧","日射","気温")]), # x,y,z の順
+                        #' tw_subset[c("気圧","日射","気温")], # tibble のままでも動くが warning が出る
                         type = "p", # plotの種類: "p"点，"l"線，"h"足付き
                         pch = 16,   # 点の種類 (?points 参照)
                         angle = 45, # xy平面の見る方向 (適宜調整)
@@ -121,7 +122,7 @@ y_obs <- 2 - 3 * x_obs + epsilon # 目的変数の観測値
 toy_data <- tibble(x1 = x_obs, y = y_obs) # データフレームの作成
 
 #' 関数 stats::lm() による推定結果の診断プロット
-tw_lm6 <- lm(temp ~ press + solar + rain, data = tw_subset)
+tw_lm6 <- lm(気温 ~ 気圧 + 日射 + 降雨, data = tw_subset)
 #' 関数 ggfortify::autoplot() を利用する
 #' 必要であれば 'install.packages("ggfortify")' を実行
 library(ggfortify)
