@@ -51,14 +51,14 @@ tw_subset |>
 if(Sys.info()[["sysname"]] == "Darwin") par(family = "HiraginoSans-W4")
 s3d <- scatterplot3d::scatterplot3d( 
                         as.data.frame(tw_subset[c("気圧","日射","気温")]), # x,y,z の順
-                        #' tw_subset[c("気圧","日射","気温")], # tibble のままでも動くが warning が出る
                         type = "p", # plotの種類: "p"点，"l"線，"h"足付き
                         pch = 16,   # 点の種類 (?points 参照)
                         angle = 45, # xy平面の見る方向 (適宜調整)
                         zlim = c(20,35),
                         color = "brown",
-                        #' xlab="気圧", ylab="日射", zlab="気温",
-                        #'    highlight.3d=TRUE # 高さ(z)ごとに色を変える
+                        ## xlab="気圧", ylab="日射", zlab="気温",
+                        ##    highlight.3d=TRUE # 高さ(z)ごとに色を変える
+                        ## 1行目は tibble のままでも動くが warning が出るので data.frame に変更している
                         )
 s3d$plane3d(
       tw_lm3, col = "blue", # 回帰式の定める平面の追加
