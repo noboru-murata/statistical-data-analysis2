@@ -17,6 +17,8 @@ citation-location: margin
 tbl-cap-location: margin
 fig-cap-location: margin
 editor: visual
+editor_options: 
+  chunk_output_type: console
 ---
 
 ## 準備
@@ -32,7 +34,286 @@ conflicts_prefer(   # 優先的に使う関数を指定
   )
 library(tidyverse)  
 library(broom)      # 解析結果を tibble 形式に集約
+library(ggfortify)  # 診断プロットの描画
 library(gt)         # 表の作成
 library(gtsummary)  # 分析結果の表の作成
 ```
 
+## 回帰式を用いた予測
+
+### 問題
+
+東京の気候データを用いて以下の実験を試みなさい．
+
+-   8月のデータで回帰式を推定する
+-   上記のモデルで9月のデータを予測する
+
+特定の月のデータを取り出すには，例えば以下のようにすればよい
+
+``` r
+tw_data <- read_csv("data/tokyo_weather.csv")
+tw_train <- tw_data |> filter(month == 8) # 単一の数字と比較
+tw_test  <- tw_data |> filter(month %in% c(9,10)) # 集合と比
+```
+
+### 解答例
+
+東京の気候データによる分析において，信頼区間と予測区間の計算を行う．
+
+推定用データと予測用データを準備し，推定用データを用いて回帰式の推定を行う．
+
+```{r}
+tw_data <- read_csv("data/tokyo_weather.csv")
+tw_train <- tw_data |> filter(month %in% 8) # 推定用データ
+tw_test  <- tw_data |> filter(month %in% 9) # 予測用データ
+tw_model <- temp ~ solar + press + cloud    # モデルの定義 
+tw_lm <- lm(tw_model, data = tw_train)      # モデルの推定
+```
+
+信頼区間の計算を行う．
+
+```{r}
+tw_train_conf <-
+    augment(tw_lm, newdata = tw_train, # 推定用データに
+            interval = "confidence")   # あてはめ値と信頼区間を付加
+tw_test_conf <- 
+    augment(tw_lm, newdata = tw_test,  # 予測用データ(新規データ)に
+            interval = "confidence")   # あてはめ値と信頼区間を付加
+```
+
+予測区間の計算を行う．
+
+```{r}
+tw_train_pred <- 
+    augment(tw_lm, newdata = tw_train, # 推定用データに
+            interval = "prediction")   # あてはめ値と予測区間を付加
+tw_test_pred <- 
+    augment(tw_lm, newdata = tw_test,  # 予測用データ(新規データ)に
+            interval = "prediction")   # あてはめ値と予測区間を付加
+```
+
+8月のデータで推定したモデルで8月をあてはめた信頼区間を描画する．
+
+```{r}
+tw_train_conf |>
+    ggplot(aes(x = day, y = temp)) +
+    geom_point(colour = "red", shape = 16) +
+    geom_point(aes(y = .fitted), colour = "blue") +
+    geom_errorbar(aes(ymin = .lower, ymax = .upper), colour = "royalblue") +
+    ylim(c(20,34)) + # 以降比較のため4つのグラフの値域を揃える
+    labs(x = "August", y = "Temperature", title = "Confidence Interval")
+```
+
+8月のデータで推定したモデルで8月をあてはめた予測区間を描画する．
+
+```{r}
+tw_train_pred |>
+    ggplot(aes(x = day, y = temp)) +
+    geom_point(colour = "red", shape = 16) +
+    geom_point(aes(y = .fitted), colour = "blue") +
+    geom_errorbar(aes(ymin = .lower, ymax = .upper), colour = "steelblue") +
+    ylim(c(20,34)) + 
+    labs(x = "August", y = "Temperature", title = "Prediction Interval")
+```
+
+8月のモデルで9月をあてはめた信頼区間を描画する．
+
+```{r}
+tw_test_conf |>
+    ggplot(aes(x = day, y = temp)) +
+    geom_point(colour = "red", shape = 16) +
+    geom_point(aes(y = .fitted), colour = "blue") +
+    geom_errorbar(aes(ymin = .lower, ymax = .upper), colour = "royalblue") +
+    ylim(c(20,34)) + 
+    labs(x = "September", y = "Temperature", title = "Confidence Interval")
+```
+
+8月のモデルで9月をあてはめた予測区間を描画する．
+
+```{r}
+tw_test_pred |>
+    ggplot(aes(x = day, y = temp)) +
+    geom_point(colour = "red", shape = 16) +
+    geom_point(aes(y = .fitted), colour = "blue") +
+    geom_errorbar(aes(ymin = .lower, ymax = .upper), colour = "steelblue") +
+    ylim(c(20,34)) + 
+    labs(x = "September", y = "Temperature", title = "Prediction Interval")
+```
+
+### 人工データによる例
+
+以下はあくまで例なので自由に数値実験を設計して下さい．
+
+人工データを生成する．
+
+```{r}
+#' モデル: y = -1 + 2 * x1
+set.seed(1515) # 乱数のシード値(適宜変更せよ)
+n <- 50 # データ数の設定
+x_obs <- tibble(x0 = 1,
+                x1 = runif(n), # 説明変数1
+                x2 = runif(n)) # 説明変数2
+beta <- c(-1, 2, 0) # (切片, x1の係数, x2の係数) 実質x2は使われていない
+sigma <-  1/2 # 誤差の標準偏差
+epsilon <- rnorm(nrow(x_obs), sd = sigma) # 誤差項
+toy_data <- x_obs |> # 目的変数の観測値を追加
+    mutate(y = as.vector(as.matrix(x_obs) %*% beta) + epsilon)
+```
+
+モデルの推定と評価を行う．
+
+```{r}
+toy_lm1 <- lm(y ~ x1, data = toy_data)      # x1のみの正しいモデル
+toy_lm2 <- lm(y ~ x1 + x2, data = toy_data) # x1とx2の冗長なモデル
+toy_lm3 <- lm(y ~ x2, data = toy_data)      # x2のみの誤ったモデル
+summary(toy_lm1)
+summary(toy_lm2)
+summary(toy_lm3)
+```
+
+表としてまとめるには，例えば以下のようにすればよい．
+
+```{r}
+my_gts <- function(x){
+    tbl_regression(x, intercept = TRUE) |>
+        add_significance_stars(
+            pattern = "{estimate} ({conf.low}, {conf.high}){stars}",
+            hide_ci = TRUE, hide_se = TRUE
+        ) |>
+        modify_header(estimate = "**Beta (95% CI)**") |>
+        modify_footnote(estimate = "CI = Confidence Interval",
+                        abbreviation = TRUE) |>
+        add_glance_table(include = c(r.squared,
+                                     adj.r.squared,
+                                     statistic,
+                                     p.value)) }
+tbl_merge(
+    tbls = list(
+        my_gts(toy_lm1),
+        my_gts(toy_lm2),
+        my_gts(toy_lm3)),
+    tab_spanner = c("モデル1","モデル2","モデル3")) |>
+    modify_table_body( ~ .x |>
+                           arrange(factor(variable,
+                                          levels = c("(Intercept)","x1","x2"))))
+```
+
+新規データに対する予測の仕組みを確認する．
+
+```{r}
+x_new <- tibble(x0 = 1,
+                x1 = runif(n),
+                x2 = runif(n,-10,10)) 
+#' 新規データに対する目的変数の真値 (誤差なし)
+y_tilde <- as.vector(as.matrix(x_new) %*% beta)
+#' 各モデルでの予測
+y_hat1 <- predict(toy_lm1, newdata = x_new) # x_lm1による予測値
+y_hat2 <- predict(toy_lm2, newdata = x_new) # x_lm2による予測値
+y_hat3 <- predict(toy_lm3, newdata = x_new) # x_lm3による予測値
+```
+
+散布図を用いて，それぞれのモデルによる予測値と真値の関係を可視化する．
+
+```{r}
+tibble(obs = y_tilde,
+       model1 = y_hat1, model2 = y_hat2, model3 = y_hat3) |>
+    pivot_longer(!obs) |>
+    ggplot(aes(x = value, y = obs)) +
+    geom_point(aes(colour = name)) +
+    geom_abline(slope = 1, intercept = 0, colour = "gray") +
+    labs(x = "fitted value", y = "observed value") +
+    theme(legend.title = element_blank())
+```
+
+正しいモデルでは正確に予測が行われているが，不要な項が含まれると予測誤差が大きくなることがわかる．
+
+雑音のないデータ $\tilde{y}$ と予測値の相関係数(2乗すると決定係数に相当)を用いて数値的な評価をする．
+
+```{r}
+cor(y_tilde, y_hat1)^2 
+cor(y_tilde, y_hat2)^2
+cor(y_tilde, y_hat3)^2
+```
+
+## 非線形性を含むモデルとカテゴリカル変数の扱い
+
+### 問題
+
+東京の気候データ(9-11月)を用いて，気温を回帰する以下のモデルを検討しなさい．
+
+-   日射量，気圧，湿度の線形回帰モデル
+-   湿度の対数を考えた線形回帰モデル
+-   最初のモデルにそれぞれの交互作用を加えたモデル
+
+東京の気候データ(1年分)を用いて，気温を回帰する以下のモデルを検討しなさい．
+
+-   降水の有無を表すカテゴリカル変数を用いたモデル (雨が降ると気温が変化することを検証する)
+-   上記に月をカテゴリカル変数として加えたモデル (月毎の気温の差を考慮する)
+
+### 解答例
+
+9月から11月のデータを用いた分析を行うために，データを整理する．
+
+```{r}
+tw_subset <- tw_data |> filter(month %in% 9:11)
+```
+
+日射量，気圧，湿度を用いた回帰モデルの検討を行う． まず，解析の対象となる変数の散布図を描いておく．
+
+```{r}
+tw_subset |>
+    select(temp, solar, press, humid) |>
+    GGally::ggpairs(columnLabels = c("気温","日射量","気圧","湿度"))
+```
+
+モデルを比較する．
+
+```{r}
+#' 基本となる線形回帰モデル
+summary(lm(temp ~ solar + press + humid, data = tw_subset))
+#' 湿度の対数を考えた線形回帰モデル
+summary(lm(temp ~ solar + press + log(humid), data = tw_subset))
+#' 最初のモデルにそれぞれの交互作用を加えたモデル (書き方はいろいろある)
+summary(lm(temp ~ (solar + press + humid)^2, data = tw_subset))
+#' 更に3つの変数の積を加えたモデル
+summary(lm(temp ~ solar * press * humid, data = tw_subset))
+```
+
+基本的なモデルと最後のモデルの視覚的な評価 (診断プロット) を行う．
+
+```{r}
+autoplot(lm(temp ~ solar + press + humid, data = tw_subset))
+autoplot(lm(temp ~ solar * press * humid, data = tw_subset))
+```
+
+雨の有無(カテゴリカル変数)と気温の関係を分析する． 雨の有無および月(整数値)をダミー化(因子化)[^1]する．
+
+[^1]: 論理値は因子として扱われるが，明示的に因子としたい場合は `factor(rain > 0)` としても良い． 因子の属性を与える関数としては `base::as.factor()` と `forcats::as_factor()` があるが，前者は文字列を辞書順に並べ変えてから，後者はデータフレームでの出現順に因子化する．回帰の計算においては特に問題ないが，因子化の順序はグラフなど凡例の順番に影響する．
+
+```{r}
+tw_data_fact <- tw_data |>
+    mutate(rain = rain > 0,            # 降雨の有無
+           month = as_factor(month)) # 月 
+```
+
+通年でのモデルを検討する．
+
+```{r}
+summary(lm(temp ~ rain, data = tw_data_fact))
+```
+
+通年では雨と気温の関係は積極的に支持されない．
+
+月を説明変数として加えると月毎の気温の差を考慮した回帰式が推定される．
+
+```{r}
+summary(lm(temp ~ rain + month, data = tw_data_fact))
+```
+
+月毎に比較した結果，雨の日の方が気温が低いことが示唆される．
+
+診断プロットは以下のようになる．
+
+```{r}
+autoplot(lm(temp ~ rain + month, data = tw_data_fact))
+```
