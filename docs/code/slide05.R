@@ -76,7 +76,7 @@ tw_gt # Viewer ペインに表示
 my_gts <- function(x){
   tbl_regression(x) |>
     modify_column_hide(columns = c(p.value)) |>
-    add_glance_table(include = c(statistic,p.value)) }
+    add_glance_table(include = c(r.squared,statistic,p.value)) }
 tw_gt <- 
   tbl_merge(
     tbls = list(
@@ -112,11 +112,14 @@ tw_gt <-
 
 tw_gt # Viewer ペインに表示
 
+#' 診断プロット (モデル2)
+autoplot(tw_lm2)
+
+#' 診断プロット (モデル3)
+autoplot(tw_lm3)
+
 #' 診断プロット (モデル4)
 autoplot(tw_lm4)
-
-#' 診断プロット (モデル5)
-autoplot(tw_lm5)
 
 #' 9,10月のデータでモデルを構築し，8,11月のデータを予測
 #' データの整理

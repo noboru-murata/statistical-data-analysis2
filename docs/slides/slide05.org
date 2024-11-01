@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-11-01 09:59:01 mura>
+# Time-stamp: <2024-11-01 15:33:17 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -572,7 +572,7 @@
     my_gts <- function(x){
       tbl_regression(x) |>
         modify_column_hide(columns = c(p.value)) |>
-        add_glance_table(include = c(statistic,p.value)) }
+        add_glance_table(include = c(r.squared,statistic,p.value)) }
     tw_gt <- 
       tbl_merge(
         tbls = list(
@@ -916,6 +916,32 @@
 :PROPERTIES:
 :ID:       F6E66B48-BDBE-46E7-AAED-6BD55B99A7A4
 :END:
+- モデル2
+  #+begin_src R :file figs/05_diag_model2.png :exports results :results graphics
+    #' 診断プロット (モデル2)
+    autoplot(tw_lm2)
+  #+end_src
+
+#+caption: モデル3の診断
+#+name: fig:05_diag_model2
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/05_diag_model2.png]]
+
+#+reveal: split
+- モデル3
+  #+begin_src R :file figs/05_diag_model3.png :exports results :results graphics
+    #' 診断プロット (モデル3)
+    autoplot(tw_lm3)
+  #+end_src
+
+#+caption: モデル3の診断
+#+name: fig:05_diag_model3
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/05_diag_model3.png]]
+
+#+reveal: split
 - モデル4
   #+begin_src R :file figs/05_diag_model4.png :exports results :results graphics
     #' 診断プロット (モデル4)
@@ -927,18 +953,6 @@
 #+attr_html: height 100%
 #+attr_latex: :width 0.6\linewidth
 [[file:figs/05_diag_model4.png]]
-  #+reveal: split
-- モデル5
-  #+begin_src R :file figs/05_diag_model5.png :exports results :results graphics
-    #' 診断プロット (モデル5)
-    autoplot(tw_lm5)
-  #+end_src
-
-#+caption: モデル5の診断
-#+name: fig:05_diag_model5
-#+attr_html: height 100%
-#+attr_latex: :width 0.6\linewidth
-[[file:figs/05_diag_model5.png]]
   
 ** COMMENT 講義資料: 回帰分析とその評価
 :PROPERTIES:
@@ -1080,7 +1094,7 @@
       =\sigma^{2}\gamma_{c}(\boldsymbol{x})^{2}
   \end{align}
   #+end_quote
-- 正規化による表現
+- 標準化による表現
   #+begin_quote
   \begin{equation}
     \frac{\tilde{y}-\hat{y}}{\sigma\gamma_{c}(\boldsymbol{x})}
@@ -1219,7 +1233,7 @@
       =\sigma^{2}\gamma_{p}(\boldsymbol{x})^{2}
   \end{align}
   #+end_quote
-- 正規化による表現
+- 標準化による表現
   #+begin_quote
   \begin{equation}
     \frac{y-\hat{y}}{\sigma\gamma_{p}(\boldsymbol{x})}
