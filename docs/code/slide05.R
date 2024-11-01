@@ -50,7 +50,7 @@ tw_subset |>
   geom_abline(slope = 1, intercept = 0, colour = "red") + # 基準線
   geom_point(aes(colour = model, shape = model)) + # 予測値をモデル別に表示
   labs(y = "あてはめ値") +
-  xlim(22,32) + ylim(22,32) + theme(legend.position = c(.88,.15))
+  xlim(22,32) + ylim(22,32) + theme(legend.position.inside = c(.88,.15))
 
 #' 関数 gtsummary::tbl_regression() を利用して結果をまとめる
 my_gts <- function(x){
