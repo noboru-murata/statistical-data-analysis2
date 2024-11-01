@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-10-30 13:04:05 mura>
+# Time-stamp: <2024-11-01 09:57:23 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -64,6 +64,7 @@
 #+begin_src R :exports none
   ### 第5講 サンプルコード
   library(tidyverse)
+  library(broom)
   library(gt)
   library(gtsummary)
   library(ggfortify) # 診断プロットのため

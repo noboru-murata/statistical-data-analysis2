@@ -1,5 +1,6 @@
 ### 第5講 サンプルコード
 library(tidyverse)
+library(broom)
 library(gt)
 library(gtsummary)
 library(ggfortify) # 診断プロットのため
