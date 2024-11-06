@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2023-12-15 12:24:53 mura>
+# Time-stamp: <2024-11-05 16:38:21 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/org/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -1087,35 +1087,36 @@
   #' @practice LOO交叉検証法による予測誤差の評価
 #+end_src
 #+begin_src R :eval no :exports none
-  #' MASS::biopsy による誤差の評価
-  #' データの整理
-  bio_data <- as_tibble(biopsy) |>
-    na.omit() |> # NA を除く
-    select(-ID)  # IDを除く
+    #' MASS::biopsy による誤差の評価
+    #' データの整理
+    bio_data <- as_tibble(biopsy) |>
+      na.omit() |> # NA を除く
+      select(-ID)  # IDを除く
 
-  bio_data |>
-    GGally::ggpairs(diag = list(mapping = aes(colour = class)),
-                    lower = list(mapping = aes(colour = class)))
+    bio_data |>
+      GGally::ggpairs(diag = list(mapping = aes(colour = class),
+                                  continuous wrap(alpha = .3)),
+                      lower = list(mapping = aes(colour = class)))
 
-  #' 2次判別の LOO CV による評価の例 (線形判別も同様)
-  bio_formula <- class ~ . 
-  bio_qda <- qda(formula = bio_formula, data = bio_data) 
-  bio_qda_loo <- qda(formula = bio_formula, data = bio_data, CV = TRUE)
-  #' 訓練誤差の評価
-  bio_qda_cm <- bio_data |>
-    bind_cols(fitted = predict(bio_qda)[["class"]]) |>
-    conf_mat(truth = class, estimate = fitted)
-  summary(bio_qda_cm) # 2次判別によるあてはめ値の評価(訓練誤差)
-  autoplot(bio_qda_cm, type = "heatmap") +
-    labs(title = "Training Error")
-  bio_qda_loo_cm <- bio_data |>
-    bind_cols(fitted = bio_qda_loo[["class"]]) |>
-    conf_mat(truth = class, estimate = fitted)
-  summary(bio_qda_loo_cm) # LOO CVによる予測の評価(予測誤差)
-  autoplot(bio_qda_loo_cm, type = "heatmap") +
-    labs(title = "Test Error (LOO CV)")
-  #' あてはめ値による評価は LOO CV より若干良くなっており
-  #' あてはめ値では精度を過剰に評価する可能性があることが示唆される
+    #' 2次判別の LOO CV による評価の例 (線形判別も同様)
+    bio_formula <- class ~ . 
+    bio_qda <- qda(formula = bio_formula, data = bio_data) 
+    bio_qda_loo <- qda(formula = bio_formula, data = bio_data, CV = TRUE)
+    #' 訓練誤差の評価
+    bio_qda_cm <- bio_data |>
+      bind_cols(fitted = predict(bio_qda)[["class"]]) |>
+      conf_mat(truth = class, estimate = fitted)
+    summary(bio_qda_cm) # 2次判別によるあてはめ値の評価(訓練誤差)
+    autoplot(bio_qda_cm, type = "heatmap") +
+      labs(title = "Training Error")
+    bio_qda_loo_cm <- bio_data |>
+      bind_cols(fitted = bio_qda_loo[["class"]]) |>
+      conf_mat(truth = class, estimate = fitted)
+    summary(bio_qda_loo_cm) # LOO CVによる予測の評価(予測誤差)
+    autoplot(bio_qda_loo_cm, type = "heatmap") +
+      labs(title = "Test Error (LOO CV)")
+    #' あてはめ値による評価は LOO CV より若干良くなっており
+    #' あてはめ値では精度を過剰に評価する可能性があることが示唆される
 #+end_src
 #+begin_src R :exports none
   #' ---------------------------------------------------------------------------

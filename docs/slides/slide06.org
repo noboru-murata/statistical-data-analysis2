@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-11-01 14:57:22 mura>
+# Time-stamp: <2024-11-06 14:02:21 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -72,9 +72,9 @@
   library(ggrepel)
   #' macOSのための日本語表示の設定
   if(Sys.info()["sysname"] == "Darwin") { # macOSか調べる
-      theme_update(text = element_text(family = "HiraMaruProN-W4"))
-      label_family <- "HiraMaruProN-W4"    
-  } else {label_family <- NULL}
+    jp_font <- "HiraMaruProN-W4"
+    theme_update(text = element_text(family = jp_font))
+  } else {jp_font <- NULL}
 #+end_src
 
 
@@ -109,14 +109,18 @@
   ja_data |>
     select(1:10) |> # 大きな表なので一部の列を選択する
     gt() |>
+    tab_options(table.font.size = 12) |>
     as_latex() |> as.character()
 #+end_src
 
 #+reveal: split
 #+begin_src R :file figs/ja-pairs1.png :exports results :results graphics
   ja_data |>
-      GGally::ggscatmat(columns = 3:10, color = "地方名", alpha = .5) +
-      theme(text = element_text(size = 8)) 
+    GGally::ggpairs(columns = 3:10,
+                    legend = c(2,1), # 2行1列のグラフから凡例を作成
+                    lower = list(continuous = GGally::wrap("points", alpha = .5),
+                                 mapping = aes(colour = 地方名))) +
+    theme(text = element_text(size = 8)) 
 #+end_src
 #+caption: 県別の生活環境(教育・労働などに関連する項目)
 #+name: fig:ja-pairs1
@@ -127,8 +131,11 @@
 #+reveal: split
 #+begin_src R :file figs/ja-pairs2.png :exports results :results graphics
   ja_data |>
-      GGally::ggscatmat(columns = 11:19, color = "地方名", alpha = .5) +
-      theme(text = element_text(size = 8))
+    GGally::ggpairs(columns = 11:19,
+                    legend = c(2,1), 
+                    lower = list(continuous = GGally::wrap("points", alpha = .5),
+                                 mapping = aes(colour = 地方名))) +
+    theme(text = element_text(size = 8)) 
 #+end_src
 #+caption: 県別の生活環境(教育・労働などに関連する項目)
 #+name: fig:ja-pairs2
@@ -139,8 +146,11 @@
 #+reveal: split
 #+begin_src R :file figs/ja-pairs3.png :exports results :results graphics
   ja_data |>
-      GGally::ggscatmat(columns = 20:27, color = "地方名", alpha = .5) +
-      theme(text = element_text(size = 8))
+    GGally::ggpairs(columns = 20:27,
+                    legend = c(2,1), 
+                    lower = list(continuous = GGally::wrap("points", alpha = .5),
+                                 mapping = aes(colour = 地方名))) +
+    theme(text = element_text(size = 8)) 
 #+end_src
 #+caption: 県別の生活環境(教育・労働などに関連する項目)
 #+name: fig:ja-pairs3
@@ -157,10 +167,10 @@
   autoplot(ja_fit, # バイプロット
            label = TRUE, colour = "royalblue", # ラベルの表示
            label.repel = TRUE, # ラベルの表示を自動調整 (パッケージ ggrepel)
-           label.family = label_family, label.size = 3,
+           label.family = jp_font, label.size = 3,
            loadings = TRUE, loadings.colour = "orchid", # 負荷の表示
            loadings.label = TRUE, loadings.label.colour = "darkorchid", # 負荷ラベルの表示
-           loadings.label.family = label_family, loadings.label.size = 3.5) 
+           loadings.label.family = jp_font, loadings.label.size = 3.5) 
 #+end_src
 #+caption: 県別の生活環境の主成分分析
 #+name: fig:ja-biplot
@@ -265,22 +275,23 @@
     #' 詳細は '?stats::prcomp' または '?stats::predict.prcomp' を参照
   #+end_src
   - 'newdata' を省略すると分析に用いたデータフレームの得点が計算される
+
 #+reveal: split
-- 主成分得点を計算する関数 
+- 主成分分析の結果を取得する関数 
   #+begin_src R :eval no :tangle no
     tidy(x, matrix = "u", ...)
-    #' object: prcomp が出力したオブジェクト
-    #' newdata: 主成分得点を計算するデータフレーム
+    #' x: prcomp が出力したオブジェクト
+    #' matrix: 結果として取り出す行列 u:scores, v:loadings, d:eigenvalues
     #' 詳細は '?broom::tidy.prcomp' を参照
   #+end_src
 - 主成分得点を計算する関数 
   #+begin_src R :eval no :tangle no
     augment(x, data = NULL, newdata, ...)
-    #' object: prcomp が出力したオブジェクト
+    #' x: prcomp が出力したオブジェクト
+    #' data: 元のデータ (通常不要)
     #' newdata: 主成分得点を計算するデータフレーム
-    #' 詳細は '?broom::tidy.prcomp' を参照
+    #' 詳細は '?broom::augment.prcomp' を参照
   #+end_src
-
 
 ** 練習問題
 :PROPERTIES:
@@ -305,7 +316,7 @@
     #+begin_src R :eval no :tangle no
       geom_abline(slope = 傾き, intercept = 切片) # 指定の直線を追加できる
     #+end_src
-** 解答例
+** COMMENT 解答例
 #+begin_src R :exports none
   #' ---------------------------------------------------------------------------
   #' @practice 主成分分析の考え方
@@ -685,7 +696,7 @@
   - 人工データを生成する
   - 主成分分析を実行する
   - Gram 行列を計算し固有値・固有ベクトルを求める
-    #+begin_src R :eval no
+    #+begin_src R :eval no :tangle no
       #' 中心化を行う
       X <- scale(toy_data, scale = FALSE)
       #' 詳細は '?base::scale' を参照
@@ -695,7 +706,7 @@
       eigen(G) # 返り値 'values, vectors' を確認
       #' 詳細は '?base::eigen' を参照
     #+end_src
-** 解答例
+** COMMENT 解答例
 #+begin_src R :exports none
   #' ---------------------------------------------------------------------------
   #' @practice 第1主成分の求め方
@@ -1069,7 +1080,7 @@
       #' '-c(1,7)' は都道府県名・地方区分を除く．関数 select() を利用することもできる
       #' 'scale.=TRUE' とすると変数を正規化してから解析する
     #+end_src
-** 解答例    
+** COMMENT 解答例    
 #+begin_src R :exports none
   #' ---------------------------------------------------------------------------
   #' @practice 主成分分析

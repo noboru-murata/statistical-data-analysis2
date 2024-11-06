@@ -1,6 +1,6 @@
 ---
 title: "統計データ解析"
-subtitle: "第4講 サンプルコード"
+subtitle: "第6講 演習"
 date: "`r Sys.Date()`"
 format:
     html: 
@@ -17,6 +17,8 @@ citation-location: margin
 tbl-cap-location: margin
 fig-cap-location: margin
 editor: visual
+editor_options: 
+  chunk_output_type: console
 ---
 
 ## 準備
@@ -34,5 +36,95 @@ library(tidyverse)
 library(broom)      # 解析結果を tibble 形式に集約
 library(gt)         # 表の作成
 library(gtsummary)  # 分析結果の表の作成
+library(ggfortify)  # 分析結果の描画
 ```
 
+## 人工データによる主成分分析
+
+### 問題
+
+数値実験により主成分分析の考え方を確認しなさい．
+
+-   以下のモデルに従う人工データを生成する
+
+    ``` r
+    #' 観測データ (2次元) の作成 (aのスカラー倍に正規乱数を重畳)
+    a <- c(1, 2)/sqrt(5) # 主成分負荷量 (単位ベクトル)
+    n <- 100 # データ数
+    toy_data <- tibble(runif(n, -1, 1) %o% a + rnorm(2*n, sd = 0.3))
+    ```
+
+-   観測データの散布図を作成
+
+-   観測データから第1主成分負荷量を推定
+
+    ``` r
+    prcomp(toy_data) # 全ての主成分を計算する
+    a_hat <- prcomp(toy_data)$rotation[,1] # 負荷量(rotation)の1列目が第1主成分
+    ```
+
+-   散布図上に主成分負荷量を描画
+
+    ``` r
+    geom_abline(slope = 傾き, intercept = 切片) # 指定の直線を追加できる  
+    ```
+
+```{r}
+
+```
+
+## 第1主成分の求め方
+
+### 問題
+
+第1主成分とGram行列の固有ベクトルの関係を調べなさい．
+
+-   人工データを生成する
+
+-   主成分分析を実行する
+
+-   Gram 行列を計算し固有値・固有ベクトルを求める
+
+    ``` r
+    #' 中心化を行う
+    X <- scale(toy_data, scale = FALSE)
+    #' 詳細は '?base::scale' を参照
+    #' Gram 行列を計算する
+    G <- crossprod(X)
+    #' 固有値・固有ベクトルを求める
+    eigen(G) # 返り値 'values, vectors' を確認
+    #' 詳細は '?base::eigen' を参照
+    ```
+
+```{r}
+
+```
+
+## 社会生活統計指標の分析
+
+### 問題
+
+都道府県別の社会生活統計指標のデータを用いて主成分分析を行いなさい．
+
+-   データを読み込む
+
+    ``` r
+    js_data <- read_csv("data/japan_social.csv") |>
+      mutate(Area = as_factor(Area)) # 地方区分を因子化
+    ```
+
+-   データの散布図行列を描く
+
+-   各データの箱ひげ図を描き，変数の大きさを確認する
+
+-   主成分負荷量を計算する
+
+    ``` r
+    js_pca <- prcomp(js_data[-c(1,7)], scale. = TRUE)
+    #' '-c(1,7)' は都道府県名・地方区分を除く．関数 select() を利用することもできる
+    #' 'scale.=TRUE' とすると変数を正規化してから解析する
+    ```
+
+```{r}
+
+```

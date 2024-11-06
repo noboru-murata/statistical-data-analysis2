@@ -117,13 +117,14 @@
 :EXPORT_FILE_NAME: lecture06
 :EXPORT_DATE: <2020-09-19 Sat>
 :END:
-<2023-11-09 Thu> 更新
+<2024-11-06 Wed> 更新
 ** スライド
 #+hugo: {{< myslide base="statistical-data-analysis2" name="slide06" >}}
 ** ハンドアウト
 - [[github:pdfs/slide06.pdf][PDF file]]
 ** 付録
-- [[github:code/slide06.R][RScript]]
+- 実習用 [[githubraw:code/practice06.qmd][Quarto]] (解答例 [[githubraw:code/sample-code06.qmd][Quarto]] [[github:code/sample-code06.html][HTML]])
+- [[github:code/slide06.R][R Script]]
 - [[github:data/data06.zip][練習問題用データセット]]
 
 * 第7講
