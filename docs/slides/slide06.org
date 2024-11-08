@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-11-06 14:02:21 mura>
+# Time-stamp: <2024-11-08 15:08:57 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -91,7 +91,8 @@
     set_names("県名", "地方名"), # 列の名称を"県名"と"地方名"に変更
     read_csv(file = "data/jpamenity.csv",
              col_select = !1:2) |> slice(-1) |>
-    set_names(names(read_csv(file = "data/jpamenityitem.csv")))) # 簡略化した項目名に変更
+    set_names(names(read_csv(file = "data/jpamenityitem.csv")))) |> # 簡略化した項目名に変更
+    mutate(地方名 = as_factor(地方名)) # 地方区分を出現順に因子化
 #+end_src
 #+begin_src R :eval no :exports none
   ja_data |> View() # 左上ペインに表として表示
@@ -99,7 +100,7 @@
 #+begin_src R :exports results :results output html :tangle no
   #' データの表示(reveal用)
   ja_data |>
-    select(1:10) |> # 大きな表なので一部の列を選択する
+    select(c(1,4,5,9,10,12,18,19,20,21,23)) |> # 大きな表なので一部の列を選択する
     slice(1:15) |>
     gt() |>
     as_raw_html()
@@ -107,14 +108,14 @@
 #+begin_src R :exports results :results value scalar latex :tangle no
   #' データの表示(latex用)
   ja_data |>
-    select(1:10) |> # 大きな表なので一部の列を選択する
+    select(c(1,4,5,9,10,12,18,19,20,21,23)) |> # 大きな表なので一部の列を選択する
     gt() |>
     tab_options(table.font.size = 12) |>
     as_latex() |> as.character()
 #+end_src
 
 #+reveal: split
-#+begin_src R :file figs/ja-pairs1.png :exports results :results graphics
+#+begin_src R :file figs/ja-pairs1.png :exports results :results graphics :height 700
   ja_data |>
     GGally::ggpairs(columns = 3:10,
                     legend = c(2,1), # 2行1列のグラフから凡例を作成
@@ -129,7 +130,7 @@
 [[file:figs/ja-pairs1.png]]
 
 #+reveal: split
-#+begin_src R :file figs/ja-pairs2.png :exports results :results graphics
+#+begin_src R :file figs/ja-pairs2.png :exports results :results graphics :height 700
   ja_data |>
     GGally::ggpairs(columns = 11:19,
                     legend = c(2,1), 
@@ -144,7 +145,7 @@
 [[file:figs/ja-pairs2.png]]
 
 #+reveal: split
-#+begin_src R :file figs/ja-pairs3.png :exports results :results graphics
+#+begin_src R :file figs/ja-pairs3.png :exports results :results graphics :height 700
   ja_data |>
     GGally::ggpairs(columns = 20:27,
                     legend = c(2,1), 
@@ -159,18 +160,20 @@
 [[file:figs/ja-pairs3.png]]
 
 #+reveal: split
-#+begin_src R :file figs/ja-biplot.png :exports results :results graphics
+#+begin_src R :file figs/ja-biplot.png :exports results :results graphics :height 700
   ja_fit <- ja_data |> 
     column_to_rownames(var = "県名") |>
     select(where(is.double)) |>
     prcomp(scale. = TRUE) # 主成分分析の実行
   autoplot(ja_fit, # バイプロット
-           label = TRUE, colour = "royalblue", # ラベルの表示
+           asp = 1, # 縦横比を設定
+           data = ja_data, colour = "地方名", # 地方ごとに色付け
+           label = TRUE, # ラベルの表示
            label.repel = TRUE, # ラベルの表示を自動調整 (パッケージ ggrepel)
            label.family = jp_font, label.size = 3,
            loadings = TRUE, loadings.colour = "orchid", # 負荷の表示
-           loadings.label = TRUE, loadings.label.colour = "darkorchid", # 負荷ラベルの表示
-           loadings.label.family = jp_font, loadings.label.size = 3.5) 
+           loadings.label = TRUE, loadings.label.colour = "darkgray", # 負荷ラベルの表示
+           loadings.label.family = jp_font, loadings.label.size = 4) 
 #+end_src
 #+caption: 県別の生活環境の主成分分析
 #+name: fig:ja-biplot
@@ -264,27 +267,28 @@
     #' data: 必要な変数を含むデータフレーム
     #' 詳細は '?stats::prcomp' を参照
   #+end_src
-** R : 関数 ~predict()~ の使い方
+
+** R : 分析結果を取得する関数 
 :PROPERTIES:
 :END:
-- 主成分得点を計算する関数
+- 主成分得点を計算する
   #+begin_src R :eval no :tangle no
     predict(object, newdata, ...)
     #' object: prcomp が出力したオブジェクト
     #' newdata: 主成分得点を計算するデータフレーム
     #' 詳細は '?stats::prcomp' または '?stats::predict.prcomp' を参照
   #+end_src
-  - 'newdata' を省略すると分析に用いたデータフレームの得点が計算される
+  - ~newdata~ を省略すると分析に用いたデータフレームの得点が計算される
 
 #+reveal: split
-- 主成分分析の結果を取得する関数 
+- 主成分分析の結果を取得する
   #+begin_src R :eval no :tangle no
     tidy(x, matrix = "u", ...)
     #' x: prcomp が出力したオブジェクト
     #' matrix: 結果として取り出す行列 u:scores, v:loadings, d:eigenvalues
     #' 詳細は '?broom::tidy.prcomp' を参照
   #+end_src
-- 主成分得点を計算する関数 
+- 主成分得点を計算する
   #+begin_src R :eval no :tangle no
     augment(x, data = NULL, newdata, ...)
     #' x: prcomp が出力したオブジェクト

@@ -4,9 +4,9 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2023-11-15 11:40:49 mura>
+# Time-stamp: <2024-11-08 12:43:40 mura>
 :REVEAL:
-#+SETUPFILE: "./reveal.js/org/mycourse.org"
+#+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
 # <m C-i でlatex block (math env用)
 # C-c '
@@ -63,7 +63,16 @@
     dplyr::select(),
     dplyr::lag(),
   )
+  library(broom)
+  library(gt)
+  library(gtsummary)
   library(ggfortify)
+  library(ggrepel)
+  #' macOSのための日本語表示の設定
+  if(Sys.info()["sysname"] == "Darwin") { # macOSか調べる
+    jp_font <- "HiraMaruProN-W4"
+    theme_update(text = element_text(family = jp_font))
+  } else {jp_font <- NULL}
 #+end_src
 
 
@@ -334,7 +343,6 @@
 # 東京大学
 ** R : 主成分分析の評価
 :PROPERTIES:
-:reveal_background: #fef4f4
 :ID:       88763329-03B8-44F3-8AA5-CD068BED27A0
 :END:
 - 分析結果の評価を行う関数:
@@ -343,7 +351,7 @@
   - ~ggfortify::autoplot()~: 主成分得点による散布図
   #+begin_src R :eval no :tangle no
     #' データフレーム 'toy_data' を分析
-    toy_pca <- toy_data |> select(計算対象の列を指定) |> prcomp(必要なら正規化)
+    toy_pca <- toy_data |> select(計算対象の列) |> prcomp(必要なら正規化)
     #' 主成分負荷量と寄与率を確認する
     summary(toy_pca)
     broom::tidy(toy_pca, "d") # "u","v","d" で取得する情報を指定
@@ -354,15 +362,14 @@
 
 ** データセットの準備
 :PROPERTIES:
-:reveal_background: #fef4f4
 :ID:       9EECA83B-6D62-4604-8D66-E87C99352B45
 :END:
 - 以下の2つのデータセットを使用する
-  - ~japan_social.csv~ (先週から使用)
+  - ~japan_social.csv~ (配布済み)
     #+begin_quote
     総務省統計局より取得した都道府県別の社会生活統計指標の一部
     #+end_quote
-  - ~MASS::UScereal~ \\
+  - ~MASS::UScereal~ 
     #+begin_quote
     *Nutritional and Marketing Information on US Cereals* \\
     The UScereal data frame has 65 rows and 11 columns. The data
@@ -374,7 +381,6 @@
 
 ** 各変数の分布 (~japan_social.csv~)
 :PROPERTIES:
-:reveal_background: #fef4f4
 :ID:       1302EFEE-6F79-49EB-81B6-669236EC820E
 :END:
 - 変数間の散布図
@@ -410,7 +416,6 @@
    
 ** データの正規化
 :PROPERTIES:
-:reveal_background: #fef4f4
 :ID:       3FA11E3C-89E8-469E-82AD-86E3BFA86746
 :END:
 - 各変数の標本平均を0，不偏分散を1に規格化する
@@ -473,7 +478,7 @@
         rownames_to_column(var = "product") |> # 行名の製品名を列に加える
         as_tibble() 
     #+end_src
-    
+** COMMENT 解答例    
 #+begin_src R :exports none
   #' ---------------------------------------------------------------------------
   #' @practice 寄与率・累積寄与率
@@ -1330,7 +1335,7 @@
     #+begin_src R :eval no :tangle no
       autoplot(prcompの結果, x = x軸成分, y = y軸成分) # 主成分の指定
     #+end_src
-
+** COMMENT 解答例
 #+begin_src R :exports none
   #' ---------------------------------------------------------------------------
   #' @practice 主成分分析の視覚化

@@ -25,7 +25,8 @@ ja_data <- bind_cols(
   set_names("県名", "地方名"), # 列の名称を"県名"と"地方名"に変更
   read_csv(file = "data/jpamenity.csv",
            col_select = !1:2) |> slice(-1) |>
-  set_names(names(read_csv(file = "data/jpamenityitem.csv")))) # 簡略化した項目名に変更
+  set_names(names(read_csv(file = "data/jpamenityitem.csv")))) |> # 簡略化した項目名に変更
+  mutate(地方名 = as_factor(地方名)) # 地方区分を出現順に因子化
 
 ja_data |> View() # 左上ペインに表として表示
 
@@ -55,9 +56,11 @@ ja_fit <- ja_data |>
   select(where(is.double)) |>
   prcomp(scale. = TRUE) # 主成分分析の実行
 autoplot(ja_fit, # バイプロット
-         label = TRUE, colour = "royalblue", # ラベルの表示
+         asp = 1, # 縦横比を設定
+         data = ja_data, colour = "地方名", # 地方ごとに色付け
+         label = TRUE, # ラベルの表示
          label.repel = TRUE, # ラベルの表示を自動調整 (パッケージ ggrepel)
          label.family = jp_font, label.size = 3,
          loadings = TRUE, loadings.colour = "orchid", # 負荷の表示
-         loadings.label = TRUE, loadings.label.colour = "darkorchid", # 負荷ラベルの表示
-         loadings.label.family = jp_font, loadings.label.size = 3.5)
+         loadings.label = TRUE, loadings.label.colour = "darkgray", # 負荷ラベルの表示
+         loadings.label.family = jp_font, loadings.label.size = 4)
