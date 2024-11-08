@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-11-08 15:08:57 mura>
+# Time-stamp: <2024-11-08 15:49:32 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -110,7 +110,7 @@
   ja_data |>
     select(c(1,4,5,9,10,12,18,19,20,21,23)) |> # 大きな表なので一部の列を選択する
     gt() |>
-    tab_options(table.font.size = 12) |>
+    tab_options(table.font.size = 9) |>
     as_latex() |> as.character()
 #+end_src
 
