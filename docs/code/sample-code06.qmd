@@ -51,7 +51,10 @@ library(ggfortify)  # 分析結果の描画
     #' 観測データ (2次元) の作成 (aのスカラー倍に正規乱数を重畳)
     a <- c(1, 2)/sqrt(5) # 主成分負荷量 (単位ベクトル)
     n <- 100 # データ数
-    toy_data <- tibble(runif(n, -1, 1) %o% a + rnorm(2*n, sd = 0.3))
+    toy_data <- # aのスカラー倍に正規乱数を重畳(行列として作成)
+        runif(n,-1,1) %o% a + rnorm(2*n, sd=0.3) 
+    colnames(toy_data) <- paste0("x", 1:2) # 行列に列名(x1,x2)を付与
+    toy_data <- as_tibble(toy_data) 
     ```
 
 -   観測データの散布図を作成
@@ -82,6 +85,17 @@ toy_data <- # aのスカラー倍に正規乱数を重畳(行列として作成)
 colnames(toy_data) <- paste0("x", 1:2) # 行列に列名(x1,x2)を付与
 toy_data <- as_tibble(toy_data) 
 ```
+
+::: callout-tip
+以下のようにして列名を書き直しても良い．
+
+``` r
+toy_data <-
+    as_tibble(runif(n, -1, 1) %o% a + rnorm(2*n, sd = 0.3),
+              .name_repair = "minimal") |>
+    set_names(paste0("x",1:2))
+```
+:::
 
 ```{r}
 p <-

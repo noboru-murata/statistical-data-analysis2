@@ -1,6 +1,6 @@
 ---
 title: "統計データ解析"
-subtitle: "第4講 サンプルコード"
+subtitle: "第7講 実習"
 date: "`r Sys.Date()`"
 format:
     html: 
@@ -17,6 +17,8 @@ citation-location: margin
 tbl-cap-location: margin
 fig-cap-location: margin
 editor: visual
+editor_options: 
+  chunk_output_type: console
 ---
 
 ## 準備
@@ -34,5 +36,62 @@ library(tidyverse)
 library(broom)      # 解析結果を tibble 形式に集約
 library(gt)         # 表の作成
 library(gtsummary)  # 分析結果の表の作成
+library(ggfortify)  # biplot表示のため
 ```
 
+## 寄与率・累積寄与率
+
+### 問題
+
+標準化の有無の違いで寄与率・累積寄与率がどのように異なるか確認しなさい．
+
+``` r
+prcomp(toy_data)                # 標準化を行わない場合
+prcomp(toy_data, scale. = TRUE) # 標準化を行う場合
+```
+
+::: column-margin
+正式なオプション名は `scale.` であるが，`sc = TRUE` など他のオプションと区別できれば短縮表記も可能．
+:::
+
+-   `japan_social.csv` の読み込み方の例
+
+    ``` r
+        js_data <- read_csv("data/japan_social.csv") |>
+            mutate(Area = as_factor(Area))
+    ```
+
+-   `MASS::UScereal` の整理の例
+
+    ``` r
+    glimpse(MASS::UScereal) # 各変数の属性を確認する．
+    uc_data <- MASS::UScereal |>
+        rownames_to_column(var = "product") |> # 行名の製品名を列に加える
+        as_tibble() 
+    ```
+
+    ::: column-margin
+    `base R` の `data.frame` 型なので tibble 型に変換しておく．
+    :::
+
+```{r}
+
+```
+
+## 主成分分析の視覚化
+
+### 問題
+
+それぞれのデータの主成分分析の結果を利用してバイプロットによる可視化を行いなさい．
+
+-   標準化したデータでの主成分分析を行いなさい．
+-   第1主成分と第2主成分でのバイプロットを描きなさい．
+-   第2主成分と第3主成分でのバイプロットを描きなさい．
+
+``` r
+autoplot(prcompの結果, x = x軸成分, y = y軸成分) # 主成分の指定
+```
+
+```{r}
+
+```
