@@ -195,7 +195,7 @@ toy_pca <- prcomp(toy_data)
 pc1 <- predict(toy_pca)[,1] 
 ```
 
-::: {callout-tip}
+::: callout-tip
 以下の図は3次元のときのみ実行可能である．
 
 ```{r}
@@ -273,17 +273,36 @@ js_data |>
 ```
 :::
 
-箱ひげ図を用いて変数のばらつきを調べる．
+箱ひげ図を用いて変数のばらつきを調べると，変数ごとのばらつきに大きな違いがあることがわかる．
 
 ```{r}
 js_data |> 
-    pivot_longer(!c(Pref,Area)) |>     # 都道府県名・地方区分以外をまとめる
+    pivot_longer(where(is.double)) |>  # 実数値(都道府県名・地方区分以外)をまとめる
+    mutate(name = as_factor(name)) |>  # 列の順番どおりboxplotを並べる
     ggplot(aes(x = name, y = value)) + # 既定値の name と value を利用
-    geom_boxplot(aes(fill = name),     # 変数ごとに色を変える
-                 show.legend = FALSE) 
+    geom_boxplot(aes(fill = name), show.legend = FALSE) # 変数ごとに色を変える
 ```
 
-変数ごとのばらつきに大きな違いがあることがわかる．
+::: column-margin
+データフレームの特定の列のみ変換を行うには関数 `dplyr::across()` を利用する． 関数を組み合わせることで様々な条件が表現できる． 具体的な例は `?dplyr::across` や `?tidyselect::where` を参照のこと．
+:::
+
+変数ごとに標準化(平均0分散1)したデータフレームを作成するには以下のようにすれば良い．
+
+```{r}
+js_data |> 
+    mutate(across(where(is.double), \(x)c(scale(x)))) |>
+    pivot_longer(where(is.double)) |>  # 実数値をまとめる
+    mutate(name = as_factor(name)) |>  # 列の順番どおりboxplotを並べる
+    ggplot(aes(x = name, y = value)) + # 既定値の name と value を利用
+    geom_boxplot(aes(fill = name), show.legend = FALSE) # 変数ごとに色を変える
+```
+
+::: column-margin
+関数 `base::scale()` は常に行列を返すため，そのまま用いると期待どおりに動かない． この例ではベクトルを作成する関数 `base::c()` (関数 `base::as.vector()` でも可)と無名関数を用いてこれを解消している． 無名関数の代わりにラムダ式 `~c(scale(.))` などを用いることもできる．
+:::
+
+主成分分析を行う． 変数の標準化は関数 `stats::prcomp()` にオプションを指定することで実行できるので， 元のデータをそのまま渡せば良い．
 
 ```{r}
 js_pca <- js_data |>
@@ -300,10 +319,8 @@ js_pca
 第1，第2主成分得点を利用して2次元の地図を作成することができる．
 
 ```{r}
-as_tibble(predict(js_pca)) |> # 主成分得点
-    mutate(Pref = js_data[["Pref"]], # 都道府県名
-           Area = js_data[["Area"]]) |> # 因子化した地方区分
-    ggplot(aes(x = PC1, y = PC2)) + 
+augment(js_pca, data = js_data) |> # 主成分得点
+    ggplot(aes(x = .fittedPC1, y = .fittedPC2)) + 
     geom_point(aes(colour = Area), shape = 19, size = 2) + # 地方区分ごとに色を変える
     geom_text(aes(label = Pref), colour = "darkgray", 
               hjust = 0, nudge_x = 0.1, check_overlap = TRUE)
@@ -315,38 +332,22 @@ as_tibble(predict(js_pca)) |> # 主成分得点
 summary(js_pca) 
 ```
 
-::: {callout-tip}
-次週詳しく説明するが，関数 `ggfortify::autoplot()`を利用することもできる．
-
-```{r}
-#| column: margin
-autoplot(js_pca) +
-    geom_text(label = js_data[["Pref"]], # 都道府県名を追加 
-              hjust = 0, nudge_x = 0.01) # 横にずらして表示
-```
-
-関数 `prcomp()` に列名を渡すともう少し簡略に記述できる．
-
-```{r}
-#| column: margin
-js_pca <- js_data |>
-    column_to_rownames("Pref") |> # 都道府県名を列名に変換
-    select(where(is.double)) |> # 実数値の列を取得
-    prcomp(scale. = TRUE) # 変数のばらつきを規格化
-autoplot(js_pca, label = TRUE, label.repel = TRUE) 
-```
-
-さらに地方区分ごとに点の色を変えることもできる．
+::: callout-tip
+主成分得点による地図は関数 `ggfortify::autoplot()`を利用することもできる．
 
 ```{r}
 #| column: margin
 autoplot(js_pca,
-         data = js_data, colour = "Area", 
-         label = TRUE, label.repel = TRUE)
+         scale = 0,            # バイプロットの設定 (主成分得点での表示)
+         data = js_data,       # 必要な情報を含むデータフレーム
+         colour = "Area",      # 地方区分ごとに色付
+         label = TRUE,         # ラベルを付加
+         label.label = "Pref", # 都道府県名を追加
+         label.repel = TRUE)   # 横にずらして表示
 ```
 :::
 
-2変数での解析例 (AgriとLandを取り上げる，その他の組み合わせでも試みよ) は以下のようになる． 多変数での視覚化は次週詳しく説明する．
+2変数での解析例 (AgriとLandを取り上げる，その他の組み合わせでも試みよ) は以下のようになる. 多変数での視覚化は次週詳しく説明する．
 
 ```{r}
 js_pca2 <- js_data |>
@@ -367,7 +368,3 @@ js_data |> # 数値列のみ中心化・規格化する
                colour = "purple", shape = 18) +
     coord_fixed() # 縦横比を1に指定
 ```
-
-::: callout-tip
-データフレームの特定の列のみ変換を行うには関数 `dplyr::across()` を利用する 関数を組み合わせることで様々な条件が表現できる． 具体的な例は `?dplyr::across` や `?tidyselect::where` を参照のこと． 関数 `base::scale()` は行列を返すため，そのまま用いると列名が変更される． 上記の例ではベクトルを作成する関数 `base::c()` と 無名関数を用いてこれを解消している． 名関数の代わりにラムダ式 `~c(scale(.))` などを用いることもできる
-:::
