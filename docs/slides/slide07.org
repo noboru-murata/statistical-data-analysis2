@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-11-11 15:21:54 mura>
+# Time-stamp: <2024-11-15 14:10:25 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -82,9 +82,9 @@
   - 変量を効率的に縮約して少数の特徴量を構成する
   - 変量の間の関係を明らかにする
 - 分析の方針
+  - *データの情報を保持する* = *データを区別することができる*
   - データの情報を最大限保持する変量の線形結合を構成
   - データの情報を最大限反映する座標(方向)を探索
-  - *データの情報を保持する* = *データを区別することができる*
 
 ** 分析の考え方
 - 1変量の特徴量
@@ -988,8 +988,8 @@
 - *問題点*
   - 変数のスケールによって係数の大きさは変化する
   - 変数の標準化(平均0，分散1)がいつも妥当とは限らない
-- スケールによらない変数と主成分の関係: \\
-  *相関係数* を考えればよい
+- スケールによらない変数と主成分の関係
+  - *相関係数* を考えればよい
 
 ** 相関係数
 - \(\boldsymbol{e}_{j}\): 第 \(j\) 成分は1，それ以外は0のベクトル
@@ -1007,20 +1007,23 @@
          \sqrt{\boldsymbol{e}_{j}^{\mathsf{T}}X^{\mathsf{T}}X\boldsymbol{e}_{j}}}\\
       &=\frac{\lambda_{k}\boldsymbol{a}_{k}^{\mathsf{T}}\boldsymbol{e}_{j}}
         {\sqrt{\lambda_{k}}\sqrt{(X^{\mathsf{T}}X)_{jj}}}
+        =\frac{\sqrt{\lambda_{k}}(\boldsymbol{a}_{k})_{j}}
+        {\sqrt{(X^{\mathsf{T}}X)_{jj}}}
   \end{align}
   #+end_quote
 
-** 標準化データの場合
-- \(X^{\mathsf{T}}X\) の対角成分は全て\(n-1\)
-  (\((X^{\mathsf{T}}X)_{jj}=n-1\))
-  # - 第 \(k\) 主成分に対する第 \(j\) 変数の相関係数:
-  #   #+begin_quote
-  #     \begin{equation}
-  #       (\boldsymbol{r}_{k})_{j}
-  #       =\sqrt{\lambda_{k}/(n-1)}\cdot(\boldsymbol{a}_{k})_{j}
-  #     \end{equation}
-  #   #+end_quote
-  - 第 \(k\) 主成分に対する相関係数ベクトル:
+** 相関係数による評価
+- 標準化されたデータの場合
+  - \(X^{\mathsf{T}}X\) の対角成分は全て\(n-1\)
+    (\((X^{\mathsf{T}}X)_{jj}=n-1\))
+    # - 第 \(k\) 主成分に対する第 \(j\) 変数の相関係数:
+    #   #+begin_quote
+    #     \begin{equation}
+    #       (\boldsymbol{r}_{k})_{j}
+    #       =\sqrt{\lambda_{k}/(n-1)}\cdot(\boldsymbol{a}_{k})_{j}
+    #     \end{equation}
+    #   #+end_quote
+  - 第 \(k\) 主成分に対する相関係数ベクトル
     #+begin_quote
     \begin{equation}
       \boldsymbol{r}_{k}
@@ -1034,12 +1037,13 @@
   - *主成分負荷量の比較*
     - 同じ主成分(\(k\)を固定)への各変数の影響は固有ベクトルの成分比
     - 同じ変数(\(j\)を固定)の各主成分への影響は固有値の平方根で重みづけ
-- 標準化されていない場合は変数の分散の影響を考慮
+- 標準化されていない場合
+  - 変数の分散の影響を考慮する必要がある
 
 
 * データ行列の分解表現
 ** 特異値分解
-- 階数 \(r\) の \(n\times p\) 型行列 \(X\) の分解:
+- 階数 \(r\) の \(n\times p\) 型行列 \(X\) の分解
   #+begin_quote
   \begin{equation}
     X=U\Sigma V^{\mathsf{T}}
@@ -1079,7 +1083,7 @@
 - \(D\) の対角成分: \(X\) の *特異値* (singular value)
 
 ** 特異値分解によるGram行列の表現
-- Gram行列の展開:
+- Gram行列の展開
   #+begin_quote
   \begin{align*}
     X^{\mathsf{T}}X

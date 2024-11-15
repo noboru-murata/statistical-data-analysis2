@@ -4,9 +4,9 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2023-12-08 15:18:54 mura>
+# Time-stamp: <2024-11-14 17:45:50 mura>
 :REVEAL:
-#+SETUPFILE: "./reveal.js/org/mycourse.org"
+#+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
 # <m C-i でlatex block (math env用)
 # C-c '
@@ -63,12 +63,22 @@
   ### 第8講 サンプルコード
   library(conflicted)
   library(tidyverse)
+  library(MASS) # 判別分析のため
   conflicts_prefer(
     dplyr::filter(),
     dplyr::select(),
     dplyr::lag(),
   )
+  library(broom)
+  library(gt)
+  library(gtsummary)
   library(ggfortify)
+  library(ggrepel)
+  #' macOSのための日本語表示の設定
+  if(Sys.info()["sysname"] == "Darwin") { # macOSか調べる
+    jp_font <- "HiraMaruProN-W4"
+    theme_update(text = element_text(family = jp_font))
+  } else {jp_font <- NULL}
 #+end_src
 
 
@@ -483,7 +493,7 @@
       tw_lda_fitted <- predict(tw_lda) # 判別関数によるクラス分類結果の取得
       tw_lda_predict <- predict(tw_lda, newdata = tw_test) # 新しいデータの予測
     #+end_src
-    
+** COMMENT 解答例    
 #+begin_src R :exports none
   #' ---------------------------------------------------------------------------
   #' @practice 線形判別
@@ -766,7 +776,7 @@
       tw_qda_predict <- predict(tw_qda, newdata = tw_test) # 新しいデータの予測
     #+end_src
   - 別の月や変数を用いて判別分析を行いなさい
-
+** COMMENT 解答例
 #+begin_src R :exports none
   #' ---------------------------------------------------------------------------
   #' @practice 2次判別
@@ -1038,7 +1048,7 @@
         select(rain, temp, solar, wind, month)
       tw_lda2 <- lda(rain ~ ., data = tw_subset2) # 'rain' をそれ以外で判別
     #+end_src
-    
+** COMMENT 解答例
 #+begin_src R :exports none
   #' ---------------------------------------------------------------------------
   #' @practice 多値判別

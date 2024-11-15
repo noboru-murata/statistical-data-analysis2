@@ -283,10 +283,6 @@ js_data |>
     geom_boxplot(aes(fill = name), show.legend = FALSE) # 変数ごとに色を変える
 ```
 
-::: column-margin
-データフレームの特定の列のみ変換を行うには関数 `dplyr::across()` を利用する． 関数を組み合わせることで様々な条件が表現できる． 具体的な例は `?dplyr::across` や `?tidyselect::where` を参照のこと．
-:::
-
 変数ごとに標準化(平均0分散1)したデータフレームを作成するには以下のようにすれば良い．
 
 ```{r}
@@ -299,7 +295,25 @@ js_data |>
 ```
 
 ::: column-margin
+データフレームの特定の列のみ変換を行うには関数 `dplyr::across()` を利用する． 関数を組み合わせることで様々な条件が表現できる． 具体的な例は `?dplyr::across` や `?tidyselect::where` を参照のこと．
+:::
+
+::: column-margin
 関数 `base::scale()` は常に行列を返すため，そのまま用いると期待どおりに動かない． この例ではベクトルを作成する関数 `base::c()` (関数 `base::as.vector()` でも可)と無名関数を用いてこれを解消している． 無名関数の代わりにラムダ式 `~c(scale(.))` などを用いることもできる．
+:::
+
+::: callout-tip
+箱ひげ図で判り難い場合には密度を表示しても良い．
+
+```{r}
+#| column: margin
+js_data |> 
+    mutate(across(where(is.double), \(x)c(scale(x)))) |>
+    pivot_longer(where(is.double)) |>  
+    mutate(name = as_factor(name)) |>  
+    ggplot(aes(x = name, y = value)) + 
+    geom_violin(aes(fill = name), show.legend = FALSE) 
+```
 :::
 
 主成分分析を行う． 変数の標準化は関数 `stats::prcomp()` にオプションを指定することで実行できるので， 元のデータをそのまま渡せば良い．
@@ -309,6 +323,18 @@ js_pca <- js_data |>
     select(where(is.double)) |> # 実数値の列(都道府県名・地方区分)を抽出
     prcomp(scale. = TRUE) # 変数のばらつきを規格化
 js_pca
+```
+
+主成分負荷量を表にするには，例えば以下のようにすればよい．
+
+```{r}
+js_pca |>
+    tidy("v") |> # "v", "rotation", "loadings" または "variables"
+    pivot_wider(names_from = PC,        # 横長の形式に変換する
+                names_prefix = "PC",    # PC列の番号で新しい列を作る
+                values_from = value) |> 
+    gt() |>
+    fmt_number(decimals = 3)
 ```
 
 主成分方向から読み取れることは

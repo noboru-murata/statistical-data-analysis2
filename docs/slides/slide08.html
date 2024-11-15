@@ -11,22 +11,19 @@
 
 <link rel="stylesheet" href="./reveal.js/dist/theme/oer-reveal.css" id="theme"/>
 
-<link rel="stylesheet" href="./reveal.js/plugin/toc-progress/toc-progress.css"/>
-
-<link rel="stylesheet" href="./reveal.js/dist/theme/toc-style.css"/>
-
 <link rel="stylesheet" href="./reveal.js/dist/theme/fonts/source-sans-pro/source-sans-pro.css"/>
 
-<link rel="stylesheet" href="./reveal.js/plugin/accessibility/helper.css"/>
+<link rel="stylesheet" href="./reveal.js/plugin/menu/menu.css"/>
 
-<link rel="stylesheet" href="./reveal.js/dist/theme/mycourse.css"/>
-<link rel="stylesheet" href="./reveal.js/plugin/highlight/zenburn.css"/>
+<link rel="stylesheet" href="./reveal.js/plugin/drawer/drawer.css"/>
+
+<link rel="stylesheet" href="./reveal.js/local/mycourse.css"/>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </head>
 <body>
 <div class="reveal">
 <div class="slides">
-<section id="sec-title-slide" data-state="no-toc-progress">
+<section id="sec-title-slide">
 <!-- This is an HTML template for the title slide. -->
 <!-- Embed logos as necessary. -->
 <!-- <a class="nooutlink" href="url"><img class="state-background your-logo-class" src="whatever.png" alt="Whatever" /></a> -->
@@ -45,27 +42,24 @@
 </div>
 
 </section>
-
 <section>
-<section id="slide-org791dab6">
-<h2 id="org791dab6">講義概要</h2>
+<section id="slide-orgeb4f836">
+<h2 id="orgeb4f836">講義概要</h2>
 <ul>
 <li><b>第1回 : 判別分析の考え方</b></li>
 <li>第2回 : 分析の評価</li>
 
 </ul>
-<div class="slide-footer"><br></div>
-
 </section>
 </section>
 <section>
-<section id="slide-orge921a21">
-<h2 id="orge921a21">判別分析の考え方</h2>
-<div class="outline-text-2" id="text-orge921a21">
+<section id="slide-org606a689">
+<h2 id="org606a689">判別分析の考え方</h2>
+<div class="outline-text-2" id="text-org606a689">
 </div>
 </section>
-<section id="slide-org8e0ee6a">
-<h3 id="org8e0ee6a">判別分析</h3>
+<section id="slide-org1342805">
+<h3 id="org1342805">判別分析</h3>
 <ul>
 <li><p>
 判別分析 (<b>discriminant analysis</b>) の目的
@@ -91,11 +85,9 @@
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-org918dddd">
-<h3 id="org918dddd">判別分析の例</h3>
+<section id="slide-orge6fe219">
+<h3 id="orge6fe219">判別分析の例</h3>
 <ul>
 <li><span style="color:green;">検査結果から患者が病気を罹患しているか判定する</span>
 <ul>
@@ -117,11 +109,9 @@
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-org397965f">
-<h3 id="org397965f">判別分析の考え方</h3>
+<section id="slide-org5f85238">
+<h3 id="org5f85238">判別分析の考え方</h3>
 <ul>
 <li>確率による定式化
 <ol>
@@ -153,11 +143,9 @@
 <li>観測データから\(Y\)の条件付確率 \(p_{k}(\boldsymbol{x})\) を構成</li>
 
 </ul>
-<div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-org652add7">
-<h3 id="org652add7">条件付確率</h3>
+<section id="slide-org2ecaa1b">
+<h3 id="org2ecaa1b">条件付確率</h3>
 <ul>
 <li>以下では \(X\) は離散型の \(q\) 次元確率変数として説明</li>
 <li><p>
@@ -179,11 +167,9 @@
 <li>連続な確率変数の場合は確率密度関数を用いる</li>
 
 </ul>
-<div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-org7f44640">
-<h3 id="org7f44640">条件付確率の表現</h3>
+<section id="slide-org0eb7c36">
+<h3 id="org0eb7c36">条件付確率の表現</h3>
 <ul>
 <li>\(Y\)の条件付確率 \(p_{k}(\boldsymbol{x})\) のモデル化の方針
 <ul>
@@ -209,19 +195,16 @@
 <li>本講義では <b>後者</b> について説明</li>
 
 </ul>
-<div class="slide-footer"><br></div>
-
-
 </section>
 </section>
 <section>
-<section id="slide-orga21b58e">
-<h2 id="orga21b58e">事後確率による判別</h2>
-<div class="outline-text-2" id="text-orga21b58e">
+<section id="slide-orgae550fb">
+<h2 id="orgae550fb">事後確率による判別</h2>
+<div class="outline-text-2" id="text-orgae550fb">
 </div>
 </section>
-<section id="slide-org341b99c">
-<h3 id="org341b99c">Bayes の公式</h3>
+<section id="slide-orgface12f">
+<h3 id="orgface12f">Bayes の公式</h3>
 <ul>
 <li><p>
 \(f_{k}(\boldsymbol{x})\) から \(p_{k}(\boldsymbol{x})\) を得る数学的原理
@@ -256,11 +239,9 @@ Bayes の公式 (Bayes&rsquo; formula)
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-org16f2ae6">
-<h3 id="org16f2ae6">Bayes の公式の略証</h3>
+<section id="slide-org96cdcba">
+<h3 id="org96cdcba">Bayes の公式の略証</h3>
 <ul>
 <li><p>
 定義より
@@ -295,7 +276,6 @@ Bayes の公式 (Bayes&rsquo; formula)
 
 </ul>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 <ul>
@@ -316,11 +296,9 @@ Bayes の公式 (Bayes&rsquo; formula)
 </blockquote></li>
 
 </ul>
-<div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-orga12f00a">
-<h3 id="orga12f00a">事前確率と事後確率</h3>
+<section id="slide-orge75f369">
+<h3 id="orge75f369">事前確率と事後確率</h3>
 <ul>
 <li><b>事前確率</b> : \(\pi_{k}=P(Y=k)\) (prior probability)
 <ul>
@@ -354,11 +332,9 @@ Bayes の公式による書き換え
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-org66c32e7">
-<h3 id="org66c32e7">事前確率の決め方</h3>
+<section id="slide-org40d35f2">
+<h3 id="org40d35f2">事前確率の決め方</h3>
 <ul>
 <li><p>
 事前に特別な情報がない場合
@@ -392,19 +368,16 @@ Bayes の公式による書き換え
 </blockquote></li>
 
 </ul>
-<div class="slide-footer"><br></div>
-
-
 </section>
 </section>
 <section>
-<section id="slide-orgf770c3b">
-<h2 id="orgf770c3b">線形判別分析</h2>
-<div class="outline-text-2" id="text-orgf770c3b">
+<section id="slide-orgbf20733">
+<h2 id="orgbf20733">線形判別分析</h2>
+<div class="outline-text-2" id="text-orgbf20733">
 </div>
 </section>
-<section id="slide-org9bd46a6">
-<h3 id="org9bd46a6">判別関数</h3>
+<section id="slide-orgcfc7564">
+<h3 id="orgcfc7564">判別関数</h3>
 <ul>
 <li>判別の手続き
 <ol>
@@ -437,11 +410,9 @@ Bayes の公式による書き換え
 <li>判別関数 \(\delta_{k}(\boldsymbol{x})\) を最大化するクラス \(k\) に分類</li>
 
 </ul>
-<div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-org3f8b600">
-<h3 id="org3f8b600">線形判別</h3>
+<section id="slide-orgdc3315a">
+<h3 id="orgdc3315a">線形判別</h3>
 <ul>
 <li>\(f_{k}(\boldsymbol{x})\) の仮定
 <ul>
@@ -482,11 +453,9 @@ Bayes の公式による書き換え
 </blockquote></li>
 
 </ul>
-<div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-orga7ade25">
-<h3 id="orga7ade25">同値性の確認</h3>
+<section id="slide-orgb8a05d3">
+<h3 id="orgb8a05d3">同値性の確認</h3>
 <ul>
 <li><p>
 事後確率と判別関数の関係
@@ -515,11 +484,9 @@ Bayes の公式による書き換え
 </blockquote></li>
 
 </ul>
-<div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-orge3e323e">
-<h3 id="orge3e323e">平均・分散の推定</h3>
+<section id="slide-orgf71e755">
+<h3 id="orgf71e755">平均・分散の推定</h3>
 <ul>
 <li><p>
 平均の推定 (クラスごとに行う)
@@ -555,55 +522,49 @@ Bayes の公式による書き換え
 </blockquote></li>
 
 </ul>
-<div class="slide-footer"><br></div>
-
-
 </section>
 </section>
 <section>
-<section id="slide-org0994b9b" data-background="#fef4f4">
-<h2 id="org0994b9b">実習</h2>
-<div class="slide-footer"><br></div>
+<section id="slide-org7d21927" data-background="#fef4f4">
+<h2 id="org7d21927">実習</h2>
 </section>
-<section id="slide-org920a595">
-<h3 id="org920a595">R : 線形判別</h3>
+<section id="slide-orgc43f35d">
+<h3 id="orgc43f35d">R : 線形判別</h3>
 <ul>
 <li><p>
 関数 <code>MASS::lda()</code> 
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >library(MASS) # パッケージの読み込み
+<pre class="src src-R"><span style="color: #60aa00;">library</span>(MASS) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#12497;&#12483;&#12465;&#12540;&#12472;&#12398;&#35501;&#12415;&#36796;&#12415;</span>
 lda(formula, data, ..., subset, na.action)
-#' formula: モデル式 (ラベル ~ 判別に用いる変数)
-#' data: 必要な情報を含むデータフレーム
-#' 詳細は '?MASS::lda' を参照
-</code></pre>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> formula: &#12514;&#12487;&#12523;&#24335; (&#12521;&#12505;&#12523; ~ &#21028;&#21029;&#12395;&#29992;&#12356;&#12427;&#22793;&#25968;)</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> data: &#24517;&#35201;&#12394;&#24773;&#22577;&#12434;&#21547;&#12416;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35443;&#32048;&#12399; '?MASS::lda' &#12434;&#21442;&#29031;</span>
+</pre>
 </div></li>
 <li><p>
 判別結果取得のための関数
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >predict(object, newdata, prior = object$prior, dimen,
-	method = c("plug-in", "predictive", "debiased"), ...)
-#' object: ldaの返すオブジェクト
-#' newdata: 予測の対象とするデータフレーム
-#' prior: ラベルの事前分布
-#' 返値はリスト型で以下の項目がある
-#' class: 判別関数による予測ラベル
-#' posterior: ラベルの事後確率
-#' x: 判別関数値
-#' 詳細は '?MASS::predict.lda' を参照
-</code></pre>
+<pre class="src src-R">predict(object, newdata, prior = object$prior, dimen,
+        method = c(<span style="color: #d08928;">"plug-in"</span>, <span style="color: #d08928;">"predictive"</span>, <span style="color: #d08928;">"debiased"</span>), ...)
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> object: lda&#12398;&#36820;&#12377;&#12458;&#12502;&#12472;&#12455;&#12463;&#12488;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> newdata: &#20104;&#28204;&#12398;&#23550;&#35937;&#12392;&#12377;&#12427;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> prior: &#12521;&#12505;&#12523;&#12398;&#20107;&#21069;&#20998;&#24067;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#36820;&#20516;&#12399;&#12522;&#12473;&#12488;&#22411;&#12391;&#20197;&#19979;&#12398;&#38917;&#30446;&#12364;&#12354;&#12427;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> class: &#21028;&#21029;&#38306;&#25968;&#12395;&#12424;&#12427;&#20104;&#28204;&#12521;&#12505;&#12523;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> posterior: &#12521;&#12505;&#12523;&#12398;&#20107;&#24460;&#30906;&#29575;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> x: &#21028;&#21029;&#38306;&#25968;&#20516;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35443;&#32048;&#12399; '?MASS::predict.lda' &#12434;&#21442;&#29031;</span>
+</pre>
 </div></li>
 
 </ul>
-<div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-org5ea3929" data-background="#fef4f4">
-<h3 id="org5ea3929">練習問題</h3>
+<section id="slide-org4855755" data-background="#fef4f4">
+<h3 id="org4855755">練習問題</h3>
 <ul>
 <li>東京の気候データを用いて以下の分析を行いなさい
 <ul>
@@ -612,43 +573,41 @@ lda(formula, data, ..., subset, na.action)
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >tw_data &lt;- read_csv("data/tokyo_weather.csv") 
-tw_subset  &lt;- tw_data |&gt;
-  filter(month %in% c(9,10)) |&gt;
+<pre class="src src-R">tw_data <span style="color: #60aa00;">&lt;-</span> read_csv(<span style="color: #d08928;">"data/tokyo_weather.csv"</span>) 
+tw_subset  <span style="color: #60aa00;">&lt;-</span> tw_data |&gt;
+  filter(month <span style="color: #60aa00;">%in%</span> c(9,10)) |&gt;
   select(temp, humid, month) |&gt;
-  mutate(month = as_factor(month)) # 月を因子化
-</code></pre>
+  mutate(month = as_factor(month)) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#26376;&#12434;&#22240;&#23376;&#21270;</span>
+</pre>
 </div></li>
 <li><p>
 半分のデータを用いて線形判別関数を構成し，残りのデータを用いて判別を行う
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >library(MASS)
-idx &lt;- seq(2, 60, by = 2)
-tw_train &lt;- tw_subset[ idx,] # 訓練データ
-tw_test  &lt;- tw_subset[-idx,] # 試験データ
-tw_lda &lt;- lda(month ~ temp + humid, data = tw_train) # 線形判別関数の構成
-tw_lda_fitted &lt;- predict(tw_lda) # 判別関数によるクラス分類結果の取得
-tw_lda_predict &lt;- predict(tw_lda, newdata = tw_test) # 新しいデータの予測
-</code></pre>
+<pre class="src src-R"><span style="color: #60aa00;">library</span>(MASS)
+idx <span style="color: #60aa00;">&lt;-</span> seq(2, 60, by = 2)
+tw_train <span style="color: #60aa00;">&lt;-</span> tw_subset[ idx,] <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#35347;&#32244;&#12487;&#12540;&#12479;</span>
+tw_test  <span style="color: #60aa00;">&lt;-</span> tw_subset[-idx,] <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#35430;&#39443;&#12487;&#12540;&#12479;</span>
+tw_lda <span style="color: #60aa00;">&lt;-</span> lda(month ~ temp + humid, data = tw_train) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#32218;&#24418;&#21028;&#21029;&#38306;&#25968;&#12398;&#27083;&#25104;</span>
+tw_lda_fitted <span style="color: #60aa00;">&lt;-</span> predict(tw_lda) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#21028;&#21029;&#38306;&#25968;&#12395;&#12424;&#12427;&#12463;&#12521;&#12473;&#20998;&#39006;&#32080;&#26524;&#12398;&#21462;&#24471;</span>
+tw_lda_predict <span style="color: #60aa00;">&lt;-</span> predict(tw_lda, newdata = tw_test) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#26032;&#12375;&#12356;&#12487;&#12540;&#12479;&#12398;&#20104;&#28204;</span>
+</pre>
 </div></li>
 
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
-
 </section>
 </section>
 <section>
-<section id="slide-orgae8504f">
-<h2 id="orgae8504f">2次判別分析</h2>
-<div class="outline-text-2" id="text-orgae8504f">
+<section id="slide-orgd4a6940">
+<h2 id="orgd4a6940">2次判別分析</h2>
+<div class="outline-text-2" id="text-orgd4a6940">
 </div>
 </section>
-<section id="slide-org26c26d3">
-<h3 id="org26c26d3">2次判別</h3>
+<section id="slide-org6c44ddf">
+<h3 id="org6c44ddf">2次判別</h3>
 <ul>
 <li>\(f_{k}(\boldsymbol{x})\) の仮定
 <ul>
@@ -689,11 +648,9 @@ tw_lda_predict &lt;- predict(tw_lda, newdata = tw_test) # 新しいデータの�
 </blockquote></li>
 
 </ul>
-<div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-orge0ceb8d">
-<h3 id="orge0ceb8d">同値性の確認</h3>
+<section id="slide-org520c6fd">
+<h3 id="org520c6fd">同値性の確認</h3>
 <ul>
 <li><p>
 事後確率と判別関数の関係
@@ -725,11 +682,9 @@ tw_lda_predict &lt;- predict(tw_lda, newdata = tw_test) # 新しいデータの�
 </blockquote></li>
 
 </ul>
-<div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-org197f8d2">
-<h3 id="org197f8d2">平均・分散の推定</h3>
+<section id="slide-org3279b25">
+<h3 id="org3279b25">平均・分散の推定</h3>
 <ul>
 <li><p>
 平均の推定 (クラスごとに行う)
@@ -765,53 +720,47 @@ tw_lda_predict &lt;- predict(tw_lda, newdata = tw_test) # 新しいデータの�
 </blockquote></li>
 
 </ul>
-<div class="slide-footer"><br></div>
-
-
 </section>
 </section>
 <section>
-<section id="slide-org8e4d220" data-background="#fef4f4">
-<h2 id="org8e4d220">実習</h2>
-<div class="slide-footer"><br></div>
+<section id="slide-orge186a46" data-background="#fef4f4">
+<h2 id="orge186a46">実習</h2>
 </section>
-<section id="slide-org4eb9789">
-<h3 id="org4eb9789">R : 2次判別</h3>
+<section id="slide-org6c91e6c">
+<h3 id="org6c91e6c">R : 2次判別</h3>
 <ul>
 <li><p>
 関数 <code>MASS::qda()</code>
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >library(MASS) # 既に読み込んでいる場合は不要
+<pre class="src src-R"><span style="color: #60aa00;">library</span>(MASS) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#26082;&#12395;&#35501;&#12415;&#36796;&#12435;&#12391;&#12356;&#12427;&#22580;&#21512;&#12399;&#19981;&#35201;</span>
 qda(formula, data, ..., subset, na.action)
-#' formula: モデル式 (ラベル ~ 判別に用いる変数)
-#' data: 必要な情報を含むデータフレーム
-#' 詳細は '?MASS::qda' を参照
-</code></pre>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> formula: &#12514;&#12487;&#12523;&#24335; (&#12521;&#12505;&#12523; ~ &#21028;&#21029;&#12395;&#29992;&#12356;&#12427;&#22793;&#25968;)</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> data: &#24517;&#35201;&#12394;&#24773;&#22577;&#12434;&#21547;&#12416;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35443;&#32048;&#12399; '?MASS::qda' &#12434;&#21442;&#29031;</span>
+</pre>
 </div></li>
 <li><p>
 判別結果取得のための関数
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >predict(object, newdata, prior = object$prior,
-	method = c("plug-in", "predictive", "debiased", "looCV"), ...)
-#' object: qda の返すオブジェクト
-#' newdata: 予測対象のデータフレーム．省略すると推定に用いたデータフレーム
-#' 返値はリスト型で以下の項目がある
-#' class: 判別関数による予測ラベル
-#' posterior: ラベルの事後確率
-#' 詳細は '?MASS::predict.qda' を参照
-</code></pre>
+<pre class="src src-R">predict(object, newdata, prior = object$prior,
+        method = c(<span style="color: #d08928;">"plug-in"</span>, <span style="color: #d08928;">"predictive"</span>, <span style="color: #d08928;">"debiased"</span>, <span style="color: #d08928;">"looCV"</span>), ...)
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> object: qda &#12398;&#36820;&#12377;&#12458;&#12502;&#12472;&#12455;&#12463;&#12488;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> newdata: &#20104;&#28204;&#23550;&#35937;&#12398;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#65294;&#30465;&#30053;&#12377;&#12427;&#12392;&#25512;&#23450;&#12395;&#29992;&#12356;&#12383;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#36820;&#20516;&#12399;&#12522;&#12473;&#12488;&#22411;&#12391;&#20197;&#19979;&#12398;&#38917;&#30446;&#12364;&#12354;&#12427;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> class: &#21028;&#21029;&#38306;&#25968;&#12395;&#12424;&#12427;&#20104;&#28204;&#12521;&#12505;&#12523;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> posterior: &#12521;&#12505;&#12523;&#12398;&#20107;&#24460;&#30906;&#29575;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35443;&#32048;&#12399; '?MASS::predict.qda' &#12434;&#21442;&#29031;</span>
+</pre>
 </div></li>
 
 </ul>
-<div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-orgdf4495e" data-background="#fef4f4">
-<h3 id="orgdf4495e">練習問題</h3>
+<section id="slide-org9ab0565" data-background="#fef4f4">
+<h3 id="org9ab0565">練習問題</h3>
 <ul>
 <li>東京の気候データを用いて以下の分析を行いなさい
 <ul>
@@ -820,28 +769,26 @@ qda(formula, data, ..., subset, na.action)
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >tw_qda &lt;- qda(month ~ temp + humid, data = tw_train) # 2次判別関数の構成
-tw_qda_fitted &lt;- predict(tw_qda) # 判別関数によるクラス分類結果の取得
-tw_qda_predict &lt;- predict(tw_qda, newdata = tw_test) # 新しいデータの予測
-</code></pre>
+<pre class="src src-R">tw_qda <span style="color: #60aa00;">&lt;-</span> qda(month ~ temp + humid, data = tw_train) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">2&#27425;&#21028;&#21029;&#38306;&#25968;&#12398;&#27083;&#25104;</span>
+tw_qda_fitted <span style="color: #60aa00;">&lt;-</span> predict(tw_qda) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#21028;&#21029;&#38306;&#25968;&#12395;&#12424;&#12427;&#12463;&#12521;&#12473;&#20998;&#39006;&#32080;&#26524;&#12398;&#21462;&#24471;</span>
+tw_qda_predict <span style="color: #60aa00;">&lt;-</span> predict(tw_qda, newdata = tw_test) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#26032;&#12375;&#12356;&#12487;&#12540;&#12479;&#12398;&#20104;&#28204;</span>
+</pre>
 </div></li>
 <li>別の月や変数を用いて判別分析を行いなさい</li>
 
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
-
 </section>
 </section>
 <section>
-<section id="slide-org0b0695f">
-<h2 id="org0b0695f">さまざまな多値判別</h2>
-<div class="outline-text-2" id="text-org0b0695f">
+<section id="slide-org624ec31">
+<h2 id="org624ec31">さまざまな多値判別</h2>
+<div class="outline-text-2" id="text-org624ec31">
 </div>
 </section>
-<section id="slide-org74df3b3">
-<h3 id="org74df3b3">多値判別の構成方法</h3>
+<section id="slide-orgd2fb555">
+<h3 id="orgd2fb555">多値判別の構成方法</h3>
 <ul>
 <li>判別関数の比較
 <ul>
@@ -864,11 +811,9 @@ tw_qda_predict &lt;- predict(tw_qda, newdata = tw_test) # 新しいデータの�
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-org2555808">
-<h3 id="org2555808">変動の分解</h3>
+<section id="slide-orgda2d470">
+<h3 id="orgda2d470">変動の分解</h3>
 <ul>
 <li>3種類の変動
 <ul>
@@ -904,19 +849,16 @@ tw_qda_predict &lt;- predict(tw_qda, newdata = tw_test) # 新しいデータの�
 </blockquote></li>
 
 </ul>
-<div class="slide-footer"><br></div>
-
-
 </section>
 </section>
 <section>
-<section id="slide-org868e2ac">
-<h2 id="org868e2ac">Fisher の判別分析</h2>
-<div class="outline-text-2" id="text-org868e2ac">
+<section id="slide-org69a7a20">
+<h2 id="org69a7a20">Fisher の判別分析</h2>
+<div class="outline-text-2" id="text-org69a7a20">
 </div>
 </section>
-<section id="slide-orgf0799f1">
-<h3 id="orgf0799f1">Fisherの線形判別</h3>
+<section id="slide-org0592bad">
+<h3 id="org0592bad">Fisherの線形判別</h3>
 <ul>
 <li>判別のための特徴量 \(Z=\boldsymbol{\alpha}^{\mathsf{T}} X\)
 <ul>
@@ -948,11 +890,9 @@ Fisherの基準
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
-
 </section>
-<section id="slide-orga67d019">
-<h3 id="orga67d019">Fisherの線形判別の解</h3>
+<section id="slide-orgd0db608">
+<h3 id="orgd0db608">Fisherの線形判別の解</h3>
 <ul>
 <li>\(\boldsymbol{\alpha}\) は \(W^{-1}B\) の固有ベクトル (主成分分析と同様)
 <ul>
@@ -986,19 +926,14 @@ Fisherの基準
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
-
-
-
 </section>
 </section>
 <section>
-<section id="slide-org86f9f6b" data-background="#fef4f4">
-<h2 id="org86f9f6b">実習</h2>
-<div class="slide-footer"><br></div>
+<section id="slide-orgc9d2eb3" data-background="#fef4f4">
+<h2 id="orgc9d2eb3">実習</h2>
 </section>
-<section id="slide-org6302f38" data-background="#fef4f4">
-<h3 id="org6302f38">練習問題</h3>
+<section id="slide-orge9fe723" data-background="#fef4f4">
+<h3 id="orge9fe723">練習問題</h3>
 <ul>
 <li>東京の気候データを用いて以下の分析を行いなさい
 <ul>
@@ -1007,49 +942,49 @@ Fisherの基準
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >tw_subset  &lt;- tw_data |&gt;
-  filter(month %in% c(9,10,11)) |&gt;
+<pre class="src src-R">tw_subset  <span style="color: #60aa00;">&lt;-</span> tw_data |&gt;
+  filter(month <span style="color: #60aa00;">%in%</span> c(9,10,11)) |&gt;
   select(temp, humid, month) |&gt;
   mutate(month = as_factor(month))
-</code></pre>
+</pre>
 </div></li>
 <li><p>
 別の月や変数を用いて判別分析を行いなさい
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >#' 雨の有無を識別する例
-tw_subset2 &lt;- tw_data |&gt;
+<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#38632;&#12398;&#26377;&#28961;&#12434;&#35672;&#21029;&#12377;&#12427;&#20363;</span>
+tw_subset2 <span style="color: #60aa00;">&lt;-</span> tw_data |&gt;
   mutate(rain = factor(rain &gt; 0),
-	 month = as_factor(month)) |&gt; # 雨の有無でラベル化する
+         month = as_factor(month)) |&gt; <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#38632;&#12398;&#26377;&#28961;&#12391;&#12521;&#12505;&#12523;&#21270;&#12377;&#12427;</span>
   select(rain, temp, solar, wind, month)
-tw_lda2 &lt;- lda(rain ~ ., data = tw_subset2) # 'rain' をそれ以外で判別
-</code></pre>
+tw_lda2 <span style="color: #60aa00;">&lt;-</span> lda(rain ~ ., data = tw_subset2) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">'rain' &#12434;&#12381;&#12428;&#20197;&#22806;&#12391;&#21028;&#21029;</span>
+</pre>
 </div></li>
 
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
-
 </section>
 </section>
 <section>
-<section id="slide-orgf82ca5d">
-<h2 id="orgf82ca5d">次回の予定</h2>
+<section id="slide-org6c30885">
+<h2 id="org6c30885">次回の予定</h2>
 <ul>
 <li>第1回 : 判別分析の考え方</li>
 <li><b>第2回 : 分析の評価</b></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </div>
 </div>
 <script src="./reveal.js/dist/reveal.js"></script>
 <script src="./reveal.js/plugin/notes/notes.js"></script>
 <script src="./reveal.js/plugin/search/search.js"></script>
 <script src="./reveal.js/plugin/zoom/zoom.js"></script>
-<script src="./reveal.js/plugin/highlight/highlight.js"></script>
+<script src="./reveal.js/plugin/menu/menu.js"></script>
+<script src="./reveal.js/plugin/spotlight/spotlight.js"></script>
+<script src="./reveal.js/plugin/drawer/drawer.js"></script>
+<script src="./reveal.js/dist/theme/hidelinks.js"></script>
 <script>
 // Full list of configuration options available here:
 // https://github.com/hakimel/reveal.js#configuration
@@ -1070,16 +1005,15 @@ overview: true,
 
 transition: 'fade',
 transitionSpeed: 'default',
-spotlight: { size: 90, initialPresentationMode: false }, chalkboard: { toggleChalkboardButton: { left: '80px' }, toggleNotesButton: { left: '130px'}}, keyboard: { 69: function() { RevealChalkboard.toggleNotesCanvas() }, 87: function() { RevealChalkboard.toggleChalkboard() }, 67: function() { RevealChalkboard.clear() }, 82: function() { RevealChalkboard.reset() }, 68: function() { RevealChalkboard.download() }, 88: function() { RevealChalkboard.colorNext() }, 89: function() { RevealChalkboard.colorPrev() }, 84: function() { RevealSpotlight.toggleSpotlight() }, 81: function() { RevealSpotlight.togglePresentationMode()}},
+showNotes: window.location.search.match( /print-pdf/gi ) ? 'separate-page' : false,
+spotlight: { size: 80, initialPresentationMode: false, }, drawer: { toggleDrawKey: "d", toggleBoardKey: "c", pathSize: 3, }, keyboard: { 81: function() { RevealSpotlight.toggleSpotlight()}, 87: function() { RevealSpotlight.togglePresentationMode();}, },
 
 // Plugins with reveal.js 4.x
-plugins: [ RevealNotes, RevealSearch, RevealZoom, RevealHighlight ],
+plugins: [ RevealNotes, RevealSearch, RevealZoom, RevealMenu, RevealSpotlight, RevealDrawer ],
 
 // Optional libraries used to extend reveal.js
 dependencies: [
-{ src: './reveal.js/plugin/menu/menu.js'},
-{ src: './reveal.js/plugin/chalkboard/chalkboard.js'},
-{ src: './reveal.js/plugin/spotlight/spotlight.js'}]
+]
 
 });
 </script>

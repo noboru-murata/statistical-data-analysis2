@@ -57,8 +57,8 @@ prcomp(toy_data, scale. = TRUE) # 標準化を行う場合
 -   `japan_social.csv` の読み込み方の例
 
     ``` r
-        js_data <- read_csv("data/japan_social.csv") |>
-            mutate(Area = as_factor(Area))
+    js_data <- read_csv("data/japan_social.csv") |>
+        mutate(Area = as_factor(Area))
     ```
 
 -   `MASS::UScereal` の整理の例
@@ -175,7 +175,7 @@ js_pca_raw$rotation
 寄与率および累積寄与率を tibble 形式で取得するには以下のようにすれば良い．
 
 ```{r}
-broom::tidy(js_pca_raw, "d") |> # 
+broom::tidy(js_pca_raw, "d") |> # "d" または "eigenvalues" または "pcs" 
     ggplot(aes(x = PC, y = percent)) + # 各主成分(PC)ごとに寄与率(percent)を表示
     geom_bar(stat = "identity")
 broom::tidy(js_pca_raw, "d") |> 
