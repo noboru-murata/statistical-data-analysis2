@@ -175,10 +175,16 @@ js_pca_raw$rotation
 寄与率および累積寄与率を tibble 形式で取得するには以下のようにすれば良い．
 
 ```{r}
-broom::tidy(js_pca_raw, "d") |> # "d" または "eigenvalues" または "pcs" 
+js_pca_raw |>    # 表 を作成
+    tidy("d") |> # "d" または "eigenvalues" または "pcs"
+    gt() |>      
+    fmt_number(columns = !1, decimals = 3) # 1列目以外小数点以下3桁
+js_pca_raw |>
+    tidy("d") |> 
     ggplot(aes(x = PC, y = percent)) + # 各主成分(PC)ごとに寄与率(percent)を表示
     geom_bar(stat = "identity")
-broom::tidy(js_pca_raw, "d") |> 
+js_pca_raw |>
+    tidy("d") |> 
     ggplot(aes(x = PC, y = cumulative)) + # 各主成分(PC)ごとに累積寄与率(cumlative)を表示
     geom_bar(stat = "identity")
 ```
@@ -196,10 +202,12 @@ autoplot(js_pca_raw, scale = 0,
 ```{r}
 summary(js_pca)
 js_pca$rotation
-broom::tidy(js_pca, "d") |> 
+js_pca |>
+    tidy("d") |> 
     ggplot(aes(x = PC, y = percent)) + # 寄与率(percent)を表示
     geom_bar(stat = "identity")
-broom::tidy(js_pca, "d") |> 
+js_pca |>
+    tidy("d") |> 
     ggplot(aes(x = PC, y = cumulative)) + # 累積寄与率(cumlative)を表示
     geom_bar(stat = "identity")
 autoplot(js_pca, scale = 0,
@@ -232,9 +240,11 @@ uc_pca_raw <- uc_data |>
     prcomp() 
 summary(uc_pca_raw)
 uc_pca_raw$rotation
-broom::tidy(uc_pca_raw, "d") |> 
+uc_pca_raw |>
+    tidy("d") |> 
     ggplot(aes(x = PC, y = percent)) + geom_bar(stat = "identity")
-broom::tidy(uc_pca_raw, "d") |> 
+uc_pca_raw |>
+    tidy("d") |> 
     ggplot(aes(x = PC, y = cumulative)) + geom_bar(stat = "identity")
 autoplot(uc_pca_raw, scale = 0,
          data = uc_data, label = TRUE, label.label = "product") 
@@ -248,9 +258,11 @@ uc_pca <- uc_data |>
     prcomp(scale. = TRUE)
 summary(uc_pca)
 uc_pca$rotation
-broom::tidy(uc_pca, "d") |> 
+uc_pca |>
+    tidy("d") |> 
     ggplot(aes(x = PC, y = percent)) + geom_bar(stat = "identity")
-broom::tidy(uc_pca, "d") |> 
+uc_pca |>
+    tidy("d") |> 
     ggplot(aes(x = PC, y = cumulative)) + geom_bar(stat = "identity")
 autoplot(uc_pca_raw, scale = 0,
          data = uc_data, label = TRUE, label.label = "product") 
