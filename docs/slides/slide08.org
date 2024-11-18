@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-11-14 17:45:50 mura>
+# Time-stamp: <2024-11-18 12:57:55 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -80,6 +80,76 @@
     theme_update(text = element_text(family = jp_font))
   } else {jp_font <- NULL}
 #+end_src
+
+
+* 判別分析の例
+** 乳癌の良性・悪性の判別
+#+caption: 乳癌の生検データ
+#+name: tbl:biopsy
+#+begin_src R :exports none
+  #' 判別分析の例
+  #' 表の作成
+  bio_data <- MASS::biopsy |>
+    as_tibble() |>
+    na.omit() # NA を除く
+#+end_src
+#+begin_src R :eval no :exports none
+  bio_data |> View() # 左上ペインに表として表示
+#+end_src
+#+begin_src R :exports results :results output html :tangle no
+  #' データの表示(reveal用)
+  bio_data |>
+    slice(1:15) |>
+    gt() |>
+    as_raw_html()
+#+end_src
+#+begin_src R :exports results :results value scalar latex :tangle no
+  #' データの表示(latex用)
+  bio_data |>
+    gt() |>
+    tab_options(table.font.size = 9) |>
+    as_latex() |> as.character()
+#+end_src
+
+#+reveal: split
+#+begin_src R :file figs/bio-pairs.png :exports results :results graphics
+  bio_data |>
+    select(!ID) |> # IDを除く
+    GGally::ggpairs(diag = list(mapping = aes(colour = class)),
+                    lower = list(mapping = aes(colour = class)))
+#+end_src
+#+caption: 9種類の生検の散布図
+#+name: fig:bio-pairs
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/bio-pairs.png]]
+
+#+reveal: split
+#+begin_src R :file figs/bio-pca.png :exports results :results graphics :height 700
+  autoplot(bio_data |> select(where(is.numeric)) |> prcomp(), # 主成分分析
+           data = bio_data,
+           colour = "class") 
+#+end_src
+#+caption: 主成分分析を用いて2次元に縮約した生検と良性・悪性の関係
+#+name: fig:bio-pca
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/bio-pca.png]]
+
+#+reveal: split
+#+begin_src R :file figs/bio-lda.png :exports results :results graphics :height 700
+bio_lda <- lda(class ~ . -ID, data = bio_data)
+bio_data |>
+    mutate(x = predict(bio_lda)[["x"]]) |>
+    ggplot(aes(x = x)) +
+    geom_histogram(aes(fill = class), show.legend = FALSE) +
+    facet_grid(class ~ .)
+#+end_src
+#+caption: 線形判別関数による判別関数値の分布
+#+name: fig:bio-lda
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/bio-lda.png]]
 
 
 * 判別分析の考え方

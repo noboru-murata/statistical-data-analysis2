@@ -146,13 +146,13 @@
 :EXPORT_FILE_NAME: lecture08
 :EXPORT_DATE: <2020-09-19 Sat>
 :END:
-<2023-12-05 Tue> 更新
+<2024-11-18 Mon> 更新
 ** スライド
 #+hugo: {{< myslide base="statistical-data-analysis2" name="slide08" >}}
 ** ハンドアウト
 - [[github:pdfs/slide08.pdf][PDF file]]
 ** 付録
-- [[github:code/slide08.R][RScript]]
+- [[github:code/slide08.R][R Script]]
 
 * 第9講
 :PROPERTIES:
@@ -258,7 +258,7 @@
 :EXPORT_DATE: <2022-10-09 Sun>
 :ID:       71EEA7E3-75A0-4AB6-A547-C892A3D710FD
 :END:
-<2024-11-11 Mon> 更新
+<2024-11-18 Mon> 更新
 
 講義の進捗に合わせて追加します．
 - [[https://u-tokyo-ac-jp.zoom.us/rec/share/wVGzpxCui2uiQbrPf_kpBwOsDL13oIcGSjOAjv7cSz4hK9Yuxl0EvzqTLW_kbcJu.APVWLSozMn2nCmvc?startTime=1728028894000][第1講 (2024年10月4日)]]
@@ -267,7 +267,7 @@
 - [[https://u-tokyo-ac-jp.zoom.us/rec/share/Ffm5o57-fsKDQ-NsxyQG3Ubjhbj0EZflj2UIyjw9UZup2CGOXiHmWbJVq0j4k0O_.ULB6P4mjy7H1irgx?startTime=1729842930000][第4講 (2024年10月25日)]]
 - [[https://u-tokyo-ac-jp.zoom.us/rec/share/UmbBq2xTQk_gs29YvZTJDqyQhY5unzW5YoZjscVVX2ZYgKsrLogeLmTjeUXJVJQr.WbRADRg1t8M8YniH?startTime=1730447731000][第5講 (2024年11月1日)]]
 - [[https://u-tokyo-ac-jp.zoom.us/rec/share/JRSNZMAi5LBc16HHEViC9SCiggqg8tT6BpGx3-PYzfj7Uarl-fsSKBAjzvB-N49a.ujhR559eYZVTDOHv?startTime=1731052533000][第6講 (2024年11月8日)]]
-- 第7講 (2024年11月15日)
+- [[https://u-tokyo-ac-jp.zoom.us/rec/share/9dEk7q7Tz1dVNAbxhmTWE6vk4Ol7PQvVLgmorENofDSf1cE7onTjcEFYBqfZBLTP.-k-yuuE7kkOrT3LF?startTime=1731657358000][第7講 (2024年11月15日)]]
 - 第8講 (2024年11月29日)
 - 第9講 (2024年12月6日)
 - 第10講 (2024年12月13日)
