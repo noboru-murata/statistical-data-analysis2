@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-11-28 10:32:00 mura>
+# Time-stamp: <2024-11-28 13:53:44 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -1092,7 +1092,6 @@
 
     bio_data |>
       GGally::ggpairs(diag = list(mapping = aes(colour = class),
-                                  continuous wrap(alpha = .3)),
                       lower = list(mapping = aes(colour = class)))
 
     #' 2次判別の LOO CV による評価の例 (線形判別も同様)
