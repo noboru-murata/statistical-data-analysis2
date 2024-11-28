@@ -3153,10 +3153,7 @@ vertical-align: -.125em;
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)  </span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)      <span class="co"># 解析結果を tibble 形式に集約</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)         <span class="co"># 表の作成</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gtsummary)  <span class="co"># 分析結果の表の作成</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggfortify)  <span class="co"># biplot表示のため</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="判別結果の評価" class="level2 page-columns page-full">
@@ -3224,7 +3221,7 @@ Prediction  9 10
 13 f_meas               binary         0.949</code></pre>
 </div>
 </div>
-<p>関数 <code>ggfortify::autoplot()</code> を用いて視覚化する．</p>
+<p>関数 <code>ggplot2::autoplot()</code> を用いて視覚化する．</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(tw_lda_cm, <span class="at">type =</span> <span class="st">&quot;mosaic&quot;</span>)  <span class="co"># モザイクプロット</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">

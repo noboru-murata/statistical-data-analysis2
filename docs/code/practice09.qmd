@@ -38,9 +38,6 @@ conflicts_prefer(   # 優先的に使う関数を指定
 library(tidyverse)  
 library(MASS)
 library(broom)      # 解析結果を tibble 形式に集約
-library(gt)         # 表の作成
-library(gtsummary)  # 分析結果の表の作成
-library(ggfortify)  # biplot表示のため
 library(tidymodels)
 ```
 
