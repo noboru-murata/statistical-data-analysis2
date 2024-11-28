@@ -4,9 +4,10 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-11-05 16:38:21 mura>
+# Time-stamp: <2024-11-19 14:45:38 mura>
 :REVEAL:
-#+SETUPFILE: "./reveal.js/org/mycourse.org"
+#+SETUPFILE: "./reveal.js/local/mycourse.org"
+#+OPTIONS: reveal_single_file:t
 # C-c C-x C-v でinlineを切り替え
 # <m C-i でlatex block (math env用)
 # C-c '
@@ -79,6 +80,11 @@
   library(ggfortify)
   library(MASS)
   library(tidymodels)
+  #' macOSのための日本語表示の設定
+  if(Sys.info()["sysname"] == "Darwin") { # macOSか調べる
+    jp_font <- "HiraMaruProN-W4"
+    theme_update(text = element_text(family = jp_font))
+  } else {jp_font <- NULL}
 #+end_src
 
 
@@ -722,7 +728,6 @@
 # 東京大学
 ** データセットの準備
 :PROPERTIES:
-:reveal_background: #fef4f4
 :END:
 - 以下のデータセットを使用
   - ~winequality-red.csv~
@@ -745,7 +750,6 @@
 
 ** R : 判別結果の評価
 :PROPERTIES:
-:reveal_background: #fef4f4
 :ID:       122E64CD-BC8C-4ECB-96C9-29443B23443D
 :END:
 - 評価のための枠組
@@ -781,7 +785,6 @@
 
 ** R : 混同行列
 :PROPERTIES:
-:reveal_background: #fef4f4
 :END:
 - 関数 ~yardstick::conf_mat()~
   #+begin_src R :eval no :tangle no
@@ -806,7 +809,6 @@
 
 ** R : ROC曲線
 :PROPERTIES:
-:reveal_background: #fef4f4
 :END:
 - 関数 ~yardstick::roc_curve()~
   #+begin_src R :eval no :tangle no
@@ -840,7 +842,6 @@
 ** 練習問題
 :PROPERTIES:
 :reveal_background: #fef4f4
-:ID:       9F846B79-8CD0-461D-9CB5-D50E7DD7CDDF
 :END:
 - 前回と同様に東京の気候データの線形判別を行い，
   以下を確認しなさい
@@ -855,7 +856,7 @@
   - 全てデータを用いて線形判別関数を構成する
   - 構成した判別関数の評価を行う
   - ROC曲線を描画し，AUCを求める
-
+** COMMENT 解答例
 #+begin_src R :exports none
   #' ---------------------------------------------------------------------------
   #' @practice 判別結果の評価
@@ -947,7 +948,6 @@
 ** 練習問題
 :PROPERTIES:
 :reveal_background: #fef4f4
-:ID:       6AD1140D-37E2-4B04-96C3-5083C64F40BE
 :END:
 - Wine Quality Data Set を用いて
   以下を確認しなさい
@@ -955,7 +955,7 @@
   - 訓練データを用いて線形・2次判別関数を構成する
   - 訓練データを用いて評価を行う
   - 試験データを用いて評価を行う
-
+** COMMENT 解答例
 #+begin_src R :eval no :exports none :tangle yes
   #' Wine Quality Data Set を用いた判別分析
   wq_data <-
@@ -1059,7 +1059,6 @@
 # 東京大学
 ** R : LOO交叉検証法
 :PROPERTIES:
-:reveal_background: #fef4f4
 :ID:       319FA54A-CA0C-4B02-A18B-ED5036192953
 :END:
 - 関数 ~lda()~ と ~qda()~ はオプションで LOO交叉検証を行うことができる
@@ -1076,12 +1075,11 @@
 ** 練習問題
 :PROPERTIES:
 :reveal_background: #fef4f4
-:ID:       C4BC3222-EB7C-48EF-90B4-215A2DB5E75E
 :END:
 - MASS::biopsy を用いて2次判別の分析を行いなさい
   - 全てのデータを用いて訓練誤差を評価する
   - LOO交叉検証法を用いて予測誤差を評価する
-
+** COMMENT 解答例
 #+begin_src R :exports none
   #' ---------------------------------------------------------------------------
   #' @practice LOO交叉検証法による予測誤差の評価
@@ -1143,7 +1141,6 @@
 
 ** R : k-重交叉検証法
 :PROPERTIES:
-:reveal_background: #fef4f4
 :ID:       D135DD1F-1AEE-4B1B-894E-6285C47748AF
 :END:
 - ~tidymodels~ パッケージの関数群を利用
@@ -1186,13 +1183,12 @@
 ** 練習問題
 :PROPERTIES:
 :reveal_background: #fef4f4
-:ID:       D85D18DD-2820-457F-8CC9-84F994D4CC33
 :END:
 - Wine Quality Data Set を用いて
   線形判別と2次判別の分析を行いなさい
   - LOO交叉検証法を用いて予測誤差を評価する
   - k-重交叉検証法を用いて予測誤差を評価する
-
+** COMMENT 解答例
 #+begin_src R :exports none
   #' ---------------------------------------------------------------------------
   #' @practice k-重交叉検証法による予測誤差の評価

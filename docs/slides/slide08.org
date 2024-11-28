@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-11-18 12:57:55 mura>
+# Time-stamp: <2024-11-28 10:26:14 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -38,14 +38,22 @@
   library(ggfortify)
   #' 日本語表示・色の設定 (ggplot)
   theme_set(theme_gray(base_size = 16))
-  if(Sys.info()[["sysname"]] == "Darwin") { # MacOSか確認
-    if(length(grep("BIZUDPGothic", systemfonts::system_fonts()[["name"]]))>0) 
-      theme_update(text = element_text(family = "BIZUDGothic-Regular"))
-    else
-      theme_update(text = element_text(family = "HiraMaruProN-W4"))}
   library(see)
   options(ggplot2.discrete.colour = function() scale_colour_material(),
           ggplot2.discrete.fill = function() scale_fill_material())
+  library(broom)
+  library(gt)
+  library(gtsummary)
+  library(ggfortify)
+  library(ggrepel)
+  #' macOSのための日本語表示の設定
+  if(Sys.info()[["sysname"]] == "Darwin") { # MacOSか確認
+    if(length(grep("BIZUDPGothic", systemfonts::system_fonts()[["name"]]))>0) 
+      jp_font <- "BIZUDGothic-Regular"
+    else
+      jp_font <- "HiraMaruProN-W4"
+    theme_update(text = element_text(family = jp_font))
+  } else {jp_font <- NULL}
 #+end_src
 
 * 講義概要
@@ -106,8 +114,9 @@
 #+begin_src R :exports results :results value scalar latex :tangle no
   #' データの表示(latex用)
   bio_data |>
+    slice(1:15) |>
     gt() |>
-    tab_options(table.font.size = 9) |>
+    tab_options(table.font.size = 9, latex.tbl.pos = "H") |>
     as_latex() |> as.character()
 #+end_src
 
@@ -1228,7 +1237,7 @@ bio_data |>
 :ID:       501D7D38-752C-46A6-A43B-D19B6533F359
 :END:
 - 9,10月のデータの散布図
-  #+begin_src R :file figs/08_pairs.png :exports results :results graphics
+  #+begin_src R :file figs/08_pairs.png :exports results :results graphics :height 700
     #' 東京の気象データによる判別分析
     library(MASS) # パッケージの読み込み
     #' データの整理
@@ -1253,7 +1262,7 @@ bio_data |>
 
 #+reveal: split
 - 線形判別 (2値)
-  #+begin_src R :file figs/08_lda_value.png :exports results :results graphics
+  #+begin_src R :file figs/08_lda_value.png :exports results :results graphics :height 700
     #' 線形判別関数の推定
     tw_model <- month ~ temp + humid
     tw_lda <- lda(formula = tw_model, data = tw_subset)
@@ -1273,7 +1282,7 @@ bio_data |>
 
 #+reveal: split
 - 線形判別 (2値)
-  #+begin_src R :file figs/08_lda.png :exports results :results graphics
+  #+begin_src R :file figs/08_lda.png :exports results :results graphics :height 700
     #' 判別関数により予測されるラベルの図示
     range_x <- range(tw_subset[["temp"]])  # 気温の値域
     range_y <- range(tw_subset[["humid"]]) # 湿度の値域
@@ -1294,6 +1303,7 @@ bio_data |>
            title = "線形判別")
 
   #+end_src
+
 #+caption: 線形判別 (判別境界)
 #+name: fig:08_lda
 #+attr_html: height 100%
@@ -1302,7 +1312,7 @@ bio_data |>
 
 #+reveal: split
 - 2次判別 (2値)
-  #+begin_src R :file figs/08_qda.png :exports results :results graphics
+  #+begin_src R :file figs/08_qda.png :exports results :results graphics :height 700
       #' 2次判別関数を推定
     tw_qda <- qda(formula = tw_model, data = tw_subset)
     tw_qda_fitted <- predict(tw_qda) # 判別関数によるクラス分類結果の取得
@@ -1328,7 +1338,7 @@ bio_data |>
 
 #+reveal: split
 - Fisherの線形判別 (多値)
-  #+begin_src R :file figs/08_multi.png :exports results :results graphics
+  #+begin_src R :file figs/08_multi.png :exports results :results graphics :height 700
     #' 多値判別
     tw_subset3  <- tw_data |>
       filter(month %in% c(9,10,11)) |>
