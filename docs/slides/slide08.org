@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-11-28 10:26:14 mura>
+# Time-stamp: <2024-11-29 14:07:18 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -92,6 +92,15 @@
 
 * 判別分析の例
 ** 乳癌の良性・悪性の判別
+- データセット
+  - ~MASS::biopsy~ 
+    #+begin_quote
+    *Biopsy Data on Breast Cancer Patients* \\
+    This breast cancer database was obtained from the University of Wisconsin Hospitals, Madison from Dr. William H. Wolberg. He assessed biopsies of breast tumours for 699 patients up to 15 July 1992; each of nine attributes has been scored on a scale of 1 to 10, and the outcome is also known. There are 699 rows and 11 columns.
+    #+end_quote
+    - 詳細は '?MASS::biopsy' を参照
+
+#+reveal: split
 #+caption: 乳癌の生検データ
 #+name: tbl:biopsy
 #+begin_src R :exports none

@@ -1,0 +1,108 @@
+---
+title: "統計データ解析"
+subtitle: "第10講 実習"
+date: "`r Sys.Date()`"
+format:
+    html: 
+      toc: true
+      html-math-method: katex
+      self-contained: true
+      grid: 
+        margin-width: 350px
+execute: 
+  echo: true
+  warning: false
+reference-location: margin
+citation-location: margin
+tbl-cap-location: margin
+fig-cap-location: margin
+editor: visual
+editor_options: 
+  chunk_output_type: console
+---
+
+## 準備
+
+以下で利用する共通パッケージを読み込む．
+
+```{r}
+library(conflicted) # 関数名の衝突を警告
+conflicts_prefer(   # 優先的に使う関数を指定
+    dplyr::filter(),
+    dplyr::select(),
+    dplyr::lag(),
+    yardstick::spec(),
+    yardstick::precision(),
+    yardstick::recall(),
+    )
+library(tidyverse)  
+library(MASS)
+library(broom)      # 解析結果を tibble 形式に集約
+library(cluster)
+```
+
+## 距離の計算
+
+### 問題
+
+都道府県別の社会生活統計指標を用いて以下を確認しなさい．
+
+``` r
+#' データの読み込み方の例
+js_df <- read_csv("data/japan_social.csv") |>
+    column_to_rownames(var = "Pref") |> # 'Pref'を行名に変換
+    select(-Area) # 地方名は除く
+```
+
+- 正規化せずにユークリッド距離とマンハッタン距離の計算を行いなさい．
+- 正規化して上記と同様の計算を行いなさい．
+- `daisy` による正規化を用いて，関東の都県同士の距離を表示しなさい．
+- 大阪と四国の間の距離を表示しなさい．
+- ユークリッド距離とマンハッタン距離の散布図を描き比較しなさい．
+
+```{r}
+
+```
+
+## 階層的クラスタリング
+
+### 問題
+
+都道府県別の社会生活統計指標を用いて以下の分析を行いなさい．
+
+- 平均0，分散1に正規化したデータのユークリッド距離を用いて，群平均法による階層的クラスタリングを行いなさい
+- クラスタ数を5つとして分割を行いなさい
+
+```{r}
+
+```
+
+## 階層的クラスタリング
+
+### 問題
+
+上記のデータを用いて以下の分析を行いなさい．
+
+```{r}
+#' データの読み込み 
+om_data <- read_csv(file = "data/omusubi.csv")
+om_df <- om_data |> column_to_rownames(var = "Pref")
+```
+
+- Hellinger距離を用いて距離行列を作成しなさい．
+  
+  $\boldsymbol{p},\boldsymbol{q}$ を確率ベクトルとして定義される確率分布の間の距離
+	$$
+    \begin{equation}
+      d_{hel}(\boldsymbol{p},\boldsymbol{q})
+      =
+      \frac{1}{\sqrt{2}}d_{euc}(\sqrt{\boldsymbol{p}},\sqrt{\boldsymbol{q}})
+    \end{equation}
+	$$
+	
+- 群平均法による階層的クラスタリングを行いなさい
+- クラスタ数を定めて2次元でのクラスタ表示を作成しなさい
+  
+```{r}
+
+```

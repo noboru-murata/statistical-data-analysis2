@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-11-28 13:53:44 mura>
+# Time-stamp: <2024-11-29 14:32:03 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -752,9 +752,9 @@
 :ID:       122E64CD-BC8C-4ECB-96C9-29443B23443D
 :END:
 - 評価のための枠組
-  - *caret* : Max Kuhn @Rstudio によるパッケージ
+  - *caret* : Max Kuhn @Posit によるパッケージ
     - https://topepo.github.io/caret/
-  - *tidymodels* : Max Kuhn, Hadley Wickham @RStudio による ~tidyverse~ 向けに再設計されたパッケージ
+  - *tidymodels* : Max Kuhn, Hadley Wickham @Posit による ~tidyverse~ 向けに再設計されたパッケージ
     - https://www.tidymodels.org
 - 本講義では tidymodels を中心に説明
 - パッケージ集の利用には以下が必要
@@ -852,7 +852,7 @@
         select(temp, humid, month) |>
         mutate(month = as_factor(month)) # 月を因子化
     #+end_src
-  - 全てデータを用いて線形判別関数を構成する
+  - 全てのデータを用いて線形判別関数を構成する
   - 構成した判別関数の評価を行う
   - ROC曲線を描画し，AUCを求める
 ** COMMENT 解答例

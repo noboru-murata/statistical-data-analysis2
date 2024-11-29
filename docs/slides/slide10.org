@@ -3,10 +3,10 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
-# Time-stamp: <2024-01-08 16:12:12 mura>
+# Time-stamp: <2024-11-28 18:06:49 mura>
 #+STARTUP: hidestars content indent
 :REVEAL:
-#+SETUPFILE: "./reveal.js/org/mycourse.org"
+#+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
 # <m C-i でlatex block (math env用)
 # C-c '
@@ -79,7 +79,7 @@
 #+end_src
 
 
-* 事例
+* クラスタ分析の例
 ** 実データによる例
 :PROPERTIES:
 :END:
@@ -632,7 +632,8 @@
   - 関東の都県同士の距離を表示しなさい (daisyによる正規化を用いなさい)
   - 大阪と四国の間の距離を表示しなさい
   - ユークリッド距離とマンハッタン距離の散布図を描き比較しなさい
-
+    
+** COMMENT 解答例
 #+begin_src R :exports none
   #' ---------------------------------------------------------------------------
   #' @practice 距離の計算
@@ -961,7 +962,7 @@
   - 平均0，分散1に正規化したデータのユークリッド距離を用いて，
     群平均法による階層的クラスタリングを行いなさい
   - クラスタ数を5つとして分割を行いなさい
-
+** COMMENT 解答例
 #+begin_src R :exports none
   #' ---------------------------------------------------------------------------
   #' @practice 階層的クラスタリング
@@ -1115,7 +1116,7 @@
     #+end_quote
   - 群平均法による階層的クラスタリングを行いなさい
   - クラスタ数を定めて2次元でのクラスタ表示を作成しなさい
-
+** COMMENT 解答例
 #+begin_src R :exports none
   #' ---------------------------------------------------------------------------
   #' @practice 階層的クラスタリング 

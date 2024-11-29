@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-11-15 14:10:25 mura>
+# Time-stamp: <2024-11-29 12:30:16 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -377,7 +377,7 @@
     taken from the mandatory F&DA food label. The data have been
     normalized here to a portion of one American cup.
     #+end_quote
-    - 参考 : 詳細は '?MASS::UScereal' を参照
+    - 詳細は '?MASS::UScereal' を参照
 
 ** 各変数の分布 (~japan_social.csv~)
 :PROPERTIES:

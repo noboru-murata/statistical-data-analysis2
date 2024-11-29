@@ -11,22 +11,19 @@
 
 <link rel="stylesheet" href="./reveal.js/dist/theme/oer-reveal.css" id="theme"/>
 
-<link rel="stylesheet" href="./reveal.js/plugin/toc-progress/toc-progress.css"/>
-
-<link rel="stylesheet" href="./reveal.js/dist/theme/toc-style.css"/>
-
 <link rel="stylesheet" href="./reveal.js/dist/theme/fonts/source-sans-pro/source-sans-pro.css"/>
 
-<link rel="stylesheet" href="./reveal.js/plugin/accessibility/helper.css"/>
+<link rel="stylesheet" href="./reveal.js/plugin/menu/menu.css"/>
 
-<link rel="stylesheet" href="./reveal.js/dist/theme/mycourse.css"/>
-<link rel="stylesheet" href="./reveal.js/plugin/highlight/zenburn.css"/>
+<link rel="stylesheet" href="./reveal.js/plugin/drawer/drawer.css"/>
+
+<link rel="stylesheet" href="./reveal.js/local/mycourse.css"/>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </head>
 <body>
 <div class="reveal">
 <div class="slides">
-<section id="sec-title-slide" data-state="no-toc-progress">
+<section id="sec-title-slide">
 <!-- This is an HTML template for the title slide. -->
 <!-- Embed logos as necessary. -->
 <!-- <a class="nooutlink" href="url"><img class="state-background your-logo-class" src="whatever.png" alt="Whatever" /></a> -->
@@ -46,24 +43,23 @@
 
 </section>
 <section>
-<section id="slide-org63cdd20">
-<h2 id="org63cdd20">講義概要</h2>
+<section id="slide-org42a2689">
+<h2 id="org42a2689">講義概要</h2>
 <ul>
 <li><b>第1回 : 基本的な考え方と階層的方法</b></li>
 <li>第2回 : 非階層的方法と分析の評価</li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-orgb82b6b3">
-<h2 id="orgb82b6b3">事例</h2>
-<div class="outline-text-2" id="text-orgb82b6b3">
+<section id="slide-orgf17d48a">
+<h2 id="orgf17d48a">クラスタ分析の例</h2>
+<div class="outline-text-2" id="text-orgf17d48a">
 </div>
 </section>
-<section id="slide-orgdf9a148">
-<h3 id="orgdf9a148">実データによる例</h3>
+<section id="slide-org9ca16e0">
+<h3 id="org9ca16e0">実データによる例</h3>
 <ul>
 <li>総務省統計局より取得した都道府県別の社会生活統計指標の一部
 <ul>
@@ -71,7 +67,7 @@
 <li><p>
 データ <a href="https://noboru-murata.github.io/statistical-data-analysis2/data/data06.zip">https://noboru-murata.github.io/statistical-data-analysis2/data/data06.zip</a>
 </p>
-<pre class="example" id="org61e88b5">
+<pre class="example" id="org0aaa763">
 Pref : 都道府県名
 Forest : 森林面積割合 (%) 2014年
 Agri : 就業者１人当たり農業産出額(販売農家）(万円) 2014年
@@ -84,10 +80,9 @@ Area : 地方区分
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org5482140">
-<h3 id="org5482140">データの概要</h3>
+<section id="slide-orgf1c03ea">
+<h3 id="orgf1c03ea">データの概要</h3>
 <font size=5>
 
 <table style="text-align:center"><caption><strong>社会生活統計指標</strong></caption>
@@ -110,47 +105,43 @@ Area : 地方区分
 <tr><td colspan="7" style="border-bottom: 1px solid black"></td></tr></table>
 
 </font>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org938423f">
-<h3 id="org938423f">分析の目的</h3>
+<section id="slide-org1ca9a2e">
+<h3 id="org1ca9a2e">分析の目的</h3>
 
-<div id="orgbb9e7bf" class="figure">
+<div id="org11aaa11" class="figure">
 <p><img src="figs/10_pairs.png" alt="10_pairs.png" />
 </p>
 <p><span class="figure-number">Figure 1: </span>散布図</p>
 </div>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="orgdcf7cac" class="figure">
+<div id="org2c29f58" class="figure">
 <p><img src="figs/10_pcaplot.png" alt="10_pcaplot.png" />
 </p>
 <p><span class="figure-number">Figure 2: </span>主成分得点による散布図</p>
 </div>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="orgac5d6d9" class="figure">
+<div id="orgb794566" class="figure">
 <p><img src="figs/10_clusplot.png" alt="10_clusplot.png" />
 </p>
 <p><span class="figure-number">Figure 3: </span>散布図上のクラスタ構造 (クラスタ分析の概念図)</p>
 </div>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-org722d915">
-<h2 id="org722d915">クラスタ分析の考え方</h2>
-<div class="outline-text-2" id="text-org722d915">
+<section id="slide-orge0e8c35">
+<h2 id="orge0e8c35">クラスタ分析の考え方</h2>
+<div class="outline-text-2" id="text-orge0e8c35">
 </div>
 </section>
-<section id="slide-orgb686bc6">
-<h3 id="orgb686bc6">クラスタ分析</h3>
+<section id="slide-orgc2e7e73">
+<h3 id="orgc2e7e73">クラスタ分析</h3>
 <ul>
 <li><p>
 クラスタ分析 (<b>cluster analysis</b>) の目的
@@ -172,10 +163,9 @@ Area : 地方区分
 <li>教師なし学習の代表的な手法の一つ</li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orge69b7d0">
-<h3 id="orge69b7d0">クラスタ分析の考え方</h3>
+<section id="slide-org6a7760c">
+<h3 id="org6a7760c">クラスタ分析の考え方</h3>
 <ul>
 <li>階層的方法
 <ul>
@@ -197,17 +187,16 @@ Area : 地方区分
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-org107f141">
-<h2 id="org107f141">階層的方法</h2>
-<div class="outline-text-2" id="text-org107f141">
+<section id="slide-org57126f1">
+<h2 id="org57126f1">階層的方法</h2>
+<div class="outline-text-2" id="text-org57126f1">
 </div>
 </section>
-<section id="slide-org4e12b8c">
-<h3 id="org4e12b8c">凝集的クラスタリング</h3>
+<section id="slide-org0702be4">
+<h3 id="org0702be4">凝集的クラスタリング</h3>
 <ol>
 <li>データ・クラスタ間の距離を定義する
 <ul>
@@ -226,10 +215,9 @@ Area : 地方区分
 <li>クラスタ数が1つになるまで2-3の手続きを繰り返す</li>
 
 </ol>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org4bd6048">
-<h3 id="org4bd6048">事例</h3>
+<section id="slide-org8c76248">
+<h3 id="org8c76248">事例</h3>
 <ul>
 <li><p>
 <span style="color:green;">社会生活統計指標の一部(関東)</span>
@@ -238,94 +226,86 @@ Area : 地方区分
 </ul>
 
 
-<div id="orgf1311b9" class="figure">
+<div id="orga2275d5" class="figure">
 <p><img src="figs/10_hclst0.png" alt="10_hclst0.png" />
 </p>
 <p><span class="figure-number">Figure 4: </span>凝集的クラスタリング</p>
 </div>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="org6694bfa" class="figure">
+<div id="orgdb3b728" class="figure">
 <p><img src="figs/10_hclst1.png" alt="10_hclst1.png" />
 </p>
 <p><span class="figure-number">Figure 5: </span>クラスタリングの手続き (その1)</p>
 </div>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="org3ca8230" class="figure">
+<div id="orgb647ab0" class="figure">
 <p><img src="figs/10_hclst2.png" alt="10_hclst2.png" />
 </p>
 <p><span class="figure-number">Figure 6: </span>クラスタリングの手続き (その2)</p>
 </div>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="org6926533" class="figure">
+<div id="org7ad8190" class="figure">
 <p><img src="figs/10_hclst3.png" alt="10_hclst3.png" />
 </p>
 <p><span class="figure-number">Figure 7: </span>クラスタリングの手続き (その3)</p>
 </div>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="org6aeaf96" class="figure">
+<div id="org3f7b644" class="figure">
 <p><img src="figs/10_hclst4.png" alt="10_hclst4.png" />
 </p>
 <p><span class="figure-number">Figure 8: </span>クラスタリングの手続き (その4)</p>
 </div>
 
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="org35893cd" class="figure">
+<div id="org178c09a" class="figure">
 <p><img src="figs/10_hclst5.png" alt="10_hclst5.png" />
 </p>
 <p><span class="figure-number">Figure 9: </span>クラスタリングの手続き (その5)</p>
 </div>
 
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="orgddedffd" class="figure">
+<div id="orgd33eb51" class="figure">
 <p><img src="figs/10_hclst6.png" alt="10_hclst6.png" />
 </p>
 <p><span class="figure-number">Figure 10: </span>クラスタリングの手続き (その6)</p>
 </div>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="org0490737" class="figure">
+<div id="org421fb64" class="figure">
 <p><img src="figs/10_dendro.png" alt="10_dendro.png" />
 </p>
 <p><span class="figure-number">Figure 11: </span>デンドログラムによるクラスタ構造の表示</p>
 </div>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-orge057a78">
-<h2 id="orge057a78">データ間の距離</h2>
-<div class="outline-text-2" id="text-orge057a78">
+<section id="slide-org2ec6eec">
+<h2 id="org2ec6eec">データ間の距離</h2>
+<div class="outline-text-2" id="text-org2ec6eec">
 </div>
 </section>
-<section id="slide-orgf48c84b">
-<h3 id="orgf48c84b">データ間の距離</h3>
+<section id="slide-orgfa6762a">
+<h3 id="orgfa6762a">データ間の距離</h3>
 <ul>
 <li><p>
 データ : 変数の値を成分としてもつベクトル
@@ -349,10 +329,9 @@ Area : 地方区分
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org9736a62">
-<h3 id="org9736a62">Euclid 距離</h3>
+<section id="slide-org01cd075">
+<h3 id="org01cd075">Euclid 距離</h3>
 <ul>
 <li>最も一般的な距離</li>
 <li><p>
@@ -369,10 +348,9 @@ Area : 地方区分
 </blockquote></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgce555ed">
-<h3 id="orgce555ed">Manhattan 距離</h3>
+<section id="slide-org4df3b23">
+<h3 id="org4df3b23">Manhattan 距離</h3>
 <ul>
 <li>後述する Minkowski 距離の \(p=1\) の場合</li>
 <li><p>
@@ -389,10 +367,9 @@ Area : 地方区分
 </blockquote></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgfe6a34e">
-<h3 id="orgfe6a34e">Minkowski 距離</h3>
+<section id="slide-orgc5bd22f">
+<h3 id="orgc5bd22f">Minkowski 距離</h3>
 <ul>
 <li>Euclid 距離を \(p\) 乗に一般化した距離</li>
 <li><p>
@@ -409,10 +386,9 @@ Area : 地方区分
 </blockquote></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orga76683a">
-<h3 id="orga76683a">その他の距離</h3>
+<section id="slide-orgcf95c62">
+<h3 id="orgcf95c62">その他の距離</h3>
 <ul>
 <li>類似度や乖離度などデータ間に自然に定義されるものを用いることは可能
 <ul>
@@ -423,22 +399,20 @@ Area : 地方区分
 <li>擬似的な距離でもアルゴリズムは動く</li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-orgb40cb8c" data-background="#fef4f4">
-<h2 id="orgb40cb8c">実習</h2>
-<div class="slide-footer"><br></div>
+<section id="slide-orge84a474" data-background="#fef4f4">
+<h2 id="orge84a474">実習</h2>
 </section>
-<section id="slide-org2cd90bf" data-background="#fef4f4">
-<h3 id="org2cd90bf">R : クラスタ分析</h3>
+<section id="slide-org7d5d0e1" data-background="#fef4f4">
+<h3 id="org7d5d0e1">R : クラスタ分析</h3>
 <ul>
 <li>関連するパッケージ
 <ul>
 <li><b>stats</b> : base R の基本的な統計に関するパッケージ
 <ul>
-<li>関数 <code>dist()</code>, <code>kmeans()</code> など</li>
+<li>関数 <code>dist()</code>, <code>hclust</code>, <code>kmeans()</code> など</li>
 <li>標準でインストールされている</li>
 
 </ul></li>
@@ -448,8 +422,9 @@ Area : 地方区分
 <li>標準でインストールされている</li>
 
 </ul></li>
-<li><b>ggfortify</b> : 関数 <code>autoplot()</code> を使うためのパッケージ
+<li><b>ggfortify</b> : ggplotによる描画を補助するパッケージ
 <ul>
+<li>関数 <code>autoplot()</code> など</li>
 <li>既に導入済み(回帰，主成分，判別分析でも利用)</li>
 
 </ul></li>
@@ -458,65 +433,63 @@ Area : 地方区分
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >#' 最初に一度だけ以下のいずれかを実行しておく
-#'  - Package タブから ggdendro をインストール
-#'  - コンソール上で次のコマンドを実行 'install.packages("ggdendro")'
-</code></pre>
+<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#26368;&#21021;&#12395;&#19968;&#24230;&#12384;&#12369;&#20197;&#19979;&#12398;&#12356;&#12378;&#12428;&#12363;&#12434;&#23455;&#34892;&#12375;&#12390;&#12362;&#12367;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;">  - Package &#12479;&#12502;&#12363;&#12425; ggdendro &#12434;&#12452;&#12531;&#12473;&#12488;&#12540;&#12523;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;">  - &#12467;&#12531;&#12477;&#12540;&#12523;&#19978;&#12391;&#27425;&#12398;&#12467;&#12510;&#12531;&#12489;&#12434;&#23455;&#34892; 'install.packages("ggdendro")'</span>
+</pre>
 </div></li>
 
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgf08ee40" data-background="#fef4f4">
-<h3 id="orgf08ee40">R : データ間の距離の計算</h3>
+<section id="slide-org96cdca1" data-background="#fef4f4">
+<h3 id="org96cdca1">R : データ間の距離の計算</h3>
 <ul>
 <li><p>
 関数 <code>stats::dist()</code> 
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >dist(x, method = "euclidean", diag = FALSE, upper = FALSE, p = 2)
-#' x: データフレーム
-#' method: 距離 (標準はユークリッド距離，他は"manhattan","minkowski"など)
-#' diag: 対角成分を持たせるか 
-#' upper: 上三角成分を持たせるか (標準は下三角成分のみ)
-#' 返値は dist class
-</code></pre>
+<pre class="src src-R">dist(x, method = <span style="color: #d08928;">"euclidean"</span>, diag = <span style="color: #00aa80;">FALSE</span>, upper = <span style="color: #00aa80;">FALSE</span>, p = 2)
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> x: &#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> method: &#36317;&#38626; (&#27161;&#28310;&#12399;&#12518;&#12540;&#12463;&#12522;&#12483;&#12489;&#36317;&#38626;&#65292;&#20182;&#12399;"manhattan","minkowski"&#12394;&#12393;)</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> diag: &#23550;&#35282;&#25104;&#20998;&#12434;&#25345;&#12383;&#12379;&#12427;&#12363; </span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> upper: &#19978;&#19977;&#35282;&#25104;&#20998;&#12434;&#25345;&#12383;&#12379;&#12427;&#12363; (&#27161;&#28310;&#12399;&#19979;&#19977;&#35282;&#25104;&#20998;&#12398;&#12415;)</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#36820;&#20516;&#12399; dist class</span>
+</pre>
 </div></li>
 <li><p>
 関数 <code>cluster::daisy()</code> 
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >daisy(x, metric = c("euclidean", "manhattan", "gower"),
-      stand = FALSE, type = list(), weights = rep.int(1, p),
+<pre class="src src-R">daisy(x, metric = c(<span style="color: #d08928;">"euclidean"</span>, <span style="color: #d08928;">"manhattan"</span>, <span style="color: #d08928;">"gower"</span>),
+      stand = <span style="color: #00aa80;">FALSE</span>, type = list(), weights = rep.int(1, p),
       warnBin = warnType, warnAsym = warnType, warnConst = warnType,
-      warnType = TRUE)
-#' x: データフレーム
-#' metric: 距離 (標準はユークリッド距離，他は"manhattan"など)
-#' stand: 正規化(平均と絶対偏差の平均による)の有無
-#' 返値は dissimilarity class
-</code></pre>
+      warnType = <span style="color: #00aa80;">TRUE</span>)
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> x: &#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> metric: &#36317;&#38626; (&#27161;&#28310;&#12399;&#12518;&#12540;&#12463;&#12522;&#12483;&#12489;&#36317;&#38626;&#65292;&#20182;&#12399;"manhattan"&#12394;&#12393;)</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> stand: &#27491;&#35215;&#21270;(&#24179;&#22343;&#12392;&#32118;&#23550;&#20559;&#24046;&#12398;&#24179;&#22343;&#12395;&#12424;&#12427;)&#12398;&#26377;&#28961;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#36820;&#20516;&#12399; dissimilarity class</span>
+</pre>
 </div></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org3d127f1" data-background="#fef4f4">
-<h3 id="org3d127f1">練習問題</h3>
+<section id="slide-org662be57" data-background="#fef4f4">
+<h3 id="org662be57">練習問題</h3>
 <ul>
 <li><p>
 都道府県別の社会生活統計指標を用いて以下を確認しなさい
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >#' データの読み込み方の例
-js_df &lt;- read_csv("data/japan_social.csv") |&gt;
-  column_to_rownames(var = "Pref") |&gt; # 'Pref'を行名に変換
-  select(-Area) # 地方名は除く
-</code></pre>
+<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#12487;&#12540;&#12479;&#12398;&#35501;&#12415;&#36796;&#12415;&#26041;&#12398;&#20363;</span>
+js_df <span style="color: #60aa00;">&lt;-</span> read_csv(<span style="color: #d08928;">"data/japan_social.csv"</span>) |&gt;
+  column_to_rownames(var = <span style="color: #d08928;">"Pref"</span>) |&gt; <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">'Pref'&#12434;&#34892;&#21517;&#12395;&#22793;&#25563;</span>
+  select(-Area) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#22320;&#26041;&#21517;&#12399;&#38500;&#12367;</span>
+</pre>
 </div>
 <ul>
 <li>正規化せずにユークリッド距離とマンハッタン距離の計算を行いなさい</li>
@@ -528,17 +501,16 @@ js_df &lt;- read_csv("data/japan_social.csv") |&gt;
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-orgb211749">
-<h2 id="orgb211749">クラスタ間の距離</h2>
-<div class="outline-text-2" id="text-orgb211749">
+<section id="slide-org0c07af1">
+<h2 id="org0c07af1">クラスタ間の距離</h2>
+<div class="outline-text-2" id="text-org0c07af1">
 </div>
 </section>
-<section id="slide-orgfb79da4">
-<h3 id="orgfb79da4">クラスタ間の距離</h3>
+<section id="slide-org20d7b25">
+<h3 id="org20d7b25">クラスタ間の距離</h3>
 <ul>
 <li><p>
 クラスタ : いくつかのデータ点からなる集合
@@ -568,10 +540,9 @@ js_df &lt;- read_csv("data/japan_social.csv") |&gt;
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org7052e98">
-<h3 id="org7052e98">最短距離法</h3>
+<section id="slide-org026ec46">
+<h3 id="org026ec46">最短距離法</h3>
 <ul>
 <li><p>
 最も近い対象間の距離を用いる方法
@@ -600,10 +571,9 @@ js_df &lt;- read_csv("data/japan_social.csv") |&gt;
 </blockquote></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org5c971e5">
-<h3 id="org5c971e5">最長距離法</h3>
+<section id="slide-org0988d4f">
+<h3 id="org0988d4f">最長距離法</h3>
 <ul>
 <li><p>
 最も遠い対象間の距離を用いる方法
@@ -632,10 +602,9 @@ js_df &lt;- read_csv("data/japan_social.csv") |&gt;
 </blockquote></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org5099eb0">
-<h3 id="org5099eb0">群平均法</h3>
+<section id="slide-orgfd3e2e1">
+<h3 id="orgfd3e2e1">群平均法</h3>
 <ul>
 <li><p>
 全ての対象間の平均距離を用いる方法
@@ -668,10 +637,9 @@ js_df &lt;- read_csv("data/japan_social.csv") |&gt;
 </blockquote></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org90d840d">
-<h3 id="org90d840d">距離計算に関する注意</h3>
+<section id="slide-orge552634">
+<h3 id="orge552634">距離計算に関する注意</h3>
 <ul>
 <li>データの性質に応じて距離は適宜使い分ける
 <ul>
@@ -688,43 +656,40 @@ js_df &lt;- read_csv("data/japan_social.csv") |&gt;
 <li>データの性質を鑑みて適切に前処理</li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-org584891d" data-background="#fef4f4">
-<h2 id="org584891d">実習</h2>
-<div class="slide-footer"><br></div>
+<section id="slide-orgdf1af21" data-background="#fef4f4">
+<h2 id="orgdf1af21">実習</h2>
 </section>
-<section id="slide-org1a9aef7" data-background="#fef4f4">
-<h3 id="org1a9aef7">R : 階層的クラスタリング</h3>
+<section id="slide-org088dbb0" data-background="#fef4f4">
+<h3 id="org088dbb0">R : 階層的クラスタリング</h3>
 <ul>
 <li><p>
 関数 <code>stats::hclust()</code> 
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >hclust(d, method = "complete", members = NULL)
-#' d: 距離行列
-#' method: 分析法 (標準は最長距離法，他は"single","average"など)
-</code></pre>
+<pre class="src src-R">hclust(d, method = <span style="color: #d08928;">"complete"</span>, members = <span style="color: #00aa80;">NULL</span>)
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> d: &#36317;&#38626;&#34892;&#21015;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> method: &#20998;&#26512;&#27861; (&#27161;&#28310;&#12399;&#26368;&#38263;&#36317;&#38626;&#27861;&#65292;&#20182;&#12399;"single","average"&#12394;&#12393;)</span>
+</pre>
 </div></li>
 <li><p>
 分析のための補助的な関数
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >#' stats::cutree() - デンドログラムに基づくクラスタの分割 
-cutree(tree, k = NULL, h = NULL)
-#' tree: stats::hclust() の返値
-#' k: クラスタの数を指定して分割
-#' h: クラスタの高さを指定して分割
-</code></pre>
+<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> stats::cutree() - &#12487;&#12531;&#12489;&#12525;&#12464;&#12521;&#12512;&#12395;&#22522;&#12389;&#12367;&#12463;&#12521;&#12473;&#12479;&#12398;&#20998;&#21106; </span>
+cutree(tree, k = <span style="color: #00aa80;">NULL</span>, h = <span style="color: #00aa80;">NULL</span>)
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> tree: stats::hclust() &#12398;&#36820;&#20516;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> k: &#12463;&#12521;&#12473;&#12479;&#12398;&#25968;&#12434;&#25351;&#23450;&#12375;&#12390;&#20998;&#21106;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> h: &#12463;&#12521;&#12473;&#12479;&#12398;&#39640;&#12373;&#12434;&#25351;&#23450;&#12375;&#12390;&#20998;&#21106;</span>
+</pre>
 </div></li>
 
 </ul>
 
-<div class="slide-footer"><br></div>
 </section>
 <section data-background="#fef4f4">
 <ul>
@@ -733,50 +698,49 @@ cutree(tree, k = NULL, h = NULL)
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >ggdendrogram(data,
-             segments = TRUE, labels = TRUE, leaf_labels = TRUE,
-             rotate = FALSE, theme_dendro = TRUE, ...)
-#' data: stats::hclust(), stats::dendrogram() などの返値
-</code></pre>
+<pre class="src src-R">ggdendrogram(data,
+             segments = <span style="color: #00aa80;">TRUE</span>, labels = <span style="color: #00aa80;">TRUE</span>, leaf_labels = <span style="color: #00aa80;">TRUE</span>,
+             rotate = <span style="color: #00aa80;">FALSE</span>, theme_dendro = <span style="color: #00aa80;">TRUE</span>, ...)
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> data: stats::hclust(), stats::dendrogram() &#12394;&#12393;&#12398;&#36820;&#20516;</span>
+</pre>
 </div></li>
 <li><p>
 視覚化のための関数 (graphics 系)
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >#' stats::plot.hclust() - 系統樹の表示
-plot(x, labels = NULL, hang = 0.1, check = TRUE,
-     axes = TRUE, frame.plot = FALSE, ann = TRUE,
-     main = "Cluster Dendrogram",
-     sub = NULL, xlab = NULL, ylab = "Height", ...)
-#' x: stats::hclust() の返値
+<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> stats::plot.hclust() - &#31995;&#32113;&#27193;&#12398;&#34920;&#31034;</span>
+plot(x, labels = <span style="color: #00aa80;">NULL</span>, hang = 0.1, check = <span style="color: #00aa80;">TRUE</span>,
+     axes = <span style="color: #00aa80;">TRUE</span>, frame.plot = <span style="color: #00aa80;">FALSE</span>, ann = <span style="color: #00aa80;">TRUE</span>,
+     main = <span style="color: #d08928;">"Cluster Dendrogram"</span>,
+     sub = <span style="color: #00aa80;">NULL</span>, xlab = <span style="color: #00aa80;">NULL</span>, ylab = <span style="color: #d08928;">"Height"</span>, ...)
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> x: stats::hclust() &#12398;&#36820;&#20516;</span>
 
-#' stats::rect.hclust() - クラスタの分割表示 (cutreeとほぼ同様)
-rect.hclust(tree, k = NULL, which = NULL, x = NULL, h = NULL,
-            border = 2, cluster = NULL)
-#' tree: stats::hclust() の返値
-</code></pre>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> stats::rect.hclust() - &#12463;&#12521;&#12473;&#12479;&#12398;&#20998;&#21106;&#34920;&#31034; (cutree&#12392;&#12411;&#12412;&#21516;&#27096;)</span>
+rect.hclust(tree, k = <span style="color: #00aa80;">NULL</span>, which = <span style="color: #00aa80;">NULL</span>, x = <span style="color: #00aa80;">NULL</span>, h = <span style="color: #00aa80;">NULL</span>,
+            border = 2, cluster = <span style="color: #00aa80;">NULL</span>)
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> tree: stats::hclust() &#12398;&#36820;&#20516;</span>
+</pre>
 </div></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org250f072" data-background="#fef4f4">
-<h3 id="org250f072">R : 2次元でのクラスタ表示</h3>
+<section id="slide-org45729dc" data-background="#fef4f4">
+<h3 id="org45729dc">R : 2次元でのクラスタ表示</h3>
 <ul>
 <li><p>
 関数 <code>ggfortify::autoplot()</code> (ggplot 系)
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >autoplot(object, data = NULL, frame = FALSE,
+<pre class="src src-R">autoplot(object, data = <span style="color: #00aa80;">NULL</span>, frame = <span style="color: #00aa80;">FALSE</span>,
          scale = 1, x = 1, y = 2,
-         variance_percentage = TRUE, ...)
-#' object: stats::prcomp() などの返値
-#' data: 描画に必要な追加データ
-#' frame: クラスタごと(colourなどで指定)に凸包または楕円を描画
-#' 詳細は '?ggfortify::autoplot.pca_common()/ggbiplot()'を参照
-</code></pre>
+         variance_percentage = <span style="color: #00aa80;">TRUE</span>, ...)
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> object: stats::prcomp() &#12394;&#12393;&#12398;&#36820;&#20516;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> data: &#25551;&#30011;&#12395;&#24517;&#35201;&#12394;&#36861;&#21152;&#12487;&#12540;&#12479;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> frame: &#12463;&#12521;&#12473;&#12479;&#12372;&#12392;(colour&#12394;&#12393;&#12391;&#25351;&#23450;)&#12395;&#20984;&#21253;&#12414;&#12383;&#12399;&#26965;&#20870;&#12434;&#25551;&#30011;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35443;&#32048;&#12399; '?ggfortify::autoplot.pca_common()/ggbiplot()'&#12434;&#21442;&#29031;</span>
+</pre>
 </div>
 <ul>
 <li>クラスタの分割には関数 cutree() を利用する</li>
@@ -785,7 +749,6 @@ rect.hclust(tree, k = NULL, which = NULL, x = NULL, h = NULL,
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 <section data-background="#fef4f4">
 <ul>
@@ -794,26 +757,25 @@ rect.hclust(tree, k = NULL, which = NULL, x = NULL, h = NULL,
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >clusplot(x, clus, diss = FALSE, stand = FALSE,
-         lines = 2, shade = FALSE, color = FALSE,
-         labels= 0, plotchar = TRUE,
-         col.p = "dark green", col.txt = col.p, col.clus = 5，...)
-#' x: データフレーム
-#' clus: クラスタ分割
-#' stand: 正規化の有無
-#' lines: クラスタ間の繋がりの表示 (0:無，1:外，2:中心)
-#' shade: 網掛けの有無
-#' labels: ラベルの表示 (0:無，2:データとクラスタ, 3:データ, 4:クラスタ, など)
-#' col.p/txt/clue: データ点・文字・クラスタの色指定
-#' 詳細は '?cluster::clusplot.default()' を参照
-</code></pre>
+<pre class="src src-R">clusplot(x, clus, diss = <span style="color: #00aa80;">FALSE</span>, stand = <span style="color: #00aa80;">FALSE</span>,
+         lines = 2, shade = <span style="color: #00aa80;">FALSE</span>, color = <span style="color: #00aa80;">FALSE</span>,
+         labels= 0, plotchar = <span style="color: #00aa80;">TRUE</span>,
+         col.p = <span style="color: #d08928;">"dark green"</span>, col.txt = col.p, col.clus = 5&#65292;...)
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> x: &#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> clus: &#12463;&#12521;&#12473;&#12479;&#20998;&#21106;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> stand: &#27491;&#35215;&#21270;&#12398;&#26377;&#28961;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> lines: &#12463;&#12521;&#12473;&#12479;&#38291;&#12398;&#32331;&#12364;&#12426;&#12398;&#34920;&#31034; (0:&#28961;&#65292;1:&#22806;&#65292;2:&#20013;&#24515;)</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> shade: &#32178;&#25499;&#12369;&#12398;&#26377;&#28961;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> labels: &#12521;&#12505;&#12523;&#12398;&#34920;&#31034; (0:&#28961;&#65292;2:&#12487;&#12540;&#12479;&#12392;&#12463;&#12521;&#12473;&#12479;, 3:&#12487;&#12540;&#12479;, 4:&#12463;&#12521;&#12473;&#12479;, &#12394;&#12393;)</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> col.p/txt/clue: &#12487;&#12540;&#12479;&#28857;&#12539;&#25991;&#23383;&#12539;&#12463;&#12521;&#12473;&#12479;&#12398;&#33394;&#25351;&#23450;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35443;&#32048;&#12399; '?cluster::clusplot.default()' &#12434;&#21442;&#29031;</span>
+</pre>
 </div></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgb2bbb91" data-background="#fef4f4">
-<h3 id="orgb2bbb91">練習問題</h3>
+<section id="slide-orgbad9d09" data-background="#fef4f4">
+<h3 id="orgbad9d09">練習問題</h3>
 <ul>
 <li>都道府県別の社会生活統計指標を用いて以下の分析を行いなさい
 <ul>
@@ -824,44 +786,42 @@ rect.hclust(tree, k = NULL, which = NULL, x = NULL, h = NULL,
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgbf6ee7c" data-background="#fef4f4">
-<h3 id="orgbf6ee7c">R : <code>package::cluster</code> の利用</h3>
+<section id="slide-org01c8554" data-background="#fef4f4">
+<h3 id="org01c8554">R : <code>package::cluster</code> の利用</h3>
 <ul>
 <li><p>
 関数 <code>cluster::agnes()</code> 
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >agnes(x, diss = inherits(x, "dist"), metric = "euclidean",
-      stand = FALSE, method = "average", par.method,
+<pre class="src src-R">agnes(x, diss = inherits(x, <span style="color: #d08928;">"dist"</span>), metric = <span style="color: #d08928;">"euclidean"</span>,
+      stand = <span style="color: #00aa80;">FALSE</span>, method = <span style="color: #d08928;">"average"</span>, par.method,
       keep.diss = n &lt; 100, keep.data = !diss, trace.lev = 0)
-#' x: データフレーム，または距離行列
-#' metric: 距離 (標準はユークリッド距離，他は 'manhattan' など)
-#' stand: 正規化(平均と絶対偏差の平均による)の有無
-#' method: 分析法 (標準は群平均法，他は 'single', 'complete' など)
-</code></pre>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> x: &#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#65292;&#12414;&#12383;&#12399;&#36317;&#38626;&#34892;&#21015;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> metric: &#36317;&#38626; (&#27161;&#28310;&#12399;&#12518;&#12540;&#12463;&#12522;&#12483;&#12489;&#36317;&#38626;&#65292;&#20182;&#12399; 'manhattan' &#12394;&#12393;)</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> stand: &#27491;&#35215;&#21270;(&#24179;&#22343;&#12392;&#32118;&#23550;&#20559;&#24046;&#12398;&#24179;&#22343;&#12395;&#12424;&#12427;)&#12398;&#26377;&#28961;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> method: &#20998;&#26512;&#27861; (&#27161;&#28310;&#12399;&#32676;&#24179;&#22343;&#27861;&#65292;&#20182;&#12399; 'single', 'complete' &#12394;&#12393;)</span>
+</pre>
 </div></li>
 <li><p>
 視覚化のための補助的な関数 (base R系)
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >#' cluster::plot.agnes() - 系統樹および凝集係数の表示
-plot(x, ask = FALSE, which.plots = NULL, main = NULL,
-     sub = paste("Agglomerative Coefficient = ",round(x$ac, digits = 2)),
-     adj = 0, nmax.lab = 35, max.strlen = 5, xax.pretty = TRUE, ...)
-#' x: cluster::agnes() の返値
-#' which.plots: 1 - banner plot, 2 - dendrogram
-</code></pre>
+<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> cluster::plot.agnes() - &#31995;&#32113;&#27193;&#12362;&#12424;&#12403;&#20957;&#38598;&#20418;&#25968;&#12398;&#34920;&#31034;</span>
+plot(x, ask = <span style="color: #00aa80;">FALSE</span>, which.plots = <span style="color: #00aa80;">NULL</span>, main = <span style="color: #00aa80;">NULL</span>,
+     sub = paste(<span style="color: #d08928;">"Agglomerative Coefficient = "</span>,round(x$ac, digits = 2)),
+     adj = 0, nmax.lab = 35, max.strlen = 5, xax.pretty = <span style="color: #00aa80;">TRUE</span>, ...)
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> x: cluster::agnes() &#12398;&#36820;&#20516;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> which.plots: 1 - banner plot, 2 - dendrogram</span>
+</pre>
 </div></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org25ca901" data-background="#fef4f4">
-<h3 id="org25ca901">データセットの準備</h3>
+<section id="slide-org7909deb" data-background="#fef4f4">
+<h3 id="org7909deb">データセットの準備</h3>
 <ul>
 <li>Webアンケート (都道府県別好きなおむすびの具)
 <ul>
@@ -873,7 +833,6 @@ plot(x, ask = FALSE, which.plots = NULL, main = NULL,
 
 </ul>
 
-<div class="slide-footer"><br></div>
 </section>
 <section data-background="#fef4f4">
 <ul>
@@ -901,20 +860,19 @@ Q4. おむすびといえば、どういう形ですか？
 </pre></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org8a36457" data-background="#fef4f4">
-<h3 id="org8a36457">練習問題</h3>
+<section id="slide-orge609188" data-background="#fef4f4">
+<h3 id="orge609188">練習問題</h3>
 <ul>
 <li><p>
 上記のデータを用いて以下の分析を行いなさい
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >#' データの読み込み 
-om_data &lt;- read_csv(file = "data/omusubi.csv")
-om_df &lt;- om_data |&gt; column_to_rownames(var = "Pref")
-</code></pre>
+<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#12487;&#12540;&#12479;&#12398;&#35501;&#12415;&#36796;&#12415; </span>
+om_data <span style="color: #60aa00;">&lt;-</span> read_csv(file = <span style="color: #d08928;">"data/omusubi.csv"</span>)
+om_df <span style="color: #60aa00;">&lt;-</span> om_data |&gt; column_to_rownames(var = <span style="color: #d08928;">"Pref"</span>)
+</pre>
 </div>
 <ul>
 <li><p>
@@ -941,25 +899,26 @@ Hellinger距離を用いて距離行列を作成しなさい
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-org1036fa6">
-<h2 id="org1036fa6">次回の予定</h2>
+<section id="slide-org52de77c">
+<h2 id="org52de77c">次回の予定</h2>
 <ul>
 <li>第1回 : 基本的な考え方と階層的方法</li>
 <li><b>第2回 : 非階層的方法と分析の評価</b></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </div>
 </div>
 <script src="./reveal.js/dist/reveal.js"></script>
 <script src="./reveal.js/plugin/notes/notes.js"></script>
 <script src="./reveal.js/plugin/search/search.js"></script>
 <script src="./reveal.js/plugin/zoom/zoom.js"></script>
-<script src="./reveal.js/plugin/highlight/highlight.js"></script>
+<script src="./reveal.js/plugin/menu/menu.js"></script>
+<script src="./reveal.js/plugin/spotlight/spotlight.js"></script>
+<script src="./reveal.js/plugin/drawer/drawer.js"></script>
+<script src="./reveal.js/dist/theme/hidelinks.js"></script>
 <script>
 // Full list of configuration options available here:
 // https://github.com/hakimel/reveal.js#configuration
@@ -980,16 +939,15 @@ overview: true,
 
 transition: 'fade',
 transitionSpeed: 'default',
-spotlight: { size: 90, initialPresentationMode: false }, chalkboard: { toggleChalkboardButton: { left: '80px' }, toggleNotesButton: { left: '130px'}}, keyboard: { 69: function() { RevealChalkboard.toggleNotesCanvas() }, 87: function() { RevealChalkboard.toggleChalkboard() }, 67: function() { RevealChalkboard.clear() }, 82: function() { RevealChalkboard.reset() }, 68: function() { RevealChalkboard.download() }, 88: function() { RevealChalkboard.colorNext() }, 89: function() { RevealChalkboard.colorPrev() }, 84: function() { RevealSpotlight.toggleSpotlight() }, 81: function() { RevealSpotlight.togglePresentationMode()}},
+showNotes: window.location.search.match( /print-pdf/gi ) ? 'separate-page' : false,
+spotlight: { size: 80, initialPresentationMode: false, }, drawer: { toggleDrawKey: "d", toggleBoardKey: "c", pathSize: 3, }, keyboard: { 81: function() { RevealSpotlight.toggleSpotlight()}, 87: function() { RevealSpotlight.togglePresentationMode();}, },
 
 // Plugins with reveal.js 4.x
-plugins: [ RevealNotes, RevealSearch, RevealZoom, RevealHighlight ],
+plugins: [ RevealNotes, RevealSearch, RevealZoom, RevealMenu, RevealSpotlight, RevealDrawer ],
 
 // Optional libraries used to extend reveal.js
 dependencies: [
-{ src: './reveal.js/plugin/menu/menu.js'},
-{ src: './reveal.js/plugin/chalkboard/chalkboard.js'},
-{ src: './reveal.js/plugin/spotlight/spotlight.js'}]
+]
 
 });
 </script>
