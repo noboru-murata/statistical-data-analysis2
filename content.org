@@ -174,13 +174,14 @@
 :EXPORT_FILE_NAME: lecture10
 :EXPORT_DATE: <2020-09-19 Sat>
 :END:
-<2024-01-08 Mon> 更新
+<2024-11-29 Fri> 更新
 ** スライド
 #+hugo: {{< myslide base="statistical-data-analysis2" name="slide10" >}}
 ** ハンドアウト
 - [[github:pdfs/slide10.pdf][PDF file]]
 ** 付録
-- [[github:code/slide10.R][RScript]]
+- 実習用 [[githubraw:code/practice10.qmd][Quarto]] (解答例 [[githubraw:code/sample-code10.qmd][Quarto]] [[github:code/sample-code10.html][HTML]])
+- [[github:code/slide10.R][R Script]]
 - [[github:data/data10.zip][練習問題用データセット]]
 
 * 第11講
