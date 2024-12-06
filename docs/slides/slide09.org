@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-11-29 14:32:03 mura>
+# Time-stamp: <2024-12-06 14:19:57 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -41,6 +41,7 @@
   library(ggfortify)
   library(MASS)
   library(tidymodels)
+  library(gt)
   #' 日本語表示・色の設定 (ggplot)
   theme_set(theme_gray(base_size = 16))
   if(Sys.info()[["sysname"]] == "Darwin") { # MacOSか確認
@@ -623,57 +624,59 @@
 #+end_src
 #+begin_src R :file figs/09_qda_confmat.png :exports results :results graphics
   #' 2次判別関数の混同行列
-    tw_qda_result |>
-      yardstick::conf_mat(truth = true, estimate = fitted) |>
-      autoplot(type = "heatmap") +
-      labs(title = "Quadratic Discriminant")
+  tw_qda_result |>
+    yardstick::conf_mat(truth = true, estimate = fitted) |>
+    autoplot(type = "heatmap") +
+    labs(title = "Quadratic Discriminant")
 #+end_src
 #+begin_leftcol
-#+html: <font size=5>
+#+begin_src R :eval no :exports none
+  #' データの表示
+  tibble(指標 = summary(tw_lda_cm)[[".metric"]],
+         値 = summary(tw_lda_cm)[[".estimate"]]) |>
+    View()
+#+end_src
 #+begin_src R :exports results :results output html :tangle no
   #' データの表示(reveal用)
-  data.frame(指標=summary(tw_lda_cm)[[".metric"]],
-             値=summary(tw_lda_cm)[[".estimate"]]) |>
-    stargazer::stargazer(summary = FALSE,
-                         rownames = FALSE,
-                         digits = 3,
-                         title = "線形判別",
-                         type = "html")
+  tibble(指標 = summary(tw_lda_cm)[[".metric"]],
+         値 = summary(tw_lda_cm)[[".estimate"]]) |>
+    gt(caption = "線形判別") |>
+    fmt_number(decimals = 4) |>
+    as_raw_html()
 #+end_src
-#+html: </font>
 #+begin_src R :exports results :results output latex :tangle no
   #' データの表示(latex用)
-  data.frame(指標=summary(tw_lda_cm)[[".metric"]],
-             値=summary(tw_lda_cm)[[".estimate"]]) |>
-    stargazer::stargazer(summary = FALSE,
-                         rownames = FALSE,
-                         digits = 3,
-                         title = "線形判別",
-                         font.size = "small", type = "latex")
+  tibble(指標 = summary(tw_lda_cm)[[".metric"]],
+         値 = summary(tw_lda_cm)[[".estimate"]]) |>
+    gt(caption = "線形判別") |>
+    fmt_number(decimals = 4) |>
+    tab_options(table.font.size = 12) |>
+    as_latex() |> as.character()
 #+end_src
 #+end_leftcol
 #+begin_rightcol
-#+html: <font size=5>
+#+begin_src R :eval no :exports none
+  #' データの表示
+  tibble(指標 = summary(tw_qda_cm)[[".metric"]],
+         値 = summary(tw_qda_cm)[[".estimate"]]) |>
+    View()
+#+end_src
 #+begin_src R :exports results :results output html :tangle no
   #' データの表示(reveal用)
-  data.frame(指標=summary(tw_qda_cm)[[".metric"]],
-             値=summary(tw_qda_cm)[[".estimate"]]) |>
-    stargazer::stargazer(summary = FALSE,
-                         rownames = FALSE,
-                         digits = 3,
-                         title = "2次判別",
-                         type = "html")
+  tibble(指標 = summary(tw_qda_cm)[[".metric"]],
+         値 = summary(tw_qda_cm)[[".estimate"]]) |>
+    gt(caption = "2次判別") |>
+    fmt_number(decimals = 4) |>
+    as_raw_html()
 #+end_src
-#+html: </font>
 #+begin_src R :exports results :results output latex :tangle no
   #' データの表示(latex用)
-  data.frame(指標=summary(tw_qda_cm)[[".metric"]],
-             値=summary(tw_qda_cm)[[".estimate"]]) |>
-    stargazer::stargazer(summary = FALSE,
-                         rownames = FALSE,
-                         digits = 3,
-                         title = "2次判別",
-                         font.size = "small", type = "latex")
+  tibble(指標 = summary(tw_qda_cm)[[".metric"]],
+         値 = summary(tw_qda_cm)[[".estimate"]]) |>
+    gt(caption = "2次判別") |>
+    fmt_number(decimals = 4) |>
+    tab_options(table.font.size = 12) |>
+    as_latex() |> as.character()
 #+end_src
 #+end_rightcol
 
@@ -1349,25 +1352,24 @@
     wq_lda <- lda(formula = wq_formula, data = training(wq_split))
     wq_qda <- qda(formula = wq_formula, data = training(wq_split))
   #+end_src
-  #+html: <font size=4>
+  #+begin_src R :eval no :exports none
+    #' データの表示
+    wq_data |> View()
+  #+end_src  
   #+begin_src R :exports results :results output html :tangle no
     #' データの表示(reveal用)
     wq_data |>
-      slice(1:20) |>
-      as.data.frame() |>
-      stargazer::stargazer(summary = FALSE,
-                           rownames = FALSE,
-                           type = "html")
+      slice(1:15) |>
+      gt() |>
+      as_raw_html()
   #+end_src  
-  #+html: </font>
   #+begin_src R :exports results :results output latex :tangle no
     #' データの表示(latex用)
     wq_data |>
-      slice(1:20) |>
-      as.data.frame() |>
-      stargazer::stargazer(summary = FALSE,
-                           rownames = FALSE,
-                           font.size = "tiny", type = "latex")
+      slice(1:15) |>
+      gt() |> 
+      tab_options(table.font.size = 12) |>
+      as_latex() |> as.character()
   #+end_src
 
 ** 線形判別の訓練誤差と予測誤差

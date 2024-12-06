@@ -29,3 +29,6 @@ pre.example {
   font-size: 2vh;
   color: gray;
 }
+.reveal > .overlay {
+  backdrop-filter: unset!important;
+}

@@ -15,7 +15,9 @@
 
 <link rel="stylesheet" href="./reveal.js/plugin/menu/menu.css"/>
 
-<link rel="stylesheet" href="./reveal.js/plugin/drawer/drawer.css"/>
+<link rel="stylesheet" href="./reveal.js/plugin/menu/font-awesome/css/fontawesome.css"/>
+
+<link rel="stylesheet" href="./reveal.js/plugin/chalkboard/style.css"/>
 
 <link rel="stylesheet" href="./reveal.js/local/mycourse.css"/>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -43,8 +45,8 @@
 
 </section>
 <section>
-<section id="slide-orgcc36a9e">
-<h2 id="orgcc36a9e">講義概要</h2>
+<section id="slide-orgb3c1b20">
+<h2 id="orgb3c1b20">講義概要</h2>
 <ul>
 <li>第1回 : 判別分析の考え方</li>
 <li><b>第2回 : 分析の評価</b></li>
@@ -53,13 +55,13 @@
 </section>
 </section>
 <section>
-<section id="slide-orga0532f3">
-<h2 id="orga0532f3">判別分析の復習</h2>
-<div class="outline-text-2" id="text-orga0532f3">
+<section id="slide-orgd25597d">
+<h2 id="orgd25597d">判別分析の復習</h2>
+<div class="outline-text-2" id="text-orgd25597d">
 </div>
 </section>
-<section id="slide-org73691e8">
-<h3 id="org73691e8">判別分析</h3>
+<section id="slide-org7a3b66f">
+<h3 id="org7a3b66f">判別分析</h3>
 <ul>
 <li>個体の特徴量から
 その個体の属するクラスを予測する関係式を構成</li>
@@ -87,8 +89,8 @@
 
 </ul>
 </section>
-<section id="slide-org4ce75d4">
-<h3 id="org4ce75d4">判別関数</h3>
+<section id="slide-orgd7d0109">
+<h3 id="orgd7d0109">判別関数</h3>
 <ul>
 <li>判別の手続き
 <ul>
@@ -121,8 +123,8 @@
 
 </ul>
 </section>
-<section id="slide-org227c9bc">
-<h3 id="org227c9bc">線形判別</h3>
+<section id="slide-org9967881">
+<h3 id="org9967881">線形判別</h3>
 <ul>
 <li>\(f_k(\boldsymbol{x})\) の仮定
 <ul>
@@ -164,8 +166,8 @@
 
 </ul>
 </section>
-<section id="slide-org0c0ab1e">
-<h3 id="org0c0ab1e">2次判別</h3>
+<section id="slide-orgc111fb9">
+<h3 id="orgc111fb9">2次判別</h3>
 <ul>
 <li>\(f_k(\boldsymbol{x})\) の仮定
 <ul>
@@ -207,8 +209,8 @@
 
 </ul>
 </section>
-<section id="slide-org3c8b7d5">
-<h3 id="org3c8b7d5">Fisherの線形判別</h3>
+<section id="slide-orgb4c23dd">
+<h3 id="orgb4c23dd">Fisherの線形判別</h3>
 <ul>
 <li>新しい特徴量 \(Z=\boldsymbol{\alpha}^{\mathsf{T}} X\) を考える</li>
 <li>良い \(Z\) の基準
@@ -241,13 +243,13 @@ Fisherの基準
 </section>
 </section>
 <section>
-<section id="slide-orgc9789fc">
-<h2 id="orgc9789fc">2値判別分析の評価</h2>
-<div class="outline-text-2" id="text-orgc9789fc">
+<section id="slide-org8aa1fb3">
+<h2 id="org8aa1fb3">2値判別分析の評価</h2>
+<div class="outline-text-2" id="text-org8aa1fb3">
 </div>
 </section>
-<section id="slide-orgabe40fe">
-<h3 id="orgabe40fe">誤り率</h3>
+<section id="slide-org06daff1">
+<h3 id="org06daff1">誤り率</h3>
 <ul>
 <li><p>
 単純な誤り
@@ -273,8 +275,8 @@ Fisherの基準
 
 </ul>
 </section>
-<section id="slide-orga121e90">
-<h3 id="orga121e90">混同行列</h3>
+<section id="slide-org3e86ba4">
+<h3 id="org3e86ba4">混同行列</h3>
 <font size=6>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -315,8 +317,8 @@ Fisherの基準
 
 </ul>
 </section>
-<section id="slide-orgf68abc0">
-<h3 id="orgf68abc0">混同行列 (転置したもの)</h3>
+<section id="slide-org1506d50">
+<h3 id="org1506d50">混同行列 (転置したもの)</h3>
 <font size=6>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -356,8 +358,8 @@ Fisherの基準
 
 </ul>
 </section>
-<section id="slide-org8f5cb6a">
-<h3 id="org8f5cb6a">基本的な評価基準</h3>
+<section id="slide-orgf0a5b2f">
+<h3 id="orgf0a5b2f">基本的な評価基準</h3>
 <ul>
 <li><p>
 定義
@@ -426,8 +428,8 @@ Fisherの基準
 
 </ul>
 </section>
-<section id="slide-org1cd3cd7">
-<h3 id="org1cd3cd7">F-値</h3>
+<section id="slide-org6c93431">
+<h3 id="org6c93431">F-値</h3>
 <ul>
 <li><p>
 定義 (<b>F-measure, F-score</b>)
@@ -462,8 +464,8 @@ Fisherの基準
 
 </ul>
 </section>
-<section id="slide-org1ed1469">
-<h3 id="org1ed1469">Cohen の kappa 値</h3>
+<section id="slide-org1f7fd8d">
+<h3 id="org1f7fd8d">Cohen の kappa 値</h3>
 <ul>
 <li><p>
 定義 (Cohen&rsquo;s <b>kappa measure</b>)
@@ -493,8 +495,8 @@ Fisherの基準
 
 </ul>
 </section>
-<section id="slide-org3b081f3">
-<h3 id="org3b081f3">受信者動作特性曲線</h3>
+<section id="slide-org3acf0fc">
+<h3 id="org3acf0fc">受信者動作特性曲線</h3>
 <ul>
 <li><b>ROC曲線</b> (receiver operating characteristic curve)</li>
 <li><p>
@@ -555,11 +557,11 @@ Fisherの基準
 </section>
 </section>
 <section>
-<section id="slide-org247fb08" data-background="#fef4f4">
-<h2 id="org247fb08">実習</h2>
+<section id="slide-org4bbbd3d" data-background="#fef4f4">
+<h2 id="org4bbbd3d">実習</h2>
 </section>
-<section id="slide-org377d78b">
-<h3 id="org377d78b">データセットの準備</h3>
+<section id="slide-org6f819ea">
+<h3 id="org6f819ea">データセットの準備</h3>
 <ul>
 <li>以下のデータセットを使用
 <ul>
@@ -595,17 +597,17 @@ Wine Quality Data Set の一部
 
 </ul>
 </section>
-<section id="slide-org6c11473">
-<h3 id="org6c11473">R : 判別結果の評価</h3>
+<section id="slide-org554f4b0">
+<h3 id="org554f4b0">R : 判別結果の評価</h3>
 <ul>
 <li>評価のための枠組
 <ul>
-<li><b>caret</b> : Max Kuhn @Rstudio によるパッケージ
+<li><b>caret</b> : Max Kuhn @Posit によるパッケージ
 <ul>
 <li><a href="https://topepo.github.io/caret/">https://topepo.github.io/caret/</a></li>
 
 </ul></li>
-<li><b>tidymodels</b> : Max Kuhn, Hadley Wickham @RStudio による <code>tidyverse</code> 向けに再設計されたパッケージ
+<li><b>tidymodels</b> : Max Kuhn, Hadley Wickham @Posit による <code>tidyverse</code> 向けに再設計されたパッケージ
 <ul>
 <li><a href="https://www.tidymodels.org">https://www.tidymodels.org</a></li>
 
@@ -628,8 +630,8 @@ Wine Quality Data Set の一部
 
 </ul>
 </section>
-<section id="slide-orga84da15">
-<h3 id="orga84da15">R : 混同行列</h3>
+<section id="slide-orga68779c">
+<h3 id="orga68779c">R : 混同行列</h3>
 <ul>
 <li><p>
 関数 <code>yardstick::conf_mat()</code>
@@ -662,8 +664,8 @@ autoplot(object, type = c(<span style="color: #d08928;">"mosaic"</span>, <span s
 
 </ul>
 </section>
-<section id="slide-orga0b88bc">
-<h3 id="orga0b88bc">R : ROC曲線</h3>
+<section id="slide-orge070911">
+<h3 id="orge070911">R : ROC曲線</h3>
 <ul>
 <li><p>
 関数 <code>yardstick::roc_curve()</code>
@@ -712,8 +714,8 @@ autoplot(object)
 
 </ul>
 </section>
-<section id="slide-org2a9b582" data-background="#fef4f4">
-<h3 id="org2a9b582">練習問題</h3>
+<section id="slide-org3d02f4b" data-background="#fef4f4">
+<h3 id="org3d02f4b">練習問題</h3>
 <ul>
 <li>前回と同様に東京の気候データの線形判別を行い，
 以下を確認しなさい
@@ -730,7 +732,7 @@ tw_subset  <span style="color: #60aa00;">&lt;-</span> tw_data |&gt;
   mutate(month = as_factor(month)) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#26376;&#12434;&#22240;&#23376;&#21270;</span>
 </pre>
 </div></li>
-<li>全てデータを用いて線形判別関数を構成する</li>
+<li>全てのデータを用いて線形判別関数を構成する</li>
 <li>構成した判別関数の評価を行う</li>
 <li>ROC曲線を描画し，AUCを求める</li>
 
@@ -738,8 +740,8 @@ tw_subset  <span style="color: #60aa00;">&lt;-</span> tw_data |&gt;
 
 </ul>
 </section>
-<section id="slide-org052b84c" data-background="#fef4f4">
-<h3 id="org052b84c">R : 訓練・試験データの分割</h3>
+<section id="slide-orgdffe0e8" data-background="#fef4f4">
+<h3 id="orgdffe0e8">R : 訓練・試験データの分割</h3>
 <ul>
 <li><p>
 関数 <code>rsample::initial_split()</code> 
@@ -769,8 +771,8 @@ testing(x, ...)
 
 </ul>
 </section>
-<section id="slide-orgfef3f5a" data-background="#fef4f4">
-<h3 id="orgfef3f5a">練習問題</h3>
+<section id="slide-org9200603" data-background="#fef4f4">
+<h3 id="org9200603">練習問題</h3>
 <ul>
 <li>Wine Quality Data Set を用いて
 以下を確認しなさい
@@ -786,13 +788,13 @@ testing(x, ...)
 </section>
 </section>
 <section>
-<section id="slide-orgafb8c9c">
-<h2 id="orgafb8c9c">予測誤差</h2>
-<div class="outline-text-2" id="text-orgafb8c9c">
+<section id="slide-orgad715ec">
+<h2 id="orgad715ec">予測誤差</h2>
+<div class="outline-text-2" id="text-orgad715ec">
 </div>
 </section>
-<section id="slide-orge4de896">
-<h3 id="orge4de896">訓練誤差と予測誤差</h3>
+<section id="slide-org27db666">
+<h3 id="org27db666">訓練誤差と予測誤差</h3>
 <ul>
 <li><b>訓練誤差</b> :
 既知データに対する誤り (training error)</li>
@@ -809,8 +811,8 @@ testing(x, ...)
 
 </ul>
 </section>
-<section id="slide-org2a62f4b">
-<h3 id="org2a62f4b">交叉検証</h3>
+<section id="slide-orgf9ad90d">
+<h3 id="orgf9ad90d">交叉検証</h3>
 <ul>
 <li>データを訓練データと試験データに分割して用いる
 <ul>
@@ -826,8 +828,8 @@ testing(x, ...)
 
 </ul>
 </section>
-<section id="slide-org586823d">
-<h3 id="org586823d">交叉検証法</h3>
+<section id="slide-orga642585">
+<h3 id="orga642585">交叉検証法</h3>
 <ul>
 <li><b>cross-validation (CV)</b></li>
 <li>\(k\)-重交叉検証法 (\(k\)-fold cross-validation; \(k\)-fold CV)
@@ -848,11 +850,11 @@ testing(x, ...)
 </section>
 </section>
 <section>
-<section id="slide-org4dc55c2" data-background="#fef4f4">
-<h2 id="org4dc55c2">実習</h2>
+<section id="slide-org481d244" data-background="#fef4f4">
+<h2 id="org481d244">実習</h2>
 </section>
-<section id="slide-orga60ef95">
-<h3 id="orga60ef95">R : LOO交叉検証法</h3>
+<section id="slide-org933904f">
+<h3 id="org933904f">R : LOO交叉検証法</h3>
 <ul>
 <li>関数 <code>lda()</code> と <code>qda()</code> はオプションで LOO交叉検証を行うことができる</li>
 <li><p>
@@ -871,8 +873,8 @@ toy_qda[[<span style="color: #d08928;">"class"</span>]] <span style="color: #808
 
 </ul>
 </section>
-<section id="slide-org38e750a" data-background="#fef4f4">
-<h3 id="org38e750a">練習問題</h3>
+<section id="slide-orgc9f8be4" data-background="#fef4f4">
+<h3 id="orgc9f8be4">練習問題</h3>
 <ul>
 <li>MASS::biopsy を用いて2次判別の分析を行いなさい
 <ul>
@@ -883,8 +885,8 @@ toy_qda[[<span style="color: #d08928;">"class"</span>]] <span style="color: #808
 
 </ul>
 </section>
-<section id="slide-org5c58f78">
-<h3 id="org5c58f78">R : k-重交叉検証法</h3>
+<section id="slide-org644a896">
+<h3 id="org644a896">R : k-重交叉検証法</h3>
 <ul>
 <li><p>
 <code>tidymodels</code> パッケージの関数群を利用
@@ -910,8 +912,8 @@ collect_metrics(fit_resamples&#12398;&#20986;&#21147;)
 
 </ul>
 </section>
-<section id="slide-org52052af" data-background="#fef4f4">
-<h3 id="org52052af">練習問題</h3>
+<section id="slide-orge3f7d90" data-background="#fef4f4">
+<h3 id="orge3f7d90">練習問題</h3>
 <ul>
 <li>Wine Quality Data Set を用いて
 線形判別と2次判別の分析を行いなさい
@@ -925,8 +927,8 @@ collect_metrics(fit_resamples&#12398;&#20986;&#21147;)
 </section>
 </section>
 <section>
-<section id="slide-org0e665e8">
-<h2 id="org0e665e8">次回の予定</h2>
+<section id="slide-org0d956e5">
+<h2 id="org0d956e5">次回の予定</h2>
 <ul>
 <li><b>第1回 : クラスタ分析の考え方と階層的方法</b></li>
 <li>第2回 : 非階層的方法と分析の評価</li>
@@ -940,7 +942,7 @@ collect_metrics(fit_resamples&#12398;&#20986;&#21147;)
 <script src="./reveal.js/plugin/zoom/zoom.js"></script>
 <script src="./reveal.js/plugin/menu/menu.js"></script>
 <script src="./reveal.js/plugin/spotlight/spotlight.js"></script>
-<script src="./reveal.js/plugin/drawer/drawer.js"></script>
+<script src="./reveal.js/plugin/chalkboard/plugin.js"></script>
 <script src="./reveal.js/dist/theme/hidelinks.js"></script>
 <script>
 // Full list of configuration options available here:
@@ -963,10 +965,10 @@ overview: true,
 transition: 'fade',
 transitionSpeed: 'default',
 showNotes: window.location.search.match( /print-pdf/gi ) ? 'separate-page' : false,
-spotlight: { size: 80, initialPresentationMode: false, }, drawer: { toggleDrawKey: "d", toggleBoardKey: "c", pathSize: 3, }, keyboard: { 81: function() { RevealSpotlight.toggleSpotlight()}, 87: function() { RevealSpotlight.togglePresentationMode();}, },
+spotlight: { size: 80, initialPresentationMode: false, }, keyboard: { 81: function() { RevealSpotlight.toggleSpotlight()}, 87: function() { RevealSpotlight.togglePresentationMode();}, },
 
 // Plugins with reveal.js 4.x
-plugins: [ RevealNotes, RevealSearch, RevealZoom, RevealMenu, RevealSpotlight, RevealDrawer ],
+plugins: [ RevealNotes, RevealSearch, RevealZoom, RevealMenu, RevealSpotlight, RevealChalkboard ],
 
 // Optional libraries used to extend reveal.js
 dependencies: [

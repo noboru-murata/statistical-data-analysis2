@@ -57,9 +57,31 @@ library(tidymodels)
         mutate(month = as_factor(month)) # 月を因子化
     ```
 
--   全てデータを用いて線形判別関数を構成する．
--   構成した判別関数の評価を行う．
--   ROC曲線を描画し，AUCを求める．
+-   線形判別関数を構成する．
+
+	``` r
+    tw_lda <- lda(formula = month ~ temp + humid, data = tw_subset)
+	```
+
+-   混同行列を用いて構成した判別関数の評価を行う．[^1]
+
+	[^1]: 関数 `lda()` の返値の `class` は vector 型なので，関数 `mutate()` を用いてデータフレームの列として加えることができる．
+	
+	``` r
+    tw_lda_fitted <- predict(tw_lda)              # あてはめ値を求める
+    tw_subset |>
+        mutate(fitted = tw_lda_fitted[["class"]]) # あてはめ値を加えたデータフレーム
+	```
+
+-   ROC曲線を描画しAUCを求める．[^2]
+
+	[^2]: 関数 `lda()` の返値の `posterior` は matrix 型なので，関数 `bind_cols()` を用いてデータフレームとして結合することができる．
+
+	``` r
+    tw_subset |>
+        bind_cols(tw_lda_fitted[["posterior"]])
+	```
+
 
 ```{r}
 
@@ -72,6 +94,14 @@ library(tidymodels)
 Wine Quality Data Set を用いて，以下を確認しなさい．
 
 -   8:2の比率で訓練データと試験データに分割する ．
+
+	``` r
+	wq_split <-
+        initial_split(wq_data, prop = 0.8, strata = grade)
+    training(wq_split))
+    testing(wq_split)
+	```
+
 -   訓練データを用いて線形・2次判別関数を構成する．
 -   訓練データを用いて評価を行う．
 -   試験データを用いて評価を行う．
@@ -86,8 +116,19 @@ Wine Quality Data Set を用いて，以下を確認しなさい．
 
 データセット `MASS::biopsy` を用いて2次判別の分析を行いなさい．
 
+``` r
+bio_data <- as_tibble(biopsy) |>
+    na.omit() |> # NA を除く
+    select(-ID)  # IDを除く
+```
+
 -   全てのデータを用いて訓練誤差を評価する．
+	
 -   LOO交叉検証法を用いて予測誤差を評価する．
+	
+	``` r
+    bio_qda_loo <- qda(class ~ ., data = bio_data, CV = TRUE)
+	```
 
 ```{r}
 
@@ -100,6 +141,12 @@ Wine Quality Data Set を用いて，以下を確認しなさい．
 Wine Quality Data Set を用いて 線形判別と2次判別の分析を行いなさい．
 
 -   LOO交叉検証法を用いて予測誤差を評価する．
+
+	``` r
+	wq_lda_loo <- lda(formula = wq_formula, data = training(wq_split), CV = TRUE)
+    wq_qda_loo <- qda(formula = wq_formula, data = training(wq_split), CV = TRUE)
+	```
+
 -   k-重交叉検証法を用いて予測誤差を評価する．
 
 ```{r}
