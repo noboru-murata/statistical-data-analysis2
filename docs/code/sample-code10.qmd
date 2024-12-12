@@ -42,7 +42,6 @@ library(ggdendro)
 if(Sys.info()["sysname"] == "Darwin") { # macOSか調べる
     theme_update(text = element_text(family = "HiraMaruProN-W4"))
     label_family <- "HiraMaruProN-W4"
-    par(family="HiraMaruProN-W4") # base R 用
 } else {label_family <- NULL}
 ```
 
@@ -56,7 +55,7 @@ if(Sys.info()["sysname"] == "Darwin") { # macOSか調べる
 #' データの読み込み方の例
 js_df <- read_csv("data/japan_social.csv") |>
     column_to_rownames(var = "Pref") |> # 'Pref'を行名に変換
-    select(!Area) # 地方名は除く
+    select(-Area) # 地方名は除く
 ```
 
 -   正規化せずにユークリッド距離とマンハッタン距離の計算を行いなさい．
@@ -74,7 +73,7 @@ js_data <- read_csv("data/japan_social.csv") |>
     mutate(Area = as_factor(Area))
 js_df <- js_data |>
     column_to_rownames(var = "Pref") |> # 'Pref'を行名に変換
-    select(!Area)                       # 距離計算に不要な地方名は除く
+    select(-Area)                       # 距離計算に不要な地方名は除く
 ```
 
 以下の処理では `js_data` のまま扱うこともできるが，距離・類似度を計算する関数は `js_df` のような形式(base::data.frame())を想定しているため用意しておく．
@@ -88,14 +87,14 @@ js_daisy_euc <- daisy(js_df, metric = "euclidean")
 js_daisy_man <- daisy(js_df, metric = "manhattan")
 ```
 
-両者が同じことを確認しておく．
+両者が同じことを確認するために，行列に変換して，それぞれの5行5列分表示する．
 
 ```{r}
 as.matrix(js_dist_euc)[1:5,1:5]
 as.matrix(js_daisy_euc)[1:5,1:5]
 ```
 
-正規化したユークリッド距離とマンハッタン距離を計算する．
+正規化したユークリッド距離とマンハッタン距離を計算する． 関数 `stats::dist()` 単体では正規化する機能はないので，関数 `base::scale()` を併用する． 関数 `cluster::daisy()` には正規化のオプションがあるので，これを利用する．
 
 ```{r}
 js_dist_euc <- dist(scale(js_df), method = "euclidean")
@@ -104,14 +103,14 @@ js_daisy_euc <- daisy(js_df, metric = "euclidean", stand = TRUE)
 js_daisy_man <- daisy(js_df, metric = "manhattan", stand = TRUE)
 ```
 
-関数 `stats::dist()` と `cluster::daisy()` では正規化の方法が異なることに注意する
+関数 `base::scale()` と `cluster::daisy()` では正規化の方法が異なることに注意する．
 
 ```{r}
 as.matrix(js_dist_man)[10:15,10:15]
 as.matrix(js_daisy_man)[10:15,10:15]
 ```
 
-以下では関数 `daisy()` による正規化を用いる．
+以下では関数 `cluster::daisy()` による正規化を用いる．
 
 関東の都県同士の距離を表示する．
 
@@ -119,6 +118,8 @@ as.matrix(js_daisy_man)[10:15,10:15]
 glimpse(js_daisy_euc)        # 距離行列のもつ情報を見る
 attr(js_daisy_euc, "Labels") # 県名を確認
 #' attributes(js_daisy_euc)$Labels でも良い
+#' もとのデータから Area 列が "Kanto" となる県を抽出してもよい
+#' which(js_data[["Area"]]=="Kanto")
 as.matrix(js_daisy_euc)[8:14, 8:14]
 as.matrix(js_daisy_man)[8:14, 8:14]
 ```
@@ -129,7 +130,9 @@ as.matrix(js_daisy_man)[8:14, 8:14]
 -   `attributes(obj)` : 属性を表示(変更)する
 -   `attr(obj,属性名)` : 特定の属性を表示(変更)する
 
-大阪と四国の間の距離を表示する．
+大阪と四国の間の距離を表示する．[^1]
+
+[^1]: 1行または1列の部分行列を切り出す場合には，ベクトルとして扱われるので注意が必要．
 
 ```{r}
 as.matrix(js_daisy_euc)[27, 36:39, drop = FALSE] # 行列として表示
@@ -145,12 +148,11 @@ p <- tibble( # 列名に特殊な文字(空白など)を含む場合は `` で�
     `Manhattan dist.` = as.vector(js_daisy_man)) |>
     ggplot(aes(x = `Euclid dist.`, y = `Manhattan dist.`)) +
     geom_point(colour = "blue")
-
 p + geom_abline(slope = 1, intercept = 0, colour = "red") # 基準線を付けて表示
 p + xlim(0,3) + ylim(0,3) # 原点近傍のみ表示
 ```
 
-いくつか順序が入れ替わっていることが確認できる．
+2点間の距離の大小関係を考えると，ユークリッド距離とマンハッタン距離ではいくつか順序が入れ替わっていることが確認できる．
 
 ## 階層的クラスタリング
 
@@ -217,7 +219,7 @@ rect.hclust(js_hclust, k = k, border = "orange")
 js_df |>
     prcomp() |> # 主成分分析
     autoplot(data = tibble(cluster = factor(js_clust)),
-             colour = 'cluster',
+             colour = "cluster",
              ## 主成分分析の図をクラスタ毎に色分けするためのデータを追加
              frame = TRUE, # クラスタ毎に枠を付ける
              frame.type = "convex", # 凸包 "convex"・楕円 "norm,t" が指定できる
@@ -262,9 +264,9 @@ js_df_sub |>
 
 ### 問題
 
-上記のデータを用いて以下の分析を行いなさい．
+データ `omusubi.csv` を用いて以下の分析を行いなさい．
 
-```{r}
+``` r
 #' データの読み込み 
 om_data <- read_csv(file = "data/omusubi.csv")
 om_df <- om_data |> column_to_rownames(var = "prefecture")
@@ -349,8 +351,7 @@ om_agnes <- om_df |> sqrt() |> agnes()
 ```{r}
 om_agnes |> as.dendrogram() |>  
     ggdendrogram(rotate = TRUE, theme_dendro = FALSE) +
-    labs(title = "おむすびの具人気アンケート",
-         x = "県名", y = "距離") +
+    labs(title = "おむすびの具人気アンケート", x = "県名", y = "距離") +
     theme(axis.text.y = element_text(size = 9))
 ```
 
@@ -437,6 +438,7 @@ om_agnes |>
 `package::cluster` には base R 系の描画関数が含まれている． 例えば上記と同様なグラフは以下のようにして書ける．
 
 ```{r}
+if(Sys.info()["sysname"] == "Darwin") par(family = "HiraMaruProN-W4") # macOS用
 plot(om_agnes, which.plot = 2, cex = 0.8, # 関数plot.agnes()を使う場合
      main = "Dendrogram of Omusubi Data")
 plot(as.dendrogram(om_agnes), # 関数plot.dendrogram()を使う場合
