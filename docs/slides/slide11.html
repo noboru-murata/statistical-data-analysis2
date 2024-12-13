@@ -11,22 +11,21 @@
 
 <link rel="stylesheet" href="./reveal.js/dist/theme/oer-reveal.css" id="theme"/>
 
-<link rel="stylesheet" href="./reveal.js/plugin/toc-progress/toc-progress.css"/>
-
-<link rel="stylesheet" href="./reveal.js/dist/theme/toc-style.css"/>
-
 <link rel="stylesheet" href="./reveal.js/dist/theme/fonts/source-sans-pro/source-sans-pro.css"/>
 
-<link rel="stylesheet" href="./reveal.js/plugin/accessibility/helper.css"/>
+<link rel="stylesheet" href="./reveal.js/plugin/menu/menu.css"/>
 
-<link rel="stylesheet" href="./reveal.js/dist/theme/mycourse.css"/>
-<link rel="stylesheet" href="./reveal.js/plugin/highlight/zenburn.css"/>
+<link rel="stylesheet" href="./reveal.js/plugin/menu/font-awesome/css/fontawesome.css"/>
+
+<link rel="stylesheet" href="./reveal.js/plugin/chalkboard/style.css"/>
+
+<link rel="stylesheet" href="./reveal.js/local/mycourse.css"/>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </head>
 <body>
 <div class="reveal">
 <div class="slides">
-<section id="sec-title-slide" data-state="no-toc-progress">
+<section id="sec-title-slide">
 <!-- This is an HTML template for the title slide. -->
 <!-- Embed logos as necessary. -->
 <!-- <a class="nooutlink" href="url"><img class="state-background your-logo-class" src="whatever.png" alt="Whatever" /></a> -->
@@ -46,24 +45,23 @@
 
 </section>
 <section>
-<section id="slide-orgcec6dc1">
-<h2 id="orgcec6dc1">講義概要</h2>
+<section id="slide-org2bffa56">
+<h2 id="org2bffa56">講義概要</h2>
 <ul>
 <li>第1回 : クラスタ分析の考え方と階層的方法</li>
 <li><b>第2回 : 非階層的方法と分析の評価</b></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-orgca63f02">
-<h2 id="orgca63f02">クラスタ分析の復習</h2>
-<div class="outline-text-2" id="text-orgca63f02">
+<section id="slide-orgb27e0a0">
+<h2 id="orgb27e0a0">クラスタ分析の復習</h2>
+<div class="outline-text-2" id="text-orgb27e0a0">
 </div>
 </section>
-<section id="slide-org47c7b66">
-<h3 id="org47c7b66">クラスタ分析</h3>
+<section id="slide-org2bfe062">
+<h3 id="org2bfe062">クラスタ分析</h3>
 <ul>
 <li><p>
 クラスタ分析 (<b>cluster analysis</b>) の目的
@@ -85,10 +83,9 @@
 <li>教師なし学習の代表的な手法の一つ</li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org172c1ce">
-<h3 id="org172c1ce">クラスタ分析の考え方</h3>
+<section id="slide-orge5bedc3">
+<h3 id="orge5bedc3">クラスタ分析の考え方</h3>
 <ul>
 <li>階層的方法
 <ul>
@@ -110,11 +107,10 @@
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org27db195">
-<h3 id="org27db195">階層的クラスタリング</h3>
-<div class="leftcol" id="org3c4c1b0">
+<section id="slide-orge260589">
+<h3 id="orge260589">階層的クラスタリング</h3>
+<div class="leftcol" id="orgcc3113e">
 <ul>
 <li>凝集的手続き
 <ol>
@@ -133,26 +129,25 @@
 </ul>
 
 </div>
-<div class="rightcol" id="orgae5d06b">
+<div class="rightcol" id="orgfe26c53">
 
-<div id="orgc8578b2" class="figure">
+<div id="org868ec67" class="figure">
 <p><img src="figs/11_hclst.png" alt="11_hclst.png" />
 </p>
 <p><span class="figure-number">Figure 1: </span>凝集的手続きの例</p>
 </div>
 
 </div>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-org3cc2ba9">
-<h2 id="org3cc2ba9">非階層的方法</h2>
-<div class="outline-text-2" id="text-org3cc2ba9">
+<section id="slide-org15e2090">
+<h2 id="org15e2090">非階層的方法</h2>
+<div class="outline-text-2" id="text-org15e2090">
 </div>
 </section>
-<section id="slide-orged9531c">
-<h3 id="orged9531c">非階層的方法の手続き</h3>
+<section id="slide-org3fb2a24">
+<h3 id="org3fb2a24">非階層的方法の手続き</h3>
 <ul>
 <li>対象の変数 : \(\boldsymbol{X}=(X_1,X_2,\dotsc,X_{d})^{\mathsf{T}}\) (\(d\)次元)</li>
 <li><p>
@@ -190,10 +185,9 @@
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org732c7d4">
-<h3 id="org732c7d4">\(k\)-平均法の損失関数</h3>
+<section id="slide-org99e5872">
+<h3 id="org99e5872">\(k\)-平均法の損失関数</h3>
 <ul>
 <li>クラスタの個数 \(k\) を指定</li>
 <li><p>
@@ -224,10 +218,9 @@
 </blockquote></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org645e4ce">
-<h3 id="org645e4ce">\(k\)-平均法の性質</h3>
+<section id="slide-orgc9708af">
+<h3 id="orgc9708af">\(k\)-平均法の性質</h3>
 <ul>
 <li><p>
 クラスタ \(l\) に属する個体の平均
@@ -259,17 +252,16 @@
 <li>最適な対応 \(C\) : クラスタ内変動の総和が最小</li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-org8033003">
-<h2 id="org8033003">近似的な最適化</h2>
-<div class="outline-text-2" id="text-org8033003">
+<section id="slide-org7bb527c">
+<h2 id="org7bb527c">近似的な最適化</h2>
+<div class="outline-text-2" id="text-org7bb527c">
 </div>
 </section>
-<section id="slide-orgdd3e11e">
-<h3 id="orgdd3e11e">クラスタ対応の最適化</h3>
+<section id="slide-org8c78e0d">
+<h3 id="org8c78e0d">クラスタ対応の最適化</h3>
 <ul>
 <li>最適化 : 損失関数 \(W(C)\) を最小とする \(C\) を決定</li>
 <li>貪欲な \(C\) の探索
@@ -304,10 +296,9 @@
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org33188cc">
-<h3 id="org33188cc">Lloyd-Forgyのアルゴリズム</h3>
+<section id="slide-org673136b">
+<h3 id="org673136b">Lloyd-Forgyのアルゴリズム</h3>
 <ol>
 <li>クラスタ中心の初期値 
 \(\boldsymbol{\mu}_1,\boldsymbol{\mu}_2,\dots,\boldsymbol{\mu}_k\) を与える</li>
@@ -342,10 +333,9 @@
 <li>中心が変化しなくなるまで 2,3 を繰り返す</li>
 
 </ol>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org859b9a9">
-<h3 id="org859b9a9">アルゴリズムの性質</h3>
+<section id="slide-org9dfaba0">
+<h3 id="org9dfaba0">アルゴリズムの性質</h3>
 <ul>
 <li>結果は <b>確率的</b>
 <ul>
@@ -370,115 +360,107 @@
 </blockquote></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org41ab1bd">
-<h3 id="org41ab1bd">事例</h3>
+<section id="slide-orgd6afd48">
+<h3 id="orgd6afd48">事例</h3>
 <ul>
 <li>都道府県別好きなおむすびの具(一部)での例</li>
 
 </ul>
 
+</section>
+<section>
 
-<div id="org00ebcc0" class="figure">
+<div id="org541e705" class="figure">
 <p><img src="figs/11_nhclst0.png" alt="11_nhclst0.png" />
 </p>
 <p><span class="figure-number">Figure 2: </span>非階層的クラスタリング</p>
 </div>
-<div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="org8a1bc58" class="figure">
+<div id="org123c601" class="figure">
 <p><img src="figs/11_nhclst1.png" alt="11_nhclst1.png" />
 </p>
 <p><span class="figure-number">Figure 3: </span>Lloyd-Forgyのアルゴリズム (その1)</p>
 </div>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="orgb73b6b5" class="figure">
+<div id="org13c4b3d" class="figure">
 <p><img src="figs/11_nhclst2.png" alt="11_nhclst2.png" />
 </p>
 <p><span class="figure-number">Figure 4: </span>Lloyd-Forgyのアルゴリズム (その2)</p>
 </div>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="orgab45368" class="figure">
+<div id="org0db85b6" class="figure">
 <p><img src="figs/11_nhclst3.png" alt="11_nhclst3.png" />
 </p>
 <p><span class="figure-number">Figure 5: </span>Lloyd-Forgyのアルゴリズム (その3)</p>
 </div>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="orgbdd802b" class="figure">
+<div id="orgcdb4c73" class="figure">
 <p><img src="figs/11_nhclst4.png" alt="11_nhclst4.png" />
 </p>
 <p><span class="figure-number">Figure 6: </span>Lloyd-Forgyのアルゴリズム (その4)</p>
 </div>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="org3b29ac5" class="figure">
+<div id="orgd9dc817" class="figure">
 <p><img src="figs/11_nhclst5.png" alt="11_nhclst5.png" />
 </p>
 <p><span class="figure-number">Figure 7: </span>Lloyd-Forgyのアルゴリズム (その5)</p>
 </div>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="orgeb9cd02" class="figure">
+<div id="org63924a5" class="figure">
 <p><img src="figs/11_nhclst6.png" alt="11_nhclst6.png" />
 </p>
 <p><span class="figure-number">Figure 8: </span>Lloyd-Forgyのアルゴリズム (その6)</p>
 </div>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="org7cb31cb" class="figure">
+<div id="orga93dcd5" class="figure">
 <p><img src="figs/11_nhclst.png" alt="11_nhclst.png" />
 </p>
 <p><span class="figure-number">Figure 9: </span>クラスタリングの結果</p>
 </div>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-orge0a3390" data-background="#fef4f4">
-<h2 id="orge0a3390">実習</h2>
-<div class="slide-footer"><br></div>
+<section id="slide-orgc845279" data-background="#fef4f4">
+<h2 id="orgc845279">実習</h2>
 </section>
-<section id="slide-org682ac0c">
-<h3 id="org682ac0c">R : \(k\)-平均法</h3>
+<section id="slide-org0c54f60">
+<h3 id="org0c54f60">R : \(k\)-平均法</h3>
 <ul>
 <li><p>
 関数 <code>kmeans()</code>
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >kmeans(x, centers, iter.max = 10, nstart = 1,
-       algorithm = c("Hartigan-Wong", "Lloyd", "Forgy",
-                     "MacQueen"), trace = FALSE)
-#' x: データフレーム
-#' centers: クラスタ数
-#' iter.max: 最大繰り返し数
-#' nstart: 初期値の候補数
-#' algorithm: 最適化法の指定．既定値は 'Hartigan-Wong'
-</code></pre>
+<pre class="src src-R">kmeans(x, centers, iter.max = 10, nstart = 1,
+       algorithm = c(<span style="color: #d08928;">"Hartigan-Wong"</span>, <span style="color: #d08928;">"Lloyd"</span>, <span style="color: #d08928;">"Forgy"</span>,
+                     <span style="color: #d08928;">"MacQueen"</span>), trace = <span style="color: #00aa80;">FALSE</span>)
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> x: &#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> centers: &#12463;&#12521;&#12473;&#12479;&#25968;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> iter.max: &#26368;&#22823;&#32368;&#12426;&#36820;&#12375;&#25968;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> nstart: &#21021;&#26399;&#20516;&#12398;&#20505;&#35036;&#25968;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> algorithm: &#26368;&#36969;&#21270;&#27861;&#12398;&#25351;&#23450;&#65294;&#26082;&#23450;&#20516;&#12399; 'Hartigan-Wong'</span>
+</pre>
 </div>
 <ul>
 <li>結果は変数のスケールにも依存
@@ -491,29 +473,27 @@
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgf4a9859" data-background="#fef4f4">
-<h3 id="orgf4a9859">R : 2次元でのクラスタ表示</h3>
+<section id="slide-orgb8d21b5" data-background="#fef4f4">
+<h3 id="orgb8d21b5">R : 2次元でのクラスタ表示</h3>
 <ul>
 <li><p>
 関数 <code>ggfortify::autoplot()</code> (ggplot 系)
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >autoplot(object, data = NULL, colour = "cluster", ...)
-#' object: stats::kmeans(), cluster::pam() などの返値
-#' data: クラスタリングに用いたデータ (kmeansの場合に必要)
-#' 詳細は '?ggfortify::autoplot.kmeans()' を参照
-</code></pre>
+<pre class="src src-R">autoplot(object, data = <span style="color: #00aa80;">NULL</span>, colour = <span style="color: #d08928;">"cluster"</span>, ...)
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> object: stats::kmeans(), cluster::pam() &#12394;&#12393;&#12398;&#36820;&#20516;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> data: &#12463;&#12521;&#12473;&#12479;&#12522;&#12531;&#12464;&#12395;&#29992;&#12356;&#12383;&#12487;&#12540;&#12479; (kmeans&#12398;&#22580;&#21512;&#12395;&#24517;&#35201;)</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35443;&#32048;&#12399; '?ggfortify::autoplot.kmeans()' &#12434;&#21442;&#29031;</span>
+</pre>
 </div></li>
 <li>関数 <code>cluster::clusplot()</code> を利用することもできる</li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org60cd5c4" data-background="#fef4f4">
-<h3 id="org60cd5c4">練習問題</h3>
+<section id="slide-orgc899ae2" data-background="#fef4f4">
+<h3 id="orgc899ae2">練習問題</h3>
 <ul>
 <li><p>
 データセット <code>japan_social.csv</code> を用いて
@@ -521,10 +501,10 @@
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >js_df &lt;- read_csv("data/japan_social.csv") |&gt;
-  column_to_rownames(var = "Pref") |&gt; # 'Pref'を行名に変換
-  select(-Area) # 地方名は除く
-</code></pre>
+<pre class="src src-R">js_df <span style="color: #60aa00;">&lt;-</span> read_csv(<span style="color: #d08928;">"data/japan_social.csv"</span>) |&gt;
+  column_to_rownames(var = <span style="color: #d08928;">"Pref"</span>) |&gt; <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">'Pref'&#12434;&#34892;&#21517;&#12395;&#22793;&#25563;</span>
+  select(-Area) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#22320;&#26041;&#21517;&#12399;&#38500;&#12367;</span>
+</pre>
 </div>
 <ul>
 <li>関数 <code>kmeans()</code> を用いて
@@ -538,38 +518,36 @@
 <li>データセット <code>omusubi.csv</code> でも確認しなさい</li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgf2e150f">
-<h3 id="orgf2e150f">R : \(k\)-メドイド法</h3>
+<section id="slide-orgdc57572">
+<h3 id="orgdc57572">R : \(k\)-メドイド法</h3>
 <ul>
 <li><p>
 関数 <code>cluster::pam()</code>
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >pam(x, k, diss = inherits(x, "dist"),
-    metric = c("euclidean", "manhattan"), 
-    medoids = if(is.numeric(nstart)) "random",
-    nstart = if(variant == "faster") 1 else NA,
-    stand = FALSE, cluster.only = FALSE,
-    do.swap = TRUE,
+<pre class="src src-R">pam(x, k, diss = inherits(x, <span style="color: #d08928;">"dist"</span>),
+    metric = c(<span style="color: #d08928;">"euclidean"</span>, <span style="color: #d08928;">"manhattan"</span>), 
+    medoids = <span style="color: #6c9ef8;">if</span>(is.numeric(nstart)) <span style="color: #d08928;">"random"</span>,
+    nstart = <span style="color: #6c9ef8;">if</span>(variant == <span style="color: #d08928;">"faster"</span>) 1 <span style="color: #6c9ef8;">else</span> <span style="color: #00aa80;">NA</span>,
+    stand = <span style="color: #00aa80;">FALSE</span>, cluster.only = <span style="color: #00aa80;">FALSE</span>,
+    do.swap = <span style="color: #00aa80;">TRUE</span>,
     keep.diss = !diss &amp;&amp; !cluster.only &amp;&amp; n &lt; 100,
     keep.data = !diss &amp;&amp; !cluster.only,
-    variant = c("original", "o_1", "o_2", "f_3", "f_4", "f_5", "faster"),
-    pamonce = FALSE, trace.lev = 0)
-#' x: データフレーム，または距離行列 
-#' k: クラスタの数
-#' metric: 距離の指定(xがデータフレームの場合)
-#' stand: 標準化(平均0，絶対偏差1)
-</code></pre>
+    variant = c(<span style="color: #d08928;">"original"</span>, <span style="color: #d08928;">"o_1"</span>, <span style="color: #d08928;">"o_2"</span>, <span style="color: #d08928;">"f_3"</span>, <span style="color: #d08928;">"f_4"</span>, <span style="color: #d08928;">"f_5"</span>, <span style="color: #d08928;">"faster"</span>),
+    pamonce = <span style="color: #00aa80;">FALSE</span>, trace.lev = 0)
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> x: &#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#65292;&#12414;&#12383;&#12399;&#36317;&#38626;&#34892;&#21015; </span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> k: &#12463;&#12521;&#12473;&#12479;&#12398;&#25968;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> metric: &#36317;&#38626;&#12398;&#25351;&#23450;(x&#12364;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12398;&#22580;&#21512;)</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> stand: &#27161;&#28310;&#21270;(&#24179;&#22343;0&#65292;&#32118;&#23550;&#20559;&#24046;1)</span>
+</pre>
 </div></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org61a14da" data-background="#fef4f4">
-<h3 id="org61a14da">練習問題</h3>
+<section id="slide-orgd7179a1" data-background="#fef4f4">
+<h3 id="orgd7179a1">練習問題</h3>
 <ul>
 <li>データセット <code>japan_social.csv</code> を用いて
 以下を確認しなさい
@@ -583,17 +561,19 @@
 <li>データセット <code>omusubi.csv</code> でも確認しなさい</li>
 
 </ul>
-<div class="slide-footer"><br></div>
+</section>
+<section id="slide-orgc18e088">
+<h3 id="orgc18e088">解答例</h3>
 </section>
 </section>
 <section>
-<section id="slide-org41328ef">
-<h2 id="org41328ef">クラスタ構造の評価</h2>
-<div class="outline-text-2" id="text-org41328ef">
+<section id="slide-org69bf2c1">
+<h2 id="org69bf2c1">クラスタ構造の評価</h2>
+<div class="outline-text-2" id="text-org69bf2c1">
 </div>
 </section>
-<section id="slide-orgd928e16">
-<h3 id="orgd928e16">階層的方法の評価</h3>
+<section id="slide-org3a466f5">
+<h3 id="org3a466f5">階層的方法の評価</h3>
 <ul>
 <li>評価の対象
 <ul>
@@ -640,10 +620,9 @@
 </blockquote></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org556c5c8">
-<h3 id="org556c5c8">凝集係数の性質</h3>
+<section id="slide-org5c4532e">
+<h3 id="org5c4532e">凝集係数の性質</h3>
 <ul>
 <li><p>
 定義より
@@ -664,10 +643,9 @@
 <li>banner plot の面積比として視覚化</li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org6f1b065">
-<h3 id="org6f1b065">非階層的方法の評価</h3>
+<section id="slide-orgf3cdf71">
+<h3 id="orgf3cdf71">非階層的方法の評価</h3>
 <ul>
 <li>評価の対象
 <ul>
@@ -710,10 +688,9 @@
 </blockquote></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgc22150d">
-<h3 id="orgc22150d">シルエット係数の性質</h3>
+<section id="slide-org6175309">
+<h3 id="org6175309">シルエット係数の性質</h3>
 <ul>
 <li><p>
 定義より
@@ -734,27 +711,25 @@
 <li>距離の計算を適切に行えば階層的方法でも利用可</li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-orgfeb7507" data-background="#fef4f4">
-<h2 id="orgfeb7507">実習</h2>
-<div class="slide-footer"><br></div>
+<section id="slide-org5971090" data-background="#fef4f4">
+<h2 id="org5971090">実習</h2>
 </section>
-<section id="slide-org9602a8e">
-<h3 id="org9602a8e">R : 凝集係数</h3>
+<section id="slide-org5c6e98a">
+<h3 id="org5c6e98a">R : 凝集係数</h3>
 <ul>
 <li><p>
 関数 <code>cluster::agnes()</code> の返値の情報
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >object[["ac"]] # 凝集係数の取得 (object$ac でも良い)
-object[["height"]] # デンドログラムの高さ(結合時のクラスタ距離)
-object[["order.lab"]] # デンドログラムの並び順のラベル
-#' object: cluster::agnes() の返値
-</code></pre>
+<pre class="src src-R">object[[<span style="color: #d08928;">"ac"</span>]] <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#20957;&#38598;&#20418;&#25968;&#12398;&#21462;&#24471; (object$ac &#12391;&#12418;&#33391;&#12356;)</span>
+object[[<span style="color: #d08928;">"height"</span>]] <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#12487;&#12531;&#12489;&#12525;&#12464;&#12521;&#12512;&#12398;&#39640;&#12373;(&#32080;&#21512;&#26178;&#12398;&#12463;&#12521;&#12473;&#12479;&#36317;&#38626;)</span>
+object[[<span style="color: #d08928;">"order.lab"</span>]] <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#12487;&#12531;&#12489;&#12525;&#12464;&#12521;&#12512;&#12398;&#20006;&#12403;&#38918;&#12398;&#12521;&#12505;&#12523;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> object: cluster::agnes() &#12398;&#36820;&#20516;</span>
+</pre>
 </div>
 <ul>
 <li>これらを利用して banner plot を描くことができる</li>
@@ -763,7 +738,6 @@ object[["order.lab"]] # デンドログラムの並び順のラベル
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 <section>
 <ul>
@@ -772,28 +746,27 @@ object[["order.lab"]] # デンドログラムの並び順のラベル
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >#' cluster::plot.agnes() 系統樹および凝集係数の表示
-plot(x, ask = FALSE, which.plots = NULL, main = NULL,
-     sub = paste("Agglomerative Coefficient = ",round(x$ac, digits = 2)),
-     adj = 0, nmax.lab = 35, max.strlen = 5, xax.pretty = TRUE, ...)
-#' x: cluster::agnes() の返値
-#' which.plots: 1 (banner plot), 2 (dendrogram)
-#' banner plot の表示には以下の cluster::bannerplot() が呼出される
-bannerplot(x, w = rev(x$height), fromLeft = TRUE,
-           main=NULL, sub=NULL, xlab = "Height",  adj = 0,
-           col = c(2, 0), border = 0, axes = TRUE, frame.plot = axes,
-           rev.xax = !fromLeft, xax.pretty = TRUE,
-           labels = NULL, nmax.lab = 35, max.strlen = 5,
+<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> cluster::plot.agnes() &#31995;&#32113;&#27193;&#12362;&#12424;&#12403;&#20957;&#38598;&#20418;&#25968;&#12398;&#34920;&#31034;</span>
+plot(x, ask = <span style="color: #00aa80;">FALSE</span>, which.plots = <span style="color: #00aa80;">NULL</span>, main = <span style="color: #00aa80;">NULL</span>,
+     sub = paste(<span style="color: #d08928;">"Agglomerative Coefficient = "</span>,round(x$ac, digits = 2)),
+     adj = 0, nmax.lab = 35, max.strlen = 5, xax.pretty = <span style="color: #00aa80;">TRUE</span>, ...)
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> x: cluster::agnes() &#12398;&#36820;&#20516;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> which.plots: 1 (banner plot), 2 (dendrogram)</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> banner plot &#12398;&#34920;&#31034;&#12395;&#12399;&#20197;&#19979;&#12398; cluster::bannerplot() &#12364;&#21628;&#20986;&#12373;&#12428;&#12427;</span>
+bannerplot(x, w = rev(x$height), fromLeft = <span style="color: #00aa80;">TRUE</span>,
+           main=<span style="color: #00aa80;">NULL</span>, sub=<span style="color: #00aa80;">NULL</span>, xlab = <span style="color: #d08928;">"Height"</span>,  adj = 0,
+           col = c(2, 0), border = 0, axes = <span style="color: #00aa80;">TRUE</span>, frame.plot = axes,
+           rev.xax = !fromLeft, xax.pretty = <span style="color: #00aa80;">TRUE</span>,
+           labels = <span style="color: #00aa80;">NULL</span>, nmax.lab = 35, max.strlen = 5,
            yax.do = axes &amp;&amp; length(x$order) &lt;= nmax.lab,
            yaxRight = fromLeft, y.mar = 2.4 + max.strlen/2.5, ...)
-</code></pre>
+</pre>
 </div></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org5fcf3e6" data-background="#fef4f4">
-<h3 id="org5fcf3e6">練習問題</h3>
+<section id="slide-orgc89bfa9" data-background="#fef4f4">
+<h3 id="orgc89bfa9">練習問題</h3>
 <ul>
 <li>データセット <code>japan_social.csv</code> を用いて
 以下を検討しなさい
@@ -811,22 +784,24 @@ bannerplot(x, w = rev(x$height), fromLeft = TRUE,
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org3d26b31">
-<h3 id="org3d26b31">R : シルエット係数</h3>
+<section id="slide-orgc0dade8">
+<h3 id="orgc0dade8">解答例</h3>
+</section>
+<section id="slide-orge402667">
+<h3 id="orge402667">R : シルエット係数</h3>
 <ul>
 <li><p>
 関数 <code>cluster::pam()</code> の返値の情報
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >object[["silinfo"]] # シルエット係数に関する様々な情報
-object[["silinfo"]][["widths"]] # 各データのシルエット係数
-object[["silinfo"]][["clus.avg.widths"]] # 各クラスタのシルエット係数の平均
-object[["silinfo"]][["avg.width"]] # シルエット係数の平均
-#' object: cluster::agnes() の返値
-</code></pre>
+<pre class="src src-R">object[[<span style="color: #d08928;">"silinfo"</span>]] <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#12471;&#12523;&#12456;&#12483;&#12488;&#20418;&#25968;&#12395;&#38306;&#12377;&#12427;&#27096;&#12293;&#12394;&#24773;&#22577;</span>
+object[[<span style="color: #d08928;">"silinfo"</span>]][[<span style="color: #d08928;">"widths"</span>]] <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#21508;&#12487;&#12540;&#12479;&#12398;&#12471;&#12523;&#12456;&#12483;&#12488;&#20418;&#25968;</span>
+object[[<span style="color: #d08928;">"silinfo"</span>]][[<span style="color: #d08928;">"clus.avg.widths"</span>]] <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#21508;&#12463;&#12521;&#12473;&#12479;&#12398;&#12471;&#12523;&#12456;&#12483;&#12488;&#20418;&#25968;&#12398;&#24179;&#22343;</span>
+object[[<span style="color: #d08928;">"silinfo"</span>]][[<span style="color: #d08928;">"avg.width"</span>]] <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#12471;&#12523;&#12456;&#12483;&#12488;&#20418;&#25968;&#12398;&#24179;&#22343;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> object: cluster::agnes() &#12398;&#36820;&#20516;</span>
+</pre>
 </div>
 <ul>
 <li>関数 <code>summary(object)</code> はこれらの情報をまとめて表示する</li>
@@ -837,17 +812,16 @@ object[["silinfo"]][["avg.width"]] # シルエット係数の平均
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >#' シルエット係数の取得
+<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#12471;&#12523;&#12456;&#12483;&#12488;&#20418;&#25968;&#12398;&#21462;&#24471;</span>
 silhouette(x, ...)
-#' x: cluster::pam() などの返値
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> x: cluster::pam() &#12394;&#12393;&#12398;&#36820;&#20516;</span>
 silhouette(x, dist, dmatrix, ...)
-#' x: stats::cutree() などの返値
-#' dist/dmatrix: 距離行列または解離度を表す行列など
-</code></pre>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> x: stats::cutree() &#12394;&#12393;&#12398;&#36820;&#20516;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> dist/dmatrix: &#36317;&#38626;&#34892;&#21015;&#12414;&#12383;&#12399;&#35299;&#38626;&#24230;&#12434;&#34920;&#12377;&#34892;&#21015;&#12394;&#12393;</span>
+</pre>
 </div></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 <section>
 <ul>
@@ -856,16 +830,15 @@ silhouette(x, dist, dmatrix, ...)
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >#' ggfortify::autoplot.silhouette() シルエット係数の表示
+<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> ggfortify::autoplot.silhouette() &#12471;&#12523;&#12456;&#12483;&#12488;&#20418;&#25968;&#12398;&#34920;&#31034;</span>
 autoplot(object,
-  colour = "red", linetype = "dashed", size = 0.5, bar.width = 1, ...)
-#' object: cluster::silhouette() の返値
-#' colour/linetype/size: reference line の設定
-</code></pre>
+  colour = <span style="color: #d08928;">"red"</span>, linetype = <span style="color: #d08928;">"dashed"</span>, size = 0.5, bar.width = 1, ...)
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> object: cluster::silhouette() &#12398;&#36820;&#20516;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> colour/linetype/size: reference line &#12398;&#35373;&#23450;</span>
+</pre>
 </div></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 <section>
 <ul>
@@ -874,28 +847,27 @@ autoplot(object,
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >#' cluster::plot.partition() 2次元クラスタおよびシルエット係数の表示
-plot(x, ask = FALSE, which.plots = NULL,
-     nmax.lab = 40, max.strlen = 5, data = x$data, dist = NULL,
-     stand = FALSE, lines = 2,
-     shade = FALSE, color = FALSE, labels = 0, plotchar = TRUE,
-     span = TRUE, xlim = NULL, ylim = NULL, main = NULL, ...)
-#' x: cluster::pam() などの返値
-#' which.plots: 1 (cluster plot), 2 (silhouette plot)
-#' silhouette plot の表示には以下の cluster::plot.silhouette() が呼出される
+<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> cluster::plot.partition() 2&#27425;&#20803;&#12463;&#12521;&#12473;&#12479;&#12362;&#12424;&#12403;&#12471;&#12523;&#12456;&#12483;&#12488;&#20418;&#25968;&#12398;&#34920;&#31034;</span>
+plot(x, ask = <span style="color: #00aa80;">FALSE</span>, which.plots = <span style="color: #00aa80;">NULL</span>,
+     nmax.lab = 40, max.strlen = 5, data = x$data, dist = <span style="color: #00aa80;">NULL</span>,
+     stand = <span style="color: #00aa80;">FALSE</span>, lines = 2,
+     shade = <span style="color: #00aa80;">FALSE</span>, color = <span style="color: #00aa80;">FALSE</span>, labels = 0, plotchar = <span style="color: #00aa80;">TRUE</span>,
+     span = <span style="color: #00aa80;">TRUE</span>, xlim = <span style="color: #00aa80;">NULL</span>, ylim = <span style="color: #00aa80;">NULL</span>, main = <span style="color: #00aa80;">NULL</span>, ...)
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> x: cluster::pam() &#12394;&#12393;&#12398;&#36820;&#20516;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> which.plots: 1 (cluster plot), 2 (silhouette plot)</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> silhouette plot &#12398;&#34920;&#31034;&#12395;&#12399;&#20197;&#19979;&#12398; cluster::plot.silhouette() &#12364;&#21628;&#20986;&#12373;&#12428;&#12427;</span>
 plot(x, nmax.lab = 40, max.strlen = 5,
-     main = NULL, sub = NULL, xlab = expression("Silhouette width "* s[i]),
-     col = "gray",  do.col.sort = length(col) &gt; 1, border = 0,
-     cex.names = par("cex.axis"), do.n.k = TRUE, do.clus.stat = TRUE, ...)
-#' x: cluster::silhouette() の返値
-</code></pre>
+     main = <span style="color: #00aa80;">NULL</span>, sub = <span style="color: #00aa80;">NULL</span>, xlab = expression(<span style="color: #d08928;">"Silhouette width "</span>* s[i]),
+     col = <span style="color: #d08928;">"gray"</span>,  do.col.sort = length(col) &gt; 1, border = 0,
+     cex.names = <span style="color: #60aa00;">par</span>(<span style="color: #d08928;">"cex.axis"</span>), do.n.k = <span style="color: #00aa80;">TRUE</span>, do.clus.stat = <span style="color: #00aa80;">TRUE</span>, ...)
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> x: cluster::silhouette() &#12398;&#36820;&#20516;</span>
+</pre>
 </div></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org288331d" data-background="#fef4f4">
-<h3 id="org288331d">練習問題</h3>
+<section id="slide-org65bf59e" data-background="#fef4f4">
+<h3 id="org65bf59e">練習問題</h3>
 <ul>
 <li>データセット <code>omusubi.csv</code> を用いて
 以下を検討しなさい
@@ -925,25 +897,26 @@ Hellinger距離を用いて距離行列を計算しなさい
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-orgbd30ff2">
-<h2 id="orgbd30ff2">次回の予定</h2>
+<section id="slide-orgc8ac093">
+<h2 id="orgc8ac093">次回の予定</h2>
 <ul>
 <li><b>第1回 : 時系列の基本モデル</b></li>
 <li>第2回 : モデルの推定と予測</li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </div>
 </div>
 <script src="./reveal.js/dist/reveal.js"></script>
 <script src="./reveal.js/plugin/notes/notes.js"></script>
 <script src="./reveal.js/plugin/search/search.js"></script>
 <script src="./reveal.js/plugin/zoom/zoom.js"></script>
-<script src="./reveal.js/plugin/highlight/highlight.js"></script>
+<script src="./reveal.js/plugin/menu/menu.js"></script>
+<script src="./reveal.js/plugin/spotlight/spotlight.js"></script>
+<script src="./reveal.js/plugin/chalkboard/plugin.js"></script>
+<script src="./reveal.js/dist/theme/hidelinks.js"></script>
 <script>
 // Full list of configuration options available here:
 // https://github.com/hakimel/reveal.js#configuration
@@ -964,16 +937,15 @@ overview: true,
 
 transition: 'fade',
 transitionSpeed: 'default',
-spotlight: { size: 90, initialPresentationMode: false }, chalkboard: { toggleChalkboardButton: { left: '80px' }, toggleNotesButton: { left: '130px'}}, keyboard: { 69: function() { RevealChalkboard.toggleNotesCanvas() }, 87: function() { RevealChalkboard.toggleChalkboard() }, 67: function() { RevealChalkboard.clear() }, 82: function() { RevealChalkboard.reset() }, 68: function() { RevealChalkboard.download() }, 88: function() { RevealChalkboard.colorNext() }, 89: function() { RevealChalkboard.colorPrev() }, 84: function() { RevealSpotlight.toggleSpotlight() }, 81: function() { RevealSpotlight.togglePresentationMode()}},
+showNotes: window.location.search.match( /print-pdf/gi ) ? 'separate-page' : false,
+spotlight: { size: 80, initialPresentationMode: false, }, keyboard: { 81: function() { RevealSpotlight.toggleSpotlight()}, 87: function() { RevealSpotlight.togglePresentationMode();}, },
 
 // Plugins with reveal.js 4.x
-plugins: [ RevealNotes, RevealSearch, RevealZoom, RevealHighlight ],
+plugins: [ RevealNotes, RevealSearch, RevealZoom, RevealMenu, RevealSpotlight, RevealChalkboard ],
 
 // Optional libraries used to extend reveal.js
 dependencies: [
-{ src: './reveal.js/plugin/menu/menu.js'},
-{ src: './reveal.js/plugin/chalkboard/chalkboard.js'},
-{ src: './reveal.js/plugin/spotlight/spotlight.js'}]
+]
 
 });
 </script>

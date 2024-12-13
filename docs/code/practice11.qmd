@@ -1,0 +1,120 @@
+---
+title: "統計データ解析"
+subtitle: "第11講 実習"
+date: "`r Sys.Date()`"
+format:
+    html: 
+      toc: true
+      html-math-method: katex
+      self-contained: true
+      grid: 
+        margin-width: 350px
+execute: 
+  echo: true
+  warning: false
+reference-location: margin
+citation-location: margin
+tbl-cap-location: margin
+fig-cap-location: margin
+editor: visual
+editor_options: 
+  chunk_output_type: console
+---
+
+## 準備
+
+以下で利用する共通パッケージを読み込む．
+
+```{r}
+library(conflicted) # 関数名の衝突を警告
+conflicts_prefer(   # 優先的に使う関数を指定
+    dplyr::filter(),
+    dplyr::select(),
+    dplyr::lag(),
+    )
+library(tidyverse)  
+library(GGally)
+library(broom)      # 解析結果を tibble 形式に集約
+library(ggfortify)
+library(cluster)
+library(ggdendro)
+#' macOSのための日本語表示の設定
+if(Sys.info()["sysname"] == "Darwin") { # macOSか調べる
+    theme_update(text = element_text(family = "HiraMaruProN-W4"))
+    label_family <- "HiraMaruProN-W4"
+} else {label_family <- NULL}
+```
+
+## k-means による非階層的クラスタリング
+### 問題
+
+データセット `japan_social.csv` を用いて以下を確認しなさい．
+
+``` r
+js_df <- read_csv("data/japan_social.csv") |>
+    column_to_rownames(var = "Pref") |> # 'Pref'を行名に変換
+    select(-Area) # 地方名は除く
+```
+
+- 関数 `stats::kmeans()` を用いて各変数平均0，分散1に標準化 (関数 `base::scale()` を利用)したデータを7クラスタに分割しなさい．
+- 各クラスタ内の県名を表示しなさい．
+- 2次元散布図に各クラスタを表示しなさい．
+- データセット `omusubi.csv` でも確認しなさい．
+
+```{r}
+
+```
+
+## k-medoids による非階層的クラスタリング
+### 問題
+
+データセット `japan_social.csv` を用いて以下を確認しなさい．
+
+- 関数 `cluster::pam()` を用いて変数平均0，絶対偏差1に標準化したデータを7クラスタに分割しなさい．
+- 各クラスタ内の県名を表示しなさい．
+- 2次元散布図に各クラスタを表示しなさい．
+- データセット `omusubi.csv` でも確認しなさい．
+
+```{r}
+
+```
+
+## 凝集係数による距離の検討
+### 問題
+
+データセット `japan_social.csv` を用いて以下を検討しなさい．
+- 関数 `agnes()` を用いて階層的クラスタリングを行いなさい
+    - 標準化: 行う
+    - データ距離: ユークリッド距離，およびマンハッタン距離
+    - クラスタ距離: 群平均法
+- 凝集係数を用いて2つのデータ距離の評価を行いなさい
+  - 凝集係数が低いいくつかのデータを削除して評価しなさい
+
+```{r}
+
+```
+
+## シルエット係数によるクラスタ数の検討
+### 問題
+
+データセット `omusubi.csv` を用いて以下を検討しなさい
+
+- Hellinger距離を用いて距離行列を計算しなさい
+
+::: callout-note
+$\boldsymbol{p},\boldsymbol{q}$ を確率ベクトルとして定義される確率分布の距離
+$$
+\begin{equation}
+  d_{\mathrm{hel}}(\boldsymbol{p},\boldsymbol{q})
+  =
+  \frac{1}{\sqrt{2}}d_{\mathrm{euc}}(\sqrt{\boldsymbol{p}},\sqrt{\boldsymbol{q}})
+\end{equation}
+$$
+:::
+- クラスタ数4-10のシルエット係数を比較しなさい
+- 適当と思われるクラスタ数による分析を行いなさい
+- Euclid距離を用いて同様な分析を行いなさい
+
+```{r}
+
+```
