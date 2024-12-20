@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-12-12 21:43:45 mura>
+# Time-stamp: <2024-12-20 11:54:04 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -39,6 +39,7 @@
   library(ggfortify)
   library(cluster)
   library(ggdendro)
+  library(gt)
   #' 日本語表示・色の設定 (ggplot)
   theme_set(theme_gray(base_size = 16))
   if(Sys.info()[["sysname"]] == "Darwin") { # MacOSか確認
@@ -75,6 +76,7 @@
   library(ggfortify)
   library(cluster)
   library(ggdendro)
+  library(gt)
 #+end_src
 
 
@@ -212,7 +214,7 @@
              clus=c(1,2,3,4,5,6,7),
              diss=FALSE,
              stand=TRUE, lines=0, labels=3, 
-             main=NULL, sub=NULL, cex=1,
+             main=NULL, sub=NULL, cex=1.5,
              xlim=c(-2.5,2.5), ylim=c(-2.5,2.5),
              xaxt="n", yaxt="n", ann=FALSE,
              col.p="blue", col.txt="darkgray", col.clus="white", shade=FALSE)
@@ -222,7 +224,7 @@
                  clus=tmpb[[i]],
                  diss=FALSE, cex=0.2,
                  stand=TRUE, add=TRUE, span=FALSE,
-                 lines=0, lwd=2, col.p="blue", col.clus="orange")
+                 lines=0, lwd=3, col.p="blue", col.clus="orange")
       }
     }
   }
@@ -487,10 +489,8 @@
 :PROPERTIES:
 :ID:       5DF1EC41-AF81-47B0-A847-0EB32710158C
 :END:
-- 都道府県別好きなおむすびの具(一部)での例
-
-#+reveal: split
-#+begin_src R :file figs/11_nhclst0.png :exports results :results graphics :tangle no
+- 関東・関西圏を除く好きなおむすびの具
+#+begin_src R :exports none
   om_data <- bind_cols(
     read_csv(file="data/omusubi.csv"),
     read_csv(file="data/prefecture.csv"))
@@ -500,7 +500,29 @@
     column_to_rownames(var = "jp") |>
     set_names(c("梅","鮭","昆布","鰹","明太子","鱈子","ツナ","その他")) 
   n <- nrow(om_subset)
+#+end_src
+#+begin_src R :eval no :exports none
+  om_subset |> View() # 左上ペインに表として表示
+#+end_src
+#+begin_src R :exports results :results output html :tangle no
+  #' データの表示(reveal用)
+  om_subset |>
+    mutate(県名 = rownames(om_subset), .before = 1) |>
+    slice_head(n = 15) |> 
+    gt() |>
+    as_raw_html()
+#+end_src
+#+begin_src R :exports results :results value scalar latex :tangle no
+  #' データの表示(latex用)
+  om_subset |>
+    mutate(県名 = rownames(om_subset), .before = 1) |>
+    gt() |>
+    tab_options(table.font.size = 9) |>
+    as_latex() |> as.character()
+#+end_src
 
+#+reveal: split
+#+begin_src R :file figs/11_nhclst0.png :exports results :results graphics :tangle no
   jdx <- 1:ncol(om_subset) # jdx <- sample(ncol(om_subset),2)
   om_pca <- prcomp(om_subset[,jdx])
 
@@ -808,7 +830,7 @@
   - 各クラスタ内の県名を表示しなさい
   - 2次元散布図に各クラスタを表示しなさい
 - データセット ~omusubi.csv~ でも確認しなさい
-** 解答例
+** COMMENT 解答例
 #+begin_src R :exports none
   #' ---------------------------------------------------------------------------
   #' @practice 関数 pam による非階層的クラスタリング
@@ -1269,7 +1291,7 @@
     - クラスタ距離: 群平均法
   - 凝集係数を用いて2つのデータ距離の評価を行いなさい
   - 凝集係数が低いいくつかのデータを削除して評価しなさい
-** 解答例
+** COMMENT 解答例
 #+begin_src R :exports none
   #' ---------------------------------------------------------------------------
   #' @practice 凝集係数による距離の検討
@@ -1723,7 +1745,7 @@ file:figs/11_jsdendroman.png
   #+end_src
 
 #+reveal: split
-#+begin_src R :file figs/11_omsil7.png :exports results :results graphics
+#+begin_src R :file figs/11_omsil7.png :exports results :results graphics :height 700
   om_data_hel |>
     pam(k = 7) |>
     silhouette() |>
@@ -1738,7 +1760,7 @@ file:figs/11_jsdendroman.png
 file:figs/11_omsil7.png
 
 #+reveal: split
-#+begin_src R :file figs/11_omsil8.png :exports results :results graphics
+#+begin_src R :file figs/11_omsil8.png :exports results :results graphics :height 700
   om_data_hel |>
     pam(k = 8) |>
     silhouette() |>
@@ -1753,7 +1775,7 @@ file:figs/11_omsil7.png
 file:figs/11_omsil8.png
 
 #+reveal: split
-#+begin_src R :file figs/11_omsil9.png :exports results :results graphics
+#+begin_src R :file figs/11_omsil9.png :exports results :results graphics :height 700
   om_data_hel |>
     pam(k = 9) |>
     silhouette() |>
@@ -1768,7 +1790,7 @@ file:figs/11_omsil8.png
 file:figs/11_omsil9.png
 
 #+reveal: split
-#+begin_src R :file figs/11_omclusplot8.png :exports results :results graphics
+#+begin_src R :file figs/11_omclusplot8.png :exports results :results graphics :height 700
   ## k=8が良さそう
   om_data_hel |>
     pam(k = 8) |>
