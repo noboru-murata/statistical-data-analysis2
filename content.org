@@ -189,13 +189,14 @@
 :EXPORT_FILE_NAME: lecture11
 :EXPORT_DATE: <2020-09-19 Sat>
 :END:
-<2024-01-08 Mon> 更新
+<2024-12-20 Fri> 更新
 ** スライド
 #+hugo: {{< myslide base="statistical-data-analysis2" name="slide11" >}}
 ** ハンドアウト
 - [[github:pdfs/slide11.pdf][PDF file]]
 ** 付録
-- [[github:code/slide11.R][RScript]]
+- 実習用 [[githubraw:code/practice11.qmd][Quarto]] (解答例 [[githubraw:code/sample-code11.qmd][Quarto]] [[github:code/sample-code11.html][HTML]])
+- [[github:code/slide11.R][R Script]]
 
 * 第12講
 :PROPERTIES:
