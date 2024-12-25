@@ -1,0 +1,79 @@
+---
+title: "統計データ解析"
+subtitle: "第12講 実習"
+date: "`r Sys.Date()`"
+format:
+    html: 
+      toc: true
+      html-math-method: katex
+      self-contained: true
+      grid: 
+        margin-width: 350px
+execute: 
+  echo: true
+  warning: false
+reference-location: margin
+citation-location: margin
+tbl-cap-location: margin
+fig-cap-location: margin
+editor: visual
+editor_options: 
+  chunk_output_type: console
+---
+
+## 準備
+
+以下で利用する共通パッケージを読み込む．
+
+```{r}
+library(conflicted) # 関数名の衝突を警告
+conflicts_prefer(   # 優先的に使う関数を指定
+    dplyr::filter(),
+    dplyr::select(),
+    dplyr::lag(),
+    )
+library(tidyverse)
+library(fable)
+library(tsibble)
+library(feasts)
+library(gt)
+library(patchwork)
+#' macOSのための日本語表示の設定
+if(Sys.info()["sysname"] == "Darwin") { # macOSか調べる
+    theme_update(text = element_text(family = "HiraMaruProN-W4"))
+    label_family <- "HiraMaruProN-W4"
+} else {label_family <- NULL}
+```
+
+## 基本的な時系列モデル
+
+### 問題
+
+指定された確率過程を生成して図示しなさい．
+
+-   平均0，分散4の正規分布に従うホワイトノイズ．
+-   上記のホワイトノイズに初期値-1で単位時刻あたり1/20で増加するトレンドを持つ確率過程．
+-   上記のホワイトノイズから生成されるランダムウォーク．
+
+
+## より一般の時系列モデル
+
+### 問題
+
+平均0，分散1のホワイトノイズを用いて，以下の指定された確率過程を生成し，図示しなさい．
+
+-   係数 $a_{1}=0.67,a_{2}=0.26$ を持つAR(2)過程．
+-   係数 $b_{1}=0.44,b_{2}=0.08$ を持つMA(2)過程．
+-   係数 $a_{1}=0.8,a_{2}=-0.64,b_{1}=-0.5$ を持つARMA(2,1)過程．
+
+
+## 自己相関
+
+### 問題
+
+以下の問に答えなさい．
+
+-   同じAR過程のモデルから生成した時系列の自己相関を比較しなさい．(前の練習問題を利用すればよい)
+-   MA過程についても同様な比較を行いなさい．
+-   ARMA過程についても同様な比較を行いなさい．
+

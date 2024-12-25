@@ -1,0 +1,358 @@
+---
+title: "統計データ解析"
+subtitle: "第12講 サンプルコード"
+date: "`r Sys.Date()`"
+format:
+    html: 
+      toc: true
+      html-math-method: katex
+      self-contained: true
+      grid: 
+        margin-width: 350px
+execute: 
+  echo: true
+  warning: false
+reference-location: margin
+citation-location: margin
+tbl-cap-location: margin
+fig-cap-location: margin
+editor: visual
+editor_options: 
+  chunk_output_type: console
+---
+
+## 準備
+
+以下で利用する共通パッケージを読み込む．
+
+```{r}
+library(conflicted) # 関数名の衝突を警告
+conflicts_prefer(   # 優先的に使う関数を指定
+    dplyr::filter(),
+    dplyr::select(),
+    dplyr::lag(),
+    )
+library(tidyverse)
+library(fable)
+library(tsibble)
+library(feasts)
+library(gt)
+library(patchwork)
+#' macOSのための日本語表示の設定
+if(Sys.info()["sysname"] == "Darwin") { # macOSか調べる
+    theme_update(text = element_text(family = "HiraMaruProN-W4"))
+    label_family <- "HiraMaruProN-W4"
+} else {label_family <- NULL}
+```
+
+## 基本的な時系列モデル
+
+### 問題
+
+指定された確率過程を生成して図示しなさい．
+
+-   平均0，分散4の正規分布に従うホワイトノイズ．
+-   上記のホワイトノイズに初期値-1で単位時刻あたり1/20で増加するトレンドを持つ確率過程．
+-   上記のホワイトノイズから生成されるランダムウォーク．
+
+### 解答例
+
+以下で作成する時系列に共通な変数を定義しておく．
+
+```{r}
+Tmax <- 200 # 時系列の長さ t=1,..,Tmax
+K <- 5 # 生成する時系列の数
+#' set.seed(123) # 必要なら乱数のシード値を指定する
+```
+
+ホワイトノイズの生成と図示を行う．
+
+```{r}
+x <- ts(rnorm(Tmax, sd=2)) # 分散4=標準偏差2
+#' x <- ts(rt(n, df=4)) # 正規分布ではなく，例えば自由度4のt分布の場合
+x |>
+    as_tsibble() |>
+    autoplot(value)
+```
+
+::: column-margin
+色や線種を指定することもできる．
+
+```{r}
+x |>
+    as_tsibble() |>
+    autoplot(value,
+             colour = "blue",
+             linetype = "dotted")
+```
+
+ggplot オブジェクトとして修飾することも可能である．
+
+```{r}
+x |>
+    as_tsibble() |>
+    autoplot(value, colour = "blue") +
+    labs(x = "time", y = "observation")
+```
+:::
+
+トレンドのあるホワイトノイズの生成と図示を行う．
+
+```{r}
+x <- ts(rnorm(Tmax, sd=2) -1 + 0.05*(1:Tmax))
+x |> as_tsibble() |> autoplot(value)
+```
+
+ランダムウォークは定義に則って再帰的に計算すればよい．
+
+```{r}
+x <- ts(rnorm(Tmax, sd=2)) # はじめは epslion が入っている
+for(t in 2:Tmax) {
+    x[t] <- x[t-1] + x[t] # 順に足し合わせていく
+}
+x |> as_tsibble() |> autoplot(value)
+```
+
+同じ演算をする関数が用意されている．
+
+```{r}
+x <- ts(cumsum(rnorm(Tmax, sd=2))) # 逐次的に加算を行う関数
+x |> as_tsibble() |> autoplot(value)
+```
+
+これ以外にも書き方はいろいろあるので考えてみて下さい．
+
+複数の系列を表示する場合には以下のようにすればよい．
+
+ホワイトノイズの場合でいくつかの図示の方法を例示する．
+
+```{r}
+z <- ts(replicate(K, # K回以下の関数を実行する
+                  rnorm(Tmax, sd = 2)))
+z |> as_tsibble() |>
+    autoplot(value) # 同じグラフに重ね描きする
+z |> as_tsibble() |>
+    autoplot(value, show.legend = FALSE) # 凡例を削除 
+z |> as_tsibble() |>
+    autoplot(value, show.legend = FALSE) +
+    facet_grid(key ~ .) # 各系列を個別に表示する
+z |> as_tsibble() |>
+    autoplot(value, show.legend = FALSE) +
+    labs(title = expression(X[t] == epsilon[t]), # 数式で表示
+         x = "Time", y = "Observations")
+```
+
+トレンドのあるホワイトノイズの一例は以下のようになる．
+
+```{r}
+z <- ts(replicate(K,
+                  rnorm(Tmax, sd = 2) -1 + 0.05*(1:Tmax)))
+z |> as_tsibble() |>
+    autoplot(value, show.legend = FALSE) +
+    labs(title = expression(X[t] == -1 + 0.05 * t + epsilon[t]),
+         x = "Time", y = "Observations")
+```
+
+ランダムウォークの一例は以下のようになる．
+
+```{r}
+z <- ts(replicate(K,
+                  cumsum(rnorm(Tmax, sd=2))))
+z |> as_tsibble() |>
+    autoplot(value, show.legend = FALSE) +
+    labs(title = expression(X[t] == X[t-1] + epsilon[t]),
+         x = "Time", y = "Observations")
+```
+
+## より一般の時系列モデル
+
+### 問題
+
+平均0，分散1のホワイトノイズを用いて，以下の指定された確率過程を生成し，図示しなさい．
+
+-   係数 $a_{1}=0.67,a_{2}=0.26$ を持つAR(2)過程．
+-   係数 $b_{1}=0.44,b_{2}=0.08$ を持つMA(2)過程．
+-   係数 $a_{1}=0.8,a_{2}=-0.64,b_{1}=-0.5$ を持つARMA(2,1)過程．
+
+### 解答例
+
+\#' 書き方は以下に示したもの以外にもいろいろあるので考えてみて下さい
+
+前の練習問題と同じように設定する．
+
+```{r}
+Tmax <- 200 # 時系列の長さ t=1,..,Tmax
+K <- 5 # 生成する時系列の数
+```
+
+AR(2)モデルのシミュレーションを行う．
+
+```{r}
+a <- c(0.67, 0.26) # ARの係数
+epsilon <- rnorm(Tmax) # epsilonを生成
+x <- double(Tmax)      # 変数を用意
+x[1:2] <- epsilon[1:2] # 初期値は(epsilon1, epsilon2)
+for(t in 3:Tmax) {
+    x[t] <- a %*% x[t-1:2] + epsilon[t] # %*% はベクトルの内積計算
+}
+x |> ts() |> as_tsibble() |> autoplot(value)
+```
+
+複数の系列を表示するには，以下に一連の手続きを記述して関数化しておくのが良い．
+
+```{r}
+my_ar <- function(a, epsilon){ 
+    p <- length(a) # 次数pを取得
+    Tmax <- length(epsilon) # 時系列の長さを取得
+    x <- double(Tmax)      # 変数を用意
+    x[1:p] <- epsilon[1:p] # 初期値は(epsilon1,...)
+    for(t in (p+1):Tmax) {
+        x[t] <- a %*% x[t-1:p] + epsilon[t]
+    }
+    return(x) # 計算結果のxを返す
+}
+#' 使い方は a と epsilon(ホワイトノイズ)を指定する
+x <- my_ar(a = c(0.6, 0.3, 0.1), epsilon = rnorm(100))
+x |> ts() |> as_tsibble() |> autoplot(value)
+```
+
+::: column-margin
+関数の引数として Tmax を指定する方法もあるが， 様々な分布のホワイトノイズを試したい場合もあるので 生成の元となるノイズを渡す形で定義してある．
+:::
+
+データフレームを作成して表示する． 後の演習で作成した時系列データを利用するので，適当なオブジェクトに保存しておく．
+
+```{r}
+ts_ar <- ts(replicate(K, my_ar(a = a, epsilon = rnorm(Tmax))))
+ts_ar |> as_tsibble() |>
+    autoplot(value, show.legend = FALSE) +
+    labs(title = "AR(2)", x = "Time", y = "Observations")
+```
+
+MA(2)モデルのシミュレーションを行う．
+
+```{r}
+b <- c(0.44, 0.08) # MAの係数
+epsilon <- rnorm(Tmax)
+x <- ts(double(Tmax))
+x[1:2] <- epsilon[1:2]   
+for(t in 3:Tmax) {
+    x[t] <- b %*% epsilon[t-1:2] + epsilon[t]
+}
+x |> ts() |> as_tsibble() |> autoplot(value)
+```
+
+同様に複数の系列を表示する．
+
+```{r}
+my_ma <- function(b, epsilon){
+    q <- length(b) # 次数qを取得
+    Tmax <- length(epsilon) # 時系列の長さを取得
+    x <- double(Tmax)
+    x[1:q] <- epsilon[1:q]   
+    for(t in (q+1):Tmax) {
+        x[t] <- b %*% epsilon[t-1:q] + epsilon[t]
+    }
+    return(x)
+}
+ts_ma <- ts(replicate(K, my_ma(b = b, epsilon = rnorm(Tmax))))
+ts_ma |> as_tsibble() |>
+    autoplot(value, show.legend = FALSE) +
+    labs(title = "MA(2)", x = "Time", y = "Observations")
+```
+
+ARMA(2,1)モデルのシミュレーションを行う．
+
+```{r}
+a <- c(0.8, -0.64) # ARの係数
+b <- -0.5          # MAの係数
+epsilon <- rnorm(Tmax)
+x <- double(Tmax)
+x[1:2] <- epsilon[1:2]
+for(t in 3:Tmax) {
+    x[t] <- a %*% x[t-1:2] + b %*% epsilon[t-1] + epsilon[t]
+    #' bは1次元なのでこの問題では b*epsilon でも可
+}
+x |> ts() |> as_tsibble() |> autoplot(value)
+```
+
+複数の系列を表示する．
+
+```{r}
+my_arma <- function(a, b, epsilon){
+    p <- length(a)
+    q <- length(b)
+    r <- max(p,q)
+    Tmax <- length(epsilon) # 時系列の長さを取得
+    x <- double(Tmax)
+    x[1:r] <- epsilon[1:r]
+    for(t in (r+1):Tmax) {
+        x[t] <- a %*% x[t-1:p] + b %*% epsilon[t-1:q] + epsilon[t]
+    }
+    return(x)
+}
+ts_arma <- ts(replicate(K, my_arma(a = a, b = b, epsilon = rnorm(Tmax))))
+ts_arma |> as_tsibble() |>
+    autoplot(value, show.legend = FALSE) +
+    labs(title = "ARMA(2,1)", x = "Time", y = "Observations")
+```
+
+::: column-margin
+ここでは時系列の生成過程を知ってもらうために自作の関数を作成したが， 関数 `stats::arima.sim()` や `stats::filter()` などを利用することもできる． 上記のARMA(2,1)のシミュレーションは以下のようにして行うことができる．
+
+``` r
+arima.sim(model = list(ar = c(0.8, -0.64), # ARの係数ベクトル
+                       ma = c(-0.5)),      # MAの係数ベクトル
+          n = Tmax, # 時系列の長さ
+          innov = epsilon) # 乱数系列を渡す場合(渡さなければ標準正規乱数が使われる)
+```
+
+詳細は `?stats::arima.sim()` を参照のこと
+:::
+
+## 自己相関
+
+### 問題
+
+以下の問に答えなさい．
+
+-   同じAR過程のモデルから生成した時系列の自己相関を比較しなさい．(前の練習問題を利用すればよい)
+-   MA過程についても同様な比較を行いなさい．
+-   ARMA過程についても同様な比較を行いなさい．
+
+### 解答例
+
+格子状に表示する時系列の数を設定する．
+
+```{r}
+K <- 4 # 4つを並べて比較する
+```
+
+前問で作成したAR(2)モデルの自己相関を計算し，視覚化する．
+
+```{r}
+ts_ar |> as_tsibble() |> ACF(value) # 計算結果はtsibbleクラスになる
+ts_ar |> as_tsibble() |> ACF(value) |> autoplot()
+ts_ar[,1:K] |> as_tsibble() |> ACF(value) |>
+    autoplot() + # 格子状に並べるには facet を指定する
+    facet_wrap(key ~ ., nrow = 2) +
+    labs(title = "AR(2)")
+```
+
+同様にMA(2)モデルの自己相関を計算し，視覚化する．
+
+```{r}
+ts_ma[,1:K] |> as_tsibble() |> ACF(value) |>
+    autoplot() + 
+    facet_wrap(key ~ ., nrow = 2) +
+    labs(title = "MA(2)")
+```
+
+ARMA(2,1)モデルの自己相関を計算し，視覚化する．
+
+```{r}
+ts_arma[,1:K] |> as_tsibble() |> ACF(value) |>
+    autoplot() + 
+    facet_wrap(key ~ ., nrow = 2) +
+    labs(title = "ARMA(2,1)")
+```

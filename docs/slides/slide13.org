@@ -4,9 +4,9 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-01-26 15:22:04 mura>
+# Time-stamp: <2024-12-20 15:19:19 mura>
 :REVEAL:
-#+SETUPFILE: "./reveal.js/org/mycourse.org"
+#+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
 # <m C-i でlatex block (math env用)
 # C-c '
@@ -464,7 +464,7 @@
     (前回の練習問題を利用すればよい)
   - MA過程についても同様な比較を行いなさい
   - ARMA過程についても同様な比較を行いなさい
-
+** COMMENT 解答例
 #+begin_src R :exports none
   #' ---------------------------------------------------------------------------
   #' @practice 自己相関
@@ -1112,7 +1112,7 @@
   - AR過程を生成し，関数 ~AR()~ を用いて係数を推定しなさい
   - ARMA過程を生成し，関数 ~ARIMA()~ を用いて係数を推定しなさい
   - 推定結果の妥当性を残差の自己相関係数を調べることによって確認しなさい
-
+** COMMENT 解答例
 #+begin_src R :exports none
   #' ---------------------------------------------------------------------------
   #' @practice AR/ARMAモデルの推定
@@ -1282,7 +1282,7 @@
   - 気温のデータを ~tsibble~ クラスに変換しなさい
   - 気温のデータおよびその階差の性質を検討しなさい
   - ARIMAモデルを作成しなさい
-
+** COMMENT 解答例
 #+begin_src R :exports none
   #' ---------------------------------------------------------------------------
   #' @practice 東京の気温データの時系列モデル
@@ -2274,7 +2274,7 @@
   - COVID-19のデータを用いて分析・予測を行いなさい
     [[https://covid19.mhlw.go.jp/public/opendata/newly_confirmed_cases_daily.csv]]
   - ~AirPassengers~ データを用いて分析・予測を行いなさい
-
+** COMMENT 解答例
 #+begin_src R :exports none
   #' ---------------------------------------------------------------------------
   #' @practice 時系列の予測

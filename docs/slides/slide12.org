@@ -4,9 +4,12 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-01-19 15:43:16 mura>
+# Time-stamp: <2024-12-20 16:18:06 mura>
 :REVEAL:
-#+SETUPFILE: "./reveal.js/org/mycourse.org"
+#+SETUPFILE: "./reveal.js/local/mycourse.org"
+#+PROPERTY: header-args:R+ :width 1344 :height 960 :res 144
+# #+PROPERTY: header-args:R+ :width 840 :height 600 :res 100
+# #+PROPERTY: header-args:R+ :width 1120 :height 800 :res 120
 # C-c C-x C-v でinlineを切り替え
 # <m C-i でlatex block (math env用)
 # C-c '
@@ -79,7 +82,7 @@
 #+end_src
 
 
-* 事例
+* 時系列解析の例
 ** データの概要
 - 米国の航空機旅客量の変遷データ
   - ~datasets::AirPassengers~ (Rに標準で収録)
@@ -605,7 +608,7 @@
   - 上記のホワイトノイズに
     初期値-1で単位時刻あたり1/20で増加するトレンドを持つ確率過程
   - 上記のホワイトノイズから生成されるランダムウォーク
-
+** COMMENT 解答例
 #+begin_src R :exports none
   #' ---------------------------------------------------------------------------
   #' @practice 基本的な時系列モデル
@@ -1008,7 +1011,7 @@
   - 係数\(a_{1}=0.67,a_{2}=0.26\)を持つAR(2)過程
   - 係数\(b_{1}=0.44,b_{2}=0.08\)を持つMA(2)過程
   - 係数\(a_{1}=0.8,a_{2}=-0.64,b_{1}=-0.5\)を持つARMA(2,1)過程
-
+** COMMENT 解答例
 #+begin_src R :exports none
   #' ---------------------------------------------------------------------------
   #' @practice より一般の時系列モデル
@@ -1442,7 +1445,7 @@
     (前の練習問題を利用すればよい)
   - MA過程についても同様な比較を行いなさい
   - ARMA過程についても同様な比較を行いなさい
-
+** COMMENT 解答例
 #+begin_src R :exports none
   #' ---------------------------------------------------------------------------
   #' @practice 自己相関
