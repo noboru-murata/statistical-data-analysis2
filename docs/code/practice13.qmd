@@ -1,0 +1,108 @@
+---
+title: "統計データ解析"
+subtitle: "第13講 実習"
+date: "`r Sys.Date()`"
+format:
+    html: 
+      toc: true
+      html-math-method: katex
+      self-contained: true
+      grid: 
+        margin-width: 350px
+execute: 
+  echo: true
+  warning: false
+reference-location: margin
+citation-location: margin
+tbl-cap-location: margin
+fig-cap-location: margin
+editor: visual
+editor_options: 
+  chunk_output_type: console
+---
+
+## 準備
+
+以下で利用する共通パッケージを読み込む．
+
+```{r}
+library(conflicted) # 関数名の衝突を警告
+conflicts_prefer(   # 優先的に使う関数を指定
+    dplyr::filter(),
+    dplyr::select(),
+    dplyr::lag(),
+    )
+library(tidyverse)
+library(fable)
+library(tsibble)
+library(feasts)
+library(gt)
+library(patchwork)
+#' macOSのための日本語表示の設定
+if(Sys.info()["sysname"] == "Darwin") { # macOSか調べる
+    theme_update(text = element_text(family = "HiraMaruProN-W4"))
+    label_family <- "HiraMaruProN-W4"
+} else {label_family <- NULL}
+```
+
+## 自己相関
+
+### 問題
+
+以下の問に答えなさい．
+
+-   同じAR過程のモデルから生成した時系列の自己相関を比較しなさい．(前回の練習問題を利用すればよい)
+-   MA過程についても同様な比較を行いなさい．
+-   ARMA過程についても同様な比較を行いなさい．
+
+```{r}
+
+```
+
+## AR/ARMAモデルの推定
+
+### 問題
+
+以下の問に答えなさい．
+
+-   AR過程を生成し，関数 `fable::AR()` を用いて係数を推定しなさい．
+-   ARMA過程を生成し，関数 `fable::ARIMA()` を用いて係数を推定しなさい．
+-   推定結果の妥当性を残差の自己相関係数を調べることによって確認しなさい．
+
+
+```{r}
+
+```
+
+## 東京の気温の時系列モデル
+
+### 問題
+
+東京の気候データを用いて以下の問に答えなさい．
+
+``` r
+tw_data <- read_csv("data/tokyo_weather.csv")
+```
+
+-   気温のデータを `tsibble` クラスに変換しなさい．
+-   気温のデータおよびその階差の性質を検討しなさい．
+-   ARIMAモデルを作成しなさい．
+
+
+```{r}
+
+```
+
+## 時系列の予測
+
+### 問題
+
+以下の問に答えなさい．
+
+-   COVID-19のデータを用いて分析・予測を行いなさい． <https://covid19.mhlw.go.jp/public/opendata/newly_confirmed_cases_daily.csv>
+-   `datasets::AirPassengers` データを用いて分析・予測を行いなさい．
+
+
+```{r}
+
+```

@@ -11,22 +11,21 @@
 
 <link rel="stylesheet" href="./reveal.js/dist/theme/oer-reveal.css" id="theme"/>
 
-<link rel="stylesheet" href="./reveal.js/plugin/toc-progress/toc-progress.css"/>
-
-<link rel="stylesheet" href="./reveal.js/dist/theme/toc-style.css"/>
-
 <link rel="stylesheet" href="./reveal.js/dist/theme/fonts/source-sans-pro/source-sans-pro.css"/>
 
-<link rel="stylesheet" href="./reveal.js/plugin/accessibility/helper.css"/>
+<link rel="stylesheet" href="./reveal.js/plugin/menu/menu.css"/>
 
-<link rel="stylesheet" href="./reveal.js/dist/theme/mycourse.css"/>
-<link rel="stylesheet" href="./reveal.js/plugin/highlight/zenburn.css"/>
+<link rel="stylesheet" href="./reveal.js/plugin/menu/font-awesome/css/fontawesome.css"/>
+
+<link rel="stylesheet" href="./reveal.js/plugin/chalkboard/style.css"/>
+
+<link rel="stylesheet" href="./reveal.js/local/mycourse.css"/>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </head>
 <body>
 <div class="reveal">
 <div class="slides">
-<section id="sec-title-slide" data-state="no-toc-progress">
+<section id="sec-title-slide">
 <!-- This is an HTML template for the title slide. -->
 <!-- Embed logos as necessary. -->
 <!-- <a class="nooutlink" href="url"><img class="state-background your-logo-class" src="whatever.png" alt="Whatever" /></a> -->
@@ -46,24 +45,23 @@
 
 </section>
 <section>
-<section id="slide-org67672da">
-<h2 id="org67672da">講義概要</h2>
+<section id="slide-org9aab672">
+<h2 id="org9aab672">講義概要</h2>
 <ul>
 <li>第1回 : 時系列の基本モデル</li>
 <li><b>第2回 : モデルの推定と予測</b></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-org3877323">
-<h2 id="org3877323">時系列解析の復習</h2>
-<div class="outline-text-2" id="text-org3877323">
+<section id="slide-orge38a680">
+<h2 id="orge38a680">時系列解析の復習</h2>
+<div class="outline-text-2" id="text-orge38a680">
 </div>
 </section>
-<section id="slide-org3dfca2c">
-<h3 id="org3dfca2c">時系列解析とは</h3>
+<section id="slide-org9e304c9">
+<h3 id="org9e304c9">時系列解析とは</h3>
 <ul>
 <li>時系列データ
 <ul>
@@ -85,10 +83,9 @@
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgd02e804">
-<h3 id="orgd02e804">時系列モデルと定常性</h3>
+<section id="slide-org5c21a89">
+<h3 id="org5c21a89">時系列モデルと定常性</h3>
 <ul>
 <li><p>
 <b>確率過程</b>
@@ -116,10 +113,9 @@
 <li>定常でない確率過程は <b>非定常</b> であるという</li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgc115096">
-<h3 id="orgc115096">ホワイトノイズ</h3>
+<section id="slide-org3c95941">
+<h3 id="org3c95941">ホワイトノイズ</h3>
 <ul>
 <li><p>
 定義
@@ -150,10 +146,9 @@
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org1163b48">
-<h3 id="org1163b48">トレンドのあるホワイトノイズ</h3>
+<section id="slide-org7969bc7">
+<h3 id="org7969bc7">トレンドのあるホワイトノイズ</h3>
 <ul>
 <li><p>
 定義
@@ -183,10 +178,9 @@
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgbbe59f9">
-<h3 id="orgbbe59f9">ランダムウォーク</h3>
+<section id="slide-orgd059178">
+<h3 id="orgd059178">ランダムウォーク</h3>
 <ul>
 <li><p>
 定義
@@ -216,10 +210,9 @@
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org76fb136">
-<h3 id="org76fb136">自己回帰過程</h3>
+<section id="slide-org7089c63">
+<h3 id="org7089c63">自己回帰過程</h3>
 <ul>
 <li><p>
 定義 (次数\(p\)のARモデル)
@@ -251,10 +244,9 @@
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgea8f3ed">
-<h3 id="orgea8f3ed">移動平均過程</h3>
+<section id="slide-org6a7c183">
+<h3 id="org6a7c183">移動平均過程</h3>
 <ul>
 <li><p>
 定義 (次数\(q\) のMAモデル)
@@ -287,10 +279,9 @@
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgf7d4ba7">
-<h3 id="orgf7d4ba7">自己回帰移動平均過程</h3>
+<section id="slide-org0646d24">
+<h3 id="org0646d24">自己回帰移動平均過程</h3>
 <ul>
 <li><p>
 定義 (次数\((p,q)\)のARMAモデル)
@@ -326,10 +317,9 @@
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org90a02e4">
-<h3 id="org90a02e4">自己共分散・自己相関</h3>
+<section id="slide-org8da0c2f">
+<h3 id="org8da0c2f">自己共分散・自己相関</h3>
 <ul>
 <li>弱定常な確率過程 : \(X_{t},\;t=1,\dotsc,T\)
 <ul>
@@ -371,10 +361,9 @@
 <li>異なる時点間での観測データの従属関係を要約するための最も基本的な統計量</li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgd265f31">
-<h3 id="orgd265f31">標本自己共分散・標本自己相関</h3>
+<section id="slide-org50fb837">
+<h3 id="org50fb837">標本自己共分散・標本自己相関</h3>
 <ul>
 <li>観測データ \(X_1,\dotsc,X_{T}\) からの推定
 <ul>
@@ -412,90 +401,82 @@
 
 </ul>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="orgbe2519d" class="figure">
+<div id="orgd599a66" class="figure">
 <p><img src="figs/13_ar.png" alt="13_ar.png" />
 </p>
 <p><span class="figure-number">Figure 1: </span>同じモデルに従うAR過程の例</p>
 </div>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="org78639dc" class="figure">
+<div id="org38c5366" class="figure">
 <p><img src="figs/13_aracf.png" alt="13_aracf.png" />
 </p>
 <p><span class="figure-number">Figure 2: </span>AR過程の自己相関</p>
 </div>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="org92d7a59" class="figure">
+<div id="orgac04a74" class="figure">
 <p><img src="figs/13_ma.png" alt="13_ma.png" />
 </p>
 <p><span class="figure-number">Figure 3: </span>同じモデルに従うMA過程の例</p>
 </div>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="org36b8ccd" class="figure">
+<div id="org03f6ee4" class="figure">
 <p><img src="figs/13_maacf.png" alt="13_maacf.png" />
 </p>
 <p><span class="figure-number">Figure 4: </span>MA過程の自己相関</p>
 </div>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="orgf39bac2" class="figure">
+<div id="orgdc8512b" class="figure">
 <p><img src="figs/13_arma.png" alt="13_arma.png" />
 </p>
 <p><span class="figure-number">Figure 5: </span>同じモデルに従うARMA過程の例</p>
 </div>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="orgc782d8e" class="figure">
+<div id="orgf68eb9d" class="figure">
 <p><img src="figs/13_armaacf.png" alt="13_armaacf.png" />
 </p>
 <p><span class="figure-number">Figure 6: </span>ARMA過程の自己相関</p>
 </div>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-orgcb97c4d" data-background="#fef4f4">
-<h2 id="orgcb97c4d">実習(復習)</h2>
-<div class="slide-footer"><br></div>
+<section id="slide-orge59b4a4" data-background="#fef4f4">
+<h2 id="orge59b4a4">実習(復習)</h2>
 </section>
-<section id="slide-org93b0dd3" data-background="#fef4f4">
-<h3 id="org93b0dd3">R : 自己相関・自己共分散の計算・描画</h3>
+<section id="slide-orge21adfa" data-background="#fef4f4">
+<h3 id="orge21adfa">R : 自己相関・自己共分散の計算・描画</h3>
 <ul>
 <li><p>
 関数 feats::ACF()
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >ACF(.data,  y, ...,  lag_max = NULL,
-  type = c("correlation", "covariance", "partial"),
-  na.action = na.contiguous, demean = TRUE, tapered = FALSE)
-#' .data: 時系列データ (tsibbleクラス)
-#' y: 計算対象の列名
-#' type: 標準は相関, 共分散と偏相関を選ぶこともできる
-#' na.action: 欠損値の処理，標準は欠損を含むと計算しない
-#' demean: 共分散の計算において平均を引くか否か
-</code></pre>
+<pre class="src src-R">ACF(.data,  y, ...,  lag_max = <span style="color: #00aa80;">NULL</span>,
+  type = c(<span style="color: #d08928;">"correlation"</span>, <span style="color: #d08928;">"covariance"</span>, <span style="color: #d08928;">"partial"</span>),
+  na.action = na.contiguous, demean = <span style="color: #00aa80;">TRUE</span>, tapered = <span style="color: #00aa80;">FALSE</span>)
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> .data: &#26178;&#31995;&#21015;&#12487;&#12540;&#12479; (tsibble&#12463;&#12521;&#12473;)</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> y: &#35336;&#31639;&#23550;&#35937;&#12398;&#21015;&#21517;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> type: &#27161;&#28310;&#12399;&#30456;&#38306;, &#20849;&#20998;&#25955;&#12392;&#20559;&#30456;&#38306;&#12434;&#36984;&#12406;&#12371;&#12392;&#12418;&#12391;&#12365;&#12427;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> na.action: &#27424;&#25613;&#20516;&#12398;&#20966;&#29702;&#65292;&#27161;&#28310;&#12399;&#27424;&#25613;&#12434;&#21547;&#12416;&#12392;&#35336;&#31639;&#12375;&#12394;&#12356;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> demean: &#20849;&#20998;&#25955;&#12398;&#35336;&#31639;&#12395;&#12362;&#12356;&#12390;&#24179;&#22343;&#12434;&#24341;&#12367;&#12363;&#21542;&#12363;</span>
+</pre>
 </div>
 <ul>
 <li>関数 <code>acf()</code> と違いlag=0を表示しない</li>
@@ -505,21 +486,20 @@
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >toy_acf &lt;- arima.sim(model = list(ar = c(0.8, -0.64),
+<pre class="src src-R">toy_acf <span style="color: #60aa00;">&lt;-</span> arima.sim(model = list(ar = c(0.8, -0.64),
                                   ma = c(-0.5)),
                      n = 200) |&gt;
   as_tsibble() |&gt; ACF(value) 
 toy_acf |&gt; autoplot()
-</code></pre>
+</pre>
 </div></li>
 
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org5669ba2" data-background="#fef4f4">
-<h3 id="org5669ba2">練習問題</h3>
+<section id="slide-orgd03952b" data-background="#fef4f4">
+<h3 id="orgd03952b">練習問題</h3>
 <ul>
 <li>以下の問に答えなさい
 <ul>
@@ -531,17 +511,16 @@ toy_acf |&gt; autoplot()
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-orga144ce0">
-<h2 id="orga144ce0">ARモデルの推定</h2>
-<div class="outline-text-2" id="text-orga144ce0">
+<section id="slide-orgd9d4a52">
+<h2 id="orgd9d4a52">ARモデルの推定</h2>
+<div class="outline-text-2" id="text-orgd9d4a52">
 </div>
 </section>
-<section id="slide-org4286a6f">
-<h3 id="org4286a6f">自己共分散・自己相関</h3>
+<section id="slide-org8c74a86">
+<h3 id="org8c74a86">自己共分散・自己相関</h3>
 <ul>
 <li>平均\(0\)の弱定常な確率過程 : \(X_{t},\;t=1,\dotsc,T\)
 <ul>
@@ -583,10 +562,9 @@ toy_acf |&gt; autoplot()
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org41d6bbb">
-<h3 id="org41d6bbb">自己共分散とARモデル</h3>
+<section id="slide-org8bd4e7d">
+<h3 id="org8bd4e7d">自己共分散とARモデル</h3>
 <ul>
 <li><p>
 AR(p)モデル : 
@@ -628,10 +606,9 @@ AR(p)モデル :
 </blockquote></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org9f3c05d">
-<h3 id="org9f3c05d">Yule-Walker方程式</h3>
+<section id="slide-org1e42832">
+<h3 id="org1e42832">Yule-Walker方程式</h3>
 <ul>
 <li><p>
 \(1\le h\le p\) を考えると以下の関係が成り立つ
@@ -669,10 +646,9 @@ AR(p)モデル :
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orge5678b9">
-<h3 id="orge5678b9">偏自己相関</h3>
+<section id="slide-org747b1f1">
+<h3 id="org747b1f1">偏自己相関</h3>
 <ul>
 <li><p>
 AR(p)モデル
@@ -718,39 +694,35 @@ AR(p)モデルを仮定したときの\(a_{p}\)の推定値
 
 </ul>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="org7fa836d" class="figure">
+<div id="org4bfe967" class="figure">
 <p><img src="figs/13_arpacf.png" alt="13_arpacf.png" />
 </p>
 <p><span class="figure-number">Figure 7: </span>AR過程の偏自己相関</p>
 </div>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="org8af11f8" class="figure">
+<div id="org1ffb748" class="figure">
 <p><img src="figs/13_mapacf.png" alt="13_mapacf.png" />
 </p>
 <p><span class="figure-number">Figure 8: </span>MA過程の偏自己相関</p>
 </div>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="orgcab912c" class="figure">
+<div id="org229ef37" class="figure">
 <p><img src="figs/13_armapacf.png" alt="13_armapacf.png" />
 </p>
 <p><span class="figure-number">Figure 9: </span>ARMA過程の偏自己相関</p>
 </div>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgd59e83d">
-<h3 id="orgd59e83d">モデルの推定に関する補足</h3>
+<section id="slide-org2d5d36b">
+<h3 id="org2d5d36b">モデルの推定に関する補足</h3>
 <ul>
 <li>ARMAモデルの推定方法は主に以下の3つ
 <ul>
@@ -772,10 +744,9 @@ AR(p)モデルを仮定したときの\(a_{p}\)の推定値
 <li>一般にモデルは近似なので，どの推定が良いかは問題による</li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org83fd667">
-<h3 id="org83fd667">非定常過程の変換</h3>
+<section id="slide-org237eb14">
+<h3 id="org237eb14">非定常過程の変換</h3>
 <ul>
 <li>定常過程とみなせるように変換して分析
 <ul>
@@ -820,36 +791,34 @@ AR(p)モデルを仮定したときの\(a_{p}\)の推定値
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-org9ff56a4" data-background="#fef4f4">
-<h2 id="org9ff56a4">実習</h2>
-<div class="slide-footer"><br></div>
+<section id="slide-org6e3e1a6" data-background="#fef4f4">
+<h2 id="org6e3e1a6">実習</h2>
 </section>
-<section id="slide-orgcd5d79d" data-background="#fef4f4">
-<h3 id="orgcd5d79d">R : ARモデルの推定</h3>
+<section id="slide-orgcd31be7" data-background="#fef4f4">
+<h3 id="orgcd31be7">R : ARモデルの推定</h3>
 <ul>
 <li><p>
 関数 <code>fabletools::model()</code> 
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >model(.data, ...)
-#' .data: 時系列データ (tsibbleクラス)
-#' ...: モデルを指定
-</code></pre>
+<pre class="src src-R">model(.data, ...)
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> .data: &#26178;&#31995;&#21015;&#12487;&#12540;&#12479; (tsibble&#12463;&#12521;&#12473;)</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> ...: &#12514;&#12487;&#12523;&#12434;&#25351;&#23450;</span>
+</pre>
 </div></li>
 <li><p>
 関数 <code>fable::AR()</code> 
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >AR(formula, ic = c("aicc", "aic", "bic"), ...)
-#' formula: 時系列モデル
-#' ic: モデル選択のための情報量規準
-</code></pre>
+<pre class="src src-R">AR(formula, ic = c(<span style="color: #d08928;">"aicc"</span>, <span style="color: #d08928;">"aic"</span>, <span style="color: #d08928;">"bic"</span>), ...)
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> formula: &#26178;&#31995;&#21015;&#12514;&#12487;&#12523;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> ic: &#12514;&#12487;&#12523;&#36984;&#25246;&#12398;&#12383;&#12417;&#12398;&#24773;&#22577;&#37327;&#35215;&#28310;</span>
+</pre>
 </div>
 <ul>
 <li><code>stats::ar.ols()</code> と同様の実装</li>
@@ -858,12 +827,12 @@ AR(p)モデルを仮定したときの\(a_{p}\)の推定値
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >toy_ar &lt;- arima.sim(model = list(ar = c(0.7,-0.6, 0.5)),
+<pre class="src src-R">toy_ar <span style="color: #60aa00;">&lt;-</span> arima.sim(model = list(ar = c(0.7,-0.6, 0.5)),
                     n = 1000) |&gt; as_tsibble()
-toy_ar |&gt; model(AR(value)) # モデルを自動選択する場合
-toy_ar |&gt; model(AR(value ~ order(3))) # モデルの次数を指定する場合
-toy_ar |&gt; model(AR(value ~ 0 + order(3))) # 平均項を含めない場合
-</code></pre>
+toy_ar |&gt; model(AR(value)) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#12514;&#12487;&#12523;&#12434;&#33258;&#21205;&#36984;&#25246;&#12377;&#12427;&#22580;&#21512;</span>
+toy_ar |&gt; model(AR(value ~ order(3))) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#12514;&#12487;&#12523;&#12398;&#27425;&#25968;&#12434;&#25351;&#23450;&#12377;&#12427;&#22580;&#21512;</span>
+toy_ar |&gt; model(AR(value ~ 0 + order(3))) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#24179;&#22343;&#38917;&#12434;&#21547;&#12417;&#12394;&#12356;&#22580;&#21512;</span>
+</pre>
 </div>
 <ul>
 <li>既定値ではAIC(情報量規準)を用いて次数が自動的に決定される</li>
@@ -873,23 +842,22 @@ toy_ar |&gt; model(AR(value ~ 0 + order(3))) # 平均項を含めない場合
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgac5e2a2" data-background="#fef4f4">
-<h3 id="orgac5e2a2">R : ARIMAモデルの推定</h3>
+<section id="slide-org07b4207" data-background="#fef4f4">
+<h3 id="org07b4207">R : ARIMAモデルの推定</h3>
 <ul>
 <li><p>
 関数 <code>fable::ARIMA()</code> 
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >ARIMA(formula, ic = c("aicc", "aic", "bic"),
-  stepwise = TRUE, greedy = TRUE, approximation = NULL, ...)
-#' formula: 時系列モデル
-#' ic: モデル選択のための情報量規準
-#' stepwise/greedy/approximation: モデル探索のための設定
-#' その他詳細は '?fable::ARIMA' を参照
-</code></pre>
+<pre class="src src-R">ARIMA(formula, ic = c(<span style="color: #d08928;">"aicc"</span>, <span style="color: #d08928;">"aic"</span>, <span style="color: #d08928;">"bic"</span>),
+  stepwise = <span style="color: #00aa80;">TRUE</span>, greedy = <span style="color: #00aa80;">TRUE</span>, approximation = <span style="color: #00aa80;">NULL</span>, ...)
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> formula: &#26178;&#31995;&#21015;&#12514;&#12487;&#12523;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> ic: &#12514;&#12487;&#12523;&#36984;&#25246;&#12398;&#12383;&#12417;&#12398;&#24773;&#22577;&#37327;&#35215;&#28310;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> stepwise/greedy/approximation: &#12514;&#12487;&#12523;&#25506;&#32034;&#12398;&#12383;&#12417;&#12398;&#35373;&#23450;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#12381;&#12398;&#20182;&#35443;&#32048;&#12399; '?fable::ARIMA' &#12434;&#21442;&#29031;</span>
+</pre>
 </div>
 <ul>
 <li><code>stats::arima()</code> と同様の実装</li>
@@ -898,22 +866,21 @@ toy_ar |&gt; model(AR(value ~ 0 + order(3))) # 平均項を含めない場合
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >toy_arima &lt;- arima.sim(model = list(order = c(2,1,2),
+<pre class="src src-R">toy_arima <span style="color: #60aa00;">&lt;-</span> arima.sim(model = list(order = c(2,1,2),
                                  ar = c(0.8,-0.5),
                                  ma = c(-0.2,0.2)),
                     n = 1000) |&gt; as_tsibble()
-toy_arima |&gt; model(ARIMA(value)) # 自動選択
-toy_arima |&gt; model(ARIMA(value ~ 0 + pdq(2,1,2))) # 次数を指定 
-</code></pre>
+toy_arima |&gt; model(ARIMA(value)) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#33258;&#21205;&#36984;&#25246;</span>
+toy_arima |&gt; model(ARIMA(value ~ 0 + pdq(2,1,2))) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#27425;&#25968;&#12434;&#25351;&#23450; </span>
+</pre>
 </div></li>
 
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org2bad540" data-background="#fef4f4">
-<h3 id="org2bad540">R : モデルを扱うための補助的な関数</h3>
+<section id="slide-org26572d1" data-background="#fef4f4">
+<h3 id="org26572d1">R : モデルを扱うための補助的な関数</h3>
 <ul>
 <li><p>
 関数 <code>fabletools::report()</code>
@@ -924,9 +891,9 @@ toy_arima |&gt; model(ARIMA(value ~ 0 + pdq(2,1,2))) # 次数を指定
 </ul>
 <div class="org-src-container">
 
-<pre><code class="R" >report(object, ...) 
-#' object: 推定された時系列モデル
-</code></pre>
+<pre class="src src-R">report(object, ...) 
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> object: &#25512;&#23450;&#12373;&#12428;&#12383;&#26178;&#31995;&#21015;&#12514;&#12487;&#12523;</span>
+</pre>
 </div>
 <ul>
 <li>fitted.values() でも可</li>
@@ -941,10 +908,10 @@ toy_arima |&gt; model(ARIMA(value ~ 0 + pdq(2,1,2))) # 次数を指定
 </ul>
 <div class="org-src-container">
 
-<pre><code class="R" >tidy(object, ...) 
-#' object: 推定された時系列モデル
-#' 詳細は '?fabletools::tidy.mdl_df' を参照
-</code></pre>
+<pre class="src src-R">tidy(object, ...) 
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> object: &#25512;&#23450;&#12373;&#12428;&#12383;&#26178;&#31995;&#21015;&#12514;&#12487;&#12523;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35443;&#32048;&#12399; '?fabletools::tidy.mdl_df' &#12434;&#21442;&#29031;</span>
+</pre>
 </div>
 <ul>
 <li><code>coef()</code> でも可</li>
@@ -953,7 +920,6 @@ toy_arima |&gt; model(ARIMA(value ~ 0 + pdq(2,1,2))) # 次数を指定
 
 </ul>
 
-<div class="slide-footer"><br></div>
 </section>
 <section data-background="#fef4f4">
 <ul>
@@ -966,10 +932,10 @@ toy_arima |&gt; model(ARIMA(value ~ 0 + pdq(2,1,2))) # 次数を指定
 </ul>
 <div class="org-src-container">
 
-<pre><code class="R" >augment(object, ...) 
-#' object: 推定された時系列モデル
-#' 詳細は '?fabletools::augment.mdl_df' を参照
-</code></pre>
+<pre class="src src-R">augment(object, ...) 
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> object: &#25512;&#23450;&#12373;&#12428;&#12383;&#26178;&#31995;&#21015;&#12514;&#12487;&#12523;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35443;&#32048;&#12399; '?fabletools::augment.mdl_df' &#12434;&#21442;&#29031;</span>
+</pre>
 </div>
 <ul>
 <li>あてはめ値は <code>fitted()/fitted.values()</code> でも可</li>
@@ -978,10 +944,9 @@ toy_arima |&gt; model(ARIMA(value ~ 0 + pdq(2,1,2))) # 次数を指定
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgc44a760" data-background="#fef4f4">
-<h3 id="orgc44a760">R : モデルの評価</h3>
+<section id="slide-orga77143d" data-background="#fef4f4">
+<h3 id="orga77143d">R : モデルの評価</h3>
 <ul>
 <li><p>
 関数 <code>fabletools::accuracy()</code>
@@ -992,10 +957,10 @@ toy_arima |&gt; model(ARIMA(value ~ 0 + pdq(2,1,2))) # 次数を指定
 </ul>
 <div class="org-src-container">
 
-<pre><code class="R" >accuracy(object, ...) 
-#' object: 推定された時系列モデル
-#' 詳細は '?fabletools::accuracy.mdl_df' を参照
-</code></pre>
+<pre class="src src-R">accuracy(object, ...) 
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> object: &#25512;&#23450;&#12373;&#12428;&#12383;&#26178;&#31995;&#21015;&#12514;&#12487;&#12523;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35443;&#32048;&#12399; '?fabletools::accuracy.mdl_df' &#12434;&#21442;&#29031;</span>
+</pre>
 </div></li>
 <li><p>
 関数 <code>fabletools::glance()</code>
@@ -1006,15 +971,14 @@ toy_arima |&gt; model(ARIMA(value ~ 0 + pdq(2,1,2))) # 次数を指定
 </ul>
 <div class="org-src-container">
 
-<pre><code class="R" >glance(object, ...) 
-#' object: 推定された時系列モデル
-#' 詳細は '?fabletools::glance.mdl_df' を参照
-</code></pre>
+<pre class="src src-R">glance(object, ...) 
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> object: &#25512;&#23450;&#12373;&#12428;&#12383;&#26178;&#31995;&#21015;&#12514;&#12487;&#12523;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35443;&#32048;&#12399; '?fabletools::glance.mdl_df' &#12434;&#21442;&#29031;</span>
+</pre>
 </div></li>
 
 </ul>
 
-<div class="slide-footer"><br></div>
 </section>
 <section data-background="#fef4f4">
 <ul>
@@ -1023,9 +987,9 @@ toy_arima |&gt; model(ARIMA(value ~ 0 + pdq(2,1,2))) # 次数を指定
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >gg_tsresiduals(data, type = "innovation", ...)
-#' data: 推定された時系列モデル
-</code></pre>
+<pre class="src src-R">gg_tsresiduals(data, type = <span style="color: #d08928;">"innovation"</span>, ...)
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> data: &#25512;&#23450;&#12373;&#12428;&#12383;&#26178;&#31995;&#21015;&#12514;&#12487;&#12523;</span>
+</pre>
 </div>
 <ul>
 <li>描画には関数 <code>feasts::gg_tsdisplay()</code> が利用される</li>
@@ -1034,20 +998,19 @@ toy_arima |&gt; model(ARIMA(value ~ 0 + pdq(2,1,2))) # 次数を指定
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >toy_fit &lt;- toy_arima |&gt; model(ARIMA(value))
+<pre class="src src-R">toy_fit <span style="color: #60aa00;">&lt;-</span> toy_arima |&gt; model(ARIMA(value))
 toy_fit |&gt; accuracy()
 toy_fit |&gt; glance()
 toy_fit |&gt; gg_tsresiduals()
-</code></pre>
+</pre>
 </div></li>
 
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgb170398" data-background="#fef4f4">
-<h3 id="orgb170398">練習問題</h3>
+<section id="slide-org6ff48d5" data-background="#fef4f4">
+<h3 id="org6ff48d5">練習問題</h3>
 <ul>
 <li>以下の問に答えなさい
 <ul>
@@ -1058,31 +1021,30 @@ toy_fit |&gt; gg_tsresiduals()
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orga5510f2" data-background="#fef4f4">
-<h3 id="orga5510f2">R : 時系列クラスの作成(再掲)</h3>
+<section id="slide-org3bf618e" data-background="#fef4f4">
+<h3 id="org3bf618e">R : 時系列クラスの作成(再掲)</h3>
 <ul>
 <li><p>
 関数 <code>tsibble::tsibble()</code>
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >tsibble(..., key = NULL, index, regular = TRUE, .drop = TRUE)
-#' ...: データ
-#' key: indexの補助情報(同じ時間の異なるデータを表す)
-#' index: 時間情報を表す列を設定
-</code></pre>
+<pre class="src src-R">tsibble(..., key = <span style="color: #00aa80;">NULL</span>, index, regular = <span style="color: #00aa80;">TRUE</span>, .drop = <span style="color: #00aa80;">TRUE</span>)
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> ...: &#12487;&#12540;&#12479;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> key: index&#12398;&#35036;&#21161;&#24773;&#22577;(&#21516;&#12376;&#26178;&#38291;&#12398;&#30064;&#12394;&#12427;&#12487;&#12540;&#12479;&#12434;&#34920;&#12377;)</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> index: &#26178;&#38291;&#24773;&#22577;&#12434;&#34920;&#12377;&#21015;&#12434;&#35373;&#23450;</span>
+</pre>
 </div></li>
 <li><p>
 関数 <code>tsibble::as_tsibble()</code>
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >as_tsibble(x, key = NULL, index,
-           regular = TRUE, validate = TRUE, .drop = TRUE, ...)
-#' x: データ(時系列オブジェクトやデータフレーム)
-</code></pre>
+<pre class="src src-R">as_tsibble(x, key = <span style="color: #00aa80;">NULL</span>, index,
+           regular = <span style="color: #00aa80;">TRUE</span>, validate = <span style="color: #00aa80;">TRUE</span>, .drop = <span style="color: #00aa80;">TRUE</span>, ...)
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> x: &#12487;&#12540;&#12479;(&#26178;&#31995;&#21015;&#12458;&#12502;&#12472;&#12455;&#12463;&#12488;&#12420;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;)</span>
+</pre>
 </div>
 <ul>
 <li><p>
@@ -1090,32 +1052,31 @@ toy_fit |&gt; gg_tsresiduals()
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >tsibble(date = as_date("2024-01-01") + 0:9,
+<pre class="src src-R">tsibble(date = as_date(<span style="color: #d08928;">"2024-01-01"</span>) + 0:9,
         value = rnorm(10))
 tibble(year = 2001:2020,
        value = rnorm(20)) |&gt;
-  as_tsibble(index = year) # yearを時間情報に指定
-AirPassengers |&gt; as_tsibble() # 時系列オブジェクトの変換
-</code></pre>
+  as_tsibble(index = year) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">year&#12434;&#26178;&#38291;&#24773;&#22577;&#12395;&#25351;&#23450;</span>
+AirPassengers |&gt; as_tsibble() <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#26178;&#31995;&#21015;&#12458;&#12502;&#12472;&#12455;&#12463;&#12488;&#12398;&#22793;&#25563;</span>
+</pre>
 </div></li>
 
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgb41f32a" data-background="#fef4f4">
-<h3 id="orgb41f32a">R : 部分系列の切り出し</h3>
+<section id="slide-org1250b4d" data-background="#fef4f4">
+<h3 id="org1250b4d">R : 部分系列の切り出し</h3>
 <ul>
 <li><p>
 関数 <code>tsibble::filter_index()</code>
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >filter_index(.data, ..., .preserve = FALSE)
-#' .data: tsibbleオブジェクト
-#' ...: 区間を表す式 (~ end, start ~ end, start ~ .)
-</code></pre>
+<pre class="src src-R">filter_index(.data, ..., .preserve = <span style="color: #00aa80;">FALSE</span>)
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> .data: tsibble&#12458;&#12502;&#12472;&#12455;&#12463;&#12488;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> ...: &#21306;&#38291;&#12434;&#34920;&#12377;&#24335; (~ end, start ~ end, start ~ .)</span>
+</pre>
 </div>
 <ul>
 <li><p>
@@ -1123,27 +1084,26 @@ AirPassengers |&gt; as_tsibble() # 時系列オブジェクトの変換
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >AirPassengers |&gt;
+<pre class="src src-R">AirPassengers |&gt;
   as_tsibble() |&gt;
-  filter_index("1955-10" ~ "1956-03")
-</code></pre>
+  filter_index(<span style="color: #d08928;">"1955-10"</span> ~ <span style="color: #d08928;">"1956-03"</span>)
+</pre>
 </div></li>
 
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org2147cb2" data-background="#fef4f4">
-<h3 id="org2147cb2">練習問題</h3>
+<section id="slide-orgd48c93f" data-background="#fef4f4">
+<h3 id="orgd48c93f">練習問題</h3>
 <ul>
 <li><p>
 東京の気候データを用いて以下の問に答えなさい
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >tw_data &lt;- read_csv("data/tokyo_weather.csv")
-</code></pre>
+<pre class="src src-R">tw_data <span style="color: #60aa00;">&lt;-</span> read_csv(<span style="color: #d08928;">"data/tokyo_weather.csv"</span>)
+</pre>
 </div>
 <ul>
 <li>気温のデータを <code>tsibble</code> クラスに変換しなさい</li>
@@ -1153,17 +1113,16 @@ AirPassengers |&gt; as_tsibble() # 時系列オブジェクトの変換
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-orgf7d3e54">
-<h2 id="orgf7d3e54">モデルによる予測</h2>
-<div class="outline-text-2" id="text-orgf7d3e54">
+<section id="slide-org496cd54">
+<h2 id="org496cd54">モデルによる予測</h2>
+<div class="outline-text-2" id="text-org496cd54">
 </div>
 </section>
-<section id="slide-org9ca7ca6">
-<h3 id="org9ca7ca6">ARMAモデルによる予測</h3>
+<section id="slide-orga08fd5d">
+<h3 id="orga08fd5d">ARMAモデルによる予測</h3>
 <ul>
 <li>推定したモデルを用いて\(n\)期先を予測
 <ul>
@@ -1178,19 +1137,17 @@ AirPassengers |&gt; as_tsibble() # 時系列オブジェクトの変換
 
 </ul>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="org3ab27a1" class="figure">
+<div id="orga8f131d" class="figure">
 <p><img src="figs/13_ap_arima.png" alt="13_ap_arima.png" />
 </p>
 <p><span class="figure-number">Figure 10: </span>ARIMAモデル(階差ありARMA)による予測</p>
 </div>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orga9b503d">
-<h3 id="orga9b503d">分解モデルによる予測</h3>
+<section id="slide-org09f2cf2">
+<h3 id="org09f2cf2">分解モデルによる予測</h3>
 <ul>
 <li><p>
 トレンド成分+季節成分+ランダム成分への分解
@@ -1227,10 +1184,9 @@ AirPassengers |&gt; as_tsibble() # 時系列オブジェクトの変換
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orga3d31a5">
-<h3 id="orga3d31a5">Holt-Winter の方法</h3>
+<section id="slide-org8d8f338">
+<h3 id="org8d8f338">Holt-Winter の方法</h3>
 <ul>
 <li><p>
 指数平滑化を用いた加法的分解モデルによる予測
@@ -1254,7 +1210,6 @@ AirPassengers |&gt; as_tsibble() # 時系列オブジェクトの変換
 
 </ul>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 <ul>
@@ -1269,26 +1224,24 @@ AirPassengers |&gt; as_tsibble() # 時系列オブジェクトの変換
 
 </ul>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="org85d0d60" class="figure">
+<div id="orgeb426a8" class="figure">
 <p><img src="figs/13_ap_ets.png" alt="13_ap_ets.png" />
 </p>
 <p><span class="figure-number">Figure 11: </span>ETSモデル(expornential smoothing)による予測</p>
 </div>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-orge22e1f2">
-<h2 id="orge22e1f2">解析事例</h2>
-<div class="outline-text-2" id="text-orge22e1f2">
+<section id="slide-orgb902cdb">
+<h2 id="orgb902cdb">解析事例</h2>
+<div class="outline-text-2" id="text-orgb902cdb">
 </div>
 </section>
-<section id="slide-org1f7474e">
-<h3 id="org1f7474e">COVID-19 の感染者数の分析</h3>
+<section id="slide-org182397a">
+<h3 id="org182397a">COVID-19 の感染者数の分析</h3>
 <ul>
 <li>厚生労働省の COVID-19 のデータ
 <ul>
@@ -1307,65 +1260,59 @@ AirPassengers |&gt; as_tsibble() # 時系列オブジェクトの変換
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgcff14ae">
-<h3 id="orgcff14ae">感染者数の推移</h3>
+<section id="slide-orgae6e0ab">
+<h3 id="orgae6e0ab">感染者数の推移</h3>
 
-<div id="org677ec55" class="figure">
+<div id="org34ac849" class="figure">
 <p><img src="figs/13_patients.png" alt="13_patients.png" />
 </p>
 <p><span class="figure-number">Figure 12: </span>全国の感染者数</p>
 </div>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org8bd2d75">
-<h3 id="org8bd2d75">第3波における感染者数の推移</h3>
+<section id="slide-orgeb04f27">
+<h3 id="orgeb04f27">第3波における感染者数の推移</h3>
 
-<div id="orgf430f15" class="figure">
+<div id="orgad1c616" class="figure">
 <p><img src="figs/13_3wave_patients.png" alt="13_3wave_patients.png" />
 </p>
 <p><span class="figure-number">Figure 13: </span>第3波の感染者数</p>
 </div>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org36a59d8">
-<h3 id="org36a59d8">基礎分析 (分析対象 : 2020/9/15-11/30)</h3>
+<section id="slide-org22f5584">
+<h3 id="org22f5584">基礎分析 (分析対象 : 2020/9/15-11/30)</h3>
 
-<div id="org7ee3ef9" class="figure">
+<div id="org6cf0b3c" class="figure">
 <p><img src="figs/13_3wave.png" alt="13_3wave.png" />
 </p>
 <p><span class="figure-number">Figure 14: </span>時系列 (階差)</p>
 </div>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="org50f5012" class="figure">
+<div id="org7daf3e6" class="figure">
 <p><img src="figs/13_3wave_log.png" alt="13_3wave_log.png" />
 </p>
 <p><span class="figure-number">Figure 15: </span>時系列 (対数変換+階差)</p>
 </div>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="org674657b" class="figure">
+<div id="org8e3305e" class="figure">
 <p><img src="figs/13_3wave_log7.png" alt="13_3wave_log7.png" />
 </p>
 <p><span class="figure-number">Figure 16: </span>時系列 (対数変換+階差+7日階差)</p>
 </div>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org279339b">
-<h3 id="org279339b">ARIMA モデルによる推定</h3>
+<section id="slide-org6793e99">
+<h3 id="org6793e99">ARIMA モデルによる推定</h3>
 <ul>
 <li>推定された ARIMA モデル</li>
 
 </ul>
-<pre class="example" id="org2b8d8b4">
+<pre class="example" id="orgda5a12f">
 Series: patients 
 Model: ARIMA(1,1,1)(2,0,0)[7] 
 Transformation: log(patients) 
@@ -1379,39 +1326,35 @@ sigma^2 estimated as 0.03811:  log likelihood=15.04
 AIC=-20.07   AICc=-19.21   BIC=-8.42
 </pre>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="orgb1355c7" class="figure">
+<div id="orgac60ae8" class="figure">
 <p><img src="figs/13_3wave_arima_est.png" alt="13_3wave_arima_est.png" />
 </p>
 <p><span class="figure-number">Figure 17: </span>あてはめ値</p>
 </div>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="orgfd267c6" class="figure">
+<div id="orga6b56f5" class="figure">
 <p><img src="figs/13_3wave_arima_diag.png" alt="13_3wave_arima_diag.png" />
 </p>
 <p><span class="figure-number">Figure 18: </span>診断プロット</p>
 </div>
 
-<div class="slide-footer"><br></div>
 </section>
 <section>
 
-<div id="org8e01e51" class="figure">
+<div id="org45ab710" class="figure">
 <p><img src="figs/13_3wave_arima_pred.png" alt="13_3wave_arima_pred.png" />
 </p>
 <p><span class="figure-number">Figure 19: </span>予測値 (60日分，80%信頼区間)</p>
 </div>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgc2f7492">
-<h3 id="orgc2f7492">まとめ</h3>
+<section id="slide-orgffb4288">
+<h3 id="orgffb4288">まとめ</h3>
 <ul>
 <li>感染者数の推移は非定常なデータ</li>
 <li><p>
@@ -1427,26 +1370,24 @@ AIC=-20.07   AICc=-19.21   BIC=-8.42
 </p></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
 </section>
 <section>
-<section id="slide-orgd29e080" data-background="#fef4f4">
-<h2 id="orgd29e080">実習</h2>
-<div class="slide-footer"><br></div>
+<section id="slide-org9bc20c4" data-background="#fef4f4">
+<h2 id="org9bc20c4">実習</h2>
 </section>
-<section id="slide-org9148b1e" data-background="#fef4f4">
-<h3 id="org9148b1e">R : 時系列の予測</h3>
+<section id="slide-org8d92ead" data-background="#fef4f4">
+<h3 id="org8d92ead">R : 時系列の予測</h3>
 <ul>
 <li><p>
 関数 <code>fable::forecast()</code> 
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >forecast(object, h, ...)
-#' object: モデルの推定結果
-#' h: h期先の予測
-</code></pre>
+<pre class="src src-R">forecast(object, h, ...)
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> object: &#12514;&#12487;&#12523;&#12398;&#25512;&#23450;&#32080;&#26524;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> h: h&#26399;&#20808;&#12398;&#20104;&#28204;</span>
+</pre>
 </div>
 <ul>
 <li>詳細は <code>?fable::forecast.X</code> (Xはモデル名)を参照</li>
@@ -1455,10 +1396,10 @@ AIC=-20.07   AICc=-19.21   BIC=-8.42
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >as_tsibble(AirPassengers) |&gt;
+<pre class="src src-R">as_tsibble(AirPassengers) |&gt;
   model(ARIMA(log(value))) |&gt;
   forecast(h = 36) |&gt; autoplot(AirPassengers)
-</code></pre>
+</pre>
 </div>
 <ul>
 <li>描画には <code>fabletools::autoplot.fbl_ts()</code> が利用される</li>
@@ -1468,24 +1409,23 @@ AIC=-20.07   AICc=-19.21   BIC=-8.42
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-org166eddf" data-background="#fef4f4">
-<h3 id="org166eddf">R : 分解モデルの推定</h3>
+<section id="slide-org2abdf62" data-background="#fef4f4">
+<h3 id="org2abdf62">R : 分解モデルの推定</h3>
 <ul>
 <li><p>
 関数 <code>fable::ETS()</code> 
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >ETS(formula, opt_crit = c("lik", "amse", "mse", "sigma", "mae"),
-    nmse = 3, bounds = c("both", "usual", "admissible"),
-    ic = c("aicc", "aic", "bic"), restrict = TRUE, ...)
-#' formula: 時系列モデル
-#' opt_crit: モデルの最適化の指標
-#' ic: モデル選択のための情報量規準
-#' その他詳細は '?fable::ETS' を参照
-</code></pre>
+<pre class="src src-R">ETS(formula, opt_crit = c(<span style="color: #d08928;">"lik"</span>, <span style="color: #d08928;">"amse"</span>, <span style="color: #d08928;">"mse"</span>, <span style="color: #d08928;">"sigma"</span>, <span style="color: #d08928;">"mae"</span>),
+    nmse = 3, bounds = c(<span style="color: #d08928;">"both"</span>, <span style="color: #d08928;">"usual"</span>, <span style="color: #d08928;">"admissible"</span>),
+    ic = c(<span style="color: #d08928;">"aicc"</span>, <span style="color: #d08928;">"aic"</span>, <span style="color: #d08928;">"bic"</span>), restrict = <span style="color: #00aa80;">TRUE</span>, ...)
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> formula: &#26178;&#31995;&#21015;&#12514;&#12487;&#12523;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> opt_crit: &#12514;&#12487;&#12523;&#12398;&#26368;&#36969;&#21270;&#12398;&#25351;&#27161;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> ic: &#12514;&#12487;&#12523;&#36984;&#25246;&#12398;&#12383;&#12417;&#12398;&#24773;&#22577;&#37327;&#35215;&#28310;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#12381;&#12398;&#20182;&#35443;&#32048;&#12399; '?fable::ETS' &#12434;&#21442;&#29031;</span>
+</pre>
 </div>
 <ul>
 <li><p>
@@ -1493,19 +1433,18 @@ AIC=-20.07   AICc=-19.21   BIC=-8.42
 </p>
 <div class="org-src-container">
 
-<pre><code class="R" >as_tsibble(AirPassengers) |&gt;
-  model(ETS(value ~ season("M"))) |&gt;
+<pre class="src src-R">as_tsibble(AirPassengers) |&gt;
+  model(ETS(value ~ season(<span style="color: #d08928;">"M"</span>))) |&gt;
   components() |&gt; autoplot()
-</code></pre>
+</pre>
 </div></li>
 
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </section>
-<section id="slide-orgdb5621d" data-background="#fef4f4">
-<h3 id="orgdb5621d">練習問題</h3>
+<section id="slide-org77eb40a" data-background="#fef4f4">
+<h3 id="org77eb40a">練習問題</h3>
 <ul>
 <li>以下の問に答えなさい
 <ul>
@@ -1516,14 +1455,16 @@ AIC=-20.07   AICc=-19.21   BIC=-8.42
 </ul></li>
 
 </ul>
-<div class="slide-footer"><br></div>
 </div>
 </div>
 <script src="./reveal.js/dist/reveal.js"></script>
 <script src="./reveal.js/plugin/notes/notes.js"></script>
 <script src="./reveal.js/plugin/search/search.js"></script>
 <script src="./reveal.js/plugin/zoom/zoom.js"></script>
-<script src="./reveal.js/plugin/highlight/highlight.js"></script>
+<script src="./reveal.js/plugin/menu/menu.js"></script>
+<script src="./reveal.js/plugin/spotlight/spotlight.js"></script>
+<script src="./reveal.js/plugin/chalkboard/plugin.js"></script>
+<script src="./reveal.js/dist/theme/hidelinks.js"></script>
 <script>
 // Full list of configuration options available here:
 // https://github.com/hakimel/reveal.js#configuration
@@ -1544,16 +1485,15 @@ overview: true,
 
 transition: 'fade',
 transitionSpeed: 'default',
-spotlight: { size: 90, initialPresentationMode: false }, chalkboard: { toggleChalkboardButton: { left: '80px' }, toggleNotesButton: { left: '130px'}}, keyboard: { 69: function() { RevealChalkboard.toggleNotesCanvas() }, 87: function() { RevealChalkboard.toggleChalkboard() }, 67: function() { RevealChalkboard.clear() }, 82: function() { RevealChalkboard.reset() }, 68: function() { RevealChalkboard.download() }, 88: function() { RevealChalkboard.colorNext() }, 89: function() { RevealChalkboard.colorPrev() }, 84: function() { RevealSpotlight.toggleSpotlight() }, 81: function() { RevealSpotlight.togglePresentationMode()}},
+showNotes: window.location.search.match( /print-pdf/gi ) ? 'separate-page' : false,
+spotlight: { size: 80, initialPresentationMode: false, }, keyboard: { 81: function() { RevealSpotlight.toggleSpotlight()}, 87: function() { RevealSpotlight.togglePresentationMode();}, },
 
 // Plugins with reveal.js 4.x
-plugins: [ RevealNotes, RevealSearch, RevealZoom, RevealHighlight ],
+plugins: [ RevealNotes, RevealSearch, RevealZoom, RevealMenu, RevealSpotlight, RevealChalkboard ],
 
 // Optional libraries used to extend reveal.js
 dependencies: [
-{ src: './reveal.js/plugin/menu/menu.js'},
-{ src: './reveal.js/plugin/chalkboard/chalkboard.js'},
-{ src: './reveal.js/plugin/spotlight/spotlight.js'}]
+]
 
 });
 </script>

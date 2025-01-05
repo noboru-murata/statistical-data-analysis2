@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-12-20 15:19:19 mura>
+# Time-stamp: <2025-01-05 13:51:07 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -298,15 +298,10 @@
 #+reveal: split
 #+begin_src R :file figs/13_aracf.png :exports results :results graphics :tangle no
   #' AR(2)モデルの自己相関
-  patch <- list()
-  for(i in 1:K) {
-    patch[[i]] <-
-      forecast::ggAcf(ts_ar[,i],
-            colour = scales::hue_pal()(K)[i]) +
-      ylim(-0.25,1) +
-      labs(title = paste("Series:", i))
-  }
-  do.call("wrap_plots", patch)
+  ts_ar |> as_tsibble() |> ACF(value) |>
+    autoplot() +          # 格子状に並べるには facet を指定する
+    facet_wrap(key ~ .) + # 適宜調整してくれる
+    labs(title = "AR(2)")
 #+end_src
 #+caption: AR過程の自己相関
 #+name: fig:13_aracf
@@ -332,14 +327,10 @@
 #+reveal: split
 #+begin_src R :file figs/13_maacf.png :exports results :results graphics :tangle no
   #' MA(2)モデルの自己相関
-  for(i in 1:K) {
-    patch[[i]] <-
-      forecast::ggAcf(ts_ma[,i],
-            colour = scales::hue_pal()(K)[i]) +
-      ylim(-0.3,0.4) +
-      labs(title = paste("Series:", i))
-  }
-  do.call("wrap_plots", patch)
+  ts_ma |> as_tsibble() |> ACF(value) |>
+    autoplot() + 
+    facet_wrap(key ~ .) +
+    labs(title = "MA(2)")
 #+end_src
 #+caption: MA過程の自己相関
 #+name: fig:13_maacf
@@ -365,14 +356,10 @@
 #+reveal: split
 #+begin_src R :file figs/13_armaacf.png :exports results :results graphics :tangle no
   #' ARMA(2,1)モデルの自己相関
-  for(i in 1:K) {
-    patch[[i]] <-
-      forecast::ggAcf(ts_arma[,i],
-            colour = scales::hue_pal()(K)[i]) +
-      ylim(-0.6,0.4) +
-      labs(title = paste("Series:", i))
-  }
-  do.call("wrap_plots", patch)
+  ts_arma |> as_tsibble() |> ACF(value) |>
+      autoplot() + 
+      facet_wrap(key ~ .) +
+      labs(title = "ARMA(2,1)")
 #+end_src
 #+caption: ARMA過程の自己相関
 #+name: fig:13_armaacf
@@ -636,14 +623,10 @@
 #+reveal: split
 #+begin_src R :file figs/13_arpacf.png :exports results :results graphics :tangle no
   #' AR(2)モデルの偏自己相関
-  for(i in 1:K) {
-    patch[[i]] <-
-      forecast::ggPacf(ts_ar[,i], 
-                       colour = scales::hue_pal()(K)[i]) +
-      ylim(-0.25,1) +
-      labs(title = paste("AR series:", i))
-  }
-  do.call("wrap_plots", patch)
+  ts_ar |> as_tsibble() |> PACF(value) |>
+      autoplot() + 
+      facet_wrap(key ~ .) + 
+      labs(title = "AR(2)")
 #+end_src
 #+caption: AR過程の偏自己相関
 #+name: fig:13_arpacf
@@ -654,14 +637,10 @@
 #+reveal: split
 #+begin_src R :file figs/13_mapacf.png :exports results :results graphics :tangle no
   #' MA(2)モデルの偏自己相関
-  for(i in 1:K) {
-    patch[[i]] <-
-      forecast::ggPacf(ts_ma[,i], 
-                       colour = scales::hue_pal()(K)[i]) +
-      ylim(-0.4,0.4) +
-      labs(title = paste("MA series:", i))
-  }
-  do.call("wrap_plots", patch)
+  ts_ma |> as_tsibble() |> PACF(value) |>
+      autoplot() + 
+      facet_wrap(key ~ .) +
+      labs(title = "MA(2)")
 #+end_src
 #+caption: MA過程の偏自己相関
 #+name: fig:13_mapacf
@@ -672,14 +651,10 @@
 #+reveal: split
 #+begin_src R :file figs/13_armapacf.png :exports results :results graphics :tangle no
   #' ARMA(2,1)モデルの偏自己相関
-  for(i in 1:K) {
-    patch[[i]] <-
-      forecast::ggPacf(ts_arma[,i], 
-                       colour = scales::hue_pal()(K)[i]) +
-      ylim(-0.6,0.4) +
-      labs(title = paste("ARMA series:", i))
-  }
-  do.call("wrap_plots", patch)
+  ts_arma |> as_tsibble() |> PACF(value) |>
+      autoplot() + 
+      facet_wrap(key ~ .) +
+      labs(title = "ARMA(2,1)")
 #+end_src
 #+name: fig:13_armapacf
 #+caption: ARMA過程の偏自己相関
