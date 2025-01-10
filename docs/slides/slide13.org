@@ -4,9 +4,10 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2025-01-05 13:51:07 mura>
+# Time-stamp: <2025-01-10 12:00:25 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
+#+PROPERTY: header-args:R+ :width 1344 :height 960 :res 144
 # C-c C-x C-v でinlineを切り替え
 # <m C-i でlatex block (math env用)
 # C-c '
@@ -262,7 +263,7 @@
     #+end_quote
 
 #+reveal: split
-#+begin_src R :file figs/13_ar.png :exports results :results graphics :tangle no
+#+begin_src R :file figs/ts_ar.png :exports results :results graphics :tangle no
   #' 時系列の生成
   set.seed(12345) # 乱数のシード
   Tmax <- 500 # 時系列の長さ t=1,..,Tmax
@@ -290,13 +291,13 @@
          x = "Time", y = "Observation")
 #+end_src
 #+caption: 同じモデルに従うAR過程の例
-#+name: fig:13_ar
-#+attr_html: height 100%
+#+name: fig:ts_ar
+#+attr_html: :height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/13_ar.png]]
+[[file:figs/ts_ar.png]]
 
 #+reveal: split
-#+begin_src R :file figs/13_aracf.png :exports results :results graphics :tangle no
+#+begin_src R :file figs/ts_aracf.png :exports results :results graphics :tangle no
   #' AR(2)モデルの自己相関
   ts_ar |> as_tsibble() |> ACF(value) |>
     autoplot() +          # 格子状に並べるには facet を指定する
@@ -304,13 +305,13 @@
     labs(title = "AR(2)")
 #+end_src
 #+caption: AR過程の自己相関
-#+name: fig:13_aracf
-#+attr_html: height 100%
+#+name: fig:ts_aracf
+#+attr_html: :height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/13_aracf.png]]
+[[file:figs/ts_aracf.png]]
    
 #+reveal: split
-#+begin_src R :file figs/13_ma.png :exports results :results graphics :tangle no
+#+begin_src R :file figs/ts_ma.png :exports results :results graphics :tangle no
   #' MA(2)の描画
   ts_ma |>
     as_tsibble() |>
@@ -319,13 +320,13 @@
          x = "Time", y = "Observation")
 #+end_src
 #+caption: 同じモデルに従うMA過程の例
-#+name: fig:13_ma
-#+attr_html: height 100%
+#+name: fig:ts_ma
+#+attr_html: :height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/13_ma.png]]
+[[file:figs/ts_ma.png]]
 
 #+reveal: split
-#+begin_src R :file figs/13_maacf.png :exports results :results graphics :tangle no
+#+begin_src R :file figs/ts_maacf.png :exports results :results graphics :tangle no
   #' MA(2)モデルの自己相関
   ts_ma |> as_tsibble() |> ACF(value) |>
     autoplot() + 
@@ -333,13 +334,13 @@
     labs(title = "MA(2)")
 #+end_src
 #+caption: MA過程の自己相関
-#+name: fig:13_maacf
-#+attr_html: height 100%
+#+name: fig:ts_maacf
+#+attr_html: :height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/13_maacf.png]]
+[[file:figs/ts_maacf.png]]
 
 #+reveal: split
-#+begin_src R :file figs/13_arma.png :exports results :results graphics :tangle no
+#+begin_src R :file figs/ts_arma.png :exports results :results graphics :tangle no
   #' ARMA(2,1)の描画
   ts_arma |>
     as_tsibble() |>
@@ -348,13 +349,13 @@
          x = "Time", y = "Observation")
 #+end_src
 #+caption: 同じモデルに従うARMA過程の例
-#+name: fig:13_arma
-#+attr_html: height 100%
+#+name: fig:ts_arma
+#+attr_html: :height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/13_arma.png]]
+[[file:figs/ts_arma.png]]
 
 #+reveal: split
-#+begin_src R :file figs/13_armaacf.png :exports results :results graphics :tangle no
+#+begin_src R :file figs/ts_armaacf.png :exports results :results graphics :tangle no
   #' ARMA(2,1)モデルの自己相関
   ts_arma |> as_tsibble() |> ACF(value) |>
       autoplot() + 
@@ -362,10 +363,10 @@
       labs(title = "ARMA(2,1)")
 #+end_src
 #+caption: ARMA過程の自己相関
-#+name: fig:13_armaacf
-#+attr_html: height 100%
+#+name: fig:ts_armaacf
+#+attr_html: :height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/13_armaacf.png]]
+[[file:figs/ts_armaacf.png]]
    
    
 * 実習(復習)
@@ -621,7 +622,7 @@
     #+end_quote
 
 #+reveal: split
-#+begin_src R :file figs/13_arpacf.png :exports results :results graphics :tangle no
+#+begin_src R :file figs/ts_arpacf.png :exports results :results graphics :tangle no
   #' AR(2)モデルの偏自己相関
   ts_ar |> as_tsibble() |> PACF(value) |>
       autoplot() + 
@@ -629,13 +630,13 @@
       labs(title = "AR(2)")
 #+end_src
 #+caption: AR過程の偏自己相関
-#+name: fig:13_arpacf
-#+attr_html: height 100%
+#+name: fig:ts_arpacf
+#+attr_html: :height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/13_arpacf.png]]
+[[file:figs/ts_arpacf.png]]
 
 #+reveal: split
-#+begin_src R :file figs/13_mapacf.png :exports results :results graphics :tangle no
+#+begin_src R :file figs/ts_mapacf.png :exports results :results graphics :tangle no
   #' MA(2)モデルの偏自己相関
   ts_ma |> as_tsibble() |> PACF(value) |>
       autoplot() + 
@@ -643,24 +644,24 @@
       labs(title = "MA(2)")
 #+end_src
 #+caption: MA過程の偏自己相関
-#+name: fig:13_mapacf
-#+attr_html: height 100%
+#+name: fig:ts_mapacf
+#+attr_html: :height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/13_mapacf.png]]
+[[file:figs/ts_mapacf.png]]
 
 #+reveal: split
-#+begin_src R :file figs/13_armapacf.png :exports results :results graphics :tangle no
+#+begin_src R :file figs/ts_armapacf.png :exports results :results graphics :tangle no
   #' ARMA(2,1)モデルの偏自己相関
   ts_arma |> as_tsibble() |> PACF(value) |>
       autoplot() + 
       facet_wrap(key ~ .) +
       labs(title = "ARMA(2,1)")
 #+end_src
-#+name: fig:13_armapacf
+#+name: fig:ts_armapacf
 #+caption: ARMA過程の偏自己相関
-#+attr_html: height 100%
+#+attr_html: :height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/13_armapacf.png]]
+[[file:figs/ts_armapacf.png]]
    
 ** モデルの推定に関する補足
 - ARMAモデルの推定方法は主に以下の3つ
@@ -1322,7 +1323,7 @@
 - 推定したノイズの不確定性にもとづき信頼区間を構成
 
 #+reveal: split
-#+begin_src R :file figs/13_ap_arima.png :exports results :results graphics :tangle no
+#+begin_src R :file figs/ap_arima.png :exports results :results graphics :tangle no
   ap_tsbl <- AirPassengers |> as_tsibble()
   ap_train <- ap_tsbl |> filter_index(~ "1958-12") # 訓練データ
   ap_test  <- ap_tsbl |> filter_index("1959-01" ~ .) # 試験データ(2年分)
@@ -1339,11 +1340,11 @@
     labs(title = "Forecast by SARIMA model",
          x = "Year", y = "Passengers/1000")
 #+end_src
-#+name: fig:13_ap_arima
+#+name: fig:ap_arima
 #+caption: ARIMAモデル(階差ありARMA)による予測
-#+attr_html: height 100%
+#+attr_html: :height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/13_ap_arima.png]]
+[[file:figs/ap_arima.png]]
 
 ** 分解モデルによる予測
 - トレンド成分+季節成分+ランダム成分への分解
@@ -1385,7 +1386,7 @@
 - 状態空間モデルの特殊な場合とも考えられる
 
 #+reveal: split
-#+begin_src R :file figs/13_ap_ets.png :exports results :results graphics :tangle no
+#+begin_src R :file figs/ap_ets.png :exports results :results graphics :tangle no
   ap_fit |> select(ets) |>
     forecast(h = nrow(ap_test)) |>
     autoplot(ap_train) +
@@ -1393,15 +1394,15 @@
     labs(title = "Forecast by ETS model",
          x = "Year", y = "Passengers/1000")
 #+end_src
-#+name: fig:13_ap_ets
+#+name: fig:ap_ets
 #+caption: ETSモデル(expornential smoothing)による予測
-#+attr_html: height 100%
+#+attr_html: :height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/13_ap_ets.png]]
+[[file:figs/ap_ets.png]]
 
 ** COMMENT 数値例
-#+name: fig:13_pred_wn
-#+begin_src R :file figs/13_pred_wn.png :exports results :results graphics :tangle no
+#+name: fig:ts_pred_wn
+#+begin_src R :file figs/ts_pred_wn.png :exports results :results graphics :tangle no
   ## library(forecast)
   ## library(tidyverse)
   ## library(ggfortify)
@@ -1437,32 +1438,32 @@
   ##            ylab = "Observation")
 #+end_src
 #+caption: ホワイトノイズの予測
-#+attr_html: height 100%
+#+attr_html: :height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/13_pred_wn.png]]
+[[file:figs/ts_pred_wn.png]]
 
 #+reveal: split
 
-#+name: fig:13_pred_rw
-#+begin_src R :file figs/13_pred_rw.png :exports results :results graphics
+#+name: fig:ts_pred_rw
+#+begin_src R :file figs/ts_pred_rw.png :exports results :results graphics
   ## ランダムウォークの予測
   autoplot(forecast(myARMA(a=c(1),b=c(0),rnorm(180)),h=20),col=2)
 #+end_src
 #+caption: ランダムウォークの予測
-#+attr_html: height 100%
+#+attr_html: :height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/13_pred_rw.png]]
+[[file:figs/ts_pred_rw.png]]
 
 #+reveal: split
-#+name: fig:13_pred_arma
-#+begin_src R :file figs/13_pred_arma.png :exports results :results graphics
+#+name: fig:ts_pred_arma
+#+begin_src R :file figs/ts_pred_arma.png :exports results :results graphics
   ## ARMA 過程の予測
   autoplot(forecast(myARMA(a=c(0.8, -0.64),b=c(-0.5),rnorm(180)),h=20),col=2)
 #+end_src
 #+caption: ARMA 過程の予測
-#+attr_html: height 100%
+#+attr_html: :height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/13_pred_arma.png]]
+[[file:figs/ts_pred_arma.png]]
 
 
 * 解析事例
@@ -1481,8 +1482,8 @@
 :PROPERTIES:
 :ID:       6BF5B848-B937-491B-A6EB-F88AEAC7AB81
 :END:
-#+name: fig:13_patients
-#+begin_src R :file figs/13_patients.png :exports results :results graphics
+#+name: fig:covid_patients
+#+begin_src R :file figs/covid_patients.png :exports results :results graphics
   ### 基本的な時系列モデルによる予測
   ### 厚生労働省のCOVID-19の感染者数データを用いた例
 
@@ -1519,16 +1520,16 @@
   print(p + geom_col(fill="skyblue")) # グラフ出力
 #+end_src
 #+caption: 全国の感染者数
-#+attr_html: height 100%
+#+attr_html: :height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/13_patients.png]]
+[[file:figs/covid_patients.png]]
 
 ** 感染者数の推移
 :PROPERTIES:
 :ID:       6BF5B848-B937-491B-A6EB-F88AEAC7AB81
 :END:
-#+name: fig:13_patients
-#+begin_src R :file figs/13_patients.png :exports results :results graphics :tangle no
+#+name: fig:covid_patients
+#+begin_src R :file figs/covid_patients.png :exports results :results graphics :tangle no
   ### 基本的な時系列モデルによる予測
   ### 厚生労働省のCOVID-19の感染者数データを用いた例
 
@@ -1553,16 +1554,16 @@
            y = "number of patients")
 #+end_src
 #+caption: 全国の感染者数
-#+attr_html: height 100%
+#+attr_html: :height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/13_patients.png]]
+[[file:figs/covid_patients.png]]
 
 ** 第3波における感染者数の推移
 :PROPERTIES:
 :ID:       8E4BB386-DA4E-4E9A-8526-2924F22CC03F
 :END:
-#+name: fig:13_3wave_patients
-#+begin_src R :file figs/13_3wave_patients.png :exports results :results graphics :tangle no
+#+name: fig:covid_3wave_patients
+#+begin_src R :file figs/covid_3wave_patients.png :exports results :results graphics :tangle no
   #'
   #' 第3波 (2020/9/15-2021/1/31) に着目する
   #' 
@@ -1581,16 +1582,16 @@
            y = "number of patients")
 #+end_src
 #+caption: 第3波の感染者数
-#+attr_html: height 100%
+#+attr_html: :height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/13_3wave_patients.png]]
+[[file:figs/covid_3wave_patients.png]]
 
 ** 基礎分析 (分析対象 : 2020/9/15-11/30)
 :PROPERTIES:
 :ID:       475BB63E-C3DE-4893-94BB-32B4BC65B1CF
 :END:
-#+name: fig:13_3wave
-#+begin_src R :file figs/13_3wave.png :exports results :results graphics :tangle no
+#+name: fig:covid_3wave
+#+begin_src R :file figs/covid_3wave.png :exports results :results graphics :tangle no
   #' 階差系列の描画
   cp_3rd_train |>
       gg_tsdisplay(difference(patients),
@@ -1598,13 +1599,13 @@
   #' 7日周期の影響があることがわかる
 #+end_src
 #+caption: 時系列 (階差)
-#+attr_html: height 100%
+#+attr_html: :height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/13_3wave.png]]
+[[file:figs/covid_3wave.png]]
 
 #+reveal: split
-#+name: fig:13_3wave_log
-#+begin_src R :file figs/13_3wave_log.png :exports results :results graphics :tangle no
+#+name: fig:covid_3wave_log
+#+begin_src R :file figs/covid_3wave_log.png :exports results :results graphics :tangle no
   #' 対数変換+階差系列の描画
   cp_3rd_train |>
       gg_tsdisplay(difference(log(patients)),
@@ -1612,13 +1613,13 @@
   #' やはり7日周期の影響があることがわかる
 #+end_src
 #+caption: 時系列 (対数変換+階差)
-#+attr_html: height 100%
+#+attr_html: :height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/13_3wave_log.png]]
+[[file:figs/covid_3wave_log.png]]
 
 #+reveal: split
-#+name: fig:13_3wave_log7
-#+begin_src R :file figs/13_3wave_log7.png :exports results :results graphics :tangle no
+#+name: fig:covid_3wave_log7
+#+begin_src R :file figs/covid_3wave_log7.png :exports results :results graphics :tangle no
   #' 7日の周期(季節成分)での階差系列の描画
   cp_3rd_train |>
       gg_tsdisplay(difference(difference(log(patients), lag = 7)),
@@ -1627,9 +1628,9 @@
   #' 7日の相関は負になっているので，季節階差は取らなくても良さそう
 #+end_src
 #+caption: 時系列 (対数変換+階差+7日階差)
-#+attr_html: height 100%
+#+attr_html: :height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/13_3wave_log7.png]]
+[[file:figs/covid_3wave_log7.png]]
 
 ** ARIMA モデルによる推定
 :PROPERTIES:
@@ -1648,7 +1649,7 @@
 #+end_src
 
 #+reveal: split
-#+begin_src R :file figs/13_3wave_arima_est.png :exports results :results graphics :tangle no
+#+begin_src R :file figs/covid_3wave_arima_est.png :exports results :results graphics :tangle no
   #' データとあてはめ値を表示
   cp_3rd_arima |>
       augment() |>
@@ -1657,27 +1658,27 @@
       labs(title = "Fitted by ARIMA model",
            x = "date", y = "log(patients)")
 #+end_src
-#+name: fig:13_3wave_arima_est
+#+name: fig:covid_3wave_arima_est
 #+caption: あてはめ値
-#+attr_html: height 100%
+#+attr_html: :height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/13_3wave_arima_est.png]]
+[[file:figs/covid_3wave_arima_est.png]]
 
 #+reveal: split
-#+begin_src R :file figs/13_3wave_arima_diag.png :exports results :results graphics :tangle no
+#+begin_src R :file figs/covid_3wave_arima_diag.png :exports results :results graphics :tangle no
   #' 残差の診断
   cp_3rd_arima |> gg_tsresiduals()
   #' 残差の相関はだいぶ消えているので，そこそこ良いモデルといえそう
 #+end_src
-#+name: fig:13_3wave_arima_diag
+#+name: fig:covid_3wave_arima_diag
 #+caption: 診断プロット
-#+attr_html: height 100%
+#+attr_html: :height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/13_3wave_arima_diag.png]]
+[[file:figs/covid_3wave_arima_diag.png]]
 
 #+reveal: split
-#+name: fig:13_3wave_arima_pred
-#+begin_src R :file figs/13_3wave_arima_pred.png :exports results :results graphics :tangle no
+#+name: fig:covid_3wave_arima_pred
+#+begin_src R :file figs/covid_3wave_arima_pred.png :exports results :results graphics :tangle no
   #' 後半を予測してみる
   cp_3rd_arima |> 
     forecast(h = nrow(cp_3rd_test)) |>
@@ -1686,14 +1687,14 @@
     labs(title = "Prediction by ARIMA model")
 #+end_src
 #+caption: 予測値 (60日分，80%信頼区間)
-#+attr_html: height 100%
+#+attr_html: :height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/13_3wave_arima_pred.png]]
+[[file:figs/covid_3wave_arima_pred.png]]
 
 ** COMMENT 分解モデルによる推定
 - 局所線形構造モデルによる分解
-#+name: fig:13_3wave_sts_decomp
-#+begin_src R :file figs/13_3wave_sts_decomp.png :exports results :results graphics
+#+name: fig:covid_3wave_sts_decomp
+#+begin_src R :file figs/covid_3wave_sts_decomp.png :exports results :results graphics
   ## StructTS による方法
   est.sts <- StructTS(ltrain)
   ## 推定されたモデルを表示
@@ -1702,14 +1703,14 @@
   autoplot(est.sts)
 #+end_src
 #+caption: 時系列の分解結果
-#+attr_html: height 100%
+#+attr_html: :height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/13_3wave_sts_decomp.png]]
+[[file:figs/covid_3wave_sts_decomp.png]]
 
 #+reveal: split
 
-#+name: fig:13_3wave_sts_est
-#+begin_src R :file figs/13_3wave_sts_est.png :exports results :results graphics
+#+name: fig:covid_3wave_sts_est
+#+begin_src R :file figs/covid_3wave_sts_est.png :exports results :results graphics
   ## モデルによる当て嵌めの視覚化
   p <- 
       ggplot(data = fortify(forecast(est.sts)) %>%
@@ -1732,27 +1733,27 @@
   print(p)
 #+end_src
 #+caption: あてはめ値
-#+attr_html: height 100%
+#+attr_html: :height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/13_3wave_sts_est.png]]
+[[file:figs/covid_3wave_sts_est.png]]
 
 #+reveal: split
 
-#+name: fig:13_3wave_sts_diag
-#+begin_src R :file figs/13_3wave_sts_diag.png :exports results :results graphics
+#+name: fig:covid_3wave_sts_diag
+#+begin_src R :file figs/covid_3wave_sts_diag.png :exports results :results graphics
   ## 診断プロット
   tsdiag(est.sts)
   ## こちらも残差に相関が残っているので，優れたモデルという訳ではない
 #+end_src
 #+caption: 診断プロット
-#+attr_html: height 100%
+#+attr_html: :height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/13_3wave_sts_diag.png]]
+[[file:figs/covid_3wave_sts_diag.png]]
 
 #+reveal: split
 
-#+name: fig:13_3wave_sts_pred
-#+begin_src R :file figs/13_3wave_sts_pred.png :exports results :results graphics
+#+name: fig:covid_3wave_sts_pred
+#+begin_src R :file figs/covid_3wave_sts_pred.png :exports results :results graphics
   ## 12月以降(最大60日)を予測してみる
   p <- 
     ggplot(data = fortify(forecast(est.sts,
@@ -1788,16 +1789,16 @@
   print(p)
 #+end_src
 #+caption: 予測値 (60日分)
-#+attr_html: height 100%
+#+attr_html: :height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/13_3wave_sts_pred.png]]
+[[file:figs/covid_3wave_sts_pred.png]]
 
 ** COMMENT 第8波における感染者数の推移
 :PROPERTIES:
 :ID:       CF34CC7C-19C1-4250-85F1-A84C3BFA5894
 :END:
-#+name: fig:13_8wave_patients
-#+begin_src R :file figs/13_8wave_patients.png :exports results :results graphics
+#+name: fig:covid_8wave_patients
+#+begin_src R :file figs/covid_8wave_patients.png :exports results :results graphics
   ## 第8波 (2022/10/10-現在)
   p <-
     ggplot(data = fortify(window(patients,
@@ -1816,9 +1817,9 @@
   print(p + geom_col(fill="skyblue")) # グラフ出力
 #+end_src
 #+caption: 第8波の感染者数
-#+attr_html: height 100%
+#+attr_html: :height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/13_8wave_patients.png]]
+[[file:figs/covid_8wave_patients.png]]
 
 ** COMMENT ARIMA モデルによる推定 
 :PROPERTIES:
@@ -1852,21 +1853,21 @@
 
 #+reveal: split
 
-#+name: fig:13_8wave_arima_diag
-#+begin_src R :file figs/13_8wave_arima_diag.png :exports results :results graphics
+#+name: fig:covid_8wave_arima_diag
+#+begin_src R :file figs/covid_8wave_arima_diag.png :exports results :results graphics
   ## 診断プロット
   tsdiag(est.arima)
   ## 残差に相関が残っているので，優れたモデルという訳ではない
 #+end_src
 #+caption: 診断プロット
-#+attr_html: height 100%
+#+attr_html: :height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/13_8wave_arima_diag.png]]
+[[file:figs/covid_8wave_arima_diag.png]]
 
 #+reveal: split
 
-#+name: fig:13_8wave_arima_est
-#+begin_src R :file figs/13_8wave_arima_est.png :exports results :results graphics
+#+name: fig:covid_8wave_arima_est
+#+begin_src R :file figs/covid_8wave_arima_est.png :exports results :results graphics
   ## モデルによる当て嵌めの視覚化
   p <- 
     ggplot(data = fortify(est.arima) %>%
@@ -1886,14 +1887,14 @@
   print(p)
 #+end_src
 #+caption: あてはめ値
-#+attr_html: height 100%
+#+attr_html: :height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/13_8wave_arima_est.png]]
+[[file:figs/covid_8wave_arima_est.png]]
 
 #+reveal: split
 
-#+name: fig:13_8wave_arima_pred
-#+begin_src R :file figs/13_8wave_arima_pred.png :exports results :results graphics
+#+name: fig:covid_8wave_arima_pred
+#+begin_src R :file figs/covid_8wave_arima_pred.png :exports results :results graphics
   ## 12月以降(最大60日)を予測してみる
   p <- 
     ggplot(data = fortify(forecast(est.arima,
@@ -1929,9 +1930,9 @@
   print(p)
 #+end_src
 #+caption: 予測値 (2023/01/16まで)
-#+attr_html: height 100%
+#+attr_html: :height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/13_8wave_arima_pred.png]]
+[[file:figs/covid_8wave_arima_pred.png]]
 
 ** COMMENT 分解モデルによる推定
 - 局所線形構造モデルのあてはめ (対象区間 : 2022/10/10-11/10)
@@ -1944,33 +1945,33 @@
 
 #+reveal: split
 
-#+name: fig:13_8wave_sts_diag
-#+begin_src R :file figs/13_8wave_sts_diag.png :exports results :results graphics
+#+name: fig:covid_8wave_sts_diag
+#+begin_src R :file figs/covid_8wave_sts_diag.png :exports results :results graphics
   ## 診断プロット
   tsdiag(est.sts)
   ## こちらも残差に相関が残っているので，優れたモデルという訳ではない
 #+end_src
 #+caption: 診断プロット
-#+attr_html: height 100%
+#+attr_html: :height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/13_8wave_sts_diag.png]]
+[[file:figs/covid_8wave_sts_diag.png]]
 
 #+reveal: split
 
-#+name: fig:13_8wave_sts_decomp
-#+begin_src R :file figs/13_8wave_sts_decomp.png :exports results :results graphics
+#+name: fig:covid_8wave_sts_decomp
+#+begin_src R :file figs/covid_8wave_sts_decomp.png :exports results :results graphics
   ## StructTSによる時系列の分解結果
   autoplot(est.sts)
 #+end_src
 #+caption: 時系列の分解結果
-#+attr_html: height 100%
+#+attr_html: :height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/13_8wave_sts_decomp.png]]
+[[file:figs/covid_8wave_sts_decomp.png]]
 
 #+reveal: split
 
-#+name: fig:13_8wave_sts_est
-#+begin_src R :file figs/13_8wave_sts_est.png :exports results :results graphics
+#+name: fig:covid_8wave_sts_est
+#+begin_src R :file figs/covid_8wave_sts_est.png :exports results :results graphics
   ## モデルによる当て嵌めの視覚化
   p <- 
       ggplot(data = fortify(forecast(est.sts)) %>%
@@ -1993,14 +1994,14 @@
   print(p)
 #+end_src
 #+caption: あてはめ値
-#+attr_html: height 100%
+#+attr_html: :height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/13_8wave_sts_est.png]]
+[[file:figs/covid_8wave_sts_est.png]]
 
 #+reveal: split
 
-#+name: fig:13_8wave_sts_pred
-#+begin_src R :file figs/13_8wave_sts_pred.png :exports results :results graphics
+#+name: fig:covid_8wave_sts_pred
+#+begin_src R :file figs/covid_8wave_sts_pred.png :exports results :results graphics
   ## 12月以降(最大60日)を予測してみる
   p <- 
     ggplot(data = fortify(forecast(est.sts,
@@ -2036,9 +2037,9 @@
   print(p)
 #+end_src
 #+caption: 予測値 (60日分)
-#+attr_html: height 100%
+#+attr_html: :height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/13_8wave_sts_pred.png]]
+[[file:figs/covid_8wave_sts_pred.png]]
   
 ** まとめ
 - 感染者数の推移は非定常なデータ
