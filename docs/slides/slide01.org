@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-10-11 16:35:50 mura>
+# Time-stamp: <2025-09-26 14:55:29 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -51,14 +51,16 @@
 - *パッケージ* を利用して容易に機能拡張が可能
   - パッケージの開発は非常に活発 (現在10000を越える)
   - 最新の技術や方法が簡単に導入できることも多い
-- https://www.r-project.org/ (プロジェクトのサイト)
+- プロジェクトのサイト \\
+   https://www.r-project.org/ 
 
 ** RStudioとは
 - Posit社が開発している統合開発環境 (IDE)
   - R によるデータ解析や統計計算・パッケージ開発を支援
   - OSに依存しない対話型操作環境を提供
 - 本講義ではRStudioを用いて説明を行う
-- [[https://posit.co]] (Posit Software のサイト)
+- Posit Software のサイト \\
+   [[https://posit.co]] 
 
 ** R言語の得意分野
 - *データの分類・集計・整理*
@@ -71,11 +73,11 @@
 
 ** 参考 : R言語のオンラインコース
 - RStudio の初心者向ガイド \\
-  https://education.rstudio.com/learn/beginner/
+   https://education.rstudio.com/learn/beginner/
 - posit Cloud の自習コース \\
-  [[https://posit.cloud/learn/recipes/]]
+   [[https://posit.cloud/learn/recipes/]]
 - Data Camp のR入門コース \\
-  [[https://onboarding.datacamp.com/]]
+   [[https://onboarding.datacamp.com/]]
 
 
 * 多変量解析
@@ -91,7 +93,7 @@
   - 教師なし問題 : 主成分分析・クラスタ分析
     
 ** 回帰分析の考え方
-- ある変数(目的変数)を別の変数によって説明・予測するための関係式(回帰式)を構成する
+- ある変数(目的変数)を別の変数(説明変数)によって説明・予測するための関係式(回帰式)を構成する
   - 単回帰 : 一つの変数で目的変数を説明する
   - 重回帰 : 複数の変数で目的変数を説明する
 - [[color:green][分析の事例]]
@@ -380,7 +382,6 @@
   - *Quarto* (本講義でも利用)
   - R Markdown
 
-
 ** ヘルプ (右下ペイン)
 - 各関数の詳細を記述したヘルプが参照可能
   - 機能，引数名，引数の既定値，実行例など
@@ -463,7 +464,7 @@
     #' @exercise コンソール上での計算
   #+end_src
   #+begin_src R
-    #' 与えられた式の計算をコンソール上で実行してみよう
+    #' 与えられた式の計算をコンソール上で実行する
     #' 1 x 2 + 3^2 の計算
     1 * 2 + 3^2
     #' sin(2π) の計算
@@ -740,7 +741,6 @@
 - データの取り扱い
 - 描画の基礎
 - 確率シミュレーション
-
 
 * Footnotes
 * COMMENT ローカル変数

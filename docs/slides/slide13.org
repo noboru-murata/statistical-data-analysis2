@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2025-01-10 12:00:25 mura>
+# Time-stamp: <2025-01-10 18:56:24 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 #+PROPERTY: header-args:R+ :width 1344 :height 960 :res 144
@@ -39,6 +39,7 @@
   library(fable)
   library(tsibble)
   library(feasts)
+  library(urca)
   library(patchwork)
   library(gt)
   #' 日本語表示・色の設定 (ggplot)
@@ -78,6 +79,7 @@
   library(fable)
   library(tsibble)
   library(feasts)
+  library(urca)
 #+end_src
 
 
@@ -379,7 +381,7 @@
 :reveal_background: #fef4f4
 :ID:       53DE1CC8-0CB7-45DE-9186-B05CDAD42779
 :END:
-- 関数 feats::ACF()
+- 関数 feasts::ACF()
   #+begin_src R :eval no :tangle no
     ACF(.data,  y, ...,  lag_max = NULL,
       type = c("correlation", "covariance", "partial"),
