@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-10-11 15:02:32 mura>
+# Time-stamp: <2025-10-03 15:49:26 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -170,6 +170,10 @@
   #' ---------------------------------------------------------------------------
 #+end_src
 
+* 実習
+:PROPERTIES:
+:reveal_background: #fef4f4
+:END:
 
 * ファイルの操作
 ** ファイルを用いたデータの読み書き
@@ -201,7 +205,7 @@
   #+end_src
 - Rの標準関数 base::data.frame() とは行名の扱いに違いがあるので注意
 
-** 練習問題
+** COMMENT 練習問題
 :PROPERTIES:
 :reveal_background: #fef4f4
 :ID:       330911E2-2FAD-4B39-A6CB-A2512E269E62
@@ -226,7 +230,7 @@
   #' ダウンロードしたファイルの読み込み
   #' ファイル名 pcr_case_daily.csv として作業ディレクトリの data 以下に保存
   pcr_data <- read_csv("data/pcr_case_daily.csv") # 一般的な読み込み方
-  View(pcr_data) # 中身を左上ペインに表示
+  # View(pcr_data) # 中身を左上ペインに表示
   (pcr_colnames <- names(pcr_data)) # 列名を確認して保存 colnames(pcr_data) でも良い
   names(pcr_data) <- # 列名を扱い易いように英語略記に変更する
     c("date","niid","ciq","hc","ai","univ","mi","sub","si","total")
@@ -281,6 +285,32 @@
   #' ---------------------------------------------------------------------------
 #+end_src
 
+* 実習
+:PROPERTIES:
+:reveal_background: #fef4f4
+:END:
+#+begin_src R :exports none
+  #' ダウンロードしたファイルの読み込み
+  #' ファイル名 pcr_case_daily.csv として作業ディレクトリの data 以下に保存
+  pcr_data <- read_csv("data/pcr_case_daily.csv") # 一般的な読み込み方
+  # View(pcr_data) # 中身を左上ペインに表示
+  (pcr_colnames <- names(pcr_data)) # 列名を確認して保存 colnames(pcr_data) でも良い
+  names(pcr_data) <- # 列名を扱い易いように英語略記に変更する
+    c("date","niid","ciq","hc","ai","univ","mi","sub","si","total")
+  #' National Institute of Infectious Diseases
+  #' Customs-Immigration-Quarantine
+  #' Health Center
+  #' Administrative Inspection
+  #' University
+  #' Medical Institution
+  #' subtotal
+  #' Self Inspection
+  #' total
+  pcr_data # 中身を確認(10行だけ表示される)
+  #' 以降の処理のために date 列を関数 lubridate::date() で date 型に変換する
+  #' 列の変換・追加などには関数 dplyr::mutate() を用いる
+  (pcr_data <- mutate(pcr_data, date = date(date))) 
+#+end_src
 
 * データフレームの操作
 ** 要素の選択
@@ -399,7 +429,7 @@
     #' 既定値は使えないので，科目を表す "subject" を用いている
   #+end_src
 
-** 練習問題
+** COMMENT 練習問題
 :PROPERTIES:
 :reveal_background: #fef4f4
 :ID:       5B4F4E4D-DE89-4FEA-94DA-002DCF48C18E
@@ -431,6 +461,10 @@
   #' ---------------------------------------------------------------------------
 #+end_src
 
+* 実習
+:PROPERTIES:
+:reveal_background: #fef4f4
+:END:
 
 * データフレームの集約
 :PROPERTIES:
@@ -491,7 +525,7 @@
   #+begin_src R :exports none
     #' @exercise グループごとの集計
   #+end_src
-  #+begin_src R :exports code
+  #+begin_src R ::exports code
     #' pcr_data を用いた例
     #' 医療機関(mi)のPCR件数を各月で集計する
     #' 日付の扱いに関数 lubridate::year(), lubridate::month() を利用
@@ -520,7 +554,7 @@
     #' Sys.setlocale(category = "LC_TIME", locale = "")
   #+end_src
 
-** 練習問題
+** COMMENT 練習問題
 :PROPERTIES:
 :reveal_background: #fef4f4
 :ID:       756B2950-0EAF-4B88-9C13-7DCC8A5FA5C6
@@ -580,6 +614,10 @@
   #' ---------------------------------------------------------------------------
 #+end_src
 
+* 実習
+:PROPERTIES:
+:reveal_background: #fef4f4
+:END:
 
 * 参考
 ** その他の資料
@@ -872,7 +910,6 @@
   #+attr_latex: :width 0.6\linewidth
   [[file:figs/02-ggpairs-quarter.png]]
 
-
 ** 図の保存
 - RStudioの機能を使う (少数の場合はこちらが簡便)
   - 右下ペイン *Plots* タブから *Export* をクリック
@@ -894,7 +931,7 @@
     #' 詳細は"?ggplot2::ggsave"を参照
   #+end_src
 
-** 練習問題
+** COMMENT 練習問題
 :PROPERTIES:
 :reveal_background: #fef4f4
 :ID:       2D3E0D02-8142-423C-9683-1F8CC925991F
@@ -937,6 +974,10 @@
   #' ---------------------------------------------------------------------------
 #+end_src
        
+* 実習
+:PROPERTIES:
+:reveal_background: #fef4f4
+:END:
 
 * さまざまなグラフ
 ** ヒストグラム
@@ -1133,7 +1174,7 @@
   - より進んだグラフィクスの使い方の例は
     ~demo("graphics")~, ~example(関数名)~ を参照
 
-** 練習問題
+** COMMENT 練習問題
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
@@ -1142,6 +1183,10 @@
   - 東京都の気候データ (~tokyo_weather.csv~)
   - R言語に用意されているデータ (関数 ~data()~ で一覧表示)
 
+* 実習
+:PROPERTIES:
+:reveal_background: #fef4f4
+:END:
 
 * 参考
 ** その他の資料
@@ -1177,7 +1222,7 @@
 - 関数 ~stats::runif()~ : 一様乱数
 - 関数 ~stats::rnorm()~ : 正規乱数
 
-** 練習問題
+** COMMENT 練習問題
 :PROPERTIES:
 :reveal_background: #fef4f4
 :ID:       7CCFDD4A-11BD-4580-AD92-81782DF02ECE
@@ -1230,6 +1275,10 @@
   #' ---------------------------------------------------------------------------
 #+end_src
 
+* 実習
+:PROPERTIES:
+:reveal_background: #fef4f4
+:END:
 
 * モンテカルロ法
 ** モンテカルロ法とは
@@ -1342,7 +1391,7 @@
     table(mc_data)/mc_num # 確率(推定値)
   #+end_src
 
-** 練習問題
+** COMMENT 練習問題
 :PROPERTIES:
 :reveal_background: #fef4f4
 :ID:       495C7DF9-B1E5-4F74-863F-C0A13F615798
@@ -1399,6 +1448,10 @@
   #' ---------------------------------------------------------------------------
 #+end_src
 
+* 実習
+:PROPERTIES:
+:reveal_background: #fef4f4
+:END:
 
 * 参考
 ** その他の資料

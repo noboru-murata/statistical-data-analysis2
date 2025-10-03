@@ -60,10 +60,10 @@
 ** ハンドアウト
 - [[github:pdfs/slide02.pdf][PDF file]]
 ** 付録
-- [[githubraw:code/practice02.qmd][Quarto]] ([[github:code/practice02.html][HTML]])
-- [[github:code/slide02.R][R Script]]
-- [[github:data/data02.zip][練習問題用データセット]] \\
-  ダウンロードして unzip すると文字コード utf-8 のファイルになります．
+- 実習用 [[githubraw:code/practice02.qmd][Quarto]]
+- 解答例 [[githubraw:code/sample-code02.qmd][Quarto]] [[github:code/sample-code02.html][HTML]]
+- データセット [[github:data/data02.zip][練習問題用データセット]] \\
+   (ダウンロードして unzip すると文字コード utf-8 のファイルになります)
 
 * 第3講
 :PROPERTIES:
