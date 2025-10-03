@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2025-09-26 14:55:29 mura>
+# Time-stamp: <2025-10-03 14:48:50 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -417,7 +417,8 @@
   - *Create Project* ダイアログで *New Directory* を選択
     - 既にあるディレクトリを用いる場合は *Existing Directory* 
     - Github などを利用する場合は *Version Control* 
-  - *Project Type* ダイアログで *New Project* を選択
+  - *Project Type* ダイアログで適切なタイプを選択
+    - 講義では *Quarto Project* を利用
   - *Directry Name* とその親ディレクトリを指定
 # - 中断するときは *Close Project* を選択
   
@@ -433,6 +434,73 @@
   - ~n~ を入力: セーブしない (noの略)
   - ~c~ を入力: Rの終了をキャンセルする (cancelの略)
 - セーブした場合次回起動時に読み込まれる 
+
+
+* Quarto の利用法
+** Quarto ファイルの作成
+- 左上の ~＋~ ボタン(または"File/New File")を開く
+- *Quarto Document* を選択する
+- ダイアログに必要な情報を記入する
+  - 文書の "Title/Author" の設定
+  - フォーマットの選択 (HTML/PDF/Word)
+    - 講義ではHTMLを利用
+- *Create* をクリックするとファイルが作成される
+  - "Create" は雛型の文書付き
+  - "Create Empty Document" はYAMLヘッダーのみ
+    - 慣れたらこちらで
+    
+** エディタの設定
+- Quarto ファイルは左上のペインに表示される
+- 左上の "Source/Visual" ボタンでモードが変わる
+  - *Source* : 装飾なしのテキストエディタ
+  - *Visual* : Markdown 記法に従った装飾ありの表示
+- 各モードでの注意
+  - Visual モードは GUI を利用して装飾を変更する
+  - History 機能は現在 Source モードでしか機能しない
+  
+** コードの入力と実行
+- コードを入力するにはチャンクを作成する
+  - 入力したい箇所にカーソルを移動
+  - 上枠の ~+C~ (緑)ボタン(または"Code/Insert Chunk")をクリック
+- ~歯車~ ボタンで実行時の出力先を設定する
+  - *Chunk Output Inline* : エディタ内に出力
+  - *Chunk Output in Console* : コンソール内に出力
+    - 講義ではコンソールを利用
+- 実行法はいくつか用意されている(*Run* ボタン参照)
+  - *~▶~* (緑色) : チャンク内を実行
+  - *~▽~* (灰色): そのチャンク以前を実行
+    - カーソル位置のみ実行することも可能
+    - ショートカットキーも用意されている
+    
+** 出版
+- 全体をまとめて整形することができる
+- ~歯車~ ボタンで出力時の挙動を設定する
+  - *Preview in Window* : ブラウザに表示
+  - *Preview in Viewer Pane* : RStudioのViewerペインに表示
+    - 講義では基本的に Viewer を利用
+    - Viewer の上の左から2番目のボタンでブラウザに送ることは可能
+- Quarto と同じ場所にファイルは保存される
+  - フォーマットによって拡張子が異なる
+  - 付加的なファイルは "ファイル名 + files" に保存される
+  - 単一のファイルにするにはYAMLヘッダーで以下を宣言する
+    #+begin_src yaml
+    ---
+    format:
+      html:
+        self-contained: true
+    ---
+    #+end_src
+** ファイルを保存する
+- 以下のいずれかで保存することができる
+  - 左上のディスクのマーク 💾 をクリック
+  - *File* から 
+    *Save* を選択 (Ctrl/Command+S)
+- ファイル作成に関する注意
+  - 保存する時にファイル名の入力が求められる
+    - *Quarto* の拡張子は通常 *.qmd* を利用
+  - 文書はヘッダを付けてわかりやすく構造しておくと良い
+  - チャンク内の *#* 以降の文字列は実行されないのでコメントとして有用
+
 
 
 * 基本的な使い方
@@ -484,7 +552,7 @@
   #+end_src
 - 入力内容は右上の *History* タブで確認可能
   
-** エディタから実行する
+** COMMENT エディタから実行する
 - 新規ファイルの作成 (以下のいずれか)
   - 左上の *+* から
     *R Script* (または *Quarto*) を選択
@@ -501,7 +569,7 @@
     *Selected Line(s)* を選択
     (Ctrl/Command+Enter)
 
-** ファイルを保存する
+** COMMENT ファイルを保存する
 - 以下のいずれかで保存することができる
   - 左上のディスクのマークをクリック
   - *File* から 

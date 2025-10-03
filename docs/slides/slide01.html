@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Generated on 2025-09-26 Fri 14:49 -->
+<!-- Generated on 2025-10-03 Fri 14:45 -->
 <meta charset="utf-8"/>
 <title>Rによるデータ解析</title>
 <meta name="author" content="村田 昇"/>
@@ -46,11 +46,11 @@
 
 </section>
 <section>
-<section id="slide-org1ec1fce">
-<h2 id="org1ec1fce">R言語の概要</h2>
+<section id="slide-org8f5fea4">
+<h2 id="org8f5fea4">R言語の概要</h2>
 </section>
-<section id="slide-org6f3b193">
-<h3 id="org6f3b193">R言語とは</h3>
+<section id="slide-orgd85bcad">
+<h3 id="orgd85bcad">R言語とは</h3>
 <ul>
 <li>統計計算のための言語と環境の総称</li>
 <li>オープンソース・フリーソフトウェア</li>
@@ -65,8 +65,8 @@
 
 </ul>
 </section>
-<section id="slide-orgaab62ec">
-<h3 id="orgaab62ec">RStudioとは</h3>
+<section id="slide-org6748b0d">
+<h3 id="org6748b0d">RStudioとは</h3>
 <ul>
 <li>Posit社が開発している統合開発環境 (IDE)
 <ul>
@@ -80,8 +80,8 @@
 
 </ul>
 </section>
-<section id="slide-org280b301">
-<h3 id="org280b301">R言語の得意分野</h3>
+<section id="slide-org3699427">
+<h3 id="org3699427">R言語の得意分野</h3>
 <ul>
 <li><b>データの分類・集計・整理</b>
 <ul>
@@ -99,8 +99,8 @@
 
 </ul>
 </section>
-<section id="slide-orgc6a6e61">
-<h3 id="orgc6a6e61">参考 : R言語のオンラインコース</h3>
+<section id="slide-orgea31eb7">
+<h3 id="orgea31eb7">参考 : R言語のオンラインコース</h3>
 <ul>
 <li>RStudio の初心者向ガイド <br />
 <a href="https://education.rstudio.com/learn/beginner/">https://education.rstudio.com/learn/beginner/</a></li>
@@ -113,13 +113,13 @@
 </section>
 </section>
 <section>
-<section id="slide-org03c687c">
-<h2 id="org03c687c">多変量解析</h2>
-<div class="outline-text-2" id="text-org03c687c">
+<section id="slide-org4ce82c3">
+<h2 id="org4ce82c3">多変量解析</h2>
+<div class="outline-text-2" id="text-org4ce82c3">
 </div>
 </section>
-<section id="slide-orgc4bf100">
-<h3 id="orgc4bf100">多変量解析とは</h3>
+<section id="slide-org3324956">
+<h3 id="org3324956">多変量解析とは</h3>
 <ul>
 <li>複数の変量からなるデータを分析する手法の総称
 <ul>
@@ -139,10 +139,10 @@
 
 </ul>
 </section>
-<section id="slide-org9a62029">
-<h3 id="org9a62029">回帰分析の考え方</h3>
+<section id="slide-orgfc56010">
+<h3 id="orgfc56010">回帰分析の考え方</h3>
 <ul>
-<li>ある変数(目的変数)を別の変数によって説明・予測するための関係式(回帰式)を構成する
+<li>ある変数(目的変数)を別の変数(説明変数)によって説明・予測するための関係式(回帰式)を構成する
 <ul>
 <li>単回帰 : 一つの変数で目的変数を説明する</li>
 <li>重回帰 : 複数の変数で目的変数を説明する</li>
@@ -157,9 +157,9 @@
 
 </ul>
 </section>
-<section id="slide-org947c2b4">
-<h3 id="org947c2b4">単回帰の例 (<code>MASS::Animals</code>)</h3>
-<table id="org64c5620" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<section id="slide-orgeaac545">
+<h3 id="orgeaac545">単回帰の例 (<code>MASS::Animals</code>)</h3>
+<table id="org42669f4" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption class="t-above"><span class="table-number">Table 1:</span> 体重と脳の重さ</caption>
 
 <colgroup>
@@ -236,15 +236,15 @@
 </section>
 <section>
 
-<div id="org263cc02" class="figure">
+<div id="org0e0132d" class="figure">
 <p><img src="./figs/r-brainbody05.png" alt="r-brainbody05.png" width="55%" height="55%" />
 </p>
 <p><span class="figure-number">Figure 1: </span>体重と脳の重さの関係 (単回帰)</p>
 </div>
 </section>
-<section id="slide-org244abfc">
-<h3 id="org244abfc">重回帰の例 (<code>wine.csv</code>)</h3>
-<table id="org063134b" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<section id="slide-org8c47f77">
+<h3 id="org8c47f77">重回帰の例 (<code>wine.csv</code>)</h3>
+<table id="orgdd4a720" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption class="t-above"><span class="table-number">Table 2:</span> ワインの価格と生産環境</caption>
 
 <colgroup>
@@ -357,7 +357,7 @@
 </section>
 <section>
 
-<div id="org103eaed" class="figure">
+<div id="org6560347" class="figure">
 <p><img src="./figs/r-wine01.png" alt="r-wine01.png" width="55%" height="55%" />
 </p>
 <p><span class="figure-number">Figure 2: </span>ワインの価格と生産環境の関係</p>
@@ -366,14 +366,14 @@
 </section>
 <section>
 
-<div id="orgba51373" class="figure">
+<div id="orgc3793bf" class="figure">
 <p><img src="./figs/r-wine05.png" alt="r-wine05.png" width="55%" height="55%" />
 </p>
 <p><span class="figure-number">Figure 3: </span>生産環境によるワイン価格の予測 (重回帰)</p>
 </div>
 </section>
-<section id="slide-orgdc73bf6">
-<h3 id="orgdc73bf6">主成分分析の考え方</h3>
+<section id="slide-orgd4641ab">
+<h3 id="orgd4641ab">主成分分析の考え方</h3>
 <ul>
 <li>多数の変数が与えられたときに，変数のもつ構造を効率的に記述できる少数個の特徴量を構成する</li>
 <li><span style="color:green;">分析の事例</span>
@@ -385,9 +385,9 @@
 
 </ul>
 </section>
-<section id="slide-orgc1d0f7d">
-<h3 id="orgc1d0f7d">主成分分析の例 (<code>jpamenity.csv</code>)</h3>
-<table id="org7fd9494" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<section id="slide-org1430492">
+<h3 id="org1430492">主成分分析の例 (<code>jpamenity.csv</code>)</h3>
+<table id="org35b36d3" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption class="t-above"><span class="table-number">Table 3:</span> 県別の生活環境(一部)</caption>
 
 <colgroup>
@@ -488,7 +488,7 @@
 </section>
 <section>
 
-<div id="org1d0469e" class="figure">
+<div id="org74c56e2" class="figure">
 <p><img src="./figs/p-jpamenity01.png" alt="p-jpamenity01.png" width="55%" height="55%" />
 </p>
 <p><span class="figure-number">Figure 4: </span>県別の生活環境(人口動態)の散布図</p>
@@ -497,7 +497,7 @@
 </section>
 <section>
 
-<div id="orge27a720" class="figure">
+<div id="org77f698d" class="figure">
 <p><img src="./figs/p-jpamenity02.png" alt="p-jpamenity02.png" width="55%" height="55%" />
 </p>
 <p><span class="figure-number">Figure 5: </span>県別の生活環境(教育・労働)の散布図</p>
@@ -506,7 +506,7 @@
 </section>
 <section>
 
-<div id="org28879d9" class="figure">
+<div id="org979e041" class="figure">
 <p><img src="./figs/p-jpamenity03.png" alt="p-jpamenity03.png" width="55%" height="55%" />
 </p>
 <p><span class="figure-number">Figure 6: </span>県別の生活環境(貯蓄・余暇)の散布図</p>
@@ -515,14 +515,14 @@
 </section>
 <section>
 
-<div id="org5765442" class="figure">
+<div id="org566cc46" class="figure">
 <p><img src="./figs/p-jpamenity06.png" alt="p-jpamenity06.png" width="55%" height="55%" />
 </p>
 <p><span class="figure-number">Figure 7: </span>県別の生活環境の主成分分析</p>
 </div>
 </section>
-<section id="slide-org2bb49fb">
-<h3 id="org2bb49fb">判別分析の考え方</h3>
+<section id="slide-org5ad4621">
+<h3 id="org5ad4621">判別分析の考え方</h3>
 <ul>
 <li>ある個体が複数のクラスのいずれかに属するとき，その個体の特徴量からどのクラスに属するかを予測するモデルを構築する</li>
 <li><span style="color:green;">分析の事例</span>
@@ -534,9 +534,9 @@
 
 </ul>
 </section>
-<section id="slide-orgadedaba">
-<h3 id="orgadedaba">判別分析の例 (<code>MASS::biopsy</code>)</h3>
-<table id="orgbf49431" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<section id="slide-orgf6adeea">
+<h3 id="orgf6adeea">判別分析の例 (<code>MASS::biopsy</code>)</h3>
+<table id="org672f0d1" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption class="t-above"><span class="table-number">Table 4:</span> 乳癌患者の生研検査</caption>
 
 <colgroup>
@@ -709,7 +709,7 @@
 </section>
 <section>
 
-<div id="orgadbc9e4" class="figure">
+<div id="org3a67817" class="figure">
 <p><img src="./figs/d-biopsy01.png" alt="d-biopsy01.png" width="55%" height="55%" />
 </p>
 <p><span class="figure-number">Figure 8: </span>乳癌患者(良性・悪性)の生研検査の散布図</p>
@@ -718,7 +718,7 @@
 </section>
 <section>
 
-<div id="orgfb924bc" class="figure">
+<div id="orgdbe5074" class="figure">
 <p><img src="./figs/d-biopsy02.png" alt="d-biopsy02.png" width="55%" height="55%" />
 </p>
 <p><span class="figure-number">Figure 9: </span>生研検査の主成分分析</p>
@@ -727,14 +727,14 @@
 </section>
 <section>
 
-<div id="org2cdb5cf" class="figure">
+<div id="org1d2a86d" class="figure">
 <p><img src="./figs/d-biopsy03.png" alt="d-biopsy03.png" width="55%" height="55%" />
 </p>
 <p><span class="figure-number">Figure 10: </span>生研検査による乳癌患者の判別分析</p>
 </div>
 </section>
-<section id="slide-org06bd48e">
-<h3 id="org06bd48e">クラスタ分析の考え方</h3>
+<section id="slide-orgf2f142c">
+<h3 id="orgf2f142c">クラスタ分析の考え方</h3>
 <ul>
 <li>特徴量の違いに着目して，妥当な個体のグループ(クラスタ)を構成する
 <ul>
@@ -751,9 +751,9 @@
 
 </ul>
 </section>
-<section id="slide-org141d654">
-<h3 id="org141d654">クラスタ分析の例 (<code>omusubi.csv</code>)</h3>
-<table id="orgc137e03" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<section id="slide-org6e1c3f1">
+<h3 id="org6e1c3f1">クラスタ分析の例 (<code>omusubi.csv</code>)</h3>
+<table id="orgaf1495d" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption class="t-above"><span class="table-number">Table 5:</span> おむすびの具に関するアンケート</caption>
 
 <colgroup>
@@ -902,7 +902,7 @@
 </section>
 <section>
 
-<div id="org91aa8d8" class="figure">
+<div id="orga9036a5" class="figure">
 <p><img src="./figs/c-omusubi01.png" alt="c-omusubi01.png" width="55%" height="55%" />
 </p>
 <p><span class="figure-number">Figure 11: </span>おむすびの具に関するアンケート分析 (県別の集計)</p>
@@ -911,14 +911,14 @@
 </section>
 <section>
 
-<div id="org19392cf" class="figure">
+<div id="org8883ca5" class="figure">
 <p><img src="./figs/c-omusubi02.png" alt="c-omusubi02.png" width="55%" height="55%" />
 </p>
 <p><span class="figure-number">Figure 12: </span>アンケート結果にもとづく県のクラスタ分析</p>
 </div>
 </section>
-<section id="slide-orgb0a3ebc">
-<h3 id="orgb0a3ebc">時系列解析の考え方</h3>
+<section id="slide-org792755f">
+<h3 id="org792755f">時系列解析の考え方</h3>
 <ul>
 <li>時間とともに変化する現象を記述するために，未来の値を過去の値で近似する式を構成する
 <ul>
@@ -935,9 +935,9 @@
 
 </ul>
 </section>
-<section id="slide-org8bc4167">
-<h3 id="org8bc4167">時系列解析の例 (<code>datasets::AirPassengers</code>)</h3>
-<table id="orgef3d1ce" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<section id="slide-org4aa33d7">
+<h3 id="org4aa33d7">時系列解析の例 (<code>datasets::AirPassengers</code>)</h3>
+<table id="orgfd95407" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption class="t-above"><span class="table-number">Table 6:</span> 米国航空機旅客量の変遷</caption>
 
 <colgroup>
@@ -1096,7 +1096,7 @@
 </section>
 <section>
 
-<div id="org830299f" class="figure">
+<div id="org0af0858" class="figure">
 <p><img src="./figs/t-airpass01.png" alt="t-airpass01.png" width="55%" height="55%" />
 </p>
 <p><span class="figure-number">Figure 13: </span>米国航空機旅客量の変遷</p>
@@ -1105,7 +1105,7 @@
 </section>
 <section>
 
-<div id="orgf4dd56a" class="figure">
+<div id="org7e92774" class="figure">
 <p><img src="./figs/t-airpass04.png" alt="t-airpass04.png" width="55%" height="55%" />
 </p>
 <p><span class="figure-number">Figure 14: </span>階差時系列の自己相関分析</p>
@@ -1114,7 +1114,7 @@
 </section>
 <section>
 
-<div id="org174785f" class="figure">
+<div id="org60efc68" class="figure">
 <p><img src="./figs/t-airpass12.png" alt="t-airpass12.png" width="55%" height="55%" />
 </p>
 <p><span class="figure-number">Figure 15: </span>航空機旅客量の予測 (SARIMAモデルによる)</p>
@@ -1122,13 +1122,13 @@
 </section>
 </section>
 <section>
-<section id="slide-org924c788">
-<h2 id="org924c788">RStudio の構成</h2>
-<div class="outline-text-2" id="text-org924c788">
+<section id="slide-org2d3509c">
+<h2 id="org2d3509c">RStudio の構成</h2>
+<div class="outline-text-2" id="text-org2d3509c">
 </div>
 </section>
-<section id="slide-orgad49c6f">
-<h3 id="orgad49c6f">起動画面</h3>
+<section id="slide-org55e8bae">
+<h3 id="org55e8bae">起動画面</h3>
 <ul>
 <li>以下 <b>RStudio</b> を用いて説明</li>
 <li>複数の <b>タブ</b> (tab; つまみ) を含む4つの <b>ペイン</b> (pane; 枠) が立ち上がる
@@ -1147,8 +1147,8 @@
 
 </ul>
 </section>
-<section id="slide-org247f6c3">
-<h3 id="org247f6c3">コンソール (左下ペイン)</h3>
+<section id="slide-orgdfdd9dc">
+<h3 id="orgdfdd9dc">コンソール (左下ペイン)</h3>
 <ul>
 <li>R言語で記述されたコマンドを入力
 <ul>
@@ -1183,8 +1183,8 @@ R を終了させることができる
 
 </ul>
 </section>
-<section id="slide-orgc596b6c">
-<h3 id="orgc596b6c">エディタ (左上ペイン)</h3>
+<section id="slide-orgcd57b65">
+<h3 id="orgcd57b65">エディタ (左上ペイン)</h3>
 <ul>
 <li>コマンドを記述したファイルを操作</li>
 <li>一連のコマンドをまとめたり修正しながら実行
@@ -1204,8 +1204,8 @@ R を終了させることができる
 
 </ul>
 </section>
-<section id="slide-orga684e66">
-<h3 id="orga684e66">ヘルプ (右下ペイン)</h3>
+<section id="slide-org64ceb58">
+<h3 id="org64ceb58">ヘルプ (右下ペイン)</h3>
 <ul>
 <li>各関数の詳細を記述したヘルプが参照可能
 <ul>
@@ -1217,8 +1217,8 @@ R を終了させることができる
 
 </ul>
 </section>
-<section id="slide-org165be31">
-<h3 id="org165be31">パッケージ (右下ペイン)</h3>
+<section id="slide-orge8e0e8e">
+<h3 id="orge8e0e8e">パッケージ (右下ペイン)</h3>
 <ul>
 <li>パッケージを用いて機能を拡張</li>
 <li>RStudio でのインストール手順
@@ -1233,8 +1233,8 @@ R を終了させることができる
 
 </ul>
 </section>
-<section id="slide-org76a1b43">
-<h3 id="org76a1b43">作業ディレクトリ</h3>
+<section id="slide-org669a615">
+<h3 id="org669a615">作業ディレクトリ</h3>
 <ul>
 <li>プログラムが実行されるディレクトリ(フォルダ)</li>
 <li>作業ディレクトリにあるファイルの読み書きはパスを指定する必要がない</li>
@@ -1249,8 +1249,8 @@ R を終了させることができる
 
 </ul>
 </section>
-<section id="slide-org9151d66">
-<h3 id="org9151d66">プロジェクト</h3>
+<section id="slide-org62094f1">
+<h3 id="org62094f1">プロジェクト</h3>
 <ul>
 <li>作業環境をまとめて設定・保存する機能
 <ul>
@@ -1269,15 +1269,19 @@ R を終了させることができる
 <li>Github などを利用する場合は <b>Version Control</b></li>
 
 </ul></li>
-<li><b>Project Type</b> ダイアログで <b>New Project</b> を選択</li>
+<li><b>Project Type</b> ダイアログで適切なタイプを選択
+<ul>
+<li>講義では <b>Quarto Project</b> を利用</li>
+
+</ul></li>
 <li><b>Directry Name</b> とその親ディレクトリを指定</li>
 
 </ul></li>
 
 </ul>
 </section>
-<section id="slide-orgd5b9fe2">
-<h3 id="orgd5b9fe2">終了時の注意</h3>
+<section id="slide-org78d74ec">
+<h3 id="org78d74ec">終了時の注意</h3>
 <ul>
 <li><p>
 終了時にコンソールに以下のメッセージ，
@@ -1302,13 +1306,160 @@ Save workspace image<span style="color: #6c9ef8;">?</span> [y/n/c]:
 </section>
 </section>
 <section>
-<section id="slide-orgcbbf320">
-<h2 id="orgcbbf320">基本的な使い方</h2>
-<div class="outline-text-2" id="text-orgcbbf320">
+<section id="slide-org6c623db">
+<h2 id="org6c623db">Quarto の利用法</h2>
+<div class="outline-text-2" id="text-org6c623db">
 </div>
 </section>
-<section id="slide-org5e3a2ea">
-<h3 id="org5e3a2ea">計算をする</h3>
+<section id="slide-orgc14a83c">
+<h3 id="orgc14a83c">Quarto ファイルの作成</h3>
+<ul>
+<li>左上の <code>＋</code> ボタン(または&ldquo;File/New File&rdquo;)を開く</li>
+<li><b>Quarto Document</b> を選択する</li>
+<li>ダイアログに必要な情報を記入する
+<ul>
+<li>文書の &ldquo;Title/Author&rdquo; の設定</li>
+<li>フォーマットの選択 (HTML/PDF/Word)
+<ul>
+<li>講義ではHTMLを利用</li>
+
+</ul></li>
+
+</ul></li>
+<li><b>Create</b> をクリックするとファイルが作成される
+<ul>
+<li>&ldquo;Create&rdquo; は雛型の文書付き</li>
+<li>&ldquo;Create Empty Document&rdquo; はYAMLヘッダーのみ
+<ul>
+<li>慣れたらこちらで</li>
+
+</ul></li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-orge9872f6">
+<h3 id="orge9872f6">エディタの設定</h3>
+<ul>
+<li>Quarto ファイルは左上のペインに表示される</li>
+<li>左上の &ldquo;Source/Visual&rdquo; ボタンでモードが変わる
+<ul>
+<li><b>Source</b> : 装飾なしのテキストエディタ</li>
+<li><b>Visual</b> : Markdown 記法に従った装飾ありの表示</li>
+
+</ul></li>
+<li>各モードでの注意
+<ul>
+<li>Visual モードは GUI を利用して装飾を変更する</li>
+<li>History 機能は現在 Source モードでしか機能しない</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-org9fd890d">
+<h3 id="org9fd890d">コードの入力と実行</h3>
+<ul>
+<li>コードを入力するにはチャンクを作成する
+<ul>
+<li>入力したい箇所にカーソルを移動</li>
+<li>上枠の <code>+C</code> (緑)ボタン(または&ldquo;Code/Insert Chunk&rdquo;)をクリック</li>
+
+</ul></li>
+<li><code>歯車</code> ボタンで実行時の出力先を設定する
+<ul>
+<li><b>Chunk Output Inline</b> : エディタ内に出力</li>
+<li><b>Chunk Output in Console</b> : コンソール内に出力
+<ul>
+<li>講義ではコンソールを利用</li>
+
+</ul></li>
+
+</ul></li>
+<li>実行法はいくつか用意されている(<b>Run</b> ボタン参照)
+<ul>
+<li><b><code>▶</code></b> (緑色) : チャンク内を実行</li>
+<li><b><code>▽</code></b> (灰色): そのチャンク以前を実行
+<ul>
+<li>カーソル位置のみ実行することも可能</li>
+<li>ショートカットキーも用意されている</li>
+
+</ul></li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-org45651cb">
+<h3 id="org45651cb">出版</h3>
+<ul>
+<li>全体をまとめて整形することができる</li>
+<li><code>歯車</code> ボタンで出力時の挙動を設定する
+<ul>
+<li><b>Preview in Window</b> : ブラウザに表示</li>
+<li><b>Preview in Viewer Pane</b> : RStudioのViewerペインに表示
+<ul>
+<li>講義では基本的に Viewer を利用</li>
+<li>Viewer の上の左から2番目のボタンでブラウザに送ることは可能</li>
+
+</ul></li>
+
+</ul></li>
+<li>Quarto と同じ場所にファイルは保存される
+<ul>
+<li>フォーマットによって拡張子が異なる</li>
+<li>付加的なファイルは &ldquo;ファイル名 + files&rdquo; に保存される</li>
+<li><p>
+単一のファイルにするにはYAMLヘッダーで以下を宣言する
+</p>
+<div class="org-src-container">
+
+<pre class="src src-yaml">---
+format:
+  html:
+    self-contained: true
+---
+</pre>
+</div></li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-orgeba81f1">
+<h3 id="orgeba81f1">ファイルを保存する</h3>
+<ul>
+<li>以下のいずれかで保存することができる
+<ul>
+<li>左上のディスクのマーク💾をクリック</li>
+<li><b>File</b> から 
+<b>Save</b> を選択 (Ctrl/Command+S)</li>
+
+</ul></li>
+<li>ファイル作成に関する注意
+<ul>
+<li>保存する時にファイル名の入力が求められる
+<ul>
+<li><b>Quarto</b> の拡張子は通常 <b>.qmd</b> を利用</li>
+
+</ul></li>
+<li>文書はヘッダを付けてわかりやすく構造しておくと良い</li>
+<li>チャンク内の <b>#</b> 以降の文字列は実行されないのでコメントとして有用</li>
+
+</ul></li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-orga28e6c9">
+<h2 id="orga28e6c9">基本的な使い方</h2>
+<div class="outline-text-2" id="text-orga28e6c9">
+</div>
+</section>
+<section id="slide-org1603f6a">
+<h3 id="org1603f6a">計算をする</h3>
 <ul>
 <li>四則演算や数学関数は直感的な文法で計算可能</li>
 
@@ -1370,8 +1521,8 @@ Save workspace image<span style="color: #6c9ef8;">?</span> [y/n/c]:
 </tbody>
 </table>
 </section>
-<section id="slide-org0394357">
-<h3 id="org0394357">電卓として使う</h3>
+<section id="slide-org009d97a">
+<h3 id="org009d97a">電卓として使う</h3>
 <ul>
 <li><p>
 <span style="color:green;">コンソール上での計算例</span>
@@ -1398,63 +1549,8 @@ Save workspace image<span style="color: #6c9ef8;">?</span> [y/n/c]:
 
 </ul>
 </section>
-<section id="slide-orgc742fc3">
-<h3 id="orgc742fc3">エディタから実行する</h3>
-<ul>
-<li>新規ファイルの作成 (以下のいずれか)
-<ul>
-<li>左上の <b>+</b> から
-<b>R Script</b> (または <b>Quarto</b>) を選択</li>
-<li><b>File</b> から
-<b>New File</b> を選択，
-更に <b>R Script</b> を選択</li>
-
-</ul></li>
-<li>エディタ上でコマンドを記述</li>
-<li>実行範囲の選択
-<ul>
-<li>一行のみ: カーソルをその行に移動</li>
-<li>複数行: クリックしてながら移動して選択する</li>
-
-</ul></li>
-<li>選択範囲の実行 (以下のいずれか)
-<ul>
-<li>左上の <b>Run</b> をクリック</li>
-<li><b>Code</b> から 
-<b>Selected Line(s)</b> を選択
-(Ctrl/Command+Enter)</li>
-
-</ul></li>
-
-</ul>
-</section>
-<section id="slide-org146b560">
-<h3 id="org146b560">ファイルを保存する</h3>
-<ul>
-<li>以下のいずれかで保存することができる
-<ul>
-<li>左上のディスクのマークをクリック</li>
-<li><b>File</b> から 
-<b>Save</b> を選択 (Ctrl/Command+S)</li>
-
-</ul></li>
-<li>ファイル作成に関する注意
-<ul>
-<li>保存する時にファイル名の入力が求められる
-<ul>
-<li><b>R Script</b> の拡張子は通常
-<b>.R</b> または <b>.r</b> を利用</li>
-<li><b>Quarto</b> の拡張子は <b>.qmd</b> を利用</li>
-
-</ul></li>
-<li><b>#</b> 以降の文字列は実行されないのでコメントとして有用</li>
-
-</ul></li>
-
-</ul>
-</section>
-<section id="slide-org48fb028">
-<h3 id="org48fb028">関数</h3>
+<section id="slide-orgc04ad87">
+<h3 id="orgc04ad87">関数</h3>
 <ul>
 <li>関数の取り扱いは一般的な計算機言語とほぼ同様
 <ul>
@@ -1481,8 +1577,8 @@ Save workspace image<span style="color: #6c9ef8;">?</span> [y/n/c]:
 
 </ul>
 </section>
-<section id="slide-orgd770b98">
-<h3 id="orgd770b98">関数の実行例</h3>
+<section id="slide-org5157021">
+<h3 id="org5157021">関数の実行例</h3>
 <ul>
 <li><p>
 <span style="color:green;">正弦関数の計算</span>
@@ -1511,8 +1607,8 @@ sin(pi/2) <span style="color: #808080; font-style: italic;"># </span><span style
 
 </ul>
 </section>
-<section id="slide-orgd7a2585">
-<h3 id="orgd7a2585">ヘルプ機能</h3>
+<section id="slide-org3aa8a10">
+<h3 id="org3aa8a10">ヘルプ機能</h3>
 <ul>
 <li>各関数の詳細を記述したヘルプが用意されている
 <ul>
@@ -1539,8 +1635,8 @@ sin(pi/2) <span style="color: #808080; font-style: italic;"># </span><span style
 
 </ul>
 </section>
-<section id="slide-org0f9538a">
-<h3 id="org0f9538a">ヘルプ機能の利用例</h3>
+<section id="slide-org474bca3">
+<h3 id="org474bca3">ヘルプ機能の利用例</h3>
 <ul>
 <li><p>
 <span style="color:green;">ヘルプの使い方</span> 
@@ -1562,8 +1658,8 @@ sin(pi/2) <span style="color: #808080; font-style: italic;"># </span><span style
 
 </ul>
 </section>
-<section id="slide-orgc43c912">
-<h3 id="orgc43c912">データ型</h3>
+<section id="slide-orga2cdfee">
+<h3 id="orga2cdfee">データ型</h3>
 <ul>
 <li>Rではさまざまな数値を扱うことができる
 <ul>
@@ -1618,8 +1714,8 @@ sin(pi/2) <span style="color: #808080; font-style: italic;"># </span><span style
 </tbody>
 </table>
 </section>
-<section id="slide-orga96a56e">
-<h3 id="orga96a56e">オブジェクト</h3>
+<section id="slide-orgde4c67f">
+<h3 id="orgde4c67f">オブジェクト</h3>
 <ul>
 <li>変数，関数，計算結果などを <b>オブジェクト</b> と呼ぶ</li>
 <li>文字列を変数名としてオブジェクトを保持することができる</li>
@@ -1629,8 +1725,8 @@ sin(pi/2) <span style="color: #808080; font-style: italic;"># </span><span style
 
 </ul>
 </section>
-<section id="slide-org76a164f">
-<h3 id="org76a164f">オブジェクトの代入の例</h3>
+<section id="slide-org038ea57">
+<h3 id="org038ea57">オブジェクトの代入の例</h3>
 <ul>
 <li><p>
 <span style="color:green;">代入操作の例</span>
@@ -1660,8 +1756,8 @@ sin(pi/2) <span style="color: #808080; font-style: italic;"># </span><span style
 
 </ul>
 </section>
-<section id="slide-orgec0a422">
-<h3 id="orgec0a422">自作関数</h3>
+<section id="slide-orga053b81">
+<h3 id="orga053b81">自作関数</h3>
 <ul>
 <li>他の言語と同様にRでも関数を定義できる</li>
 <li><p>
@@ -1679,8 +1775,8 @@ sin(pi/2) <span style="color: #808080; font-style: italic;"># </span><span style
 
 </ul>
 </section>
-<section id="slide-org12f5d13">
-<h3 id="org12f5d13">自作関数の例</h3>
+<section id="slide-org910c0ae">
+<h3 id="org910c0ae">自作関数の例</h3>
 <ul>
 <li><p>
 <span style="color:green;">縦と横の長さを与えて長方形の面積を計算</span>
@@ -1790,8 +1886,8 @@ sin(pi/2) <span style="color: #808080; font-style: italic;"># </span><span style
 </section>
 </section>
 <section>
-<section id="slide-org13cf351">
-<h2 id="org13cf351">次回の予定</h2>
+<section id="slide-org90fb3a9">
+<h2 id="org90fb3a9">次回の予定</h2>
 <ul>
 <li>データの取り扱い</li>
 <li>描画の基礎</li>
@@ -1801,7 +1897,7 @@ sin(pi/2) <span style="color: #808080; font-style: italic;"># </span><span style
 </section>
 </section>
 <section>
-<section id="slide-orgec7ecaf">
+<section id="slide-orgd3bbad5">
 </section>
 </section>
 </div>
