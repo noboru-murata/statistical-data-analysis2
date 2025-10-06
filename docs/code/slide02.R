@@ -28,52 +28,10 @@ library(tidyverse)
 #' "foo", "bar", "baz" は使い捨ての変数名として良く用いられる
 #' その他 "tmp", "temp" なども用いられることが多い
 
-#' ---------------------------------------------------------------------------
-#' @practice データフレームの作成
-
-#' 各項目が同じ長さのベクトルを並べる
-(grade_data <- tibble( # 変数名は自由に決めてよい
-   name = c("Alice", "Bob", "Carol", "Dave", "Eve"),
-   math = c(90, 80, 70, 60, 50),
-   phys = c(25, 50, 75,100, 80),
-   chem = c(65,100, 70, 40, 75),
-   bio  = c(70, 50, 30, 80,100)))
-
-#' @notes
-#' 行・列の名前の操作
-names(grade_data)    # 列の名前を表示する
-View(grade_data) # データフレームの内容を左上ペインで表示
-glimpse(grade_data) # データフレームの内容を別の形式で表示
-#' データの取り出し方 (後ほど詳しく)
-grade_data[2,3] # 特定の要素を数値で参照する
-grade_data[2,"phys"] # 列を名前で参照する (上記と同じ結果)
-grade_data[3,] # 特定の行を表示 (データフレームになる)
-grade_data["bio"] # 特定の列を表示 (データフレームになる)
-grade_data[,"bio"] # 上記と同じ結果
-grade_data[["bio"]] # ベクトルとして取り出す (リストとしての処理)
-grade_data$bio # 上記と同じ結果
-
-#' @notes
-#' 変数や関数の名称については各自で命名規則を決めておくと良い
-#' 以下のサイトなどが参考になる
-#' - https://style.tidyverse.org/index.html
-#' - https://google.github.io/styleguide/Rguide.html
-
-#' ---------------------------------------------------------------------------
-
-#' ---------------------------------------------------------------------------
-#' @practice ファイルの読み書き
-
-#' 前の練習問題で作ったデータフレームを利用する
-write_csv(grade_data, file = "data/grade_data.csv")
-#' File タブからファイルの中身を確認することができる
-#' 以下を実行すると grade_copy というオブジェクトにファイルの内容が代入される
-(grade_copy <- read_csv(file = "data/grade_data.csv"))
-
 #' ダウンロードしたファイルの読み込み
 #' ファイル名 pcr_case_daily.csv として作業ディレクトリの data 以下に保存
 pcr_data <- read_csv("data/pcr_case_daily.csv") # 一般的な読み込み方
-View(pcr_data) # 中身を左上ペインに表示
+# View(pcr_data) # 中身を左上ペインに表示
 (pcr_colnames <- names(pcr_data)) # 列名を確認して保存 colnames(pcr_data) でも良い
 names(pcr_data) <- # 列名を扱い易いように英語略記に変更する
   c("date","niid","ciq","hc","ai","univ","mi","sub","si","total")
@@ -90,40 +48,6 @@ pcr_data # 中身を確認(10行だけ表示される)
 #' 以降の処理のために date 列を関数 lubridate::date() で date 型に変換する
 #' 列の変換・追加などには関数 dplyr::mutate() を用いる
 (pcr_data <- mutate(pcr_data, date = date(date)))
-
-#' @notes
-#' Files タブの操作で読み込みことも可能なので確認せよ
-#' 関数 print() を用いると表示する行数を指定できる
-print(pcr_data, n = 5) # 全ては n = Inf
-#' 日本語を含むファイルでは文字化けが起こった場合は以下で対応する
-#' 関数 readr::guess_encoding() でファイルの文字コードを推測する
-guess_encoding("data/pcr_case_daily.csv")
-#' "UTF-8" であると 1 の信頼度で認識される
-#' 文字コードを指定して読み込む場合は以下のように記述する
-pcr_data <- # 文字コードとして UTF-8 を指定
-  read_csv(file = "data/pcr_case_daily.csv",
-           locale = locale(encoding = "utf-8"))
-#' その他の文字コードとしては "sjis", "shift-jis", "shift_jis", 
-#' "cp932"(拡張文字を含む)などを大文字小文字は区別せず指定できる
-#' URLを指定して読み込むこともできる 
-pcr_data <- # 更新される情報を追跡する場合に利用を推奨
-  read_csv("https://www.mhlw.go.jp/content/pcr_case_daily.csv")
-#' 列名の変更にはいろいろな方法があるので適宜使用する
-#' 読み込み時に行う方法
-pcr_data <- read_csv("data/pcr_case_daily.csv",
-                     skip = 1, # 列名の行を読み飛ばす
-                     col_names = c("date","niid","ciq","hc","ai",
-                                   "univ","mi","sub","si","total"))
-pcr_data <- mutate(pcr_data, date = date(date)) # date型に変更
-#' 関数 dplyr::rename() を使う方法
-pcr_data <- read_csv("data/pcr_case_daily.csv") # そのまま読み込む
-(pcr_colnames <- set_names(names(pcr_data), # 新旧の列名に対応するベクトルを作成
-                           c("date","niid","ciq","hc","ai",
-                             "univ","mi","sub","si","total")))
-pcr_data <- rename(pcr_data, all_of(pcr_colnames)) # 列名を変更
-pcr_data <- mutate(pcr_data, date = date(date)) # date型に変更
-
-#' ---------------------------------------------------------------------------
 
 #' @exercise 要素の選択
 
@@ -160,23 +84,6 @@ pivot_longer(grade_data,
              names_to = "subject") # もとの列名を subject 列にまとめる
 #' この例ではもとのデータフレームに "name" という列があるため
 #' 既定値は使えないので，科目を表す "subject" を用いている
-
-#' ---------------------------------------------------------------------------
-#' @practice データフレームの操作
-
-#' 医療機関(mi)での検査数が2000を越えたときの国立感染症研究所(niid)と医療機関(mi)のデータ
-pcr_data |>            # データフレーム
-  filter(mi > 2000) |> # 行の条件による絞り込み
-  select(c(niid,mi))   # 列の選択 select(niid,mi) としても良い
-#' 大学等(univ)と医療機関(mi)でともに検査件数が2000を越えたデータ
-pcr_data |>
-  filter(univ > 2000 & mi > 2000) # 複合的な条件の指定
-#' 2020年3月の各機関(sub,totalは除く)の検査件数データ
-pcr_data |>
-  filter(date >= "2020-03-01" & date < "2020-04-01") |> # 日付の範囲の指定
-  select(!c(sub,total)) # 列の削除 select(-c(sub,total)), select(-sub,-total) も可
-
-#' ---------------------------------------------------------------------------
 
 #' @exercise 列ごとの集計
 
@@ -217,48 +124,6 @@ pcr_data |> # 月名
 #' Sys.setlocale(category = "LC_TIME", locale = "C")
 #' などを指定すればよい．もとに戻すには
 #' Sys.setlocale(category = "LC_TIME", locale = "")
-
-#' ---------------------------------------------------------------------------
-#' @practice データフレームの集約
-
-#' pcr_case_daily.csv の集計
-#' 各機関でのPCR検査件数の最大値
-pcr_data |> summarise(across(!date, max))
-#' max の計算で NA を除く
-pcr_data |> # max の無名関数を利用する
-  summarise(across(!date, \(x) max(x, na.rm = TRUE)))
-pcr_data |> # package::purrr の lambda 式を利用する
-  summarise(across(!date, ~ max(.x, na.rm = TRUE)))
-#' 2021年の月ごとの各機関でのPCR検査件数の最大値
-pcr_data |>
-  filter(year(date) == 2021) |>
-  group_by(month(date)) |>
-  summarise(across(!date, max))
-
-#' datasets::mtcars の集計
-#' 気筒数ごとに排気量の最大値，最小値
-mtcars |>
-  group_by(cyl) |>
-  summarise(max_disp = max(disp))
-mtcars |>
-  group_by(cyl) |>
-  summarise(min_disp = min(disp))
-mtcars |> # まとめて計算することも可能
-  group_by(cyl) |> # 列名の作られ方に注意
-  summarise(across(disp, list(max = max, min = min)))
-#' 気筒数とギア数ごとの燃費の平均値
-mtcars |>
-  group_by(cyl, gear) |>
-  summarise(mpg = mean(mpg))
-
-#' @notes
-#' グループは既定値では順次解除されるので以下のような集計も可能
-mtcars |> 
-  group_by(cyl, gear) |>
-  summarise(mpg = mean(mpg)) |> # cyl のグループは残っている
-  summarise(mpg = max(mpg)) # cyl ごとに平均値の最大値を求める
-
-#' ---------------------------------------------------------------------------
 
 #' @exercise 折れ線グラフの描画
 
@@ -347,34 +212,6 @@ pcr_data |> select(!c(sub,total)) |> # 日付から四半期の因子を作成
 #'   columns = which(!(names(pcr_data) %in% c("date","g","i")))
 #'   columnLabels = pcr_names[!(names(pcr_data) %in% c("date","g","i"))]
 
-#' ---------------------------------------------------------------------------
-#' @practice 基本的なグラフの描画
-#' (書き方はいろいろあるので，以下はあくまで一例)
-
-#' データを確認する
-pcr_data
-#' 検疫所(ciq)，地方衛生研究所.保健所(hc)，行政検査(ai)における検査件数の推移
-pcr_data |>
-  select(c(date,ciq,hc,ai)) |> # 描画対象の列を抽出
-  pivot_longer(!date, names_to = "organ", values_to = "nums") |>
-  ggplot(aes(x = date, y = nums, colour = organ)) +
-  geom_line() +
-  labs(x = "日付", y = "検査件数")
-#' y軸を対数表示にする場合は以下のとおり
-pcr_data |>
-  select(c(date,ciq,hc,ai)) |> # 描画対象の列を抽出
-  pivot_longer(!date, names_to = "organ", values_to = "nums") |>
-  ggplot(aes(x = date, y = nums, colour = organ)) +
-  geom_line() +
-  scale_y_log10() + # y軸を対数表示 (log10(0)=-Inf の警告が出る場合がある)
-  labs(x = "日付", y = "検査件数")
-#' 行政検査(ai)，大学等(univ)，医療機関(mi)での検査件数の関係(散布図)
-pcr_data |>
-  select(c(ai,univ,mi)) |> # 描画対象の列を抽出
-  ggpairs(columnLabels = pcr_colnames[c("ai","univ","mi")]) # ラベルを渡す
-
-#' ---------------------------------------------------------------------------
-
 #' @exercise ヒストグラムの描画
 
 #' 行政検査(ai)での検査件数の分布
@@ -418,40 +255,6 @@ pcr_data |>
   geom_bar(stat = "identity", position = "dodge", na.rm = TRUE) +
   theme(legend.position = "top") + guides(fill = guide_legend(nrow = 1))
 
-#' ---------------------------------------------------------------------------
-#' @practice 擬似乱数
-
-#' 関数sampleの使い方
-(x <- 1:10)   # サンプリング対象の集合を定義
-set.seed(123) # 乱数のシード値(任意に決めてよい)を指定
-sample(x, 5)                 # xから5つの要素を重複なしでランダムに抽出
-sample(x, 5, replace = TRUE) # xから5つの要素を重複ありでランダムに抽出
-sample(x, length(x))         # xの要素のランダムな並べ替え
-sample(1:6, 10, replace = TRUE)             # サイコロを10回振る実験の再現
-sample(1:6, 10, prob = 6:1, replace = TRUE) # 出る目の確率に偏りがある場合
-
-#' 関数rbinomの使い方
-rbinom(10, size = 4, prob = 0.5) # 表(1)の出る確率が0.5にコインを4枚投げる試行を10回
-rbinom(20, size = 4, prob = 0.2) # 個数を20, 確率を0.2に変更
-
-#' 関数runifの使い方
-runif(5, min = -1, max = 2) # 区間(-1,2)上の一様乱数を5個発生
-runif(5)                    # 指定しない場合は区間(0,1)が既定値
-
-#' 関数rnormの使い方
-rnorm(10, mean = 5, sd = 3) # 平均5，分散3^2の正規乱数を10個発生
-rnorm(10)                   # 指定しない場合は mu=0, sd=1 が既定値
-
-#' 関数set.seedについて
-set.seed(1) # 乱数の初期値をseed=1で指定
-runif(5) 
-set.seed(2) # 乱数の初期値をseed=2で指定
-runif(5)    # seed=1の場合と異なる結果
-set.seed(1) # 乱数の初期値をseed=1で指定
-runif(5)    # 初めのseed=1の場合と同じ結果
-
-#' ---------------------------------------------------------------------------
-
 #' @exercise 中心極限定理
 
 #' 確率変数の分布の設定 (例 : 区間[-1,1]の一様乱数)
@@ -494,45 +297,3 @@ mc_data <- replicate(mc_num, mc_trial())
 #' 簡単な集計
 table(mc_data)        # 頻度
 table(mc_data)/mc_num # 確率(推定値)
-
-#' ---------------------------------------------------------------------------
-#' @practice 双六ゲーム
-
-#' 双六の試行
-mc_trial <- function(){
-  step <- 0 # 最初の位置
-  num <- 0  # さいころを振る回数
-  while(TRUE){ # 永久に回るループ
-    step <- step + sample(1:6, 1) # さいころを振る
-    num <- num + 1 # 回数を記録
-    if(step >= 100) { # ゴールしたか?
-      return(num) # 回数を出力して関数を終了
-    }
-  }
-}
-#' 試行を行ってみる
-for(i in 1:10) print(mc_trial())
-#' Monte-Carlo実験
-set.seed(12345)
-mc_num <- 10000 # 実験回数を設定 
-mc_data <- replicate(mc_num, mc_trial()) 
-summary(mc_data) # 簡単な集計
-tibble(x = mc_data) |> # ヒストグラムを出力
-  ggplot(aes(x)) + 
-  geom_histogram(binwidth = 1,
-                 fill = "slateblue", alpha = 0.5, # 塗り潰しの色
-                 colour = "slateblue") # 縁の色
-#' 同じ試行でも関数の作り方はいろいろある
-mc_trial <- function() {
-  which.max(cumsum(sample(1:6, 100, replace = TRUE)) >= 100)
-} # 100回サイコロを振れば必ずどこかで100を越える (計算は無駄があるが条件分岐は不要)
-#' 関数 which.max() は初めて TRUE(1) になった場所を返す
-mc_data <- replicate(mc_num, mc_trial()) 
-summary(mc_data) # 簡単な集計
-tibble(x = mc_data) |> # ヒストグラムを出力
-  ggplot(aes(x)) + 
-  geom_histogram(binwidth = 1,
-                 fill = "slateblue", alpha = 0.5, # 塗り潰しの色
-                 colour = "slateblue") # 縁の色
-
-#' ---------------------------------------------------------------------------

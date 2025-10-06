@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2025-10-03 14:48:50 mura>
+# Time-stamp: <2025-10-06 15:44:48 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -43,6 +43,30 @@
   #'   @appendix 補遺 (講義では扱い切れなかった付加的な事柄)
   #' のタグで，RStudio では青(既定値)でハイライトされます
   #'
+  library(conflicted)
+  conflicts_prefer(
+    dplyr::filter(),
+    dplyr::select(),
+    dplyr::lag(),
+    )
+  library(tidyverse)
+  library(ggfortify)     # 分析結果の視覚化にggplotを利用するためのパッケージ
+  library(GGally)
+  library(ggrepel)
+  library(gt)            # 表を作成するためのパッケージ
+  library(gtsummary)
+  library(broom)
+  library(broom.helpers) # gtsummary のいくつかの関数で利用(インストールされていれば不要)
+  library(MASS)          # パッケージ MASS に含まれる判別分析のための関数を利用
+  library(cluster)       # クラスタ分析のためのパッケージ
+  library(ggdendro)      # ggplot でデンドログラムを描くためのパッケージ
+  library(tsibble)       # 時系列を扱うためのパッケージ
+  library(feasts)        # ggplotで時系列を扱うための拡張パッケージ
+  library(fable)         # 時系列関連
+  if(Sys.info()["sysname"] == "Darwin") { # macOSか調べる
+    theme_update(text = element_text(family = "HiraMaruProN-W4"))
+    label_family <- "HiraMaruProN-W4"    
+  } else {label_family <- NULL}
 #+end_src
 
 ** R言語とは
@@ -91,6 +115,7 @@
 - 機械学習で使われる手法の基礎
   - 教師あり問題 : 回帰分析(量的データ)・判別分析(質的データ)
   - 教師なし問題 : 主成分分析・クラスタ分析
+#+latex: \clearpage
     
 ** 回帰分析の考え方
 - ある変数(目的変数)を別の変数(説明変数)によって説明・予測するための関係式(回帰式)を構成する
@@ -103,7 +128,7 @@
 # ある1種類の変数/データを別の変数/データ(1種類もしくは複数)によって説明もしくは予測するための関係式(回帰方程式)を構成することを目的とする分析法
 # ある量(説明変数)を用いて注目する量(目的変数)を説明する
 
-** 単回帰の例 (~MASS::Animals~)
+** COMMENT 単回帰の例 (~MASS::Animals~)
 #+caption: 体重と脳の重さ
 #+name:   tbl:brainbody
 |                 | body [kg] | brain [g] |
@@ -125,7 +150,77 @@
 #+attr_latex: :width 0.6\linewidth
 [[file:./figs/r-brainbody05.png]]
 
-** 重回帰の例 (~wine.csv~)
+** 例 : 体重と脳の重さの関係 
+#+caption: 体重と脳の重さ 
+#+name: tbl:brainbody
+#+begin_src R :exports none
+  #' 単回帰の例
+  #' 表の作成
+  bb_data <-
+    Animals |> rownames_to_column() |> as_tibble()
+#+end_src
+#+begin_src R :exports results :results output html
+  #' データの表示(reveal用)
+  bb_data |> slice(1:14) |>
+    gt() |> as_raw_html()
+#+end_src
+#+caption: 体重と脳の重さ 
+#+name: tbl:brainbody
+#+begin_src R :exports results :results value scalar latex
+  #' データの表示(latex用)
+  bb_data |> gt() |>
+    tab_options(table.font.size = 11,
+                table.width = pct(50),
+                latex.tbl.pos = "h") |>
+    as_latex() |> as.character()
+#+end_src
+#+begin_src R :exports none
+  #' データの表示(reveal用) コンソールを模擬する場合
+  options(crayon.enabled = FALSE)
+  bb_data
+#+end_src
+
+#+reveal: split
+#+begin_src R :file figs/bb-data.png :exports results :results graphics
+  bb_p <- bb_data |>
+    ggplot(aes(body, brain)) +
+    geom_point(colour = alpha("royalblue", 0.75)) + 
+    geom_text_repel(aes(label = rowname), # 各点の名前を追加
+                             size = 3) + 
+    labs(x = "body [kg]", y="brain [g]")
+  print(bb_p) # グラフを表示
+#+end_src
+#+caption: 体重と脳の重さの関係
+#+name: fig:bb-data
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/bb-data.png]]
+
+#+reveal: split
+#+begin_src R :file figs/bb-loglog.png :exports results :results graphics
+  bb_p <- bb_p +
+    scale_x_log10() + scale_y_log10() # log-log plot を指定
+  print(bb_p) # グラフを表示
+#+end_src
+#+caption: 体重と脳の重さの関係 (対数変換)
+#+name: fig:bb-loglog
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/bb-loglog.png]]
+
+#+reveal: split
+#+begin_src R :file figs/bb-lm.png :exports results :results graphics
+bb_p <- bb_p + # 回帰式を追加
+    geom_smooth(method = "lm", 
+                colour = "dodgerblue",
+                fill = "dodgerblue")
+print(bb_p) # グラフを表示
+#+end_src
+#+caption: 回帰式とその信頼区間
+#+name: fig:bb-lm
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/bb-lm.png]]
+
+#+latex: \clearpage
+** COMMENT 重回帰の例 (~wine.csv~)
 #+caption: ワインの価格と生産環境
 #+name:   tbl:wine
 | 年号 | 価格(対数) | 冬の降雨 |    気温 | 秋の降雨 | 経過年 |
@@ -154,6 +249,82 @@
 #+attr_latex: :width 0.6\linewidth
 [[file:./figs/r-wine05.png]]
 
+** 例 : ボルドーワインの価格と気候の関係
+#+caption: ボルドーワインの価格と気候の関係
+#+name: tbl:wine
+#+begin_src R :exports none
+  #' 重回帰の例
+  #' 表の作成
+  bw_data <- read_csv(file="data/wine.csv")
+#+end_src
+#+begin_src R :exports results :results output html
+  #' データの表示(reveal用)
+  bw_data |> slice(1:14) |> gt() |> as_raw_html()
+#+end_src
+#+begin_src R :exports results :results value scalar latex
+  #' データの表示(latex用)
+  bw_data |> gt() |>
+    tab_options(table.font.size = 10,
+                table.width = pct(60),
+                latex.tbl.pos = "h") |>
+    as_latex() |> as.character()
+#+end_src
+
+#+reveal: split
+#+begin_src R :file figs/bw-pairs.png :exports results :results graphics
+  bw_data |> 
+      ggpairs(columns = 2:6,
+              lower = list(continuous = wrap("smooth_loess", colour = "blue"))) +
+      theme(axis.title.x = element_text(size = 8), # 文字の大きさを調整
+            axis.title.y = element_text(size = 8)) 
+#+end_src
+#+caption: 価格と気候の散布図
+#+name: fig:bw-pairs
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/bw-pairs.png]]
+
+#+reveal: split
+#+caption: 価格と気候の関係
+#+name: tbl:bw-lm
+#+begin_src R :exports none
+bw_fit <- lm(LPRICE2 ~ . - VINT, # VINTを除く全て
+             data = bw_data)
+#' 推定結果を表にまとめるためのパッケージ gtsummary を利用
+#+end_src
+#+begin_src R :exports results :results output html
+    #' データの表示(reveal用)
+  bw_fit |>
+      tbl_regression(estimate_fun = label_style_sigfig(digits = 4)) |>
+      add_glance_source_note(include = c(r.squared,adj.r.squared,statistic,p.value)) |>
+    as_gt() |> as_raw_html()
+#+end_src
+#+begin_src R :exports results :results value scalar latex
+  #' データの表示(latex用)
+  bw_fit |>
+      tbl_regression(estimate_fun = label_style_sigfig(digits = 4)) |>
+      add_glance_source_note(include = c(r.squared,adj.r.squared,statistic,p.value)) |>
+    as_gt() |>
+    tab_options(table.font.size = 10,
+                table.width = pct(50),
+                latex.tbl.pos = "h") |>
+    as_latex() |> as.character()
+#+end_src
+
+#+reveal: split
+#+begin_src R :file figs/bw-prediction.png :exports results :results graphics
+  bw_fit |>
+    augment() |>
+    ggplot(aes(x = LPRICE2, y = .fitted, label = VINT)) +
+    geom_text(na.rm = TRUE) + # text で表示
+    geom_abline(slope = 1, colour = "darkmagenta") +
+    labs(x = "Price (log)", y = "Prediction")
+#+end_src
+#+caption: 重回帰による予測値と実際の価格
+#+name: fig:fig-bw-prediction
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/bw-prediction.png]]
+
+#+latex: \clearpage
 ** 主成分分析の考え方
 - 多数の変数が与えられたときに，変数のもつ構造を効率的に記述できる少数個の特徴量を構成する
 - [[color:green][分析の事例]]
@@ -162,7 +333,7 @@
 
 # 全体を説明する少数の特徴量を構成する
 
-** 主成分分析の例 (~jpamenity.csv~)
+** COMMENT 主成分分析の例 (~jpamenity.csv~)
 #+caption: 県別の生活環境(一部)
 #+name:   tbl:jpamenity
 |        | 昼夜人口比 | 年少人口比 | 老年人口比 | 人口増減率 |
@@ -205,6 +376,79 @@
 #+attr_latex: :width 0.6\linewidth
 [[file:./figs/p-jpamenity06.png]]
 
+** 例 : 都道府県別の生活環境
+#+caption: 県別の生活環境(一部)
+#+name:   tbl:jpamenity
+#+begin_src R :exports none
+  #' 主成分分析の例
+  #' 表の作成
+  ja_data <- bind_cols(
+    read_csv(file = "data/prefecture.csv",
+             col_select = c(2,4)) |>
+    set_names("県名", "地方名"), # 列の名称を"県名"と"地方名"に変更
+    read_csv(file = "data/jpamenity.csv",
+             col_select = !1:2) |> slice(-1) |>
+    set_names(names(read_csv(file = "data/jpamenityitem.csv")))) # 簡略化した項目名に変更
+#+end_src
+#+begin_src R :exports results :results output html
+  #' データの表示(reveal用)
+  ja_data |>
+    select(1:12) |> slice(1:15) |> # 大きな表なので一部を選択する(列:select，行:slice)
+    gt() |> as_raw_html()
+#+end_src
+#+begin_src R :exports results :results value scalar latex
+  #' データの表示(latex用)
+  ja_data |>
+    select(1:11) |> # 大きな表なので一部を選択する(列:select，行:slice)
+    gt() |>
+    tab_options(table.font.size = 9,
+                table.width = pct(100),
+                latex.tbl.pos = "h") |>
+    as_latex() |> as.character()
+#+end_src
+
+#+reveal: split
+#+begin_src R :file figs/ja-pairs1.png :exports results :results graphics
+  ja_data |>
+    ggscatmat(columns = 3:10, color = "地方名", alpha = .5) +
+    theme(text = element_text(size = 8)) 
+#+end_src
+#+caption: 都道府県別の人口動態
+#+name:   fig:ja-pairs1
+#+attr_latex: :width 0.6\linewidth
+[[file:./figs/ja-pairs1.png]]
+
+#+reveal: split
+#+begin_src R :file figs/ja-pairs2.png :exports results :results graphics
+ja_data |>
+    ggscatmat(columns = 11:19, color = "地方名", alpha = .5) +
+    theme(text = element_text(size = 8))
+#+end_src
+#+caption: 都道府県別の教育・労働環境
+#+name:   fig:ja-pairs2
+#+attr_latex: :width 0.6\linewidth
+[[file:./figs/ja-pairs2.png]]
+
+#+reveal: split
+#+begin_src R :file figs/ja-pairs3.png :exports results :results graphics
+ja_data |>
+    ggscatmat(columns = 20:27, color = "地方名", alpha = .5) +
+    theme(text = element_text(size = 8))
+#+end_src
+#+caption: 都道府県別の貯蓄・余暇
+#+name:   fig:ja-pairs3
+#+attr_latex: :width 0.6\linewidth
+[[file:./figs/ja-pairs3.png]]
+
+#+reveal: split
+#+begin_src R :file figs/ja-biplot.png :exports results :results graphics
+#+end_src
+#+caption: 都道府県別の生活環境の主成分分析
+#+name:   fig:ja-biplot
+#+attr_latex: :width 0.6\linewidth
+[[file:./figs/ja-biplot.png]]
+
+#+latex: \clearpage
 ** 判別分析の考え方
 - ある個体が複数のクラスのいずれかに属するとき，その個体の特徴量からどのクラスに属するかを予測するモデルを構築する
 - [[color:green][分析の事例]]
@@ -214,7 +458,7 @@
 # - 花の種類を，その花の花弁の幅・長さおよび萼片(がくへん)の幅・長さから判別する
 # 特徴量の違いでカテゴリ分けを行う
 
-** 判別分析の例 (~MASS::biopsy~)
+** COMMENT 判別分析の例 (~MASS::biopsy~)
 #+caption: 乳癌患者の生研検査
 #+name:   tbl:biopsy
 |      ID | V1 | V2 | V3 | V4 | V5 | V6 | V7 | V8 | V9 | class     |
@@ -250,6 +494,68 @@
 #+attr_latex: :width 0.6\linewidth
 [[file:./figs/d-biopsy03.png]]
 
+** 例 : 乳癌患者の生研検査
+#+caption: 乳癌患者の生研検査
+#+name:   tbl:biopsy
+#+begin_src R :exports none
+  #' 判別分析の例
+  #' 表の作成
+  bio_data <- MASS::biopsy |>
+    as_tibble() |>
+    na.omit() |> # NA を除く
+    select(-ID)  # IDを除く
+#+end_src
+#+begin_src R :exports results :results output html
+  #' データの表示(reveal用)
+  bio_data |> slice(1:15) |> gt() |> as_raw_html()
+#+end_src
+#+begin_src R :exports results :results value scalar latex
+  #' データの表示(latex用)
+  bio_data |> slice(1:15) |> gt() |>
+    tab_options(table.font.size = 10,
+                table.width = pct(60),
+                latex.tbl.pos = "h") |>
+    as_latex() |> as.character()
+#+end_src
+
+#+reveal: split
+#+begin_src R :file figs/bio-pairs.png :exports results :results graphics
+  bio_data |>
+    ggpairs(diag = list(mapping = aes(colour = class)),
+                    lower = list(mapping = aes(colour = class)))
+#+end_src
+#+caption: 乳癌患者(良性・悪性)の生研検査の散布図
+#+name:   fig:bio-pairs
+#+attr_latex: :width 0.6\linewidth
+[[file:./figs/bio-pairs.png]]
+
+#+reveal: split
+#+begin_src R :file figs/bio-pca.png :exports results :results graphics
+  autoplot(bio_data |> select(where(is.numeric)) |> prcomp(), # 主成分分析
+           data = bio_data,
+           colour = "class") +
+    theme(legend.position=c(.9,.85)) 
+#+end_src
+#+caption: 生研検査の主成分分析
+#+name:   fig:bio-pca
+#+attr_latex: :width 0.6\linewidth
+[[file:./figs/bio-pca.png]]
+
+#+reveal: split
+#+begin_src R :file figs/bio-discriminant.png :exports results :results graphics
+  bio_fit <- lda(class ~ ., data = bio_data)
+  bio_data |>
+    mutate(x = predict(bio_fit)$x) |>
+    ggplot(aes(x = x)) +
+    geom_histogram(aes(fill = class), show.legend = FALSE) +
+    facet_grid(class ~ .)
+#+end_src
+#+caption: 生研検査による乳癌患者の判別分析
+#+name:   fig:bio-discriminant
+#+attr_latex: :width 0.6\linewidth
+[[file:./figs/bio-discriminant.png]]
+
+#+latex: \clearpage
 ** クラスタ分析の考え方
 - 特徴量の違いに着目して，妥当な個体のグループ(クラスタ)を構成する
   - 階層的な方法 : 系統樹を作成する
@@ -258,7 +564,7 @@
   - 映画に関するアンケート調査から潜在的なジャンル(グループ)を抽出する
   - 顧客の購買履歴から，嗜好の異なる顧客グループに分類し，グループごとの販売戦略を立てる
 
-** クラスタ分析の例 (~omusubi.csv~)
+** COMMENT クラスタ分析の例 (~omusubi.csv~)
 #+caption: おむすびの具に関するアンケート
 #+name:   tbl:omusubi
 |        |    梅 |    鮭 | 昆布 |   鰹 |  明太 |  鱈子 |  ツナ |    他 |
@@ -287,6 +593,67 @@
 #+attr_latex: :width 0.6\linewidth
 [[file:./figs/c-omusubi02.png]]
 
+** 例 : 好きなおむすびの具に関するアンケート
+#+caption: おむすびの具に関するアンケート
+#+name:   tbl:omusubi
+#+begin_src R :exports none
+  #' クラスタ分析の例
+  #' 表の作成
+  om_data <- bind_cols( 
+    read_csv(file = "data/omusubi.csv"), 
+    read_csv(file = "data/prefecture.csv")) |> # 県名・地方名の情報を付加
+    select(jp,ume:etc) |>
+    set_names(c("県名","梅","鮭","昆布","鰹","明太子","鱈子","ツナ","その他"))
+#+end_src
+#+begin_src R :exports results :results output html
+  #' データの表示(reveal用)
+  om_data |> slice(1:15) |> gt() |> as_raw_html()
+#+end_src
+#+begin_src R :exports results :results value scalar latex
+  #' データの表示(latex用)
+  om_data |> gt() |>
+    tab_options(table.font.size = 9,
+                table.width = pct(60),
+                latex.tbl.pos = "h") |>
+    as_latex() |> as.character()
+#+end_src
+
+#+reveal: split
+#+begin_src R :file figs/om-barplot.png :exports results :results graphics
+  om_data |>
+    pivot_longer(-県名) |>
+    mutate(県名 = fct_rev(as_factor(県名)),
+           name = as_factor(name)) |> 
+    ggplot(aes(y = 県名, x = value)) +
+    geom_bar(aes(fill = name),
+             stat = "identity",
+             position = position_stack(reverse=TRUE)) +
+    labs(x = "人気比率", fill = "具材") +
+    theme(axis.text.y = element_text(size = 9))
+#+end_src
+#+caption: 都道府県別の好きなおむすびの具の集計結果
+#+name:   fig:om-barplot
+#+attr_latex: :width 0.6\linewidth
+[[file:./figs/om-barplot.png]]
+
+#+reveal: split
+#+begin_src R :file figs/om-dendrogram.png :exports results :results graphics
+  om_agnes <- 
+    om_data |> 
+    column_to_rownames(var = "県名") |> 
+    sqrt() |> 
+    agnes()
+  om_agnes |> as.dendrogram() |>
+    ggdendrogram(rotate = TRUE, theme_dendro = FALSE) +
+    labs(x = "県名", y = "距離") +
+    theme(axis.text.y = element_text(size = 9))
+#+end_src
+#+caption: アンケート結果にもとづく県のクラスタ分析
+#+name:   fig:om-dendrogram
+#+attr_latex: :width 0.6\linewidth
+[[file:./figs/om-dendrogram.png]]
+
+#+latex: \clearpage
 ** 時系列解析の考え方
 - 時間とともに変化する現象を記述するために，未来の値を過去の値で近似する式を構成する
   - 自己回帰 (ARモデル) : 過去の影響の記述
@@ -295,7 +662,7 @@
   - 市町村の過去の年齢別の人口変動から将来の人口比率の推移を予測する
   - 食品・飲料の季節ごとの販売履歴から，将来の需要量を予測して生産計画を立てる
         
-** 時系列解析の例 (~datasets::AirPassengers~)
+** COMMENT 時系列解析の例 (~datasets::AirPassengers~)
 #+caption: 米国航空機旅客量の変遷
 #+name:   tbl:airpass
 |      | Jan | Feb | Mar | Apr | May | Jun | Jul | Aug | Sep | ... |
@@ -340,6 +707,79 @@
 #+attr_html: :width 55% :height 55%
 #+attr_latex: :width 0.6\linewidth
 [[file:./figs/t-airpass12.png]]
+
+** 例 : 米国航空機旅客量の変遷
+#+caption: 航空機旅客量の変遷
+#+name:   tbl:airpass
+#+begin_src R :exports none
+  #' 時系列解析の例
+  #' 表の作成
+  ap_tsbl <- AirPassengers |> as_tsibble() # 時系列向きの形式に変換
+  ap_gt <-
+    ap_tsbl |> 
+    mutate(Year = year(index),
+           Month = month(index, label = TRUE)) |>
+    as_tibble() |> select(!index) |> # 
+    pivot_wider(names_from = Month)
+#+end_src
+#+begin_src R :exports results :results output html
+  #' データの表示(reveal用)
+  ap_gt |> gt() |>
+    tab_header(title = "Monthly Airline Passenger Numbers",
+               subtitle = "1949-1960") |>
+    as_raw_html()
+#+end_src
+#+begin_src R :exports results :results value scalar latex
+  #' データの表示(latex用)
+  ap_gt |> gt() |>
+    tab_options(table.font.size = 10,
+                table.width = pct(70),
+                latex.tbl.pos = "h") |>
+    as_latex() |> as.character()
+#+end_src
+
+#+reveal: split
+#+begin_src R :file figs/ap-timeseries.png :exports results :results graphics
+  ap_tsbl |>
+      autoplot(value) +
+      labs(title = "AirPassengers",
+           x = "Year", y = "Passengers/1000")
+#+end_src
+#+caption: 旅客量の変遷
+#+name:   fig:ap-timeseries
+#+attr_latex: :width 0.6\linewidth
+[[file:./figs/ap-timeseries.png]]
+
+#+reveal: split
+#+begin_src R :file figs/ap-difference.png :exports results :results graphics
+  ap_train <- ap_tsbl |> filter_index(~ "1958-12") # 訓練データ
+  ap_test  <- ap_tsbl |> filter_index("1959-01" ~ .) # 試験データ(2年分)
+  ap_train |> 
+    gg_tsdisplay(difference(log(value)),
+                 plot_type = "partial") 
+#+end_src
+#+caption: 階差時系列の自己相関分析
+#+name:   fig:ap-difference
+#+attr_latex: :width 0.6\linewidth
+[[file:./figs/ap-difference.png]]
+
+#+reveal: split
+#+begin_src R :file figs/ap-prediction.png :exports results :results graphics
+  ap_fit <- ap_train |>
+    model(sarima = ARIMA(log(value))) # SARIMAモデルの推定(次数は自動推定)
+  ap_fit |> 
+    forecast(h = nrow(ap_test)) |>
+    autoplot(ap_train) +
+    autolayer(ap_test, value, colour = "purple") +
+    labs(title = "Forecast by SARIMA model",
+         x = "Year", y = "Passengers/1000")
+#+end_src
+#+caption: SARIMAモデルによる旅客量の予測 
+#+name:   fig:ap-prediction
+#+attr_latex: :width 0.6\linewidth
+[[file:./figs/ap-prediction.png]]
+
+#+latex: \clearpage
 
 
 * RStudio の構成
@@ -492,7 +932,7 @@
     #+end_src
 ** ファイルを保存する
 - 以下のいずれかで保存することができる
-  - 左上のディスクのマーク 💾 をクリック
+  - 左上のディスクのマークをクリック
   - *File* から 
     *Save* を選択 (Ctrl/Command+S)
 - ファイル作成に関する注意
