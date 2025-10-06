@@ -52,6 +52,22 @@ library(conflicted)
 
 ## データフレームの作成
 
+同じ長さのベクトル(関数 `base::c()` で作成)を並べる(関数 `tibble::tibble()`)．
+
+```{r}
+#| eval: false
+#' (... <- ...) は代入した結果を表示
+(foo <- tibble(one = c(1,2,3),two = c("AB","CD","EF"))) 
+(bar <- tibble(three = c("x","y","z"),four = c(0.9,0.5,-0.3)))
+```
+
+データフレームを結合する(関数 `dplyr::bind_cols()`)．
+
+```{r}
+#| eval: false
+(baz <- bind_cols(foo,bar))
+```
+
 ### 問題
 
 次の表に対応するデータフレームを作成しなさい．
@@ -70,6 +86,20 @@ library(conflicted)
 
 ## ファイルの読み書き
 
+ファイルの書き出しには関数 `readr::write_csv()` を用いる．
+
+```{r}
+#| eval: false
+write_csv(x, file = "ファイル名") # データフレームxをファイルに書き出す
+```
+
+ファイルの読み込みには関数 `readr::read_csv()` を用いる．
+
+```{r}
+#| eval: false
+y <- read_csv(file = "ファイル名") # 変数yにCSVファイルの内容を読み込む
+```
+
 ### 問題
 
 以下の問いに答えなさい．
@@ -84,6 +114,17 @@ library(conflicted)
 
 ## データフレームの操作
 
+行の選択には関数 `dplyer::filter()` を， 列の選択には関数 `dplyer::select()` を用いる．
+
+```{r}
+#| eval: false
+#' 前に作成したデータフレーム z を用いた例
+(foo <- filter(z, three >= 7))      # 列 three の値が7以上の行を選択
+(bar <- select(foo, c(one, three))) # 列 one,three を選択
+#' パイプを用いると以下のように簡潔に書ける
+z |> filter(three >= 7) |> select(one, three)
+```
+
 ### 問題
 
 `pcr_case_daily.csv` から以下の条件を満たすデータを取り出しなさい．
@@ -97,6 +138,20 @@ library(conflicted)
 ```
 
 ## データフレームの集約
+
+列の集計には関数 `dplyr::summarise()` を用いる．
+
+```{r}
+#| eval: false
+#' 練習問題のデータフレームを用いた例
+grade_data |>
+    summarise(math_mean = mean(math), nums = n()) # 数学の平均を求める
+#' 複数の列にまたがる操作には関数 dplyr::across() を利用
+grade_data |>
+    summarise(across(!name, mean))                # 名前の列以外の平均を求める
+```
+
+集計に必要な関数が用意されていない場合は， 無名関数として定義して利用すれば良い．
 
 ### 問題
 
@@ -119,6 +174,27 @@ library(conflicted)
 ```
 
 ## 基本的なグラフの描画
+
+グラフの描画には 関数 `ggplot2::ggplot()` で描画に用いるデータフレームを指定し， 描きたいグラフの種類に応じて関数 `ggplot2::geom_XXX()` を加える．
+
+```{r}
+#| eval: false
+pcr_data |> # パイプ演算子でデータフレームを関数 ggplot2::ggplot() に渡す
+  ggplot(aes(x = date)) + # date をx軸に指定
+  geom_line(aes(y = ai), colour = "blue") + # 行政検査を青
+  geom_line(aes(y = mi), colour = "red") +  # 医療機関を赤
+  labs(y = "number of tests") # y軸のラベルを変更
+```
+
+散布図行列を描くには関数 `GGally::ggpairs()` を用いると良い．
+
+```{r}
+#| eval: false
+library(GGally)
+pcr_data |>
+    select(!c(date,sub,total)) |> # 日付と集計値を除いて必要なデータフレームに整形
+    ggpairs() # 標準の散布図行列
+```
 
 ### 問題
 
