@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2025-10-06">
+<meta name="dcterms.date" content="2025-10-09">
 
 <title>第2講 R言語速習</title>
 <style>
@@ -2234,7 +2234,7 @@ vertical-align: -.125em;
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 6, 2025</p>
+      <p class="date">October 9, 2025</p>
     </div>
   </div>
   
@@ -2277,32 +2277,34 @@ vertical-align: -.125em;
 <li><code>dplyer::filter()</code> データフレームの抽出のための関数</li>
 <li><code>stats::filter()</code> 時系列処理のための線形フィルタ関数</li>
 </ul>
-<div class="callout callout-style-default callout-tip callout-titled">
+
+<div class="no-row-height column-margin column-container"><div class>
+<p>名前の衝突による不具合を避けたい場合は <code>conflicted</code> パッケージの利用を推奨する．</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(conflicted)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></section>
+<section id="データフレームの作成" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="データフレームの作成">データフレームの作成</h2>
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Tip
+参考
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>名前の衝突による不具合を避けたい場合は <code>conflicted</code> パッケージの利用を推奨する．</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(conflicted)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</section>
-<section id="データフレームの作成" class="level2">
-<h2 class="anchored" data-anchor-id="データフレームの作成">データフレームの作成</h2>
-<p>同じ長さのベクトル(関数 <code>base::c()</code> で作成)を並べる(関数 <code>tibble::tibble()</code>)．</p>
+<p>データフレームは 同じ長さのベクトル(関数 <code>base::c()</code> で作成)を関数 <code>tibble::tibble()</code> に渡して作成する．</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39; (... &lt;- ...) は代入した結果を表示</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>(foo <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">one =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>),<span class="at">two =</span> <span class="fu">c</span>(<span class="st">&quot;AB&quot;</span>,<span class="st">&quot;CD&quot;</span>,<span class="st">&quot;EF&quot;</span>))) </span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>(bar <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">three =</span> <span class="fu">c</span>(<span class="st">&quot;x&quot;</span>,<span class="st">&quot;y&quot;</span>,<span class="st">&quot;z&quot;</span>),<span class="at">four =</span> <span class="fu">c</span>(<span class="fl">0.9</span>,<span class="fl">0.5</span>,<span class="sc">-</span><span class="fl">0.3</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>データフレームを結合する(関数 <code>dplyr::bind_cols()</code>)．</p>
+<p>データフレームを結合するには関数 <code>dplyr::bind_cols()</code> を用いる．</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>(baz <span class="ot">&lt;-</span> <span class="fu">bind_cols</span>(foo,bar))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
 </div>
 <section id="問題" class="level3">
 <h3 class="anchored" data-anchor-id="問題">問題</h3>
@@ -2356,7 +2358,7 @@ Tip
 </tbody>
 </table>
 </section>
-<section id="解答例" class="level3">
+<section id="解答例" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="解答例">解答例</h3>
 <p>各項目が同じ長さのベクトルなので，これらを並べればよい．</p>
 <div class="cell">
@@ -2459,27 +2461,27 @@ $ bio  &lt;dbl&gt; 70, 50, 30, 80, 100</code></pre>
 <pre><code>[1]  70  50  30  80 100</code></pre>
 </div>
 </div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
+
+<div class="no-row-height column-margin column-container"><div class>
 <p>変数や関数の名称については各自で命名規則を決めておくと良い． 例えば以下のサイトが参考になる．</p>
 <ul>
 <li><a href="https://style.tidyverse.org/index.html" class="uri">https://style.tidyverse.org/index.html</a></li>
 <li><a href="https://google.github.io/styleguide/Rguide.html" class="uri">https://google.github.io/styleguide/Rguide.html</a></li>
 </ul>
-</div>
-</div>
-</section>
+</div></div></section>
 </section>
 <section id="ファイルの読み書き" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="ファイルの読み書き">ファイルの読み書き</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+参考
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>ファイルの書き出しには関数 <code>readr::write_csv()</code> を用いる．</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(x, <span class="at">file =</span> <span class="st">&quot;ファイル名&quot;</span>) <span class="co"># データフレームxをファイルに書き出す</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -2487,6 +2489,8 @@ Tip
 <p>ファイルの読み込みには関数 <code>readr::read_csv()</code> を用いる．</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file =</span> <span class="st">&quot;ファイル名&quot;</span>) <span class="co"># 変数yにCSVファイルの内容を読み込む</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
 </div>
 <section id="問題-1" class="level3">
 <h3 class="anchored" data-anchor-id="問題-1">問題</h3>
@@ -2625,16 +2629,8 @@ Tip
 # ℹ 1,165 more rows</code></pre>
 </div>
 </div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
+
+<div class="no-row-height column-margin column-container"><div class>
 <p>以下，この項で用いた関数に関する補足．</p>
 <div class="sourceCode" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39; 関数 print() を用いると表示する行数を指定できる</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(pcr_data, <span class="at">n =</span> <span class="dv">5</span>) <span class="co"># 全ては n = Inf</span></span>
@@ -2665,12 +2661,20 @@ Tip
 <span id="cb43-27"><a href="#cb43-27" aria-hidden="true" tabindex="-1"></a>                             <span class="st">&quot;univ&quot;</span>,<span class="st">&quot;mi&quot;</span>,<span class="st">&quot;sub&quot;</span>,<span class="st">&quot;si&quot;</span>,<span class="st">&quot;total&quot;</span>)))</span>
 <span id="cb43-28"><a href="#cb43-28" aria-hidden="true" tabindex="-1"></a>pcr_data <span class="ot">&lt;-</span> <span class="fu">rename</span>(pcr_data, <span class="fu">all_of</span>(pcr_colnames)) <span class="co"># 列名を変更</span></span>
 <span id="cb43-29"><a href="#cb43-29" aria-hidden="true" tabindex="-1"></a>pcr_data <span class="ot">&lt;-</span> <span class="fu">mutate</span>(pcr_data, <span class="at">date =</span> <span class="fu">date</span>(date)) <span class="co"># date型に変更</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</section>
+</div></div></section>
 </section>
 <section id="データフレームの操作" class="level2">
 <h2 class="anchored" data-anchor-id="データフレームの操作">データフレームの操作</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+参考
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>行の選択には関数 <code>dplyer::filter()</code> を， 列の選択には関数 <code>dplyer::select()</code> を用いる．</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39; 前に作成したデータフレーム z を用いた例</span></span>
@@ -2678,6 +2682,8 @@ Tip
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>(bar <span class="ot">&lt;-</span> <span class="fu">select</span>(foo, <span class="fu">c</span>(one, three))) <span class="co"># 列 one,three を選択</span></span>
 <span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39; パイプを用いると以下のように簡潔に書ける</span></span>
 <span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>z <span class="sc">|&gt;</span> <span class="fu">filter</span>(three <span class="sc">&gt;=</span> <span class="dv">7</span>) <span class="sc">|&gt;</span> <span class="fu">select</span>(one, three)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
 </div>
 <section id="問題-2" class="level3">
 <h3 class="anchored" data-anchor-id="問題-2">問題</h3>
@@ -2751,8 +2757,18 @@ Tip
 </div>
 </section>
 </section>
-<section id="データフレームの集約" class="level2">
+<section id="データフレームの集約" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="データフレームの集約">データフレームの集約</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+参考
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>列の集計には関数 <code>dplyr::summarise()</code> を用いる．</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39; 練習問題のデータフレームを用いた例</span></span>
@@ -2763,6 +2779,8 @@ Tip
 <span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="sc">!</span>name, mean))                <span class="co"># 名前の列以外の平均を求める</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>集計に必要な関数が用意されていない場合は， 無名関数として定義して利用すれば良い．</p>
+</div>
+</div>
 <section id="問題-3" class="level3">
 <h3 class="anchored" data-anchor-id="問題-3">問題</h3>
 <p><code>pcr_case_daily.csv</code> について以下の集計を行いなさい．</p>
@@ -2776,7 +2794,7 @@ Tip
 <li>気筒数 (cyl) とギア数 (gear) ごとの燃費 (mpg) の平均値．</li>
 </ol>
 </section>
-<section id="解答例-3" class="level3">
+<section id="解答例-3" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="解答例-3">解答例</h3>
 <p><code>pcr_case_daily.csv</code> において各機関でのPCR検査件数の最大値を求めるには基本的には以下のようにすればよい．</p>
 <div class="cell">
@@ -2884,16 +2902,8 @@ Tip
 8     8     5  15.4</code></pre>
 </div>
 </div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
+
+<div class="no-row-height column-margin column-container"><div class>
 <p>グループは既定値では順次解除されるので以下のような集計も可能である．</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>mtcars <span class="sc">|&gt;</span> </span>
@@ -2901,12 +2911,20 @@ Tip
 <span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">mpg =</span> <span class="fu">mean</span>(mpg)) <span class="sc">|&gt;</span> <span class="co"># cyl のグループは残っている</span></span>
 <span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">mpg =</span> <span class="fu">max</span>(mpg)) <span class="co"># cyl ごとに平均値の最大値を求める</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-</div>
-</section>
+</div></div></section>
 </section>
 <section id="基本的なグラフの描画" class="level2">
 <h2 class="anchored" data-anchor-id="基本的なグラフの描画">基本的なグラフの描画</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+参考
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>グラフの描画には 関数 <code>ggplot2::ggplot()</code> で描画に用いるデータフレームを指定し， 描きたいグラフの種類に応じて関数 <code>ggplot2::geom_XXX()</code> を加える．</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>pcr_data <span class="sc">|&gt;</span> <span class="co"># パイプ演算子でデータフレームを関数 ggplot2::ggplot() に渡す</span></span>
@@ -2921,6 +2939,8 @@ Tip
 <span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>pcr_data <span class="sc">|&gt;</span></span>
 <span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="sc">!</span><span class="fu">c</span>(date,sub,total)) <span class="sc">|&gt;</span> <span class="co"># 日付と集計値を除いて必要なデータフレームに整形</span></span>
 <span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggpairs</span>() <span class="co"># 標準の散布図行列</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
 </div>
 <section id="問題-4" class="level3">
 <h3 class="anchored" data-anchor-id="問題-4">問題</h3>
@@ -3078,7 +3098,7 @@ Tip
 </div>
 </section>
 </section>
-<section id="双六ゲーム" class="level2">
+<section id="双六ゲーム" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="双六ゲーム">双六ゲーム</h2>
 <section id="問題-6" class="level3">
 <h3 class="anchored" data-anchor-id="問題-6">問題</h3>
@@ -3090,7 +3110,7 @@ Tip
 </ul>
 <p>さいころを振る回数の分布がどうなるか実験を行いなさい．</p>
 </section>
-<section id="解答例-6" class="level3">
+<section id="解答例-6" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="解答例-6">解答例</h3>
 <p>双六の試行を行う関数を作成する．</p>
 <div class="cell">
@@ -3106,23 +3126,13 @@ Tip
 <span id="cb104-10"><a href="#cb104-10" aria-hidden="true" tabindex="-1"></a>    }</span>
 <span id="cb104-11"><a href="#cb104-11" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
+
+<div class="no-row-height column-margin column-container"><div class>
 <p>同じ試行でも関数の作り方はいろいろある． 例えば100回サイコロを振れば必ずどこかで100を越えるので，計算は無駄があるが条件分岐のない関数を考えることもできる．</p>
 <div class="sourceCode" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a>mc_trial <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
 <span id="cb105-2"><a href="#cb105-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">which.max</span>(<span class="fu">cumsum</span>(<span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="dv">100</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)) <span class="sc">&gt;=</span> <span class="dv">100</span>)</span>
 <span id="cb105-3"><a href="#cb105-3" aria-hidden="true" tabindex="-1"></a>} <span class="co"># 関数 which.max() は初めて TRUE(1) になった場所を返す</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-<p>試しに10回の試行を実行してみる．</p>
+</div></div><p>試しに10回の試行を実行してみる．</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) <span class="fu">print</span>(<span class="fu">mc_trial</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">

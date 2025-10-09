@@ -15,7 +15,9 @@
 
 <link rel="stylesheet" href="./reveal.js/plugin/menu/menu.css"/>
 
-<link rel="stylesheet" href="./reveal.js/plugin/drawer/drawer.css"/>
+<link rel="stylesheet" href="./reveal.js/plugin/menu/font-awesome/css/fontawesome.css"/>
+
+<link rel="stylesheet" href="./reveal.js/plugin/chalkboard/style.css"/>
 
 <link rel="stylesheet" href="./reveal.js/local/mycourse.css"/>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -43,8 +45,8 @@
 
 </section>
 <section>
-<section id="slide-org6e00ed9">
-<h2 id="org6e00ed9">講義概要</h2>
+<section id="slide-org91fb6a9">
+<h2 id="org91fb6a9">講義概要</h2>
 <ul>
 <li><b>第1回 : 回帰モデルの考え方と推定</b></li>
 <li>第2回 : モデルの評価</li>
@@ -54,13 +56,13 @@
 </section>
 </section>
 <section>
-<section id="slide-org595d593">
-<h2 id="org595d593">回帰分析の考え方</h2>
-<div class="outline-text-2" id="text-org595d593">
+<section id="slide-org86f08b7">
+<h2 id="org86f08b7">回帰分析の考え方</h2>
+<div class="outline-text-2" id="text-org86f08b7">
 </div>
 </section>
-<section id="slide-org3ae8350">
-<h3 id="org3ae8350">回帰分析</h3>
+<section id="slide-orgd6cba4b">
+<h3 id="orgd6cba4b">回帰分析</h3>
 <ul>
 <li>ある変量を別の変量で説明する関係式を構成する</li>
 <li>関係式 : <b>回帰式</b> (regression equation)
@@ -78,8 +80,8 @@
 
 </ul>
 </section>
-<section id="slide-orgdd0dc83">
-<h3 id="orgdd0dc83">一般の回帰の枠組</h3>
+<section id="slide-orgaff2a86">
+<h3 id="orgaff2a86">一般の回帰の枠組</h3>
 <ul>
 <li><b>説明変数</b> : \(x_1,\dotsc,x_p\) (p次元)</li>
 <li><b>目的変数</b> : \(y\) (1次元)</li>
@@ -108,8 +110,8 @@
 
 </ul>
 </section>
-<section id="slide-orgb852316">
-<h3 id="orgb852316">線形回帰</h3>
+<section id="slide-org81a8ea4">
+<h3 id="org81a8ea4">線形回帰</h3>
 <ul>
 <li>任意の \(f\) では一般的すぎて分析に不向き</li>
 <li><p>
@@ -141,8 +143,8 @@
 
 </ul>
 </section>
-<section id="slide-orgb3b44d1">
-<h3 id="orgb3b44d1">回帰係数</h3>
+<section id="slide-org16434cb">
+<h3 id="org16434cb">回帰係数</h3>
 <ul>
 <li><p>
 線形回帰式
@@ -169,8 +171,8 @@
 
 </ul>
 </section>
-<section id="slide-org489334d">
-<h3 id="org489334d">回帰の確率モデル</h3>
+<section id="slide-org2b9f3de">
+<h3 id="org2b9f3de">回帰の確率モデル</h3>
 <ul>
 <li>回帰式の不確定性
 <ul>
@@ -205,13 +207,13 @@
 </section>
 </section>
 <section>
-<section id="slide-orgfd89cf9">
-<h2 id="orgfd89cf9">回帰係数の推定</h2>
-<div class="outline-text-2" id="text-orgfd89cf9">
+<section id="slide-org837670a">
+<h2 id="org837670a">回帰係数の推定</h2>
+<div class="outline-text-2" id="text-org837670a">
 </div>
 </section>
-<section id="slide-orgb843855">
-<h3 id="orgb843855">残差</h3>
+<section id="slide-org6d6395e">
+<h3 id="org6d6395e">残差</h3>
 <ul>
 <li><b>残差</b> (residual) :
 回帰式で説明できない変動</li>
@@ -233,8 +235,8 @@
 
 </ul>
 </section>
-<section id="slide-orged7e61a">
-<h3 id="orged7e61a">最小二乗法</h3>
+<section id="slide-orge6ef1ce">
+<h3 id="orge6ef1ce">最小二乗法</h3>
 <ul>
 <li><p>
 <b>残差平方和</b> (residual sum of squares)
@@ -273,8 +275,8 @@
 
 </ul>
 </section>
-<section id="slide-orge133d06">
-<h3 id="orge133d06">行列の定義</h3>
+<section id="slide-org543b5b6">
+<h3 id="org543b5b6">行列の定義</h3>
 <ul>
 <li><p>
 デザイン行列 (design matrix)
@@ -300,8 +302,8 @@
 
 </ul>
 </section>
-<section id="slide-orgf030234">
-<h3 id="orgf030234">ベクトルの定義</h3>
+<section id="slide-orgd72a840">
+<h3 id="orgd72a840">ベクトルの定義</h3>
 <ul>
 <li><p>
 目的変数，誤差，回帰係数のベクトル
@@ -342,8 +344,8 @@
 
 </ul>
 </section>
-<section id="slide-org0f770c1">
-<h3 id="org0f770c1">行列・ベクトルによる表現</h3>
+<section id="slide-org749a1a8">
+<h3 id="org749a1a8">行列・ベクトルによる表現</h3>
 <ul>
 <li><p>
 確率モデル
@@ -373,8 +375,8 @@
 
 </ul>
 </section>
-<section id="slide-orgd4eb89a">
-<h3 id="orgd4eb89a">解の条件</h3>
+<section id="slide-org35047b0">
+<h3 id="org35047b0">解の条件</h3>
 <ul>
 <li><p>
 解 \(\boldsymbol{\beta}\) では残差平方和の勾配は零ベクトル
@@ -415,13 +417,13 @@
 </section>
 </section>
 <section>
-<section id="slide-orgd2ffef0">
-<h2 id="orgd2ffef0">正規方程式</h2>
-<div class="outline-text-2" id="text-orgd2ffef0">
+<section id="slide-org57e0ca8">
+<h2 id="org57e0ca8">正規方程式</h2>
+<div class="outline-text-2" id="text-org57e0ca8">
 </div>
 </section>
-<section id="slide-orgcda9778">
-<h3 id="orgcda9778">正規方程式</h3>
+<section id="slide-org6538102">
+<h3 id="org6538102">正規方程式</h3>
 <ul>
 <li><p>
 <b>正規方程式</b> (normal equation)
@@ -444,8 +446,8 @@
 
 </ul>
 </section>
-<section id="slide-org3808404">
-<h3 id="org3808404">正規方程式の解</h3>
+<section id="slide-orgf41c0e3">
+<h3 id="orgf41c0e3">正規方程式の解</h3>
 <ul>
 <li>正規方程式の基本的な性質
 <ul>
@@ -477,125 +479,18 @@
 </section>
 </section>
 <section>
-<section id="slide-org3c3ad80" data-background="#fef4f4">
-<h2 id="org3c3ad80">実習</h2>
-</section>
-<section id="slide-org460f048">
-<h3 id="org460f048">R : 線形モデルの推定</h3>
-<ul>
-<li><p>
-関数 <code>stats::lm()</code> による推定
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R">lm(formula, data, subset, weights, na.action,
-   method = <span style="color: #d08928;">"qr"</span>, model = <span style="color: #00aa80;">TRUE</span>, x = <span style="color: #00aa80;">FALSE</span>, y = <span style="color: #00aa80;">FALSE</span>, qr = <span style="color: #00aa80;">TRUE</span>,
-   singular.ok = <span style="color: #00aa80;">TRUE</span>, contrasts = <span style="color: #00aa80;">NULL</span>, offset, ...)
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> formula: &#30446;&#30340;&#22793;&#25968;&#21517; ~ &#35500;&#26126;&#22793;&#25968;&#21517;(&#35079;&#25968;&#12354;&#12427;&#22580;&#21512;&#12399; + &#12391;&#20006;&#12409;&#12427;)</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> data: &#30446;&#30340;&#22793;&#25968;&#65292;&#35500;&#26126;&#22793;&#25968;&#12434;&#21547;&#12416;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> subset: &#25512;&#23450;&#12395;&#29992;&#12356;&#12427;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12398;&#37096;&#20998;&#38598;&#21512;&#12434;&#25351;&#23450;(&#25351;&#23450;&#12375;&#12394;&#12369;&#12428;&#12400;&#20840;&#12390;)</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> na.action: &#27424;&#25613;&#12398;&#25201;&#12356;&#12434;&#25351;&#23450;(&#26082;&#23450;&#20516;&#12399;option("na.action")&#12391;&#35373;&#23450;&#12373;&#12428;&#12383;&#20966;&#29702;)</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> model,x,y,qr: &#36820;&#20516;&#12395;model.frame,model.matrix,&#30446;&#30340;&#22793;&#25968;,QR&#20998;&#35299;&#12434;&#21547;&#12416;&#12363;&#25351;&#23450;</span>
-</pre>
-</div></li>
-
-</ul>
-</section>
-<section id="slide-orgb50ff51">
-<h3 id="orgb50ff51">例 : ボルドーワインの価格と気候</h3>
-<ul>
-<li><p>
-配布データ <code>wine.csv</code> の回帰分析
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R">bw_data <span style="color: #60aa00;">&lt;-</span> read_csv(file=<span style="color: #d08928;">"data/wine.csv"</span>)  <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#12487;&#12540;&#12479;&#12398;&#35501;&#12415;&#36796;&#12415;</span>
-bw_fit <span style="color: #60aa00;">&lt;-</span> lm(formula = LPRICE2 ~ . - VINT, <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">VINT&#12434;&#38500;&#12367;&#20840;&#12390;</span>
-             data = bw_data) 
-</pre>
-</div>
-<div class="org-src-container">
-
-<pre class="src src-R">bw_fit <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#25512;&#23450;&#32080;&#26524;&#12398;&#31777;&#21336;&#12394;&#34920;&#31034;</span>
-</pre>
-</div>
-
-<pre class="example">
-
-Call:
-lm(formula = LPRICE2 ~ . - VINT, data = bw_data)
-
-Coefficients:
-(Intercept)        WRAIN      DEGREES        HRAIN  
- -12.145334     0.001167     0.616392    -0.003861  
-    TIME_SV  
-   0.023847
-</pre></li>
-
-</ul>
-</section>
-<section id="slide-org01b4d4f" data-background="#fef4f4">
-<h3 id="org01b4d4f">練習問題</h3>
-<ul>
-<li><p>
-データセット <code>Advertising.csv</code> は
-広告費 (TV, radio, newspapers) と売上の関係を調べたものである．
-このデータセットを用いて以下の回帰式を推定しなさい．
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R">formula = sales ~ TV 
-formula = sales ~ radio
-formula = sales ~ TV + radio
-</pre>
-</div>
-<ul>
-<li>URL : <a href="https://www.statlearning.com/s/Advertising.csv">https://www.statlearning.com/s/Advertising.csv</a></li>
-<li><p>
-データに関する記載事項 (<a href="https://www.statlearning.com">https://www.statlearning.com</a> より) 
-</p>
-<blockquote>
-<p>
-Datasets in this presentation are taken from &ldquo;An Introduction to
-Statistical Learning, with applications in R&rdquo; (Springer, 2013)
-with permission from the authors: G. James, D. Witten, T. Hastie
-and R. Tibshirani.
-</p>
-</blockquote></li>
-
-</ul></li>
-
-</ul>
-</section>
-<section id="slide-orgb9cadb7" data-background="#fef4f4">
-<h3 id="orgb9cadb7">練習問題</h3>
-<ul>
-<li><p>
-データセット <code>tokyo_weather.csv</code> は
-気象庁より取得した東京の気候データを回帰分析用に整理したものである．
-このデータセットのうち，9月の気候データを用いて，以下の回帰式を推定しなさい．
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R">formula = temp ~ solar + press
-</pre>
-</div>
-<ul>
-<li>参考 : <a href="https://www.data.jma.go.jp/gmd/risk/obsdl/index.php">https://www.data.jma.go.jp/gmd/risk/obsdl/index.php</a></li>
-
-</ul></li>
-
-</ul>
+<section id="slide-orgadee808" data-background="#fef4f4">
+<h2 id="orgadee808">実習</h2>
 </section>
 </section>
 <section>
-<section id="slide-orgd95b4c2">
-<h2 id="orgd95b4c2">最小二乗推定量の性質</h2>
-<div class="outline-text-2" id="text-orgd95b4c2">
+<section id="slide-org6733d85">
+<h2 id="org6733d85">最小二乗推定量の性質</h2>
+<div class="outline-text-2" id="text-org6733d85">
 </div>
 </section>
-<section id="slide-org5fd355e">
-<h3 id="org5fd355e">解析の上での良い条件</h3>
+<section id="slide-org9ac78d1">
+<h3 id="org9ac78d1">解析の上での良い条件</h3>
 <ul>
 <li><p>
 最小二乗推定量がただ一つだけ存在する条件 
@@ -613,8 +508,8 @@ and R. Tibshirani.
 
 </ul>
 </section>
-<section id="slide-orgb254589">
-<h3 id="orgb254589">解析の上での良くない条件</h3>
+<section id="slide-orgb334ea4">
+<h3 id="orgb334ea4">解析の上での良くない条件</h3>
 <ul>
 <li>説明変数が1次従属 : <b>多重共線性</b> (multicollinearity)</li>
 <li>多重共線性が強くならないように説明変数を選択
@@ -627,8 +522,8 @@ and R. Tibshirani.
 
 </ul>
 </section>
-<section id="slide-org5969d6b">
-<h3 id="org5969d6b">推定の幾何学的解釈</h3>
+<section id="slide-orgc8a8532">
+<h3 id="orgc8a8532">推定の幾何学的解釈</h3>
 <ul>
 <li><p>
 <b>あてはめ値 / 予測値</b> (fitted values / predicted values)
@@ -650,7 +545,7 @@ and R. Tibshirani.
 </ul>
 
 
-<div id="org434e3ab" class="figure">
+<div id="org9040eac" class="figure">
 <p><img src="./figs/projection.png" alt="projection.png" width="60%" />
 </p>
 <p><span class="figure-number">Figure 1: </span>\(n=3\) , \(p+1=2\) の場合の最小二乗法による推定</p>
@@ -683,8 +578,8 @@ and R. Tibshirani.
 
 </ul>
 </section>
-<section id="slide-org4ae5671">
-<h3 id="org4ae5671">線形回帰式と標本平均</h3>
+<section id="slide-org2e07713">
+<h3 id="org2e07713">線形回帰式と標本平均</h3>
 <ul>
 <li>\(\boldsymbol{x}_i=(x_{i1},\dotsc,x_{ip})^{\mathsf{T}}\):
 \(i\) 番目の観測データの説明変数</li>
@@ -722,143 +617,18 @@ and R. Tibshirani.
 </section>
 </section>
 <section>
-<section id="slide-orgb13ffde" data-background="#fef4f4">
-<h2 id="orgb13ffde">実習</h2>
-</section>
-<section id="slide-org398762c">
-<h3 id="org398762c">R : 推定結果からの情報の取得</h3>
-<ul>
-<li><p>
-関数 <code>lm()</code> の出力には様々な情報が含まれる
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> lm&#12398;&#20986;&#21147;&#12434;&#24341;&#25968;&#12392;&#12377;&#12427; base R &#12398;&#38306;&#25968;&#12398;&#20363;</span>
-base::summary(lm&#12398;&#20986;&#21147;)       <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#25512;&#23450;&#32080;&#26524;&#12398;&#12414;&#12392;&#12417;</span>
-stats::coef(lm&#12398;&#20986;&#21147;)         <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#25512;&#23450;&#12373;&#12428;&#12383;&#22238;&#24112;&#20418;&#25968;</span>
-stats::fitted(lm&#12398;&#20986;&#21147;)       <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#12354;&#12390;&#12399;&#12417;&#20516;</span>
-stats::resid(lm&#12398;&#20986;&#21147;)        <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#27531;&#24046;</span>
-stats::model.frame(lm&#12398;&#20986;&#21147;)  <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">model&#12395;&#24517;&#35201;&#12394;&#22793;&#25968;&#12398;&#25277;&#20986; (&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;)</span>
-stats::model.matrix(lm&#12398;&#20986;&#21147;) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#12487;&#12470;&#12452;&#12531;&#34892;&#21015;</span>
-</pre>
-</div></li>
-
-</ul>
-</section>
-<section id="slide-org10e4ada">
-<h3 id="org10e4ada">R : broom パッケージ</h3>
-<ul>
-<li>関数 <code>base::summary()</code> の tidyverse 版</li>
-<li><p>
-関数 <code>stats::lm()</code> の結果を tibble 形式で表示
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#25512;&#23450;&#32080;&#26524;&#12398; tibble &#24418;&#24335;&#12391;&#12398;&#34920;&#31034;</span>
-broom::tidy(lm&#12398;&#20986;&#21147;)    <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#25512;&#23450;&#32080;&#26524;&#12398;&#12414;&#12392;&#12417;&#65294;coef(summary(lm&#12398;&#20986;&#21147;)) &#12392;&#21516;&#27096;</span>
-broom::glance(lm&#12398;&#20986;&#21147;)  <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#35413;&#20385;&#25351;&#27161;(&#32113;&#35336;&#37327;)&#12398;&#12414;&#12392;&#12417;&#65294;&#27770;&#23450;&#20418;&#25968;&#12420;F&#20516;&#12394;&#12393;&#12434;&#25972;&#29702;</span>
-broom::augment(lm&#12398;&#20986;&#21147;) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#20837;&#20986;&#21147;&#12487;&#12540;&#12479;&#12398;&#12414;&#12392;&#12417;&#65294;&#12354;&#12390;&#12399;&#12417;&#20516;&#12539;&#27531;&#24046;&#12394;&#12393;&#12434;&#25972;&#29702;</span>
-</pre>
-</div></li>
-
-</ul>
-</section>
-<section id="slide-org7c25fb8">
-<h3 id="org7c25fb8">R : 行列とベクトル</h3>
-<ul>
-<li>データフレーム以外の重要なデータ構造
-<ul>
-<li>ベクトル (vector) : 1次元の配列</li>
-<li>行列 (matrix) : 2次元の同じデータ型の配列</li>
-
-</ul></li>
-<li><p>
-必要であれば明示的に変換できる
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R">as.vector(&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;[&#21015;&#21517;]) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">base::as.vector()</span>
-as_vector(&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;[&#21015;&#21517;]) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">purrr::as_vector()</span>
-as.matrix(&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">base::as.matrix()</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12434;&#34892;&#21015;&#12395;&#22793;&#25563;&#12377;&#12427;&#22580;&#21512;&#12399;&#20840;&#12390;&#21516;&#12376;&#12487;&#12540;&#12479;&#22411;&#12391;&#12394;&#12367;&#12390;&#12399;&#12394;&#12425;&#12394;&#12356;</span>
-</pre>
-</div></li>
-
-</ul>
-</section>
-<section id="slide-org9d94dc4">
-<h3 id="org9d94dc4">R : 行列とベクトルの計算</h3>
-<ul>
-<li><p>
-行列 \(A,B\) の積 \(AB\) および
-ベクトル \(a,b\) の内積 \(a\cdot b\)
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R">A <span style="color: #60aa00;">%*%</span> B <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#34892;&#21015;&#12398;&#22823;&#12365;&#12373;&#12399;&#36969;&#20999;&#12391;&#12354;&#12427;&#24517;&#35201;&#12364;&#12354;&#12427;</span>
-a <span style="color: #60aa00;">%*%</span> b <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#12505;&#12463;&#12488;&#12523;&#12399;&#21516;&#12376;&#38263;&#12373;&#12391;&#12354;&#12427;&#24517;&#35201;&#12364;&#12354;&#12427;</span>
-</pre>
-</div></li>
-<li><p>
-正方行列 \(A\) の逆行列 \(A^{-1}\)
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R">solve(A) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#20182;&#12395;&#12418;&#12356;&#12367;&#12388;&#12363;&#38306;&#25968;&#12399;&#12354;&#12427;</span>
-</pre>
-</div></li>
-<li><p>
-\(X^{\mathsf{T}}Y\) および \(X^{\mathsf{T}}X\) の計算
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R">crossprod(X, Y) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">cross product &#12398;&#30053;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> X: &#34892;&#21015; (&#12414;&#12383;&#12399;&#12505;&#12463;&#12488;&#12523;)</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> Y: &#34892;&#21015; (&#12414;&#12383;&#12399;&#12505;&#12463;&#12488;&#12523;)</span>
-crossprod(X) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#21516;&#12376;&#12418;&#12398;&#12434;&#25499;&#12369;&#12427;&#22580;&#21512;&#12399;&#24341;&#25968;&#12399;1&#12388;&#12391;&#33391;&#12356;</span>
-</pre>
-</div></li>
-
-</ul>
-</section>
-<section id="slide-orge21d613" data-background="#fef4f4">
-<h3 id="orge21d613">練習問題</h3>
-<ul>
-<li>前問の推定結果を用いて
-最小二乗推定量の性質を確認しなさい
-<ul>
-<li><p>
-推定された係数が正規方程式の解
-</p>
-<blockquote>
-<div>
-\begin{equation}
-  \boldsymbol{\hat{\beta}}
-  =
-  (X^{\mathsf{T}}X)^{-1}X^{\mathsf{T}}\boldsymbol{y}  
-\end{equation}
-
-</div>
-</blockquote>
-<p>
-となること
-</p></li>
-<li>あてはめ値と残差が直交すること</li>
-<li>回帰式が標本平均を通ること</li>
-
-</ul></li>
-
-</ul>
+<section id="slide-orge584c30" data-background="#fef4f4">
+<h2 id="orge584c30">実習</h2>
 </section>
 </section>
 <section>
-<section id="slide-org5e13bf7">
-<h2 id="org5e13bf7">残差の分解</h2>
-<div class="outline-text-2" id="text-org5e13bf7">
+<section id="slide-org3c1dafa">
+<h2 id="org3c1dafa">残差の分解</h2>
+<div class="outline-text-2" id="text-org3c1dafa">
 </div>
 </section>
-<section id="slide-org96954d6">
-<h3 id="org96954d6">最小二乗推定量の残差</h3>
+<section id="slide-orgd03e8ae">
+<h3 id="orgd03e8ae">最小二乗推定量の残差</h3>
 <ul>
 <li><p>
 観測値と推定値 \(\boldsymbol{\hat{\beta}}\) による予測値の差
@@ -895,8 +665,8 @@ crossprod(X) <span style="color: #808080; font-style: italic;"># </span><span st
 
 </ul>
 </section>
-<section id="slide-org3cb8166">
-<h3 id="org3cb8166">平方和の分解</h3>
+<section id="slide-org5ed644f">
+<h3 id="org5ed644f">平方和の分解</h3>
 <ul>
 <li>\(\bar{\boldsymbol{y}}=\bar{y}\boldsymbol{1}=(\bar{y},\bar{y},\dotsc,\bar{y})^{\mathsf{T}}\) :
 標本平均のベクトル</li>
@@ -942,52 +712,18 @@ crossprod(X) <span style="color: #808080; font-style: italic;"># </span><span st
 </section>
 </section>
 <section>
-<section id="slide-orgabcdfea" data-background="#fef4f4">
-<h2 id="orgabcdfea">実習</h2>
-</section>
-<section id="slide-org1de2661" data-background="#fef4f4">
-<h3 id="org1de2661">練習問題</h3>
-<ul>
-<li>前問の結果を用いて
-残差の性質を確認しなさい
-<ul>
-<li><p>
-以下の分解が成り立つこと
-</p>
-<blockquote>
-<div>
-\begin{equation}
-  (\boldsymbol{y}-\bar{\boldsymbol{y}})^{\mathsf{T}}
-  (\boldsymbol{y}-\bar{\boldsymbol{y}})
-  =
-  (\boldsymbol{y}-\boldsymbol{\hat{y}})^{\mathsf{T}}
-  (\boldsymbol{y}-\boldsymbol{\hat{y}})+ 
-  (\boldsymbol{\hat{y}}-\bar{\boldsymbol{y}})^{\mathsf{T}}
-  (\boldsymbol{\hat{y}}-\bar{\boldsymbol{y}})
-\end{equation}
-
-</div>
-<div>
-\begin{equation}
-  S_y=S+S_r
-\end{equation}
-
-</div>
-</blockquote></li>
-
-</ul></li>
-
-</ul>
+<section id="slide-org1dad6bc" data-background="#fef4f4">
+<h2 id="org1dad6bc">実習</h2>
 </section>
 </section>
 <section>
-<section id="slide-orgfb261b3">
-<h2 id="orgfb261b3">決定係数</h2>
-<div class="outline-text-2" id="text-orgfb261b3">
+<section id="slide-orgd4de34b">
+<h2 id="orgd4de34b">決定係数</h2>
+<div class="outline-text-2" id="text-orgd4de34b">
 </div>
 </section>
-<section id="slide-org217321d">
-<h3 id="org217321d">回帰式の寄与</h3>
+<section id="slide-orgc0bdd29">
+<h3 id="orgc0bdd29">回帰式の寄与</h3>
 <ul>
 <li><p>
 ばらつきの分解
@@ -1017,8 +753,8 @@ crossprod(X) <span style="color: #808080; font-style: italic;"># </span><span st
 
 </ul>
 </section>
-<section id="slide-org021e248">
-<h3 id="org021e248">決定係数 (\(R^2\)値)</h3>
+<section id="slide-org995d3d7">
+<h3 id="org995d3d7">決定係数 (\(R^2\)値)</h3>
 <ul>
 <li><p>
 <b>決定係数</b> (R-squared)
@@ -1056,43 +792,13 @@ crossprod(X) <span style="color: #808080; font-style: italic;"># </span><span st
 </section>
 </section>
 <section>
-<section id="slide-org51e7d6d" data-background="#fef4f4">
-<h2 id="org51e7d6d">実習</h2>
-</section>
-<section id="slide-org7ce5f0e" data-background="#fef4f4">
-<h3 id="org7ce5f0e">練習問題</h3>
-<ul>
-<li>決定係数を用いてモデルの比較を行いなさい
-<ul>
-<li><p>
-広告費と売上データ
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R">sales ~ TV
-sales ~ radio
-sales ~ TV + radio
-</pre>
-</div></li>
-<li><p>
-東京の9月の気候データ
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R">temp ~ solar
-temp ~ solar + press
-temp ~ solar + press + cloud
-</pre>
-</div></li>
-
-</ul></li>
-
-</ul>
+<section id="slide-orgaa425a3" data-background="#fef4f4">
+<h2 id="orgaa425a3">実習</h2>
 </section>
 </section>
 <section>
-<section id="slide-orgb8db509">
-<h2 id="orgb8db509">次回の予定</h2>
+<section id="slide-orgbd8d7e0">
+<h2 id="orgbd8d7e0">次回の予定</h2>
 <ul>
 <li>第1回 : 回帰モデルの考え方と推定</li>
 <li><b>第2回 : モデルの評価</b></li>
@@ -1107,7 +813,7 @@ temp ~ solar + press + cloud
 <script src="./reveal.js/plugin/zoom/zoom.js"></script>
 <script src="./reveal.js/plugin/menu/menu.js"></script>
 <script src="./reveal.js/plugin/spotlight/spotlight.js"></script>
-<script src="./reveal.js/plugin/drawer/drawer.js"></script>
+<script src="./reveal.js/plugin/chalkboard/plugin.js"></script>
 <script src="./reveal.js/dist/theme/hidelinks.js"></script>
 <script>
 // Full list of configuration options available here:
@@ -1121,7 +827,7 @@ center: true,
 slideNumber: 'c',
 rollingLinks: false,
 keyboard: true,
-mouseWheel: true,
+mouseWheel: false,
 fragmentInURL: true,
 hashOneBasedIndex: false,
 pdfSeparateFragments: false,
@@ -1130,10 +836,10 @@ overview: true,
 transition: 'fade',
 transitionSpeed: 'default',
 showNotes: window.location.search.match( /print-pdf/gi ) ? 'separate-page' : false,
-spotlight: { size: 80, initialPresentationMode: false, }, drawer: { toggleDrawKey: "d", toggleBoardKey: "c", pathSize: 3, }, keyboard: { 81: function() { RevealSpotlight.toggleSpotlight()}, 87: function() { RevealSpotlight.togglePresentationMode();}, },
+spotlight: { size: 80, initialPresentationMode: false, }, keyboard: { 81: function() { RevealSpotlight.toggleSpotlight()}, 87: function() { RevealSpotlight.togglePresentationMode();}, },
 
 // Plugins with reveal.js 4.x
-plugins: [ RevealNotes, RevealSearch, RevealZoom, RevealMenu, RevealSpotlight, RevealDrawer ],
+plugins: [ RevealNotes, RevealSearch, RevealZoom, RevealMenu, RevealSpotlight, RevealChalkboard ],
 
 // Optional libraries used to extend reveal.js
 dependencies: [

@@ -1,6 +1,6 @@
 ---
-title: "統計データ解析"
-subtitle: "第3講 サンプルコード"
+title: "第3講 練習問題"
+subtitle: "統計データ解析"
 date: "`r Sys.Date()`"
 format:
     html: 
@@ -38,6 +38,38 @@ library(gt)         # 表の作成
 ```
 
 ## 回帰係数の推定
+
+::: callout-note
+### 回帰係数の推定
+
+回帰係数は関数 `stats::lm()` を用いて推定することができる．
+
+```{r}
+#| eval: false
+lm(formula, data, subset, weights, na.action,
+   method = "qr", model = TRUE, x = FALSE, y = FALSE, qr = TRUE,
+   singular.ok = TRUE, contrasts = NULL, offset, ...)
+#' formula: 目的変数名 ~ 説明変数名(複数ある場合は + で並べる)
+#' data: 目的変数，説明変数を含むデータフレーム
+#' subset: 推定に用いるデータフレームの部分集合を指定(指定しなければ全て)
+#' na.action: 欠損の扱いを指定(既定値はoption("na.action")で設定された処理)
+#' model,x,y,qr: 返値にmodel.frame,model.matrix,目的変数,QR分解を含むか指定
+```
+:::
+
+::: callout-tip
+### 実行例
+
+配布データ `wine.csv` を用いた ボルドーワインの価格と気候の関係に関する回帰分析は以下で実行できる．
+
+```{r}
+bw_data <- read_csv(file="data/wine.csv")  # データの読み込み
+bw_fit <- lm(formula = LPRICE2 ~ . - VINT, # VINTを除く全て
+             data = bw_data) 
+bw_fit # 推定結果の簡単な表示
+```
+:::
+
 ### 問題 (広告費と売上データ)
 
 データセット <https://www.statlearning.com/s/Advertising.csv> は 広告費(TV,radio,newspapers)と売上の関係を調べたもの [^2] である． このデータセットを用いて以下の回帰式を推定しなさい．
@@ -50,121 +82,106 @@ formula = sales ~ radio
 formula = sales ~ TV + radio
 ```
 
-### 解答例
-
-データの読み込みを行う．
-
 ```{r}
-adv_data <- read_csv("https://www.statlearning.com/s/Advertising.csv")
+
 ```
-
-GGally パッケージを利用して散布図を描く．[^3]
-
-[^3]: 標準設定では図は横長で描画される．この例では縦横が同じ大きさ(7inch)になるように指定している．
-
-```{r}
-#| fig-width: 7
-#| fig-height: 7
-GGally::ggpairs(adv_data, columns = 2:5)
-```
-
-"TV" の宣伝費で売上を説明する．
-
-```{r}
-(adv_lm1 <- lm(sales ~ TV, data = adv_data))
-adv_data |>
-    ggplot(aes(x = TV, y = sales)) +
-    geom_point(colour = "orange") +
-    geom_smooth(method = lm, se = FALSE)
-```
-
-"radio" の宣伝費で売上を説明する．
-
-```{r}
-(adv_lm2 <- lm(sales ~ radio, data = adv_data))
-adv_data |>
-    ggplot(aes(x = radio, y = sales)) +
-    geom_point(colour = "orange") +
-    geom_smooth(method = lm, se = FALSE)
-```
-
-両者の宣伝費で売上を説明する．
-
-```{r}
-(adv_lm3 <- lm(sales ~ TV + radio, data = adv_data))
-```
-
-::: callout-tip
-3次元の散布図を描くには `scatterplot3d` パッケージを利用することができる．
-
-```{r}
-#| label: fig-scatterplot3d
-#| fig-cap: "scatterplot3d による3次元散布図の例"
-#| column: margin
-library(scatterplot3d)
-s3d <- with(adv_data,
-            scatterplot3d( 
-                x = TV, y = radio, z = sales,
-                type = "p",         # plotの種類: "p"点，"l"線，"h"足付き
-                pch = 16,           # 点の種類 (?points 参照)
-                angle = 45,         # xy平面の見る方向 (適宜調整)
-                highlight.3d = TRUE # 高さ(z)ごとに色を変える
-            ))
-s3d$plane3d(adv_lm3, col = "blue",  # 回帰式の定める平面の追加
-            draw_polygon = TRUE,    # 平面の塗り潰しの設定
-            polygon_args = list(col = rgb(0,0,1,0.2))) 
-```
-:::
 
 ### 問題 (東京の気候データ)
 
-配布したデータセット `tokyo_weather.csv` は 気象庁より取得した東京の気候データを回帰分析用に整理したもの [^4] である． このデータセットのうち，9月の気候データを用いて，以下の回帰式を推定しなさい．
+配布したデータセット `tokyo_weather.csv` は 気象庁より取得した東京の気候データを回帰分析用に整理したもの [^3] である． このデータセットのうち，9月の気候データを用いて，以下の回帰式を推定しなさい．
 
-[^4]: [参考](https://www.data.jma.go.jp/gmd/risk/obsdl/index.php)
+[^3]: [参考](https://www.data.jma.go.jp/gmd/risk/obsdl/index.php)
 
 ```{r}
 formula = temp ~ solar + press
 ```
 
-### 解答例
-
-データの読み込みを行う．
-
 ```{r}
-tw_data <- read_csv("data/tokyo_weather.csv")
-```
 
-9月の"気温"を目的変数，"日射量・気圧"を説明変数とするモデルの推定を行う．
-
-```{r}
-#| fig-width: 7
-#| fig-height: 7
-tw_formula <- temp ~ solar + press       # モデル式の定義 
-class(tw_formula)                        # formula class であることを確認
-(tw_lm <- lm(tw_formula,                 # 回帰係数の推定
-             data = tw_data, 
-             subset =  month==9))        # 9月のデータの抽出
-(tw_df <- as_tibble(model.frame(tw_lm))) # 推定に用いたデータフレームの抽出
-GGally::ggpairs(tw_df) # 散布図
-```
-
-散布図と回帰式の定める平面の描画の3次元プロットを行う．
-
-```{r}
-s3d <- with(tw_df,
-            scatterplot3d( 
-                x = solar, y = press, z = temp, 
-                type = "p",         # plotの種類: "p"点，"l"線，"h"足付き
-                pch = 16,           # 点の種類 (?points 参照)
-                angle = 30,         # xy平面の見る方向 (適宜調整)
-                highlight.3d = TRUE # 高さ(z)ごとに色を変える
-            ))
-s3d$plane3d(tw_lm, col = "blue",    # 回帰式の定める平面の追加
-            draw_polygon = TRUE,    # 平面の塗り潰しの設定
-            polygon_args = list(col = rgb(0,0,1,0.1))) 
 ```
 
 ## 最小二乗推定量の性質
+
+::: callout-note
+### 情報の取得
+
+関数 `stats::lm()` の出力には様々な情報が含まれる．
+
+```{r}
+#| eval: false
+base::summary(lmの出力)       # 推定結果のまとめ
+stats::coef(lmの出力)         # 推定された回帰係数
+stats::fitted(lmの出力)       # あてはめ値
+stats::resid(lmの出力)        # 残差
+stats::model.frame(lmの出力)  # modelに必要な変数の抽出 (データフレーム)
+stats::model.matrix(lmの出力) # デザイン行列
+```
+
+関数 `base::summary()` の tidyverse 版として `package::broom` が用意されている． 関数 `stats::lm()` の結果を tibble 形式で表示することができる．
+
+```{r}
+#| eval: false
+broom::tidy(lmの出力)    # 推定結果のまとめ．coef(summary(lmの出力)) と同様
+broom::glance(lmの出力)  # 評価指標(統計量)のまとめ．決定係数やF値などを整理
+broom::augment(lmの出力) # 入出力データのまとめ．あてはめ値・残差などを整理
+```
+:::
+
+::: callout-note
+### ベクトルと行列の計算
+
+データフレーム以外の重要なデータ構造として以下の2つがある．
+
+-   ベクトル (vector) : 1次元の配列
+-   行列 (matrix) : 2次元の同じデータ型の配列
+
+データフレーム(の一部)は 必要であればベクトルと行列に明示的に変換できる．
+
+```{r}
+#| eval: false
+as.vector(データフレーム[列名]) # base::as.vector()
+as_vector(データフレーム[列名]) # purrr::as_vector()
+as.matrix(データフレーム) # base::as.matrix()
+#' データフレームを行列に変換する場合は全て同じデータ型でなくてはならない
+```
+
+代表的な行列とベクトルの計算は以下のようにする．
+
+-   行列 $A,B$ の積 $AB$ および ベクトル $a,b$ の内積 $a\cdot b$
+
+    ```{r}
+    #| eval: false
+    A %*% B # 行列の大きさは適切である必要がある
+    a %*% b # ベクトルは同じ長さである必要がある
+    ```
+
+-   正方行列 $A$ の逆行列 $A^{-1}$
+
+    ```{r}
+    #| eval: false
+    solve(A) # 他にもいくつか関数はある
+    ```
+
+-   $X^{\mathsf{T}}Y$ および $X^{\mathsf{T}}X$ の計算
+
+    ```{r}
+    #| eval: false
+    crossprod(X, Y) # cross product の略
+    #' X: 行列 (またはベクトル)
+    #' Y: 行列 (またはベクトル)
+    crossprod(X) # 同じものを掛ける場合は引数は1つで良い
+    ```
+
+    行列の転置を計算する関数 `t()`と積を組み合わせてもよい．
+
+    ```{r}
+    #| eval: false
+    crossprod(X,Y) = t(X) %*% Y
+    #' XY^T = (X^TY)^T を計算する関数 tcrossprod() もある
+    tcrossprod(X,Y) = X %*% t(Y)
+    ```
+:::
+
 ### 問題
 
 前問の推定結果を用いて，最小二乗推定量の以下の性質を確認しなさい．
@@ -179,62 +196,12 @@ s3d$plane3d(tw_lm, col = "blue",    # 回帰式の定める平面の追加
 -   あてはめ値と残差が直交すること．
 -   回帰式が標本平均を通ること．
 
-### 解答例
-
-広告費と売上データの回帰分析において， 回帰係数と正規方程式の解の一致は以下の計算で確認できる．
-
 ```{r}
-(beta <- coef(adv_lm3))        # 推定された回帰係数
-X <- model.matrix(adv_lm3)     # デザイン行列
-Y <- model.frame(adv_lm3)[[1]] # 目的変数 (データフレームの1列目のベクトル)
-solve(crossprod(X)) %*% crossprod(X, Y) # 正規方程式の解
+
 ```
-
-あてはめ値と残差の直交性はベクトルの内積を利用すればよい．
-
-```{r}
-yhat <- fitted(adv_lm3) # あてはめ値
-ehat <- resid(adv_lm3)  # 残差
-yhat %*% ehat           # 直交すれば内積はO
-```
-
-回帰式が標本平均を通ることは説明変数の平均のあてはめ値を求めて比較すればよい．
-
-```{r}
-colMeans(X) %*% beta # 説明変数の標本平均のあてはめ値
-mean(Y)              # 目的変数の標本平均 
-```
-
-東京の気候データにおいても同様に確認できる．
-
-```{r}
-(beta <- coef(tw_lm))                   # 推定された回帰係数
-(X <- model.matrix(tw_lm))              # デザイン行列
-(Y <- model.frame(tw_lm)[[1]])          # 目的変数 (データフレームの1列目のベクトル)
-solve(crossprod(X)) %*% crossprod(X, Y) # 正規方程式の解
-```
-
-```{r}
-yhat <- fitted(tw_lm) # あてはめ値
-ehat <- resid(tw_lm)  # 残差
-yhat %*% ehat         # 直交すれば内積はO(に近い値)となる
-```
-
-```{r}
-colMeans(X) %*% beta # 説明変数の標本平均のあてはめ値
-mean(Y)              # 目的変数の標本平均 
-```
-
-::: callout-tip
-関数 `stats::model.matrix()` の返値は matrix class である． 関数 `stats::model.frame()` の返値は data.frame class であり，`model.frame(...)[[k]]` は data.frame ではなく vector になる． `tibble(...)[[k]]` は vector となるが，`tibble(...)[k]` は vector ではなく1列の tibble になるので注意する． 関数 `base::crossprod()` の引数は厳密に vector/matrix であることを要請するが， 例えば `adv_data` は全て数値なので行列に変換して計算できる．
-
-``` r
-crossprod(adv_data) # データフレームのままなので計算できない
-crossprod(as.matrix(adv_data)) # 計算できる
-```
-:::
 
 ## 残差の分解
+
 ### 問題
 
 前問の結果を用いて，残差の性質として以下の分解が成り立つことを確認しなさい．
@@ -257,48 +224,12 @@ $$
 \end{equation}
 $$
 
-### 解答例
-
-広告費と売上データでは以下のように確認できる．
-
 ```{r}
-summary(adv_lm3)
-Y <- model.frame(adv_lm3)[[1]]           # 目的変数の取得
-(Sy <- sum((Y-mean(Y))^2))               # 目的変数のばらつき
-(S <- sum(resid(adv_lm3)^2))             # 残差のばらつき
-(Sr <- sum((fitted(adv_lm3)-mean(Y))^2)) # 回帰のばらつき
-S+Sr                                     # Sy と同じになっている
+
 ```
-
-東京の気候データも同様に確認できる． 以下の例では目的変数を推定結果に含める `lm()` のオプションを利用している．
-
-```{r}
-tw_formula                             # モデルの確認
-tw_lm <- lm(tw_formula,
-            data = tw_data, 
-            subset = month == 9,       # 9月のデータの抽出
-            y = TRUE)                  # 目的変数をyとして返すように指定
-Y <- with(tw_lm, y)                    # 目的変数の取得 (tw_lm$y でも可)
-(Sy <- sum((Y-mean(Y))^2))             # 目的変数のばらつき
-(S <- sum(resid(tw_lm)^2))             # 残差のばらつき
-(Sr <- sum((fitted(tw_lm)-mean(Y))^2)) # 回帰のばらつき
-S+Sr                                   # Sy と同じになっている
-```
-
-::: callout-tip
-関数 `base::summary()` で得られる情報は， 関数 `broom::tidy()` および関数 `broom::glance()` を用いると tibble 形式のデータフレームとして取得できる．
-
-関数 `stats::resid()` や `stats::fitted()` で得られる値は同様に 関数 `broom::augumet()` で取得できる．
-
-```{r}
-#| column: margin
-tidy(adv_lm3)    # 推定量に関する情報
-glance(adv_lm3)  # 推定結果を評価する統計量
-augment(adv_lm3) # 残差やあてはめ値など
-```
-:::
 
 ## 決定係数によるモデルの比較
+
 ### 問題
 
 決定係数を用いてモデルの比較を行いなさい．
@@ -319,78 +250,6 @@ augment(adv_lm3) # 残差やあてはめ値など
     temp ~ solar + press + cloud
     ```
 
-### 解答例
-
-広告費と売上データでのモデルの比較は以下のとおりである．
-
 ```{r}
-adv_formula1 <- sales ~ TV
-adv_formula2 <- sales ~ radio
-adv_formula3 <- sales ~ TV + radio
-adv_lm1 <- lm(adv_formula1, data=adv_data, y = TRUE)
-adv_lm2 <- lm(adv_formula2, data=adv_data, y = TRUE)
-adv_lm3 <- lm(adv_formula3, data=adv_data, y = TRUE)
-summary(adv_lm1)$adj.r.squared # 自由度調整済み決定係数
-summary(adv_lm2)$adj.r.squared # (model1より減少)
-summary(adv_lm3)$adj.r.squared # (model1より上昇)
-```
 
-予測値と実測値の比較は以下のようにすれば良い．
-
-```{r}
-adv_data |>
-    mutate(model1 = fitted(adv_lm1),     # モデルごとに予測値をデータフレームに追加
-           model2 = fitted(adv_lm2),
-           model3 = fitted(adv_lm3)) |>
-    pivot_longer(starts_with("model"),   # モデルをラベルとして予測値をまとめる
-                 names_to = "model", values_to = "fitted") |>
-    ggplot(aes(x = sales, y = fitted)) + # 実測値をx軸，予測値をy軸で表示
-    geom_abline(slope = 1, intercept = 0, colour = "red") + # 基準線
-    geom_point(aes(colour = model, shape = model)) +        # 予測値をモデル別に表示
-    labs(y = "fitted values")
-```
-
-東京の気候データも同様で，モデルの比較は以下のとおりである．
-
-```{r}
-tw_subset <- tw_data |> filter(month == 9) # 9月のデータの抽出
-tw_formula1 <- temp ~ solar
-tw_formula2 <- temp ~ solar + press
-tw_formula3 <- temp ~ solar + press + cloud
-tw_lm1 <- lm(tw_formula1, data=tw_subset, y = TRUE)
-tw_lm2 <- lm(tw_formula2, data=tw_subset, y = TRUE)
-tw_lm3 <- lm(tw_formula3, data=tw_subset, y = TRUE)
-summary(tw_lm1)$adj.r.squared # 自由度調整済み決定係数
-summary(tw_lm2)$adj.r.squared # (model1より上昇)
-summary(tw_lm3)$adj.r.squared # (model2より上昇)
-```
-
-比較表を作成するには，推定されたモデルの情報を取得して tibble 形式のデータフレームを作成する `broom::glance()` を使って，例えば次のようにすれば良い．
-
-```{r}
-bind_rows( # 3つのモデルの評価指標を結合
-    glance(tw_lm1),
-    glance(tw_lm2),
-    glance(tw_lm3)) |>
-    mutate(model = map_vec(c(tw_formula1,tw_formula2,tw_formula3), deparse),
-           .before = 1) |> # モデル式を文字列に変換して先頭列に置く
-    select(1:3) |> # 決定係数と自由度調整済み決定係数を表示
-    set_names(c("モデル","決定係数","自由度調整済み決定係数")) |>
-    gt() |>
-    fmt_number(decimals = 3) # 表示を3桁に
-```
-
-予測値と実測値の比較は以下のようになる．
-
-```{r}
-tw_subset |>
-    mutate(model1 = fitted(tw_lm1),     # モデルごとに予測値をデータフレームに追加
-           model2 = fitted(tw_lm2),
-           model3 = fitted(tw_lm3)) |>
-    pivot_longer(starts_with("model"),  # モデルをラベルとして予測値をまとめる
-                 names_to = "model", values_to = "fitted") |>
-    ggplot(aes(x = temp, y = fitted)) + # 気温の実測値をx軸，予測値をy軸で表示
-    geom_abline(slope = 1, intercept = 0, colour = "red") + # 基準線
-    geom_point(aes(colour = model, shape = model)) +        # 予測値をモデル別に表示
-    labs(y = "fitted values")
 ```

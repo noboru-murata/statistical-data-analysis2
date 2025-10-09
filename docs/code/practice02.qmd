@@ -42,7 +42,7 @@ Quartoファイルの中で使われているパッケージがインストー�
 -   `dplyer::filter()` データフレームの抽出のための関数
 -   `stats::filter()` 時系列処理のための線形フィルタ関数
 
-::: callout-tip
+::: column-margin
 名前の衝突による不具合を避けたい場合は `conflicted` パッケージの利用を推奨する．
 
 ``` r
@@ -52,7 +52,10 @@ library(conflicted)
 
 ## データフレームの作成
 
-同じ長さのベクトル(関数 `base::c()` で作成)を並べる(関数 `tibble::tibble()`)．
+::: callout-note
+### 参考
+
+データフレームは 同じ長さのベクトル(関数 `base::c()` で作成)を関数 `tibble::tibble()` に渡して作成する．
 
 ```{r}
 #| eval: false
@@ -61,12 +64,13 @@ library(conflicted)
 (bar <- tibble(three = c("x","y","z"),four = c(0.9,0.5,-0.3)))
 ```
 
-データフレームを結合する(関数 `dplyr::bind_cols()`)．
+データフレームを結合するには関数 `dplyr::bind_cols()` を用いる．
 
 ```{r}
 #| eval: false
 (baz <- bind_cols(foo,bar))
 ```
+:::
 
 ### 問題
 
@@ -86,6 +90,9 @@ library(conflicted)
 
 ## ファイルの読み書き
 
+::: callout-note
+### 参考
+
 ファイルの書き出しには関数 `readr::write_csv()` を用いる．
 
 ```{r}
@@ -99,6 +106,7 @@ write_csv(x, file = "ファイル名") # データフレームxをファイル�
 #| eval: false
 y <- read_csv(file = "ファイル名") # 変数yにCSVファイルの内容を読み込む
 ```
+:::
 
 ### 問題
 
@@ -114,6 +122,9 @@ y <- read_csv(file = "ファイル名") # 変数yにCSVファイルの内容を�
 
 ## データフレームの操作
 
+::: callout-note
+### 参考
+
 行の選択には関数 `dplyer::filter()` を， 列の選択には関数 `dplyer::select()` を用いる．
 
 ```{r}
@@ -124,6 +135,7 @@ y <- read_csv(file = "ファイル名") # 変数yにCSVファイルの内容を�
 #' パイプを用いると以下のように簡潔に書ける
 z |> filter(three >= 7) |> select(one, three)
 ```
+:::
 
 ### 問題
 
@@ -139,6 +151,9 @@ z |> filter(three >= 7) |> select(one, three)
 
 ## データフレームの集約
 
+::: callout-note
+### 参考
+
 列の集計には関数 `dplyr::summarise()` を用いる．
 
 ```{r}
@@ -152,6 +167,7 @@ grade_data |>
 ```
 
 集計に必要な関数が用意されていない場合は， 無名関数として定義して利用すれば良い．
+:::
 
 ### 問題
 
@@ -159,10 +175,6 @@ grade_data |>
 
 1.  各機関でのPCR検査件数の最大値．
 2.  2021年の各機関でのPCR検査件数の月ごとの最大値．
-
-```{r}
-
-```
 
 ヘルプを用いて `datasets::mtcars` の内容を調べた上で以下の集計を行いなさい．
 
@@ -174,6 +186,9 @@ grade_data |>
 ```
 
 ## 基本的なグラフの描画
+
+::: callout-note
+### 参考
 
 グラフの描画には 関数 `ggplot2::ggplot()` で描画に用いるデータフレームを指定し， 描きたいグラフの種類に応じて関数 `ggplot2::geom_XXX()` を加える．
 
@@ -195,6 +210,7 @@ pcr_data |>
     select(!c(date,sub,total)) |> # 日付と集計値を除いて必要なデータフレームに整形
     ggpairs() # 標準の散布図行列
 ```
+:::
 
 ### 問題
 
@@ -218,10 +234,6 @@ pcr_data |>
 3.  関数 `stats::runif()`
 4.  関数 `stats::rnorm()`
 5.  関数 `base::set.seed()`
-
-```{r}
-
-```
 
 以下の試行を実装してみよ．
 

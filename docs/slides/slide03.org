@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-10-18 22:36:20 mura>
+# Time-stamp: <2025-10-09 17:32:24 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -417,6 +417,12 @@
 :reveal_background: #fef4f4
 :END:
 # 東京大学
+
+* COMMENT 実習(関数の説明付き)
+:PROPERTIES:
+:reveal_background: #fef4f4
+:END:
+# 東京大学
 ** R : 線形モデルの推定
 :PROPERTIES:
 :ID:       2E34C154-BD9D-4380-82E0-2D53B97D9F1E
@@ -676,6 +682,12 @@
 
 
 * 実習
+:PROPERTIES:
+:reveal_background: #fef4f4
+:END:
+# 東京大学
+
+* COMMENT 実習(関数の説明付き)
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
@@ -973,7 +985,7 @@
 :reveal_background: #fef4f4
 :END:
 # 東京大学
-** 練習問題
+** COMMENT 練習問題
 :PROPERTIES:
 :reveal_background: #fef4f4
 :ID:       24C4364D-224C-4ECA-AFAE-2A32E3B62A4A
@@ -1159,7 +1171,7 @@
 :reveal_background: #fef4f4
 :END:
 # 東京大学
-** 練習問題
+** COMMENT 練習問題
 :PROPERTIES:
 :reveal_background: #fef4f4
 :ID:       335A639C-748D-4FC8-B0DB-471A3C0F38CB
@@ -1544,10 +1556,12 @@
       tab_options(table.font.size = 12) |> as_latex() |> as.character()
   #+end_src
 
+
 * 次回の予定
 - 第1回 : 回帰モデルの考え方と推定
 - *第2回 : モデルの評価*
 - 第3回 : モデルによる予測と発展的なモデル
+
 
 * Footnotes
 * COMMENT ローカル変数

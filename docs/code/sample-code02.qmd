@@ -42,7 +42,7 @@ Quartoファイルの中で使われているパッケージがインストー�
 -   `dplyer::filter()` データフレームの抽出のための関数
 -   `stats::filter()` 時系列処理のための線形フィルタ関数
 
-::: callout-tip
+::: column-margin
 名前の衝突による不具合を避けたい場合は `conflicted` パッケージの利用を推奨する．
 
 ``` r
@@ -52,7 +52,10 @@ library(conflicted)
 
 ## データフレームの作成
 
-同じ長さのベクトル(関数 `base::c()` で作成)を並べる(関数 `tibble::tibble()`)．
+::: callout-note
+### 参考
+
+データフレームは 同じ長さのベクトル(関数 `base::c()` で作成)を関数 `tibble::tibble()` に渡して作成する．
 
 ```{r}
 #| eval: false
@@ -61,12 +64,13 @@ library(conflicted)
 (bar <- tibble(three = c("x","y","z"),four = c(0.9,0.5,-0.3)))
 ```
 
-データフレームを結合する(関数 `dplyr::bind_cols()`)．
+データフレームを結合するには関数 `dplyr::bind_cols()` を用いる．
 
 ```{r}
 #| eval: false
 (baz <- bind_cols(foo,bar))
 ```
+:::
 
 ### 問題
 
@@ -114,7 +118,7 @@ grade_data$bio       # 上記と同じ結果
 
 ```
 
-::: callout-tip
+::: column-margin
 変数や関数の名称については各自で命名規則を決めておくと良い． 例えば以下のサイトが参考になる．
 
 -   <https://style.tidyverse.org/index.html>
@@ -122,6 +126,9 @@ grade_data$bio       # 上記と同じ結果
 :::
 
 ## ファイルの読み書き
+
+::: callout-note
+### 参考
 
 ファイルの書き出しには関数 `readr::write_csv()` を用いる．
 
@@ -136,6 +143,7 @@ write_csv(x, file = "ファイル名") # データフレームxをファイル�
 #| eval: false
 y <- read_csv(file = "ファイル名") # 変数yにCSVファイルの内容を読み込む
 ```
+:::
 
 ### 問題
 
@@ -206,7 +214,7 @@ pcr_colnames
 (pcr_data <- mutate(pcr_data, date = date(date)))
 ```
 
-::: callout-tip
+::: column-margin
 以下，この項で用いた関数に関する補足．
 
 ``` r
@@ -244,6 +252,9 @@ pcr_data <- mutate(pcr_data, date = date(date)) # date型に変更
 
 ## データフレームの操作
 
+::: callout-note
+### 参考
+
 行の選択には関数 `dplyer::filter()` を， 列の選択には関数 `dplyer::select()` を用いる．
 
 ```{r}
@@ -254,6 +265,7 @@ pcr_data <- mutate(pcr_data, date = date(date)) # date型に変更
 #' パイプを用いると以下のように簡潔に書ける
 z |> filter(three >= 7) |> select(one, three)
 ```
+:::
 
 ### 問題
 
@@ -280,6 +292,9 @@ pcr_data |>
 
 ## データフレームの集約
 
+::: callout-note
+### 参考
+
 列の集計には関数 `dplyr::summarise()` を用いる．
 
 ```{r}
@@ -293,6 +308,7 @@ grade_data |>
 ```
 
 集計に必要な関数が用意されていない場合は， 無名関数として定義して利用すれば良い．
+:::
 
 ### 問題
 
@@ -349,7 +365,7 @@ mtcars |>
     summarise(mpg = mean(mpg))
 ```
 
-::: callout-tip
+::: column-margin
 グループは既定値では順次解除されるので以下のような集計も可能である．
 
 ```{r}
@@ -362,6 +378,9 @@ mtcars |>
 :::
 
 ## 基本的なグラフの描画
+
+::: callout-note
+### 参考
 
 グラフの描画には 関数 `ggplot2::ggplot()` で描画に用いるデータフレームを指定し， 描きたいグラフの種類に応じて関数 `ggplot2::geom_XXX()` を加える．
 
@@ -383,6 +402,7 @@ pcr_data |>
     select(!c(date,sub,total)) |> # 日付と集計値を除いて必要なデータフレームに整形
     ggpairs() # 標準の散布図行列
 ```
+:::
 
 ### 問題
 
@@ -510,7 +530,7 @@ mc_trial <- function(){
 }
 ```
 
-::: callout-tip
+::: column-margin
 同じ試行でも関数の作り方はいろいろある． 例えば100回サイコロを振れば必ずどこかで100を越えるので，計算は無駄があるが条件分岐のない関数を考えることもできる．
 
 ``` r
