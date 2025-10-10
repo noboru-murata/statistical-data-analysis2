@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2025-10-09">
+<meta name="dcterms.date" content="2025-10-10">
 
 <title>第2講 R言語速習</title>
 <style>
@@ -2234,7 +2234,7 @@ vertical-align: -.125em;
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 9, 2025</p>
+      <p class="date">October 10, 2025</p>
     </div>
   </div>
   
@@ -3159,13 +3159,23 @@ $ bio  &lt;dbl&gt; 70, 50, 30, 80, 100</code></pre>
   20.00   27.00   29.00   29.09   31.00   41.00 </code></pre>
 </div>
 </div>
-<p>ヒストグラムを作成して結果を視覚化する．</p>
+
+<div class="no-row-height column-margin column-container"><div class>
+<p>同じ操作を繰り返すには関数 <code>purrr::map()</code> を用いることもできる．</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">x =</span> mc_data) <span class="sc">|&gt;</span> <span class="co"># ヒストグラムを出力</span></span>
-<span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(x)) <span class="sc">+</span> </span>
-<span id="cb110-3"><a href="#cb110-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>,</span>
-<span id="cb110-4"><a href="#cb110-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">fill =</span> <span class="st">&quot;slateblue&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="co"># 塗り潰しの色</span></span>
-<span id="cb110-5"><a href="#cb110-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">colour =</span> <span class="st">&quot;slateblue&quot;</span>)  <span class="co"># 縁の色</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a>mc_data <span class="ot">&lt;-</span></span>
+<span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span><span class="sc">:</span>mc_num <span class="sc">|&gt;</span>                        <span class="co"># ベクトルによる実験回数の指定</span></span>
+<span id="cb110-3"><a href="#cb110-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">map</span>(\(x)<span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">mc_trial</span>())) <span class="sc">|&gt;</span> <span class="co"># 単一試行のデータフレームのリスト</span></span>
+<span id="cb110-4"><a href="#cb110-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list_rbind</span>()                       <span class="co"># リストを結合 </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>試行が複数の出力を持つ場合は， こちらを利用した整理が簡単な場合もある．</p>
+</div></div><p>ヒストグラムを作成して結果を視覚化する．</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">x =</span> mc_data) <span class="sc">|&gt;</span> <span class="co"># ヒストグラムを出力</span></span>
+<span id="cb111-2"><a href="#cb111-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(x)) <span class="sc">+</span> </span>
+<span id="cb111-3"><a href="#cb111-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>,</span>
+<span id="cb111-4"><a href="#cb111-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">fill =</span> <span class="st">&quot;slateblue&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="co"># 塗り潰しの色</span></span>
+<span id="cb111-5"><a href="#cb111-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">colour =</span> <span class="st">&quot;slateblue&quot;</span>)  <span class="co"># 縁の色</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">

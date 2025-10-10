@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-10-26 22:04:42 mura>
+# Time-stamp: <2025-10-10 11:31:57 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -949,8 +949,14 @@
   #+end_quote
 - これらの性質を利用してモデルの評価を行う
 
-  
+
 * 実習
+:PROPERTIES:
+:reveal_background: #fef4f4
+:END:
+# 東京大学
+
+* COMMENT 実習(関数の説明付き)
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
@@ -1261,7 +1267,7 @@
 :reveal_background: #fef4f4
 :END:
 # 東京大学
-** 練習問題
+** COMMENT 練習問題
 :PROPERTIES:
 :reveal_background: #fef4f4
 :ID:       5D5CB611-713B-4FDA-8DC0-DDCC7DB5F25B
@@ -1729,7 +1735,7 @@
 :reveal_background: #fef4f4
 :END:
 # 東京大学
-** 練習問題
+** COMMENT 練習問題
 :PROPERTIES:
 :reveal_background: #fef4f4
 :ID:       0518B4AE-5E37-4907-AA8D-509ACDA75600

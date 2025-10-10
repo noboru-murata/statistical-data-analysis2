@@ -1,6 +1,6 @@
 ---
-title: "統計データ解析"
-subtitle: "第4講 サンプルコード"
+title: "第4講 練習問題"
+subtitle: "統計データ解析"
 date: "`r Sys.Date()`"
 format:
     html: 
@@ -26,10 +26,10 @@ editor: visual
 ```{r}
 library(conflicted) # 関数名の衝突を警告
 conflicts_prefer(   # 優先的に使う関数を指定
-  dplyr::filter(),
-  dplyr::select(),
-  dplyr::lag(),
-  )
+    dplyr::filter(),
+    dplyr::select(),
+    dplyr::lag(),
+    )
 library(tidyverse)  
 library(broom)      # 解析結果を tibble 形式に集約
 library(gt)         # 表の作成
@@ -37,6 +37,58 @@ library(gtsummary)  # 分析結果の表の作成
 ```
 
 ## 推定量の性質を調べる数値実験
+
+::: callout-note
+### 正規乱数を用いた線形単回帰モデル
+
+以下に人工データによる推定量の性質の確認の例を示す．
+
+```{r}
+#| eval: false
+set.seed(987) # 乱数のシード値を設定
+x_obs <- tibble(x0 = 1, x1 = c(1,3,5,7)) # 説明変数の観測値
+epsilon <- rnorm(nrow(x_obs), sd = 0.5) # 誤差項の生成
+beta <- c(2, -3) # 回帰係数
+toy_data <- x_obs |> # 目的変数の観測値を追加
+    mutate(y = as.vector(as.matrix(x_obs) %*% beta) + epsilon)
+toy_lm <- lm(y ~ x1, data = toy_data) # 回帰係数の推定
+coef(toy_lm) # 回帰係数の取得
+summary(toy_lm) # 分析結果の概要の表示
+```
+
+上記の例では行列とベクトルの積を用いているが， 以下のように説明変数・目的変数を個別に作成してもよい．
+
+```{r}
+#| eval: false
+x_obs <- c(1,3,5,7) # 説明変数の観測値
+epsilon <- rnorm(length(x_obs), sd = 0.5) # 誤差項の生成
+y_obs <- 2 - 3 * x_obs + epsilon # 目的変数の観測値
+toy_data <- tibble(x1 = x_obs, y = y_obs) # データフレームの作成
+```
+:::
+
+::: callout-note
+### 数値実験 (Monte-Carlo法)
+
+実験のためのコードは以下のようになる.
+
+```{r}
+#| eval: false
+mc_num <- 5000 # 実験回数を指定
+mc_trial <- function() { # 1回の試行を行うプログラム
+	   ## 乱数生成と推定の処理
+	   return(返り値)} 
+mc_data <- 
+replicate(mc_num, mc_trial()) |> # Monte-Carlo実験
+t() |> as_tibble() # 転置(関数t())してデータフレームに変換
+#' 適切な統計・視覚化処理 (下記は例)
+mc_data |>
+      summarise(across(everything(), var)) # 各列の分散の計算
+    ggpairs(mc_data) # 散布図行列の描画
+    tibble(x = mc_data[[k]]) |> # k列目のベクトルで新しいデータフレームを作成
+      ggplot(aes(x = x)) + geom_histogram() # k列目のデータのヒストグラム
+```
+:::
 
 ### 問題
 
@@ -57,132 +109,9 @@ library(gtsummary)  # 分析結果の表の作成
 -   観測データから回帰係数を推定する．
 -   実験を複数回繰り返し，推定値 ($\hat\beta_{0},\hat\beta_{1}$) の分布を調べる．
 
-### 解答例
-
-試行を行う関数を作成する．
-
 ```{r}
-set.seed(2468) # 乱数のシード値 (適宜変更せよ)
-x_obs <- tibble(x0 = 1, # 説明変数の観測値
-                x1 = c(1, 20, 13, 9, 5, 15, 19, 8, 3, 4)) 
-beta <- set_names(c(-1, 2), # 回帰係数 (切片,係数の真値)
-                  c("beta0","beta1"))
-sigma <-  sqrt(2) # 誤差の標準偏差(分散の平方根)を設定
-mc_trial <- function(){ 
-    epsilon <- rnorm(nrow(x_obs), sd = sigma) # 誤差項の生成
-    toy_data <- x_obs |> # 目的変数の観測値を追加
-        mutate(y = as.vector(as.matrix(x_obs) %*% beta) + epsilon)
-    toy_lm <- lm(y ~ x1, data = toy_data) # 回帰係数の推定
-    return(coef(toy_lm)) # 推定された係数だけ返す
-}
+
 ```
-
-少数回の実験で確認してみる． 同じ実験を複数回行うには関数 `base::replicate()` を利用するとよい．
-
-```{r}
-mc_num <- 5 # 実験回数
-replicate(mc_num, mc_trial())
-```
-
-数値実験を行う．
-
-```{r}
-mc_num <- 5000 # 実験回数
-mc_data <- replicate(mc_num, mc_trial()) |> # mc_num回試行を行う
-    t() |> as_tibble()                      # 得られる結果を転置してデータフレームにする
-names(mc_data) <- names(beta) # 列名を変更(上書き)
-mc_data # 内容を確認
-```
-
-データフレーム `mc_data` には `mc_mun` 回の実験結果が保存されている．
-
-回帰係数の分布(2次元)を調べてみる．
-
-```{r}
-#| fig-width: 7
-#| fig-height: 7
-mc_data |>
-    ggplot(aes(x = beta0, y = beta1)) +
-    geom_point(colour = "blue", shape = 20) + # 推定値の散布図
-    geom_vline(xintercept = beta["beta0"], colour = "orchid") + # beta0の真値 (垂直線)
-    geom_hline(yintercept = beta["beta1"], colour = "orchid")   # beta1の真値 (水平線)
-```
-
-::: callout-tip
-軸名をギリシャ文字にしたい場合は以下を加えればよい(@fig-greek)．
-
-```{r}
-#| label: fig-greek
-#| fig-cap: "ギリシャ文字を利用するの例"
-#| fig-width: 7
-#| fig-height: 7
-#| column: margin
-last_plot() + # 直前のプロットを指す
-    labs(x = expression(beta[0]), y = expression(beta[1]))
-```
-:::
-
-::: callout-tip
-周辺分布のヒストグラムを追加する場合は関数 `ggExtra::ggMarginal()` が利用できる(@fig-marginal)．
-
-```{r}
-#| label: fig-marginal
-#| fig-cap: "周辺分布を付加するの例"
-#| fig-width: 7
-#| fig-height: 7
-#| column: margin
-ggExtra::ggMarginal(last_plot(), type = "histogram")
-```
-:::
-
-::: callout-tip
-各回帰係数の周辺分布は以下のようにしても描ける．
-
-```{r}
-#| label: fig-each-marginal
-#| fig-cap: "周辺分布を個別に描画する例"
-#| fig-show: hold
-#| column: margin
-beta_cov <- sigma^2 * solve(crossprod(as.matrix(x_obs))) # 推定量の共分散行列
-#' beta0 (k=1), beta1 (k=2)
-for(k in 1:2) { # 同じ処理であればfor文などの利用を推奨
-    bar <- tibble(x = mc_data[[k]]) |>
-        ggplot(aes(x = x)) + 
-        geom_histogram(aes(y = after_stat(density)), bins = 30,
-                       fill = "lightblue", colour = "blue") +
-        geom_vline(xintercept = beta[k], # 真の値
-                   colour = "orchid") + 
-        geom_function(fun = \(x) dnorm(x,
-                                       mean = beta[k],
-                                       sd = sqrt(beta_cov[k, k])),
-                      colour = "orchid") + # 理論分布
-        labs(x = names(mc_data)[k])
-    print(bar) # for 文などの block 内でのグラフ表示は明示的に print する
-}
-```
-:::
-
-::: callout-tip
-あるいは変数名を評価して列を指定することもできる．[^1]
-
-``` r
-for(k in 1:2) {
-    foo <- sym(names(mc_data)[k]) # 文字列を扱うための手続き
-    bar <- mc_data |>
-        ggplot(aes(x = !!foo)) + # foo に入った文字列を評価する
-        geom_histogram(aes(y = after_stat(density)), bins = 30,
-                       fill = "lightblue", colour = "blue") +
-        geom_vline(xintercept = beta[k], colour = "orchid") + # 真の値
-        geom_function(fun = \(x) dnorm(x,
-                                       mean = beta[k],
-                                       sd = sqrt(beta_cov[k, k])),
-                      colour = "orchid") # 理論分布
-    print(bar)
-}
-```
-:::
-
-[^1]: 上記と結果は同じなので，描画はせずに以下にコードだけ記載する．
 
 ## 標準誤差の性質
 
@@ -192,7 +121,8 @@ for(k in 1:2) {
 
 -   人工データを用いて標準誤差と真の誤差を比較する． 標準誤差は以下のようにして取り出せる．
 
-    ``` r
+    ```{r}
+    #| eval: false
     toy_lm <- lm(formula, toy_data)
     summary(toy_lm)$coefficients        # 係数に関する情報はリストの要素として保管されている
     summary(toy_lm)$coefficients[,2]    # 列番号での指定
@@ -204,156 +134,8 @@ for(k in 1:2) {
 
 -   東京の気候データを用いて係数の精度を議論する．
 
-### 解答例
-
-人工データによる標準誤差と真の誤差の比較を行うために，以下のような重回帰モデル(適宜変更して構わない)での試行を設定する．
-
 ```{r}
-set.seed(1313) # 乱数のシード値 (適宜変更せよ)
-x_obs <- tibble(x0 = 1,
-                x1 = c(1, 20, 13, 9, 5, 15, 19, 8, 3, 4), # 説明変数1
-                x2 = c(3, 19, 1, 4, 18, 7, 2, 10, 6, 12)) # 説明変数2
-beta <- c(-1, 2, -3) # (切片，x1の係数, x2の係数)
-sigma <-  sqrt(2)    # 誤差の標準偏差(分散の平方根)
-mc_trial <- function(){ 
-    epsilon <- rnorm(nrow(x_obs), sd = sigma) # 誤差項
-    toy_data <- x_obs |> # 目的変数の観測値を追加
-        mutate(y = as.vector(as.matrix(x_obs) %*% beta) + epsilon)
-    toy_lm <- lm(y ~ x1 + x2, data = toy_data)             # 回帰係数の推定
-    return(set_names(summary(toy_lm)$coef[,"Std. Error"],  # 標準誤差を
-                     c("beta0.se","beta1.se","beta2.se"))) # 名前を付けて返す
-}
-```
 
-これを用いて数値実験を行う．
-
-```{r}
-mc_num <- 5000 # 実験回数
-mc_data <- 
-    replicate(mc_num, mc_trial()) |> # mc_num回の試行
-    t() |> as_tibble()               # データフレームの作成
-```
-
-各回帰係数の標準誤差の分布を描くと以下のようになる．
-
-```{r}
-beta_cov <- sigma^2*solve(crossprod(as.matrix(x_obs))) # 推定量の共分散行列
-#' beta0 (k=1), beta1 (k=2), beta2 (k=3)
-for(k in 1:3) {
-    bar <- tibble(x = mc_data[[k]]) |>
-        ggplot(aes(x = x)) + 
-        geom_histogram(aes(y = after_stat(density)), bins = 30,
-                       fill = "lightblue", colour = "blue") +
-        geom_vline(xintercept = sqrt(beta_cov[k,k]), # 真の値
-                   colour = "orchid") +
-        labs(x = names(mc_data)[k], title = "std. errors")
-    print(bar) 
-  }
-```
-
-広告費と売上データによる分析は以下のように行うことができる． まず，データの読み込みを行う．
-
-```{r}
-  adv_data <-
-    read_csv('https://www.statlearning.com/s/Advertising.csv',
-             col_select = -1) # 1列目は行名と同じIDなので除去しておく
-```
-
-モデルの推定を行う．
-
-```{r}
-adv_lm1 <- lm(sales ~ TV, data = adv_data)
-adv_lm2 <- lm(sales ~ radio, data = adv_data)
-adv_lm3 <- lm(sales ~ TV + radio, data = adv_data)
-```
-
-推定値とその標準誤差を比較する．
-
-```{r}
-summary(adv_lm1)$coef[,1:2] 
-summary(adv_lm2)$coef[,1:2] 
-summary(adv_lm3)$coef[,1:2] 
-```
-
-::: callout-tip
-関数 `gtsummary::tbl_regression()` を利用すると上記を表として簡単にまとめられる．
-
-```{r}
-#| column: margin
-#' 規定の表
-tbl_merge( 
-    tbls = list(
-        tbl_regression(adv_lm1),
-        tbl_regression(adv_lm2),
-        tbl_regression(adv_lm3)),
-    tab_spanner = c("モデル1","モデル2","モデル3"))
-```
-
-規定の表では推定値・信頼区間・p値のみなので，必要な項目を並べるための関数を設定すると良い．
-
-```{r}
-#| column: margin
-#' 表示を変更する例 
-my_gts <- function(x){
-    tbl_regression(x, intercept = TRUE) |>                   # 標準の表
-        modify_column_hide(columns = c(conf.low,p.value)) |> # 信頼区間・p値を非表示
-        modify_column_unhide(columns = std.error) }          # 標準誤差を表示
-tbl_merge(
-    tbls = list(
-        my_gts(adv_lm1),
-        my_gts(adv_lm2),
-        my_gts(adv_lm3)),
-    tab_spanner = c("モデル1","モデル2","モデル3"))
-```
-:::
-
-東京の気候データによる分析は以下のとおりである．
-
-まず，データを読み込み，9月のデータを抽出して整理する．
-
-```{r}
-tw_subset <-
-    read_csv("data/tokyo_weather.csv") |>
-    filter(month == 9)
-```
-
-回帰モデルの設定をする．
-
-```{r}
-tw_model1 <- temp ~ solar
-tw_model2 <- temp ~ solar + press
-tw_model3 <- temp ~ solar + press + cloud
-```
-
-回帰モデルの推定を行う．
-
-```{r}
-tw_lm1 <- lm(tw_model1, data = tw_subset)
-tw_lm2 <- lm(tw_model2, data = tw_subset)
-tw_lm3 <- lm(tw_model3, data = tw_subset)
-```
-
-モデルの推定値とその標準誤差は以下のとおりである．
-
-```{r}
-my_gts <- function(x){
-    tbl_regression(x, intercept = TRUE) |>                   # 標準の表
-        modify_column_hide(columns = c(conf.low,p.value)) |> # 信頼区間・p値を非表示
-        modify_column_unhide(columns = std.error) }          # 標準誤差を表示
-tbl_merge(
-    tbls = list(
-        my_gts(tw_lm1),
-        my_gts(tw_lm2),
-        my_gts(tw_lm3)),
-    tab_spanner = c("モデル1","モデル2","モデル3"))
-```
-
-関数 `base::summary()` を用いる場合は以下を実行すればよい．
-
-``` r
-summary(tw_lm1)$coef[,c("Estimate","Std. Error")]
-summary(tw_lm2)$coef[,1:2] # 名前ではなく列番号で指定する場合
-summary(tw_lm3)$coef[,1:2] # cloud の標準誤差が大きく精度が悪いことが示唆される
 ```
 
 ## $t$ 統計量の性質
@@ -366,7 +148,8 @@ summary(tw_lm3)$coef[,1:2] # cloud の標準誤差が大きく精度が悪いこ
 
     $t$ 統計量とそのp値は以下のようにして取り出せる．
 
-    ``` r
+    ```{r}
+    #| eval: false
     toy_lm <- lm(formula, toy_data)
     summary(toy_lm)$coef[,c("t value","Pr(>|t|)")] # 列名での指定
     summary(toy_lm)$coef[,3:4]                     # 列番号での指定
@@ -377,97 +160,9 @@ summary(tw_lm3)$coef[,1:2] # cloud の標準誤差が大きく精度が悪いこ
 
 -   東京の気候データを用いて係数の有意性を議論する．
 
-### 解答例
-
-人工データにより $t$ 統計量の性質を調べるために，以下のような重回帰モデル(適宜変更して構わない)での試行を設定する．
-
 ```{r}
-set.seed(2525) # 乱数のシード値 (適宜変更せよ)
-x_obs <- tibble(x0 = 1,
-                x1 = c(1, 20, 13, 9, 5, 15, 19, 8, 3, 4), # 説明変数1
-                x2 = c(3, 19, 1, 4, 18, 7, 2, 10, 6, 12)) # 説明変数2
-beta <- c(-1, 2, 0) # (切片，x1の係数，x2の係数) 
-sigma <-  sqrt(2) # 誤差の標準偏差(分散の平方根)
-mc_trial <- function(){ 
-    epsilon <- rnorm(nrow(x_obs), sd = sigma) # 誤差項
-    toy_data <- x_obs |> # 目的変数の観測値を追加
-        mutate(y = as.vector(as.matrix(x_obs) %*% beta) + epsilon)
-    toy_lm <- lm(y ~ x1 + x2, data = toy_data) # 回帰係数の推定
-    return(set_names(summary(toy_lm)$coef[,"t value"], # t統計量を返す
-                     c("beta0.tval","beta1.tval","beta2.tval"))) 
-}
+
 ```
-
-$x1$ の係数は 2 なので帰無仮説に従わない，$x2$ の係数は 0 なので帰無仮説に従うことに注意する．
-
-数値実験を行う．
-
-```{r}
-mc_num <- 5000 # 実験回数
-mc_data <- 
-    replicate(mc_num, mc_trial()) |> t() |> as_tibble()
-```
-
-各回帰係数の $t$ 統計量の分布を図示すると以下のようになる．
-
-```{r}
-n <- nrow(x_obs) # データ数 n
-p <- 2 # 説明変数の次元
-#' beta0 (k=1), beta1 (k=2), beta2 (k=3)
-for(k in 1:3) { # 同じ処理であればfor文などの利用を推奨
-    bar <- tibble(x = mc_data[[k]]) |>
-        ggplot(aes(x = x)) + 
-        geom_histogram(aes(y = after_stat(density)), bins = 30,
-                       fill = "lightblue", colour = "blue") +
-        geom_function(fun = \(x) dt(x, df = n-p-1), # 自由度 n-p-1 のt分布
-                      colour = "orchid") + 
-        labs(x = names(mc_data)[k])
-    print(bar) # for 文などの block 内でのグラフ表示は明示的に print する
-}
-```
-
-広告費と売上データによる分析において，全てを用いたモデルと newspaper を除いたモデルを比較する．
-
-```{r}
-summary(lm(sales ~ ., data = adv_data)) # "." は全て
-summary(lm(sales ~ . - newspaper, data = adv_data)) # "-" は除外
-```
-
-関数 `gtsummary::tbl_regression()` を用いて，これらの情報をまとめる．
-
-```{r}
-my_gts <- function(x){
-    tbl_regression(x, intercept = TRUE) |>
-        modify_column_hide(columns = conf.low) |>
-        modify_column_unhide(columns = c(std.error,statistic)) |>
-        add_glance_table(include = c(r.squared,adj.r.squared))}
-tbl_merge(
-    tbls = list(
-        my_gts(lm(sales ~ ., data = adv_data)),
-        my_gts(lm(sales ~ . - newspaper, data = adv_data))),
-    tab_spanner = c("モデル1","モデル2"))
-```
-
-newspaperの係数のt統計量から有意性は低いと考えられる．また，自由度調整済決定係数も除いた方が若干高くなることが確認できる．
-
-東京の気候データによる分析において，solarとpressを用いたモデルを比較する．
-
-```{r}
-summary(lm(temp ~ solar + press, data = tw_subset))
-summary(lm(temp ~ press, data = tw_subset))
-summary(lm(temp ~ solar, data = tw_subset))
-```
-
-```{r}
-tbl_merge(
-    tbls = list(
-        my_gts(lm(temp ~ solar + press, data = tw_subset)),
-        my_gts(lm(temp ~ press, data = tw_subset)),
-        my_gts(lm(temp ~ solar, data = tw_subset))),
-    tab_spanner = c("モデル1","モデル2","モデル3"))
-```
-
-press単体では係数の推定精度も決定係数も低いが，solarと組み合わせることにより精度が上がり説明力も高くなることがわかる．
 
 ## $F$ 統計量の性質
 
@@ -479,7 +174,8 @@ press単体では係数の推定精度も決定係数も低いが，solarと組�
 
     $F$ 統計量とその自由度は以下のようにして取り出せる．
 
-    ``` r
+    ```{r}
+    #| eval: false
     toy_lm <- lm(formula, toy_data)
     summary(toy_lm)$fstat
     summary(toy_lm)$fstatistic # 省略しない場合
@@ -490,117 +186,6 @@ press単体では係数の推定精度も決定係数も低いが，solarと組�
 
 -   東京の気候データのモデルの有効性を議論しなさい．
 
-### 解答例
-
-人工データにより $F$ 統計量の性質を調べるために，前出の重回帰モデルを利用することにする．
-
 ```{r}
-set.seed(2525) # 乱数のシード (適宜変更せよ)
-x_obs <- tibble(x0 = 1,
-                x1 = c(1, 20, 13, 9, 5, 15, 19, 8, 3, 4), # 説明変数1
-                x2 = c(3, 19, 1, 4, 18, 7, 2, 10, 6, 12)) # 説明変数2
-beta <- c(-1, 0, 0) # (切片, x1の係数, x2の係数)
-sigma <-  sqrt(2) # 誤差の標準偏差(分散の平方根)
-mc_trial <- function(){ 
-    epsilon <- rnorm(nrow(x_obs), sd = sigma) # 誤差項
-    toy_data <- x_obs |> # 目的変数の観測値を追加
-        mutate(y = as.vector(as.matrix(x_obs) %*% beta) + epsilon)
-    toy_lm <- lm(y ~ x1 + x2, data = toy_data) # 回帰係数の推定
-    return(summary(toy_lm)$fstat[1]) # F統計量を返す
-}
-```
 
-上記の設定では $x1,x2$ の係数はどちらも0なので帰無仮説が成り立つことに注意する． まず，帰無仮説が成り立つ場合の数値実験を行う．
-
-```{r}
-mc_num <- 5000 # 実験回数
-mc_data <- 
-    replicate(mc_num, mc_trial()) |> as_tibble_col("fstat")
-```
-
-実験結果は1次元なので転置は不要であるが，ここでは列名の設定をしておく．
-
-モデルの $F$ 統計量の分布を図示すると以下のようになる．
-
-```{r}
-n <- nrow(x_obs) # データ数
-p <- 2 # 説明変数の次元
-mc_data |>
-    ggplot(aes(x = fstat)) + 
-    geom_histogram(aes(y = after_stat(density)), bins = 30,
-                   fill = "lightblue", colour = "blue") +
-    geom_function(fun = \(x) df(x, df1 = p, df2 = n-p-1), # 自由度p,n-p-1のF-分布
-                  colour = "orchid") +
-    labs(x = "F statistic", title="null hypothesis is true")
-```
-
-回帰式の設定を変更して帰無仮説が成り立たない場合の数値実験を行う．
-
-```{r}
-beta <- c(-1, 2, 0) # x1の係数 : 帰無仮説が成り立たない
-mc_data <-
-    replicate(mc_num, mc_trial()) |> as_tibble_col("fstat") 
-```
-
-モデルの $F$ 統計量の分布を図示すると帰無分布に従わないことがわかる．
-
-```{r}
-mc_data |>
-    ggplot(aes(x = fstat)) + 
-    geom_histogram(aes(y = after_stat(density)), bins = 30,
-                   fill = "lightblue", colour = "blue") +
-    geom_function(fun = \(x) df(x, df1 = p, df2 = n-p-1), # 自由度p,n-p-1のF-分布
-                  colour = "orchid") +
-    labs(x = "F statistic", title="null hypothesis is false")
-```
-
-次に広告費と売上データを用いて，説明変数が1つのモデルの有効性を比較してみる．
-
-```{r}
-summary(lm(sales ~ TV, data = adv_data)) 
-summary(lm(sales ~ radio, data = adv_data)) 
-summary(lm(sales ~ newspaper, data = adv_data))
-```
-
-`radio`, `newspaper` は決定係数は小さく説明力は無いが，$F$ 統計量はそれなりに小さいのでモデルの有効性が無いとは言えない．
-
-関数 gtsummary::tbl_regression() を利用してまとめる場合は，例えば以下のようにすればよい．
-
-```{r}
-my_gts <- function(x){ # 表示する項目を整理した関数を用意する
-    tbl_regression(x) |>
-        add_glance_table(include = c("adj.r.squared","statistic","p.value")) }
-tbl_merge(
-    tbls = list(
-        my_gts(lm(sales ~ TV, data = adv_data)),
-        my_gts(lm(sales ~ radio, data = adv_data)),
-        my_gts(lm(sales ~ newspaper, data = adv_data))),
-    tab_spanner = c("モデル1","モデル2","モデル3")) |>
-    modify_table_body( ~ .x |> # characteristic を並べ変える
-                           arrange(factor(variable,
-                                          levels = c("TV","radio","newspaper"))))
-```
-
-東京の気候データでは `press`, `solar`, `rain` によるモデルを検討してみる．
-
-```{r}
-summary(lm(temp ~ press, data = tw_subset))
-summary(lm(temp ~ press + solar, data = tw_subset))
-summary(lm(temp ~ press + solar + rain, data = tw_subset))
-```
-
-`press` のみではモデルの有効性があるとは言えないが， `solar` と組み合わせることにより有効性が確認できる． `rain` を加えても `press` の係数に変化は見られないが， `solar` の係数が変化し決定係数が大きくなることから `solar` と `rain` が相補的にモデルの精度を上げている可能性が示唆される．
-
-表形式にまとめると以下のようになる．
-
-```{r}
-my_gts <- function(x){ # 表示する項目を整理した関数を用意する
-    tbl_regression(x) |>
-        add_glance_table(include = c("adj.r.squared","statistic","p.value")) }
-tbl_merge(
-    tbls = list(
-        my_gts(lm(temp ~ press + solar + rain, data = tw_subset)),
-        my_gts(lm(temp ~ press + solar, data = tw_subset)),
-        my_gts(lm(temp ~ press, data = tw_subset))),
-    tab_spanner = c("モデル1","モデル2","モデル3"))
 ```

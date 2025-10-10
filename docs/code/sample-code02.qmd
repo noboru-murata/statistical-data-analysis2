@@ -555,6 +555,20 @@ mc_data <- replicate(mc_num, mc_trial())
 summary(mc_data) # 簡単な集計
 ```
 
+::: column-margin
+同じ操作を繰り返すには関数 `purrr::map()` を用いることもできる．
+
+```{r}
+#| eval: false
+mc_data <-
+    1:mc_num |>                        # ベクトルによる実験回数の指定
+    map(\(x)tibble(x = mc_trial())) |> # 単一試行のデータフレームのリスト
+    list_rbind()                       # リストを結合 
+```
+
+試行が複数の出力を持つ場合は， こちらを利用した整理が簡単な場合もある．
+:::
+
 ヒストグラムを作成して結果を視覚化する．
 
 ```{r}
