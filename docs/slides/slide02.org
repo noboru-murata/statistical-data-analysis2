@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2025-10-06 16:01:01 mura>
+# Time-stamp: <2025-10-10 16:13:06 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -295,9 +295,10 @@
   #' ファイル名 pcr_case_daily.csv として作業ディレクトリの data 以下に保存
   pcr_data <- read_csv("data/pcr_case_daily.csv") # 一般的な読み込み方
   # View(pcr_data) # 中身を左上ペインに表示
-  (pcr_colnames <- names(pcr_data)) # 列名を確認して保存 colnames(pcr_data) でも良い
+  pcr_colnames <- names(pcr_data) # 列名を確認して保存 colnames(pcr_data) でも良い
   names(pcr_data) <- # 列名を扱い易いように英語略記に変更する
     c("date","niid","ciq","hc","ai","univ","mi","sub","si","total")
+  names(pcr_colnames) <- names(pcr_data) # 和英の列名の対応づけができるようにしておく
   #' National Institute of Infectious Diseases
   #' Customs-Immigration-Quarantine
   #' Health Center
@@ -307,10 +308,9 @@
   #' subtotal
   #' Self Inspection
   #' total
-  pcr_data # 中身を確認(10行だけ表示される)
   #' 以降の処理のために date 列を関数 lubridate::date() で date 型に変換する
   #' 列の変換・追加などには関数 dplyr::mutate() を用いる
-  (pcr_data <- mutate(pcr_data, date = date(date))) 
+  pcr_data <- mutate(pcr_data, date = date(date))
 #+end_src
 
 
@@ -487,7 +487,7 @@
 :PROPERTIES:
 :ID:       B5F374A9-79E5-47B9-9474-291677764C18
 :END:
-- 関数 ~dplyr::summarise()~ : 行ごとに計算する
+- 関数 ~dplyr::summarise()~ : 集計を行う
   #+begin_src R :eval no :tangle no
     summarise(.data, ..., .by = NULL, .groups = NULL)
     #' .data: データフレーム
@@ -528,7 +528,7 @@
   #+begin_src R :exports none
     #' @exercise グループごとの集計
   #+end_src
-  #+begin_src R ::exports code
+  #+begin_src R :exports code
     #' pcr_data を用いた例
     #' 医療機関(mi)のPCR件数を各月で集計する
     #' 日付の扱いに関数 lubridate::year(), lubridate::month() を利用

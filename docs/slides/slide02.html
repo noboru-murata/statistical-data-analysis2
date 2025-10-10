@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Generated on 2025-10-10 Fri 16:13 -->
 <meta charset="utf-8"/>
 <title>R言語速習</title>
 <meta name="author" content="村田 昇"/>
@@ -45,8 +46,8 @@
 
 </section>
 <section>
-<section id="slide-orgf9f5e1f">
-<h2 id="orgf9f5e1f">講義概要</h2>
+<section id="slide-orgb255015">
+<h2 id="orgb255015">講義概要</h2>
 <ul>
 <li>データの取り扱い</li>
 <li>描画の基礎</li>
@@ -56,13 +57,13 @@
 </section>
 </section>
 <section>
-<section id="slide-orgf69548a">
-<h2 id="orgf69548a">データフレーム</h2>
-<div class="outline-text-2" id="text-orgf69548a">
+<section id="slide-org5ec8bca">
+<h2 id="org5ec8bca">データフレーム</h2>
+<div class="outline-text-2" id="text-org5ec8bca">
 </div>
 </section>
-<section id="slide-orgd70c00e">
-<h3 id="orgd70c00e">データ構造</h3>
+<section id="slide-org5d9706e">
+<h3 id="org5d9706e">データ構造</h3>
 <ul>
 <li>Rに用意されている基本的なデータ構造
 <ul>
@@ -80,8 +81,8 @@
 
 </ul>
 </section>
-<section id="slide-orge998413">
-<h3 id="orge998413">データフレーム</h3>
+<section id="slide-orgdb0144d">
+<h3 id="orgdb0144d">データフレーム</h3>
 <ul>
 <li>複数の個体について，いくつかの属性を集計した表
 <ul>
@@ -146,11 +147,11 @@
 </tr>
 
 <tr>
-<td class="org-left">&#x2026;</td>
-<td class="org-right">&#x2026;</td>
-<td class="org-right">&#x2026;</td>
-<td class="org-left">&#x2026;</td>
-<td class="org-left">&#x2026;</td>
+<td class="org-left">&hellip;</td>
+<td class="org-right">&hellip;</td>
+<td class="org-right">&hellip;</td>
+<td class="org-left">&hellip;</td>
+<td class="org-left">&hellip;</td>
 </tr>
 </tbody>
 </table>
@@ -158,8 +159,8 @@
 
 </ul>
 </section>
-<section id="slide-orgb55653c">
-<h3 id="orgb55653c">&ldquo;base R&rdquo; vs &ldquo;tidyverse&rdquo;</h3>
+<section id="slide-orgdf775b1">
+<h3 id="orgdf775b1">&ldquo;base R&rdquo; vs &ldquo;tidyverse&rdquo;</h3>
 <ul>
 <li>データ操作とグラフィクスの枠組
 <ul>
@@ -178,18 +179,18 @@
 </p>
 <div class="org-src-container">
 
-<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#26368;&#21021;&#12395;&#19968;&#24230;&#12384;&#12369;&#20197;&#19979;&#12398;&#12356;&#12378;&#12428;&#12363;&#12434;&#23455;&#34892;&#12375;&#12390;&#12362;&#12367;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;">  - Package &#12479;&#12502;&#12363;&#12425; tidyverse &#12434;&#12452;&#12531;&#12473;&#12488;&#12540;&#12523;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;">  - &#12467;&#12531;&#12477;&#12540;&#12523;&#19978;&#12391;&#27425;&#12398;&#12467;&#12510;&#12531;&#12489;&#12434;&#23455;&#34892; 'install.packages("tidyverse")'</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> tidyverse &#12497;&#12483;&#12465;&#12540;&#12472;&#12398;&#35501;&#12415;&#36796;&#12415;</span>
-<span style="color: #60aa00;">library</span>(tidyverse)
+<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#26368;&#21021;&#12395;&#19968;&#24230;&#12384;&#12369;&#20197;&#19979;&#12398;&#12356;&#12378;&#12428;&#12363;&#12434;&#23455;&#34892;&#12375;&#12390;&#12362;&#12367;
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;">  - Package &#12479;&#12502;&#12363;&#12425; tidyverse &#12434;&#12452;&#12531;&#12473;&#12488;&#12540;&#12523;
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;">  - &#12467;&#12531;&#12477;&#12540;&#12523;&#19978;&#12391;&#27425;&#12398;&#12467;&#12510;&#12531;&#12489;&#12434;&#23455;&#34892; 'install.packages("tidyverse")'
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> tidyverse &#12497;&#12483;&#12465;&#12540;&#12472;&#12398;&#35501;&#12415;&#36796;&#12415;
+</span><span style="color: #60aa00;">library</span>(tidyverse)
 </pre>
 </div></li>
 
 </ul>
 </section>
-<section id="slide-org97c64ff">
-<h3 id="org97c64ff">データフレームの作成</h3>
+<section id="slide-org0713995">
+<h3 id="org0713995">データフレームの作成</h3>
 <ul>
 <li>作成方法はいくつか用意されている
 <ul>
@@ -204,12 +205,12 @@
 </p>
 <div class="org-src-container">
 
-<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#21516;&#12376;&#38263;&#12373;&#12398;&#12505;&#12463;&#12488;&#12523;(&#38306;&#25968; base::c() &#12391;&#20316;&#25104;)&#12434;&#20006;&#12409;&#12427; (&#38306;&#25968; tibble::tibble())</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> (... &lt;- ...) &#12399;&#20195;&#20837;&#12375;&#12383;&#32080;&#26524;&#12434;&#34920;&#31034;</span>
-(foo <span style="color: #60aa00;">&lt;-</span> tibble(one = c(1,2,3),two = c(<span style="color: #d08928;">"AB"</span>,<span style="color: #d08928;">"CD"</span>,<span style="color: #d08928;">"EF"</span>))) 
+<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#21516;&#12376;&#38263;&#12373;&#12398;&#12505;&#12463;&#12488;&#12523;(&#38306;&#25968; base::c() &#12391;&#20316;&#25104;)&#12434;&#20006;&#12409;&#12427; (&#38306;&#25968; tibble::tibble())
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> (... &lt;- ...) &#12399;&#20195;&#20837;&#12375;&#12383;&#32080;&#26524;&#12434;&#34920;&#31034;
+</span>(foo <span style="color: #60aa00;">&lt;-</span> tibble(one = c(1,2,3),two = c(<span style="color: #d08928;">"AB"</span>,<span style="color: #d08928;">"CD"</span>,<span style="color: #d08928;">"EF"</span>))) 
 (bar <span style="color: #60aa00;">&lt;-</span> tibble(three = c(<span style="color: #d08928;">"x"</span>,<span style="color: #d08928;">"y"</span>,<span style="color: #d08928;">"z"</span>),four = c(0.9,0.5,-0.3)))
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12434;&#32080;&#21512;&#12377;&#12427; (&#38306;&#25968; dplyr::bind_cols())</span>
-(baz <span style="color: #60aa00;">&lt;-</span> bind_cols(foo,bar)) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">bind columns</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12434;&#32080;&#21512;&#12377;&#12427; (&#38306;&#25968; dplyr::bind_cols())
+</span>(baz <span style="color: #60aa00;">&lt;-</span> bind_cols(foo,bar)) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">bind columns</span>
 </pre>
 </div></li>
 
@@ -217,18 +218,18 @@
 </section>
 </section>
 <section>
-<section id="slide-orgfd4d659" data-background="#fef4f4">
-<h2 id="orgfd4d659">実習</h2>
+<section id="slide-orgbb8881d" data-background="#fef4f4">
+<h2 id="orgbb8881d">実習</h2>
 </section>
 </section>
 <section>
-<section id="slide-org6f707a4">
-<h2 id="org6f707a4">ファイルの操作</h2>
-<div class="outline-text-2" id="text-org6f707a4">
+<section id="slide-org1ace5d8">
+<h2 id="org1ace5d8">ファイルの操作</h2>
+<div class="outline-text-2" id="text-org1ace5d8">
 </div>
 </section>
-<section id="slide-orgf6d3ed7">
-<h3 id="orgf6d3ed7">ファイルを用いたデータの読み書き</h3>
+<section id="slide-org4e54821">
+<h3 id="org4e54821">ファイルを用いたデータの読み書き</h3>
 <ul>
 <li>解析においてはデータファイルの操作が必要
 <ul>
@@ -246,8 +247,8 @@
 
 </ul>
 </section>
-<section id="slide-orge126f38">
-<h3 id="orge126f38">作業ディレクトリ</h3>
+<section id="slide-org54737cc">
+<h3 id="org54737cc">作業ディレクトリ</h3>
 <ul>
 <li>作業ディレクトリとファイルに関する注意
 <ul>
@@ -265,8 +266,8 @@
 
 </ul>
 </section>
-<section id="slide-org38b5232">
-<h3 id="org38b5232">CSV ファイルの操作</h3>
+<section id="slide-orgec3f3a0">
+<h3 id="orgec3f3a0">CSV ファイルの操作</h3>
 <ul>
 <li><p>
 関数 <code>readr::write_csv()</code> : ファイルの書き出し
@@ -290,18 +291,18 @@
 </section>
 </section>
 <section>
-<section id="slide-orgee9bc0b" data-background="#fef4f4">
-<h2 id="orgee9bc0b">実習</h2>
+<section id="slide-org19c3adf" data-background="#fef4f4">
+<h2 id="org19c3adf">実習</h2>
 </section>
 </section>
 <section>
-<section id="slide-org4cad782">
-<h2 id="org4cad782">データフレームの操作</h2>
-<div class="outline-text-2" id="text-org4cad782">
+<section id="slide-org9397fd3">
+<h2 id="org9397fd3">データフレームの操作</h2>
+<div class="outline-text-2" id="text-org9397fd3">
 </div>
 </section>
-<section id="slide-org2af9a1c">
-<h3 id="org2af9a1c">要素の選択</h3>
+<section id="slide-org055efe2">
+<h3 id="org055efe2">要素の選択</h3>
 <ul>
 <li>選択方法はいくつか用意されている
 <ul>
@@ -318,22 +319,22 @@
 <pre class="src src-R">z <span style="color: #60aa00;">&lt;-</span> tibble(one = c(1,2,3),
                 two = c(<span style="color: #d08928;">"AB"</span>,<span style="color: #d08928;">"CD"</span>,<span style="color: #d08928;">"EF"</span>),
                 three = 6:8)
-z[1,2] <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">1&#34892;2&#21015;&#12398;&#35201;&#32032;&#12434;&#36984;&#25246;</span>
-z[-c(1,3),] <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">1,3&#34892;&#12434;&#38500;&#22806;</span>
-z[c(<span style="color: #00aa80;">TRUE</span>,<span style="color: #00aa80;">FALSE</span>,<span style="color: #00aa80;">TRUE</span>),] <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">1,3&#34892;&#12434;&#36984;&#25246;</span>
-z[,<span style="color: #d08928;">"two"</span>] <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#21015;&#21517;"two"&#12434;&#36984;&#25246;(1&#21015;&#12398;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12395;&#12394;&#12427;)</span>
-z[<span style="color: #d08928;">"two"</span>]  <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#19978;&#35352;&#12392;&#21516;&#27096;&#12398;&#32080;&#26524;</span>
-z[,c(<span style="color: #d08928;">"one"</span>,<span style="color: #d08928;">"three"</span>)] <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#21015;&#21517;"one"&#12392;"three"&#12434;&#36984;&#25246;(&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12395;&#12394;&#12427;)</span>
-z[c(<span style="color: #d08928;">"one"</span>,<span style="color: #d08928;">"three"</span>)]  <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#19978;&#35352;&#12392;&#21516;&#27096;&#12398;&#32080;&#26524;</span>
-z[[<span style="color: #d08928;">"two"</span>]] <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#21015;&#21517;"two"&#12398;&#12505;&#12463;&#12488;&#12523;&#12434;&#36984;&#25246;(1&#21015;&#12398;&#22580;&#21512;&#12375;&#12363;&#20351;&#12360;&#12394;&#12356;)</span>
-z$two      <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#19978;&#35352;&#12392;&#21516;&#27096;&#12398;&#32080;&#26524;</span>
+z[1,2] <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">1&#34892;2&#21015;&#12398;&#35201;&#32032;&#12434;&#36984;&#25246;
+</span>z[-c(1,3),] <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">1,3&#34892;&#12434;&#38500;&#22806;
+</span>z[c(<span style="color: #00aa80;">TRUE</span>,<span style="color: #00aa80;">FALSE</span>,<span style="color: #00aa80;">TRUE</span>),] <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">1,3&#34892;&#12434;&#36984;&#25246;
+</span>z[,<span style="color: #d08928;">"two"</span>] <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#21015;&#21517;"two"&#12434;&#36984;&#25246;(1&#21015;&#12398;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12395;&#12394;&#12427;)
+</span>z[<span style="color: #d08928;">"two"</span>]  <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#19978;&#35352;&#12392;&#21516;&#27096;&#12398;&#32080;&#26524;
+</span>z[,c(<span style="color: #d08928;">"one"</span>,<span style="color: #d08928;">"three"</span>)] <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#21015;&#21517;"one"&#12392;"three"&#12434;&#36984;&#25246;(&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12395;&#12394;&#12427;)
+</span>z[c(<span style="color: #d08928;">"one"</span>,<span style="color: #d08928;">"three"</span>)]  <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#19978;&#35352;&#12392;&#21516;&#27096;&#12398;&#32080;&#26524;
+</span>z[[<span style="color: #d08928;">"two"</span>]] <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#21015;&#21517;"two"&#12398;&#12505;&#12463;&#12488;&#12523;&#12434;&#36984;&#25246;(1&#21015;&#12398;&#22580;&#21512;&#12375;&#12363;&#20351;&#12360;&#12394;&#12356;)
+</span>z$two      <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#19978;&#35352;&#12392;&#21516;&#27096;&#12398;&#32080;&#26524;</span>
 </pre>
 </div></li>
 
 </ul>
 </section>
-<section id="slide-orgf11b1f7">
-<h3 id="orgf11b1f7">部分集合(行)の選択</h3>
+<section id="slide-org8a11bdf">
+<h3 id="org8a11bdf">部分集合(行)の選択</h3>
 <ul>
 <li><p>
 関数 <code>dplyr::filter()</code> : 条件を指定して行を選択
@@ -341,11 +342,11 @@ z$two      <span style="color: #808080; font-style: italic;"># </span><span styl
 <div class="org-src-container">
 
 <pre class="src src-R">filter(.data, ..., .by = <span style="color: #00aa80;">NULL</span>, .preserve = <span style="color: #00aa80;">FALSE</span>)
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> .data: &#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512; </span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> ...: &#34892;&#12395;&#38306;&#12377;&#12427;&#26465;&#20214;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> .by: &#12464;&#12523;&#12540;&#12503;&#21270;&#12434;&#25351;&#23450;(&#23455;&#39443;&#30340;&#12394;&#23455;&#35013;)</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> .preserve: &#12464;&#12523;&#12540;&#12503;&#21270;&#12434;&#32173;&#25345;&#12377;&#12427;&#12363;&#25351;&#23450;(&#23455;&#39443;&#30340;&#12394;&#23455;&#35013;)</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35443;&#32048;&#12399; '?dplyr::filter' &#12434;&#21442;&#29031;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> .data: &#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512; 
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> ...: &#34892;&#12395;&#38306;&#12377;&#12427;&#26465;&#20214;
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> .by: &#12464;&#12523;&#12540;&#12503;&#21270;&#12434;&#25351;&#23450;(&#23455;&#39443;&#30340;&#12394;&#23455;&#35013;)
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> .preserve: &#12464;&#12523;&#12540;&#12503;&#21270;&#12434;&#32173;&#25345;&#12377;&#12427;&#12363;&#25351;&#23450;(&#23455;&#39443;&#30340;&#12394;&#23455;&#35013;)
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35443;&#32048;&#12399; '?dplyr::filter' &#12434;&#21442;&#29031;</span>
 </pre>
 </div></li>
 <li>行に関する条件指定には以下を用いることができる
@@ -358,8 +359,8 @@ z$two      <span style="color: #808080; font-style: italic;"># </span><span styl
 
 </ul>
 </section>
-<section id="slide-org047f7a1">
-<h3 id="org047f7a1">部分集合(列)の選択</h3>
+<section id="slide-org7ded94d">
+<h3 id="org7ded94d">部分集合(列)の選択</h3>
 <ul>
 <li><p>
 関数 <code>dplyr::select()</code> : 条件を指定して列を選択
@@ -367,9 +368,9 @@ z$two      <span style="color: #808080; font-style: italic;"># </span><span styl
 <div class="org-src-container">
 
 <pre class="src src-R">select(.data, ...)
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> .data: &#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512; </span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> ...: &#21015;&#12395;&#38306;&#12377;&#12427;&#26465;&#20214;(&#21015;&#12398;&#30058;&#21495;&#65292;&#21517;&#21069;&#65292;&#21517;&#21069;&#12395;&#38306;&#12377;&#12427;&#26465;&#20214;&#24335;&#12434;&#21033;&#29992;&#12377;&#12427;)</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35443;&#32048;&#12399; '?dplyr::select' &#12434;&#21442;&#29031;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> .data: &#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512; 
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> ...: &#21015;&#12395;&#38306;&#12377;&#12427;&#26465;&#20214;(&#21015;&#12398;&#30058;&#21495;&#65292;&#21517;&#21069;&#65292;&#21517;&#21069;&#12395;&#38306;&#12377;&#12427;&#26465;&#20214;&#24335;&#12434;&#21033;&#29992;&#12377;&#12427;)
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35443;&#32048;&#12399; '?dplyr::select' &#12434;&#21442;&#29031;</span>
 </pre>
 </div></li>
 <li>条件指定には例えば以下のような方法がある
@@ -383,8 +384,8 @@ z$two      <span style="color: #808080; font-style: italic;"># </span><span styl
 
 </ul>
 </section>
-<section id="slide-orgc245bb0">
-<h3 id="orgc245bb0">パイプ演算子</h3>
+<section id="slide-org525d9fc">
+<h3 id="org525d9fc">パイプ演算子</h3>
 <ul>
 <li>処理を順次結合する演算子 (いくつか定義がある)
 <ul>
@@ -397,22 +398,22 @@ z$two      <span style="color: #808080; font-style: italic;"># </span><span styl
 </p>
 <div class="org-src-container">
 
-<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#21069;&#12395;&#20316;&#25104;&#12375;&#12383;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512; z &#12434;&#29992;&#12356;&#12383;&#20363;</span>
-(foo <span style="color: #60aa00;">&lt;-</span> filter(z, three &gt;= 7)) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#21015; three &#12398;&#20516;&#12364;7&#20197;&#19978;&#12398;&#34892;&#12434;&#36984;&#25246;</span>
-(bar <span style="color: #60aa00;">&lt;-</span> select(foo, c(one, three))) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#21015; one,three &#12434;&#36984;&#25246;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#12497;&#12452;&#12503;&#12434;&#29992;&#12356;&#12427;&#12392;&#20197;&#19979;&#12398;&#12424;&#12358;&#12395;&#26360;&#12369;&#12427;</span>
-z |&gt; filter(three &gt;= 7) |&gt; select(one, three)
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#21029;&#12398;&#20363;</span>
-z |&gt; 
-  filter(one != 2) |&gt;        <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#21015; one &#12398;&#20516;&#12364;2&#12391;&#12394;&#12356;&#34892;&#12434;&#36984;&#25246;</span>
-  select(starts_with(<span style="color: #d08928;">"t"</span>)) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#21015; "t"wo,"t"hree &#12434;&#36984;&#25246;</span>
+<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#21069;&#12395;&#20316;&#25104;&#12375;&#12383;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512; z &#12434;&#29992;&#12356;&#12383;&#20363;
+</span>(foo <span style="color: #60aa00;">&lt;-</span> filter(z, three &gt;= 7)) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#21015; three &#12398;&#20516;&#12364;7&#20197;&#19978;&#12398;&#34892;&#12434;&#36984;&#25246;
+</span>(bar <span style="color: #60aa00;">&lt;-</span> select(foo, c(one, three))) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#21015; one,three &#12434;&#36984;&#25246;
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#12497;&#12452;&#12503;&#12434;&#29992;&#12356;&#12427;&#12392;&#20197;&#19979;&#12398;&#12424;&#12358;&#12395;&#26360;&#12369;&#12427;
+</span>z |&gt; filter(three &gt;= 7) |&gt; select(one, three)
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#21029;&#12398;&#20363;
+</span>z |&gt; 
+  filter(one != 2) |&gt;        <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#21015; one &#12398;&#20516;&#12364;2&#12391;&#12394;&#12356;&#34892;&#12434;&#36984;&#25246;
+</span>  select(starts_with(<span style="color: #d08928;">"t"</span>)) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#21015; "t"wo,"t"hree &#12434;&#36984;&#25246;</span>
 </pre>
 </div></li>
 
 </ul>
 </section>
-<section id="slide-orgf77490d">
-<h3 id="orgf77490d">データフレームの形の変更</h3>
+<section id="slide-orgbc9418d">
+<h3 id="orgbc9418d">データフレームの形の変更</h3>
 <ul>
 <li><p>
 関数 <code>dplyr::pivot_longer()</code> : 同じ属性の列をまとめる
@@ -429,31 +430,31 @@ z |&gt;
   values_to = <span style="color: #d08928;">"value"</span>, values_drop_na = <span style="color: #00aa80;">FALSE</span>, values_ptypes = <span style="color: #00aa80;">NULL</span>,
   values_transform = <span style="color: #00aa80;">NULL</span>
 )
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> data: &#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> cols: &#25805;&#20316;&#12398;&#23550;&#35937;&#12392;&#12377;&#12427;&#21015;(&#21015;&#12398;&#30058;&#21495;&#65292;&#21517;&#21069;&#65292;&#21517;&#21069;&#12395;&#38306;&#12377;&#12427;&#26465;&#20214;&#24335;&#12394;&#12393;)</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> names_to: &#23550;&#35937;&#12398;&#21015;&#21517;&#12434;&#12521;&#12505;&#12523;&#12392;&#12377;&#12427;&#26032;&#12375;&#12356;&#21015;&#12398;&#21517;&#21069;(&#26082;&#23450;&#20516;&#12399;"name")</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> values_to: &#23550;&#35937;&#12398;&#21015;&#12398;&#20516;&#12434;&#20445;&#23384;&#12377;&#12427;&#26032;&#12375;&#12356;&#21015;&#12398;&#21517;&#21069;(&#26082;&#23450;&#20516;&#12399;"value")</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35443;&#32048;&#12399; '?dplyr::pivot_longer' &#12434;&#21442;&#29031;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> data: &#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> cols: &#25805;&#20316;&#12398;&#23550;&#35937;&#12392;&#12377;&#12427;&#21015;(&#21015;&#12398;&#30058;&#21495;&#65292;&#21517;&#21069;&#65292;&#21517;&#21069;&#12395;&#38306;&#12377;&#12427;&#26465;&#20214;&#24335;&#12394;&#12393;)
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> names_to: &#23550;&#35937;&#12398;&#21015;&#21517;&#12434;&#12521;&#12505;&#12523;&#12392;&#12377;&#12427;&#26032;&#12375;&#12356;&#21015;&#12398;&#21517;&#21069;(&#26082;&#23450;&#20516;&#12399;"name")
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> values_to: &#23550;&#35937;&#12398;&#21015;&#12398;&#20516;&#12434;&#20445;&#23384;&#12377;&#12427;&#26032;&#12375;&#12356;&#21015;&#12398;&#21517;&#21069;(&#26082;&#23450;&#20516;&#12399;"value")
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35443;&#32048;&#12399; '?dplyr::pivot_longer' &#12434;&#21442;&#29031;</span>
 </pre>
 </div></li>
 <li>列ごとのグラフを視覚化する際に多用する</li>
 
 </ul>
 </section>
-<section id="slide-org09f9bc8">
-<h3 id="org09f9bc8">変更の例</h3>
+<section id="slide-org4c9032e">
+<h3 id="org4c9032e">変更の例</h3>
 <ul>
 <li><p>
 <span style="color:green;">成績表の形式の変更</span>
 </p>
 <div class="org-src-container">
 
-<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#32244;&#32722;&#21839;&#38988;&#12398;&#25104;&#32318;&#34920;&#12434;&#29992;&#12356;&#12383;&#20363;</span>
-pivot_longer(grade_data,
-             !name, <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">name &#21015;&#20197;&#22806;&#12434;&#12414;&#12392;&#12417;&#12427;</span>
-             names_to = <span style="color: #d08928;">"subject"</span>) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#12418;&#12392;&#12398;&#21015;&#21517;&#12434; subject &#21015;&#12395;&#12414;&#12392;&#12417;&#12427;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#12371;&#12398;&#20363;&#12391;&#12399;&#12418;&#12392;&#12398;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12395; "name" &#12392;&#12356;&#12358;&#21015;&#12364;&#12354;&#12427;&#12383;&#12417;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#26082;&#23450;&#20516;&#12399;&#20351;&#12360;&#12394;&#12356;&#12398;&#12391;&#65292;&#31185;&#30446;&#12434;&#34920;&#12377; "subject" &#12434;&#29992;&#12356;&#12390;&#12356;&#12427;</span>
+<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#32244;&#32722;&#21839;&#38988;&#12398;&#25104;&#32318;&#34920;&#12434;&#29992;&#12356;&#12383;&#20363;
+</span>pivot_longer(grade_data,
+             !name, <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">name &#21015;&#20197;&#22806;&#12434;&#12414;&#12392;&#12417;&#12427;
+</span>             names_to = <span style="color: #d08928;">"subject"</span>) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#12418;&#12392;&#12398;&#21015;&#21517;&#12434; subject &#21015;&#12395;&#12414;&#12392;&#12417;&#12427;
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#12371;&#12398;&#20363;&#12391;&#12399;&#12418;&#12392;&#12398;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12395; "name" &#12392;&#12356;&#12358;&#21015;&#12364;&#12354;&#12427;&#12383;&#12417;
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#26082;&#23450;&#20516;&#12399;&#20351;&#12360;&#12394;&#12356;&#12398;&#12391;&#65292;&#31185;&#30446;&#12434;&#34920;&#12377; "subject" &#12434;&#29992;&#12356;&#12390;&#12356;&#12427;</span>
 </pre>
 </div></li>
 
@@ -461,16 +462,16 @@ pivot_longer(grade_data,
 </section>
 </section>
 <section>
-<section id="slide-org77ce0c3" data-background="#fef4f4">
-<h2 id="org77ce0c3">実習</h2>
+<section id="slide-org9aa5cc2" data-background="#fef4f4">
+<h2 id="org9aa5cc2">実習</h2>
 </section>
 </section>
 <section>
-<section id="slide-orgd9197da">
-<h2 id="orgd9197da">データフレームの集約</h2>
+<section id="slide-orgf1a68c8">
+<h2 id="orgf1a68c8">データフレームの集約</h2>
 </section>
-<section id="slide-orgad1a7a0">
-<h3 id="orgad1a7a0">統計量の計算</h3>
+<section id="slide-orgeb3023b">
+<h3 id="orgeb3023b">統計量の計算</h3>
 <ul>
 <li>データを集約した値 = 統計量
 <ul>
@@ -486,19 +487,19 @@ pivot_longer(grade_data,
 
 </ul>
 </section>
-<section id="slide-org8aa6178">
-<h3 id="org8aa6178">列ごとの集約</h3>
+<section id="slide-org7215ecc">
+<h3 id="org7215ecc">列ごとの集約</h3>
 <ul>
 <li><p>
-関数 <code>dplyr::summarise()</code> : 行ごとに計算する
+関数 <code>dplyr::summarise()</code> : 集計を行う
 </p>
 <div class="org-src-container">
 
 <pre class="src src-R">summarise(.data, ..., .by = <span style="color: #00aa80;">NULL</span>, .groups = <span style="color: #00aa80;">NULL</span>)
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> .data: &#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> ...: &#27714;&#12417;&#12383;&#12356;&#32113;&#35336;&#37327;&#12434;&#35336;&#31639;&#12377;&#12427;&#12383;&#12417;&#12398;&#20966;&#29702;&#12434;&#35352;&#36848;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> .by: &#12464;&#12523;&#12540;&#12503;&#21270;&#12434;&#25351;&#23450;(&#23455;&#39443;&#30340;&#12394;&#23455;&#35013;)</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> .groups: &#12464;&#12523;&#12540;&#12503;&#21270;&#12398;&#32080;&#26524;&#12434;&#25351;&#23450;(&#23455;&#39443;&#30340;&#12394;&#23455;&#35013;)</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> .data: &#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> ...: &#27714;&#12417;&#12383;&#12356;&#32113;&#35336;&#37327;&#12434;&#35336;&#31639;&#12377;&#12427;&#12383;&#12417;&#12398;&#20966;&#29702;&#12434;&#35352;&#36848;
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> .by: &#12464;&#12523;&#12540;&#12503;&#21270;&#12434;&#25351;&#23450;(&#23455;&#39443;&#30340;&#12394;&#23455;&#35013;)
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> .groups: &#12464;&#12523;&#12540;&#12503;&#21270;&#12398;&#32080;&#26524;&#12434;&#25351;&#23450;(&#23455;&#39443;&#30340;&#12394;&#23455;&#35013;)</span>
 </pre>
 </div></li>
 <li><p>
@@ -506,18 +507,18 @@ pivot_longer(grade_data,
 </p>
 <div class="org-src-container">
 
-<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#32244;&#32722;&#21839;&#38988;&#12398;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12434;&#29992;&#12356;&#12383;&#20363;</span>
-grade_data |&gt;
-  summarise(math_mean = mean(math), nums = n()) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#25968;&#23398;&#12398;&#24179;&#22343;&#12434;&#27714;&#12417;&#12427;</span>
-grade_data |&gt;
+<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#32244;&#32722;&#21839;&#38988;&#12398;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12434;&#29992;&#12356;&#12383;&#20363;
+</span>grade_data |&gt;
+  summarise(math_mean = mean(math), nums = n()) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#25968;&#23398;&#12398;&#24179;&#22343;&#12434;&#27714;&#12417;&#12427;
+</span>grade_data |&gt;
   summarise(across(!name, mean)) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#21517;&#21069;&#12398;&#21015;&#20197;&#22806;&#12398;&#24179;&#22343;&#12434;&#27714;&#12417;&#12427;</span>
 </pre>
 </div></li>
 
 </ul>
 </section>
-<section id="slide-org3c37733">
-<h3 id="org3c37733">グループごとの操作</h3>
+<section id="slide-orgb12e17f">
+<h3 id="orgb12e17f">グループごとの操作</h3>
 <ul>
 <li><p>
 関数 <code>dplyr::group_by()</code> : グループ化を行う
@@ -525,10 +526,10 @@ grade_data |&gt;
 <div class="org-src-container">
 
 <pre class="src src-R">group_by(.data, ..., .add = <span style="color: #00aa80;">FALSE</span>, .drop = group_by_drop_default(.data))
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> .data: &#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> ...: &#12464;&#12523;&#12540;&#12503;&#21270;&#12434;&#34892;&#12358;&#38917;&#30446;&#12434;&#21547;&#12416;&#21015;&#12420;&#26465;&#20214;&#12434;&#35352;&#36848;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> .add: &#12464;&#12523;&#12540;&#12503;&#21270;&#12398;&#19978;&#26360;&#12365;&#12434;&#21046;&#24481;(&#26082;&#23450;&#20516;FALSE&#12399;&#19978;&#26360;&#12365;)</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> .drop: &#12464;&#12523;&#12540;&#12503;&#21270;&#12395;&#38306;&#19982;&#12375;&#12394;&#12356;&#22240;&#23376;&#12398;&#25201;&#12356;&#26041;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> .data: &#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> ...: &#12464;&#12523;&#12540;&#12503;&#21270;&#12434;&#34892;&#12358;&#38917;&#30446;&#12434;&#21547;&#12416;&#21015;&#12420;&#26465;&#20214;&#12434;&#35352;&#36848;
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> .add: &#12464;&#12523;&#12540;&#12503;&#21270;&#12398;&#19978;&#26360;&#12365;&#12434;&#21046;&#24481;(&#26082;&#23450;&#20516;FALSE&#12399;&#19978;&#26360;&#12365;)
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> .drop: &#12464;&#12523;&#12540;&#12503;&#21270;&#12395;&#38306;&#19982;&#12375;&#12394;&#12356;&#22240;&#23376;&#12398;&#25201;&#12356;&#26041;</span>
 </pre>
 </div></li>
 <li><p>
@@ -536,52 +537,31 @@ grade_data |&gt;
 </p>
 <div class="org-src-container">
 
-<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> pcr_data &#12434;&#29992;&#12356;&#12383;&#20363;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#21307;&#30274;&#27231;&#38306;(mi)&#12398;PCR&#20214;&#25968;&#12434;&#21508;&#26376;&#12391;&#38598;&#35336;&#12377;&#12427;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#26085;&#20184;&#12398;&#25201;&#12356;&#12395;&#38306;&#25968; lubridate::year(), lubridate::month() &#12434;&#21033;&#29992;</span>
-pcr_data |&gt;
-  group_by(year = year(date), month = month(date)) |&gt; <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#24180;&#12392;&#26376;&#12391;&#12464;&#12523;&#12540;&#12503;&#21270;</span>
-  summarise(mi_total = sum(mi)) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">mi &#12398;&#21512;&#35336;&#20516;&#12434;&#35336;&#31639;&#12377;&#12427;</span>
+<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> pcr_data &#12434;&#29992;&#12356;&#12383;&#20363;
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#21307;&#30274;&#27231;&#38306;(mi)&#12398;PCR&#20214;&#25968;&#12434;&#21508;&#26376;&#12391;&#38598;&#35336;&#12377;&#12427;
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#26085;&#20184;&#12398;&#25201;&#12356;&#12395;&#38306;&#25968; lubridate::year(), lubridate::month() &#12434;&#21033;&#29992;
+</span>pcr_data |&gt;
+  group_by(year = year(date), month = month(date)) |&gt; <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#24180;&#12392;&#26376;&#12391;&#12464;&#12523;&#12540;&#12503;&#21270;
+</span>  summarise(mi_total = sum(mi)) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">mi &#12398;&#21512;&#35336;&#20516;&#12434;&#35336;&#31639;&#12377;&#12427;</span>
 </pre>
-</div>
-
-<pre class="example" id="orgb1e6e76">
-`summarise()` has grouped output by 'year'. You can override using the `.groups`
-argument.
-# A tibble: 40 × 3
-# Groups:   year [4]
-    year month mi_total
-   &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;
- 1  2020     2       NA
- 2  2020     3       NA
- 3  2020     4     8614
- 4  2020     5    12283
- 5  2020     6    16213
- 6  2020     7    29805
- 7  2020     8    76416
- 8  2020     9    85850
- 9  2020    10   118286
-10  2020    11   174449
-# ℹ 30 more rows
-# ℹ Use `print(n = ...)` to see more rows
-</pre></li>
+</div></li>
 
 </ul>
 </section>
 </section>
 <section>
-<section id="slide-org99f9c2c" data-background="#fef4f4">
-<h2 id="org99f9c2c">実習</h2>
+<section id="slide-org88e458d" data-background="#fef4f4">
+<h2 id="org88e458d">実習</h2>
 </section>
 </section>
 <section>
-<section id="slide-org23cdf24">
-<h2 id="org23cdf24">参考</h2>
-<div class="outline-text-2" id="text-org23cdf24">
+<section id="slide-orgf8192e0">
+<h2 id="orgf8192e0">参考</h2>
+<div class="outline-text-2" id="text-orgf8192e0">
 </div>
 </section>
-<section id="slide-org1edefc2">
-<h3 id="org1edefc2">その他の資料</h3>
+<section id="slide-org4fc70b2">
+<h3 id="org4fc70b2">その他の資料</h3>
 <ul>
 <li>詳細なデータの取り扱いについては以下を参照
 <ul>
@@ -614,13 +594,13 @@ argument.
 </section>
 </section>
 <section>
-<section id="slide-org716f336">
-<h2 id="org716f336">描画の基礎</h2>
-<div class="outline-text-2" id="text-org716f336">
+<section id="slide-org43fd443">
+<h2 id="org43fd443">描画の基礎</h2>
+<div class="outline-text-2" id="text-org43fd443">
 </div>
 </section>
-<section id="slide-org5a7272f">
-<h3 id="org5a7272f">データの可視化</h3>
+<section id="slide-org4c32b2e">
+<h3 id="org4c32b2e">データの可視化</h3>
 <ul>
 <li>データ全体の特徴や傾向を把握するための直感的で効果的な方法</li>
 <li>R言語には極めて多彩な作図機能が用意されている
@@ -635,8 +615,8 @@ argument.
 
 </ul>
 </section>
-<section id="slide-org080894d">
-<h3 id="org080894d">描画の初期化</h3>
+<section id="slide-org3928e2f">
+<h3 id="org3928e2f">描画の初期化</h3>
 <ul>
 <li><p>
 <code>package::ggplot2</code> ではさまざまな作図関数を追加しながら描画する
@@ -654,17 +634,17 @@ argument.
 <div class="org-src-container">
 
 <pre class="src src-R">ggplot(data = <span style="color: #00aa80;">NULL</span>, mapping = aes(), ..., environment = parent.frame())
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> data: &#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> mapping: &#25551;&#30011;&#12398;&#22522;&#26412;&#12392;&#12394;&#12427;"&#23529;&#32654;&#30340;&#12510;&#12483;&#12503;"(xy&#36600;&#65292;&#33394;&#65292;&#24418;&#65292;&#22615;&#12426;&#28528;&#12375;&#12394;&#12393;)&#12398;&#35373;&#23450;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> environment: &#20114;&#25563;&#24615;&#12398;&#12383;&#12417;&#12398;&#22793;&#25968;(&#24259;&#27490;)</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35443;&#32048;&#12399; '?ggplot2::ggplot' &#12434;&#21442;&#29031;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> data: &#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> mapping: &#25551;&#30011;&#12398;&#22522;&#26412;&#12392;&#12394;&#12427;"&#23529;&#32654;&#30340;&#12510;&#12483;&#12503;"(xy&#36600;&#65292;&#33394;&#65292;&#24418;&#65292;&#22615;&#12426;&#28528;&#12375;&#12394;&#12393;)&#12398;&#35373;&#23450;
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> environment: &#20114;&#25563;&#24615;&#12398;&#12383;&#12417;&#12398;&#22793;&#25968;(&#24259;&#27490;)
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35443;&#32048;&#12399; '?ggplot2::ggplot' &#12434;&#21442;&#29031;</span>
 </pre>
 </div></li>
 
 </ul>
 </section>
-<section id="slide-org190cdf9">
-<h3 id="org190cdf9">基本的な描画 (折線グラフ)</h3>
+<section id="slide-org6aacd21">
+<h3 id="org6aacd21">基本的な描画 (折線グラフ)</h3>
 <ul>
 <li><p>
 関数 <code>ggplot2::geom_line()</code> : 線の描画
@@ -679,14 +659,14 @@ argument.
   ...,
   na.rm = <span style="color: #00aa80;">FALSE</span>, orientation = <span style="color: #00aa80;">NA</span>, show.legend = <span style="color: #00aa80;">NA</span>, inherit.aes = <span style="color: #00aa80;">TRUE</span>
 )
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> mapping: "&#23529;&#32654;&#30340;"&#12510;&#12483;&#12503;&#12398;&#35373;&#23450;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> data: &#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> stat: &#32113;&#35336;&#30340;&#12394;&#20966;&#29702;&#12398;&#25351;&#23450;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> position: &#25551;&#30011;&#20301;&#32622;&#12398;&#35519;&#25972;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> ...: &#12381;&#12398;&#20182;&#12398;&#25551;&#30011;&#12458;&#12503;&#12471;&#12519;&#12531;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> na.rm: NA(&#27424;&#25613;&#20516;)&#12398;&#21066;&#38500;(&#26082;&#23450;&#20516;&#12399;&#21066;&#38500;&#12375;&#12394;&#12356;)</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> show.legend: &#20961;&#20363;&#12398;&#34920;&#31034;(&#26082;&#23450;&#20516;&#12399;&#34920;&#31034;)</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35443;&#32048;&#12399; '?ggplot2::geom_line' &#12434;&#21442;&#29031;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> mapping: "&#23529;&#32654;&#30340;"&#12510;&#12483;&#12503;&#12398;&#35373;&#23450;
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> data: &#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> stat: &#32113;&#35336;&#30340;&#12394;&#20966;&#29702;&#12398;&#25351;&#23450;
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> position: &#25551;&#30011;&#20301;&#32622;&#12398;&#35519;&#25972;
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> ...: &#12381;&#12398;&#20182;&#12398;&#25551;&#30011;&#12458;&#12503;&#12471;&#12519;&#12531;
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> na.rm: NA(&#27424;&#25613;&#20516;)&#12398;&#21066;&#38500;(&#26082;&#23450;&#20516;&#12399;&#21066;&#38500;&#12375;&#12394;&#12356;)
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> show.legend: &#20961;&#20363;&#12398;&#34920;&#31034;(&#26082;&#23450;&#20516;&#12399;&#34920;&#31034;)
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35443;&#32048;&#12399; '?ggplot2::geom_line' &#12434;&#21442;&#29031;</span>
 </pre>
 </div></li>
 
@@ -700,16 +680,16 @@ argument.
 </p>
 <div class="org-src-container">
 
-<pre class="src src-R">pcr_data |&gt; <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#12497;&#12452;&#12503;&#28436;&#31639;&#23376;&#12391;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12434;&#38306;&#25968; ggplot2::ggplot() &#12395;&#28193;&#12377;</span>
-  ggplot(aes(x = date)) + <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">date &#12434;x&#36600;&#12395;&#25351;&#23450;</span>
-  geom_line(aes(y = ai), colour = <span style="color: #d08928;">"blue"</span>) + <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#34892;&#25919;&#26908;&#26619;&#12434;&#38738;</span>
-  geom_line(aes(y = mi), colour = <span style="color: #d08928;">"red"</span>) +  <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#21307;&#30274;&#27231;&#38306;&#12434;&#36196;</span>
-  labs(y = <span style="color: #d08928;">"number of tests"</span>) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">y&#36600;&#12398;&#12521;&#12505;&#12523;&#12434;&#22793;&#26356;</span>
+<pre class="src src-R">pcr_data |&gt; <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#12497;&#12452;&#12503;&#28436;&#31639;&#23376;&#12391;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12434;&#38306;&#25968; ggplot2::ggplot() &#12395;&#28193;&#12377;
+</span>  ggplot(aes(x = date)) + <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">date &#12434;x&#36600;&#12395;&#25351;&#23450;
+</span>  geom_line(aes(y = ai), colour = <span style="color: #d08928;">"blue"</span>) + <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#34892;&#25919;&#26908;&#26619;&#12434;&#38738;
+</span>  geom_line(aes(y = mi), colour = <span style="color: #d08928;">"red"</span>) +  <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#21307;&#30274;&#27231;&#38306;&#12434;&#36196;
+</span>  labs(y = <span style="color: #d08928;">"number of tests"</span>) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">y&#36600;&#12398;&#12521;&#12505;&#12523;&#12434;&#22793;&#26356;</span>
 </pre>
 </div>
 
 
-<div id="orga07760c" class="figure">
+<div id="orge008ee3" class="figure">
 <p><img src="figs/02-geomline-geomline.png" alt="02-geomline-geomline.png" width="50%" />
 </p>
 </div></li>
@@ -724,8 +704,8 @@ argument.
 </p>
 <div class="org-src-container">
 
-<pre class="src src-R">pcr_data |&gt; select(!c(sub,total)) |&gt; <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#38598;&#35336;&#20516;&#12434;&#38500;&#12367;</span>
-  pivot_longer(!date, names_to = <span style="color: #d08928;">"organ"</span>, values_to = <span style="color: #d08928;">"nums"</span>) |&gt; 
+<pre class="src src-R">pcr_data |&gt; select(!c(sub,total)) |&gt; <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#38598;&#35336;&#20516;&#12434;&#38500;&#12367;
+</span>  pivot_longer(!date, names_to = <span style="color: #d08928;">"organ"</span>, values_to = <span style="color: #d08928;">"nums"</span>) |&gt; 
   ggplot(aes(x = date, y = nums, colour = organ)) + geom_line() +
   labs(title = <span style="color: #d08928;">"PCR Tests in Various Organizatios"</span>,
        x = <span style="color: #d08928;">"Date"</span>, y = <span style="color: #d08928;">"Number of Tests"</span>) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">xy&#36600;&#12398;&#12521;&#12505;&#12523;&#12434;&#22793;&#26356;</span>
@@ -733,7 +713,7 @@ argument.
 </div>
 
 
-<div id="orga70378f" class="figure">
+<div id="orgaca4c6e" class="figure">
 <p><img src="figs/02-geomline.png" alt="02-geomline.png" width="50%" />
 </p>
 </div></li>
@@ -752,21 +732,21 @@ argument.
   pivot_longer(!date, names_to = <span style="color: #d08928;">"organ"</span>, values_to = <span style="color: #d08928;">"nums"</span>) |&gt; 
   ggplot(aes(x = date, y = nums, colour = organ)) +
   labs(title = <span style="color: #d08928;">"PCR Tests in Various Organizatios"</span>, x = <span style="color: #d08928;">"Date"</span>, y = <span style="color: #d08928;">"Number of Tests"</span>) +
-  geom_line(show.legend  =  <span style="color: #00aa80;">FALSE</span>) + <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#20961;&#20363;&#12434;&#28040;&#12377;</span>
-  facet_grid(vars(organ)) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">"organ" &#12372;&#12392;&#12395;&#30064;&#12394;&#12427;&#22259;&#12434;&#20006;&#12409;&#12427;</span>
+  geom_line(show.legend  =  <span style="color: #00aa80;">FALSE</span>) + <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#20961;&#20363;&#12434;&#28040;&#12377;
+</span>  facet_grid(vars(organ)) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">"organ" &#12372;&#12392;&#12395;&#30064;&#12394;&#12427;&#22259;&#12434;&#20006;&#12409;&#12427;</span>
 </pre>
 </div>
 
 
-<div id="org6708d84" class="figure">
+<div id="org20350eb" class="figure">
 <p><img src="figs/02-geomline-facetgrid.png" alt="02-geomline-facetgrid.png" width="50%" />
 </p>
 </div></li>
 
 </ul>
 </section>
-<section id="slide-orgfd97179">
-<h3 id="orgfd97179">基本的な描画 (散布図)</h3>
+<section id="slide-orgff74bb0">
+<h3 id="orgff74bb0">基本的な描画 (散布図)</h3>
 <ul>
 <li><p>
 関数 <code>ggplot2::geom_point()</code> : 点の描画
@@ -781,14 +761,14 @@ argument.
   ...,
   na.rm = <span style="color: #00aa80;">FALSE</span>, show.legend = <span style="color: #00aa80;">NA</span>, inherit.aes = <span style="color: #00aa80;">TRUE</span>
 )
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> mapping: &#23529;&#32654;&#30340;&#12510;&#12483;&#12503;&#12398;&#35373;&#23450;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> data: &#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> stat: &#32113;&#35336;&#30340;&#12394;&#20966;&#29702;&#12398;&#25351;&#23450;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> position: &#25551;&#30011;&#20301;&#32622;&#12398;&#35519;&#25972;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> ...: &#12381;&#12398;&#20182;&#12398;&#25551;&#30011;&#12458;&#12503;&#12471;&#12519;&#12531;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> na.rm: NA(&#27424;&#25613;&#20516;)&#12398;&#21066;&#38500;(&#26082;&#23450;&#20516;&#12399;&#21066;&#38500;&#12375;&#12394;&#12356;)</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> show.legend: &#20961;&#20363;&#12398;&#34920;&#31034;(&#26082;&#23450;&#20516;&#12399;&#34920;&#31034;)</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35443;&#32048;&#12399; '?ggplot2::geom_point' &#12434;&#21442;&#29031;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> mapping: &#23529;&#32654;&#30340;&#12510;&#12483;&#12503;&#12398;&#35373;&#23450;
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> data: &#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> stat: &#32113;&#35336;&#30340;&#12394;&#20966;&#29702;&#12398;&#25351;&#23450;
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> position: &#25551;&#30011;&#20301;&#32622;&#12398;&#35519;&#25972;
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> ...: &#12381;&#12398;&#20182;&#12398;&#25551;&#30011;&#12458;&#12503;&#12471;&#12519;&#12531;
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> na.rm: NA(&#27424;&#25613;&#20516;)&#12398;&#21066;&#38500;(&#26082;&#23450;&#20516;&#12399;&#21066;&#38500;&#12375;&#12394;&#12356;)
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> show.legend: &#20961;&#20363;&#12398;&#34920;&#31034;(&#26082;&#23450;&#20516;&#12399;&#34920;&#31034;)
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35443;&#32048;&#12399; '?ggplot2::geom_point' &#12434;&#21442;&#29031;</span>
 </pre>
 </div></li>
 
@@ -802,17 +782,17 @@ argument.
 </p>
 <div class="org-src-container">
 
-<pre class="src src-R"><span style="color: #6c9ef8;">if</span>(Sys.info()[<span style="color: #d08928;">"sysname"</span>] == <span style="color: #d08928;">"Darwin"</span>) { <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">MacOS&#12363;&#35519;&#12409;&#12390;&#26085;&#26412;&#35486;&#12501;&#12457;&#12531;&#12488;&#12434;&#25351;&#23450;</span>
-  theme_update(text = element_text(family = <span style="color: #d08928;">"HiraginoSans-W4"</span>))}
+<pre class="src src-R"><span style="color: #6c9ef8;">if</span>(Sys.info()[<span style="color: #d08928;">"sysname"</span>] == <span style="color: #d08928;">"Darwin"</span>) { <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">MacOS&#12363;&#35519;&#12409;&#12390;&#26085;&#26412;&#35486;&#12501;&#12457;&#12531;&#12488;&#12434;&#25351;&#23450;
+</span>  theme_update(text = element_text(family = <span style="color: #d08928;">"HiraginoSans-W4"</span>))}
 pcr_data |&gt; 
-  ggplot(aes(x = niid, y = mi)) + <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">x&#36600;&#12434; niid&#65292;y&#36600;&#12434; mi &#12395;&#35373;&#23450;</span>
-  geom_point(colour = <span style="color: #d08928;">"blue"</span>, shape = 19) + <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#33394;&#12392;&#24418;&#12434;&#25351;&#23450;(&#28857;&#12398;&#24418;&#12399; '?points' &#12434;&#21442;&#29031;)</span>
-  labs(x = pcr_colnames[<span style="color: #d08928;">"niid"</span>], y = pcr_colnames[<span style="color: #d08928;">"mi"</span>]) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#36600;&#12398;&#21517;&#21069;&#12434;&#25351;&#23450;</span>
+  ggplot(aes(x = niid, y = mi)) + <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">x&#36600;&#12434; niid&#65292;y&#36600;&#12434; mi &#12395;&#35373;&#23450;
+</span>  geom_point(colour = <span style="color: #d08928;">"blue"</span>, shape = 19) + <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#33394;&#12392;&#24418;&#12434;&#25351;&#23450;(&#28857;&#12398;&#24418;&#12399; '?points' &#12434;&#21442;&#29031;)
+</span>  labs(x = pcr_colnames[<span style="color: #d08928;">"niid"</span>], y = pcr_colnames[<span style="color: #d08928;">"mi"</span>]) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#36600;&#12398;&#21517;&#21069;&#12434;&#25351;&#23450;</span>
 </pre>
 </div>
 
 
-<div id="orga57be04" class="figure">
+<div id="orgc660e00" class="figure">
 <p><img src="figs/02-geompoint.png" alt="02-geompoint.png" width="50%" />
 </p>
 </div></li>
@@ -830,21 +810,21 @@ pcr_data |&gt;
 <pre class="src src-R">pcr_data |&gt; 
   ggplot(aes(x = niid, y = mi)) + 
   geom_point(colour = <span style="color: #d08928;">"blue"</span>, shape = 19) + 
-  scale_x_log10() + scale_y_log10() + <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#21508;&#36600;&#12434;&#23550;&#25968;&#12391;&#34920;&#31034;</span>
-  labs(x = pcr_colnames[<span style="color: #d08928;">"niid"</span>], y = pcr_colnames[<span style="color: #d08928;">"mi"</span>]) 
+  scale_x_log10() + scale_y_log10() + <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#21508;&#36600;&#12434;&#23550;&#25968;&#12391;&#34920;&#31034;
+</span>  labs(x = pcr_colnames[<span style="color: #d08928;">"niid"</span>], y = pcr_colnames[<span style="color: #d08928;">"mi"</span>]) 
 </pre>
 </div>
 
 
-<div id="org5887f38" class="figure">
+<div id="org5dd5814" class="figure">
 <p><img src="figs/02-geompoint-scalelog.png" alt="02-geompoint-scalelog.png" width="50%" />
 </p>
 </div></li>
 
 </ul>
 </section>
-<section id="slide-orgd15caff">
-<h3 id="orgd15caff">基本的な描画 (散布図行列)</h3>
+<section id="slide-org1ef0054">
+<h3 id="org1ef0054">基本的な描画 (散布図行列)</h3>
 <ul>
 <li>散布図行列は複数の散布図を行列状に配置したもの</li>
 <li><p>
@@ -852,9 +832,9 @@ pcr_data |&gt;
 </p>
 <div class="org-src-container">
 
-<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#24517;&#35201;&#12391;&#12354;&#12428;&#12400; 'install.packages("GGally")' &#12434;&#23455;&#34892;</span>
-<span style="color: #60aa00;">library</span>(GGally) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#12497;&#12483;&#12465;&#12540;&#12472;&#12398;&#12525;&#12540;&#12489;</span>
-ggpairs(
+<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#24517;&#35201;&#12391;&#12354;&#12428;&#12400; 'install.packages("GGally")' &#12434;&#23455;&#34892;
+</span><span style="color: #60aa00;">library</span>(GGally) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#12497;&#12483;&#12465;&#12540;&#12472;&#12398;&#12525;&#12540;&#12489;
+</span>ggpairs(
   data, mapping = <span style="color: #00aa80;">NULL</span>,
   columns = 1:ncol(data),
   upper = list(continuous = <span style="color: #d08928;">"cor"</span>, combo = <span style="color: #d08928;">"box_no_facet"</span>, discrete = <span style="color: #d08928;">"count"</span>, na = <span style="color: #d08928;">"na"</span>),
@@ -865,12 +845,12 @@ ggpairs(
   columnLabels = colnames(data[columns]),
   legend = <span style="color: #00aa80;">NULL</span>
 )
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> columns: &#34920;&#31034;&#12377;&#12427;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12398;&#21015;&#12434;&#25351;&#23450;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> upper/lower/diag: &#34892;&#21015;&#12398;&#19978;&#19977;&#35282;&#12539;&#19979;&#19977;&#35282;&#12539;&#23550;&#35282;&#12398;&#34920;&#31034;&#20869;&#23481;&#12434;&#35373;&#23450;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> axisLabels: &#21508;&#12464;&#12521;&#12501;&#12398;&#36600;&#21517;&#12398;&#25201;&#12356;&#26041;&#12434;&#25351;&#23450;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> columnLabels: &#34920;&#31034;&#12377;&#12427;&#21015;&#12398;&#12521;&#12505;&#12523;&#12434;&#35373;&#23450;(&#26082;&#23450;&#20516;&#12399;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12398;&#21015;&#21517;)</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> legend: &#20961;&#20363;&#12398;&#35373;&#23450;(&#12393;&#12398;&#25104;&#20998;&#12434;&#20351;&#12358;&#12363;&#25351;&#23450;)</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35443;&#32048;&#12399; '?GGally::ggpairs' &#12434;&#21442;&#29031;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> columns: &#34920;&#31034;&#12377;&#12427;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12398;&#21015;&#12434;&#25351;&#23450;
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> upper/lower/diag: &#34892;&#21015;&#12398;&#19978;&#19977;&#35282;&#12539;&#19979;&#19977;&#35282;&#12539;&#23550;&#35282;&#12398;&#34920;&#31034;&#20869;&#23481;&#12434;&#35373;&#23450;
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> axisLabels: &#21508;&#12464;&#12521;&#12501;&#12398;&#36600;&#21517;&#12398;&#25201;&#12356;&#26041;&#12434;&#25351;&#23450;
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> columnLabels: &#34920;&#31034;&#12377;&#12427;&#21015;&#12398;&#12521;&#12505;&#12523;&#12434;&#35373;&#23450;(&#26082;&#23450;&#20516;&#12399;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12398;&#21015;&#21517;)
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> legend: &#20961;&#20363;&#12398;&#35373;&#23450;(&#12393;&#12398;&#25104;&#20998;&#12434;&#20351;&#12358;&#12363;&#25351;&#23450;)
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35443;&#32048;&#12399; '?GGally::ggpairs' &#12434;&#21442;&#29031;</span>
 </pre>
 </div></li>
 
@@ -885,13 +865,13 @@ ggpairs(
 <div class="org-src-container">
 
 <pre class="src src-R">pcr_data |&gt;
-  select(!c(date,sub,total)) |&gt; <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#26085;&#20184;&#12392;&#38598;&#35336;&#20516;&#12434;&#38500;&#12356;&#12390;&#24517;&#35201;&#12394;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12395;&#25972;&#24418;</span>
-  ggpairs() <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#27161;&#28310;&#12398;&#25955;&#24067;&#22259;&#34892;&#21015;</span>
+  select(!c(date,sub,total)) |&gt; <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#26085;&#20184;&#12392;&#38598;&#35336;&#20516;&#12434;&#38500;&#12356;&#12390;&#24517;&#35201;&#12394;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12395;&#25972;&#24418;
+</span>  ggpairs() <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#27161;&#28310;&#12398;&#25955;&#24067;&#22259;&#34892;&#21015;</span>
 </pre>
 </div>
 
 
-<div id="orgaf3d260" class="figure">
+<div id="org41972cc" class="figure">
 <p><img src="figs/02-ggpairs.png" alt="02-ggpairs.png" width="50%" />
 </p>
 </div></li>
@@ -906,25 +886,25 @@ ggpairs(
 </p>
 <div class="org-src-container">
 
-<pre class="src src-R">pcr_data |&gt; select(!c(sub,total)) |&gt; <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#26085;&#20184;&#12363;&#12425;&#22235;&#21322;&#26399;&#12398;&#22240;&#23376;&#12434;&#20316;&#25104;</span>
-  mutate(quarter = as_factor(quarter(date, with_year = <span style="color: #00aa80;">TRUE</span>))) |&gt;
+<pre class="src src-R">pcr_data |&gt; select(!c(sub,total)) |&gt; <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#26085;&#20184;&#12363;&#12425;&#22235;&#21322;&#26399;&#12398;&#22240;&#23376;&#12434;&#20316;&#25104;
+</span>  mutate(quarter = as_factor(quarter(date, with_year = <span style="color: #00aa80;">TRUE</span>))) |&gt;
   ggpairs(columns = 2:8, columnLabels = pcr_colnames[-c(1,8,10)], axisLabels = <span style="color: #d08928;">"none"</span>,
-          aes(colour = quarter), legend = c(2,1), <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#22235;&#21322;&#26399;&#12372;&#12392;&#12395;&#33394;&#12389;&#12369;&#12390;(1,1)&#12398;&#20961;&#20363;&#12434;&#20351;&#29992;</span>
-          upper = <span style="color: #d08928;">"blank"</span>, diag = list(continuous = <span style="color: #d08928;">"barDiag"</span>)) +
+          aes(colour = quarter), legend = c(2,1), <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#22235;&#21322;&#26399;&#12372;&#12392;&#12395;&#33394;&#12389;&#12369;&#12390;(1,1)&#12398;&#20961;&#20363;&#12434;&#20351;&#29992;
+</span>          upper = <span style="color: #d08928;">"blank"</span>, diag = list(continuous = <span style="color: #d08928;">"barDiag"</span>)) +
   theme(legend.position = <span style="color: #d08928;">"top"</span>) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#20961;&#20363;&#12434;&#19978;&#12395;&#34920;&#31034;</span>
 </pre>
 </div>
 
 
-<div id="orgeab2c21" class="figure">
+<div id="orgb4cf94c" class="figure">
 <p><img src="figs/02-ggpairs-quarter.png" alt="02-ggpairs-quarter.png" width="50%" />
 </p>
 </div></li>
 
 </ul>
 </section>
-<section id="slide-org8d52f04">
-<h3 id="org8d52f04">図の保存</h3>
+<section id="slide-orgdb70dd4">
+<h3 id="orgdb70dd4">図の保存</h3>
 <ul>
 <li>RStudioの機能を使う (少数の場合はこちらが簡便)
 <ul>
@@ -946,10 +926,10 @@ ggpairs(
   units = c(<span style="color: #d08928;">"in"</span>, <span style="color: #d08928;">"cm"</span>, <span style="color: #d08928;">"mm"</span>, <span style="color: #d08928;">"px"</span>), dpi = 300, limitsize = <span style="color: #00aa80;">TRUE</span>, bg = <span style="color: #00aa80;">NULL</span>,
   ...
 )
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> filename: &#12501;&#12449;&#12452;&#12523;&#21517;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> plot: &#20445;&#23384;&#12377;&#12427;&#25551;&#30011;&#12458;&#12502;&#12472;&#12455;&#12463;&#12488;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> device: &#20445;&#23384;&#12377;&#12427;&#24418;&#24335;("pdf","jpeg","png"&#12394;&#12393;)</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35443;&#32048;&#12399;"?ggplot2::ggsave"&#12434;&#21442;&#29031;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> filename: &#12501;&#12449;&#12452;&#12523;&#21517;
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> plot: &#20445;&#23384;&#12377;&#12427;&#25551;&#30011;&#12458;&#12502;&#12472;&#12455;&#12463;&#12488;
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> device: &#20445;&#23384;&#12377;&#12427;&#24418;&#24335;("pdf","jpeg","png"&#12394;&#12393;)
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35443;&#32048;&#12399;"?ggplot2::ggsave"&#12434;&#21442;&#29031;</span>
 </pre>
 </div></li>
 
@@ -957,18 +937,18 @@ ggpairs(
 </section>
 </section>
 <section>
-<section id="slide-orgeacd5ea" data-background="#fef4f4">
-<h2 id="orgeacd5ea">実習</h2>
+<section id="slide-orgb62dcd8" data-background="#fef4f4">
+<h2 id="orgb62dcd8">実習</h2>
 </section>
 </section>
 <section>
-<section id="slide-org398fce0">
-<h2 id="org398fce0">さまざまなグラフ</h2>
-<div class="outline-text-2" id="text-org398fce0">
+<section id="slide-orgd07f569">
+<h2 id="orgd07f569">さまざまなグラフ</h2>
+<div class="outline-text-2" id="text-orgd07f569">
 </div>
 </section>
-<section id="slide-org55b73cf">
-<h3 id="org55b73cf">ヒストグラム</h3>
+<section id="slide-orgbe074fc">
+<h3 id="orgbe074fc">ヒストグラム</h3>
 <ul>
 <li><p>
 データの値の範囲をいくつかの区間に分割し，
@@ -988,9 +968,9 @@ ggpairs(
   bins = <span style="color: #00aa80;">NULL</span>,
   na.rm = <span style="color: #00aa80;">FALSE</span>, orientation = <span style="color: #00aa80;">NA</span>, show.legend = <span style="color: #00aa80;">NA</span>, inherit.aes = <span style="color: #00aa80;">TRUE</span>
 )
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> binwidth: &#12498;&#12473;&#12488;&#12464;&#12521;&#12512;&#12398;&#12499;&#12531;&#12398;&#24133;&#12434;&#25351;&#23450;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> bins: &#12498;&#12473;&#12488;&#12464;&#12521;&#12512;&#12398;&#12499;&#12531;&#12398;&#25968;&#12434;&#25351;&#23450;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35443;&#32048;&#12399; '?ggplot2::geom_histogram' &#12434;&#21442;&#29031;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> binwidth: &#12498;&#12473;&#12488;&#12464;&#12521;&#12512;&#12398;&#12499;&#12531;&#12398;&#24133;&#12434;&#25351;&#23450;
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> bins: &#12498;&#12473;&#12488;&#12464;&#12521;&#12512;&#12398;&#12499;&#12531;&#12398;&#25968;&#12434;&#25351;&#23450;
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35443;&#32048;&#12399; '?ggplot2::geom_histogram' &#12434;&#21442;&#29031;</span>
 </pre>
 </div></li>
 
@@ -1004,24 +984,24 @@ ggpairs(
 </p>
 <div class="org-src-container">
 
-<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#34892;&#25919;&#26908;&#26619;(ai)&#12391;&#12398;&#26908;&#26619;&#20214;&#25968;&#12398;&#20998;&#24067;</span>
-pcr_data |&gt;
-  ggplot(aes(x = ai)) + <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#20998;&#24067;&#12434;&#25551;&#30011;&#12377;&#12427;&#21015;&#12434;&#25351;&#23450;</span>
-  geom_histogram(bins = 30, fill = <span style="color: #d08928;">"lightblue"</span>, colour = <span style="color: #d08928;">"blue"</span>) +
+<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#34892;&#25919;&#26908;&#26619;(ai)&#12391;&#12398;&#26908;&#26619;&#20214;&#25968;&#12398;&#20998;&#24067;
+</span>pcr_data |&gt;
+  ggplot(aes(x = ai)) + <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#20998;&#24067;&#12434;&#25551;&#30011;&#12377;&#12427;&#21015;&#12434;&#25351;&#23450;
+</span>  geom_histogram(bins = 30, fill = <span style="color: #d08928;">"lightblue"</span>, colour = <span style="color: #d08928;">"blue"</span>) +
   labs(x = pcr_colnames[<span style="color: #d08928;">"ai"</span>], y = <span style="color: #d08928;">"&#38971;&#24230;"</span>, title = <span style="color: #d08928;">"&#26908;&#26619;&#20214;&#25968;&#12398;&#12498;&#12473;&#12488;&#12464;&#12521;&#12512;"</span>)
 </pre>
 </div>
 
 
-<div id="org1c40332" class="figure">
+<div id="org918d2a0" class="figure">
 <p><img src="figs/02-geomhistogram.png" alt="02-geomhistogram.png" width="50%" />
 </p>
 </div></li>
 
 </ul>
 </section>
-<section id="slide-orga3c18b2">
-<h3 id="orga3c18b2">箱ひげ図</h3>
+<section id="slide-orge9ecb22">
+<h3 id="orge9ecb22">箱ひげ図</h3>
 <ul>
 <li><p>
 データ散らばり具合を考察するための図
@@ -1044,10 +1024,10 @@ pcr_data |&gt;
   notch = <span style="color: #00aa80;">FALSE</span>, notchwidth = 0.5, varwidth = <span style="color: #00aa80;">FALSE</span>,
   na.rm = <span style="color: #00aa80;">FALSE</span>, orientation = <span style="color: #00aa80;">NA</span>, show.legend = <span style="color: #00aa80;">NA</span>, inherit.aes = <span style="color: #00aa80;">TRUE</span>
 )
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> ourlier.*: &#22806;&#12428;&#20516;&#12398;&#25551;&#30011;&#26041;&#27861;&#12398;&#25351;&#23450;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> notch*: &#12508;&#12483;&#12463;&#12473;&#12398;&#20999;&#12428;&#36796;&#12415;&#12398;&#35373;&#23450;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> varwidth: &#12508;&#12483;&#12463;&#12473;&#12398;&#24133;&#12391;&#12487;&#12540;&#12479;&#25968;&#12434;&#34920;&#31034;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35443;&#32048;&#12399; '?ggplot2::geom_boxplot' &#12434;&#21442;&#29031;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> ourlier.*: &#22806;&#12428;&#20516;&#12398;&#25551;&#30011;&#26041;&#27861;&#12398;&#25351;&#23450;
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> notch*: &#12508;&#12483;&#12463;&#12473;&#12398;&#20999;&#12428;&#36796;&#12415;&#12398;&#35373;&#23450;
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> varwidth: &#12508;&#12483;&#12463;&#12473;&#12398;&#24133;&#12391;&#12487;&#12540;&#12479;&#25968;&#12434;&#34920;&#31034;
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35443;&#32048;&#12399; '?ggplot2::geom_boxplot' &#12434;&#21442;&#29031;</span>
 </pre>
 </div></li>
 
@@ -1061,26 +1041,26 @@ pcr_data |&gt;
 </p>
 <div class="org-src-container">
 
-<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#22823;&#23398;&#31561;(univ)&#12391;&#12398;&#26908;&#26619;&#20214;&#25968;&#12398;&#20998;&#24067;(2021&#24180;&#20998;)</span>
-pcr_data |&gt;
-  filter(year(date) == 2021) |&gt; <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">2021&#24180;&#12434;&#25277;&#20986;</span>
-  mutate(date = as_factor(month(date))) |&gt; <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#26376;&#12434;&#22240;&#23376;&#21270;&#12377;&#12427;</span>
-  ggplot(aes(x = date, y = univ)) + <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#26376;&#27598;&#12395;&#38598;&#35336;&#12377;&#12427;</span>
-  geom_boxplot(fill = <span style="color: #d08928;">"orange"</span>) + <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#22615;&#12426;&#28528;&#12375;&#12398;&#33394;&#12434;&#25351;&#23450;</span>
-  labs(title = <span style="color: #d08928;">"&#26376;&#12372;&#12392;&#12398;&#26908;&#26619;&#20214;&#25968; (2021&#24180;)"</span>, x = <span style="color: #d08928;">"&#26376;"</span>, y = pcr_colnames[<span style="color: #d08928;">"univ"</span>])
+<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#22823;&#23398;&#31561;(univ)&#12391;&#12398;&#26908;&#26619;&#20214;&#25968;&#12398;&#20998;&#24067;(2021&#24180;&#20998;)
+</span>pcr_data |&gt;
+  filter(year(date) == 2021) |&gt; <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">2021&#24180;&#12434;&#25277;&#20986;
+</span>  mutate(date = as_factor(month(date))) |&gt; <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#26376;&#12434;&#22240;&#23376;&#21270;&#12377;&#12427;
+</span>  ggplot(aes(x = date, y = univ)) + <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#26376;&#27598;&#12395;&#38598;&#35336;&#12377;&#12427;
+</span>  geom_boxplot(fill = <span style="color: #d08928;">"orange"</span>) + <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#22615;&#12426;&#28528;&#12375;&#12398;&#33394;&#12434;&#25351;&#23450;
+</span>  labs(title = <span style="color: #d08928;">"&#26376;&#12372;&#12392;&#12398;&#26908;&#26619;&#20214;&#25968; (2021&#24180;)"</span>, x = <span style="color: #d08928;">"&#26376;"</span>, y = pcr_colnames[<span style="color: #d08928;">"univ"</span>])
 </pre>
 </div>
 
 
-<div id="org64b1821" class="figure">
+<div id="orgfc4736b" class="figure">
 <p><img src="figs/02-geomboxplot.png" alt="02-geomboxplot.png" width="50%" />
 </p>
 </div></li>
 
 </ul>
 </section>
-<section id="slide-orgc736376">
-<h3 id="orgc736376">棒グラフ</h3>
+<section id="slide-org8ba3b9d">
+<h3 id="org8ba3b9d">棒グラフ</h3>
 <ul>
 <li><p>
 項目ごとの量を並べて表示した図
@@ -1104,9 +1084,9 @@ pcr_data |&gt;
   width = <span style="color: #00aa80;">NULL</span>,
   na.rm = <span style="color: #00aa80;">FALSE</span>, orientation = <span style="color: #00aa80;">NA</span>, show.legend = <span style="color: #00aa80;">NA</span>, inherit.aes = <span style="color: #00aa80;">TRUE</span>
 )
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> just: &#30446;&#30427;&#12392;&#26834;&#12398;&#20301;&#32622;&#12398;&#35519;&#25972;(&#26082;&#23450;&#20516;&#12399;&#30495;&#20013;)</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> width: &#26834;&#12398;&#24133;&#12398;&#35519;&#25972;(&#26082;&#23450;&#20516;&#12399;&#30446;&#30427;&#12398;&#38291;&#38548;&#12398;90%)</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35443;&#32048;&#12399; '?ggplot2::geom_bar' &#12434;&#21442;&#29031;</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> just: &#30446;&#30427;&#12392;&#26834;&#12398;&#20301;&#32622;&#12398;&#35519;&#25972;(&#26082;&#23450;&#20516;&#12399;&#30495;&#20013;)
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> width: &#26834;&#12398;&#24133;&#12398;&#35519;&#25972;(&#26082;&#23450;&#20516;&#12399;&#30446;&#30427;&#12398;&#38291;&#38548;&#12398;90%)
+</span><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35443;&#32048;&#12399; '?ggplot2::geom_bar' &#12434;&#21442;&#29031;</span>
 </pre>
 </div></li>
 
@@ -1120,17 +1100,17 @@ pcr_data |&gt;
 </p>
 <div class="org-src-container">
 
-<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#27231;&#38306;&#12372;&#12392;&#12398;&#26376;&#12398;&#26908;&#26619;&#20214;&#25968;&#12398;&#25512;&#31227; (2021&#24180;&#20998;)</span>
-pcr_data |&gt;
+<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#27231;&#38306;&#12372;&#12392;&#12398;&#26376;&#12398;&#26908;&#26619;&#20214;&#25968;&#12398;&#25512;&#31227; (2021&#24180;&#20998;)
+</span>pcr_data |&gt;
   filter(year(date) == 2021) |&gt;
-  mutate(month = as_factor(month(date))) |&gt; <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#26376;&#12434;&#20316;&#25104;</span>
-  select(!c(date,sub,total)) |&gt; <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#27231;&#38306;&#12395;&#38480;&#23450;</span>
-  group_by(month) |&gt; <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#26376;&#12391;&#12464;&#12523;&#12540;&#12503;&#21270;</span>
-  summarize(across(everything(), sum)) |&gt; <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#20840;&#12390;(&#26376;&#20197;&#22806;)&#12434;&#38598;&#35336;</span>
-  pivot_longer(!month, names_to = <span style="color: #d08928;">"organ"</span>, values_to = <span style="color: #d08928;">"nums"</span>,
+  mutate(month = as_factor(month(date))) |&gt; <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#26376;&#12434;&#20316;&#25104;
+</span>  select(!c(date,sub,total)) |&gt; <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#27231;&#38306;&#12395;&#38480;&#23450;
+</span>  group_by(month) |&gt; <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#26376;&#12391;&#12464;&#12523;&#12540;&#12503;&#21270;
+</span>  summarize(across(everything(), sum)) |&gt; <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#20840;&#12390;(&#26376;&#20197;&#22806;)&#12434;&#38598;&#35336;
+</span>  pivot_longer(!month, names_to = <span style="color: #d08928;">"organ"</span>, values_to = <span style="color: #d08928;">"nums"</span>,
                names_transform = list(organ = as_factor)) |&gt;
-  <span style="color: #808080; font-style: italic;">## </span><span style="color: #808080; font-style: italic;">&#26368;&#24460;&#12398;&#12458;&#12503;&#12471;&#12519;&#12531;&#12399; organ &#21015;&#12398;&#12521;&#12505;&#12523;&#12434;&#20986;&#12390;&#12365;&#12383;&#38918;&#12391;&#22240;&#23376;&#21270;&#12375;&#12390;&#20803;&#12398;&#21015;&#12398;&#20006;&#12403;&#12395;&#12375;&#12390;&#12356;&#12427;</span>
-  ggplot(aes(x = organ, y = nums, fill = month)) +
+  <span style="color: #808080; font-style: italic;">## </span><span style="color: #808080; font-style: italic;">&#26368;&#24460;&#12398;&#12458;&#12503;&#12471;&#12519;&#12531;&#12399; organ &#21015;&#12398;&#12521;&#12505;&#12523;&#12434;&#20986;&#12390;&#12365;&#12383;&#38918;&#12391;&#22240;&#23376;&#21270;&#12375;&#12390;&#20803;&#12398;&#21015;&#12398;&#20006;&#12403;&#12395;&#12375;&#12390;&#12356;&#12427;
+</span>  ggplot(aes(x = organ, y = nums, fill = month)) +
   geom_bar(stat = <span style="color: #d08928;">"identity"</span>, position = <span style="color: #d08928;">"dodge"</span>, na.rm = <span style="color: #00aa80;">TRUE</span>) +
   theme(legend.position = <span style="color: #d08928;">"top"</span>) + guides(fill = guide_legend(nrow = 1))
 </pre>
@@ -1141,25 +1121,25 @@ pcr_data |&gt;
 </section>
 <section>
 
-<div id="orge65b56a" class="figure">
+<div id="org28dbb15" class="figure">
 <p><img src="figs/02-geombar.png" alt="02-geombar.png" width="50%" />
 </p>
 </div>
 </section>
 </section>
 <section>
-<section id="slide-org988c5dd" data-background="#fef4f4">
-<h2 id="org988c5dd">実習</h2>
+<section id="slide-orgc70ddcb" data-background="#fef4f4">
+<h2 id="orgc70ddcb">実習</h2>
 </section>
 </section>
 <section>
-<section id="slide-org317f119">
-<h2 id="org317f119">参考</h2>
-<div class="outline-text-2" id="text-org317f119">
+<section id="slide-orgd550107">
+<h2 id="orgd550107">参考</h2>
+<div class="outline-text-2" id="text-orgd550107">
 </div>
 </section>
-<section id="slide-orgae6fe5a">
-<h3 id="orgae6fe5a">その他の資料</h3>
+<section id="slide-org6ffed2f">
+<h3 id="org6ffed2f">その他の資料</h3>
 <ul>
 <li>より詳細なグラフの描画については以下を参照して下さい
 <ul>
@@ -1194,13 +1174,13 @@ pcr_data |&gt;
 </section>
 </section>
 <section>
-<section id="slide-org94d257d">
-<h2 id="org94d257d">疑似乱数</h2>
-<div class="outline-text-2" id="text-org94d257d">
+<section id="slide-org2465ab6">
+<h2 id="org2465ab6">疑似乱数</h2>
+<div class="outline-text-2" id="text-org2465ab6">
 </div>
 </section>
-<section id="slide-orgfdc9239">
-<h3 id="orgfdc9239">疑似乱数とは</h3>
+<section id="slide-orgf2d47c6">
+<h3 id="orgf2d47c6">疑似乱数とは</h3>
 <ul>
 <li>コンピューターで生成された数列のこと</li>
 <li>完全にランダムに数字を発生されることは不可能</li>
@@ -1210,8 +1190,8 @@ pcr_data |&gt;
 
 </ul>
 </section>
-<section id="slide-orge64e77a">
-<h3 id="orge64e77a">基本的な乱数</h3>
+<section id="slide-orga9f5e67">
+<h3 id="orga9f5e67">基本的な乱数</h3>
 <ul>
 <li><b>ランダムサンプリング</b> : 与えられた集合の要素を無作為抽出することで発生する乱数</li>
 <li><b>二項乱数</b> : 「確率 \(p\) で表がでるコインを \(n\) 回投げた際の表が出る回数」に対応する乱数</li>
@@ -1220,8 +1200,8 @@ pcr_data |&gt;
 
 </ul>
 </section>
-<section id="slide-orgf33daea">
-<h3 id="orgf33daea">乱数を生成する関数</h3>
+<section id="slide-org1dfdfff">
+<h3 id="org1dfdfff">乱数を生成する関数</h3>
 <ul>
 <li>関数 <code>base::sample()</code> : ランダムサンプリング</li>
 <li>関数 <code>stats::rbinom()</code> : 二項乱数</li>
@@ -1232,18 +1212,18 @@ pcr_data |&gt;
 </section>
 </section>
 <section>
-<section id="slide-orgbbf775e" data-background="#fef4f4">
-<h2 id="orgbbf775e">実習</h2>
+<section id="slide-org26566a9" data-background="#fef4f4">
+<h2 id="org26566a9">実習</h2>
 </section>
 </section>
 <section>
-<section id="slide-org8fad688">
-<h2 id="org8fad688">モンテカルロ法</h2>
-<div class="outline-text-2" id="text-org8fad688">
+<section id="slide-org985e113">
+<h2 id="org985e113">モンテカルロ法</h2>
+<div class="outline-text-2" id="text-org985e113">
 </div>
 </section>
-<section id="slide-orgd531819">
-<h3 id="orgd531819">モンテカルロ法とは</h3>
+<section id="slide-orgb7f555d">
+<h3 id="orgb7f555d">モンテカルロ法とは</h3>
 <ul>
 <li>乱数を使った統計実験</li>
 <li>計算機上でランダムネスを実現 (擬似乱数)</li>
@@ -1251,8 +1231,8 @@ pcr_data |&gt;
 
 </ul>
 </section>
-<section id="slide-orgbd5f358">
-<h3 id="orgbd5f358">例 : 中心極限定理</h3>
+<section id="slide-org424f207">
+<h3 id="org424f207">例 : 中心極限定理</h3>
 <ul>
 <li><p>
 定理
@@ -1287,37 +1267,37 @@ pcr_data |&gt;
 </p>
 <div class="org-src-container">
 
-<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#30906;&#29575;&#22793;&#25968;&#12398;&#20998;&#24067;&#12398;&#35373;&#23450; (&#20363; : &#21306;&#38291;[-1,1]&#12398;&#19968;&#27096;&#20081;&#25968;)</span>
-<span style="color: #b77fdb; font-weight: bold;">mc_rand</span> <span style="color: #60aa00;">&lt;-</span> <span style="color: #6c9ef8;">function</span>(n) { <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">n&#20491;&#12398;&#20081;&#25968;&#12434;&#29983;&#25104;</span>
-  <span style="color: #6c9ef8;">return</span>(runif(n, min = -1, max = 1))
+<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#30906;&#29575;&#22793;&#25968;&#12398;&#20998;&#24067;&#12398;&#35373;&#23450; (&#20363; : &#21306;&#38291;[-1,1]&#12398;&#19968;&#27096;&#20081;&#25968;)
+</span><span style="color: #b77fdb; font-weight: bold;">mc_rand</span> <span style="color: #60aa00;">&lt;-</span> <span style="color: #6c9ef8;">function</span>(n) { <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">n&#20491;&#12398;&#20081;&#25968;&#12434;&#29983;&#25104;
+</span>  <span style="color: #6c9ef8;">return</span>(runif(n, min = -1, max = 1))
 }
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#27161;&#26412;&#24179;&#22343;&#12398;&#35336;&#31639;</span>
-<span style="color: #b77fdb; font-weight: bold;">mc_mean</span> <span style="color: #60aa00;">&lt;-</span> <span style="color: #6c9ef8;">function</span>(n) { <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">n&#20491;&#12398;&#12487;&#12540;&#12479;&#12391;&#35336;&#31639;</span>
-  <span style="color: #6c9ef8;">return</span>(mean(mc_rand(n)))
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#27161;&#26412;&#24179;&#22343;&#12398;&#35336;&#31639;
+</span><span style="color: #b77fdb; font-weight: bold;">mc_mean</span> <span style="color: #60aa00;">&lt;-</span> <span style="color: #6c9ef8;">function</span>(n) { <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">n&#20491;&#12398;&#12487;&#12540;&#12479;&#12391;&#35336;&#31639;
+</span>  <span style="color: #6c9ef8;">return</span>(mean(mc_rand(n)))
 }
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> Monte-Carlo&#23455;&#39443;</span>
-set.seed(123) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#23455;&#39443;&#12434;&#20877;&#29694;&#12375;&#12383;&#12356;&#22580;&#21512;&#12399;&#12471;&#12540;&#12489;&#20516;&#12434;&#25351;&#23450;&#12377;&#12427;</span>
-mu <span style="color: #60aa00;">&lt;-</span> 0; sigma <span style="color: #60aa00;">&lt;-</span> sqrt(1/3) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#29702;&#35542;&#24179;&#22343;&#12392;&#27161;&#28310;&#20559;&#24046;</span>
-mc_num <span style="color: #60aa00;">&lt;-</span> 5000 <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#23455;&#39443;&#12398;&#32368;&#12426;&#36820;&#12375;&#22238;&#25968;</span>
-<span style="color: #6c9ef8;">for</span>(n <span style="color: #6c9ef8;">in</span> c(1,2,4,8,16)){ <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">n&#12434;&#22793;&#12360;&#12390;&#23455;&#39443;</span>
-  p <span style="color: #60aa00;">&lt;-</span> tibble(x = replicate(mc_num, mc_mean(n))) |&gt; <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#32368;&#12426;&#36820;&#12375;&#23455;&#39443;&#12375;&#27161;&#26412;&#24179;&#22343;&#12434;&#35352;&#37682;</span>
-    ggplot(aes(x)) + 
-    geom_histogram(aes(y = after_stat(density)), <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#23494;&#24230;&#34920;&#31034;</span>
-                   fill = <span style="color: #d08928;">"orchid"</span>, alpha = 0.5, <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#22615;&#12426;&#28528;&#12375;&#12398;&#33394;</span>
-                   colour = <span style="color: #d08928;">"purple"</span>) + <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#22659;&#30028;&#32218;&#12398;&#33394;</span>
-    geom_function(fun = <span style="color: #6c9ef8;">\</span>(x) dnorm(x, mean = mu, sd = sigma/sqrt(n)),
-                  colour = <span style="color: #d08928;">"orange"</span>, linewidth = 1.5) + <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#29702;&#35542;&#26354;&#32218;&#12434;&#37325;&#12397;&#12427;</span>
-    labs(x = expression(bar(X)), <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">x&#36600;&#12398;&#34920;&#31034;</span>
-         title = paste0(<span style="color: #d08928;">"n="</span>, n)) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#12479;&#12452;&#12488;&#12523;&#12395;n&#12434;&#35352;&#36617;</span>
-  print(p) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">for &#25991;&#12398;&#20013;&#12391;&#12399;&#26126;&#31034;&#30340;&#12395; print &#12377;&#12427;&#24517;&#35201;&#12364;&#12354;&#12427;</span>
-}
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> Monte-Carlo&#23455;&#39443;
+</span>set.seed(123) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#23455;&#39443;&#12434;&#20877;&#29694;&#12375;&#12383;&#12356;&#22580;&#21512;&#12399;&#12471;&#12540;&#12489;&#20516;&#12434;&#25351;&#23450;&#12377;&#12427;
+</span>mu <span style="color: #60aa00;">&lt;-</span> 0; sigma <span style="color: #60aa00;">&lt;-</span> sqrt(1/3) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#29702;&#35542;&#24179;&#22343;&#12392;&#27161;&#28310;&#20559;&#24046;
+</span>mc_num <span style="color: #60aa00;">&lt;-</span> 5000 <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#23455;&#39443;&#12398;&#32368;&#12426;&#36820;&#12375;&#22238;&#25968;
+</span><span style="color: #6c9ef8;">for</span>(n <span style="color: #6c9ef8;">in</span> c(1,2,4,8,16)){ <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">n&#12434;&#22793;&#12360;&#12390;&#23455;&#39443;
+</span>  p <span style="color: #60aa00;">&lt;-</span> tibble(x = replicate(mc_num, mc_mean(n))) |&gt; <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#32368;&#12426;&#36820;&#12375;&#23455;&#39443;&#12375;&#27161;&#26412;&#24179;&#22343;&#12434;&#35352;&#37682;
+</span>    ggplot(aes(x)) + 
+    geom_histogram(aes(y = after_stat(density)), <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#23494;&#24230;&#34920;&#31034;
+</span>                   fill = <span style="color: #d08928;">"orchid"</span>, alpha = 0.5, <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#22615;&#12426;&#28528;&#12375;&#12398;&#33394;
+</span>                   colour = <span style="color: #d08928;">"purple"</span>) + <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#22659;&#30028;&#32218;&#12398;&#33394;
+</span>    geom_function(fun = <span style="color: #6c9ef8;">\</span>(x) dnorm(x, mean = mu, sd = sigma/sqrt(n)),
+                  colour = <span style="color: #d08928;">"orange"</span>, linewidth = 1.5) + <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#29702;&#35542;&#26354;&#32218;&#12434;&#37325;&#12397;&#12427;
+</span>    labs(x = expression(bar(X)), <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">x&#36600;&#12398;&#34920;&#31034;
+</span>         title = paste0(<span style="color: #d08928;">"n="</span>, n)) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#12479;&#12452;&#12488;&#12523;&#12395;n&#12434;&#35352;&#36617;
+</span>  print(p) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">for &#25991;&#12398;&#20013;&#12391;&#12399;&#26126;&#31034;&#30340;&#12395; print &#12377;&#12427;&#24517;&#35201;&#12364;&#12354;&#12427;
+</span>}
 </pre>
 </div></li>
 
 </ul>
 </section>
-<section id="slide-org085d3cc">
-<h3 id="org085d3cc">例 : コイン投げの賭け</h3>
+<section id="slide-org3a5da8b">
+<h3 id="org3a5da8b">例 : コイン投げの賭け</h3>
 <ul>
 <li>AとBの二人で交互にコインを投げる．
 最初に表が出た方を勝ちとするとき，
@@ -1327,8 +1307,8 @@ AとBそれぞれの勝率はいくつとなるか？</li>
 </p>
 <div class="org-src-container">
 
-<pre class="src src-R">sample(0:1, 1) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">0&#12392;1&#12364;&#20837;&#12387;&#12383;&#22778;&#12363;&#12425;&#12363;&#12425;1&#12388;&#36984;&#12406;</span>
-rbinom(1, size = 1, prob = 0.5) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#34920;&#35023;&#12364;&#31561;&#30906;&#29575;&#12391;&#20986;&#12427;1&#26522;&#12398;&#12467;&#12452;&#12531;&#12434;1&#22238;&#25237;&#12370;&#12427;</span>
+<pre class="src src-R">sample(0:1, 1) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">0&#12392;1&#12364;&#20837;&#12387;&#12383;&#22778;&#12363;&#12425;&#12363;&#12425;1&#12388;&#36984;&#12406;
+</span>rbinom(1, size = 1, prob = 0.5) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#34920;&#35023;&#12364;&#31561;&#30906;&#29575;&#12391;&#20986;&#12427;1&#26522;&#12398;&#12467;&#12452;&#12531;&#12434;1&#22238;&#25237;&#12370;&#12427;</span>
 </pre>
 </div></li>
 
@@ -1342,21 +1322,21 @@ rbinom(1, size = 1, prob = 0.5) <span style="color: #808080; font-style: italic;
 </p>
 <div class="org-src-container">
 
-<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#12467;&#12452;&#12531;&#25237;&#12370;&#12398;&#35430;&#34892; (&#12356;&#12429;&#12356;&#12429;&#12394;&#26360;&#12365;&#26041;&#12364;&#12354;&#12427;&#12398;&#12391;&#20197;&#19979;&#12399;&#19968;&#20363;)</span>
-<span style="color: #b77fdb; font-weight: bold;">mc_trial</span> <span style="color: #60aa00;">&lt;-</span> <span style="color: #6c9ef8;">function</span>(){
-  <span style="color: #6c9ef8;">while</span>(<span style="color: #00aa80;">TRUE</span>){ <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#27704;&#20037;&#12395;&#22238;&#12427;&#12523;&#12540;&#12503;</span>
-    <span style="color: #6c9ef8;">if</span>(rbinom(1, size = 1, prob = 0.5)==1){<span style="color: #6c9ef8;">return</span>(<span style="color: #d08928;">"A"</span>)} <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">A&#12364;&#34920;&#12391;&#32066;&#20102;</span>
-    <span style="color: #6c9ef8;">if</span>(rbinom(1, size = 1, prob = 0.5)==1){<span style="color: #6c9ef8;">return</span>(<span style="color: #d08928;">"B"</span>)} <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">B&#12364;&#34920;&#12391;&#32066;&#20102;</span>
-    <span style="color: #808080; font-style: italic;">#</span><span style="color: #808080; font-style: italic;">' &#12393;&#12385;&#12425;&#12418;&#35023;&#12394;&#12425;&#12418;&#12358;&#19968;&#24230;&#12523;&#12540;&#12503;</span>
-  }
+<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#12467;&#12452;&#12531;&#25237;&#12370;&#12398;&#35430;&#34892; (&#12356;&#12429;&#12356;&#12429;&#12394;&#26360;&#12365;&#26041;&#12364;&#12354;&#12427;&#12398;&#12391;&#20197;&#19979;&#12399;&#19968;&#20363;)
+</span><span style="color: #b77fdb; font-weight: bold;">mc_trial</span> <span style="color: #60aa00;">&lt;-</span> <span style="color: #6c9ef8;">function</span>(){
+  <span style="color: #6c9ef8;">while</span>(<span style="color: #00aa80;">TRUE</span>){ <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#27704;&#20037;&#12395;&#22238;&#12427;&#12523;&#12540;&#12503;
+</span>    <span style="color: #6c9ef8;">if</span>(rbinom(1, size = 1, prob = 0.5)==1){<span style="color: #6c9ef8;">return</span>(<span style="color: #d08928;">"A"</span>)} <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">A&#12364;&#34920;&#12391;&#32066;&#20102;
+</span>    <span style="color: #6c9ef8;">if</span>(rbinom(1, size = 1, prob = 0.5)==1){<span style="color: #6c9ef8;">return</span>(<span style="color: #d08928;">"B"</span>)} <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">B&#12364;&#34920;&#12391;&#32066;&#20102;
+</span>    <span style="color: #808080; font-style: italic;">#</span><span style="color: #808080; font-style: italic;">' &#12393;&#12385;&#12425;&#12418;&#35023;&#12394;&#12425;&#12418;&#12358;&#19968;&#24230;&#12523;&#12540;&#12503;
+</span>  }
 }
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> Monte-Carlo&#23455;&#39443;</span>
-set.seed(8888) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#23455;&#39443;&#12434;&#20877;&#29694;&#12375;&#12383;&#12356;&#22580;&#21512;&#12399;&#12471;&#12540;&#12489;&#20516;&#12434;&#25351;&#23450;&#12377;&#12427;</span>
-mc_num <span style="color: #60aa00;">&lt;-</span> 10000 <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#23455;&#39443;&#22238;&#25968;&#12434;&#35373;&#23450; </span>
-mc_data <span style="color: #60aa00;">&lt;-</span> replicate(mc_num, mc_trial()) 
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#31777;&#21336;&#12394;&#38598;&#35336;</span>
-table(mc_data)        <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#38971;&#24230;</span>
-table(mc_data)/mc_num <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#30906;&#29575;(&#25512;&#23450;&#20516;)</span>
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> Monte-Carlo&#23455;&#39443;
+</span>set.seed(8888) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#23455;&#39443;&#12434;&#20877;&#29694;&#12375;&#12383;&#12356;&#22580;&#21512;&#12399;&#12471;&#12540;&#12489;&#20516;&#12434;&#25351;&#23450;&#12377;&#12427;
+</span>mc_num <span style="color: #60aa00;">&lt;-</span> 10000 <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#23455;&#39443;&#22238;&#25968;&#12434;&#35373;&#23450; 
+</span>mc_data <span style="color: #60aa00;">&lt;-</span> replicate(mc_num, mc_trial()) 
+<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#31777;&#21336;&#12394;&#38598;&#35336;
+</span>table(mc_data)        <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#38971;&#24230;
+</span>table(mc_data)/mc_num <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#30906;&#29575;(&#25512;&#23450;&#20516;)</span>
 </pre>
 </div></li>
 
@@ -1364,18 +1344,18 @@ table(mc_data)/mc_num <span style="color: #808080; font-style: italic;"># </span
 </section>
 </section>
 <section>
-<section id="slide-orgc2bca00" data-background="#fef4f4">
-<h2 id="orgc2bca00">実習</h2>
+<section id="slide-org04d0175" data-background="#fef4f4">
+<h2 id="org04d0175">実習</h2>
 </section>
 </section>
 <section>
-<section id="slide-orgf2c7748">
-<h2 id="orgf2c7748">参考</h2>
-<div class="outline-text-2" id="text-orgf2c7748">
+<section id="slide-orgf8f65c8">
+<h2 id="orgf8f65c8">参考</h2>
+<div class="outline-text-2" id="text-orgf8f65c8">
 </div>
 </section>
-<section id="slide-org5d9192d">
-<h3 id="org5d9192d">その他の資料</h3>
+<section id="slide-org0952596">
+<h3 id="org0952596">その他の資料</h3>
 <ul>
 <li>より詳細な確率シミュレーションについては以下を参照して下さい
 <ul>
@@ -1407,14 +1387,20 @@ R言語の基礎 第5章 (pp71-82)
 </section>
 </section>
 <section>
-<section id="slide-org7ad9fd7">
-<h2 id="org7ad9fd7">次回の予定</h2>
+<section id="slide-org5f92cf8">
+<h2 id="org5f92cf8">次回の予定</h2>
 <ul>
 <li><b>第1回: 回帰モデルの考え方と推定</b></li>
 <li>第2回: モデルの評価</li>
 <li>第3回: モデルによる予測と発展的なモデル</li>
 
 </ul>
+</section>
+</section>
+<section>
+<section id="slide-org483238c">
+</section>
+</section>
 </div>
 </div>
 <script src="./reveal.js/dist/reveal.js"></script>
