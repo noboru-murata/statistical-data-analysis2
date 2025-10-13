@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2025-10-10 16:13:06 mura>
+# Time-stamp: <2025-10-10 18:51:42 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -1188,7 +1188,7 @@
   - 東京都の気候データ (~tokyo_weather.csv~)
   - R言語に用意されているデータ (関数 ~data()~ で一覧表示)
 
-* 実習
+* COMMENT 実習
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:

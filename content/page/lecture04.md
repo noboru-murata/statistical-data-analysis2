@@ -21,5 +21,5 @@ weight = 1005
 
 ## 付録 {#付録}
 
--   [Quarto](https://raw.githubusercontent.com/noboru-murata/statistical-data-analysis2/refs/heads/master/docs/code/practice04.qmd) ([HTML](https://noboru-murata.github.io/statistical-data-analysis2/code/practice04.html))
--   [R Script](https://noboru-murata.github.io/statistical-data-analysis2/code/slide04.R)
+-   実習用 [Quarto](https://raw.githubusercontent.com/noboru-murata/statistical-data-analysis2/refs/heads/master/docs/code/practice04.qmd)
+-   解答例 [HTML](https://noboru-murata.github.io/statistical-data-analysis2/code/practice04.html)

@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2025-10-09 17:32:24 mura>
+# Time-stamp: <2025-10-13 16:31:45 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -393,7 +393,7 @@
   #+end_quote
 - \(X^{\mathsf{T}}X\) : *Gram行列* (Gram matrix)
   - \((p{+}1)\times(p{+}1)\) 行列 (正方行列)
-  - 正定対称行列 (固有値が非負)
+  - 半正定値行列 (固有値が非負)
 
 ** 正規方程式の解
 - 正規方程式の基本的な性質
