@@ -15,7 +15,9 @@
 
 <link rel="stylesheet" href="./reveal.js/plugin/menu/menu.css"/>
 
-<link rel="stylesheet" href="./reveal.js/plugin/drawer/drawer.css"/>
+<link rel="stylesheet" href="./reveal.js/plugin/menu/font-awesome/css/fontawesome.css"/>
+
+<link rel="stylesheet" href="./reveal.js/plugin/chalkboard/style.css"/>
 
 <link rel="stylesheet" href="./reveal.js/local/mycourse.css"/>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -43,8 +45,8 @@
 
 </section>
 <section>
-<section id="slide-org1c11659">
-<h2 id="org1c11659">講義概要</h2>
+<section id="slide-orge95acb8">
+<h2 id="orge95acb8">講義概要</h2>
 <ul>
 <li>第1回 : 回帰モデルの考え方と推定</li>
 <li><b>第2回 : モデルの評価</b></li>
@@ -54,13 +56,13 @@
 </section>
 </section>
 <section>
-<section id="slide-orga812b22">
-<h2 id="orga812b22">回帰分析の復習</h2>
-<div class="outline-text-2" id="text-orga812b22">
+<section id="slide-org83da3b2">
+<h2 id="org83da3b2">回帰分析の復習</h2>
+<div class="outline-text-2" id="text-org83da3b2">
 </div>
 </section>
-<section id="slide-org710ae71">
-<h3 id="org710ae71">線形回帰モデル</h3>
+<section id="slide-orgc028e64">
+<h3 id="orgc028e64">線形回帰モデル</h3>
 <ul>
 <li><b>目的変数</b> を <b>説明変数</b> で説明する関係式を構成
 <ul>
@@ -94,8 +96,8 @@
 
 </ul>
 </section>
-<section id="slide-org7d4183d">
-<h3 id="org7d4183d">簡潔な表現のための行列</h3>
+<section id="slide-org1fe0728">
+<h3 id="org1fe0728">簡潔な表現のための行列</h3>
 <ul>
 <li><p>
 デザイン行列 (説明変数)
@@ -117,8 +119,8 @@
 
 </ul>
 </section>
-<section id="slide-org22da350">
-<h3 id="org22da350">簡潔な表現のためのベクトル</h3>
+<section id="slide-orgedc407c">
+<h3 id="orgedc407c">簡潔な表現のためのベクトル</h3>
 <ul>
 <li><p>
 ベクトル (目的変数・誤差・回帰係数)
@@ -154,8 +156,8 @@
 
 </ul>
 </section>
-<section id="slide-org9e7a7dd">
-<h3 id="org9e7a7dd">問題の記述</h3>
+<section id="slide-orgb710feb">
+<h3 id="orgb710feb">問題の記述</h3>
 <ul>
 <li><p>
 確率モデル
@@ -186,8 +188,8 @@
 
 </ul>
 </section>
-<section id="slide-org7df65df">
-<h3 id="org7df65df">解の表現</h3>
+<section id="slide-org2c44125">
+<h3 id="org2c44125">解の表現</h3>
 <ul>
 <li><p>
 解の条件 : <b>正規方程式</b>
@@ -218,8 +220,8 @@
 
 </ul>
 </section>
-<section id="slide-org4aac961">
-<h3 id="org4aac961">最小二乗推定量の性質</h3>
+<section id="slide-org3f0d7a5">
+<h3 id="org3f0d7a5">最小二乗推定量の性質</h3>
 <ul>
 <li><b>あてはめ値</b>
 \(\boldsymbol{\hat{y}}=X\boldsymbol{\hat{\beta}}\)
@@ -260,8 +262,8 @@
 
 </ul>
 </section>
-<section id="slide-orgd93ac82">
-<h3 id="orgd93ac82">寄与率</h3>
+<section id="slide-orge59cc8f">
+<h3 id="orge59cc8f">寄与率</h3>
 <ul>
 <li><p>
 <b>決定係数</b> (R-squared)
@@ -299,13 +301,13 @@
 </section>
 </section>
 <section>
-<section id="slide-org6892b91">
-<h2 id="org6892b91">解析の事例</h2>
-<div class="outline-text-2" id="text-org6892b91">
+<section id="slide-org1436ad5">
+<h2 id="org1436ad5">解析の事例</h2>
+<div class="outline-text-2" id="text-org1436ad5">
 </div>
 </section>
-<section id="slide-org74c292c">
-<h3 id="org74c292c">実データによる例</h3>
+<section id="slide-org8a63fdd">
+<h3 id="org8a63fdd">実データによる例</h3>
 <ul>
 <li>気象庁より取得した東京の気候データ (再掲)
 <ul>
@@ -316,27 +318,27 @@
 
 </ul>
 </section>
-<section id="slide-org2649456">
-<h3 id="org2649456">気温に影響を与える要因の分析</h3>
+<section id="slide-org6fd244b">
+<h3 id="org6fd244b">気温に影響を与える要因の分析</h3>
 <ul>
 <li><p>
 データの概要
 </p>
-<div id="ncfybtaqyg" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="xanerevtmm" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 
   <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false" style="-webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; display: table; border-collapse: collapse; line-height: normal; margin-left: auto; margin-right: auto; color: #333333; font-size: 16px; font-weight: normal; font-style: normal; background-color: #FFFFFF; width: auto; border-top-style: solid; border-top-width: 2px; border-top-color: #A8A8A8; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #A8A8A8; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3;" bgcolor="#FFFFFF">
   <thead style="border-style: none;">
     <tr class="gt_col_headings" style="border-style: none; border-top-style: solid; border-top-width: 2px; border-top-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3;">
-	<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="日付" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;" bgcolor="#FFFFFF" valign="bottom" align="right">日付</th>
-	<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="気温" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;" bgcolor="#FFFFFF" valign="bottom" align="right">気温</th>
-	<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="降雨" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;" bgcolor="#FFFFFF" valign="bottom" align="right">降雨</th>
-	<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="日射" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;" bgcolor="#FFFFFF" valign="bottom" align="right">日射</th>
-	<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="降雪" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;" bgcolor="#FFFFFF" valign="bottom" align="right">降雪</th>
-	<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="風向" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: left;" bgcolor="#FFFFFF" valign="bottom" align="left">風向</th>
-	<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="風速" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;" bgcolor="#FFFFFF" valign="bottom" align="right">風速</th>
-	<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="気圧" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;" bgcolor="#FFFFFF" valign="bottom" align="right">気圧</th>
-	<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="湿度" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;" bgcolor="#FFFFFF" valign="bottom" align="right">湿度</th>
-	<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="雲量" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;" bgcolor="#FFFFFF" valign="bottom" align="right">雲量</th>
+	<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="a日付" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;" bgcolor="#FFFFFF" valign="bottom" align="right">日付</th>
+	<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="a気温" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;" bgcolor="#FFFFFF" valign="bottom" align="right">気温</th>
+	<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="a降雨" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;" bgcolor="#FFFFFF" valign="bottom" align="right">降雨</th>
+	<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="a日射" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;" bgcolor="#FFFFFF" valign="bottom" align="right">日射</th>
+	<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="a降雪" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;" bgcolor="#FFFFFF" valign="bottom" align="right">降雪</th>
+	<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="a風向" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: left;" bgcolor="#FFFFFF" valign="bottom" align="left">風向</th>
+	<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="a風速" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;" bgcolor="#FFFFFF" valign="bottom" align="right">風速</th>
+	<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="a気圧" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;" bgcolor="#FFFFFF" valign="bottom" align="right">気圧</th>
+	<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="a湿度" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;" bgcolor="#FFFFFF" valign="bottom" align="right">湿度</th>
+	<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="a雲量" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;" bgcolor="#FFFFFF" valign="bottom" align="right">雲量</th>
     </tr>
   </thead>
   <tbody class="gt_table_body" style="border-style: none; border-top-style: solid; border-top-width: 2px; border-top-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3;">
@@ -492,7 +494,6 @@
 <td headers="雲量" class="gt_row gt_right" style="border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;" valign="middle" align="right">8.5</td></tr>
   </tbody>
 
-
 </table>
 </div></li>
 
@@ -513,8 +514,8 @@
 
 </ul>
 </section>
-<section id="slide-org94c6ea8">
-<h3 id="org94c6ea8">分析の視覚化</h3>
+<section id="slide-org2df988a">
+<h3 id="org2df988a">分析の視覚化</h3>
 <ul>
 <li><p>
 関連するデータの散布図
@@ -523,7 +524,7 @@
 </ul>
 
 
-<div id="org2381544" class="figure">
+<div id="orgd21b226" class="figure">
 <p><img src="figs/04_pairs.png" alt="04_pairs.png" />
 </p>
 <p><span class="figure-number">Figure 1: </span>散布図</p>
@@ -539,7 +540,7 @@
 </ul>
 
 
-<div id="org0d37650" class="figure">
+<div id="org15e7041" class="figure">
 <p><img src="figs/04_model1.png" alt="04_model1.png" />
 </p>
 <p><span class="figure-number">Figure 2: </span>モデル1</p>
@@ -555,7 +556,7 @@
 </ul>
 
 
-<div id="org1142282" class="figure">
+<div id="orga7a5e0f" class="figure">
 <p><img src="figs/04_model2.png" alt="04_model2.png" />
 </p>
 <p><span class="figure-number">Figure 3: </span>モデル2</p>
@@ -571,7 +572,7 @@
 </ul>
 
 
-<div id="org23a2aa2" class="figure">
+<div id="org58e4c15" class="figure">
 <p><img src="figs/04_model3.png" alt="04_model3.png" />
 </p>
 <p><span class="figure-number">Figure 4: </span>モデル3</p>
@@ -587,51 +588,51 @@
 </ul>
 
 
-<div id="org2e5fa06" class="figure">
+<div id="orgd0c8465" class="figure">
 <p><img src="figs/04_models.png" alt="04_models.png" />
 </p>
 <p><span class="figure-number">Figure 5: </span>モデルの比較</p>
 </div>
 </section>
-<section id="slide-orgf69d2cc">
-<h3 id="orgf69d2cc">モデルの比較</h3>
+<section id="slide-org5c053c5">
+<h3 id="org5c053c5">モデルの比較</h3>
 <ul>
 <li><p>
 決定係数(\(R^{2}\), Adjusted \(R^{2}\))
 </p>
-<div id="fazfmwcfbd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="rxhguzyfmo" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 
   <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false" style="-webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; display: table; border-collapse: collapse; line-height: normal; margin-left: auto; margin-right: auto; color: #333333; font-size: 16px; font-weight: normal; font-style: normal; background-color: #FFFFFF; width: auto; border-top-style: solid; border-top-width: 2px; border-top-color: #A8A8A8; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #A8A8A8; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3;" bgcolor="#FFFFFF">
   <thead style="border-style: none;">
     <tr class="gt_col_headings gt_spanner_row" style="border-style: none; border-top-style: solid; border-top-width: 2px; border-top-color: #D3D3D3; border-bottom-width: 2px; border-bottom-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; border-bottom-style: hidden;">
-	<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;&lt;strong&gt;Characteristic&lt;/strong&gt;&lt;/span&gt;" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: left;" bgcolor="#FFFFFF" valign="bottom" align="left"><span class="gt_from_md"><strong style="margin-top: 0; margin-bottom: 0;">Characteristic</strong></span></th>
-	<th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="&lt;span class='gt_from_md'&gt;モデル1&lt;/span&gt;" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; padding-top: 0; padding-bottom: 0; padding-left: 4px; padding-right: 4px; text-align: center;" bgcolor="#FFFFFF" align="center">
-	  <span class="gt_column_spanner" style="border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 5px; overflow-x: hidden; display: inline-block; width: 100%;"><span class="gt_from_md">モデル1</span></span>
+	<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" scope="col" id="label" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: left;" bgcolor="#FFFFFF" valign="bottom" align="left"><span class="gt_from_md"><strong style="margin-top: 0; margin-bottom: 0;">Characteristic</strong></span></th>
+	<th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="level 1; estimate_1" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; padding-top: 0; padding-bottom: 0; padding-left: 4px; padding-right: 4px; text-align: center;" bgcolor="#FFFFFF" align="center">
+	  <div class="gt_column_spanner" style="border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 5px; overflow-x: hidden; display: inline-block; width: 100%;"><span class="gt_from_md">モデル1</span></div>
 	</th>
-	<th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="&lt;span class='gt_from_md'&gt;モデル2&lt;/span&gt;" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; padding-top: 0; padding-bottom: 0; padding-left: 4px; padding-right: 4px; text-align: center;" bgcolor="#FFFFFF" align="center">
-	  <span class="gt_column_spanner" style="border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 5px; overflow-x: hidden; display: inline-block; width: 100%;"><span class="gt_from_md">モデル2</span></span>
+	<th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="level 1; estimate_2" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; padding-top: 0; padding-bottom: 0; padding-left: 4px; padding-right: 4px; text-align: center;" bgcolor="#FFFFFF" align="center">
+	  <div class="gt_column_spanner" style="border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 5px; overflow-x: hidden; display: inline-block; width: 100%;"><span class="gt_from_md">モデル2</span></div>
 	</th>
-	<th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="&lt;span class='gt_from_md'&gt;モデル3&lt;/span&gt;" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; padding-top: 0; padding-bottom: 0; padding-left: 4px; padding-right: 4px; text-align: center;" bgcolor="#FFFFFF" align="center">
-	  <span class="gt_column_spanner" style="border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 5px; overflow-x: hidden; display: inline-block; width: 100%;"><span class="gt_from_md">モデル3</span></span>
+	<th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="level 1; estimate_3" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; padding-top: 0; padding-bottom: 0; padding-left: 4px; padding-right: 4px; text-align: center;" bgcolor="#FFFFFF" align="center">
+	  <div class="gt_column_spanner" style="border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 5px; overflow-x: hidden; display: inline-block; width: 100%;"><span class="gt_from_md">モデル3</span></div>
 	</th>
-	<th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="&lt;span class='gt_from_md'&gt;モデル4&lt;/span&gt;" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; padding-top: 0; padding-bottom: 0; padding-left: 4px; padding-right: 4px; text-align: center;" bgcolor="#FFFFFF" align="center">
-	  <span class="gt_column_spanner" style="border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 5px; overflow-x: hidden; display: inline-block; width: 100%;"><span class="gt_from_md">モデル4</span></span>
+	<th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="level 1; estimate_4" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; padding-top: 0; padding-bottom: 0; padding-left: 4px; padding-right: 4px; text-align: center;" bgcolor="#FFFFFF" align="center">
+	  <div class="gt_column_spanner" style="border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 5px; overflow-x: hidden; display: inline-block; width: 100%;"><span class="gt_from_md">モデル4</span></div>
 	</th>
-	<th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="&lt;span class='gt_from_md'&gt;モデル5&lt;/span&gt;" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; padding-top: 0; padding-bottom: 0; padding-left: 4px; text-align: center; padding-right: 0;" bgcolor="#FFFFFF" align="center">
-	  <span class="gt_column_spanner" style="border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 5px; overflow-x: hidden; display: inline-block; width: 100%;"><span class="gt_from_md">モデル5</span></span>
+	<th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="level 1; estimate_5" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; padding-top: 0; padding-bottom: 0; padding-left: 4px; text-align: center; padding-right: 0;" bgcolor="#FFFFFF" align="center">
+	  <div class="gt_column_spanner" style="border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 5px; overflow-x: hidden; display: inline-block; width: 100%;"><span class="gt_from_md">モデル5</span></div>
 	</th>
     </tr>
     <tr class="gt_col_headings" style="border-style: none; border-top-style: solid; border-top-width: 2px; border-top-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3;">
-	<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;&lt;strong&gt;Beta&lt;/strong&gt;&lt;/span&gt;" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: center;" bgcolor="#FFFFFF" valign="bottom" align="center"><span class="gt_from_md"><strong style="margin-top: 0; margin-bottom: 0;">Beta</strong></span></th>
-	<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;&lt;strong&gt;SE&lt;/strong&gt;&lt;/span&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: center;" bgcolor="#FFFFFF" valign="bottom" align="center"><span class="gt_from_md"><strong style="margin-top: 0; margin-bottom: 0;">SE</strong></span><span class="gt_footnote_marks" style="font-size: 75%; vertical-align: 0.4em; position: initial; white-space: nowrap; font-style: italic; font-weight: normal; line-height: 0;"><sup>1</sup></span></th>
-	<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;&lt;strong&gt;Beta&lt;/strong&gt;&lt;/span&gt;" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: center;" bgcolor="#FFFFFF" valign="bottom" align="center"><span class="gt_from_md"><strong style="margin-top: 0; margin-bottom: 0;">Beta</strong></span></th>
-	<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;&lt;strong&gt;SE&lt;/strong&gt;&lt;/span&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: center;" bgcolor="#FFFFFF" valign="bottom" align="center"><span class="gt_from_md"><strong style="margin-top: 0; margin-bottom: 0;">SE</strong></span><span class="gt_footnote_marks" style="font-size: 75%; vertical-align: 0.4em; position: initial; white-space: nowrap; font-style: italic; font-weight: normal; line-height: 0;"><sup>1</sup></span></th>
-	<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;&lt;strong&gt;Beta&lt;/strong&gt;&lt;/span&gt;" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: center;" bgcolor="#FFFFFF" valign="bottom" align="center"><span class="gt_from_md"><strong style="margin-top: 0; margin-bottom: 0;">Beta</strong></span></th>
-	<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;&lt;strong&gt;SE&lt;/strong&gt;&lt;/span&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: center;" bgcolor="#FFFFFF" valign="bottom" align="center"><span class="gt_from_md"><strong style="margin-top: 0; margin-bottom: 0;">SE</strong></span><span class="gt_footnote_marks" style="font-size: 75%; vertical-align: 0.4em; position: initial; white-space: nowrap; font-style: italic; font-weight: normal; line-height: 0;"><sup>1</sup></span></th>
-	<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;&lt;strong&gt;Beta&lt;/strong&gt;&lt;/span&gt;" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: center;" bgcolor="#FFFFFF" valign="bottom" align="center"><span class="gt_from_md"><strong style="margin-top: 0; margin-bottom: 0;">Beta</strong></span></th>
-	<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;&lt;strong&gt;SE&lt;/strong&gt;&lt;/span&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: center;" bgcolor="#FFFFFF" valign="bottom" align="center"><span class="gt_from_md"><strong style="margin-top: 0; margin-bottom: 0;">SE</strong></span><span class="gt_footnote_marks" style="font-size: 75%; vertical-align: 0.4em; position: initial; white-space: nowrap; font-style: italic; font-weight: normal; line-height: 0;"><sup>1</sup></span></th>
-	<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;&lt;strong&gt;Beta&lt;/strong&gt;&lt;/span&gt;" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: center;" bgcolor="#FFFFFF" valign="bottom" align="center"><span class="gt_from_md"><strong style="margin-top: 0; margin-bottom: 0;">Beta</strong></span></th>
-	<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;&lt;strong&gt;SE&lt;/strong&gt;&lt;/span&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: center;" bgcolor="#FFFFFF" valign="bottom" align="center"><span class="gt_from_md"><strong style="margin-top: 0; margin-bottom: 0;">SE</strong></span><span class="gt_footnote_marks" style="font-size: 75%; vertical-align: 0.4em; position: initial; white-space: nowrap; font-style: italic; font-weight: normal; line-height: 0;"><sup>1</sup></span></th>
+	<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="estimate_1" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: center;" bgcolor="#FFFFFF" valign="bottom" align="center"><span class="gt_from_md"><strong style="margin-top: 0; margin-bottom: 0;">Beta</strong></span></th>
+	<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="std.error_1" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: center;" bgcolor="#FFFFFF" valign="bottom" align="center"><span class="gt_from_md"><strong style="margin-top: 0; margin-bottom: 0;">SE</strong></span></th>
+	<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="estimate_2" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: center;" bgcolor="#FFFFFF" valign="bottom" align="center"><span class="gt_from_md"><strong style="margin-top: 0; margin-bottom: 0;">Beta</strong></span></th>
+	<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="std.error_2" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: center;" bgcolor="#FFFFFF" valign="bottom" align="center"><span class="gt_from_md"><strong style="margin-top: 0; margin-bottom: 0;">SE</strong></span></th>
+	<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="estimate_3" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: center;" bgcolor="#FFFFFF" valign="bottom" align="center"><span class="gt_from_md"><strong style="margin-top: 0; margin-bottom: 0;">Beta</strong></span></th>
+	<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="std.error_3" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: center;" bgcolor="#FFFFFF" valign="bottom" align="center"><span class="gt_from_md"><strong style="margin-top: 0; margin-bottom: 0;">SE</strong></span></th>
+	<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="estimate_4" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: center;" bgcolor="#FFFFFF" valign="bottom" align="center"><span class="gt_from_md"><strong style="margin-top: 0; margin-bottom: 0;">Beta</strong></span></th>
+	<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="std.error_4" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: center;" bgcolor="#FFFFFF" valign="bottom" align="center"><span class="gt_from_md"><strong style="margin-top: 0; margin-bottom: 0;">SE</strong></span></th>
+	<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="estimate_5" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: center;" bgcolor="#FFFFFF" valign="bottom" align="center"><span class="gt_from_md"><strong style="margin-top: 0; margin-bottom: 0;">Beta</strong></span></th>
+	<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="std.error_5" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: center;" bgcolor="#FFFFFF" valign="bottom" align="center"><span class="gt_from_md"><strong style="margin-top: 0; margin-bottom: 0;">SE</strong></span></th>
     </tr>
   </thead>
   <tbody class="gt_table_body" style="border-style: none; border-top-style: solid; border-top-width: 2px; border-top-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3;">
@@ -702,10 +703,9 @@
 <td headers="estimate_5" class="gt_row gt_center" style="border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden; text-align: center;" valign="middle" align="center">0.591</td>
 <td headers="std.error_5" class="gt_row gt_center" style="border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden; text-align: center;" valign="middle" align="center"><br></td></tr>
   </tbody>
-
-  <tfoot class="gt_footnotes" style="border-style: none; color: #333333; background-color: #FFFFFF; border-bottom-style: none; border-bottom-width: 2px; border-bottom-color: #D3D3D3; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3;" bgcolor="#FFFFFF">
-    <tr style="border-style: none;">
-	<td class="gt_footnote" colspan="11" style="border-style: none; margin: 0px; font-size: 90%; padding-top: 4px; padding-bottom: 4px; padding-left: 5px; padding-right: 5px;"><span class="gt_footnote_marks" style="font-size: 75%; vertical-align: 0.4em; position: initial; white-space: nowrap; font-style: italic; font-weight: normal; line-height: 0;"><sup>1</sup></span> <span class="gt_from_md">SE = Standard Error</span></td>
+  <tfoot style="border-style: none;">
+    <tr class="gt_sourcenotes" style="border-style: none; color: #333333; background-color: #FFFFFF; border-bottom-style: none; border-bottom-width: 2px; border-bottom-color: #D3D3D3; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3;" bgcolor="#FFFFFF">
+	<td class="gt_sourcenote" colspan="11" style="border-style: none; font-size: 90%; padding-top: 4px; padding-bottom: 4px; padding-left: 5px; padding-right: 5px;"><span class="gt_from_md">Abbreviations: CI = Confidence Interval, SE = Standard Error</span></td>
     </tr>
   </tfoot>
 </table>
@@ -715,13 +715,13 @@
 </section>
 </section>
 <section>
-<section id="slide-orgc48bb04">
-<h2 id="orgc48bb04">あてはめ値の性質</h2>
-<div class="outline-text-2" id="text-orgc48bb04">
+<section id="slide-org1a11b53">
+<h2 id="org1a11b53">あてはめ値の性質</h2>
+<div class="outline-text-2" id="text-org1a11b53">
 </div>
 </section>
-<section id="slide-org1603e48">
-<h3 id="org1603e48">あてはめ値</h3>
+<section id="slide-org4c9ecfe">
+<h3 id="org4c9ecfe">あてはめ値</h3>
 <ul>
 <li><p>
 さまざまな表現
@@ -752,8 +752,8 @@
 
 </ul>
 </section>
-<section id="slide-org227c50a">
-<h3 id="org227c50a">あてはめ値と誤差</h3>
+<section id="slide-org3ad9794">
+<h3 id="org3ad9794">あてはめ値と誤差</h3>
 <ul>
 <li><p>
 残差と誤差の関係
@@ -782,8 +782,8 @@
 
 </ul>
 </section>
-<section id="slide-org7255508">
-<h3 id="org7255508">ハット行列</h3>
+<section id="slide-org02c034d">
+<h3 id="org02c034d">ハット行列</h3>
 <ul>
 <li><p>
 定義
@@ -818,8 +818,8 @@
 
 </ul>
 </section>
-<section id="slide-orgf597798">
-<h3 id="orgf597798">ハット行列の性質</h3>
+<section id="slide-org96f7ced">
+<h3 id="org96f7ced">ハット行列の性質</h3>
 <ul>
 <li>観測データ(デザイン行列)のみで計算される</li>
 <li>観測データと説明変数の関係を表す</li>
@@ -848,13 +848,13 @@
 </section>
 </section>
 <section>
-<section id="slide-org7b49728">
-<h2 id="org7b49728">推定量の統計的性質</h2>
-<div class="outline-text-2" id="text-org7b49728">
+<section id="slide-org3973e6a">
+<h2 id="org3973e6a">推定量の統計的性質</h2>
+<div class="outline-text-2" id="text-org3973e6a">
 </div>
 </section>
-<section id="slide-org2fc6b0f">
-<h3 id="org2fc6b0f">最小二乗推定量の性質</h3>
+<section id="slide-org94cba96">
+<h3 id="org94cba96">最小二乗推定量の性質</h3>
 <ul>
 <li><p>
 推定量と誤差の関係
@@ -884,8 +884,8 @@
 
 </ul>
 </section>
-<section id="slide-orgb4cd340">
-<h3 id="orgb4cd340">推定量の分布</h3>
+<section id="slide-org92c4b00">
+<h3 id="org92c4b00">推定量の分布</h3>
 <ul>
 <li><b>誤差の仮定</b> : 独立，平均0 分散 \(\sigma^{2}\) の正規分布</li>
 <li><p>
@@ -941,105 +941,18 @@
 </section>
 </section>
 <section>
-<section id="slide-org2809d76" data-background="#fef4f4">
-<h2 id="org2809d76">実習</h2>
-</section>
-<section id="slide-org3f02c88" data-background="#fef4f4">
-<h3 id="org3f02c88">R : 乱数を用いた人工データの生成</h3>
-<ul>
-<li><p>
-<span style="color:green;">正規乱数を用いた線形単回帰モデル</span>
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R">set.seed(987) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#20081;&#25968;&#12398;&#12471;&#12540;&#12489;&#20516;&#12434;&#35373;&#23450;</span>
-x_obs <span style="color: #60aa00;">&lt;-</span> tibble(x0 = 1, x1 = c(1,3,5,7)) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#35500;&#26126;&#22793;&#25968;&#12398;&#35251;&#28204;&#20516;</span>
-epsilon <span style="color: #60aa00;">&lt;-</span> rnorm(nrow(x_obs), sd = 0.5) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#35492;&#24046;&#38917;&#12398;&#29983;&#25104;</span>
-beta <span style="color: #60aa00;">&lt;-</span> c(2, -3) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#22238;&#24112;&#20418;&#25968;</span>
-toy_data <span style="color: #60aa00;">&lt;-</span> x_obs |&gt; <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#30446;&#30340;&#22793;&#25968;&#12398;&#35251;&#28204;&#20516;&#12434;&#36861;&#21152;</span>
-  mutate(y = as.vector(as.matrix(x_obs) <span style="color: #60aa00;">%*%</span> beta) + epsilon)
-toy_lm <span style="color: #60aa00;">&lt;-</span> lm(y ~ x1, data = toy_data) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#22238;&#24112;&#20418;&#25968;&#12398;&#25512;&#23450;</span>
-coef(toy_lm) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#22238;&#24112;&#20418;&#25968;&#12398;&#21462;&#24471;</span>
-summary(toy_lm) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#20998;&#26512;&#32080;&#26524;&#12398;&#27010;&#35201;&#12398;&#34920;&#31034;</span>
-</pre>
-</div></li>
-
-</ul>
-</section>
-<section id="slide-org0b9bff5" data-background="#fef4f4">
-<h3 id="org0b9bff5">R : 数値実験 (Monte-Carlo法)</h3>
-<ul>
-<li><p>
-実験のためのコードは以下のようになる
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R">mc_num <span style="color: #60aa00;">&lt;-</span> 5000 <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#23455;&#39443;&#22238;&#25968;&#12434;&#25351;&#23450;</span>
-<span style="color: #b77fdb; font-weight: bold;">mc_trial</span> <span style="color: #60aa00;">&lt;-</span> <span style="color: #6c9ef8;">function</span>() { <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">1&#22238;&#12398;&#35430;&#34892;&#12434;&#34892;&#12358;&#12503;&#12525;&#12464;&#12521;&#12512;</span>
-  <span style="color: #808080; font-style: italic;">## </span><span style="color: #808080; font-style: italic;">&#20081;&#25968;&#29983;&#25104;&#12392;&#25512;&#23450;&#12398;&#20966;&#29702;</span>
-  <span style="color: #6c9ef8;">return</span>(&#36820;&#12426;&#20516;)} 
-mc_data <span style="color: #60aa00;">&lt;-</span> 
-  replicate(mc_num, mc_trial()) |&gt; <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">Monte-Carlo&#23455;&#39443;</span>
-  t() |&gt; as_tibble() <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#36578;&#32622;(&#38306;&#25968;t())&#12375;&#12390;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12395;&#22793;&#25563;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#36969;&#20999;&#12394;&#32113;&#35336;&#12539;&#35222;&#35226;&#21270;&#20966;&#29702; (&#19979;&#35352;&#12399;&#20363;)</span>
-mc_data |&gt;
-  summarise(across(everything(), var)) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#21508;&#21015;&#12398;&#20998;&#25955;&#12398;&#35336;&#31639;</span>
-ggpairs(mc_data) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#25955;&#24067;&#22259;&#34892;&#21015;&#12398;&#25551;&#30011;</span>
-tibble(x = mc_data[[k]]) |&gt; <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">k&#21015;&#30446;&#12398;&#12505;&#12463;&#12488;&#12523;&#12391;&#26032;&#12375;&#12356;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12434;&#20316;&#25104;</span>
-  ggplot(aes(x = x)) + geom_histogram() <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">k&#21015;&#30446;&#12398;&#12487;&#12540;&#12479;&#12398;&#12498;&#12473;&#12488;&#12464;&#12521;&#12512;</span>
-</pre>
-</div></li>
-
-</ul>
-</section>
-<section id="slide-orgc8d3b0c" data-background="#fef4f4">
-<h3 id="orgc8d3b0c">練習問題</h3>
-<ul>
-<li>最小二乗推定量の性質を
-数値実験 (Monte-Carlo法) により
-確認しなさい
-<ul>
-<li><p>
-以下のモデルに従う人工データを生成する
-</p>
-<blockquote>
-<p>
-説明変数の観測データ : 
-</p>
-<div>
-\begin{equation}
-  \{1, 20, 13, 9, 5, 15, 19, 8, 3, 4\}
-\end{equation}
-
-</div>
-<p>
-確率モデル :
-</p>
-<div>
-\begin{equation}
-  y=-1+2\times x + \epsilon,
-  \quad \epsilon\sim\mathcal{N}(0,2)
-\end{equation}
-
-</div>
-</blockquote></li>
-<li>観測データから回帰係数を推定する</li>
-<li>実験を複数回繰り返し
-推定値(\(\hat\beta_{0},\hat\beta_{1}\))の分布を調べる</li>
-
-</ul></li>
-
-</ul>
+<section id="slide-orgdb16512" data-background="#fef4f4">
+<h2 id="orgdb16512">実習</h2>
 </section>
 </section>
 <section>
-<section id="slide-org95543de">
-<h2 id="org95543de">誤差の評価</h2>
-<div class="outline-text-2" id="text-org95543de">
+<section id="slide-orgfe9f616">
+<h2 id="orgfe9f616">誤差の評価</h2>
+<div class="outline-text-2" id="text-orgfe9f616">
 </div>
 </section>
-<section id="slide-org5f57a86">
-<h3 id="org5f57a86">寄与率 (再掲)</h3>
+<section id="slide-org8c8c3c8">
+<h3 id="org8c8c3c8">寄与率 (再掲)</h3>
 <ul>
 <li><p>
 <b>決定係数 (R-squared)</b> 
@@ -1079,8 +992,8 @@ tibble(x = mc_data[[k]]) |&gt; <span style="color: #808080; font-style: italic;"
 
 </ul>
 </section>
-<section id="slide-org9cf38c5">
-<h3 id="org9cf38c5">各係数の推定量の分布</h3>
+<section id="slide-orgb1eab99">
+<h3 id="orgb1eab99">各係数の推定量の分布</h3>
 <ul>
 <li>推定された回帰係数の精度を評価
 <ul>
@@ -1121,8 +1034,8 @@ tibble(x = mc_data[[k]]) |&gt; <span style="color: #808080; font-style: italic;"
 
 </ul>
 </section>
-<section id="slide-org5da0188">
-<h3 id="org5da0188">標準誤差</h3>
+<section id="slide-org8c36250">
+<h3 id="org8c36250">標準誤差</h3>
 <ul>
 <li><p>
 <b>標準誤差</b> (standard error)
@@ -1155,44 +1068,18 @@ tibble(x = mc_data[[k]]) |&gt; <span style="color: #808080; font-style: italic;"
 </section>
 </section>
 <section>
-<section id="slide-org7c1577a" data-background="#fef4f4">
-<h2 id="org7c1577a">実習</h2>
-</section>
-<section id="slide-org4830b76" data-background="#fef4f4">
-<h3 id="org4830b76">練習問題</h3>
-<ul>
-<li>数値実験により
-標準誤差の性質を確認しなさい
-<ul>
-<li><p>
-人工データを用いて標準誤差と真の誤差を比較する
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#27161;&#28310;&#35492;&#24046;&#12399;&#20197;&#19979;&#12398;&#12424;&#12358;&#12395;&#12375;&#12390;&#21462;&#12426;&#20986;&#12379;&#12427;</span>
-toy_lm <span style="color: #60aa00;">&lt;-</span> lm(formula, toy_data)
-summary(toy_lm)$coefficients        <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#20418;&#25968;&#12395;&#38306;&#12377;&#12427;&#24773;&#22577;&#12399;&#12522;&#12473;&#12488;&#12398;&#35201;&#32032;&#12392;&#12375;&#12390;&#20445;&#31649;&#12373;&#12428;&#12390;&#12356;&#12427;</span>
-summary(toy_lm)$coefficients[,2]    <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#21015;&#30058;&#21495;&#12391;&#12398;&#25351;&#23450;</span>
-summary(toy_lm)$coef[,<span style="color: #d08928;">"Std. Error"</span>] <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#21015;&#21517;&#12391;&#12398;&#25351;&#23450;&#65294;coef &#12392;&#30465;&#30053;&#12375;&#12390;&#12418;&#12424;&#12356;</span>
-tidy(toy_lm) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#38306;&#25968; broom::tidy() &#12391;&#12418;&#21516;&#27096;&#12395;&#21462;&#24471;&#12391;&#12365;&#12427;</span>
-</pre>
-</div></li>
-<li>広告費と売上データを用いて係数の精度を議論する</li>
-<li>東京の気候データを用いて係数の精度を議論する</li>
-
-</ul></li>
-
-</ul>
+<section id="slide-orgd7826ce" data-background="#fef4f4">
+<h2 id="orgd7826ce">実習</h2>
 </section>
 </section>
 <section>
-<section id="slide-orgdf3a3be">
-<h2 id="orgdf3a3be">係数の評価</h2>
-<div class="outline-text-2" id="text-orgdf3a3be">
+<section id="slide-org97cccb7">
+<h2 id="org97cccb7">係数の評価</h2>
+<div class="outline-text-2" id="text-org97cccb7">
 </div>
 </section>
-<section id="slide-orgf5c4dde">
-<h3 id="orgf5c4dde">\(t\)統計量</h3>
+<section id="slide-orgb02f6b4">
+<h3 id="orgb02f6b4">\(t\)統計量</h3>
 <ul>
 <li><p>
 <b>回帰係数の分布</b> に関する定理
@@ -1230,8 +1117,8 @@ tidy(toy_lm) <span style="color: #808080; font-style: italic;"># </span><span st
 
 </ul>
 </section>
-<section id="slide-org1f8f8c1">
-<h3 id="org1f8f8c1">\(t\)統計量による検定</h3>
+<section id="slide-org286df6e">
+<h3 id="org286df6e">\(t\)統計量による検定</h3>
 <ul>
 <li>回帰係数 \(\beta_j\) が回帰式に寄与するか否かを検定
 <ul>
@@ -1267,43 +1154,18 @@ tidy(toy_lm) <span style="color: #808080; font-style: italic;"># </span><span st
 </section>
 </section>
 <section>
-<section id="slide-org94af00b" data-background="#fef4f4">
-<h2 id="org94af00b">実習</h2>
-</section>
-<section id="slide-orgf6cd86f" data-background="#fef4f4">
-<h3 id="orgf6cd86f">練習問題</h3>
-<ul>
-<li>数値実験により
-\(t\)統計量の性質を確認しなさい
-<ul>
-<li><p>
-人工データを用いて\(t\)統計量の分布を確認する
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> t&#32113;&#35336;&#37327;&#12392;&#12381;&#12398;p&#20516;&#12399;&#20197;&#19979;&#12398;&#12424;&#12358;&#12395;&#12375;&#12390;&#21462;&#12426;&#20986;&#12379;&#12427;</span>
-toy_lm <span style="color: #60aa00;">&lt;-</span> lm(formula, toy_data)
-summary(toy_lm)$coef[,c(<span style="color: #d08928;">"t value"</span>,<span style="color: #d08928;">"Pr(&gt;|t|)"</span>)] <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#21015;&#21517;&#12391;&#12398;&#25351;&#23450;</span>
-summary(toy_lm)$coef[,3:4] <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#21015;&#30058;&#21495;&#12391;&#12398;&#25351;&#23450;</span>
-tidy(toy_lm) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#38306;&#25968; broom::tidy() &#12434;&#29992;&#12356;&#12390;&#12418;&#12424;&#12356;</span>
-</pre>
-</div></li>
-<li>広告費と売上データを用いて係数の有意性を議論する</li>
-<li>東京の気候データを用いて係数の有意性を議論する</li>
-
-</ul></li>
-
-</ul>
+<section id="slide-org1cd6d0c" data-background="#fef4f4">
+<h2 id="org1cd6d0c">実習</h2>
 </section>
 </section>
 <section>
-<section id="slide-orgdae5046">
-<h2 id="orgdae5046">モデルの評価</h2>
-<div class="outline-text-2" id="text-orgdae5046">
+<section id="slide-orgacf221f">
+<h2 id="orgacf221f">モデルの評価</h2>
+<div class="outline-text-2" id="text-orgacf221f">
 </div>
 </section>
-<section id="slide-org8d16b18">
-<h3 id="org8d16b18">\(F\)統計量</h3>
+<section id="slide-orgdec48a2">
+<h3 id="orgdec48a2">\(F\)統計量</h3>
 <ul>
 <li><p>
 <b>ばらつきの比</b> に関する定理 
@@ -1341,8 +1203,8 @@ tidy(toy_lm) <span style="color: #808080; font-style: italic;"># </span><span st
 
 </ul>
 </section>
-<section id="slide-org77a24ad">
-<h3 id="org77a24ad">\(F\)統計量を用いた検定</h3>
+<section id="slide-orga74937e">
+<h3 id="orga74937e">\(F\)統計量を用いた検定</h3>
 <ul>
 <li>説明変数のうち1つでも役に立つか否かを検定
 <ul>
@@ -1379,41 +1241,16 @@ tidy(toy_lm) <span style="color: #808080; font-style: italic;"># </span><span st
 </section>
 </section>
 <section>
-<section id="slide-org915ce5e" data-background="#fef4f4">
-<h2 id="org915ce5e">実習</h2>
-</section>
-<section id="slide-orgd05f1e9" data-background="#fef4f4">
-<h3 id="orgd05f1e9">練習問題</h3>
-<ul>
-<li>数値実験により
-\(F\)統計量の性質を確認しなさい
-<ul>
-<li><p>
-人工データを用いて\(F\)統計量の分布を確認しなさい
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> F&#32113;&#35336;&#37327;&#12392;&#12381;&#12398;&#33258;&#30001;&#24230;&#12399;&#20197;&#19979;&#12398;&#12424;&#12358;&#12395;&#12375;&#12390;&#21462;&#12426;&#20986;&#12379;&#12427;</span>
-toy_lm <span style="color: #60aa00;">&lt;-</span> lm(formula, toy_data)
-summary(toy_lm)$fstat
-summary(toy_lm)$fstatistic <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#30465;&#30053;&#12375;&#12394;&#12356;&#22580;&#21512;</span>
-glance(toy_lm) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#38306;&#25968; broom::glance() &#12434;&#29992;&#12356;&#12390;&#12418;&#12424;&#12356;</span>
-</pre>
-</div></li>
-<li>広告費と売上データのモデルの有効性を議論しなさい</li>
-<li>東京の気候データのモデルの有効性を議論しなさい</li>
-
-</ul></li>
-
-</ul>
+<section id="slide-orgb5481c6" data-background="#fef4f4">
+<h2 id="orgb5481c6">実習</h2>
 </section>
 </section>
 <section>
-<section id="slide-org44ae5e8">
-<h2 id="org44ae5e8">補足</h2>
+<section id="slide-orgd249473">
+<h2 id="orgd249473">補足</h2>
 </section>
-<section id="slide-org051ac6a">
-<h3 id="org051ac6a">R : 診断プロット</h3>
+<section id="slide-org4cac274">
+<h3 id="org4cac274">R : 診断プロット</h3>
 <ul>
 <li><p>
 回帰モデルのあてはまりを視覚的に評価
@@ -1450,8 +1287,8 @@ autoplot(tw_lm6)
 </section>
 </section>
 <section>
-<section id="slide-orgcd946ef">
-<h2 id="orgcd946ef">次回の予定</h2>
+<section id="slide-org44659c3">
+<h2 id="org44659c3">次回の予定</h2>
 <ul>
 <li>第1回 : 回帰モデルの考え方と推定</li>
 <li>第2回 : モデルの評価</li>
@@ -1466,7 +1303,7 @@ autoplot(tw_lm6)
 <script src="./reveal.js/plugin/zoom/zoom.js"></script>
 <script src="./reveal.js/plugin/menu/menu.js"></script>
 <script src="./reveal.js/plugin/spotlight/spotlight.js"></script>
-<script src="./reveal.js/plugin/drawer/drawer.js"></script>
+<script src="./reveal.js/plugin/chalkboard/plugin.js"></script>
 <script src="./reveal.js/dist/theme/hidelinks.js"></script>
 <script>
 // Full list of configuration options available here:
@@ -1480,7 +1317,7 @@ center: true,
 slideNumber: 'c',
 rollingLinks: false,
 keyboard: true,
-mouseWheel: true,
+mouseWheel: false,
 fragmentInURL: true,
 hashOneBasedIndex: false,
 pdfSeparateFragments: false,
@@ -1489,10 +1326,10 @@ overview: true,
 transition: 'fade',
 transitionSpeed: 'default',
 showNotes: window.location.search.match( /print-pdf/gi ) ? 'separate-page' : false,
-spotlight: { size: 80, initialPresentationMode: false, }, drawer: { toggleDrawKey: "d", toggleBoardKey: "c", pathSize: 3, }, keyboard: { 81: function() { RevealSpotlight.toggleSpotlight()}, 87: function() { RevealSpotlight.togglePresentationMode();}, },
+spotlight: { size: 80, initialPresentationMode: false, }, keyboard: { 81: function() { RevealSpotlight.toggleSpotlight()}, 87: function() { RevealSpotlight.togglePresentationMode();}, },
 
 // Plugins with reveal.js 4.x
-plugins: [ RevealNotes, RevealSearch, RevealZoom, RevealMenu, RevealSpotlight, RevealDrawer ],
+plugins: [ RevealNotes, RevealSearch, RevealZoom, RevealMenu, RevealSpotlight, RevealChalkboard ],
 
 // Optional libraries used to extend reveal.js
 dependencies: [
