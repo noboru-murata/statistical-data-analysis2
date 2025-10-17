@@ -1,6 +1,6 @@
 ---
 title: "第4講 回帰分析"
-subtitle: "統計データ解析"
+subtitle: "モデルの評価"
 date: "`r Sys.Date()`"
 format:
     html: 
@@ -38,37 +38,61 @@ library(gtsummary)  # 分析結果の表の作成
 
 ## 推定量の性質を調べる数値実験
 
-::: callout-note
-### 正規乱数を用いた線形単回帰モデル
-
 以下に人工データによる推定量の性質の確認の例を示す．
 
-``` r
-set.seed(987) # 乱数のシード値を設定
+::: callout-tips
+### 正規乱数を用いた線形単回帰モデル
+
+```{r}
+set.seed(987)                            # 乱数のシード値を設定(再現性の担保のため)
 x_obs <- tibble(x0 = 1, x1 = c(1,3,5,7)) # 説明変数の観測値
-epsilon <- rnorm(nrow(x_obs), sd = 0.5) # 誤差項の生成
-beta <- c(2, -3) # 回帰係数
-toy_data <- x_obs |> # 目的変数の観測値を追加
+epsilon <- rnorm(nrow(x_obs), sd = 0.5)  # 誤差項の生成
+beta <- c(2, -3)                         # 真の回帰係数
+toy_data <- x_obs |>                     # 目的変数の観測値を追加
     mutate(y = as.vector(as.matrix(x_obs) %*% beta) + epsilon)
-toy_lm <- lm(y ~ x1, data = toy_data) # 回帰係数の推定
-coef(toy_lm) # 回帰係数の取得
-summary(toy_lm) # 分析結果の概要の表示
+toy_lm <- lm(y ~ x1, data = toy_data)    # 回帰係数の推定
+coef(toy_lm)                             # 回帰係数の取得
+summary(toy_lm)                          # 分析結果の概要の表示
 ```
 
 上記の例では行列とベクトルの積を用いているが， 以下のように説明変数・目的変数を個別に作成してもよい．
 
-``` r
-x_obs <- c(1,3,5,7) # 説明変数の観測値
-epsilon <- rnorm(length(x_obs), sd = 0.5) # 誤差項の生成
-y_obs <- 2 - 3 * x_obs + epsilon # 目的変数の観測値
-toy_data <- tibble(x1 = x_obs, y = y_obs) # データフレームの作成
+```{r}
+#| eval: false
+x_obs <- c(1,3,5,7)                          # 説明変数の観測値
+epsilon <- rnorm(length(x_obs), sd = 0.5)    # 誤差項の生成
+y_obs <- beta[1] + beta[2] * x_obs + epsilon # 目的変数の観測値
+toy_data <- tibble(x1 = x_obs, y = y_obs)    # データフレームの作成(必要ならx0を付加しても良い)
 ```
 :::
 
-::: callout-note
-### 数値実験 (Monte-Carlo法)
+数値実験のためのコードは以下のようになる.
 
-実験のためのコードは以下のようになる.
+::: callout-note
+###  Monte-Carlo法の雛型
+
+``` r
+mc_num <- 5000 # 実験回数を指定
+mc_trial <- function() { # 1回の試行を行うプログラム
+    ## 乱数生成と推定の処理
+    return(tibble classの返り値)}
+mc_data <- 
+    replicate(mc_num, mc_trial()) |> # Monte-Carlo実験
+    t() |> as_tibble() # 転置(関数t())してデータフレームに変換
+```
+
+実験結果に対しては下記は例のような統計処理・視覚化処理を行う．
+
+``` r
+mc_data |>
+    summarise(across(everything(), var)) # 各列の分散の計算
+ggpairs(mc_data) # 散布図行列の描画
+tibble(x = mc_data[[k]]) |> # k列目のベクトルで新しいデータフレームを作成
+    ggplot(aes(x = x)) + geom_histogram() # k列目のデータのヒストグラム
+```
+:::
+
+::: column-margin
 
 ``` r
 mc_num <- 5000 # 実験回数を指定
@@ -78,12 +102,6 @@ mc_trial <- function() { # 1回の試行を行うプログラム
 mc_data <- 
     replicate(mc_num, mc_trial()) |> # Monte-Carlo実験
     t() |> as_tibble() # 転置(関数t())してデータフレームに変換
-#' 適切な統計・視覚化処理 (下記は例)
-mc_data |>
-    summarise(across(everything(), var)) # 各列の分散の計算
-ggpairs(mc_data) # 散布図行列の描画
-tibble(x = mc_data[[k]]) |> # k列目のベクトルで新しいデータフレームを作成
-    ggplot(aes(x = x)) + geom_histogram() # k列目のデータのヒストグラム
 ```
 :::
 
