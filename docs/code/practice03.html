@@ -2671,7 +2671,7 @@ Coefficients:
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>関数 <code>base::summary()</code> の <code>tidyverse</code> 版として <code>package::broom</code> が用意されている． 関数 <code>stats::lm()</code> の返値の情報を tibble 形式で表示することができる． 詳細は後述する．</p>
+<p>関数 <code>base::summary()</code> の <code>tidyverse</code> 版として <code>package::broom</code> が用意されている． 関数 <code>stats::lm()</code> の返値の情報を <code>tibble</code> 形式で表示することができる． 詳細は後述する．</p>
 <div class="sourceCode" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)          <span class="co"># 解析結果を tibble 形式に集約</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>broom<span class="sc">::</span><span class="fu">tidy</span>(lmの出力)    <span class="co"># 推定結果のまとめ．coef(summary(lmの出力)) と同様</span></span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>broom<span class="sc">::</span><span class="fu">glance</span>(lmの出力)  <span class="co"># 評価指標(統計量)のまとめ．決定係数やF値などを整理</span></span>
@@ -2845,7 +2845,7 @@ press        -0.3602392</code></pre>
 </div>
 
 <div class="no-row-height column-margin column-container"><div class>
-<p>関数 <code>stats::model.matrix()</code> の返値は matrix class である． 関数 <code>stats::model.frame()</code> の返値は data.frame class であり，<code>model.frame(...)[[k]]</code> は data.frame ではなく vector になる． <code>tibble(...)[[k]]</code> は vector となるが，<code>tibble(...)[k]</code> は vector ではなく1列の tibble になるので注意する． 関数 <code>base::crossprod()</code> の引数は厳密に vector/matrix であることを要請するが， 例えば <code>adv_data</code> は全て数値なので行列に変換して計算できる．</p>
+<p>関数 <code>stats::model.matrix()</code> の返値は <code>matrix</code> class である． 関数 <code>stats::model.frame()</code> の返値は <code>data.frame</code> class であり，<code>model.frame(...)[[k]]</code> は <code>data.frame</code> ではなく <code>vector</code> になる． <code>tibble(...)[[k]]</code> は vector となるが，<code>tibble(...)[k]</code> は <code>vector</code> ではなく1列の <code>tibble</code> になるので注意する． 関数 <code>base::crossprod()</code> の引数は厳密に vector/matrix であることを要請するが， 例えば <code>adv_data</code> は全て数値なので行列に変換して計算できる．</p>
 <div class="sourceCode" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">crossprod</span>(adv_data) <span class="co"># データフレームのままなので計算できない</span></span>
 <span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="fu">crossprod</span>(<span class="fu">as.matrix</span>(adv_data)) <span class="co"># 計算できる</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></section>
@@ -2968,18 +2968,18 @@ F-statistic: 859.6 on 2 and 197 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>関数 <code>broom::tidy()</code> は関数 <code>base::summary()</code> で得られる情報の一部 (<code>coef(summary(lmの出力))</code> と同様の内容)を tibble 形式のデータフレームとして出力する．</p>
+<p>関数 <code>broom::tidy()</code> は関数 <code>base::summary()</code> で得られる情報の一部 (<code>coef(summary(lmの出力))</code> と同様の内容)を <code>tibble</code> 形式のデータフレームとして出力する．</p>
 <div class="sourceCode" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(x, <span class="at">conf.int =</span> <span class="cn">FALSE</span>, <span class="at">conf.level =</span> <span class="fl">0.95</span>, <span class="at">exponentiate =</span> <span class="cn">FALSE</span>, ...)</span>
 <span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39; x: stats::lm() の返値</span></span>
 <span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39; conf.int: 信頼区間を含むか否か(既定値は含めない)</span></span>
 <span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39; conf.level: 信頼係数(既定値は0.95)</span></span>
 <span id="cb84-5"><a href="#cb84-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39; exponentiate: 係数を指数変換するか否か(既定値はしない)</span></span>
 <span id="cb84-6"><a href="#cb84-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39; 詳細は ?broom::tidy.lm</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>関数 <code>broom::glance()</code> も同様に関数 <code>base::summary()</code> で得られる情報の一部 (決定係数やその他の統計量)を tibble 形式のデータフレームとして出力する．</p>
+<p>関数 <code>broom::glance()</code> も同様に関数 <code>base::summary()</code> で得られる情報の一部 (決定係数やその他の統計量)を <code>tibble</code> 形式のデータフレームとして出力する．</p>
 <div class="sourceCode" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(x, ...)</span>
 <span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39; x: stats::lm() の返値</span></span>
 <span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39; 詳細は ?broom::glance.lm</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>関数 <code>broom::augumet()</code> では 関数 <code>stats::resid()</code> や <code>stats::fitted()</code> で得られる情報を tibble 形式のデータフレームとして取得できる．</p>
+<p>関数 <code>broom::augumet()</code> では 関数 <code>stats::resid()</code> や <code>stats::fitted()</code> で得られる情報を <code>tibble</code> 形式のデータフレームとして取得できる．</p>
 <div class="sourceCode" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="fu">augment</span>(</span>
 <span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>  x,</span>
 <span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> <span class="fu">model.frame</span>(x),</span>
@@ -3011,7 +3011,7 @@ F-statistic: 859.6 on 2 and 197 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>決定係数を取得する．</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
-<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(bw_lm2)                           <span class="co"># 全ての指標を tibble 形式で取得</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(bw_lm2)                         <span class="co"># 全ての指標を tibble 形式で取得</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 12
   r.squared adj.r.squared sigma statistic      p.value    df logLik   AIC   BIC
@@ -3019,34 +3019,34 @@ F-statistic: 859.6 on 2 and 197 DF,  p-value: &lt; 2.2e-16</code></pre>
 1     0.828         0.796 0.287      26.4 0.0000000406     4  -1.80  15.6  23.4
 # ℹ 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(bw_lm2)[[<span class="st">&quot;r.squared&quot;</span>]]            <span class="co"># 決定係数</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(bw_lm2)[[<span class="st">&quot;r.squared&quot;</span>]]          <span class="co"># 決定係数</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.8275278</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(bw_lm2)[[<span class="st">&quot;adj.r.squared&quot;</span>]]        <span class="co"># 自由度調整済み決定係数</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(bw_lm2)[[<span class="st">&quot;adj.r.squared&quot;</span>]]      <span class="co"># 自由度調整済み決定係数</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.7961692</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a>bw_lm2 <span class="sc">|&gt;</span>                                <span class="co"># パイプ演算子を用いた方法</span></span>
+<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a>bw_lm2 <span class="sc">|&gt;</span>                              <span class="co"># パイプ演算子を用いた方法</span></span>
 <span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">glance</span>() <span class="sc">|&gt;</span></span>
-<span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>(adj.r.squared)                  <span class="co"># 列をベクトルとして取得</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>(adj.r.squared)                <span class="co"># 列をベクトルとして取得</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.7961692</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_rows</span>(                               <span class="co"># 3つのモデルの評価指標を結合</span></span>
+<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_rows</span>(                             <span class="co"># 3つのモデルの評価指標を結合</span></span>
 <span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">glance</span>(bw_lm1),</span>
 <span id="cb95-3"><a href="#cb95-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">glance</span>(bw_lm2)) <span class="sc">|&gt;</span></span>
-<span id="cb95-4"><a href="#cb95-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">model =</span> <span class="fu">c</span>(<span class="st">&quot;モデル1&quot;</span>,<span class="st">&quot;モデル2&quot;</span>),  <span class="co"># モデルの名称</span></span>
-<span id="cb95-5"><a href="#cb95-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">.before =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span>                <span class="co"># 先頭に付加</span></span>
-<span id="cb95-6"><a href="#cb95-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(model,r.squared,adj.r.squared) <span class="co"># 必要な3列を選択</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb95-4"><a href="#cb95-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(r.squared,adj.r.squared) <span class="sc">|&gt;</span>  <span class="co"># 必要な3列を選択</span></span>
+<span id="cb95-5"><a href="#cb95-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">name =</span> <span class="fu">c</span>(<span class="st">&quot;モデル1&quot;</span>,<span class="st">&quot;モデル2&quot;</span>), <span class="co"># モデルの名称</span></span>
+<span id="cb95-6"><a href="#cb95-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">.before =</span> <span class="dv">1</span>)                 <span class="co"># 先頭に付加</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 3
-  model   r.squared adj.r.squared
+  name    r.squared adj.r.squared
   &lt;chr&gt;       &lt;dbl&gt;         &lt;dbl&gt;
 1 モデル1     0.257         0.195
 2 モデル2     0.828         0.796</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39; 列番号がわかっている場合は select(1:3) でも良い</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39; 列番号がわかっている場合は select(1:2) でも良い</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -3120,49 +3120,52 @@ F-statistic: 859.6 on 2 and 197 DF,  p-value: &lt; 2.2e-16</code></pre>
 <span id="cb107-5"><a href="#cb107-5" aria-hidden="true" tabindex="-1"></a>tw_lm1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(tw_formula1, <span class="at">data=</span>tw_subset)   <span class="co"># 回帰分析</span></span>
 <span id="cb107-6"><a href="#cb107-6" aria-hidden="true" tabindex="-1"></a>tw_lm2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(tw_formula2, <span class="at">data=</span>tw_subset)</span>
 <span id="cb107-7"><a href="#cb107-7" aria-hidden="true" tabindex="-1"></a>tw_lm3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(tw_formula3, <span class="at">data=</span>tw_subset)</span>
-<span id="cb107-8"><a href="#cb107-8" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(tw_lm1)[[<span class="st">&quot;adj.r.squared&quot;</span>]]           <span class="co"># 自由度調整済み決定係数</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb107-8"><a href="#cb107-8" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_rows</span>(                                  <span class="co"># 3つのモデルの評価指標を結合</span></span>
+<span id="cb107-9"><a href="#cb107-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">glance</span>(tw_lm1),</span>
+<span id="cb107-10"><a href="#cb107-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">glance</span>(tw_lm2),</span>
+<span id="cb107-11"><a href="#cb107-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">glance</span>(tw_lm3)) <span class="sc">|&gt;</span></span>
+<span id="cb107-12"><a href="#cb107-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(r.squared,adj.r.squared) <span class="sc">|&gt;</span>      <span class="co"># 2種類の決定係数の列を抽出</span></span>
+<span id="cb107-13"><a href="#cb107-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">name =</span> <span class="fu">paste0</span>(<span class="st">&quot;モデル&quot;</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>),      <span class="co"># モデル名の列</span></span>
+<span id="cb107-14"><a href="#cb107-14" aria-hidden="true" tabindex="-1"></a>           <span class="at">.before =</span> <span class="dv">1</span>)                     <span class="co"># 1列目の前に付加</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.393239</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb109"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(tw_lm2)[[<span class="st">&quot;adj.r.squared&quot;</span>]]           <span class="co"># model1より上昇</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.6042806</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(tw_lm3)[[<span class="st">&quot;adj.r.squared&quot;</span>]]           <span class="co"># model2より上昇</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.5906416</code></pre>
+<pre><code># A tibble: 3 × 3
+  name    r.squared adj.r.squared
+  &lt;chr&gt;       &lt;dbl&gt;         &lt;dbl&gt;
+1 モデル1     0.414         0.393
+2 モデル2     0.632         0.604
+3 モデル3     0.633         0.591</code></pre>
 </div>
 </div>
 
 <div class="no-row-height column-margin column-container"><div class>
-<p>比較表を作成するには，推定されたモデルの情報を取得して tibble 形式のデータフレームを作成する <code>broom::glance()</code> と <code>package::gt</code> を組み合わせて，例えば次のようにすれば良い．</p>
+<p>比較表を作成するには，推定されたモデルの情報を取得して <code>tibble</code> 形式のデータフレームを作成する <code>broom::glance()</code> と <code>package::gt</code> を組み合わせて，例えば次のようにすれば良い．</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb113"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)                  <span class="co"># 表の作成</span></span>
-<span id="cb113-2"><a href="#cb113-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_rows</span>(                   <span class="co"># 3つのモデルの評価指標を結合</span></span>
-<span id="cb113-3"><a href="#cb113-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">glance</span>(tw_lm1),</span>
-<span id="cb113-4"><a href="#cb113-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">glance</span>(tw_lm2),</span>
-<span id="cb113-5"><a href="#cb113-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">glance</span>(tw_lm3)) <span class="sc">|&gt;</span></span>
-<span id="cb113-6"><a href="#cb113-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">model =</span> <span class="fu">map_vec</span>(<span class="fu">c</span>(tw_formula1,tw_formula2,tw_formula3), deparse),</span>
-<span id="cb113-7"><a href="#cb113-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">.before =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span>   <span class="co"># モデル式を文字列に変換して先頭に model 列として置く</span></span>
-<span id="cb113-8"><a href="#cb113-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) <span class="sc">|&gt;</span>           <span class="co"># 決定係数と自由度調整済み決定係数を表示</span></span>
-<span id="cb113-9"><a href="#cb113-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set_names</span>(<span class="fu">c</span>(<span class="st">&quot;モデル&quot;</span>,<span class="st">&quot;決定係数&quot;</span>,<span class="st">&quot;自由度調整済み決定係数&quot;</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb113-10"><a href="#cb113-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
-<span id="cb113-11"><a href="#cb113-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fmt_number</span>(<span class="at">decimals =</span> <span class="dv">3</span>) <span class="co"># 表示を3桁に</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb109"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)                  <span class="co"># 表作成のためのパッケージ</span></span>
+<span id="cb109-2"><a href="#cb109-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_rows</span>(                   <span class="co"># 3つのモデルの評価指標を結合</span></span>
+<span id="cb109-3"><a href="#cb109-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">glance</span>(tw_lm1),</span>
+<span id="cb109-4"><a href="#cb109-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">glance</span>(tw_lm2),</span>
+<span id="cb109-5"><a href="#cb109-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">glance</span>(tw_lm3)) <span class="sc">|&gt;</span></span>
+<span id="cb109-6"><a href="#cb109-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>) <span class="sc">|&gt;</span>           <span class="co"># 決定係数と自由度調整済み決定係数を表示</span></span>
+<span id="cb109-7"><a href="#cb109-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">model =</span> <span class="fu">map_vec</span>(<span class="fu">c</span>(tw_formula1,tw_formula2,tw_formula3), deparse),</span>
+<span id="cb109-8"><a href="#cb109-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">.before =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span>   <span class="co"># モデル式を文字列に変換して先頭に model 列として置く</span></span>
+<span id="cb109-9"><a href="#cb109-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set_names</span>(<span class="fu">c</span>(<span class="st">&quot;モデル式&quot;</span>,<span class="st">&quot;決定係数&quot;</span>,<span class="st">&quot;自由度調整済み決定係数&quot;</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb109-10"><a href="#cb109-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">gt</span>() <span class="sc">|&gt;</span>                  <span class="co"># 表に整形</span></span>
+<span id="cb109-11"><a href="#cb109-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fmt_number</span>(<span class="at">decimals =</span> <span class="dv">3</span>) <span class="co"># 表示を3桁に</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="pvpeduanys" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#pvpeduanys table {
+<div id="fbyvjpafxj" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#fbyvjpafxj table {
 font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
 }
-#pvpeduanys thead, #pvpeduanys tbody, #pvpeduanys tfoot, #pvpeduanys tr, #pvpeduanys td, #pvpeduanys th {
+#fbyvjpafxj thead, #fbyvjpafxj tbody, #fbyvjpafxj tfoot, #fbyvjpafxj tr, #fbyvjpafxj td, #fbyvjpafxj th {
 border-style: none;
 }
-#pvpeduanys p {
+#fbyvjpafxj p {
 margin: 0;
 padding: 0;
 }
-#pvpeduanys .gt_table {
+#fbyvjpafxj .gt_table {
 display: table;
 border-collapse: collapse;
 line-height: normal;
@@ -3187,11 +3190,11 @@ border-left-style: none;
 border-left-width: 2px;
 border-left-color: #D3D3D3;
 }
-#pvpeduanys .gt_caption {
+#fbyvjpafxj .gt_caption {
 padding-top: 4px;
 padding-bottom: 4px;
 }
-#pvpeduanys .gt_title {
+#fbyvjpafxj .gt_title {
 color: #333333;
 font-size: 125%;
 font-weight: initial;
@@ -3202,7 +3205,7 @@ padding-right: 5px;
 border-bottom-color: #FFFFFF;
 border-bottom-width: 0;
 }
-#pvpeduanys .gt_subtitle {
+#fbyvjpafxj .gt_subtitle {
 color: #333333;
 font-size: 85%;
 font-weight: initial;
@@ -3213,7 +3216,7 @@ padding-right: 5px;
 border-top-color: #FFFFFF;
 border-top-width: 0;
 }
-#pvpeduanys .gt_heading {
+#fbyvjpafxj .gt_heading {
 background-color: #FFFFFF;
 text-align: center;
 border-bottom-color: #FFFFFF;
@@ -3224,12 +3227,12 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#pvpeduanys .gt_bottom_border {
+#fbyvjpafxj .gt_bottom_border {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#pvpeduanys .gt_col_headings {
+#fbyvjpafxj .gt_col_headings {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -3243,7 +3246,7 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#pvpeduanys .gt_col_heading {
+#fbyvjpafxj .gt_col_heading {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3262,7 +3265,7 @@ padding-left: 5px;
 padding-right: 5px;
 overflow-x: hidden;
 }
-#pvpeduanys .gt_column_spanner_outer {
+#fbyvjpafxj .gt_column_spanner_outer {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3273,13 +3276,13 @@ padding-bottom: 0;
 padding-left: 4px;
 padding-right: 4px;
 }
-#pvpeduanys .gt_column_spanner_outer:first-child {
+#fbyvjpafxj .gt_column_spanner_outer:first-child {
 padding-left: 0;
 }
-#pvpeduanys .gt_column_spanner_outer:last-child {
+#fbyvjpafxj .gt_column_spanner_outer:last-child {
 padding-right: 0;
 }
-#pvpeduanys .gt_column_spanner {
+#fbyvjpafxj .gt_column_spanner {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
@@ -3290,10 +3293,10 @@ overflow-x: hidden;
 display: inline-block;
 width: 100%;
 }
-#pvpeduanys .gt_spanner_row {
+#fbyvjpafxj .gt_spanner_row {
 border-bottom-style: hidden;
 }
-#pvpeduanys .gt_group_heading {
+#fbyvjpafxj .gt_group_heading {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3318,7 +3321,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 text-align: left;
 }
-#pvpeduanys .gt_empty_group_heading {
+#fbyvjpafxj .gt_empty_group_heading {
 padding: 0.5px;
 color: #333333;
 background-color: #FFFFFF;
@@ -3332,13 +3335,13 @@ border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 vertical-align: middle;
 }
-#pvpeduanys .gt_from_md > :first-child {
+#fbyvjpafxj .gt_from_md > :first-child {
 margin-top: 0;
 }
-#pvpeduanys .gt_from_md > :last-child {
+#fbyvjpafxj .gt_from_md > :last-child {
 margin-bottom: 0;
 }
-#pvpeduanys .gt_row {
+#fbyvjpafxj .gt_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3356,7 +3359,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 overflow-x: hidden;
 }
-#pvpeduanys .gt_stub {
+#fbyvjpafxj .gt_stub {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3368,7 +3371,7 @@ border-right-color: #D3D3D3;
 padding-left: 5px;
 padding-right: 5px;
 }
-#pvpeduanys .gt_stub_row_group {
+#fbyvjpafxj .gt_stub_row_group {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3381,13 +3384,13 @@ padding-left: 5px;
 padding-right: 5px;
 vertical-align: top;
 }
-#pvpeduanys .gt_row_group_first td {
+#fbyvjpafxj .gt_row_group_first td {
 border-top-width: 2px;
 }
-#pvpeduanys .gt_row_group_first th {
+#fbyvjpafxj .gt_row_group_first th {
 border-top-width: 2px;
 }
-#pvpeduanys .gt_summary_row {
+#fbyvjpafxj .gt_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -3396,14 +3399,14 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#pvpeduanys .gt_first_summary_row {
+#fbyvjpafxj .gt_first_summary_row {
 border-top-style: solid;
 border-top-color: #D3D3D3;
 }
-#pvpeduanys .gt_first_summary_row.thick {
+#fbyvjpafxj .gt_first_summary_row.thick {
 border-top-width: 2px;
 }
-#pvpeduanys .gt_last_summary_row {
+#fbyvjpafxj .gt_last_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3412,7 +3415,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#pvpeduanys .gt_grand_summary_row {
+#fbyvjpafxj .gt_grand_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -3421,7 +3424,7 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#pvpeduanys .gt_first_grand_summary_row {
+#fbyvjpafxj .gt_first_grand_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3430,7 +3433,7 @@ border-top-style: double;
 border-top-width: 6px;
 border-top-color: #D3D3D3;
 }
-#pvpeduanys .gt_last_grand_summary_row_top {
+#fbyvjpafxj .gt_last_grand_summary_row_top {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3439,10 +3442,10 @@ border-bottom-style: double;
 border-bottom-width: 6px;
 border-bottom-color: #D3D3D3;
 }
-#pvpeduanys .gt_striped {
+#fbyvjpafxj .gt_striped {
 background-color: rgba(128, 128, 128, 0.05);
 }
-#pvpeduanys .gt_table_body {
+#fbyvjpafxj .gt_table_body {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -3450,7 +3453,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#pvpeduanys .gt_footnotes {
+#fbyvjpafxj .gt_footnotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -3463,7 +3466,7 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#pvpeduanys .gt_footnote {
+#fbyvjpafxj .gt_footnote {
 margin: 0px;
 font-size: 90%;
 padding-top: 4px;
@@ -3471,7 +3474,7 @@ padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#pvpeduanys .gt_sourcenotes {
+#fbyvjpafxj .gt_sourcenotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -3484,64 +3487,64 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#pvpeduanys .gt_sourcenote {
+#fbyvjpafxj .gt_sourcenote {
 font-size: 90%;
 padding-top: 4px;
 padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#pvpeduanys .gt_left {
+#fbyvjpafxj .gt_left {
 text-align: left;
 }
-#pvpeduanys .gt_center {
+#fbyvjpafxj .gt_center {
 text-align: center;
 }
-#pvpeduanys .gt_right {
+#fbyvjpafxj .gt_right {
 text-align: right;
 font-variant-numeric: tabular-nums;
 }
-#pvpeduanys .gt_font_normal {
+#fbyvjpafxj .gt_font_normal {
 font-weight: normal;
 }
-#pvpeduanys .gt_font_bold {
+#fbyvjpafxj .gt_font_bold {
 font-weight: bold;
 }
-#pvpeduanys .gt_font_italic {
+#fbyvjpafxj .gt_font_italic {
 font-style: italic;
 }
-#pvpeduanys .gt_super {
+#fbyvjpafxj .gt_super {
 font-size: 65%;
 }
-#pvpeduanys .gt_footnote_marks {
+#fbyvjpafxj .gt_footnote_marks {
 font-size: 75%;
 vertical-align: 0.4em;
 position: initial;
 }
-#pvpeduanys .gt_asterisk {
+#fbyvjpafxj .gt_asterisk {
 font-size: 100%;
 vertical-align: 0;
 }
-#pvpeduanys .gt_indent_1 {
+#fbyvjpafxj .gt_indent_1 {
 text-indent: 5px;
 }
-#pvpeduanys .gt_indent_2 {
+#fbyvjpafxj .gt_indent_2 {
 text-indent: 10px;
 }
-#pvpeduanys .gt_indent_3 {
+#fbyvjpafxj .gt_indent_3 {
 text-indent: 15px;
 }
-#pvpeduanys .gt_indent_4 {
+#fbyvjpafxj .gt_indent_4 {
 text-indent: 20px;
 }
-#pvpeduanys .gt_indent_5 {
+#fbyvjpafxj .gt_indent_5 {
 text-indent: 25px;
 }
-#pvpeduanys .katex-display {
+#fbyvjpafxj .katex-display {
 display: inline-flex !important;
 margin-bottom: 0.75em !important;
 }
-#pvpeduanys div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#fbyvjpafxj div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
 height: 0px !important;
 }
 </style>
@@ -3549,24 +3552,24 @@ height: 0px !important;
 <table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead>
 <tr class="gt_col_headings header">
-<th id="aモデル" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">モデル</th>
+<th id="aモデル式" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">モデル式</th>
 <th id="a決定係数" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">決定係数</th>
 <th id="a自由度調整済み決定係数" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">自由度調整済み決定係数</th>
 </tr>
 </thead>
 <tbody class="gt_table_body">
 <tr class="odd">
-<td class="gt_row gt_left" headers="モデル">temp ~ solar</td>
+<td class="gt_row gt_left" headers="モデル式">temp ~ solar</td>
 <td class="gt_row gt_right" headers="決定係数">0.414</td>
 <td class="gt_row gt_right" headers="自由度調整済み決定係数">0.393</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="モデル">temp ~ solar + press</td>
+<td class="gt_row gt_left" headers="モデル式">temp ~ solar + press</td>
 <td class="gt_row gt_right" headers="決定係数">0.632</td>
 <td class="gt_row gt_right" headers="自由度調整済み決定係数">0.604</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="モデル">temp ~ solar + press + cloud</td>
+<td class="gt_row gt_left" headers="モデル式">temp ~ solar + press + cloud</td>
 <td class="gt_row gt_right" headers="決定係数">0.633</td>
 <td class="gt_row gt_right" headers="自由度調整済み決定係数">0.591</td>
 </tr>
@@ -3578,17 +3581,17 @@ height: 0px !important;
 </div>
 </div></div><p>予測値と実測値の比較は以下のようになる．</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a>tw_subset <span class="sc">|&gt;</span></span>
-<span id="cb114-2"><a href="#cb114-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">model1 =</span> <span class="fu">fitted</span>(tw_lm1),                         <span class="co"># モデルごとに予測値をデータフレームに追加</span></span>
-<span id="cb114-3"><a href="#cb114-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">model2 =</span> <span class="fu">fitted</span>(tw_lm2),</span>
-<span id="cb114-4"><a href="#cb114-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">model3 =</span> <span class="fu">fitted</span>(tw_lm3)) <span class="sc">|&gt;</span></span>
-<span id="cb114-5"><a href="#cb114-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="fu">starts_with</span>(<span class="st">&quot;model&quot;</span>),                      <span class="co"># モデルをラベルとして予測値をまとめる</span></span>
-<span id="cb114-6"><a href="#cb114-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">names_to =</span> <span class="st">&quot;model&quot;</span>,</span>
-<span id="cb114-7"><a href="#cb114-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">values_to =</span> <span class="st">&quot;fitted&quot;</span>) <span class="sc">|&gt;</span></span>
-<span id="cb114-8"><a href="#cb114-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> temp, <span class="at">y =</span> fitted)) <span class="sc">+</span>                     <span class="co"># 気温の実測値をx軸，予測値をy軸で表示</span></span>
-<span id="cb114-9"><a href="#cb114-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_abline</span>(<span class="at">slope =</span> <span class="dv">1</span>, <span class="at">intercept =</span> <span class="dv">0</span>, <span class="at">colour =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span> <span class="co"># 基準線</span></span>
-<span id="cb114-10"><a href="#cb114-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">colour =</span> model, <span class="at">shape =</span> model)) <span class="sc">+</span>        <span class="co"># 予測値をモデル別に表示</span></span>
-<span id="cb114-11"><a href="#cb114-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;temperature&quot;</span>, <span class="at">y =</span> <span class="st">&quot;fitted values&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a>tw_subset <span class="sc">|&gt;</span></span>
+<span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">model1 =</span> <span class="fu">fitted</span>(tw_lm1),                         <span class="co"># モデルごとに予測値をデータフレームに追加</span></span>
+<span id="cb110-3"><a href="#cb110-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">model2 =</span> <span class="fu">fitted</span>(tw_lm2),</span>
+<span id="cb110-4"><a href="#cb110-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">model3 =</span> <span class="fu">fitted</span>(tw_lm3)) <span class="sc">|&gt;</span></span>
+<span id="cb110-5"><a href="#cb110-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="fu">starts_with</span>(<span class="st">&quot;model&quot;</span>),                      <span class="co"># モデルをラベルとして予測値をまとめる</span></span>
+<span id="cb110-6"><a href="#cb110-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">names_to =</span> <span class="st">&quot;model&quot;</span>,</span>
+<span id="cb110-7"><a href="#cb110-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">values_to =</span> <span class="st">&quot;fitted&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb110-8"><a href="#cb110-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> temp, <span class="at">y =</span> fitted)) <span class="sc">+</span>                     <span class="co"># 気温の実測値をx軸，予測値をy軸で表示</span></span>
+<span id="cb110-9"><a href="#cb110-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_abline</span>(<span class="at">slope =</span> <span class="dv">1</span>, <span class="at">intercept =</span> <span class="dv">0</span>, <span class="at">colour =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span> <span class="co"># 基準線</span></span>
+<span id="cb110-10"><a href="#cb110-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">colour =</span> model, <span class="at">shape =</span> model)) <span class="sc">+</span>        <span class="co"># 予測値をモデル別に表示</span></span>
+<span id="cb110-11"><a href="#cb110-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;temperature&quot;</span>, <span class="at">y =</span> <span class="st">&quot;fitted values&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
