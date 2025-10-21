@@ -40,19 +40,20 @@ library(gtsummary)  # 分析結果の表の作成
 
 以下に人工データによる推定量の性質の確認の例を示す．
 
-::: callout-tips
+::: callout-tip
 ### 正規乱数を用いた線形単回帰モデル
 
 ```{r}
-set.seed(987)                            # 乱数のシード値を設定(再現性の担保のため)
-x_obs <- tibble(x0 = 1, x1 = c(1,3,5,7)) # 説明変数の観測値
-epsilon <- rnorm(nrow(x_obs), sd = 0.5)  # 誤差項の生成
-beta <- c(2, -3)                         # 真の回帰係数
-toy_data <- x_obs |>                     # 目的変数の観測値を追加
+set.seed(987)                              # 乱数のシード値を設定(再現性の担保のため)
+x_obs <- tibble(x0 = 1, x1 = c(1,3,5,7))   # 説明変数の観測値
+epsilon <- rnorm(nrow(x_obs), sd = 0.5)    # 誤差項の生成
+beta <- c(2, -3)                           # 真の回帰係数
+toy_data <- x_obs |>                       # 目的変数の観測値を追加
     mutate(y = as.vector(as.matrix(x_obs) %*% beta) + epsilon)
-toy_lm <- lm(y ~ x1, data = toy_data)    # 回帰係数の推定
-coef(toy_lm)                             # 回帰係数の取得
-summary(toy_lm)                          # 分析結果の概要の表示
+toy_formula <- y ~ x1
+toy_lm <- lm(toy_formula, data = toy_data) # 回帰係数の推定
+coef(toy_lm)                               # 回帰係数の取得
+summary(toy_lm)                            # 分析結果の概要の表示
 ```
 
 上記の例では行列とベクトルの積を用いているが， 以下のように説明変数・目的変数を個別に作成してもよい．
@@ -69,39 +70,59 @@ toy_data <- tibble(x1 = x_obs, y = y_obs)    # データフレームの作成(�
 数値実験のためのコードは以下のようになる.
 
 ::: callout-note
-###  Monte-Carlo法の雛型
+### Monte-Carlo法の雛型
+
+1回の試行に対応する関数を作成する．
 
 ``` r
-mc_num <- 5000 # 実験回数を指定
-mc_trial <- function() { # 1回の試行を行うプログラム
+mc_trial <- function(x) {      # xは仮の引数で計算の中では使わない
     ## 乱数生成と推定の処理
-    return(tibble classの返り値)}
-mc_data <- 
-    replicate(mc_num, mc_trial()) |> # Monte-Carlo実験
-    t() |> as_tibble() # 転置(関数t())してデータフレームに変換
+    return(tibbleクラスの返り値)} # 必要であれば関数as_tibble_row()を利用
 ```
 
-実験結果に対しては下記は例のような統計処理・視覚化処理を行う．
+Monte-Carlo 実験を行うには関数`purrr::map()` を利用すればよい
+
+``` r
+mc_num <- 5000                   # 実験回数を指定
+mc_data <-
+    1:mc_num |> map(mc_trial) |> # 実験結果のリストが得られる
+    list_rbind()                 # データフレームに変換
+```
+
+実験結果に対しては，下記の例のような統計処理・視覚化処理を行う．
 
 ``` r
 mc_data |>
-    summarise(across(everything(), var)) # 各列の分散の計算
-ggpairs(mc_data) # 散布図行列の描画
-tibble(x = mc_data[[k]]) |> # k列目のベクトルで新しいデータフレームを作成
+    summarise(across(everything(), var))  # 各列の分散の計算
+ggpairs(mc_data)                          # 散布図行列の描画
+tibble(x = mc_data[[k]]) |>               # k列目で新しいデータフレームを作成
     ggplot(aes(x = x)) + geom_histogram() # k列目のデータのヒストグラム
 ```
 :::
 
 ::: column-margin
+試行の関数で仮の引数を使わない場合は関数 `purrr::map()` の中で無名関数を利用すれば良い．
 
 ``` r
-mc_num <- 5000 # 実験回数を指定
-mc_trial <- function() { # 1回の試行を行うプログラム
+mc_trial <- function() {
     ## 乱数生成と推定の処理
-    return(返り値)} 
+    return(tibbleクラスの返り値)} 
+mc_data <-
+    1:mc_num |> map(\(x)mc_trial()) |> list_rbind()                 
+```
+:::
+
+::: column-margin
+関数 `purrr::map()` の代わりに関数 `base::replicate()` を利用することもできるが， 出力の整形に注意する必要がある．
+
+``` r
+mc_trial <- function() {             # 1回の試行を行うプログラム
+    ## 乱数生成と推定の処理
+    return(vectorクラスの返り値)}                   
+mc_num <- 5000                       # 実験回数を指定
 mc_data <- 
     replicate(mc_num, mc_trial()) |> # Monte-Carlo実験
-    t() |> as_tibble() # 転置(関数t())してデータフレームに変換
+    t() |> as_tibble()               # 転置(関数t())してデータフレームに変換
 ```
 :::
 
@@ -135,36 +156,36 @@ mc_data <-
 試行を行う関数を作成する．
 
 ```{r}
-set.seed(2468) # 乱数のシード値 (適宜変更せよ)
-x_obs <- tibble(x0 = 1, # 説明変数の観測値
+set.seed(2468)                                # 乱数のシード値 (適宜変更せよ)
+x_obs <- tibble(x0 = 1,                       # 説明変数の観測値
                 x1 = c(1, 20, 13, 9, 5, 15, 19, 8, 3, 4)) 
-beta <- set_names(c(-1, 2), # 回帰係数 (切片,係数の真値)
+beta <- set_names(c(-1, 2),                   # 回帰係数 (切片,係数の真値)
                   c("beta0","beta1"))
-sigma <-  sqrt(2) # 誤差の標準偏差(分散の平方根)を設定
-mc_trial <- function(){ 
+sigma <-  sqrt(2)                             # 誤差の標準偏差(分散の平方根)を設定
+mc_trial <- function(x){ 
     epsilon <- rnorm(nrow(x_obs), sd = sigma) # 誤差項の生成
-    toy_data <- x_obs |> # 目的変数の観測値を追加
+    toy_data <- x_obs |>                      # 目的変数の観測値を追加
         mutate(y = as.vector(as.matrix(x_obs) %*% beta) + epsilon)
-    toy_lm <- lm(y ~ x1, data = toy_data) # 回帰係数の推定
-    return(coef(toy_lm)) # 推定された係数だけ返す
+    toy_lm <- lm(y ~ x1, data = toy_data)     # 回帰係数の推定
+    return(as_tibble_row(coef(toy_lm)))       # 推定された係数だけ返す
 }
 ```
 
-少数回の実験で確認してみる． 同じ実験を複数回行うには関数 `base::replicate()` を利用するとよい．
+少数回の実験で確認してみる．
 
 ```{r}
 mc_num <- 5 # 実験回数
-replicate(mc_num, mc_trial())
+1:mc_num |> map(mc_trial)
 ```
 
 数値実験を行う．
 
 ```{r}
-mc_num <- 5000 # 実験回数
-mc_data <- replicate(mc_num, mc_trial()) |> # mc_num回試行を行う
-    t() |> as_tibble()                      # 得られる結果を転置してデータフレームにする
-names(mc_data) <- names(beta) # 列名を変更(上書き)
-mc_data # 内容を確認
+mc_num <- 5000                                   # 実験回数
+mc_data <-
+    1:mc_num |> map(mc_trial) |> list_rbind() |> # Monte-Carlo実験
+    set_names(names(beta))                       # 列名を変更(上書き)
+mc_data                                          # 内容を確認
 ```
 
 データフレーム `mc_data` には `mc_mun` 回の実験結果が保存されている．
@@ -172,8 +193,8 @@ mc_data # 内容を確認
 回帰係数の分布(2次元)を調べてみる．
 
 ```{r}
-#| fig-width: 7
-#| fig-height: 7
+#| fig-width: 6
+#| fig-height: 6
 mc_data |>
     ggplot(aes(x = beta0, y = beta1)) +
     geom_point(colour = "blue", shape = 20) + # 推定値の散布図
@@ -187,8 +208,8 @@ mc_data |>
 ```{r}
 #| label: fig-greek
 #| fig-cap: "ギリシャ文字を利用するの例"
-#| fig-width: 7
-#| fig-height: 7
+#| fig-width: 6
+#| fig-height: 6
 #| column: margin
 last_plot() + # 直前のプロットを指す
     labs(x = expression(beta[0]), y = expression(beta[1]))
@@ -201,10 +222,11 @@ last_plot() + # 直前のプロットを指す
 ```{r}
 #| label: fig-marginal
 #| fig-cap: "周辺分布を付加するの例"
-#| fig-width: 7
-#| fig-height: 7
+#| fig-width: 6
+#| fig-height: 6
 #| column: margin
-ggExtra::ggMarginal(last_plot(), type = "histogram")
+library(ggExtra)
+ggMarginal(last_plot(), type = "histogram")
 ```
 :::
 
@@ -266,11 +288,10 @@ for(k in 1:2) {
 
     ```{r}
     #| eval: false
-    toy_lm <- lm(formula, toy_data)
-    summary(toy_lm)$coefficients        # 係数に関する情報はリストの要素として保管されている
-    summary(toy_lm)$coefficients[,2]    # 列番号での指定
-    summary(toy_lm)$coef[,"Std. Error"] # 列名での指定．coef と省略してもよい
-    tidy(toy_lm) # 関数 broom::tidy() でも同様に取得できる
+    toy_lm <- lm(toy_formula, toy_data)
+    tidy(toy_lm)                   # 係数に関する情報をtibbleクラスとして取得
+    tidy(toy_lm)[2]                # 列番号での要素の指定
+    tidy(toy_lm)["std.error"]      # 列名での要素の指定
     ```
 
 -   広告費と売上データを用いて係数の精度を議論する．
@@ -292,15 +313,16 @@ set.seed(1313) # 乱数のシード値 (適宜変更せよ)
 x_obs <- tibble(x0 = 1,
                 x1 = c(1, 20, 13, 9, 5, 15, 19, 8, 3, 4), # 説明変数1
                 x2 = c(3, 19, 1, 4, 18, 7, 2, 10, 6, 12)) # 説明変数2
-beta <- c(-1, 2, -3) # (切片，x1の係数, x2の係数)
-sigma <-  sqrt(2)    # 誤差の標準偏差(分散の平方根)
-mc_trial <- function(){ 
-    epsilon <- rnorm(nrow(x_obs), sd = sigma) # 誤差項
-    toy_data <- x_obs |> # 目的変数の観測値を追加
+beta <- c(-1, 2, -3)                                      # (切片，x1の係数, x2の係数)
+sigma <-  sqrt(2)                                         # 誤差の標準偏差(分散の平方根)
+mc_trial <- function(x){ 
+    epsilon <- rnorm(nrow(x_obs), sd = sigma)             # 誤差項
+    toy_data <- x_obs |>                                  # 目的変数の観測値を追加
         mutate(y = as.vector(as.matrix(x_obs) %*% beta) + epsilon)
-    toy_lm <- lm(y ~ x1 + x2, data = toy_data)             # 回帰係数の推定
-    return(set_names(summary(toy_lm)$coef[,"Std. Error"],  # 標準誤差を
-                     c("beta0.se","beta1.se","beta2.se"))) # 名前を付けて返す
+    toy_lm <- lm(y ~ x1 + x2, data = toy_data)            # 回帰係数の推定
+    return(tidy(toy_lm) |> pull(std.error) |>             # 標準誤差を抽出
+           set_names(paste0("beta",0:2,".se")) |>         # 名前を付けて返す
+           as_tibble_row())                               # tibbleクラスに変更
 }
 ```
 
@@ -309,8 +331,8 @@ mc_trial <- function(){
 ```{r}
 mc_num <- 5000 # 実験回数
 mc_data <- 
-    replicate(mc_num, mc_trial()) |> # mc_num回の試行
-    t() |> as_tibble()               # データフレームの作成
+    1:mc_num |> map(mc_trial) |> # mc_num回の試行
+    list_rbind()                 # データフレームの作成
 ```
 
 各回帰係数の標準誤差の分布を描くと以下のようになる．
@@ -349,9 +371,9 @@ adv_lm3 <- lm(sales ~ TV + radio, data = adv_data)
 推定値とその標準誤差を比較する．
 
 ```{r}
-summary(adv_lm1)$coef[,1:2] 
-summary(adv_lm2)$coef[,1:2] 
-summary(adv_lm3)$coef[,1:2] 
+tidy(adv_lm1) |> select(1:3)
+tidy(adv_lm2) |> select(1:3)
+tidy(adv_lm3) |> select(1:3)
 ```
 
 ::: column-margin
@@ -365,7 +387,7 @@ tbl_merge(
         tbl_regression(adv_lm1),
         tbl_regression(adv_lm2),
         tbl_regression(adv_lm3)),
-    tab_spanner = c("モデル1","モデル2","モデル3"))
+    tab_spanner = paste0("モデル",1:3))
 ```
 
 規定の表では推定値・信頼区間・p値のみなので，必要な項目を並べるための関数を設定すると良い．
@@ -382,7 +404,7 @@ tbl_merge(
         my_gts(adv_lm1),
         my_gts(adv_lm2),
         my_gts(adv_lm3)),
-    tab_spanner = c("モデル1","モデル2","モデル3"))
+    tab_spanner = paste0("モデル",1:3))
 ```
 :::
 
@@ -396,20 +418,12 @@ tw_subset <-
     filter(month == 9)
 ```
 
-回帰モデルの設定をする．
-
-```{r}
-tw_model1 <- temp ~ solar
-tw_model2 <- temp ~ solar + press
-tw_model3 <- temp ~ solar + press + cloud
-```
-
 回帰モデルの推定を行う．
 
 ```{r}
-tw_lm1 <- lm(tw_model1, data = tw_subset)
-tw_lm2 <- lm(tw_model2, data = tw_subset)
-tw_lm3 <- lm(tw_model3, data = tw_subset)
+tw_lm1 <- lm(temp ~ solar, data = tw_subset)                 # モデル1
+tw_lm2 <- lm(temp ~ solar + press, data = tw_subset)         # モデル2
+tw_lm3 <- lm(temp ~ solar + press + cloud, data = tw_subset) # モデル3
 ```
 
 モデルの推定値とその標準誤差は以下のとおりである．
@@ -431,9 +445,9 @@ tbl_merge(
 
 ```{r}
 #| eval: false
-summary(tw_lm1)$coef[,c("Estimate","Std. Error")]
-summary(tw_lm2)$coef[,1:2] # 名前ではなく列番号で指定する場合
-summary(tw_lm3)$coef[,1:2] # cloud の標準誤差が大きく精度が悪いことが示唆される
+tidy(tw_lm1) |> select(term,estimate,std.error)
+tidy(tw_lm2) |> select(1:3) # 名前ではなく列番号で指定する場合
+tidy(tw_lm3) |> select(1:3) # cloud の標準誤差が大きく精度が悪いことが示唆される
 ```
 
 ## $t$ 統計量の性質
@@ -448,10 +462,10 @@ summary(tw_lm3)$coef[,1:2] # cloud の標準誤差が大きく精度が悪いこ
 
     ```{r}
     #| eval: false
-    toy_lm <- lm(formula, toy_data)
-    summary(toy_lm)$coef[,c("t value","Pr(>|t|)")] # 列名での指定
-    summary(toy_lm)$coef[,3:4]                     # 列番号での指定
-    tidy(toy_lm) # 関数 broom::tidy() を用いてもよい
+    toy_lm <- lm(toy_formula, toy_data)
+    tidy(toy_lm) |> select(term,statistic,p.value) # 列名での指定
+    tidy(toy_lm) |> select(1,4:5)                  # 列番号での指定
+    tidy(toy_lm) |> select(-c(2,3))                # 不要な列番号を除去
     ```
 
 -   広告費と売上データを用いて係数の有意性を議論する．
@@ -473,15 +487,16 @@ set.seed(2525) # 乱数のシード値 (適宜変更せよ)
 x_obs <- tibble(x0 = 1,
                 x1 = c(1, 20, 13, 9, 5, 15, 19, 8, 3, 4), # 説明変数1
                 x2 = c(3, 19, 1, 4, 18, 7, 2, 10, 6, 12)) # 説明変数2
-beta <- c(-1, 2, 0) # (切片，x1の係数，x2の係数) 
-sigma <-  sqrt(2) # 誤差の標準偏差(分散の平方根)
-mc_trial <- function(){ 
-    epsilon <- rnorm(nrow(x_obs), sd = sigma) # 誤差項
-    toy_data <- x_obs |> # 目的変数の観測値を追加
+beta <- c(-1, 2, 0)                                       # (切片，x1の係数，x2の係数) 
+sigma <-  sqrt(2)                                         # 誤差の標準偏差(分散の平方根)
+mc_trial <- function(x){ 
+    epsilon <- rnorm(nrow(x_obs), sd = sigma)             # 誤差項
+    toy_data <- x_obs |>                                  # 目的変数の観測値を追加
         mutate(y = as.vector(as.matrix(x_obs) %*% beta) + epsilon)
-    toy_lm <- lm(y ~ x1 + x2, data = toy_data) # 回帰係数の推定
-    return(set_names(summary(toy_lm)$coef[,"t value"], # t統計量を返す
-                     c("beta0.tval","beta1.tval","beta2.tval"))) 
+    toy_lm <- lm(y ~ x1 + x2, data = toy_data)     
+    return(tidy(toy_lm) |> pull(statistic) |>             # t統計量を返す
+           set_names(paste("beta",0:2,".tval")) |>
+           as_tibble_row())
 }
 ```
 
@@ -490,9 +505,8 @@ $x1$ の係数は 2 なので帰無仮説に従わない，$x2$ の係数は 0 �
 数値実験を行う．
 
 ```{r}
-mc_num <- 5000 # 実験回数
-mc_data <- 
-    replicate(mc_num, mc_trial()) |> t() |> as_tibble()
+mc_num <- 5000 
+mc_data <- 1:mc_num |> map(mc_trial) |> list_rbind()
 ```
 
 各回帰係数の $t$ 統計量の分布を図示すると以下のようになる．
@@ -568,10 +582,11 @@ press単体では係数の推定精度も決定係数も低いが，solarと組�
 
     ```{r}
     #| eval: false
-    toy_lm <- lm(formula, toy_data)
-    summary(toy_lm)$fstat
-    summary(toy_lm)$fstatistic # 省略しない場合
-    glance(toy_lm) # 関数 broom::glance() を用いてもよい
+    toy_lm <- lm(toy_formula, toy_data)
+    glance(toy_lm)[c("statistic","p.value","df","df.residual")] # 以下全て等価
+    glance(toy_lm)[4:6,11]
+    glance(toy_lm) |> select(statistic,p.value,df,df.residual)
+    toy_lm |> glance() |> select(4:6,11)
     ```
 
 -   広告費と売上データのモデルの有効性を議論しなさい．
@@ -595,21 +610,21 @@ x_obs <- tibble(x0 = 1,
                 x2 = c(3, 19, 1, 4, 18, 7, 2, 10, 6, 12)) # 説明変数2
 beta <- c(-1, 0, 0) # (切片, x1の係数, x2の係数)
 sigma <-  sqrt(2) # 誤差の標準偏差(分散の平方根)
-mc_trial <- function(){ 
+mc_trial <- function(x){ 
     epsilon <- rnorm(nrow(x_obs), sd = sigma) # 誤差項
     toy_data <- x_obs |> # 目的変数の観測値を追加
         mutate(y = as.vector(as.matrix(x_obs) %*% beta) + epsilon)
     toy_lm <- lm(y ~ x1 + x2, data = toy_data) # 回帰係数の推定
-    return(summary(toy_lm)$fstat[1]) # F統計量を返す
+    return(glance(toy_lm) |> pull(statistic) |> # F統計量を返す
+           as_tibble_col("fstat")) 
 }
 ```
 
 上記の設定では $x1,x2$ の係数はどちらも0なので帰無仮説が成り立つことに注意する． まず，帰無仮説が成り立つ場合の数値実験を行う．
 
 ```{r}
-mc_num <- 5000 # 実験回数
-mc_data <- 
-    replicate(mc_num, mc_trial()) |> as_tibble_col("fstat")
+mc_num <- 5000 
+mc_data <- 1:mc_num |> map(mc_trial) |> list_rbind()
 ```
 
 実験結果は1次元なので転置は不要であるが，ここでは列名の設定をしておく．
@@ -632,8 +647,7 @@ mc_data |>
 
 ```{r}
 beta <- c(-1, 2, 0) # x1の係数 : 帰無仮説が成り立たない
-mc_data <-
-    replicate(mc_num, mc_trial()) |> as_tibble_col("fstat") 
+mc_data <- 1:mc_num |> map(mc_trial) |> list_rbind()
 ```
 
 モデルの $F$ 統計量の分布を図示すると帰無分布に従わないことがわかる．
@@ -663,16 +677,16 @@ summary(lm(sales ~ newspaper, data = adv_data))
 ```{r}
 my_gts <- function(x){ # 表示する項目を整理した関数を用意する
     tbl_regression(x) |>
-        add_glance_table(include = c("adj.r.squared","statistic","p.value")) }
+        add_glance_table(include = c(adj.r.squared,statistic,p.value)) }
 tbl_merge(
     tbls = list(
         my_gts(lm(sales ~ TV, data = adv_data)),
         my_gts(lm(sales ~ radio, data = adv_data)),
         my_gts(lm(sales ~ newspaper, data = adv_data))),
-    tab_spanner = c("モデル1","モデル2","モデル3")) |>
-    modify_table_body( ~ .x |> # characteristic を並べ変える
-                           arrange(factor(variable,
-                                          levels = c("TV","radio","newspaper"))))
+    tab_spanner = paste0("モデル",1:3)) |>
+    modify_table_body(~.x |> # characteristic を並べ変える
+                          arrange(factor(variable,
+                                         levels = c("TV","radio","newspaper"))))
 ```
 
 東京の気候データでは `press`, `solar`, `rain` によるモデルを検討してみる．
@@ -690,11 +704,11 @@ summary(lm(temp ~ press + solar + rain, data = tw_subset))
 ```{r}
 my_gts <- function(x){ # 表示する項目を整理した関数を用意する
     tbl_regression(x) |>
-        add_glance_table(include = c("adj.r.squared","statistic","p.value")) }
+        add_glance_table(include = c(adj.r.squared,statistic,p.value)) }
 tbl_merge(
     tbls = list(
         my_gts(lm(temp ~ press + solar + rain, data = tw_subset)),
         my_gts(lm(temp ~ press + solar, data = tw_subset)),
         my_gts(lm(temp ~ press, data = tw_subset))),
-    tab_spanner = c("モデル1","モデル2","モデル3"))
+    tab_spanner = paste0("モデル",1:3))
 ```

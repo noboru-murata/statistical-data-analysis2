@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-11-01 15:33:17 mura>
+# Time-stamp: <2025-10-20 17:46:45 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -1278,7 +1278,7 @@
 :reveal_background: #fef4f4
 :END:
 # 東京大学
-** R : 予測値と区間推定
+** COMMENT R : 予測値と区間推定
 :PROPERTIES:
 :ID:       7C42A122-D414-4962-873C-05B63214FAB6
 :END:
@@ -1317,7 +1317,7 @@
     #' 信頼区間，予測区間の水準の既定値は0.95
   #+end_src
 
-** R : モデルからの予測
+** COMMENT R : モデルからの予測
 :PROPERTIES:
 :ID:       3A08A8A7-69AF-478C-81B2-2FF8A294EA8D
 :END:
@@ -1365,7 +1365,7 @@
     #' この場合は順序付きの因子になるので，'shape' を利用すると警告が出る
   #+end_src
 
-** R : 区間表示のための関数
+** COMMENT R : 区間表示のための関数
 - 関数 ~ggplot2::geom_errorbar()~ : 区間の表示
   #+begin_src R :eval no :tangle no
     geom_errorbar(
@@ -1388,7 +1388,7 @@
   - 関数 ~broom::augment()~ の場合は '.lower/.upper' を用いる
   - 関数 ~stats::predict()~ の場合は 'lwr/upr' を用いる
     
-** 練習問題
+** COMMENT 練習問題
 :PROPERTIES:
 :reveal_background: #fef4f4
 :ID:       BE0FBF85-8245-4AB5-9343-65F286DA1877
@@ -2122,7 +2122,7 @@
 :reveal_background: #fef4f4
 :END:
 # 東京大学
-** R : 線形でないモデル式の書き方
+** COMMENT R : 線形でないモデル式の書き方
 :PROPERTIES:
 :ID:       69676012-A43A-4666-8B50-6FEC3D4F4AE9
 :END:
@@ -2139,7 +2139,7 @@
     Y ~ f(X1)            # f(X1) (fは任意の関数)
     Y ~ X1 + I(X2^2)     # X1 + X2^2
   #+end_src
-** R : カテゴリカル変数の取り扱い
+** COMMENT R : カテゴリカル変数の取り扱い
 :PROPERTIES:
 :ID:       05C02EB7-D06D-4001-BB12-CFAAAC9CDD32
 :END:
@@ -2161,7 +2161,7 @@
     glimpse(toy_data4) # 条件の真偽で2値に類別される
   #+end_src
 
-** 練習問題
+** COMMENT 練習問題
 :PROPERTIES:
 :reveal_background: #fef4f4
 :ID:       44353AD4-5224-4C24-86AF-0068F859E84D
@@ -2235,7 +2235,7 @@
    - [[./code/06-dummy.r][06-dummy.r]] を確認してみよう
 
 
-* 補足
+* COMMENT 補足
 # 東京大学
 ** R : モデルの探索
 :PROPERTIES:
