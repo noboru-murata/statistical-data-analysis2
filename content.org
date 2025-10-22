@@ -85,7 +85,7 @@
 :EXPORT_FILE_NAME: lecture04
 :EXPORT_DATE: <2020-09-19 Sat>
 :END:
-<2024-10-24 Thu> 更新
+<2025-10-22 Wed> 更新
 ** スライド
 #+hugo: {{< myslide base="statistical-data-analysis2" name="slide04" >}}
 ** ハンドアウト
@@ -99,7 +99,7 @@
 :EXPORT_FILE_NAME: lecture05
 :EXPORT_DATE: <2020-09-19 Sat>
 :END:
-<2024-11-01 Fri> 更新
+<2025-10-22 Wed> 更新
 ** スライド
 #+hugo: {{< myslide base="statistical-data-analysis2" name="slide05" >}}
 ** ハンドアウト
@@ -108,9 +108,9 @@
 :PROPERTIES:
 :ID:       126533CA-3724-4BBF-B0D0-2D0CE46F301E
 :END:
-- 実習用 [[githubraw:code/practice05.qmd][Quarto]] (解答例 [[githubraw:code/sample-code05.qmd][Quarto]] [[github:code/sample-code05.html][HTML]])
-- [[github:code/slide05.R][R Script]]
-- [[github:data/data05.zip][参考(コード・データセット)]]
+- 実習用 [[githubraw:code/practice05.qmd][Quarto]]
+- 解答例 [[github:code/practice05.html][HTML]]
+- 参考資料 [[github:data/data05.zip][コード・データセット]]
 
 * 第6講
 :PROPERTIES:

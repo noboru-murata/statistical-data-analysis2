@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2025-10-20 17:46:45 mura>
+# Time-stamp: <2025-10-22 16:00:51 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -763,7 +763,7 @@
 - 回帰係数 \(\beta_j\) が回帰式に寄与するか否かを検定する
   - 帰無仮説 \(H_{0}\): \(\beta_j=0\)
   - 対立仮説 \(H_{1}\): \(\beta_j\neq0\) (\(\beta_j\) は役に立つ)
-- \(t\)統計量: 各係数ごと，\(\zeta\) は \((X^{\mathsf{T}} X)^{-1}\) の対角成分
+- \(t\)統計量: 各係数ごと，\(\zeta^{2}\) は \((X^{\mathsf{T}} X)^{-1}\) の対角成分
   #+begin_quote
   \begin{equation}
     t=\frac{\hat{\beta}_j}{\hat{\sigma}\zeta_{j}}
@@ -922,7 +922,7 @@
     autoplot(tw_lm2)
   #+end_src
 
-#+caption: モデル3の診断
+#+caption: モデル2の診断
 #+name: fig:05_diag_model2
 #+attr_html: height 100%
 #+attr_latex: :width 0.6\linewidth
