@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2025-10-13 17:34:23 mura>
+# Time-stamp: <2025-10-24 14:39:35 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -226,7 +226,7 @@
 - 気象庁より取得した東京の気候データ (再掲)
   - 気象庁 https://www.data.jma.go.jp/gmd/risk/obsdl/index.php
   - データ https://noboru-murata.github.io/multivariate-analysis/data/tokyo_weather.csv
-** 実データによる例
+** COMMENT 実データによる例
 :PROPERTIES:
 :ID:       C513A101-EB45-4E7A-A4D3-1A8819EF6183
 :END:
@@ -245,7 +245,7 @@
 
     #' データの読み込み
     tw_subset <- read_csv("data/tokyo_weather.csv") |>
-      filter(month == 9) |> # 9月のデータの抽出
+      filter(month == 8) |> # 8月のデータの抽出
       mutate(date = date(paste(year,month,day,sep="-")), .before = 1) |>
       select(-c(year,month,day,day_of_week)) |>
       set_names(c("日付","気温","降雨","日射","降雪","風向","風速","気圧","湿度","雲量"))
@@ -366,7 +366,7 @@
                             type = "p", # plotの種類: "p"点，"l"線，"h"足付き
                             pch = 16,   # 点の種類 (?points 参照)
                             angle = 45, # xy平面の見る方向 (適宜調整)
-                            zlim = c(20,35),
+                            #' zlim = c(20,35),
                             color = "brown",
                             ## xlab="気圧", ylab="日射", zlab="気温",
                             ##    highlight.3d=TRUE # 高さ(z)ごとに色を変える
@@ -400,7 +400,8 @@
       geom_abline(slope = 1, intercept = 0, colour = "red") + # 基準線
       geom_point(aes(colour = model, shape = model)) + # 予測値をモデル別に表示
       labs(y = "あてはめ値") +
-      xlim(22,32) + ylim(22,32) + theme(legend.position = c(.88,.15))
+      #' xlim(22,32) + ylim(22,32) +
+      theme(legend.position = c(.88,.15))
   #+end_src
 
 #+caption: モデルの比較
@@ -486,7 +487,12 @@
       tbl_regression(x) |>
         modify_column_hide(columns = c(p.value,conf.low)) |>
         modify_column_unhide(columns = std.error) |>
-        add_glance_table(include = c("r.squared","adj.r.squared")) }
+        modify_header(label = "**変数**",
+                      estimate = "**係数**",
+                      std.error = "**標準誤差**") |>
+        add_glance_table(
+          include = c(r.squared,adj.r.squared))
+    }
     tw_gt <- 
       tbl_merge(
         tbls = list(
@@ -495,10 +501,10 @@
           my_gts(tw_lm3),
           my_gts(tw_lm4),
           my_gts(tw_lm5)),
-        tab_spanner = c("モデル1","モデル2","モデル3","モデル4","モデル5")) |>
-      modify_table_body( ~ .x |>
-                           arrange(factor(variable,
-                                          levels = c("気圧","日射","湿度","雲量"))))
+        tab_spanner = paste0("モデル",1:5)) |>
+      modify_table_body(~.x |>
+                          arrange(factor(variable,
+                                         levels = c("気圧","日射","湿度","雲量"))))
   #+end_src
   #+begin_src R :eval no :exports none
     tw_gt # Viewer ペインに表示
@@ -642,7 +648,7 @@
                             type="p", # plotの種類: "p"点，"l"線，"h"足付き
                             pch=16,# 点の種類 (?points 参照)
                             angle=45, # xy平面の見る方向 (適宜調整)
-                            zlim=c(20,35),
+                            #' zlim=c(20,35),
                             color="brown",
                             xlab="気圧", ylab="日射", zlab="気温",
                             #'    highlight.3d=TRUE # 高さ(z)ごとに色を変える
@@ -675,7 +681,8 @@
       geom_abline(slope = 1, intercept = 0, colour = "red") + # 基準線
       geom_point(aes(colour = model, shape = model)) + # 予測値をモデル別に表示
       labs(x = "気温", y = "あてはめ値") +
-      xlim(22,32) + ylim(22,32) + theme(legend.position = c(.88,.15))
+      #' xlim(22,32) + ylim(22,32) +
+      theme(legend.position = c(.88,.15))
   #+end_src
 
 #+caption: モデルの比較
@@ -1248,7 +1255,7 @@
   - \(\hat{\beta}_j\) の標準偏差の推定量
   #+begin_quote
   \begin{equation}
-    \mathrm{s.e.}(\hat{\beta}_{j})
+    \mathrm{s{.}e{.}}(\hat{\beta}_{j})
     =
     \hat{\sigma}\zeta_j
     =
@@ -1459,7 +1466,7 @@
       % \text{(t統計量)}\quad
       t
       =
-      \frac{\hat{\beta}_j-\beta_j}{\mathrm{s.e.}(\hat{\beta}_{j})}
+      \frac{\hat{\beta}_j-\beta_j}{\mathrm{s{.}e{.}}(\hat{\beta}_{j})}
       =
       \frac{\hat{\beta}_j-\beta_j}{\hat{\sigma}\zeta_{j}}
     \end{equation}
@@ -1520,7 +1527,7 @@
   は自由度 \(n{-}2\) の \(t\) 分布に従う 
   #+begin_quote
   \begin{equation}
-    t=\frac{\hat{\beta}}{\mathrm{s.e.}(\hat{\beta})}
+    t=\frac{\hat{\beta}}{\mathrm{s{.}e{.}}(\hat{\beta})}
   \end{equation}
   #+end_quote
 - 対立仮説 \(H_1\) が正しければ, 
@@ -1645,18 +1652,18 @@
 - \(\hat{\alpha},\hat{\beta}\) の分散の推定量 (資料; Gauss-Markovの定理)
   #+begin_quote
   \begin{equation}
-    \mathrm{s.e.}(\hat{\alpha})^2
+    \mathrm{s{.}e{.}}(\hat{\alpha})^2
     =\frac{\hat{\sigma}^2\sum_iX_i^2}{n\sum_i(X_i-\bar{X})^2},
     \quad
-    \mathrm{s.e.}(\hat{\beta})^2
+    \mathrm{s{.}e{.}}(\hat{\beta})^2
     =\frac{\hat{\sigma}^2}{\sum_i(X_i-\bar{X})^2}
   \end{equation}
   #+end_quote
-  - \(\mathrm{s.e.}(\hat{\alpha}),\mathrm{s.e.}(\hat{\beta})\) は *標準誤差* と呼ばれる
+  - \(\mathrm{s{.}e{.}}(\hat{\alpha}),\mathrm{s{.}e{.}}(\hat{\beta})\) は *標準誤差* と呼ばれる
 - 以下は \(\hat{\beta}\) と独立で自由度 \(n{-}2\) の \(\chi^2\) 分布に従う
   #+begin_quote
   \begin{equation}
-    \frac{(n{-}2)\mathrm{s.e.}(\hat{\beta})^2}{\mathrm{Var}(\hat{\beta})}
+    \frac{(n{-}2)\mathrm{s{.}e{.}}(\hat{\beta})^2}{\mathrm{Var}(\hat{\beta})}
   \end{equation}
   #+end_quote
 
@@ -1664,17 +1671,17 @@
 - 以下の確率変数は自由度 \(n{-}2\) の \(t\) 分布に従う
   #+begin_quote
   \begin{equation}
-    \frac{\hat{\beta}-\beta}{\mathrm{s.e.}(\hat{\beta})}
+    \frac{\hat{\beta}-\beta}{\mathrm{s{.}e{.}}(\hat{\beta})}
     =
-    \frac{(\hat{\beta}-\beta)/\sqrt{\mathrm{Var}(\hat{\beta})}}{\sqrt{(n{-}2)\mathrm{s.e.}(\hat{\beta})^{2}/(n{-}2)\mathrm{Var}(\hat{\beta})}}
+    \frac{(\hat{\beta}-\beta)/\sqrt{\mathrm{Var}(\hat{\beta})}}{\sqrt{(n{-}2)\mathrm{s{.}e{.}}(\hat{\beta})^{2}/(n{-}2)\mathrm{Var}(\hat{\beta})}}
   \end{equation}
   #+end_quote
 - \(\gamma\in(0,1)\) に対する \(\beta\) の \(1-\gamma\) 信頼区間
   #+begin_quote
   \begin{equation}
     \left[
-      \hat{\beta}-t_{1{-}\gamma/2}(n{-}2)\cdot \mathrm{s.e.}(\hat{\beta}),\;
-      \hat{\beta}+t_{1{-}\gamma/2}(n{-}2)\cdot \mathrm{s.e.}(\hat{\beta})
+      \hat{\beta}-t_{1{-}\gamma/2}(n{-}2)\cdot \mathrm{s{.}e{.}}(\hat{\beta}),\;
+      \hat{\beta}+t_{1{-}\gamma/2}(n{-}2)\cdot \mathrm{s{.}e{.}}(\hat{\beta})
     \right]  
   \end{equation}
   #+end_quote
@@ -1833,6 +1840,34 @@
 
 
 * モデルの評価
+** 平方和の分解(再掲)
+- いろいろなばらつき
+  - \(S_y=(\boldsymbol{y}-\bar{\boldsymbol{y}})^{\mathsf{T}}
+    (\boldsymbol{y}-\bar{\boldsymbol{y}})\) :
+    目的変数のばらつき
+  - \(S_{\phantom{y}}=(\boldsymbol{y}-\boldsymbol{\hat{y}})^{\mathsf{T}}
+    (\boldsymbol{y}-\boldsymbol{\hat{y}})\) :
+    残差のばらつき
+    (\(\boldsymbol{\hat{\epsilon}}^{\mathsf{T}}\boldsymbol{\hat{\epsilon}}\))
+  - \(S_r=(\boldsymbol{\hat{y}}-\bar{\boldsymbol{y}})^{\mathsf{T}}
+    (\boldsymbol{\hat{y}}-\bar{\boldsymbol{y}})\) :
+    あてはめ値(回帰)のばらつき
+- 3つのばらつき(平方和)の関係
+  #+begin_quote
+  \begin{equation}
+    (\boldsymbol{y}-\bar{\boldsymbol{y}})^{\mathsf{T}}
+    (\boldsymbol{y}-\bar{\boldsymbol{y}})
+    =
+    (\boldsymbol{y}-\boldsymbol{\hat{y}})^{\mathsf{T}}
+    (\boldsymbol{y}-\boldsymbol{\hat{y}})+ 
+    (\boldsymbol{\hat{y}}-\bar{\boldsymbol{y}})^{\mathsf{T}}
+    (\boldsymbol{\hat{y}}-\bar{\boldsymbol{y}})
+  \end{equation}
+  \begin{equation}
+    S_y=S+S_r
+  \end{equation}
+  #+end_quote
+
 ** @@latex:@@\(F\)統計量
 - *ばらつきの比* に関する定理 
   #+begin_quote
@@ -2010,7 +2045,7 @@
   推定量，\(t\)統計量，\(F\)統計量の分布を調べてみよう
 
 
-* 補足
+* COMMENT 補足
 # 東京大学
 ** R : 診断プロット
 :PROPERTIES:

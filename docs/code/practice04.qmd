@@ -94,6 +94,7 @@ mc_data <-
 ``` r
 mc_data |>
     summarise(across(everything(), var))  # 各列の分散の計算
+library(GGally)  
 ggpairs(mc_data)                          # 散布図行列の描画
 tibble(x = mc_data[[k]]) |>               # k列目で新しいデータフレームを作成
     ggplot(aes(x = x)) + geom_histogram() # k列目のデータのヒストグラム
@@ -159,8 +160,7 @@ mc_data <-
 set.seed(2468)                                # 乱数のシード値 (適宜変更せよ)
 x_obs <- tibble(x0 = 1,                       # 説明変数の観測値
                 x1 = c(1, 20, 13, 9, 5, 15, 19, 8, 3, 4)) 
-beta <- set_names(c(-1, 2),                   # 回帰係数 (切片,係数の真値)
-                  c("beta0","beta1"))
+beta <- c(beta0=-1, beta1=2)                  # 回帰係数 (切片,係数の真値)
 sigma <-  sqrt(2)                             # 誤差の標準偏差(分散の平方根)を設定
 mc_trial <- function(x){ 
     epsilon <- rnorm(nrow(x_obs), sd = sigma) # 誤差項の生成
@@ -174,8 +174,8 @@ mc_trial <- function(x){
 少数回の実験で確認してみる．
 
 ```{r}
-mc_num <- 5 # 実験回数
-1:mc_num |> map(mc_trial)
+mc_num <- 3               # 実験回数
+1:mc_num |> map(mc_trial) # リストとして出力される
 ```
 
 数値実験を行う．
@@ -183,12 +183,13 @@ mc_num <- 5 # 実験回数
 ```{r}
 mc_num <- 5000                                   # 実験回数
 mc_data <-
-    1:mc_num |> map(mc_trial) |> list_rbind() |> # Monte-Carlo実験
-    set_names(names(beta))                       # 列名を変更(上書き)
+    1:mc_num |> map(mc_trial) |>                 # Monte-Carlo実験
+    list_rbind() |>                              # リストをtibble形式に変換
+    set_names(names(beta))                       # 列名をbetaに合わせて変更
 mc_data                                          # 内容を確認
 ```
 
-データフレーム `mc_data` には `mc_mun` 回の実験結果が保存されている．
+データフレーム `mc_data` には `mc_num` 回の実験結果が保存されている．
 
 回帰係数の分布(2次元)を調べてみる．
 
@@ -197,7 +198,7 @@ mc_data                                          # 内容を確認
 #| fig-height: 6
 mc_data |>
     ggplot(aes(x = beta0, y = beta1)) +
-    geom_point(colour = "blue", shape = 20) + # 推定値の散布図
+    geom_point(colour = "blue", shape = 20) +                   # 推定値の散布図
     geom_vline(xintercept = beta["beta0"], colour = "orchid") + # beta0の真値 (垂直線)
     geom_hline(yintercept = beta["beta1"], colour = "orchid")   # beta1の真値 (水平線)
 ```
@@ -712,3 +713,25 @@ tbl_merge(
         my_gts(lm(temp ~ press, data = tw_subset))),
     tab_spanner = paste0("モデル",1:3))
 ```
+
+## 参考 : 診断プロット
+
+回帰モデルのあてはまりを視覚的に評価するものとして， 以下の関係を表示する関数が用意されている．
+
+-   *Residuals vs Fitted*: あてはめ値(予測値)と残差の関係
+-   *Normal Q-Q*: 残差の正規性の確認
+-   *Scale-Location*: あてはめ値と正規化した残差の関係
+-   *Residuals vs Leverage*: 正規化した残差とテコ比の関係
+
+::: callout-tip
+関数 `ggfortify::autoplot()` を利用すると， 上記の診断プロットを簡単に作成できる．
+
+```{r}
+library(ggfortify)
+#' 関数 stats::lm() による推定結果の診断プロット
+tw_lm6 <- lm(temp ~ press + solar + rain, data = tw_subset)
+autoplot(tw_lm6)
+```
+
+診断プロットは1から6まで用意されており 標準では 1,2,3,5 がまとめて表示される． 個別に表示する場合は `autoplot(tw_lm6, which = 1)` のように指定する． 詳細は `?ggfortify::autoplot.lm` を参照せよ．
+:::
