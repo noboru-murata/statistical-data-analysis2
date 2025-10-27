@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-11-08 22:36:17 mura>
+# Time-stamp: <2025-10-27 13:14:21 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -17,6 +17,7 @@
 - 同じタイトルの項目にはメモを入れる
 - 演習の内容が異なるので演習は2つ作る形で対応
 - 東大は2次元，3次元の実験をするので，4次元などを考えてもらえばよい
+- USCerealで例を作ろう
 
 * COMMENT 講義の内容
 :PROPERTIES:
@@ -238,7 +239,7 @@
 :reveal_background: #fef4f4
 :END:
 # 東京大学
-** R : 主成分分析を実行する関数
+** COMMENT *R : 主成分分析を実行する関数*
 :PROPERTIES:
 :END:
 - Rの標準的な関数
@@ -249,7 +250,7 @@
   - ~princomp()~ はS言語(商用)との互換性を重視した実装
 - 本講義では ~prcomp()~ を利用
 
-** R : 関数 ~prcomp()~ の使い方
+** COMMENT *R : 関数 ~prcomp()~ の使い方*
 :PROPERTIES:
 :END:
 - データフレームの全ての列を用いる場合
@@ -268,7 +269,7 @@
     #' 詳細は '?stats::prcomp' を参照
   #+end_src
 
-** R : 分析結果を取得する関数 
+** COMMENT *R : 分析結果を取得する関数 *
 :PROPERTIES:
 :END:
 - 主成分得点を計算する
@@ -297,7 +298,7 @@
     #' 詳細は '?broom::augment.prcomp' を参照
   #+end_src
 
-** 練習問題
+** COMMENT *練習問題*
 :PROPERTIES:
 :reveal_background: #fef4f4
 :ID:       D80E9915-8D2C-4F69-993D-0FE2CCEF78F9
@@ -694,7 +695,7 @@
 :reveal_background: #fef4f4
 :END:
 # 東京大学
-** 練習問題
+** COMMENT *練習問題*
 :PROPERTIES:
 :reveal_background: #fef4f4
 :ID:       4B9B1B57-7C07-4292-B8AE-ECC44BF4FACD
@@ -756,8 +757,7 @@
 
 * Gram 行列の性質
 ** Gram 行列の固有値
-- \(X^{\mathsf{T}}X\) は非負定値対称行列
-- \(X^{\mathsf{T}}X\) の固有値は0以上の実数
+- \(X^{\mathsf{T}}X\) は半正定値行列 (固有値は0以上の実数)
   - 固有値を重複を許して降順に並べる
     #+begin_quote
     \begin{equation}
@@ -781,7 +781,7 @@
     \boldsymbol{a}_{j}^{\mathsf{T}}\boldsymbol{a}_k=0
   \end{equation}
   #+end_quote
-- 行列 \(X^{\mathsf{T}}X\) (非負定値対称行列) のスペクトル分解
+- 行列 \(X^{\mathsf{T}}X\) (半正定値行列) のスペクトル分解
   #+begin_quote
   \begin{align}
     X^{\mathsf{T}}X
@@ -1052,7 +1052,7 @@
 :reveal_background: #fef4f4
 :END:
 # 東京大学
-** データセットの準備
+** COMMENT *データセットの準備*
 :PROPERTIES:
 :END:
 - 主成分分析では以下のデータセットを使用する
@@ -1069,7 +1069,7 @@
     #+end_quote
     - 参考 : [[https://www.e-stat.go.jp/SG1/estat/List.do?bid=000001083999&cycode=0]]
 
-** 練習問題
+** COMMENT *練習問題*
 :PROPERTIES:
 :reveal_background: #fef4f4
 :ID:       DD70B52B-E947-4135-A2D3-80C103FB662F

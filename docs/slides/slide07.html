@@ -15,7 +15,9 @@
 
 <link rel="stylesheet" href="./reveal.js/plugin/menu/menu.css"/>
 
-<link rel="stylesheet" href="./reveal.js/plugin/drawer/drawer.css"/>
+<link rel="stylesheet" href="./reveal.js/plugin/menu/font-awesome/css/fontawesome.css"/>
+
+<link rel="stylesheet" href="./reveal.js/plugin/chalkboard/style.css"/>
 
 <link rel="stylesheet" href="./reveal.js/local/mycourse.css"/>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -43,8 +45,8 @@
 
 </section>
 <section>
-<section id="slide-orgec7b942">
-<h2 id="orgec7b942">講義概要</h2>
+<section id="slide-org1ef481a">
+<h2 id="org1ef481a">講義概要</h2>
 <ul>
 <li>第1日: 主成分分析の考え方</li>
 <li><b>第2日: 分析の評価と視覚化</b></li>
@@ -53,13 +55,13 @@
 </section>
 </section>
 <section>
-<section id="slide-orge373f8b">
-<h2 id="orge373f8b">主成分分析の復習</h2>
-<div class="outline-text-2" id="text-orge373f8b">
+<section id="slide-org6929524">
+<h2 id="org6929524">主成分分析の復習</h2>
+<div class="outline-text-2" id="text-org6929524">
 </div>
 </section>
-<section id="slide-orga795ac6">
-<h3 id="orga795ac6">主成分分析</h3>
+<section id="slide-org2e2fe16">
+<h3 id="org2e2fe16">主成分分析</h3>
 <ul>
 <li>多数の変量のもつ情報の分析・視覚化
 <ul>
@@ -77,8 +79,8 @@
 
 </ul>
 </section>
-<section id="slide-org18e6428">
-<h3 id="org18e6428">分析の考え方</h3>
+<section id="slide-org3a6d9d5">
+<h3 id="org3a6d9d5">分析の考え方</h3>
 <ul>
 <li>1変量の特徴量
 \(\boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_1,\dotsc,\boldsymbol{a}^{\mathsf{T}}\boldsymbol{x}_n\)
@@ -117,8 +119,8 @@
 
 </ul>
 </section>
-<section id="slide-org190b624">
-<h3 id="org190b624">行列による表現</h3>
+<section id="slide-org6f64f17">
+<h3 id="org6f64f17">行列による表現</h3>
 <ul>
 <li><p>
 中心化したデータ行列
@@ -160,8 +162,8 @@
 
 </ul>
 </section>
-<section id="slide-orgd8035dc">
-<h3 id="orgd8035dc">固有値問題</h3>
+<section id="slide-orgbde7592">
+<h3 id="orgbde7592">固有値問題</h3>
 <ul>
 <li><p>
 最適化問題
@@ -203,8 +205,8 @@
 
 </ul>
 </section>
-<section id="slide-orgeaeed40">
-<h3 id="orgeaeed40">主成分負荷量と主成分得点</h3>
+<section id="slide-org72a8b13">
+<h3 id="org72a8b13">主成分負荷量と主成分得点</h3>
 <ul>
 <li>\(\boldsymbol{a}\) :
 <b>主成分負荷量</b> (principal component loading)</li>
@@ -233,13 +235,13 @@
 </section>
 </section>
 <section>
-<section id="slide-org405052a">
-<h2 id="org405052a">寄与率</h2>
-<div class="outline-text-2" id="text-org405052a">
+<section id="slide-org4450e8d">
+<h2 id="org4450e8d">寄与率</h2>
+<div class="outline-text-2" id="text-org4450e8d">
 </div>
 </section>
-<section id="slide-orgea53490">
-<h3 id="orgea53490">寄与率の考え方</h3>
+<section id="slide-org7e97cf8">
+<h3 id="org7e97cf8">寄与率の考え方</h3>
 <ul>
 <li><p>
 回帰分析で考察した寄与率の一般形
@@ -268,11 +270,11 @@
 
 </ul>
 </section>
-<section id="slide-org1242e13">
-<h3 id="org1242e13">Gram 行列のスペクトル分解</h3>
+<section id="slide-orgcaa0358">
+<h3 id="orgcaa0358">Gram 行列のスペクトル分解</h3>
 <ul>
 <li><p>
-行列 \(X^{\mathsf{T}}X\) (非負定値対称行列) のスペクトル分解
+行列 \(X^{\mathsf{T}}X\) (半正定値行列) のスペクトル分解
 </p>
 <blockquote>
 <div>
@@ -308,8 +310,8 @@
 
 </ul>
 </section>
-<section id="slide-org2b8c05a">
-<h3 id="org2b8c05a">寄与率の計算</h3>
+<section id="slide-org5043f40">
+<h3 id="org5043f40">寄与率の計算</h3>
 <ul>
 <li><p>
 主成分と全体の変動
@@ -348,8 +350,8 @@
 
 </ul>
 </section>
-<section id="slide-org3d3338a">
-<h3 id="org3d3338a">累積寄与率</h3>
+<section id="slide-orged7c239">
+<h3 id="orged7c239">累積寄与率</h3>
 <ul>
 <li><p>
 <b>累積寄与率</b> (cumulative proportion) :
@@ -377,183 +379,18 @@
 </section>
 </section>
 <section>
-<section id="slide-org16b062d" data-background="#fef4f4">
-<h2 id="org16b062d">実習</h2>
-</section>
-<section id="slide-org54804c0">
-<h3 id="org54804c0">R : 主成分分析の評価</h3>
-<ul>
-<li><p>
-分析結果の評価を行う関数:
-</p>
-<ul>
-<li><code>base::summary()</code>: 主成分負荷量や寄与率を表示</li>
-<li><code>broom::tidy()</code>: 上記の内容を tibble 形式で取得</li>
-<li><code>ggfortify::autoplot()</code>: 主成分得点による散布図</li>
-
-</ul>
-<div class="org-src-container">
-
-<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512; 'toy_data' &#12434;&#20998;&#26512;</span>
-toy_pca <span style="color: #60aa00;">&lt;-</span> toy_data |&gt; select(&#35336;&#31639;&#23550;&#35937;&#12398;&#21015;) |&gt; prcomp(&#24517;&#35201;&#12394;&#12425;&#27161;&#28310;&#21270;)
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#20027;&#25104;&#20998;&#36000;&#33655;&#37327;&#12392;&#23492;&#19982;&#29575;&#12434;&#30906;&#35469;&#12377;&#12427;</span>
-summary(toy_pca)
-broom::tidy(toy_pca, <span style="color: #d08928;">"d"</span>) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">"u","v","d" &#12391;&#21462;&#24471;&#12377;&#12427;&#24773;&#22577;&#12434;&#25351;&#23450;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#31532;1,2&#20027;&#25104;&#20998;&#24471;&#28857;&#12391;&#25955;&#24067;&#22259;&#12434;&#25551;&#12367;</span>
-<span style="color: #60aa00;">library</span>(ggfortify) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#21033;&#29992;&#12395;&#12399; library &#12398;&#35501;&#12415;&#36796;&#12415;&#12364;&#24517;&#35201;</span>
-autoplot(toy_pca, scale = 0) 
-</pre>
-</div></li>
-
-</ul>
-</section>
-<section id="slide-orgb290265">
-<h3 id="orgb290265">データセットの準備</h3>
-<ul>
-<li>以下の2つのデータセットを使用する
-<ul>
-<li><p>
-<code>japan_social.csv</code> (配布済み)
-</p>
-<blockquote>
-<p>
-総務省統計局より取得した都道府県別の社会生活統計指標の一部
-</p>
-</blockquote></li>
-<li><p>
-<code>MASS::UScereal</code> 
-</p>
-<blockquote>
-<p>
-<b>Nutritional and Marketing Information on US Cereals</b> <br />
-The UScereal data frame has 65 rows and 11 columns. The data
-come from the 1993 ASA Statistical Graphics Exposition, and are
-taken from the mandatory F&amp;DA food label. The data have been
-normalized here to a portion of one American cup.
-</p>
-</blockquote>
-<ul>
-<li>参考 : 詳細は &rsquo;?MASS::UScereal&rsquo; を参照</li>
-
-</ul></li>
-
-</ul></li>
-
-</ul>
-</section>
-<section id="slide-org96c6890">
-<h3 id="org96c6890">各変数の分布 (<code>japan_social.csv</code>)</h3>
-<ul>
-<li><p>
-変数間の散布図
-</p></li>
-
-</ul>
-
-
-<div id="org53e35ba" class="figure">
-<p><img src="figs/07_pairs_raw.png" alt="07_pairs_raw.png" />
-</p>
-<p><span class="figure-number">Figure 1: </span>データの散布図</p>
-</div>
-
-</section>
-<section>
-<ul>
-<li><p>
-変数のばらつきに大きな違いがある
-</p></li>
-
-</ul>
-
-
-<div id="org5268771" class="figure">
-<p><img src="figs/07_boxplot_raw.png" alt="07_boxplot_raw.png" />
-</p>
-<p><span class="figure-number">Figure 2: </span>各変数の箱ひげ図</p>
-</div>
-</section>
-<section id="slide-orge29cba8">
-<h3 id="orge29cba8">データの標準化</h3>
-<ul>
-<li><p>
-各変数の標本平均を0，不偏分散を1に規格化する
-</p></li>
-
-</ul>
-
-
-<div id="orgea39c58" class="figure">
-<p><img src="figs/07_pairs.png" alt="07_pairs.png" />
-</p>
-<p><span class="figure-number">Figure 3: </span>標準化したデータの散布図</p>
-</div>
-
-</section>
-<section>
-<ul>
-<li><p>
-変数のばらつきをそろえる
-</p></li>
-
-</ul>
-
-
-<div id="orgdbefef9" class="figure">
-<p><img src="figs/07_boxplot.png" alt="07_boxplot.png" />
-</p>
-<p><span class="figure-number">Figure 4: </span>標準化したデータの箱ひげ図</p>
-</div>
-</section>
-<section id="slide-org62a554b" data-background="#fef4f4">
-<h3 id="org62a554b">練習問題</h3>
-<ul>
-<li><p>
-標準化の有無の違いで寄与率・累積寄与率がどのように異なるか確認しなさい
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R">prcomp(toy_data)                <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#27161;&#28310;&#21270;&#12434;&#34892;&#12431;&#12394;&#12356;&#22580;&#21512;</span>
-prcomp(toy_data, scale. = <span style="color: #00aa80;">TRUE</span>) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#27161;&#28310;&#21270;&#12434;&#34892;&#12358;&#22580;&#21512;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#27491;&#24335;&#12394;&#12458;&#12503;&#12471;&#12519;&#12531;&#21517;&#12399; 'scale.' &#12391;&#12354;&#12427;&#12364;&#65292;'sc=TRUE' &#12394;&#12393;&#12391;&#12418;&#21487;</span>
-</pre>
-</div>
-<ul>
-<li><p>
-<code>japan_social.csv</code> の読み込み方
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R">js_data <span style="color: #60aa00;">&lt;-</span> read_csv(<span style="color: #d08928;">"data/japan_social.csv"</span>) |&gt;
-  mutate(Area = as_factor(Area))
-</pre>
-</div></li>
-<li><p>
-<code>MASS::UScereal</code> の整理の例
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> base R &#12398; data.frame &#22411;&#12394;&#12398;&#12391;&#20197;&#19979;&#12398;&#12424;&#12358;&#12395; tibble &#22411;&#12395;&#12377;&#12427;</span>
-glimpse(MASS::UScereal) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#21508;&#22793;&#25968;&#12398;&#23646;&#24615;&#12434;&#30906;&#35469;&#12377;&#12427;&#65294;</span>
-uc_data <span style="color: #60aa00;">&lt;-</span> MASS::UScereal |&gt;
-  rownames_to_column(var = <span style="color: #d08928;">"product"</span>) |&gt; <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#34892;&#21517;&#12398;&#35069;&#21697;&#21517;&#12434;&#21015;&#12395;&#21152;&#12360;&#12427;</span>
-  as_tibble() 
-</pre>
-</div></li>
-
-</ul></li>
-
-</ul>
+<section id="slide-org61e0d05" data-background="#fef4f4">
+<h2 id="org61e0d05">実習</h2>
 </section>
 </section>
 <section>
-<section id="slide-org4aead6c">
-<h2 id="org4aead6c">主成分負荷量</h2>
-<div class="outline-text-2" id="text-org4aead6c">
+<section id="slide-orgd75742c">
+<h2 id="orgd75742c">主成分負荷量</h2>
+<div class="outline-text-2" id="text-orgd75742c">
 </div>
 </section>
-<section id="slide-orgf8554b7">
-<h3 id="orgf8554b7">主成分負荷量と主成分得点</h3>
+<section id="slide-org733e5e5">
+<h3 id="org733e5e5">主成分負荷量と主成分得点</h3>
 <ul>
 <li>負荷量(得点係数)の大きさ: 変数の貢献度</li>
 <li><b>問題点</b>
@@ -570,8 +407,8 @@ uc_data <span style="color: #60aa00;">&lt;-</span> MASS::UScereal |&gt;
 
 </ul>
 </section>
-<section id="slide-orgea24a5b">
-<h3 id="orgea24a5b">相関係数</h3>
+<section id="slide-orgc64c9a9">
+<h3 id="orgc64c9a9">相関係数</h3>
 <ul>
 <li>\(\boldsymbol{e}_{j}\): 第 \(j\) 成分は1，それ以外は0のベクトル</li>
 <li>\(X\boldsymbol{e}_{j}\): 第 \(j\) 変数ベクトル</li>
@@ -600,8 +437,8 @@ uc_data <span style="color: #60aa00;">&lt;-</span> MASS::UScereal |&gt;
 
 </ul>
 </section>
-<section id="slide-orgd321e6e">
-<h3 id="orgd321e6e">相関係数による評価</h3>
+<section id="slide-orgf5768ec">
+<h3 id="orgf5768ec">相関係数による評価</h3>
 <ul>
 <li>標準化されたデータの場合
 <ul>
@@ -640,13 +477,13 @@ uc_data <span style="color: #60aa00;">&lt;-</span> MASS::UScereal |&gt;
 </section>
 </section>
 <section>
-<section id="slide-orgd3f5d0a">
-<h2 id="orgd3f5d0a">データ行列の分解表現</h2>
-<div class="outline-text-2" id="text-orgd3f5d0a">
+<section id="slide-orgd9fc2b8">
+<h2 id="orgd9fc2b8">データ行列の分解表現</h2>
+<div class="outline-text-2" id="text-orgd9fc2b8">
 </div>
 </section>
-<section id="slide-org7bc67d6">
-<h3 id="org7bc67d6">特異値分解</h3>
+<section id="slide-orgdc6febc">
+<h3 id="orgdc6febc">特異値分解</h3>
 <ul>
 <li><p>
 階数 \(r\) の \(n\times p\) 型行列 \(X\) の分解
@@ -688,8 +525,8 @@ uc_data <span style="color: #60aa00;">&lt;-</span> MASS::UScereal |&gt;
 
 </ul>
 </section>
-<section id="slide-org367bca7">
-<h3 id="org367bca7">特異値</h3>
+<section id="slide-org6de2a6f">
+<h3 id="org6de2a6f">特異値</h3>
 <ul>
 <li><p>
 行列 \(\Sigma\) の成分表示
@@ -714,8 +551,8 @@ uc_data <span style="color: #60aa00;">&lt;-</span> MASS::UScereal |&gt;
 
 </ul>
 </section>
-<section id="slide-orgb98ac02">
-<h3 id="orgb98ac02">特異値分解によるGram行列の表現</h3>
+<section id="slide-org16ed96c">
+<h3 id="org16ed96c">特異値分解によるGram行列の表現</h3>
 <ul>
 <li><p>
 Gram行列の展開
@@ -762,13 +599,13 @@ Gram行列の展開
 </section>
 </section>
 <section>
-<section id="slide-org81d1127">
-<h2 id="org81d1127">バイプロット</h2>
-<div class="outline-text-2" id="text-org81d1127">
+<section id="slide-orgaa7c424">
+<h2 id="orgaa7c424">バイプロット</h2>
+<div class="outline-text-2" id="text-orgaa7c424">
 </div>
 </section>
-<section id="slide-orgc2c28a0">
-<h3 id="orgc2c28a0">特異値と固有値の関係</h3>
+<section id="slide-org12a872c">
+<h3 id="org12a872c">特異値と固有値の関係</h3>
 <ul>
 <li>行列 \(V\) の第 \(k\) 列ベクトル \(\boldsymbol{v}_{k}\)</li>
 <li><p>
@@ -808,8 +645,8 @@ Gram行列の固有値問題
 
 </ul>
 </section>
-<section id="slide-orgf6e40ee">
-<h3 id="orgf6e40ee">データ行列の分解</h3>
+<section id="slide-orgc70cb89">
+<h3 id="orgc70cb89">データ行列の分解</h3>
 <ul>
 <li>行列 \(U\) の第 \(k\) 列ベクトル \(\boldsymbol{u}_{k}\)</li>
 <li>行列 \(V\) の第 \(k\) 列ベクトル \(\boldsymbol{v}_{k}\)</li>
@@ -831,8 +668,8 @@ Gram行列の固有値問題
 
 </ul>
 </section>
-<section id="slide-org86f6cd4">
-<h3 id="org86f6cd4">データ行列の近似表現</h3>
+<section id="slide-org2850034">
+<h3 id="org2850034">データ行列の近似表現</h3>
 <ul>
 <li><p>
 第 \(k\) 主成分と第 \(l\) 主成分を用いた行列 \(X\) の近似 \(X'\)
@@ -871,8 +708,8 @@ Gram行列の固有値問題
 
 </ul>
 </section>
-<section id="slide-orge56af3f">
-<h3 id="orge56af3f">バイプロット</h3>
+<section id="slide-org969f843">
+<h3 id="org969f843">バイプロット</h3>
 <ul>
 <li>関連がある2枚の散布図を1つの画面に表示する散布図を一般に
 <b>バイプロット</b> (biplot) と呼ぶ</li>
@@ -899,58 +736,13 @@ Gram行列の固有値問題
 </section>
 </section>
 <section>
-<section id="slide-org1fb2462" data-background="#fef4f4">
-<h2 id="org1fb2462">実習</h2>
-</section>
-<section id="slide-org155b2eb" data-background="#fef4f4">
-<h3 id="org155b2eb">R : 主成分分析の視覚化</h3>
-<ul>
-<li><p>
-分析結果を可視化する関数
-</p>
-<ul>
-<li><code>ggfortify::autoplot()</code>: biplot表示</li>
-
-</ul>
-<div class="org-src-container">
-
-<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#12434;&#20998;&#26512;</span>
-toy_pca <span style="color: #60aa00;">&lt;-</span> toy_data |&gt; select(&#35336;&#31639;&#23550;&#35937;&#12398;&#21015;&#12434;&#25351;&#23450;) |&gt; prcomp(&#24517;&#35201;&#12394;&#12425;&#27161;&#28310;&#21270;)
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#31532;1&#12392;&#31532;2&#20027;&#25104;&#20998;&#12434;&#21033;&#29992;&#12375;&#12383; biplot</span>
-autoplot(toy_pca, label = <span style="color: #00aa80;">TRUE</span>, loadings = <span style="color: #00aa80;">TRUE</span>, loadings.label = <span style="color: #00aa80;">TRUE</span>)
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#31532;2&#12392;&#31532;3&#20027;&#25104;&#20998;&#12434;&#21033;&#29992;&#12375;&#12383;&#25955;&#24067;&#22259; (&#26082;&#23450;&#20516;&#12399;&#20027;&#25104;&#20998;&#36000;&#33655;&#12434;&#34920;&#31034;&#12375;&#12394;&#12356;)</span>
-autoplot(toy_pca, x = 2, y = 3)
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#12497;&#12521;&#12513;&#12479; s &#12434;&#22793;&#26356; (&#26082;&#23450;&#20516;&#12399;1)</span>
-autoplot(toy_pca, scale = 0, loadings = <span style="color: #00aa80;">TRUE</span>)
-</pre>
-</div></li>
-
-</ul>
-</section>
-<section id="slide-org3e2079e" data-background="#fef4f4">
-<h3 id="org3e2079e">練習問題</h3>
-<ul>
-<li>それぞれのデータの主成分分析の結果を利用してバイプロットによる可視化を行いなさい
-<ul>
-<li>標準化したデータでの主成分分析を行いなさい</li>
-<li>第1主成分と第2主成分でのバイプロットを描きなさい</li>
-<li><p>
-第2主成分と第3主成分でのバイプロットを描きなさい
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R">autoplot(prcomp&#12398;&#32080;&#26524;, x = x&#36600;&#25104;&#20998;, y = y&#36600;&#25104;&#20998;) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#20027;&#25104;&#20998;&#12398;&#25351;&#23450;</span>
-</pre>
-</div></li>
-
-</ul></li>
-
-</ul>
+<section id="slide-org7c7557a" data-background="#fef4f4">
+<h2 id="org7c7557a">実習</h2>
 </section>
 </section>
 <section>
-<section id="slide-org5a87420">
-<h2 id="org5a87420">次回の予定</h2>
+<section id="slide-orgd485243">
+<h2 id="orgd485243">次回の予定</h2>
 <ul>
 <li><b>第1日 : 判別分析の考え方</b></li>
 <li>第2日 : 分析の評価</li>
@@ -966,7 +758,7 @@ autoplot(toy_pca, scale = 0, loadings = <span style="color: #00aa80;">TRUE</span
 <script src="./reveal.js/plugin/zoom/zoom.js"></script>
 <script src="./reveal.js/plugin/menu/menu.js"></script>
 <script src="./reveal.js/plugin/spotlight/spotlight.js"></script>
-<script src="./reveal.js/plugin/drawer/drawer.js"></script>
+<script src="./reveal.js/plugin/chalkboard/plugin.js"></script>
 <script src="./reveal.js/dist/theme/hidelinks.js"></script>
 <script>
 // Full list of configuration options available here:
@@ -989,10 +781,10 @@ overview: true,
 transition: 'fade',
 transitionSpeed: 'default',
 showNotes: window.location.search.match( /print-pdf/gi ) ? 'separate-page' : false,
-spotlight: { size: 80, initialPresentationMode: false, }, drawer: { toggleDrawKey: "d", toggleBoardKey: "c", pathSize: 3, }, keyboard: { 81: function() { RevealSpotlight.toggleSpotlight()}, 87: function() { RevealSpotlight.togglePresentationMode();}, },
+spotlight: { size: 80, initialPresentationMode: false, }, keyboard: { 81: function() { RevealSpotlight.toggleSpotlight()}, 87: function() { RevealSpotlight.togglePresentationMode();}, },
 
 // Plugins with reveal.js 4.x
-plugins: [ RevealNotes, RevealSearch, RevealZoom, RevealMenu, RevealSpotlight, RevealDrawer ],
+plugins: [ RevealNotes, RevealSearch, RevealZoom, RevealMenu, RevealSpotlight, RevealChalkboard ],
 
 // Optional libraries used to extend reveal.js
 dependencies: [

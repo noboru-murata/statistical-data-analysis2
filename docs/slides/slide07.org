@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-11-29 12:30:16 mura>
+# Time-stamp: <2025-10-27 13:20:59 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -276,7 +276,7 @@
   #+end_quote
 
 ** Gram 行列のスペクトル分解
-- 行列 \(X^{\mathsf{T}}X\) (非負定値対称行列) のスペクトル分解
+- 行列 \(X^{\mathsf{T}}X\) (半正定値行列) のスペクトル分解
   #+begin_quote
   \begin{equation}
     X^{\mathsf{T}}X
@@ -341,7 +341,7 @@
 :reveal_background: #fef4f4
 :END:
 # 東京大学
-** R : 主成分分析の評価
+** COMMENT *R : 主成分分析の評価*
 :PROPERTIES:
 :ID:       88763329-03B8-44F3-8AA5-CD068BED27A0
 :END:
@@ -360,7 +360,7 @@
     autoplot(toy_pca, scale = 0) 
   #+end_src
 
-** データセットの準備
+** COMMENT *データセットの準備*
 :PROPERTIES:
 :ID:       9EECA83B-6D62-4604-8D66-E87C99352B45
 :END:
@@ -379,7 +379,7 @@
     #+end_quote
     - 詳細は '?MASS::UScereal' を参照
 
-** 各変数の分布 (~japan_social.csv~)
+** COMMENT *各変数の分布 (~japan_social.csv~)*
 :PROPERTIES:
 :ID:       1302EFEE-6F79-49EB-81B6-669236EC820E
 :END:
@@ -418,7 +418,7 @@
 #+attr_latex: :width 0.6\linewidth
 [[file:figs/07_boxplot_raw.png]]
    
-** データの標準化
+** COMMENT *データの標準化*
 :PROPERTIES:
 :ID:       3FA11E3C-89E8-469E-82AD-86E3BFA86746
 :END:
@@ -462,7 +462,7 @@
 #+attr_latex: :width 0.6\linewidth
 [[file:figs/07_boxplot.png]]
    
-** 練習問題
+** COMMENT *練習問題*
 :PROPERTIES:
 :reveal_background: #fef4f4
 :ID:       ADFAED81-DDFE-450D-81C3-1F09A68304EB
@@ -1317,7 +1317,7 @@
     biplot(est, scale=0)
   #+END_SRC
 
-** R : 主成分分析の視覚化
+** COMMENT *R : 主成分分析の視覚化*
 :PROPERTIES:
 :reveal_background: #fef4f4
 :ID:       BDB8F258-AB66-4A49-AF57-9F4DD5322C47
@@ -1335,7 +1335,7 @@
     autoplot(toy_pca, scale = 0, loadings = TRUE)
   #+end_src
 
-** 練習問題
+** COMMENT *練習問題*
 :PROPERTIES:
 :reveal_background: #fef4f4
 :ID:       3E637062-AD0F-4317-8FEA-2EA614677102
