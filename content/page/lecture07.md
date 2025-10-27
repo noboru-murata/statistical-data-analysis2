@@ -6,7 +6,7 @@ draft = false
 weight = 1008
 +++
 
-<span class="timestamp-wrapper"><span class="timestamp">&lt;2024-11-15 Fri&gt; </span></span> 更新
+<span class="timestamp-wrapper"><span class="timestamp">&lt;2025-10-27 Mon&gt; </span></span> 更新
 
 
 ## スライド {#スライド}
@@ -21,5 +21,4 @@ weight = 1008
 
 ## 付録 {#付録}
 
--   実習用 [Quarto](https://raw.githubusercontent.com/noboru-murata/statistical-data-analysis2/refs/heads/master/docs/code/practice07.qmd) (解答例 [Quarto](https://raw.githubusercontent.com/noboru-murata/statistical-data-analysis2/refs/heads/master/docs/code/sample-code07.qmd) [HTML](https://noboru-murata.github.io/statistical-data-analysis2/code/sample-code07.html))
--   [R Script](https://noboru-murata.github.io/statistical-data-analysis2/code/slide07.R)
+準備中
