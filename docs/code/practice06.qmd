@@ -1,6 +1,6 @@
 ---
-title: "統計データ解析"
-subtitle: "第6講 演習"
+title: "第6講 主成分分析"
+subtitle: "基本的な考え方"
 date: "`r Sys.Date()`"
 format:
     html: 
@@ -17,8 +17,6 @@ citation-location: margin
 tbl-cap-location: margin
 fig-cap-location: margin
 editor: visual
-editor_options: 
-  chunk_output_type: console
 ---
 
 ## 準備
@@ -37,9 +35,85 @@ library(broom)      # 解析結果を tibble 形式に集約
 library(gt)         # 表の作成
 library(gtsummary)  # 分析結果の表の作成
 library(ggfortify)  # 分析結果の描画
+library(GGally)
+library(scatterplot3d)
 ```
 
 ## 人工データによる主成分分析
+
+主成分分析に必要な関数を説明する． Rの標準的な関数として
+
+-   `stats::prcomp()`
+
+-   `stats::princomp()`
+
+があり，計算法に若干の違いがある．
+
+-   数値計算の観点からみると関数 `prcomp()` が優位
+-   関数 `princomp()` はS言語(R言語の元となる商用言語)との互換性を重視した実装
+
+本講義では関数 `stats::prcomp()` を利用する．
+
+::: callout-note
+### 主成分分析を実行する関数
+
+関数 `stats::prcomp()` には以下の2通りの使い方がある．
+
+データフレームの全ての列を用いる場合
+
+``` r
+prcomp(x, retx = TRUE, center = TRUE, scale. = FALSE,
+       tol = NULL, rank. = NULL, ...)
+#' x: 必要な変数のみからなるデータフレーム
+#' center: 中心化(平均0)を行って処理するか否か
+#' scale.: 規格化(分散1)を行って処理するか否か
+```
+
+列名を指定する(formulaを用いる)場合
+
+``` r
+prcomp(formula, data = NULL, subset, na.action, ...)
+#' formula: ~ 変数名 (解析の対象を + で並べる) 左辺はないので注意
+#' data: 必要な変数を含むデータフレーム
+#' 詳細は '?stats::prcomp' を参照
+```
+:::
+
+::: callout-note
+### 分析結果を取得する関数
+
+`package::broom` に用意されている以下の2つの関数を利用する．
+
+主成分分析の結果を取得する
+
+``` r
+tidy(x, matrix = "u", ...)
+#' x: prcomp が出力したオブジェクト
+#' matrix: 結果として取り出す行列 u:scores, v:loadings, d:eigenvalues
+#' 詳細は '?broom::tidy.prcomp' を参照
+```
+
+主成分得点を計算する
+
+``` r
+augment(x, data = NULL, newdata, ...)
+#' x: prcomp が出力したオブジェクト
+#' data: 元のデータ (通常不要)
+#' newdata: 主成分得点を計算するデータフレーム
+#' 詳細は '?broom::augment.prcomp' を参照
+```
+:::
+
+::: column-margin
+以下の関数は `base R` に用意されている．
+
+``` r
+predict(object, newdata, ...)
+#' object: prcomp が出力したオブジェクト
+#' newdata: 主成分得点を計算するデータフレーム
+#' 詳細は '?stats::prcomp' または '?stats::predict.prcomp' を参照
+```
+:::
 
 ### 問題
 
@@ -51,26 +125,95 @@ library(ggfortify)  # 分析結果の描画
     #' 観測データ (2次元) の作成 (aのスカラー倍に正規乱数を重畳)
     a <- c(1, 2)/sqrt(5) # 主成分負荷量 (単位ベクトル)
     n <- 100 # データ数
-    toy_data <- tibble(runif(n, -1, 1) %o% a + rnorm(2*n, sd = 0.3))
+    #' 行列として作成して tibble 型に変換
+    toy_data <-          # aのスカラー倍に正規乱数を重畳
+        as_tibble(runif(n,-1,1) %o% a + rnorm(2*n, sd=0.3)) |> 
+        set_names(paste0("x",1:2)) # 列名を(x1,x2)に変更
     ```
 
--   観測データの散布図を作成
+-   観測データの散布図を作成する
 
--   観測データから第1主成分負荷量を推定
+-   観測データから第1主成分負荷量を推定する
 
     ``` r
-    prcomp(toy_data) # 全ての主成分を計算する
-    a_hat <- prcomp(toy_data)$rotation[,1] # 負荷量(rotation)の1列目が第1主成分
+    toy_pca <- prcomp(toy_data) # 全ての主成分を計算する
+    a_hat <- toy_pca |>
+        tidy(prcomp(toy_data), matrix = "loadings") |> # 負荷量の取得
+        filter(PC == 1) |>      # 第1主成分の取得
+        pull(value)             # 値のみベクトルとして選択
     ```
 
--   散布図上に主成分負荷量を描画
+-   散布図上に主成分負荷量を描画する
 
     ``` r
     geom_abline(slope = 傾き, intercept = 切片) # 指定の直線を追加できる  
     ```
 
-```{r}
+### 解答例
 
+2次元の人工データを生成する．
+
+```{r}
+set.seed(123123)
+n <- 100             # データ数
+a <- c(1, 2)/sqrt(5) # 主成分負荷量(単位ベクトル)の設定 (適宜変更せよ)
+toy_data <-          # aのスカラー倍に正規乱数を重畳(行列として作成)
+    as_tibble(runif(n,-1,1) %o% a + rnorm(2*n, sd=0.3)) |>
+    set_names(paste0("x",1:2)) # 列名(x1,x2)を付与
+```
+
+生成したデータの散布図を描く．
+
+```{r}
+gg <- # 図を上描きして用いるためにオブジェクトに代入する
+    toy_data |>
+    ggplot(aes(x = x1, y = x2)) +
+    geom_point(colour = "blue", shape = 4) +
+    geom_abline(slope = a[2]/a[1], # 真の傾き=真の負荷量のy成分/x成分
+                intercept = 0,
+                colour = "red") +  # 主成分負荷量の図示
+    xlim(c(-2,2)) + ylim(c(-2,2))  # xy軸を揃えて直交関係を見易くする
+#' 関数 coord_fixed() を用いて縦横比を1としてもよいが，領域はデータに依存するので注意する
+print(gg)
+```
+
+$a$ 方向 $(1,2)$ に本質的な情報が集約されていることがわかる．
+
+主成分負荷量の推定を行う．
+
+```{r}
+toy_pca <- prcomp(toy_data)
+a_hat <- toy_pca |>
+    tidy(prcomp(toy_data), matrix = "loadings") |> # 負荷量の取得
+    filter(PC == 1) |> pull(value)                 # 第1主成分ベクトルの取得
+```
+
+第1主成分負荷量が $a$ に非常に近いことが確認できる． 乱数によっては符号が反対になることもある． 前の散布図上に推定された方向を描画することで，両者が近いことが視覚的にも確認できる．
+
+```{r}
+gg +
+    geom_abline(slope = a_hat[2]/a_hat[1], intercept = 0,
+                colour = "orange", linetype = "dashed")
+```
+
+第1主成分得点を取得し，各データの第1主成分ベクトルを計算する．
+
+```{r}
+pc1 <-
+    augment(toy_pca) |> # 主成分得点のデータフレーム
+    pull(.fittedPC1)    # ベクトルとして抽出
+toy_pc1 <-
+    as_tibble(pc1 %o% a_hat) |> # 元の2次元に戻す
+    set_names(paste0("x",1:2))
+```
+
+各データの第1主成分を元の散布図上で図示する．
+
+```{r}
+gg +
+    geom_point(data = toy_pc1,   
+               aes(x = x1, y = x2),
+               colour = "purple", shape = 18)
 ```
 
 ## 第1主成分の求め方
@@ -96,11 +239,97 @@ library(ggfortify)  # 分析結果の描画
     #' 詳細は '?base::eigen' を参照
     ```
 
-```{r}
+### 解答例
 
+3次元の人工データを作成する．
+
+```{r}
+set.seed(242424)
+n <- 50 # データ数
+d <- 3
+a <- rnorm(d)
+(a <- a/sqrt(sum(a^2))) # 主成分負荷量(単位ベクトル)を生成
+toy_data <-
+    as_tibble(runif(n, -1, 1) %o% a + rnorm(d*n, sd = 0.1)) |>
+    set_names(paste0("x",1:d)) # 行列に列名(x1,...,xd)を付与
 ```
 
+散布図行列を用いて作成したデータの視覚化を行う．
+
+```{r}
+ggpairs(toy_data) 
+```
+
+推定された第1主成分負荷量を取得する．
+
+```{r}
+toy_pca <- prcomp(toy_data)
+pc1 <- augment(toy_pca) |> pull(.fittedPC1)
+```
+
+::: column-margin
+以下の図は3次元のときのみ実行可能である．
+
+```{r}
+#| column: margin
+s3d <- scatterplot3d(toy_data, type="h",
+                     ## asp=1, # 軸の比率を揃える場合
+                     highlight.3d=TRUE)
+s3d$points3d(pc1 %o% a, col="blue")
+```
+:::
+
+主成分負荷量の推定を固有値分解と比較する．
+
+```{r}
+toy_eigen <-                 # 固有値分解
+    eigen(crossprod(scale(toy_data, scale=FALSE))) 
+toy_pca$rotation             # 主成分負荷量
+toy_eigen$vectors            # 固有ベクトル (符号を除いて主成分負荷量と一致)
+toy_pca$sdev                 # 主成分の標準偏差
+sqrt(toy_eigen$values/(n-1)) # 固有値と主成分の標準偏差の関係
+```
+
+::: column-margin
+`package::broom` を利用して主成分負荷量や標準偏差を表示するには以下のようにすればよい．
+
+```{r}
+#' 主成分負荷量
+toy_pca |> tidy("loadings") |>       # 負荷量を取得
+    pivot_wider(names_from = PC,     # 主成分ごとの列に変換
+                names_prefix = "PC") 
+#' 標準偏差
+toy_pca |> tidy("eigenvalues") |>    # 標準偏差を取得
+    pull(std.dev)                    # 値のみ取り出す
+```
+
+tibbleクラスをmatrixクラスに変換するには以下のようにすればよい．
+
+```{r}
+toy_pca |> tidy("loadings") |>       
+    pivot_wider(names_from = PC, names_prefix = "PC") |>
+    select(starts_with("PC")) |> as.matrix()
+```
+:::
+
 ## 社会生活統計指標の分析
+
+配布したデータセットは以下の内容である．
+
+::: callout-tip
+### `japan_social.csv` の概要
+
+総務省統計局より取得した都道府県別の社会生活統計指標の一部
+
+-   Pref : 都道府県名
+-   Forest : 森林面積割合 (%) 2014年
+-   Agri : 就業者１人当たり農業産出額(販売農家）(万円) 2014年
+-   Ratio : 全国総人口に占める人口割合 (%) 2015年
+-   Land : 土地生産性（耕地面積１ヘクタール当たり）(万円) 2014年
+-   Goods : 商業年間商品販売額［卸売業＋小売業］（事業所当たり）(百万円) 2013年
+-   Area : 地方区分
+-   参考 : <https://www.e-stat.go.jp/SG1/estat/List.do?bid=000001083999&cycode=0>
+:::
 
 ### 問題
 
@@ -125,6 +354,170 @@ library(ggfortify)  # 分析結果の描画
     #' 'scale.=TRUE' とすると変数を正規化してから解析する
     ```
 
-```{r}
+### 解答例
 
+データの読み込みを行う．
+
+```{r}
+js_data <- 
+    read_csv("data/japan_social.csv") |>
+    mutate(Area = as_factor(Area))       # 地方区分を因子化
+```
+
+散布図を用いてデータを視覚化する．
+
+```{r}
+js_data |> 
+    select(!c(Pref,Area)) |> # 都道府県名・地方区分は削除
+    ggpairs()                # 散布図．いくつかの変数は相関が高いことがわかる
+```
+
+::: column-margin
+地方ごとに色を変える場合は以下のようにすればよい．
+
+```{r}
+js_data |> 
+    ggpairs(columns = 2:6,   # 都道府県名・地方区分は除く
+            legend = c(2,1), # 2行1列のグラフから凡例を作成
+            lower = list(continuous = wrap("points", alpha = .5),
+                         mapping = aes(colour = Area)))
+```
+:::
+
+箱ひげ図を用いて変数のばらつきを調べると，変数ごとのばらつきに大きな違いがあることがわかる．
+
+```{r}
+js_data |> 
+    pivot_longer(where(is.double)) |>  # 実数値(都道府県名・地方区分以外)をまとめる
+    mutate(name = as_factor(name)) |>  # name列に現れる順番どおりboxplotを並べるため
+    ggplot(aes(x = name, y = value)) + # 既定値の name と value をxy軸に利用
+    geom_boxplot(aes(fill = name),     # 変数ごとに色を変える
+                 show.legend = FALSE)  # 凡例は表示しない
+```
+
+変数ごとに標準化(平均0分散1)したデータフレームを作成するには以下のようにすれば良い．
+
+```{r}
+js_data |> 
+    mutate(across(where(is.double), \(x)c(scale(x)))) |>
+    ## 実数値(都道府県名・地方区分以外)の列を標準化する
+    pivot_longer(where(is.double)) |>  
+    mutate(name = as_factor(name)) |>  
+    ggplot(aes(x = name, y = value)) + 
+    geom_boxplot(aes(fill = name), show.legend = FALSE) 
+```
+
+::: column-margin
+データフレームの特定の列のみ変換を行うには関数 `dplyr::across()` を利用する． 関数を組み合わせることで様々な条件が表現できる． 具体的な例は `?dplyr::across` や `?tidyselect::where` を参照のこと．
+
+関数 `base::scale()` は常に行列を返すため，そのまま用いると期待どおりに動かない． この例ではベクトルを作成する関数 `base::c()` (関数 `base::as.vector()` でも可)と無名関数を用いてこれを解消している． 無名関数の代わりにラムダ式 `~c(scale(.))` などを用いることもできる．
+:::
+
+::: column-margin
+箱ひげ図で判り難い場合には violin plot を利用して密度を表示しても良い．
+
+```{r}
+js_data |> 
+    mutate(across(where(is.double), \(x)c(scale(x)))) |>
+    pivot_longer(where(is.double)) |>  
+    mutate(name = as_factor(name)) |>  
+    ggplot(aes(x = name, y = value)) + 
+    geom_violin(aes(fill = name), show.legend = FALSE)
+```
+:::
+
+主成分分析を行う． 変数の標準化は関数 `stats::prcomp()` にオプションを指定することで実行できるので， 元のデータをそのまま渡せば良い．
+
+```{r}
+js_pca <-
+    js_data |>
+    select(where(is.double)) |> # 実数値の列(都道府県名・地方区分)を抽出
+    prcomp(scale. = TRUE)       # 変数のばらつきを規格化して分析
+js_pca # 結果の表示
+```
+
+主成分負荷量を表にするには，例えば以下のようにすればよい．
+
+```{r}
+js_pca |>
+    tidy("loadings") |> # "v", "rotation", "loadings" または "variables"
+    pivot_wider(names_from = PC,        # 横長の形式に変換する
+                names_prefix = "PC",    # PC列の番号で新しい列を作る
+                values_from = value) |> # valueは既定値なので指定しなくても良い
+    gt() |>
+    fmt_number(decimals = 3)
+```
+
+主成分方向から読み取れることは
+
+1.  第1: 人の多さに関する成分(正の向きほど人が多い)
+2.  第2: 農業生産力に関する成分(正の向きほど高い)
+
+第1，第2主成分得点を利用して2次元の地図を作成することができる．
+
+```{r}
+augment(js_pca, data = js_data) |>     # データと主成分得点のデータフレーム
+    ggplot(aes(x = .fittedPC1, y = .fittedPC2)) + 
+    geom_point(aes(colour = Area),     # 地方区分ごとに色を変える
+               shape = 19, size = 2) + 
+    geom_text(aes(label = Pref),       # 県名を重ね書きする
+              colour = "darkgray", 
+              hjust = 0, nudge_x = 0.1, check_overlap = TRUE)
+```
+
+::: column-margin
+関数 `ggrepel::geom_text_repel()` を用いると ある程度自動的に文字が重ならないように表示することができる．
+
+```{r}
+library(ggrepel)
+augment(js_pca, data = js_data) |>     # データと主成分得点のデータフレーム
+    ggplot(aes(x = .fittedPC1, y = .fittedPC2)) + 
+    geom_point(aes(colour = Area),     # 地方区分ごとに色を変える
+               shape = 19, size = 2) + 
+    geom_text_repel(aes(label = Pref), colour = "darkgray")
+```
+:::
+
+寄与率を表示する．詳しくは次週説明する．
+
+```{r}
+summary(js_pca) 
+```
+
+::: column-margin
+主成分得点による地図は関数 `ggfortify::autoplot()`を利用することもできる．
+
+```{r}
+#| column: margin
+autoplot(js_pca,
+         scale = 0,            # バイプロットの設定 (主成分得点での表示)
+         data = js_data,       # 必要な情報を含むデータフレーム
+         colour = "Area",      # 地方区分ごとに色付
+         label = TRUE,         # ラベルを付加
+         label.label = "Pref", # 都道府県名を追加
+         label.repel = TRUE)   # 横にずらして表示
+```
+:::
+
+2変数での解析例 (AgriとLandを取り上げる，その他の組み合わせでも試みよ) は以下のようになる. 多変数での視覚化は次週詳しく説明する．
+
+```{r}
+js_pca2 <- 
+    js_data |> select(c(Agri,Land)) |> # 必要な変数だけのデータフレーム
+    prcomp(scale. = TRUE)
+a_hat <-
+    tidy(js_pca2, "loadings") |>
+    filter(PC == 1) |>
+    pull(value, name = column) # column列から名前を取ったベクトルを作成
+js_pc1 <-
+    as_tibble((augment(js_pca2) |> pull(.fittedPC1)) %o% a_hat)
+js_data |> 
+    mutate(across(where(is.double), \(x)c(scale(x)))) |>
+    ggplot(aes(x = Agri, y = Land)) +
+    geom_point(colour = "blue", shape = 4) +
+    geom_abline(slope = a_hat[2]/a_hat[1], # 主成分負荷量(方向)の図示
+                intercept = 0, colour = "orange") +  
+    geom_point(data = js_pc1, # 第1主成分を元の散布図上で図示
+               colour = "purple", shape = 18) +
+    coord_fixed() # 縦横比を1に指定
 ```
