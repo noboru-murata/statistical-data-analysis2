@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2025-10-27 13:20:59 mura>
+# Time-stamp: <2025-10-29 13:16:48 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -30,7 +30,12 @@
 #+begin_src R :exports none
   ### 第7講 資料
   library(tidyverse)
+  library(GGally)
+  library(broom)
+  library(gt)
+  library(gtsummary)
   library(ggfortify)
+  library(ggrepel)
   #' 日本語表示・色の設定 (ggplot)
   theme_set(theme_gray(base_size = 16))
   if(Sys.info()[["sysname"]] == "Darwin") { # MacOSか確認
@@ -57,12 +62,13 @@
 #+begin_src R :exports none
   ### 第7講 サンプルコード
   library(conflicted) # 名前の衝突に対応するパッケージ
-  library(tidyverse)
   conflicts_prefer( # 衝突する可能性のあるものは tidyverse の関数を優先
     dplyr::filter(),
     dplyr::select(),
     dplyr::lag(),
   )
+  library(tidyverse)
+  library(GGally)
   library(broom)
   library(gt)
   library(gtsummary)
