@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2025-10-22 16:00:51 mura>
+# Time-stamp: <2025-10-31 15:55:55 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -34,6 +34,8 @@
 #+begin_src R :exports none
   ### 第5講 資料
   library(tidyverse)
+  library(GGally)
+  library(broom)
   library(gt)
   library(gtsummary)
   library(ggfortify)
@@ -64,6 +66,7 @@
 #+begin_src R :exports none
   ### 第5講 サンプルコード
   library(tidyverse)
+  library(GGally)
   library(broom)
   library(gt)
   library(gtsummary)
@@ -140,7 +143,7 @@
 
     #' データの読み込み
     tw_subset <- read_csv("data/tokyo_weather.csv") |>
-      filter(month == 9) |> # 9月のデータの抽出
+      filter(month == 10) |> # 9月のデータの抽出
       mutate(date = date(paste(year,month,day,sep="-")), .before = 1) |>
       select(-c(year,month,day,day_of_week)) |>
       set_names(c("日付","気温","降雨","日射","降雪","風向","風速","気圧","湿度","雲量"))
@@ -276,7 +279,7 @@
     #' 関連データの散布図
     tw_subset |>
       select(気温,気圧,日射,湿度,雲量) |>
-      GGally::ggpairs()
+      ggpairs()
   #+end_src
 
 #+caption: 散布図
@@ -301,7 +304,8 @@
       geom_abline(slope = 1, intercept = 0, colour = "red") + # 基準線
       geom_point(aes(colour = model, shape = model)) + # 予測値をモデル別に表示
       labs(y = "あてはめ値") +
-      xlim(22,32) + ylim(22,32) + theme(legend.position.inside = c(.88,.15))
+      ## xlim(22,32) + ylim(22,32) +
+      theme(legend.position.inside = c(.88,.15))
   #+end_src
 
 #+caption: モデルの比較
@@ -916,6 +920,13 @@
 :PROPERTIES:
 :ID:       F6E66B48-BDBE-46E7-AAED-6BD55B99A7A4
 :END:
+- 回帰モデルのあてはまりを視覚的に評価
+  - Residuals vs Fitted: あてはめ値(予測値)と残差の関係(誤差の独立性)
+  - Normal Q-Q: 残差の正規性の確認 
+  - Scale-Location: あてはめ値と正規化した残差の関係(分散の一様性)
+  - Residuals vs Leverage: 正規化した残差とテコ比の関係(外れ値)
+
+#+reveal: split
 - モデル2
   #+begin_src R :file figs/05_diag_model2.png :exports results :results graphics
     #' 診断プロット (モデル2)
@@ -1005,12 +1016,12 @@
 - この性質を利用して以下の3つの値の違いを評価
   #+begin_quote
   \begin{align}
-    \hat{y}&=(1,\boldsymbol{x}^{\mathsf{T}})\hat{\boldsymbol{\beta}}
-    &&\text{(回帰式による予測値)}\\
+    y&=(1,\boldsymbol{x}^{\mathsf{T}})\boldsymbol{\beta}+\epsilon
+    &&\text{(観測値)}\\
     \tilde{y}&=(1,\boldsymbol{x}^{\mathsf{T}})\boldsymbol{\beta}
     &&\text{(最適な予測値)}\\
-    y&=(1,\boldsymbol{x}^{\mathsf{T}})\boldsymbol{\beta}+\epsilon
-    &&\text{(観測値)}
+    \hat{y}&=(1,\boldsymbol{x}^{\mathsf{T}})\hat{\boldsymbol{\beta}}
+    &&\text{(回帰式による予測値)}
   \end{align}
   #+end_quote
   - \(\hat{y}\) と \(y\) は独立な正規分布に従うことに注意
@@ -1660,8 +1671,8 @@
 
 ** カテゴリカル変数を含むモデル
 - 数値ではないデータ
-  - [[color:green][悪性良性]]
-  - [[color:green][血液型]]
+  - [[color:green][悪性・良性]]
+  - [[color:green][血液型 (A型,B型,AB型,O型)]] 
 - 適切な方法で数値に変換して対応:
   - 2値の場合は 1,0 (真，偽) を割り当てる
     - 悪性 : 1
