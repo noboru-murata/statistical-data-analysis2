@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2025-10-31 15:55:55 mura>
+# Time-stamp: <2025-10-31 16:34:42 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -921,10 +921,13 @@
 :ID:       F6E66B48-BDBE-46E7-AAED-6BD55B99A7A4
 :END:
 - 回帰モデルのあてはまりを視覚的に評価
-  - Residuals vs Fitted: あてはめ値(予測値)と残差の関係(誤差の独立性)
+  - Residuals vs Fitted: あてはめ値(予測値)と残差の関係 \\
+     (誤差の独立性)
   - Normal Q-Q: 残差の正規性の確認 
-  - Scale-Location: あてはめ値と正規化した残差の関係(分散の一様性)
-  - Residuals vs Leverage: 正規化した残差とテコ比の関係(外れ値)
+  - Scale-Location: あてはめ値と正規化した残差の関係 \\
+     (分散の一様性)
+  - Residuals vs Leverage: 正規化した残差とテコ比の関係 \\
+     (外れ値)
 
 #+reveal: split
 - モデル2
