@@ -35,26 +35,97 @@ library(GGally)
 library(broom)      # 解析結果を tibble 形式に集約
 library(gt)         # 表の作成
 library(gtsummary)  # 分析結果の表の作成
-library(ggfortify)  # biplot表示のため
+library(ggfortify)  # バイプロット表示のため
+library(ggrepel)
+#' macOSのための日本語表示の設定
+if(Sys.info()["sysname"] == "Darwin") { # macOSか調べる
+    jp_font <- "HiraMaruProN-W4"
+    theme_update(text = element_text(family = jp_font))
+} else {jp_font <- NULL}
 ```
 
-## 寄与率・累積寄与率
+## 主成分分析に用いる主な関数
 
-分析結果の評価を行う関数としては以下がある．
+分析に用いる主な関数としては以下がある．
 
--   `base::summary()`: 主成分負荷量や寄与率を表示
--   `broom::tidy()`: 上記の内容を tibble 形式で取得
--   `ggfortify::autoplot()`: 主成分得点による散布図
+-   `stats::prcomp()`: 主成分分析の実行
+-   `base::summary()`: 主成分負荷・寄与率を表示
+-   `broom::tidy()`: 主成分得点・負荷・寄与率を tibble クラスで取得
+-   `broom::augment()`: tibble クラスで主成分得点を計算
+-   `ggfortify::autoplot()`: 主成分得点による散布図およびバイプロット
 
 ``` r
 #' データフレーム 'toy_data' を分析
-toy_pca <- toy_data |> select(計算対象の列) |> prcomp(必要なら標準化)
-#' 主成分負荷量と寄与率を確認する
-summary(toy_pca)
-tidy(toy_pca, "d") # "u","v","d" で取得する情報を指定
+toy_pca <-
+    toy_data |>
+    select(計算対象の列) |> # 必要な列を選択するか不要な列を削除
+    prcomp(必要なら標準化)  # 'scale.=TRUE' で標準化 
+#' 分析結果の確認
+summary(toy_pca)   # 主成分負荷量と寄与率を確認
+tidy(toy_pca, "d") # "u","v","d" (別表記もあり)で取得する情報を指定
 #' 第1,2主成分得点で散布図を描く
 autoplot(toy_pca, scale = 0) 
 ```
+
+::: callout-tip
+### `jpamenity.csv` を用いた例
+
+人口関連データを整理する．
+
+```{r}
+ja_data <-
+    bind_cols(
+        ## 都道府県名と地方名の取得
+        read_csv(file = "data/prefecture.csv",
+                 col_select = c(2,4)) |>
+        set_names("都道府県名", "地方区分"), # 列の名称を"都道府県名"と"地方区分"に変更
+        ## データの取得
+        read_csv(file = "data/jpamenity.csv",
+                 col_select = !1:2) |> # 不要な列を読み込まない
+        slice(-1) |>                   # 不要な行を削除
+        set_names(names(read_csv(file = "data/jpamenityitem.csv"))) # 簡略化した項目名に変更
+    ) |> 
+    select(1:10) |> # 人口関連のみ利用
+    mutate(地方区分 = as_factor(地方区分)) # 地方区分を出現順に因子化
+```
+
+散布図により変数間の関係を確認する．
+
+```{r}
+ja_data |>
+    ggpairs(columns = 3:10,  # 都道府県名・地方区分を除く
+            legend = c(2,1), # 2行1列のグラフから凡例を作成
+            upper = list(continuous = wrap("cor", size = 3.5)),
+            lower = list(continuous = wrap("points", alpha = .5),
+                         mapping = aes(colour = 地方区分))) +
+    theme(text = element_text(size = 8)) 
+```
+
+主成分分析を行い，バイプロット(主成分得点の散布図と主成分方向の表示)を描画する．
+
+```{r}
+ja_pca <- ja_data |> 
+    select(!1:2) |> # 人口関連データのみ
+    prcomp(scale. = TRUE) # 主成分分析の実行
+ja_pca |>
+    autoplot(asp = 1, # 縦横比を設定
+             data = ja_data,
+             colour = "地方区分", # 地方ごとに色付け
+             label = TRUE, # ラベルの表示
+             label.label = "都道府県名",
+             label.repel = TRUE, # ラベルの表示を自動調整 (パッケージ ggrepel)
+             label.family = jp_font, 
+             label.size = 3,
+             loadings = TRUE,
+             loadings.colour = "orchid", # 負荷の表示
+             loadings.label = TRUE,
+             loadings.label.colour = "darkgray", # 負荷ラベルの表示
+             loadings.label.family = jp_font,
+             loadings.label.size = 4) 
+```
+:::
+
+## データセット
 
 以下では2つのデータセットを使用する
 
@@ -62,6 +133,24 @@ autoplot(toy_pca, scale = 0)
 ### `japan_social.csv` の概要(再掲)
 
 総務省統計局より取得した都道府県別の社会生活統計指標の一部
+
+-   Pref : 都道府県名
+-   Forest : 森林面積割合 (%) 2014年
+-   Agri : 就業者１人当たり農業産出額(販売農家）(万円) 2014年
+-   Ratio : 全国総人口に占める人口割合 (%) 2015年
+-   Land : 土地生産性（耕地面積１ヘクタール当たり）(万円) 2014年
+-   Goods : 商業年間商品販売額［卸売業＋小売業］（事業所当たり）(百万円) 2013年
+-   Area : 地方区分
+-   参考 : <https://www.e-stat.go.jp/SG1/estat/List.do?bid=000001083999&cycode=0>
+
+データを読み込み方の例．
+
+```{r}
+#| eval: false
+js_data <-
+    read_csv("data/japan_social.csv") |>
+    mutate(Area = as_factor(Area))       # 地方区分を因子化
+```
 :::
 
 ::: callout-tip
@@ -72,64 +161,20 @@ autoplot(toy_pca, scale = 0)
 The UScereal data frame has 65 rows and 11 columns. The data come from the 1993 ASA Statistical Graphics Exposition, and are taken from the mandatory F&DA food label. The data have been normalized here to a portion of one American cup.
 
 詳細は `?MASS::UScereal` を参照
-:::
 
-::: callout-tip
-### 変数間の散布図
-
-標準化を行わずに分析する．
+データの整理の仕方の例． 元のデータは data.frame クラスなので，tibble クラスに変換して整理しておく．
 
 ```{r}
-js_data <- read_csv("data/japan_social.csv") |>
-    mutate(Area = as_factor(Area))
-js_data |> # 散布図．いくつかの変数は相関強いことがわかる
-    ggpairs(columns = 2:6,           # 都道府県名・地方区分は除く
-                    legend = c(2,1), # 2行1列のグラフから凡例を作成
-                    lower = list(continuous = wrap("points", alpha = .5),
-                                 mapping = aes(colour = Area)))
-```
-
-変数のばらつきに大きな違いがある．
-
-```{r}
-js_data |> # 箱ひげ図．変数のばらつきに大きな違いがある
-    pivot_longer(where(is.double)) |>  # 実数値をまとめる
-    mutate(name = as_factor(name)) |>  # 列の順番どおりboxplotを並べる
-    ggplot(aes(x = name, y = value)) + # 既定値の name と value を利用
-    geom_boxplot(aes(fill = name), show.legend = FALSE) # 変数ごとに色を変える
-```
-
-各変数の標本平均を0，不偏分散を1に規格化する．
-
-```{r}
-js_data |> # 散布図．スケールは変わるが本質的には同じ図になる
-    mutate(across(where(is.double), \(x)c(scale(x)))) |>
-    ggpairs(columns = 2:6,           # 都道府県名・地方区分は除く
-                    legend = c(2,1), # 2行1列のグラフから凡例を作成
-                    lower = list(continuous = wrap("points", alpha = .5),
-                                 mapping = aes(colour = Area)))
-```
-
-標準化を行い，変数のばらつきを揃える．
-
-```{r}
-js_data |> # 箱ひげ図．変数のばらつきをそろえる
-    mutate(across(where(is.double), \(x)c(scale(x)))) |>
-    pivot_longer(where(is.double)) |>  # 実数値をまとめる
-    mutate(name = as_factor(name)) |>  # 列の順番どおりboxplotを並べる
-    ggplot(aes(x = name, y = value)) + # 既定値の name と value を利用
-    geom_boxplot(aes(fill = name), show.legend = FALSE) # 変数ごとに色を変える
+#| eval: false
+glimpse(MASS::UScereal)                    # 各変数の属性を確認する．
+uc_data <-
+    MASS::UScereal |>
+    rownames_to_column(var = "product") |> # 行名の製品名を product 列に加える
+    as_tibble()                            # tibble クラスに変換
 ```
 :::
 
-::: column-margin
-標準化したデータを有効数字3桁で表示するには，例えば以下のようにすればよい．
-
-```{r}
-js_data |> # 
-    mutate(across(where(is.double), \(x)signif(c(scale(x)), digits = 3)))
-```
-:::
+## 寄与率・累積寄与率
 
 ### 問題
 
@@ -144,101 +189,54 @@ prcomp(toy_data, scale. = TRUE) # 標準化を行う場合
 正式なオプション名は `scale.` であるが，`sc = TRUE` など他のオプションと区別できれば短縮表記も可能．
 :::
 
--   `japan_social.csv` の読み込み方の例
-
-    ``` r
-    js_data <- read_csv("data/japan_social.csv") |>
-        mutate(Area = as_factor(Area))
-    ```
-
--   `MASS::UScereal` の整理の例
-
-    ``` r
-    glimpse(MASS::UScereal) # 各変数の属性を確認する．
-    uc_data <- MASS::UScereal |>
-        rownames_to_column(var = "product") |> # 行名の製品名を列に加える
-        as_tibble() 
-    ```
-
-    ::: column-margin
-    `base R` の `data.frame` 型なので tibble 型に変換しておく．
-    :::
-
-```{r}
-
-```
-
 ### 解答例
 
 #### `japan_social.csv` の場合
 
-総務省統計局の都道府県別の社会生活統計指標データの各列は以下のとおりである．
-
--   Pref: 都道府県名
--   Forest: 森林面積割合 (%) 2014年
--   Agri: 就業者１人当たり農業産出額(販売農家）(万円) 2014年
--   Ratio: 全国総人口に占める人口割合 (%) 2015年
--   Land: 土地生産性（耕地面積１ヘクタール当たり）(万円) 2014年
--   Goods: 商業年間商品販売額［卸売業＋小売業］（事業所当たり）(百万円) 2013年
--   Area: 地方区分
-
-データを読み込む． このとき色分けのため，地方区分は因子化しておく．
+データを読み込む．
 
 ```{r}
 js_data <- read_csv("data/japan_social.csv") |>
     mutate(Area = as_factor(Area))
 ```
 
-データの性質を把握するために視覚化を行う． 以下は全体の散布図および特定の2項目の散布図を描いた例である．
+データの性質を把握するために視覚化を行う．以下は全体の散布図および特定の2項目の散布図を描いた例である．
 
 ```{r}
-js_data |> # 散布図．いくつかの変数は相関強いことがわかる
-    GGally::ggpairs(columns = 2:6, # 都道府県名・地方区分は除く
-                    legend = c(2,1), # 2行1列のグラフから凡例を作成
-                    lower = list(continuous = GGally::wrap("points", alpha = .5),
-                                 mapping = aes(colour = Area)))
-js_data |>
-    ggplot(aes(x = Agri, y = Forest)) +
-    geom_point(colour = "blue") +
-    geom_text(aes(label = Pref),
-              colour = "brown",
-              vjust = 1, nudge_y = 0.0, check_overlap = TRUE)
+js_data |> 
+    ggpairs(columns = 2:6,   # 都道府県名・地方区分は除く
+            legend = c(2,1), # 2行1列のグラフから凡例を作成
+            lower = list(continuous = wrap("points", alpha = .5),
+                         mapping = aes(colour = Area))) # 地方区分で色分け
 ```
 
-::: callout-tip
-点と文字が被らないように座標をずらし，密集したところは消している． `package::ggrepel` を利用すれば自動調整してくれる．
+いくつかの変数は相関強いことがわかる． "農業算出額"と"森林面積割合"で散布図を確認する．
 
 ```{r}
-#| column: margin
 js_data |>
     ggplot(aes(x = Agri, y = Forest)) +
     geom_point(colour = "blue") +
     ggrepel::geom_text_repel(aes(label = Pref), colour = "brown")
 ```
-:::
 
 主成分分析を実行する．
 
 ```{r}
-js_pca_raw <- js_data |>
+js_pca_raw <-
+    js_data |>
     select(where(is.double)) |> # 数値列を指定
     prcomp()                    # 標準化なし
-js_pca <- js_data |> 
+js_pca <-
+    js_data |> 
     select(where(is.double)) |> 
     prcomp(scale. = TRUE)       # 標準化あり
 ```
 
 ::: column-margin
-必要な列のみ選択すれば，分析は行うことができる．
+以下のようにすると分析結果の得点の各行に県名 `Pref` をつけることができる．
 
-``` r
-js_pca_raw <- prcomp(js_data[-c(1,7)])            # 標準化なし
-js_pca <- prcomp(js_data[-c(1,7)], scale. = TRUE) # 標準化あり
-```
-
-各行に県名 `Pref` をつけるには以下のようにすれば良い．
-
-``` r
+```{r}
+#| eval: false
 js_pca_raw <- js_data |>
     column_to_rownames(var = "Pref") |> # 'Pref'を行名に変換
     select(where(is.double)) |> 
@@ -266,7 +264,7 @@ js_pca_raw$rotation
 
 負荷量が偏る傾向があり，各主成分はほぼ1つの変数に対応している．
 
-寄与率および累積寄与率を tibble 形式で取得するには以下のようにすれば良い．
+寄与率および累積寄与率を tibble クラスで取得すれば， さまざまな表やグラフを作成することができる．
 
 ```{r}
 js_pca_raw |>    # 表 を作成
@@ -286,9 +284,10 @@ js_pca_raw |>
 簡単な散布図の表示方法として `package::ggfortify` を利用する方法は以下のようになる．
 
 ```{r}
-autoplot(js_pca_raw, scale = 0,
-         data = js_data,                     # ラベルの情報を取得するデータ
-         label = TRUE, label.label = "Pref") # ラベルの付け方を指定
+js_pca_raw |>
+    autoplot(scale = 0,                          # 主成分得点のままの散布図
+             data = js_data,                     # ラベルの情報を取得するデータ
+             label = TRUE, label.label = "Pref") # ラベルの付け方を指定
 ```
 
 同様に標準化した場合の分析結果を見てみる．
@@ -304,89 +303,103 @@ js_pca |>
     tidy("d") |> 
     ggplot(aes(x = PC, y = cumulative)) + # 累積寄与率(cumlative)を表示
     geom_bar(stat = "identity")
-autoplot(js_pca, scale = 0,
-         data = js_data, label = TRUE, label.label = "Pref")
+js_pca |>
+    autoplot(scale = 0,
+             data = js_data,
+             label = TRUE, label.label = "Pref")
 ```
 
 ::: callout-tip
-寄与率を表示するためには関数stats::screeplot()を利用してもよい． 詳細は `?screeplot` を参照のこと．
+寄与率を表示するためには関数 `stats::screeplot()` を利用することもできる．詳細は `?screeplot` を参照．
 
 ```{r}
-#| column: margin
 screeplot(js_pca) 
 ```
 :::
 
 #### `MASS::UScereal` の場合
 
-元のデータは data.frame 形式なので，tibble に変換して整理しておく． また，適当な方法で視覚化をすることを推奨する．
+データを整理する．また，適当な方法で視覚化をすることを推奨する．
 
 ```{r}
-uc_data <- MASS::UScereal |> 
-    rownames_to_column(var = "product") |> as_tibble() 
+uc_data <-
+    MASS::UScereal |> 
+    rownames_to_column(var = "product") |>
+    as_tibble() 
 ```
 
 標準化なしの分析は以下のようになる．
 
 ```{r}
-uc_pca_raw <- uc_data |>
+uc_pca_raw <-
+    uc_data |>
     select(where(is.double)) |>
     prcomp() 
 summary(uc_pca_raw)
 uc_pca_raw$rotation
 uc_pca_raw |>
     tidy("d") |> 
-    ggplot(aes(x = PC, y = percent)) + geom_bar(stat = "identity")
+    ggplot(aes(x = PC, y = percent)) +
+    geom_bar(stat = "identity")
 uc_pca_raw |>
     tidy("d") |> 
-    ggplot(aes(x = PC, y = cumulative)) + geom_bar(stat = "identity")
-autoplot(uc_pca_raw, scale = 0,
-         data = uc_data, label = TRUE, label.label = "product") 
+    ggplot(aes(x = PC, y = cumulative)) +
+    geom_bar(stat = "identity")
+uc_pca_raw |>
+    autoplot(scale = 0,
+             data = uc_data,
+             label = TRUE, label.label = "product") 
 ```
 
 標準化ありの分析は以下のようになる．
 
 ```{r}
-uc_pca <- uc_data |>
+uc_pca <-
+    uc_data |>
     select(where(is.double)) |>
     prcomp(scale. = TRUE)
 summary(uc_pca)
 uc_pca$rotation
 uc_pca |>
     tidy("d") |> 
-    ggplot(aes(x = PC, y = percent)) + geom_bar(stat = "identity")
+    ggplot(aes(x = PC, y = percent)) +
+    geom_bar(stat = "identity")
 uc_pca |>
     tidy("d") |> 
-    ggplot(aes(x = PC, y = cumulative)) + geom_bar(stat = "identity")
-autoplot(uc_pca_raw, scale = 0,
-         data = uc_data, label = TRUE, label.label = "product") 
+    ggplot(aes(x = PC, y = cumulative)) +
+    geom_bar(stat = "identity")
+uc_pca_raw |>
+    autoplot(scale = 0,
+             data = uc_data,
+             label = TRUE, label.label = "product") 
 ```
 
 ## 主成分分析の視覚化
 
-主成分分析の分析結果を可視化する biplot 表示は， 関数 `ggfortify::autoplot()` にオプションを指定することで実行できる．
+主成分分析の分析結果を可視化するバイプロット表示は， 関数 `ggfortify::autoplot()` にオプションを指定することで実行できる．
 
 ::: callout-note
-### biplot 表示
+### バイプロット表示
 
 ``` r
 #' データフレームを分析する
 toy_pca <-
-    toy_data |> select(計算対象の列を指定) |>
+    toy_data |>
+    select(計算対象の列を指定) |>
     prcomp(必要なら標準化)
-#' 第1と第2主成分を利用した biplot 表示
-autoplot(toy_pca,
-         label = TRUE,          # 各データのラベルを表示
-         loadings = TRUE,       # 主成分負荷による成分方向の表示
-         loadings.label = TRUE) # 成分名の表示
+#' 第1と第2主成分を利用したバイプロット表示
+toy_pca |>
+    autoplot(label = TRUE,          # 各データのラベルを表示
+             loadings = TRUE,       # 主成分負荷による成分方向の表示
+             loadings.label = TRUE) # 成分名の表示
 #' 第2と第3主成分を利用した散布図
-autoplot(toy_pca,
-         loadings = TRUE,
-         x = 2, y = 3)          # 主成分の指定
+toy_pca |>
+    autoplot(loadings = TRUE,
+             x = 2, y = 3)          # 主成分の指定
 #' パラメタ s を変更 (既定値は1)
-autoplot(toy_pca,
-         scale = 0,             # パラメタ s の指定
-         loadings = TRUE)
+toy_pca |>
+    autoplot(scale = 0,             # パラメタ s の指定
+             loadings = TRUE)
 ```
 :::
 
@@ -411,6 +424,8 @@ biplot(toy_pca, scale=0)
 -   第1主成分と第2主成分でのバイプロットを描きなさい．
 -   第2主成分と第3主成分でのバイプロットを描きなさい．
 
+### 解答欄
+
 ```{r}
 
 ```
@@ -419,35 +434,35 @@ biplot(toy_pca, scale=0)
 
 #### `japan_social.csv` の場合
 
-簡素な biplot の指定は以下のとおりである．
+簡素なバイプロット表示の指定は以下のとおりである．
 
 ```{r}
-autoplot(js_pca,                # 既定値では第1 vs 第2主成分
-         data = js_data,        
-         label = TRUE,          # ラベルの表示
-         label.label = "Pref",  # 都道府県名をラベルとする
-         loadings = TRUE,       # 主成分負荷の表示
-         loadings.label = TRUE) # 変数名の表示
+js_pca |>
+    autoplot(data = js_data,        # 既定値では第1 vs 第2主成分
+             label = TRUE,          # ラベルの表示
+             label.label = "Pref",  # 都道府県名をラベルとする
+             loadings = TRUE,       # 主成分負荷の表示
+             loadings.label = TRUE) # 変数名の表示
 ```
 
 指定可能なオプションの例は以下のようになる．
 
 ```{r}
-autoplot(js_pca, 
-         data = js_data,                  # 地方区分などの補助情報を渡す
-         colour = "Area",                 # 地方区分ごとに色付けする
-         shape = 19,                      # 以下データ点の修飾．点の形
-         size = 1,                        # 点の大きさ
-         label = TRUE,                    # 以下ラベルの設定
-         label.label = "Pref",            # ラベルの指定
-         label.repel = TRUE,              # 表示が重ならないように調整
-         label.size = 3,                  # 文字の大きさ
-         loadings = TRUE,                 # 以下主成分負荷の修飾
-         loadings.colour = "orange",      # 色
-         loadings.label = TRUE,           # 負荷量のラベル
-         loadings.label.repel = TRUE,     # 表示が重ならないように調整
-         loadings.label.colour = "brown", # 負荷量のラベルの色
-         loadings.label.size = 4)         # 負荷量のラベルの大きさ
+js_pca |>
+    autoplot(data = js_data,                  # 地方区分などの補助情報を渡す
+             colour = "Area",                 # 地方区分ごとに色付けする
+             shape = 19,                      # 以下データ点の修飾．点の形
+             size = 1,                        # 点の大きさ
+             label = TRUE,                    # 以下ラベルの設定
+             label.label = "Pref",            # ラベルの指定
+             label.repel = TRUE,              # 表示が重ならないように調整
+             label.size = 3,                  # 文字の大きさ
+             loadings = TRUE,                 # 以下主成分負荷の修飾
+             loadings.colour = "orange",      # 色
+             loadings.label = TRUE,           # 負荷量のラベル
+             loadings.label.repel = TRUE,     # 表示が重ならないように調整
+             loadings.label.colour = "brown", # 負荷量のラベルの色
+             loadings.label.size = 4)         # 負荷量のラベルの大きさ
 ```
 
 第1主成分方向の正の向きには大都市をもつ県が集中している． また，人口割合, 商品販売額および森林面積割合は，１人当たり農業産出額とほぼ直交しており, 両者に関連はあまりないといえそう． 第2主成分方向の正の向きには１人当たり農業産出額の上位県が集中している．
@@ -457,65 +472,101 @@ autoplot(js_pca,
 農業産出額を昇順に並べる．
 
 ```{r}
-js_data |> arrange(Agri) |> gt()
+js_data |>
+    arrange(Agri) |>
+    gt()
 ```
 
 第2,3主成分を確認すると，第3主成分方向の負の向きには土地生産性の上位県が集中している．
 
 ```{r}
-autoplot(js_pca, x = 2, y = 3,
-         data = js_data, colour = "Area",
-         label = TRUE, label.label = "Pref", label.repel = TRUE,
-         loadings = TRUE, loadings.label = TRUE, loadings.label.repel = TRUE)
+js_pca |>
+    autoplot(x = 2, y = 3,
+             data = js_data,
+             colour = "Area",
+             label = TRUE,
+             label.label = "Pref",
+             label.repel = TRUE,
+             loadings = TRUE,
+             loadings.label = TRUE,
+             loadings.label.repel = TRUE)
 ```
 
 土地生産性を降順に並べると，北海道の土地生産性は低いことがわかる．
 
 ```{r}
-js_data |> arrange(desc(Land)) |> gt()
+js_data |>
+    arrange(desc(Land)) |>
+    gt()
 ```
 
 #### `MASS::UScereal` の場合
 
 ```{r}
-autoplot(uc_pca,
-         data = uc_data, colour = "mfr", # メーカー毎に色付け
-         shape = 19, size = 1,
-         label = TRUE, label.label = "product", label.repel = TRUE,
-         loadings = TRUE, loadings.colour = "orange",
-         loadings.label = TRUE, loadings.label.repel = TRUE, 
-         loadings.label.colour = "brown", loadings.label.size = 4) +
+uc_pca |>
+    autoplot(data = uc_data,
+             colour = "mfr", # メーカー毎に色付け
+             shape = 19,
+             size = 1,
+             label = TRUE,
+             label.label = "product",
+             label.repel = TRUE,
+             loadings = TRUE,
+             loadings.colour = "orange",
+             loadings.label = TRUE,
+             loadings.label.repel = TRUE, 
+             loadings.label.colour = "brown",
+             loadings.label.size = 4) +
     theme(legend.position = "none")
-autoplot(uc_pca, x = 2, y = 3, # 第2 vs 第3
-         data = uc_data, colour = "mfr", 
-         shape = 19, size = 1, 
-         label = TRUE, label.label = "product", label.repel = TRUE,
-         loadings = TRUE, loadings.colour = "orange",
-         loadings.label = TRUE, loadings.label.repel = TRUE, 
-         loadings.label.colour = "brown", loadings.label.size = 4) +
+uc_pca |>
+    autoplot(x = 2, y = 3, # 第2 vs 第3
+             data = uc_data,
+             colour = "mfr", 
+             shape = 19,
+             size = 1, 
+             label = TRUE,
+             label.label = "product",
+             label.repel = TRUE,
+             loadings = TRUE,
+             loadings.colour = "orange",
+             loadings.label = TRUE,
+             loadings.label.repel = TRUE, 
+             loadings.label.colour = "brown",
+             loadings.label.size = 4) +
     theme(legend.position = "none")
 ```
 
 第1,2主成分得点で散布図を描き，上と比較してみる．
 
 ```{r}
-augment(uc_pca, data = uc_data) |>
-    ggplot(aes(x = .fittedPC1, y = .fittedPC2, label = product, colour = mfr)) +
+uc_pca |>
+    augment(data = uc_data) |>
+    ggplot(aes(x = .fittedPC1, y = .fittedPC2,
+               label = product, colour = mfr)) +
     geom_point(shape = 19, size = 1) +
-    ggrepel::geom_text_repel(size = 3, max.overlaps = 40) +
-    theme(legend.position = "none")
+    geom_text_repel(size = 3, max.overlaps = 40) +
+    theme(legend.position = "none") 
 ```
 
 配置は変わらないが，座標軸が異なることがわかる． 関数 `autoplot()` において `scale=0` とするとデータの座標は主成分得点となる．
 
 ```{r}
 options(ggrepel.max.overlaps = 40)
-autoplot(uc_pca, scale = 0, 
-         data = uc_data, colour = "mfr", 
-         shape = 19, size = 1, 
-         label = TRUE, label.label = "product", label.repel = TRUE, label.size = 3,
-         loadings = TRUE, loadings.colour = "orange",
-         loadings.label = TRUE, loadings.label.repel = TRUE, 
-         loadings.label.colour = "brown", loadings.label.size = 4) +
+uc_pca |>
+    autoplot(scale = 0, 
+             data = uc_data,
+             colour = "mfr", 
+             shape = 19,
+             size = 1, 
+             label = TRUE,
+             label.label = "product",
+             label.repel = TRUE,
+             label.size = 3,
+             loadings = TRUE,
+             loadings.colour = "orange",
+             loadings.label = TRUE,
+             loadings.label.repel = TRUE, 
+             loadings.label.colour = "brown",
+             loadings.label.size = 4) +
     theme(legend.position = "none")
 ```

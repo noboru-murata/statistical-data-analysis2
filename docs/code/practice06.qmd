@@ -36,6 +36,7 @@ library(gt)         # 表の作成
 library(gtsummary)  # 分析結果の表の作成
 library(ggfortify)  # 分析結果の描画
 library(GGally)
+library(ggrepel)
 ```
 
 ## 主成分分析に用いる主な関数
@@ -108,7 +109,7 @@ glimpse(x, width = NULL, ...)
 分析結果を `tibble` クラスで整理して取得するには `package::broom` に用意されている以下の2つの関数を利用する．
 
 ::: callout-note
-### 主成分負荷などの取得
+### 主成分得点・負荷・寄与率の取得
 
 ``` r
 tidy(x, matrix = "u", ...)
@@ -168,6 +169,34 @@ autoplot(
 ```
 :::
 
+## データセット
+
+今回配布したデータセットの内容は以下のとおりである．
+
+::: callout-tip
+### `japan_social.csv` の概要
+
+総務省統計局より取得した都道府県別の社会生活統計指標の一部
+
+-   Pref : 都道府県名
+-   Forest : 森林面積割合 (%) 2014年
+-   Agri : 就業者１人当たり農業産出額(販売農家）(万円) 2014年
+-   Ratio : 全国総人口に占める人口割合 (%) 2015年
+-   Land : 土地生産性（耕地面積１ヘクタール当たり）(万円) 2014年
+-   Goods : 商業年間商品販売額［卸売業＋小売業］（事業所当たり）(百万円) 2013年
+-   Area : 地方区分
+-   参考 : <https://www.e-stat.go.jp/SG1/estat/List.do?bid=000001083999&cycode=0>
+
+データを読み込む際に， 視覚化に利用するために 地方区分を因子化しておくと良い．
+
+```{r}
+#| eval: false
+js_data <-
+    read_csv("data/japan_social.csv") |>
+    mutate(Area = as_factor(Area))       # 地方区分を因子化
+```
+:::
+
 ## 人工データによる主成分分析
 
 ### 問題
@@ -177,6 +206,7 @@ autoplot(
 -   以下のモデルに従う人工データを生成する
 
     ```{r}
+    #| eval: false
     #' 観測データ (2次元) の作成 (aのスカラー倍に正規乱数を重畳)
     a <- (c(1,2)/sqrt(5)) |>    # 主成分負荷量 (単位ベクトル)
         set_names(c("x1","x2")) # 後の行列計算のために成分名を付ける
@@ -191,6 +221,7 @@ autoplot(
 -   観測データから第1主成分負荷量を推定する
 
     ```{r}
+    #| eval: false
     toy_pca <-
         toy_data |>
         prcomp()            # 全ての列を用いて主成分を計算する
@@ -206,6 +237,12 @@ autoplot(
     ``` r
     geom_abline(slope = 傾き, intercept = 切片) # 指定の直線を追加できる  
     ```
+
+### 解答欄
+
+```{r}
+
+```
 
 ### 解答例
 
@@ -290,7 +327,8 @@ gg +
 
 -   Gram 行列を計算し固有値・固有ベクトルを求める
 
-    ``` r
+    ```{r}
+    #| eval: false
     #' 中心化を行う
     X <- scale(toy_data, scale = FALSE)
     #' 詳細は '?base::scale' を参照
@@ -300,6 +338,12 @@ gg +
     eigen(G) # 返り値 'values, vectors' を確認
     #' 詳細は '?base::eigen' を参照
     ```
+
+### 解答欄
+
+```{r}
+
+```
 
 ### 解答例
 
@@ -381,31 +425,31 @@ toy_pca |>
 
 ## 実データによる分析
 
-今回配布したデータセットの内容は以下のとおりである．
-
-::: callout-tip
-### `japan_social.csv` の概要
-
-総務省統計局より取得した都道府県別の社会生活統計指標の一部
-
--   Pref : 都道府県名
--   Forest : 森林面積割合 (%) 2014年
--   Agri : 就業者１人当たり農業産出額(販売農家）(万円) 2014年
--   Ratio : 全国総人口に占める人口割合 (%) 2015年
--   Land : 土地生産性（耕地面積１ヘクタール当たり）(万円) 2014年
--   Goods : 商業年間商品販売額［卸売業＋小売業］（事業所当たり）(百万円) 2013年
--   Area : 地方区分
--   参考 : <https://www.e-stat.go.jp/SG1/estat/List.do?bid=000001083999&cycode=0>
-:::
-
 ### 問題
 
 データセット `japan_social.csv` を用いて主成分分析を行いなさい．
 
--   データを読み込む `r     js_data <- read_csv("data/japan_social.csv") |>       mutate(Area = as_factor(Area)) # 地方区分を因子化`
+-   データを読み込む
+
 -   データの散布図行列を描く
+
 -   各データの箱ひげ図を描き，変数の大きさを確認する
--   主成分負荷量を計算する `r     js_pca <- prcomp(js_data[-c(1,7)], scale. = TRUE)     #' '-c(1,7)' は都道府県名・地方区分を除く．関数 select() を利用することもできる     #' 'scale.=TRUE' とすると変数を正規化してから解析する`
+
+-   主成分負荷量を計算する
+
+    ```{r}
+    #| eval: false
+    js_pca <-
+      js_data |>
+      select(!c(1,7)) |>    # '!c(1,7)' は都道府県名・地方区分を除く
+      prcomp(scale. = TRUE) # 'scale.=TRUE' とすると変数を正規化してから解析する
+    ```
+
+### 解答欄
+
+```{r}
+
+```
 
 ### 解答例
 
@@ -448,6 +492,18 @@ js_data |>
                  show.legend = FALSE)  # 凡例は表示しない
 ```
 
+::: column-margin
+箱ひげ図で判り難い場合には violin plot を利用して密度を表示しても良い．
+
+```{r}
+js_data |> 
+    pivot_longer(where(is.double)) |>  
+    mutate(name = as_factor(name)) |>  
+    ggplot(aes(x = name, y = value)) + 
+    geom_violin(aes(fill = name), show.legend = FALSE)
+```
+:::
+
 密度表示を行うと以下のようになる．
 
 ```{r}
@@ -478,15 +534,11 @@ js_data |>
 :::
 
 ::: column-margin
-箱ひげ図で判り難い場合には violin plot を利用して密度を表示しても良い．
+標準化したデータを有効数字3桁で表示するには，例えば以下のようにすればよい．
 
 ```{r}
-js_data |> 
-    mutate(across(where(is.double), \(x)c(scale(x)))) |>
-    pivot_longer(where(is.double)) |>  
-    mutate(name = as_factor(name)) |>  
-    ggplot(aes(x = name, y = value)) + 
-    geom_violin(aes(fill = name), show.legend = FALSE)
+js_data |> # 
+    mutate(across(where(is.double), \(x)signif(c(scale(x)), digits = 3)))
 ```
 :::
 
@@ -508,7 +560,7 @@ js_pca <-
     js_data |>
     select(where(is.double)) |> # 実数値の列(都道府県名・地方区分)を抽出
     prcomp(scale. = TRUE)       # 変数のばらつきを規格化して分析
-js_pca # 結果の表示
+js_pca # 結果の表示．関数 print() を用いてもよい
 ```
 
 主成分負荷量を表にするには，例えば以下のようにすればよい．
@@ -528,7 +580,18 @@ js_pca |>
 1.  第1: 人の多さに関する成分(正の向きほど人が多い)
 2.  第2: 農業生産力に関する成分(正の向きほど高い)
 
-第1，第2主成分得点を利用して2次元の地図を作成することができる．
+第1，第2主成分得点を利用して2次元の地図を作成することができる． 関数 `ggrepel::geom_text_repel()` を用いると，ある程度自動的に文字が重ならないように表示することができる．
+
+```{r}
+augment(js_pca, data = js_data) |>     # データと主成分得点のデータフレーム
+    ggplot(aes(x = .fittedPC1, y = .fittedPC2)) + 
+    geom_point(aes(colour = Area),     # 地方区分ごとに色を変える
+               shape = 19, size = 2) + 
+    geom_text_repel(aes(label = Pref), colour = "darkgray")
+```
+
+::: column-margin
+関数 `ggplot2::geom_text()` を用いる場合は， 文字と記号の重なりを防ぐためのオプションを利用する．
 
 ```{r}
 augment(js_pca, data = js_data) |>     # データと主成分得点のデータフレーム
@@ -539,25 +602,7 @@ augment(js_pca, data = js_data) |>     # データと主成分得点のデータ
               colour = "darkgray", 
               hjust = 0, nudge_x = 0.1, check_overlap = TRUE)
 ```
-
-::: column-margin
-関数 `ggrepel::geom_text_repel()` を用いると ある程度自動的に文字が重ならないように表示することができる．
-
-```{r}
-library(ggrepel)
-augment(js_pca, data = js_data) |>     # データと主成分得点のデータフレーム
-    ggplot(aes(x = .fittedPC1, y = .fittedPC2)) + 
-    geom_point(aes(colour = Area),     # 地方区分ごとに色を変える
-               shape = 19, size = 2) + 
-    geom_text_repel(aes(label = Pref), colour = "darkgray")
-```
 :::
-
-寄与率を表示する．詳しくは次週説明する．
-
-```{r}
-summary(js_pca) 
-```
 
 主成分得点による地図は関数 `ggfortify::autoplot()`を利用することもできる．
 
@@ -569,6 +614,12 @@ autoplot(js_pca,
          label = TRUE,         # ラベルを付加
          label.label = "Pref", # 都道府県名を追加
          label.repel = TRUE)   # 横にずらして表示
+```
+
+寄与率を表示する．詳しくは次週説明する．
+
+```{r}
+summary(js_pca) 
 ```
 
 ::: column-margin
@@ -598,11 +649,11 @@ js_data |>
 :::
 
 ::: column-margin
-配布したファイル `prefecture.csv` を利用すると 都道府県名などを日本語にして分析することができる．
+配布したファイル `prefecture.csv` を利用すると都道府県名などを日本語にして分析することができる．
 
 ```{r}
 js_data <-
-    bind_cols(
+    bind_cols( # 2つのデータフレームを結合
         read_csv(file = "data/prefecture.csv",
                  col_select = c(2,4)) |>
         set_names("県名","地方区分"), # 列の名称を"県名"と"地方区分"に変更
@@ -611,21 +662,28 @@ js_data <-
         set_names("森林面積割合","農業算出額","人口割合","土地生産性","商品販売額")
     )|> # 簡略化した項目名に変更
     mutate(地方区分 = as_factor(地方区分)) # 地方区分を出現順に因子化
-#' macOSのための日本語表示の設定
+#' macOSのための日本語表示の設定(ここから)
 if(Sys.info()["sysname"] == "Darwin") { # macOSか調べる
     jp_font <- "HiraMaruProN-W4"
     theme_update(text = element_text(family = jp_font))
 } else {jp_font <- NULL}
+#' macOSのための日本語表示の設定(ここまで)
 js_data |>
-    select(where(is.double)) |> # 都道府県名・地方区分を除いて主成分分析を実行
+    select(where(is.double)) |> 
     prcomp(scale. = TRUE) |>
-    autoplot(asp = 1, # 縦横比を設定
-             data = js_data, colour = "地方区分", # 地方ごとに色付け
-             label = TRUE, label.label = "県名",   # ラベルの表示
-             label.repel = TRUE, # ラベルの表示を自動調整 (パッケージ ggrepel)
-             label.family = jp_font, label.size = 3,
-             loadings = TRUE, loadings.colour = "orchid", # 負荷の表示
-             loadings.label = TRUE, loadings.label.colour = "darkgray", # 負荷ラベルの表示
-             loadings.label.family = jp_font, loadings.label.size = 4)
+    autoplot(asp = 1,                            # 縦横比を設定
+             data = js_data,
+             colour = "地方区分",                 # 地方ごとに色付け
+             label = TRUE,                       # ラベルの表示
+             label.label = "県名",   
+             label.repel = TRUE,                 # ラベルの表示を自動調整 
+             label.family = jp_font,
+             label.size = 3,
+             loadings = TRUE,                    # 負荷の表示
+             loadings.colour = "orchid", 
+             loadings.label = TRUE,
+             loadings.label.colour = "darkgray", # 負荷ラベルの表示
+             loadings.label.family = jp_font,
+             loadings.label.size = 4)
 ```
 :::
