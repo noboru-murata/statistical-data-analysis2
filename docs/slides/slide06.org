@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2025-11-06 17:50:34 mura>
+# Time-stamp: <2025-11-07 12:37:54 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -313,8 +313,16 @@
 #+attr_latex: :width 0.6\linewidth
 [[file:figs/ja-biplot.png]]
 
-* 主成分分析の例
-** 都道府県別の人口関連データの分析
+
+* 主成分分析の考え方
+** 主成分分析
+- 多数の変量のもつ情報の分析・視覚化
+  - 変量を効率的に縮約して少数の特徴量を構成する
+  - 特徴量に関与する変量間の関係を明らかにする
+- *PCA* (Principal Component Analysis)
+  - 構成する特徴量 : *主成分* (princial component)
+
+** 主成分分析の例
 #+caption: 都道府県別の人口関連データ
 #+name: tbl:ja_data
 #+begin_src R :exports none
@@ -393,15 +401,6 @@
 #+attr_html: height 100%
 #+attr_latex: :width 0.6\linewidth
 [[file:figs/ja-biplot.png]]
-
-
-* 主成分分析の考え方
-** 主成分分析
-- 多数の変量のもつ情報の分析・視覚化
-  - 変量を効率的に縮約して少数の特徴量を構成する
-  - 特徴量に関与する変量間の関係を明らかにする
-- *PCA* (Principal Component Analysis)
-  - 構成する特徴量 : *主成分* (princial component)
 
 ** 分析の枠組み
 - \(x_{1},\dotsc,x_{p}\) : *変数* 

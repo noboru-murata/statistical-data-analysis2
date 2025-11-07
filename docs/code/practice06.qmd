@@ -36,10 +36,9 @@ library(gt)         # 表の作成
 library(gtsummary)  # 分析結果の表の作成
 library(ggfortify)  # 分析結果の描画
 library(GGally)
-library(scatterplot3d)
 ```
 
-## 人工データによる主成分分析
+## 主成分分析に用いる主な関数
 
 主成分分析に必要な関数を説明する． Rの標準的な関数として
 
@@ -87,16 +86,20 @@ prcomp(formula, data = NULL, subset, na.action, ...)
 分析結果の概要を確認するには， 関数 `stats::prcomp()` の返値を関数 `base::print()` で単に表示するか， 関数 `base::summary()` を用いれば良い．
 
 ``` r
-print(lmの返値)
+print(x, ...)
+#' x: prcomp の返値
 #' command line では単に print は書かなくてもよい
-summary(lmの返値)
+summary(object, ...)
+#' object: prcomp の返値
 #' 詳細は '?base::summary' を参照
 ```
 
 関数 `stats::prcomp()` の返値にどのような情報が含まれているかを見るには 関数 `pillar::glimpse()` を利用する．
 
 ``` r
-glimpse(lmの返値)
+glimpse(x, width = NULL, ...)
+#' x: prcomp の返値
+#' width: 表示の長さを指定．既定値(NULL)は表示環境が可能な範囲
 #' 詳細は '?pillar::glimpse' を参照
 #' 関数 utils::str() も同様な働きをする
 ```
@@ -140,6 +143,32 @@ predict(object, newdata, ...)
 #' 詳細は '?stats::prcomp' または '?stats::predict.prcomp' を参照
 ```
 :::
+
+視覚化は関数 `broom::augment()` などで取得したデータフレームを用いて行うことができるが， 主成分分析において標準的なバイプロットは関数 `ggfortify::autoplot()` を用いれば良い．
+
+::: callout-note
+### バイプロット
+
+``` r
+autoplot(
+  object,
+  data = NULL,
+  scale = 1,
+  x = 1,
+  y = 2,
+  variance_percentage = TRUE,
+  ...
+)
+#' object: prcomp が出力したオブジェクト
+#' data: 分析に用いたデータフレーム(分析に用いた列以外を利用する場合)
+#' scale: 得点と負荷のスケール
+#' x,y: xy軸に用いる主成分．規定値は第1と第2主成分
+#' variance_percentage: 寄与率の表示
+#' 詳細は '?ggfortify::autoplot.prcomp' を参照
+```
+:::
+
+## 人工データによる主成分分析
 
 ### 問題
 
@@ -304,7 +333,7 @@ pc1 <- augment(toy_pca) |> pull(.fittedPC1)
 以下の図は3次元のときのみ実行可能である．
 
 ```{r}
-#| column: margin
+library(scatterplot3d)
 s3d <- scatterplot3d(toy_data, type = "h",
                      ## asp=1, # 軸の比率を揃える場合
                      highlight.3d = TRUE)

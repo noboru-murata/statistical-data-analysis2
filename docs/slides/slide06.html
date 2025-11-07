@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Generated on 2025-11-07 Fri 12:37 -->
 <meta charset="utf-8"/>
 <title>主成分分析</title>
 <meta name="author" content="村田 昇"/>
@@ -45,8 +46,8 @@
 
 </section>
 <section>
-<section id="slide-org5cf38c5">
-<h2 id="org5cf38c5">講義概要</h2>
+<section id="slide-org3f52b52">
+<h2 id="org3f52b52">講義概要</h2>
 <ul>
 <li><b>第1日 : 主成分分析の考え方</b></li>
 <li>第2日 : 分析の評価と視覚化</li>
@@ -55,14 +56,31 @@
 </section>
 </section>
 <section>
-<section id="slide-orgcf1caf1">
-<h2 id="orgcf1caf1">主成分分析の例</h2>
-<div class="outline-text-2" id="text-orgcf1caf1">
+<section id="slide-orge495362">
+<h2 id="orge495362">主成分分析の考え方</h2>
+<div class="outline-text-2" id="text-orge495362">
 </div>
 </section>
-<section id="slide-org6675251">
-<h3 id="org6675251">都道府県別の人口関連データの分析</h3>
-<div id="ykqtghsaiz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<section id="slide-org7775953">
+<h3 id="org7775953">主成分分析</h3>
+<ul>
+<li>多数の変量のもつ情報の分析・視覚化
+<ul>
+<li>変量を効率的に縮約して少数の特徴量を構成する</li>
+<li>特徴量に関与する変量間の関係を明らかにする</li>
+
+</ul></li>
+<li><b>PCA</b> (Principal Component Analysis)
+<ul>
+<li>構成する特徴量 : <b>主成分</b> (princial component)</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-orga5d1273">
+<h3 id="orga5d1273">主成分分析の例</h3>
+<div id="aldrhpvdtv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
   
   <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false" style="-webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; display: table; border-collapse: collapse; line-height: normal; margin-left: auto; margin-right: auto; color: #333333; font-size: 16px; font-weight: normal; font-style: normal; background-color: #FFFFFF; width: auto; border-top-style: solid; border-top-width: 2px; border-top-color: #A8A8A8; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #A8A8A8; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3;" bgcolor="#FFFFFF">
   <thead style="border-style: none;">
@@ -238,7 +256,10 @@
 </section>
 <section>
 
-<div id="orgc3b17cb" class="figure">
+</section>
+<section>
+
+<div id="orgba3a9e6" class="figure">
 <p><img src="figs/ja-pairs1.png" alt="ja-pairs1.png" />
 </p>
 <p><span class="figure-number">Figure 1: </span>人口関連データの散布図</p>
@@ -247,38 +268,14 @@
 </section>
 <section>
 
-<div id="org13c933a" class="figure">
+<div id="org70dad3e" class="figure">
 <p><img src="figs/ja-biplot.png" alt="ja-biplot.png" />
 </p>
 <p><span class="figure-number">Figure 2: </span>主成分得点のバイプロット</p>
 </div>
 </section>
-</section>
-<section>
-<section id="slide-orgc3ea0d8">
-<h2 id="orgc3ea0d8">主成分分析の考え方</h2>
-<div class="outline-text-2" id="text-orgc3ea0d8">
-</div>
-</section>
-<section id="slide-org48be3de">
-<h3 id="org48be3de">主成分分析</h3>
-<ul>
-<li>多数の変量のもつ情報の分析・視覚化
-<ul>
-<li>変量を効率的に縮約して少数の特徴量を構成する</li>
-<li>特徴量に関与する変量間の関係を明らかにする</li>
-
-</ul></li>
-<li><b>PCA</b> (Principal Component Analysis)
-<ul>
-<li>構成する特徴量 : <b>主成分</b> (princial component)</li>
-
-</ul></li>
-
-</ul>
-</section>
-<section id="slide-org98b2958">
-<h3 id="org98b2958">分析の枠組み</h3>
+<section id="slide-org9682bc6">
+<h3 id="org9682bc6">分析の枠組み</h3>
 <ul>
 <li>\(x_{1},\dotsc,x_{p}\) : <b>変数</b></li>
 <li>\(z_{1},\dotsc,z_{d}\) : <b>特徴量</b> ( \(d\leq p\) )</li>
@@ -310,8 +307,8 @@
 
 </ul>
 </section>
-<section id="slide-org533cc54">
-<h3 id="org533cc54">主成分分析の用語</h3>
+<section id="slide-orgea014c6">
+<h3 id="orgea014c6">主成分分析の用語</h3>
 <ul>
 <li>特徴量 \(z_k\)
 <ul>
@@ -328,8 +325,8 @@
 
 </ul>
 </section>
-<section id="slide-org6462c22">
-<h3 id="org6462c22">分析の目的</h3>
+<section id="slide-org860d985">
+<h3 id="org860d985">分析の目的</h3>
 <ul>
 <li><p>
 目的
@@ -362,18 +359,18 @@
 </section>
 </section>
 <section>
-<section id="slide-orgffddaac" data-background="#fef4f4">
-<h2 id="orgffddaac">実習</h2>
+<section id="slide-org15dc62c" data-background="#fef4f4">
+<h2 id="org15dc62c">実習</h2>
 </section>
 </section>
 <section>
-<section id="slide-orga785b38">
-<h2 id="orga785b38">第1主成分の計算</h2>
-<div class="outline-text-2" id="text-orga785b38">
+<section id="slide-orga1b8fb5">
+<h2 id="orga1b8fb5">第1主成分の計算</h2>
+<div class="outline-text-2" id="text-orga1b8fb5">
 </div>
 </section>
-<section id="slide-org0c27851">
-<h3 id="org0c27851">記号の準備</h3>
+<section id="slide-org3f231c6">
+<h3 id="org3f231c6">記号の準備</h3>
 <ul>
 <li>変数 : \(x_{1},\dotsc,x_{p}\) (\(p\)次元)</li>
 <li><p>
@@ -398,8 +395,8 @@
 
 </ul>
 </section>
-<section id="slide-org9f97599">
-<h3 id="org9f97599">係数ベクトルによる射影</h3>
+<section id="slide-org9e0c33e">
+<h3 id="org9e0c33e">係数ベクトルによる射影</h3>
 <ul>
 <li><p>
 データ \(\boldsymbol{x}_{i}\) の \(\boldsymbol{a}\) 方向成分の長さ
@@ -430,17 +427,17 @@
 
 </ul>
 </section>
-<section id="slide-org5f764e7">
-<h3 id="org5f764e7">幾何学的描像</h3>
+<section id="slide-org36a3939">
+<h3 id="org36a3939">幾何学的描像</h3>
 
-<div id="org2830c04" class="figure">
+<div id="org316efde" class="figure">
 <p><img src="./figs/pca-figure.png" alt="pca-figure.png" width="100%" />
 </p>
 <p><span class="figure-number">Figure 3: </span>観測データの直交射影 (\(p=2,n=2\) の場合)</p>
 </div>
 </section>
-<section id="slide-orgcc21d56">
-<h3 id="orgcc21d56">ベクトル \(\boldsymbol{a}\) の選択の指針</h3>
+<section id="slide-orge9de8da">
+<h3 id="orge9de8da">ベクトル \(\boldsymbol{a}\) の選択の指針</h3>
 <ul>
 <li><p>
 射影による特徴量の構成
@@ -485,8 +482,8 @@
 
 </ul>
 </section>
-<section id="slide-org44ebb2b">
-<h3 id="org44ebb2b">ベクトル \(\boldsymbol{a}\) の最適化</h3>
+<section id="slide-org067c62a">
+<h3 id="org067c62a">ベクトル \(\boldsymbol{a}\) の最適化</h3>
 <ul>
 <li><p>
 最適化問題
@@ -517,13 +514,13 @@
 </section>
 </section>
 <section>
-<section id="slide-orgc12fe7b">
-<h2 id="orgc12fe7b">第1主成分の解</h2>
-<div class="outline-text-2" id="text-orgc12fe7b">
+<section id="slide-org1de9b2e">
+<h2 id="org1de9b2e">第1主成分の解</h2>
+<div class="outline-text-2" id="text-org1de9b2e">
 </div>
 </section>
-<section id="slide-orgc995ffa">
-<h3 id="orgc995ffa">行列による表現</h3>
+<section id="slide-org10d1104">
+<h3 id="org10d1104">行列による表現</h3>
 <ul>
 <li><p>
 中心化したデータ行列
@@ -565,8 +562,8 @@
 
 </ul>
 </section>
-<section id="slide-orgaaa1ed7">
-<h3 id="orgaaa1ed7">ベクトル \(\boldsymbol{a}\) の解</h3>
+<section id="slide-org2b863f1">
+<h3 id="org2b863f1">ベクトル \(\boldsymbol{a}\) の解</h3>
 <ul>
 <li><p>
 最適化問題
@@ -651,8 +648,8 @@
 
 </ul>
 </section>
-<section id="slide-org69303f8">
-<h3 id="org69303f8">第1主成分</h3>
+<section id="slide-orgf51b254">
+<h3 id="orgf51b254">第1主成分</h3>
 <ul>
 <li><p>
 固有ベクトル\(\boldsymbol{a}\)に対する\(f(\boldsymbol{a})\)
@@ -691,18 +688,18 @@
 </section>
 </section>
 <section>
-<section id="slide-orgc2cc6bc" data-background="#fef4f4">
-<h2 id="orgc2cc6bc">実習</h2>
+<section id="slide-org32dd71c" data-background="#fef4f4">
+<h2 id="org32dd71c">実習</h2>
 </section>
 </section>
 <section>
-<section id="slide-orga0d3b8b">
-<h2 id="orga0d3b8b">Gram 行列の性質</h2>
-<div class="outline-text-2" id="text-orga0d3b8b">
+<section id="slide-org104252b">
+<h2 id="org104252b">Gram 行列の性質</h2>
+<div class="outline-text-2" id="text-org104252b">
 </div>
 </section>
-<section id="slide-org99748bc">
-<h3 id="org99748bc">Gram 行列の固有値</h3>
+<section id="slide-orgc21b544">
+<h3 id="orgc21b544">Gram 行列の固有値</h3>
 <ul>
 <li>\(X^{\mathsf{T}}X\) は半正定値行列</li>
 <li>\(X^{\mathsf{T}}X\) の固有値は0以上の実数
@@ -735,8 +732,8 @@
 
 </ul>
 </section>
-<section id="slide-org390a326">
-<h3 id="org390a326">Gram 行列のスペクトル分解</h3>
+<section id="slide-orgdc8281f">
+<h3 id="orgdc8281f">Gram 行列のスペクトル分解</h3>
 <ul>
 <li><p>
 \(\boldsymbol{a}_{1},\dotsc,\boldsymbol{a}_{p}\) は <b>互いに直交</b> するようとることができる
@@ -775,13 +772,13 @@
 </section>
 </section>
 <section>
-<section id="slide-org944ca02">
-<h2 id="org944ca02">第2主成分以降の計算</h2>
-<div class="outline-text-2" id="text-org944ca02">
+<section id="slide-orgc2e58f9">
+<h2 id="orgc2e58f9">第2主成分以降の計算</h2>
+<div class="outline-text-2" id="text-orgc2e58f9">
 </div>
 </section>
-<section id="slide-orgba8ca58">
-<h3 id="orgba8ca58">第2主成分の考え方</h3>
+<section id="slide-org3827186">
+<h3 id="org3827186">第2主成分の考え方</h3>
 <ul>
 <li>第1主成分
 <ul>
@@ -819,8 +816,8 @@
 
 </ul>
 </section>
-<section id="slide-org9254777">
-<h3 id="org9254777">第2主成分の最適化</h3>
+<section id="slide-org0f167f3">
+<h3 id="org0f167f3">第2主成分の最適化</h3>
 <ul>
 <li><p>
 最適化問題
@@ -849,13 +846,13 @@
 </section>
 </section>
 <section>
-<section id="slide-orga64a909">
-<h2 id="orga64a909">第2主成分以降の解</h2>
-<div class="outline-text-2" id="text-orga64a909">
+<section id="slide-org9918a2d">
+<h2 id="org9918a2d">第2主成分以降の解</h2>
+<div class="outline-text-2" id="text-org9918a2d">
 </div>
 </section>
-<section id="slide-org707c631">
-<h3 id="org707c631">行列による表現</h3>
+<section id="slide-org6ea26b4">
+<h3 id="org6ea26b4">行列による表現</h3>
 <ul>
 <li><p>
 中心化したデータ行列
@@ -916,8 +913,8 @@ Gram 行列
 
 </ul>
 </section>
-<section id="slide-org7925420">
-<h3 id="org7925420">第2主成分</h3>
+<section id="slide-org2842d1a">
+<h3 id="org2842d1a">第2主成分</h3>
 <ul>
 <li><p>
 Gram 行列 \(\tilde{X}^{\mathsf{T}}\tilde{X}\)
@@ -949,16 +946,16 @@ Gram 行列 \(\tilde{X}^{\mathsf{T}}\tilde{X}\)
 </section>
 </section>
 <section>
-<section id="slide-orgfbdea3c" data-background="#fef4f4">
-<h2 id="orgfbdea3c">実習</h2>
+<section id="slide-orgec59ce8" data-background="#fef4f4">
+<h2 id="orgec59ce8">実習</h2>
 </section>
 </section>
 <section>
-<section id="slide-org6ffa7fd">
-<h2 id="org6ffa7fd">解析の事例</h2>
+<section id="slide-org695bfda">
+<h2 id="org695bfda">解析の事例</h2>
 </section>
-<section id="slide-org80c9522">
-<h3 id="org80c9522">データセットについて</h3>
+<section id="slide-org00fd0a6">
+<h3 id="org00fd0a6">データセットについて</h3>
 <ul>
 <li>総務省統計局より取得した都道府県別の社会生活統計指標(自然環境・経済基盤)の一部
 <ul>
@@ -983,13 +980,13 @@ Gram 行列 \(\tilde{X}^{\mathsf{T}}\tilde{X}\)
 
 </ul>
 </section>
-<section id="slide-orga873209">
-<h3 id="orga873209">社会生活統計指標の分析</h3>
+<section id="slide-org81d61e6">
+<h3 id="org81d61e6">社会生活統計指標の分析</h3>
 <ul>
 <li><p>
 データ(の一部)の内容
 </p>
-<div id="urtpznesvp" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="labshtldlq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 
   <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false" style="-webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; display: table; border-collapse: collapse; line-height: normal; margin-left: auto; margin-right: auto; color: #333333; font-size: 16px; font-weight: normal; font-style: normal; background-color: #FFFFFF; width: auto; border-top-style: solid; border-top-width: 2px; border-top-color: #A8A8A8; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #A8A8A8; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3;" bgcolor="#FFFFFF">
   <thead style="border-style: none;">
@@ -1126,7 +1123,7 @@ Gram 行列 \(\tilde{X}^{\mathsf{T}}\tilde{X}\)
 </ul>
 
 
-<div id="org7fded3b" class="figure">
+<div id="org306f39d" class="figure">
 <p><img src="figs/js_pairs.png" alt="js_pairs.png" />
 </p>
 <p><span class="figure-number">Figure 4: </span>散布図</p>
@@ -1142,7 +1139,7 @@ Gram 行列 \(\tilde{X}^{\mathsf{T}}\tilde{X}\)
 </ul>
 
 
-<div id="orgff69f39" class="figure">
+<div id="org5fc46ed" class="figure">
 <p><img src="figs/js_boxplot.png" alt="js_boxplot.png" />
 </p>
 <p><span class="figure-number">Figure 5: </span>箱ひげ図</p>
@@ -1158,7 +1155,7 @@ Gram 行列 \(\tilde{X}^{\mathsf{T}}\tilde{X}\)
 </ul>
 
 
-<div id="org06f37f5" class="figure">
+<div id="org913bf1f" class="figure">
 <p><img src="figs/js_density.png" alt="js_density.png" />
 </p>
 <p><span class="figure-number">Figure 6: </span>密度推定</p>
@@ -1170,7 +1167,7 @@ Gram 行列 \(\tilde{X}^{\mathsf{T}}\tilde{X}\)
 <li><p>
 標準化したデータ(の一部)
 </p>
-<div id="xhjcygepcy" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="taepjusphj" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 
   <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false" style="-webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; display: table; border-collapse: collapse; line-height: normal; margin-left: auto; margin-right: auto; color: #333333; font-size: 16px; font-weight: normal; font-style: normal; background-color: #FFFFFF; width: auto; border-top-style: solid; border-top-width: 2px; border-top-color: #A8A8A8; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #A8A8A8; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3;" bgcolor="#FFFFFF">
   <thead style="border-style: none;">
@@ -1307,7 +1304,7 @@ Gram 行列 \(\tilde{X}^{\mathsf{T}}\tilde{X}\)
 </ul>
 
 
-<div id="org5259131" class="figure">
+<div id="orga4b9678" class="figure">
 <p><img src="figs/js_scaled_boxplot.png" alt="js_scaled_boxplot.png" />
 </p>
 <p><span class="figure-number">Figure 7: </span>箱ひげ図 (データを標準化)</p>
@@ -1323,7 +1320,7 @@ Gram 行列 \(\tilde{X}^{\mathsf{T}}\tilde{X}\)
 </ul>
 
 
-<div id="org2472ee8" class="figure">
+<div id="org2d1bd57" class="figure">
 <p><img src="figs/js_scaled_density.png" alt="js_scaled_density.png" />
 </p>
 <p><span class="figure-number">Figure 8: </span>密度推定 (データを標準化)</p>
@@ -1335,7 +1332,7 @@ Gram 行列 \(\tilde{X}^{\mathsf{T}}\tilde{X}\)
 <li><p>
 主成分負荷量を計算 (標準化後)
 </p>
-<div id="bomlnelysw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="iobhgdwxsw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 
   <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false" style="-webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; display: table; border-collapse: collapse; line-height: normal; margin-left: auto; margin-right: auto; color: #333333; font-size: 16px; font-weight: normal; font-style: normal; background-color: #FFFFFF; width: auto; border-top-style: solid; border-top-width: 2px; border-top-color: #A8A8A8; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #A8A8A8; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3;" bgcolor="#FFFFFF">
   <thead style="border-style: none;">
@@ -1403,7 +1400,7 @@ Gram 行列 \(\tilde{X}^{\mathsf{T}}\tilde{X}\)
 </ul>
 
 
-<div id="org277b6b8" class="figure">
+<div id="orgb59a7db" class="figure">
 <p><img src="figs/js_pcaplot.png" alt="js_pcaplot.png" />
 </p>
 <p><span class="figure-number">Figure 9: </span>主成分得点による散布図</p>
@@ -1415,7 +1412,7 @@ Gram 行列 \(\tilde{X}^{\mathsf{T}}\tilde{X}\)
 <li><p>
 データの標準化を行わない場合
 </p>
-<div id="skmeyyhhda" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="jgykkwgnzw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 
   <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false" style="-webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; display: table; border-collapse: collapse; line-height: normal; margin-left: auto; margin-right: auto; color: #333333; font-size: 16px; font-weight: normal; font-style: normal; background-color: #FFFFFF; width: auto; border-top-style: solid; border-top-width: 2px; border-top-color: #A8A8A8; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #A8A8A8; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3;" bgcolor="#FFFFFF">
   <thead style="border-style: none;">
@@ -1481,7 +1478,7 @@ Gram 行列 \(\tilde{X}^{\mathsf{T}}\tilde{X}\)
 </ul>
 
 
-<div id="org636c207" class="figure">
+<div id="orgbd17951" class="figure">
 <p><img src="figs/js_pcaplot_non.png" alt="js_pcaplot_non.png" />
 </p>
 <p><span class="figure-number">Figure 10: </span>主成分得点による散布図(標準化なし)</p>
@@ -1489,13 +1486,19 @@ Gram 行列 \(\tilde{X}^{\mathsf{T}}\tilde{X}\)
 </section>
 </section>
 <section>
-<section id="slide-org8ce9d7e">
-<h2 id="org8ce9d7e">次回の予定</h2>
+<section id="slide-orgdb786c5">
+<h2 id="orgdb786c5">次回の予定</h2>
 <ul>
 <li>第1日 : 主成分分析の考え方</li>
 <li><b>第2日 : 分析の評価と視覚化</b></li>
 
 </ul>
+</section>
+</section>
+<section>
+<section id="slide-orgce9be09">
+</section>
+</section>
 </div>
 </div>
 <script src="./reveal.js/dist/reveal.js"></script>
