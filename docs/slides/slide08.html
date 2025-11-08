@@ -15,7 +15,9 @@
 
 <link rel="stylesheet" href="./reveal.js/plugin/menu/menu.css"/>
 
-<link rel="stylesheet" href="./reveal.js/plugin/drawer/drawer.css"/>
+<link rel="stylesheet" href="./reveal.js/plugin/menu/font-awesome/css/fontawesome.css"/>
+
+<link rel="stylesheet" href="./reveal.js/plugin/chalkboard/style.css"/>
 
 <link rel="stylesheet" href="./reveal.js/local/mycourse.css"/>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -43,8 +45,8 @@
 
 </section>
 <section>
-<section id="slide-orgd9f79bb">
-<h2 id="orgd9f79bb">講義概要</h2>
+<section id="slide-org18ce800">
+<h2 id="org18ce800">講義概要</h2>
 <ul>
 <li><b>第1回 : 判別分析の考え方</b></li>
 <li>第2回 : 分析の評価</li>
@@ -53,13 +55,13 @@
 </section>
 </section>
 <section>
-<section id="slide-orge2ab800">
-<h2 id="orge2ab800">判別分析の例</h2>
-<div class="outline-text-2" id="text-orge2ab800">
+<section id="slide-org191cde7">
+<h2 id="org191cde7">判別分析の例</h2>
+<div class="outline-text-2" id="text-org191cde7">
 </div>
 </section>
-<section id="slide-orge5397d0">
-<h3 id="orge5397d0">乳癌の良性・悪性の判別</h3>
+<section id="slide-orgcb353d0">
+<h3 id="orgcb353d0">乳癌の良性・悪性の判別</h3>
 <ul>
 <li>データセット
 <ul>
@@ -83,7 +85,7 @@ This breast cancer database was obtained from the University of Wisconsin Hospit
 
 </section>
 <section>
-<div id="hiyboscphx" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="dntihdgglv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
   
   <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false" style="-webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; display: table; border-collapse: collapse; line-height: normal; margin-left: auto; margin-right: auto; color: #333333; font-size: 16px; font-weight: normal; font-style: normal; background-color: #FFFFFF; width: auto; border-top-style: solid; border-top-width: 2px; border-top-color: #A8A8A8; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #A8A8A8; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3;" bgcolor="#FFFFFF">
   <thead style="border-style: none;">
@@ -269,14 +271,13 @@ This breast cancer database was obtained from the University of Wisconsin Hospit
 <td headers="class" class="gt_row gt_center" style="border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden; text-align: center;" valign="middle" align="center">malignant</td></tr>
   </tbody>
   
-  
 </table>
 </div>
 
 </section>
 <section>
 
-<div id="org9933848" class="figure">
+<div id="org1856e88" class="figure">
 <p><img src="figs/bio-pairs.png" alt="bio-pairs.png" />
 </p>
 <p><span class="figure-number">Figure 1: </span>9種類の生検の散布図</p>
@@ -285,7 +286,7 @@ This breast cancer database was obtained from the University of Wisconsin Hospit
 </section>
 <section>
 
-<div id="org87a5026" class="figure">
+<div id="org8c769da" class="figure">
 <p><img src="figs/bio-pca.png" alt="bio-pca.png" />
 </p>
 <p><span class="figure-number">Figure 2: </span>主成分分析を用いて2次元に縮約した生検と良性・悪性の関係</p>
@@ -294,7 +295,7 @@ This breast cancer database was obtained from the University of Wisconsin Hospit
 </section>
 <section>
 
-<div id="org8acf572" class="figure">
+<div id="org99a56d7" class="figure">
 <p><img src="figs/bio-lda.png" alt="bio-lda.png" />
 </p>
 <p><span class="figure-number">Figure 3: </span>線形判別関数による判別関数値の分布</p>
@@ -302,13 +303,13 @@ This breast cancer database was obtained from the University of Wisconsin Hospit
 </section>
 </section>
 <section>
-<section id="slide-org54b7888">
-<h2 id="org54b7888">判別分析の考え方</h2>
-<div class="outline-text-2" id="text-org54b7888">
+<section id="slide-org97e1eac">
+<h2 id="org97e1eac">判別分析の考え方</h2>
+<div class="outline-text-2" id="text-org97e1eac">
 </div>
 </section>
-<section id="slide-org8136863">
-<h3 id="org8136863">判別分析</h3>
+<section id="slide-org49d2d20">
+<h3 id="org49d2d20">判別分析</h3>
 <ul>
 <li><p>
 判別分析 (<b>discriminant analysis</b>) の目的
@@ -335,8 +336,8 @@ This breast cancer database was obtained from the University of Wisconsin Hospit
 
 </ul>
 </section>
-<section id="slide-org44bf157">
-<h3 id="org44bf157">判別分析の例</h3>
+<section id="slide-orgd0660da">
+<h3 id="orgd0660da">判別分析の例</h3>
 <ul>
 <li><span style="color:green;">検査結果から患者が病気を罹患しているか判定する</span>
 <ul>
@@ -359,8 +360,8 @@ This breast cancer database was obtained from the University of Wisconsin Hospit
 
 </ul>
 </section>
-<section id="slide-orga87b211">
-<h3 id="orga87b211">判別分析の考え方</h3>
+<section id="slide-org369a308">
+<h3 id="org369a308">判別分析の考え方</h3>
 <ul>
 <li>確率による定式化
 <ol>
@@ -393,8 +394,8 @@ This breast cancer database was obtained from the University of Wisconsin Hospit
 
 </ul>
 </section>
-<section id="slide-org4b7bf1f">
-<h3 id="org4b7bf1f">条件付確率</h3>
+<section id="slide-org8b438af">
+<h3 id="org8b438af">条件付確率</h3>
 <ul>
 <li>以下では \(X\) は離散型の \(q\) 次元確率変数として説明</li>
 <li><p>
@@ -417,8 +418,8 @@ This breast cancer database was obtained from the University of Wisconsin Hospit
 
 </ul>
 </section>
-<section id="slide-orgf39b984">
-<h3 id="orgf39b984">条件付確率の表現</h3>
+<section id="slide-org942bd4a">
+<h3 id="org942bd4a">条件付確率の表現</h3>
 <ul>
 <li>\(Y\)の条件付確率 \(p_{k}(\boldsymbol{x})\) のモデル化の方針
 <ul>
@@ -447,13 +448,13 @@ This breast cancer database was obtained from the University of Wisconsin Hospit
 </section>
 </section>
 <section>
-<section id="slide-org6c15e19">
-<h2 id="org6c15e19">事後確率による判別</h2>
-<div class="outline-text-2" id="text-org6c15e19">
+<section id="slide-org06a1a51">
+<h2 id="org06a1a51">事後確率による判別</h2>
+<div class="outline-text-2" id="text-org06a1a51">
 </div>
 </section>
-<section id="slide-orgbc5a0a7">
-<h3 id="orgbc5a0a7">Bayes の公式</h3>
+<section id="slide-orgbc1a7eb">
+<h3 id="orgbc1a7eb">Bayes の公式</h3>
 <ul>
 <li><p>
 \(f_{k}(\boldsymbol{x})\) から \(p_{k}(\boldsymbol{x})\) を得る数学的原理
@@ -489,8 +490,8 @@ Bayes の公式 (Bayes&rsquo; formula)
 
 </ul>
 </section>
-<section id="slide-orgb1c3c3c">
-<h3 id="orgb1c3c3c">Bayes の公式の略証</h3>
+<section id="slide-orgad9aa51">
+<h3 id="orgad9aa51">Bayes の公式の略証</h3>
 <ul>
 <li><p>
 定義より
@@ -546,8 +547,8 @@ Bayes の公式 (Bayes&rsquo; formula)
 
 </ul>
 </section>
-<section id="slide-org3361854">
-<h3 id="org3361854">事前確率と事後確率</h3>
+<section id="slide-orgc987707">
+<h3 id="orgc987707">事前確率と事後確率</h3>
 <ul>
 <li><b>事前確率</b> : \(\pi_{k}=P(Y=k)\) (prior probability)
 <ul>
@@ -582,8 +583,8 @@ Bayes の公式による書き換え
 
 </ul>
 </section>
-<section id="slide-org1a8e995">
-<h3 id="org1a8e995">事前確率の決め方</h3>
+<section id="slide-org7c8de0a">
+<h3 id="org7c8de0a">事前確率の決め方</h3>
 <ul>
 <li><p>
 事前に特別な情報がない場合
@@ -620,13 +621,13 @@ Bayes の公式による書き換え
 </section>
 </section>
 <section>
-<section id="slide-org9a6efaf">
-<h2 id="org9a6efaf">線形判別分析</h2>
-<div class="outline-text-2" id="text-org9a6efaf">
+<section id="slide-org3234c9b">
+<h2 id="org3234c9b">線形判別分析</h2>
+<div class="outline-text-2" id="text-org3234c9b">
 </div>
 </section>
-<section id="slide-org92c49cb">
-<h3 id="org92c49cb">判別関数</h3>
+<section id="slide-org0a03c26">
+<h3 id="org0a03c26">判別関数</h3>
 <ul>
 <li>判別の手続き
 <ol>
@@ -660,8 +661,8 @@ Bayes の公式による書き換え
 
 </ul>
 </section>
-<section id="slide-orgb7c96e8">
-<h3 id="orgb7c96e8">線形判別</h3>
+<section id="slide-org2326918">
+<h3 id="org2326918">線形判別</h3>
 <ul>
 <li>\(f_{k}(\boldsymbol{x})\) の仮定
 <ul>
@@ -703,8 +704,8 @@ Bayes の公式による書き換え
 
 </ul>
 </section>
-<section id="slide-orgf840db1">
-<h3 id="orgf840db1">同値性の確認</h3>
+<section id="slide-org14bb974">
+<h3 id="org14bb974">同値性の確認</h3>
 <ul>
 <li><p>
 事後確率と判別関数の関係
@@ -734,8 +735,8 @@ Bayes の公式による書き換え
 
 </ul>
 </section>
-<section id="slide-orgacc7ccd">
-<h3 id="orgacc7ccd">平均・分散の推定</h3>
+<section id="slide-org147bd3e">
+<h3 id="org147bd3e">平均・分散の推定</h3>
 <ul>
 <li><p>
 平均の推定 (クラスごとに行う)
@@ -774,89 +775,18 @@ Bayes の公式による書き換え
 </section>
 </section>
 <section>
-<section id="slide-org8ef6eae" data-background="#fef4f4">
-<h2 id="org8ef6eae">実習</h2>
-</section>
-<section id="slide-orge478556">
-<h3 id="orge478556">R : 線形判別</h3>
-<ul>
-<li><p>
-関数 <code>MASS::lda()</code> 
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R"><span style="color: #60aa00;">library</span>(MASS) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#12497;&#12483;&#12465;&#12540;&#12472;&#12398;&#35501;&#12415;&#36796;&#12415;</span>
-lda(formula, data, ..., subset, na.action)
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> formula: &#12514;&#12487;&#12523;&#24335; (&#12521;&#12505;&#12523; ~ &#21028;&#21029;&#12395;&#29992;&#12356;&#12427;&#22793;&#25968;)</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> data: &#24517;&#35201;&#12394;&#24773;&#22577;&#12434;&#21547;&#12416;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35443;&#32048;&#12399; '?MASS::lda' &#12434;&#21442;&#29031;</span>
-</pre>
-</div></li>
-<li><p>
-判別結果取得のための関数
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R">predict(object, newdata, prior = object$prior, dimen,
-        method = c(<span style="color: #d08928;">"plug-in"</span>, <span style="color: #d08928;">"predictive"</span>, <span style="color: #d08928;">"debiased"</span>), ...)
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> object: lda&#12398;&#36820;&#12377;&#12458;&#12502;&#12472;&#12455;&#12463;&#12488;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> newdata: &#20104;&#28204;&#12398;&#23550;&#35937;&#12392;&#12377;&#12427;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> prior: &#12521;&#12505;&#12523;&#12398;&#20107;&#21069;&#20998;&#24067;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#36820;&#20516;&#12399;&#12522;&#12473;&#12488;&#22411;&#12391;&#20197;&#19979;&#12398;&#38917;&#30446;&#12364;&#12354;&#12427;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> class: &#21028;&#21029;&#38306;&#25968;&#12395;&#12424;&#12427;&#20104;&#28204;&#12521;&#12505;&#12523;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> posterior: &#12521;&#12505;&#12523;&#12398;&#20107;&#24460;&#30906;&#29575;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> x: &#21028;&#21029;&#38306;&#25968;&#20516;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35443;&#32048;&#12399; '?MASS::predict.lda' &#12434;&#21442;&#29031;</span>
-</pre>
-</div></li>
-
-</ul>
-</section>
-<section id="slide-orgfa1c73f" data-background="#fef4f4">
-<h3 id="orgfa1c73f">練習問題</h3>
-<ul>
-<li>東京の気候データを用いて以下の分析を行いなさい
-<ul>
-<li><p>
-9月と10月の気温と湿度のデータを抽出する
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R">tw_data <span style="color: #60aa00;">&lt;-</span> read_csv(<span style="color: #d08928;">"data/tokyo_weather.csv"</span>) 
-tw_subset  <span style="color: #60aa00;">&lt;-</span> tw_data |&gt;
-  filter(month <span style="color: #60aa00;">%in%</span> c(9,10)) |&gt;
-  select(temp, humid, month) |&gt;
-  mutate(month = as_factor(month)) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#26376;&#12434;&#22240;&#23376;&#21270;</span>
-</pre>
-</div></li>
-<li><p>
-半分のデータを用いて線形判別関数を構成し，残りのデータを用いて判別を行う
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R"><span style="color: #60aa00;">library</span>(MASS)
-idx <span style="color: #60aa00;">&lt;-</span> seq(2, 60, by = 2)
-tw_train <span style="color: #60aa00;">&lt;-</span> tw_subset[ idx,] <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#35347;&#32244;&#12487;&#12540;&#12479;</span>
-tw_test  <span style="color: #60aa00;">&lt;-</span> tw_subset[-idx,] <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#35430;&#39443;&#12487;&#12540;&#12479;</span>
-tw_lda <span style="color: #60aa00;">&lt;-</span> lda(month ~ temp + humid, data = tw_train) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#32218;&#24418;&#21028;&#21029;&#38306;&#25968;&#12398;&#27083;&#25104;</span>
-tw_lda_fitted <span style="color: #60aa00;">&lt;-</span> predict(tw_lda) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#21028;&#21029;&#38306;&#25968;&#12395;&#12424;&#12427;&#12463;&#12521;&#12473;&#20998;&#39006;&#32080;&#26524;&#12398;&#21462;&#24471;</span>
-tw_lda_predict <span style="color: #60aa00;">&lt;-</span> predict(tw_lda, newdata = tw_test) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#26032;&#12375;&#12356;&#12487;&#12540;&#12479;&#12398;&#20104;&#28204;</span>
-</pre>
-</div></li>
-
-</ul></li>
-
-</ul>
+<section id="slide-org8e27f5e" data-background="#fef4f4">
+<h2 id="org8e27f5e">実習</h2>
 </section>
 </section>
 <section>
-<section id="slide-org44512f9">
-<h2 id="org44512f9">2次判別分析</h2>
-<div class="outline-text-2" id="text-org44512f9">
+<section id="slide-org0350d0d">
+<h2 id="org0350d0d">2次判別分析</h2>
+<div class="outline-text-2" id="text-org0350d0d">
 </div>
 </section>
-<section id="slide-org886df3a">
-<h3 id="org886df3a">2次判別</h3>
+<section id="slide-org4f11529">
+<h3 id="org4f11529">2次判別</h3>
 <ul>
 <li>\(f_{k}(\boldsymbol{x})\) の仮定
 <ul>
@@ -898,8 +828,8 @@ tw_lda_predict <span style="color: #60aa00;">&lt;-</span> predict(tw_lda, newdat
 
 </ul>
 </section>
-<section id="slide-org1b886da">
-<h3 id="org1b886da">同値性の確認</h3>
+<section id="slide-org746ac04">
+<h3 id="org746ac04">同値性の確認</h3>
 <ul>
 <li><p>
 事後確率と判別関数の関係
@@ -932,8 +862,8 @@ tw_lda_predict <span style="color: #60aa00;">&lt;-</span> predict(tw_lda, newdat
 
 </ul>
 </section>
-<section id="slide-org281b196">
-<h3 id="org281b196">平均・分散の推定</h3>
+<section id="slide-org6bba151">
+<h3 id="org6bba151">平均・分散の推定</h3>
 <ul>
 <li><p>
 平均の推定 (クラスごとに行う)
@@ -972,72 +902,18 @@ tw_lda_predict <span style="color: #60aa00;">&lt;-</span> predict(tw_lda, newdat
 </section>
 </section>
 <section>
-<section id="slide-org5e90f30" data-background="#fef4f4">
-<h2 id="org5e90f30">実習</h2>
-</section>
-<section id="slide-org8f48136">
-<h3 id="org8f48136">R : 2次判別</h3>
-<ul>
-<li><p>
-関数 <code>MASS::qda()</code>
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R"><span style="color: #60aa00;">library</span>(MASS) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#26082;&#12395;&#35501;&#12415;&#36796;&#12435;&#12391;&#12356;&#12427;&#22580;&#21512;&#12399;&#19981;&#35201;</span>
-qda(formula, data, ..., subset, na.action)
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> formula: &#12514;&#12487;&#12523;&#24335; (&#12521;&#12505;&#12523; ~ &#21028;&#21029;&#12395;&#29992;&#12356;&#12427;&#22793;&#25968;)</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> data: &#24517;&#35201;&#12394;&#24773;&#22577;&#12434;&#21547;&#12416;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35443;&#32048;&#12399; '?MASS::qda' &#12434;&#21442;&#29031;</span>
-</pre>
-</div></li>
-<li><p>
-判別結果取得のための関数
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R">predict(object, newdata, prior = object$prior,
-        method = c(<span style="color: #d08928;">"plug-in"</span>, <span style="color: #d08928;">"predictive"</span>, <span style="color: #d08928;">"debiased"</span>, <span style="color: #d08928;">"looCV"</span>), ...)
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> object: qda &#12398;&#36820;&#12377;&#12458;&#12502;&#12472;&#12455;&#12463;&#12488;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> newdata: &#20104;&#28204;&#23550;&#35937;&#12398;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#65294;&#30465;&#30053;&#12377;&#12427;&#12392;&#25512;&#23450;&#12395;&#29992;&#12356;&#12383;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#36820;&#20516;&#12399;&#12522;&#12473;&#12488;&#22411;&#12391;&#20197;&#19979;&#12398;&#38917;&#30446;&#12364;&#12354;&#12427;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> class: &#21028;&#21029;&#38306;&#25968;&#12395;&#12424;&#12427;&#20104;&#28204;&#12521;&#12505;&#12523;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> posterior: &#12521;&#12505;&#12523;&#12398;&#20107;&#24460;&#30906;&#29575;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35443;&#32048;&#12399; '?MASS::predict.qda' &#12434;&#21442;&#29031;</span>
-</pre>
-</div></li>
-
-</ul>
-</section>
-<section id="slide-org05ff7f9" data-background="#fef4f4">
-<h3 id="org05ff7f9">練習問題</h3>
-<ul>
-<li>東京の気候データを用いて以下の分析を行いなさい
-<ul>
-<li><p>
-前問と同様な設定で2次判別を行いなさい
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R">tw_qda <span style="color: #60aa00;">&lt;-</span> qda(month ~ temp + humid, data = tw_train) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">2&#27425;&#21028;&#21029;&#38306;&#25968;&#12398;&#27083;&#25104;</span>
-tw_qda_fitted <span style="color: #60aa00;">&lt;-</span> predict(tw_qda) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#21028;&#21029;&#38306;&#25968;&#12395;&#12424;&#12427;&#12463;&#12521;&#12473;&#20998;&#39006;&#32080;&#26524;&#12398;&#21462;&#24471;</span>
-tw_qda_predict <span style="color: #60aa00;">&lt;-</span> predict(tw_qda, newdata = tw_test) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#26032;&#12375;&#12356;&#12487;&#12540;&#12479;&#12398;&#20104;&#28204;</span>
-</pre>
-</div></li>
-<li>別の月や変数を用いて判別分析を行いなさい</li>
-
-</ul></li>
-
-</ul>
+<section id="slide-org07cfb69" data-background="#fef4f4">
+<h2 id="org07cfb69">実習</h2>
 </section>
 </section>
 <section>
-<section id="slide-org4d9db21">
-<h2 id="org4d9db21">さまざまな多値判別</h2>
-<div class="outline-text-2" id="text-org4d9db21">
+<section id="slide-org177887d">
+<h2 id="org177887d">さまざまな多値判別</h2>
+<div class="outline-text-2" id="text-org177887d">
 </div>
 </section>
-<section id="slide-orgf7b7be0">
-<h3 id="orgf7b7be0">多値判別の構成方法</h3>
+<section id="slide-orge2c4e4f">
+<h3 id="orge2c4e4f">多値判別の構成方法</h3>
 <ul>
 <li>判別関数の比較
 <ul>
@@ -1061,8 +937,8 @@ tw_qda_predict <span style="color: #60aa00;">&lt;-</span> predict(tw_qda, newdat
 
 </ul>
 </section>
-<section id="slide-orgae7dd5c">
-<h3 id="orgae7dd5c">変動の分解</h3>
+<section id="slide-org8f06308">
+<h3 id="org8f06308">変動の分解</h3>
 <ul>
 <li>3種類の変動
 <ul>
@@ -1101,13 +977,13 @@ tw_qda_predict <span style="color: #60aa00;">&lt;-</span> predict(tw_qda, newdat
 </section>
 </section>
 <section>
-<section id="slide-orgf267765">
-<h2 id="orgf267765">Fisher の判別分析</h2>
-<div class="outline-text-2" id="text-orgf267765">
+<section id="slide-org885bb01">
+<h2 id="org885bb01">Fisher の判別分析</h2>
+<div class="outline-text-2" id="text-org885bb01">
 </div>
 </section>
-<section id="slide-org8c8ddba">
-<h3 id="org8c8ddba">Fisherの線形判別</h3>
+<section id="slide-org68b74de">
+<h3 id="org68b74de">Fisherの線形判別</h3>
 <ul>
 <li>判別のための特徴量 \(Z=\boldsymbol{\alpha}^{\mathsf{T}} X\)
 <ul>
@@ -1140,8 +1016,8 @@ Fisherの基準
 
 </ul>
 </section>
-<section id="slide-org735bfce">
-<h3 id="org735bfce">Fisherの線形判別の解</h3>
+<section id="slide-org082af95">
+<h3 id="org082af95">Fisherの線形判別の解</h3>
 <ul>
 <li>\(\boldsymbol{\alpha}\) は \(W^{-1}B\) の固有ベクトル (主成分分析と同様)
 <ul>
@@ -1178,47 +1054,13 @@ Fisherの基準
 </section>
 </section>
 <section>
-<section id="slide-org327350e" data-background="#fef4f4">
-<h2 id="org327350e">実習</h2>
-</section>
-<section id="slide-orgbd62361" data-background="#fef4f4">
-<h3 id="orgbd62361">練習問題</h3>
-<ul>
-<li>東京の気候データを用いて以下の分析を行いなさい
-<ul>
-<li><p>
-9月，10月，11月の気温と湿度のデータを用いて判別関数を作成しなさい．
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R">tw_subset  <span style="color: #60aa00;">&lt;-</span> tw_data |&gt;
-  filter(month <span style="color: #60aa00;">%in%</span> c(9,10,11)) |&gt;
-  select(temp, humid, month) |&gt;
-  mutate(month = as_factor(month))
-</pre>
-</div></li>
-<li><p>
-別の月や変数を用いて判別分析を行いなさい
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#38632;&#12398;&#26377;&#28961;&#12434;&#35672;&#21029;&#12377;&#12427;&#20363;</span>
-tw_subset2 <span style="color: #60aa00;">&lt;-</span> tw_data |&gt;
-  mutate(rain = factor(rain &gt; 0),
-         month = as_factor(month)) |&gt; <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#38632;&#12398;&#26377;&#28961;&#12391;&#12521;&#12505;&#12523;&#21270;&#12377;&#12427;</span>
-  select(rain, temp, solar, wind, month)
-tw_lda2 <span style="color: #60aa00;">&lt;-</span> lda(rain ~ ., data = tw_subset2) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">'rain' &#12434;&#12381;&#12428;&#20197;&#22806;&#12391;&#21028;&#21029;</span>
-</pre>
-</div></li>
-
-</ul></li>
-
-</ul>
+<section id="slide-org6310777" data-background="#fef4f4">
+<h2 id="org6310777">実習</h2>
 </section>
 </section>
 <section>
-<section id="slide-orgc2802e8">
-<h2 id="orgc2802e8">次回の予定</h2>
+<section id="slide-org83a2e76">
+<h2 id="org83a2e76">次回の予定</h2>
 <ul>
 <li>第1回 : 判別分析の考え方</li>
 <li><b>第2回 : 分析の評価</b></li>
@@ -1232,7 +1074,7 @@ tw_lda2 <span style="color: #60aa00;">&lt;-</span> lda(rain ~ ., data = tw_subse
 <script src="./reveal.js/plugin/zoom/zoom.js"></script>
 <script src="./reveal.js/plugin/menu/menu.js"></script>
 <script src="./reveal.js/plugin/spotlight/spotlight.js"></script>
-<script src="./reveal.js/plugin/drawer/drawer.js"></script>
+<script src="./reveal.js/plugin/chalkboard/plugin.js"></script>
 <script src="./reveal.js/dist/theme/hidelinks.js"></script>
 <script>
 // Full list of configuration options available here:
@@ -1255,10 +1097,10 @@ overview: true,
 transition: 'fade',
 transitionSpeed: 'default',
 showNotes: window.location.search.match( /print-pdf/gi ) ? 'separate-page' : false,
-spotlight: { size: 80, initialPresentationMode: false, }, drawer: { toggleDrawKey: "d", toggleBoardKey: "c", pathSize: 3, }, keyboard: { 81: function() { RevealSpotlight.toggleSpotlight()}, 87: function() { RevealSpotlight.togglePresentationMode();}, },
+spotlight: { size: 80, initialPresentationMode: false, }, keyboard: { 81: function() { RevealSpotlight.toggleSpotlight()}, 87: function() { RevealSpotlight.togglePresentationMode();}, },
 
 // Plugins with reveal.js 4.x
-plugins: [ RevealNotes, RevealSearch, RevealZoom, RevealMenu, RevealSpotlight, RevealDrawer ],
+plugins: [ RevealNotes, RevealSearch, RevealZoom, RevealMenu, RevealSpotlight, RevealChalkboard ],
 
 // Optional libraries used to extend reveal.js
 dependencies: [

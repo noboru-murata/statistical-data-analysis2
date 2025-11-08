@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-11-29 14:07:18 mura>
+# Time-stamp: <2025-11-08 21:50:31 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -519,7 +519,7 @@ bio_data |>
 :reveal_background: #fef4f4
 :END:
 # 東京大学
-** R : 線形判別
+** COMMENT *R : 線形判別*
 :PROPERTIES:
 :ID:       BB276D04-1D56-40CC-898A-800551D44DFD
 :END:
@@ -557,7 +557,7 @@ bio_data |>
 :END:
 - [[./code/09-weather.r][09-weather.r]] を確認してみよう
 
-** 練習問題
+** COMMENT *練習問題*
 :PROPERTIES:
 :reveal_background: #fef4f4
 :ID:       91548DC4-4AE6-44E4-AFB8-D5BF457D40CC
@@ -821,7 +821,7 @@ bio_data |>
 :reveal_background: #fef4f4
 :END:
 # 東京大学
-** R : 2次判別
+** COMMENT *R : 2次判別*
 :PROPERTIES:
 :ID:       B4D138CC-63A9-4EDB-ABD4-3CC6E5E769F0
 :END:
@@ -851,7 +851,7 @@ bio_data |>
 :END:
 - [[./code/09-quad.r][09-quad.r]] を確認してみよう
 
-** 練習問題
+** COMMENT *練習問題*
 :PROPERTIES:
 :reveal_background: #fef4f4
 :ID:       DCDE0C9C-8B65-48D9-BCF1-C8AE856FFB68
@@ -1114,7 +1114,7 @@ bio_data |>
   - MASS::crabs
   - rattle::wine
 
-** 練習問題
+** COMMENT *練習問題*
 :PROPERTIES:
 :reveal_background: #fef4f4
 :ID:       55127149-41D2-41FA-A6BC-589ED8381433

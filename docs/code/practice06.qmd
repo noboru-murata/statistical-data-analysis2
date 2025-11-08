@@ -234,6 +234,8 @@ js_data <-
 
 -   散布図上に主成分負荷量を描画する
 
+    参考 : 主成分方向を図示するには，傾きを計算して直線を引けば良い
+
     ``` r
     geom_abline(slope = 傾き, intercept = 切片) # 指定の直線を追加できる  
     ```
@@ -583,7 +585,8 @@ js_pca |>
 第1，第2主成分得点を利用して2次元の地図を作成することができる． 関数 `ggrepel::geom_text_repel()` を用いると，ある程度自動的に文字が重ならないように表示することができる．
 
 ```{r}
-augment(js_pca, data = js_data) |>     # データと主成分得点のデータフレーム
+js_pca |>
+    augment(data = js_data) |>     # データと主成分得点のデータフレーム
     ggplot(aes(x = .fittedPC1, y = .fittedPC2)) + 
     geom_point(aes(colour = Area),     # 地方区分ごとに色を変える
                shape = 19, size = 2) + 
@@ -594,7 +597,8 @@ augment(js_pca, data = js_data) |>     # データと主成分得点のデータ
 関数 `ggplot2::geom_text()` を用いる場合は， 文字と記号の重なりを防ぐためのオプションを利用する．
 
 ```{r}
-augment(js_pca, data = js_data) |>     # データと主成分得点のデータフレーム
+js_pca |>
+    augment(data = js_data) |>     # データと主成分得点のデータフレーム
     ggplot(aes(x = .fittedPC1, y = .fittedPC2)) + 
     geom_point(aes(colour = Area),     # 地方区分ごとに色を変える
                shape = 19, size = 2) + 
@@ -607,13 +611,13 @@ augment(js_pca, data = js_data) |>     # データと主成分得点のデータ
 主成分得点による地図は関数 `ggfortify::autoplot()`を利用することもできる．
 
 ```{r}
-autoplot(js_pca,
-         scale = 0,            # バイプロットの設定 (主成分得点での表示)
-         data = js_data,       # 必要な情報を含むデータフレーム
-         colour = "Area",      # 地方区分ごとに色付
-         label = TRUE,         # ラベルを付加
-         label.label = "Pref", # 都道府県名を追加
-         label.repel = TRUE)   # 横にずらして表示
+js_pca |>
+    autoplot(scale = 0,            # バイプロットの設定 (主成分得点での表示)
+             data = js_data,       # 必要な情報を含むデータフレーム
+             colour = "Area",      # 地方区分ごとに色付
+             label = TRUE,         # ラベルを付加
+             label.label = "Pref", # 都道府県名を追加
+             label.repel = TRUE)   # 横にずらして表示
 ```
 
 寄与率を表示する．詳しくは次週説明する．
