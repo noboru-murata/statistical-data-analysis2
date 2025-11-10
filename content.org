@@ -153,7 +153,7 @@
 #+hugo: {{< myslide base="statistical-data-analysis2" name="slide08" >}}
 ** ハンドアウト
 - [[github:pdfs/slide08.pdf][PDF file]]
-** 付録
+** COMMENT 付録
 - 実習用 [[githubraw:code/practice08.qmd][Quarto]] (解答例 [[githubraw:code/sample-code08.qmd][Quarto]] [[github:code/sample-code08.html][HTML]])
 - [[github:code/slide08.R][R Script]]
 
@@ -167,7 +167,7 @@
 #+hugo: {{< myslide base="statistical-data-analysis2" name="slide09" >}}
 ** ハンドアウト
 - [[github:pdfs/slide09.pdf][PDF file]]
-** 付録
+** COMMENT 付録
 - 実習用 [[githubraw:code/practice09.qmd][Quarto]] (解答例 [[githubraw:code/sample-code09.qmd][Quarto]] [[github:code/sample-code09.html][HTML]])
 - [[github:code/slide09.R][R Script]]
 
@@ -181,7 +181,7 @@
 #+hugo: {{< myslide base="statistical-data-analysis2" name="slide10" >}}
 ** ハンドアウト
 - [[github:pdfs/slide10.pdf][PDF file]]
-** 付録
+** COMMENT 付録
 - 実習用 [[githubraw:code/practice10.qmd][Quarto]] (解答例 [[githubraw:code/sample-code10.qmd][Quarto]] [[github:code/sample-code10.html][HTML]])
 - [[github:code/slide10.R][R Script]]
 - [[github:data/data10.zip][練習問題用データセット]]
@@ -196,7 +196,7 @@
 #+hugo: {{< myslide base="statistical-data-analysis2" name="slide11" >}}
 ** ハンドアウト
 - [[github:pdfs/slide11.pdf][PDF file]]
-** 付録
+** COMMENT 付録
 - 実習用 [[githubraw:code/practice11.qmd][Quarto]] (解答例 [[githubraw:code/sample-code11.qmd][Quarto]] [[github:code/sample-code11.html][HTML]])
 - [[github:code/slide11.R][R Script]]
 
@@ -210,7 +210,7 @@
 #+hugo: {{< myslide base="statistical-data-analysis2" name="slide12" >}}
 ** ハンドアウト
 - [[github:pdfs/slide12.pdf][PDF file]]
-** 付録
+** COMMENT 付録
 - 実習用 [[githubraw:code/practice12.qmd][Quarto]] (解答例 [[githubraw:code/sample-code12.qmd][Quarto]] [[github:code/sample-code12.html][HTML]])
 - [[github:code/slide12.R][R Script]]
 
@@ -224,7 +224,7 @@
 #+hugo: {{< myslide base="statistical-data-analysis2" name="slide13" >}}
 ** ハンドアウト
 - [[github:pdfs/slide13.pdf][PDF file]]
-** 付録
+** COMMENT 付録
 - 実習用 [[githubraw:code/practice13.qmd][Quarto]] (解答例 [[githubraw:code/sample-code13.qmd][Quarto]] [[github:code/sample-code13.html][HTML]])
 - [[github:code/slide13.R][R Script]]
 

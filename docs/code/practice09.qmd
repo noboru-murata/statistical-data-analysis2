@@ -1,6 +1,6 @@
 ---
 title: "統計データ解析"
-subtitle: "第9講 実習"
+subtitle: "第9講 判別分析 - 分析の評価"
 date: "`r Sys.Date()`"
 format:
     html: 
@@ -59,32 +59,122 @@ library(tidymodels)
 
 -   線形判別関数を構成する．
 
-	``` r
+    ``` r
     tw_lda <- lda(formula = month ~ temp + humid, data = tw_subset)
-	```
+    ```
 
 -   混同行列を用いて構成した判別関数の評価を行う．[^1]
 
-	[^1]: 関数 `lda()` の返値の `class` は vector 型なので，関数 `mutate()` を用いてデータフレームの列として加えることができる．
-	
-	``` r
+    ``` r
     tw_lda_fitted <- predict(tw_lda)              # あてはめ値を求める
     tw_subset |>
         mutate(fitted = tw_lda_fitted[["class"]]) # あてはめ値を加えたデータフレーム
-	```
+    ```
 
 -   ROC曲線を描画しAUCを求める．[^2]
 
-	[^2]: 関数 `lda()` の返値の `posterior` は matrix 型なので，関数 `bind_cols()` を用いてデータフレームとして結合することができる．
-
-	``` r
+    ``` r
     tw_subset |>
         bind_cols(tw_lda_fitted[["posterior"]])
-	```
+    ```
 
+[^1]: 関数 `lda()` の返値の `class` は vector 型なので，関数 `mutate()` を用いてデータフレームの列として加えることができる．
+
+[^2]: 関数 `lda()` の返値の `posterior` は matrix 型なので，関数 `bind_cols()` を用いてデータフレームとして結合することができる．
+
+### 解答例
+
+データを整理する．
 
 ```{r}
+tw_data <- read_csv("data/tokyo_weather.csv")
+tw_subset  <- tw_data |> 
+    filter(month %in% c(9,10)) |> # 9,10月のデータ
+    select(temp, humid, month) |> # 気温・湿度・月を選択
+    mutate(month = as_factor(month)) # 月を因子化
+```
 
+判別関数を作成する．
+
+```{r}
+tw_lda <- lda(formula = month ~ temp + humid,
+              data = tw_subset)
+```
+
+混同行列を用いて判別結果を評価する．
+
+```{r}
+tw_lda_fitted <- predict(tw_lda)
+tw_lda_cm <- tw_subset |>
+    bind_cols(fitted = tw_lda_fitted[["class"]]) |> # 関数 mutate() でも良い
+    conf_mat(truth = month, estimate = fitted)
+tw_lda_cm # 簡便な表示
+summary(tw_lda_cm) # 詳細な表示
+```
+
+関数 `ggplot2::autoplot()` を用いて視覚化する．
+
+```{r}
+autoplot(tw_lda_cm, type = "mosaic")  # モザイクプロット
+autoplot(tw_lda_cm, type = "heatmap") # 行列表示
+```
+
+ROC曲線の描画を行う．
+
+```{r}
+tw_subset |>
+    bind_cols(tw_lda_fitted[["posterior"]]) |>
+    roc_curve(truth = month, `9`) |> # 9月(`9`列)への判別を陽性とする
+    autoplot()
+```
+
+AUCを計算する．
+
+```{r}
+tw_subset |>
+    bind_cols(tw_lda_fitted[["posterior"]]) |>
+    roc_auc(truth = month, `9`)
+```
+
+以下は12ヶ月分のデータを用いた例で，これを参考に説明変数は適宜選択して検討してほしい．
+
+データを整理する．
+
+```{r}
+tw_subset12  <- tw_data |>
+    select(temp, solar, wind, humid, month) |>
+    mutate(month = as_factor(month))
+```
+
+::: column-margin
+`Jan`, `Feb` などの文字を扱いたい場合は関数 `as_factor()` を用いるかわりに `month(month, label = TRUE)` とすればよい． その場合，列名の指定なども '`Jan`:`Dec`' などと変わるので注意する．
+:::
+
+判別関数を作成する．
+
+```{r}
+tw_lda12 <- lda(month ~ ., # 右辺の . は month 以外の全てを説明変数として指定
+                data = tw_subset12)
+```
+
+判別結果を評価する．
+
+```{r}
+tw_lda12_fitted <- predict(tw_lda12)
+tw_lda12_cm <- tw_subset12 |>
+    bind_cols(fitted = tw_lda12_fitted[["class"]]) |>
+    conf_mat(truth = month, estimate = fitted)
+tw_lda12_cm # 表示
+summary(tw_lda12_cm) # 詳細表示
+autoplot(tw_lda12_cm, type = "mosaic") # モザイクプロット
+autoplot(tw_lda12_cm, type = "heatmap") # 行列表示
+tw_subset12 |>
+    bind_cols(tw_lda12_fitted[["posterior"]]) |>
+    roc_curve(truth = month, `1`:`12`) |> 
+    autoplot()
+tw_subset12 |> 
+    bind_cols(tw_lda12_fitted[["posterior"]]) |>
+    roc_auc(truth = month, `1`:`12`)
 ```
 
 ## 訓練・試験データによる評価
@@ -95,19 +185,87 @@ Wine Quality Data Set を用いて，以下を確認しなさい．
 
 -   8:2の比率で訓練データと試験データに分割する ．
 
-	``` r
-	wq_split <-
+    ``` r
+    wq_split <-
         initial_split(wq_data, prop = 0.8, strata = grade)
     training(wq_split))
     testing(wq_split)
-	```
+    ```
 
 -   訓練データを用いて線形・2次判別関数を構成する．
+
 -   訓練データを用いて評価を行う．
+
 -   試験データを用いて評価を行う．
 
-```{r}
+### 解答例
 
+データを整理する．
+
+```{r}
+wq_data <-
+    read_delim("https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-red.csv",
+               delim = ";") |>
+    mutate(grade = factor(case_when( # quality を A,B,C,D に割り当てる
+               quality >= 7 ~ "A",
+               quality >= 6 ~ "B",
+               quality >= 5 ~ "C",
+               .default = "D"
+           )))
+```
+
+訓練・試験のためにデータを分割する．
+
+```{r}
+set.seed(987987) # 適宜シード値は設定する
+wq_split <- initial_split(wq_data, prop = 0.8,
+                          strata = grade)
+```
+
+オプション `strata` (層別) を指定すると分割したデータの `grade` の比率が保たれる．
+
+線形および2次判別関数を作成する．ただし，`grade` のもとになっている `quality` は除く．
+
+```{r}
+wq_formula <- grade ~ . - quality
+wq_lda <- lda(formula = wq_formula, data = training(wq_split))
+wq_qda <- qda(formula = wq_formula, data = training(wq_split))
+```
+
+訓練データを用いて判別結果を評価する．
+
+```{r}
+wq_lda_train_cm <- training(wq_split) |>
+    bind_cols(fitted = predict(wq_lda)[["class"]]) |>
+    conf_mat(truth = grade, estimate = fitted)
+summary(wq_lda_train_cm) # 線形判別の評価
+autoplot(wq_lda_train_cm, type = "heatmap") +
+    labs(title = "Linear Discriminant (training data)")
+wq_qda_train_cm <- training(wq_split) |>
+    bind_cols(fitted = predict(wq_qda)[["class"]]) |>
+    conf_mat(truth = grade, estimate = fitted)
+summary(wq_qda_train_cm) # 2次判別の評価
+autoplot(wq_qda_train_cm, type = "heatmap") +
+    labs(title = "Quadratic Discriminant (training data)")
+```
+
+試験データを用いて判別結果を評価する．
+
+```{r}
+wq_lda_test_cm <- testing(wq_split) |>
+    bind_cols(fitted = predict(wq_lda,
+                               newdata = testing(wq_split))[["class"]]) |>
+    conf_mat(truth = grade, estimate = fitted)
+summary(wq_lda_test_cm) # 線形判別の評価
+autoplot(wq_lda_test_cm, type = "heatmap") +
+    labs(title = "Linear Discriminant (test data)")
+wq_qda_test_cm <- testing(wq_split) |>
+    bind_cols(fitted = predict(wq_qda,
+                               newdata = testing(wq_split))[["class"]]) |>
+    conf_mat(truth = grade, estimate = fitted)
+summary(wq_qda_test_cm) # 2次判別の評価
+autoplot(wq_qda_test_cm, type = "heatmap") +
+    labs(title = "Quadratic Discriminant (test data)")
 ```
 
 ## LOO交叉検証法による予測誤差の評価
@@ -123,16 +281,62 @@ bio_data <- as_tibble(biopsy) |>
 ```
 
 -   全てのデータを用いて訓練誤差を評価する．
-	
+
 -   LOO交叉検証法を用いて予測誤差を評価する．
-	
-	``` r
+
+    ``` r
     bio_qda_loo <- qda(class ~ ., data = bio_data, CV = TRUE)
-	```
+    ```
+
+### 解答例
+
+データを整理する．
 
 ```{r}
-
+bio_data <- as_tibble(biopsy) |>
+    na.omit() |> # NA を除く
+    select(-ID)  # IDを除く
 ```
+
+散布図で項目間の関係を確認する．
+
+```{r}
+bio_data |>
+    GGally::ggpairs(diag = list(mapping = aes(colour = class),
+                      lower = list(mapping = aes(colour = class))))
+```
+
+以下は2次判別の LOO CV による評価の例である． 線形判別も同様に行うことができる．
+
+```{r}
+bio_formula <- class ~ . 
+bio_qda <- qda(formula = bio_formula, data = bio_data) 
+bio_qda_loo <- qda(formula = bio_formula, data = bio_data, CV = TRUE)
+```
+
+訓練誤差での評価を確認し，可視化する．
+
+```{r}
+bio_qda_cm <- bio_data |>
+    bind_cols(fitted = predict(bio_qda)[["class"]]) |>
+    conf_mat(truth = class, estimate = fitted)
+summary(bio_qda_cm) # 2次判別によるあてはめ値の評価(訓練誤差)
+autoplot(bio_qda_cm, type = "heatmap") +
+    labs(title = "Training Error")
+```
+
+LOO CV での評価を確認し，可視化する．
+
+```{r}
+bio_qda_loo_cm <- bio_data |>
+    bind_cols(fitted = bio_qda_loo[["class"]]) |>
+    conf_mat(truth = class, estimate = fitted)
+summary(bio_qda_loo_cm) # LOO CVによる予測の評価(予測誤差)
+autoplot(bio_qda_loo_cm, type = "heatmap") +
+    labs(title = "Test Error (LOO CV)")
+```
+
+あてはめ値による評価は LOO CV より若干良くなっており，あてはめ値では精度を過剰に評価する可能性があることが示唆される．
 
 ## k-重交叉検証法による予測誤差の評価
 
@@ -142,13 +346,115 @@ Wine Quality Data Set を用いて 線形判別と2次判別の分析を行い�
 
 -   LOO交叉検証法を用いて予測誤差を評価する．
 
-	``` r
-	wq_lda_loo <- lda(formula = wq_formula, data = training(wq_split), CV = TRUE)
+    ``` r
+    wq_lda_loo <- lda(formula = wq_formula, data = training(wq_split), CV = TRUE)
     wq_qda_loo <- qda(formula = wq_formula, data = training(wq_split), CV = TRUE)
-	```
+    ```
 
 -   k-重交叉検証法を用いて予測誤差を評価する．
 
-```{r}
+### 解答例
 
+前の問題で既に整理してある `wq_data/wq_split` を用いる． `wq_lda` と比較する．
+
+```{r}
+wq_lda_loo <- lda(formula = wq_formula, data = training(wq_split),
+                  CV = TRUE)
+training(wq_split) |> # 訓練誤差による評価
+    bind_cols(fitted = predict(wq_lda)[["class"]]) |>
+    conf_mat(truth = grade, estimate = fitted) |>
+    autoplot(type = "heatmap") +
+    labs(title = "Training Error (LDA)")
+wq_lda_loo_cm <- training(wq_split) |> # LOO CV 予測誤差による評価
+    bind_cols(fitted = wq_lda_loo[["class"]]) |>
+    conf_mat(truth = grade, estimate = fitted)
+wq_lda_loo_cm |> autoplot(type = "heatmap") +
+    labs(title = "LOO CV (LDA)")
+```
+
+線形判別の過学習は微小であることがわかる．
+
+2次判別の LOO CV を `wq_qda` と比較する．
+
+```{r}
+wq_qda_loo <- qda(formula = wq_formula, data = training(wq_split),
+                  CV = TRUE)
+training(wq_split) |> # 訓練誤差による評価
+    bind_cols(fitted = predict(wq_qda)[["class"]]) |>
+    conf_mat(truth = grade, estimate = fitted) |>
+    autoplot(type = "heatmap") +
+    labs(title = "Training Error (QDA)")
+wq_qda_loo_cm <- training(wq_split) |> # LOO CV 予測誤差による評価
+    bind_cols(fitted = wq_qda_loo[["class"]]) |>
+    conf_mat(truth = grade, estimate = fitted)
+wq_qda_loo_cm |> autoplot(type = "heatmap") +
+    labs(title = "LOO CV (QDA)")
+```
+
+2次判別は若干過学習していることが示唆される．
+
+LOO CV により線形・2次判別の予測誤差を比較する．
+
+```{r}
+summary(wq_lda_loo_cm) # 線形
+summary(wq_qda_loo_cm) # 2次
+```
+
+予測誤差の観点からは線形判別の方が良さそうであることが伺える．
+
+`package::tidymodels` を用いた k-重交叉検証は以下のようになる．
+
+まず `lda/qda` を tidymodels 用に宣言する．
+
+```{r}
+library(discrim) # 以下の判別モデルを設定するために必要
+tidy_qda <- discrim_quad() |> set_engine("MASS") |> set_mode("classification")
+tidy_lda <- discrim_linear() |> set_engine("MASS") |> set_mode("classification")
+```
+
+交叉検証用にデータ分割を行う．
+
+```{r}
+wq_folds <- vfold_cv(training(wq_split),
+                     v = 10) # 10-fold を指定 (既定値)
+```
+
+評価指標を設定する．
+
+```{r}
+wq_metrics <- metric_set(accuracy, # 精度
+                         sens, # 感度 (真陽性率)
+                         spec, # 特異度 (真陰性率)
+                         precision, # 適合率
+                         recall, # 再現率(sensと同じ)
+                         roc_auc, # AUC
+                         kap, # kappa
+                         f_meas) # f値
+```
+
+共通の処理を定義する．
+
+```{r}
+wq_workflow <- workflow() |> 
+    add_formula(wq_formula) 
+```
+
+線形判別を行い，評価する．
+
+```{r}
+wq_lda_cv <- wq_workflow |>
+    add_model(tidy_lda) |> 
+    fit_resamples(resamples = wq_folds,
+                  metrics = wq_metrics)
+wq_lda_cv |> collect_metrics()
+```
+
+2次判別を行い，評価する．
+
+```{r}
+wq_qda_cv <- wq_workflow |>
+    add_model(tidy_qda) |>
+    fit_resamples(resamples = wq_folds,
+                  metrics = wq_metrics)
+wq_qda_cv |> collect_metrics()
 ```

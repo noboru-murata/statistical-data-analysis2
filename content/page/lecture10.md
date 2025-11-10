@@ -17,10 +17,3 @@ weight = 1011
 ## ハンドアウト {#ハンドアウト}
 
 -   [PDF file](https://noboru-murata.github.io/statistical-data-analysis2/pdfs/slide10.pdf)
-
-
-## 付録 {#付録}
-
--   実習用 [Quarto](https://raw.githubusercontent.com/noboru-murata/statistical-data-analysis2/refs/heads/master/docs/code/practice10.qmd) (解答例 [Quarto](https://raw.githubusercontent.com/noboru-murata/statistical-data-analysis2/refs/heads/master/docs/code/sample-code10.qmd) [HTML](https://noboru-murata.github.io/statistical-data-analysis2/code/sample-code10.html))
--   [R Script](https://noboru-murata.github.io/statistical-data-analysis2/code/slide10.R)
--   [練習問題用データセット](https://noboru-murata.github.io/statistical-data-analysis2/data/data10.zip)

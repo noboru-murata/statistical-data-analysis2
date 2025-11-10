@@ -6,7 +6,7 @@ draft = false
 weight = 1010
 +++
 
-<span class="timestamp-wrapper"><span class="timestamp">&lt;2025-11-08 Sat&gt; </span></span> 更新
+<span class="timestamp-wrapper"><span class="timestamp">&lt;2024-12-06 Fri&gt; </span></span> 更新
 
 
 ## スライド {#スライド}
@@ -17,8 +17,3 @@ weight = 1010
 ## ハンドアウト {#ハンドアウト}
 
 -   [PDF file](https://noboru-murata.github.io/statistical-data-analysis2/pdfs/slide09.pdf)
-
-
-## 付録 {#付録}
-
-準備中

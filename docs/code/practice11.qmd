@@ -1,6 +1,6 @@
 ---
 title: "統計データ解析"
-subtitle: "第11講 実習"
+subtitle: "第11講 サンプルコード"
 date: "`r Sys.Date()`"
 format:
     html: 
@@ -46,6 +46,7 @@ if(Sys.info()["sysname"] == "Darwin") { # macOSか調べる
 ```
 
 ## k-means による非階層的クラスタリング
+
 ### 問題
 
 データセット `japan_social.csv` を用いて以下を確認しなさい．
@@ -56,65 +57,541 @@ js_df <- read_csv("data/japan_social.csv") |>
     select(-Area) # 地方名は除く
 ```
 
-- 関数 `stats::kmeans()` を用いて各変数平均0，分散1に標準化 (関数 `base::scale()` を利用)したデータを7クラスタに分割しなさい．
-- 各クラスタ内の県名を表示しなさい．
-- 2次元散布図に各クラスタを表示しなさい．
-- データセット `omusubi.csv` でも確認しなさい．
+-   関数 `stats::kmeans()` を用いて各変数平均0，分散1に標準化 (関数 `base::scale()` を利用)したデータを7クラスタに分割しなさい．
+-   各クラスタ内の県名を表示しなさい．
+-   2次元散布図に各クラスタを表示しなさい．
+-   データセット `omusubi.csv` でも確認しなさい．
+
+### 解答例
+
+データの読み込みを行う．
 
 ```{r}
-
+js_data <- read_csv("data/japan_social.csv") 
+js_df <- js_data |> # 距離計算用のデータフレーム
+    column_to_rownames(var = "Pref") |> # 'Pref'を行名に変換
+    select(-Area) # 地方名は除く
 ```
 
+関数 `stats::kmeans()` を用いて k-平均法を実行する．
+
+```{r}
+set.seed(1234) # 必要に応じて初期値の乱数のシード値を指定する
+k <- 7 # 分割数を指定
+js_kmeans <- js_df |>
+    scale() |> # 標準化(平均0 分散1)
+    kmeans(centers = k, # クラスタ数
+           nstart = 20) # 初期値を20回変更して試す
+```
+
+関数 `stats::kmeans()` の返値 `cluster` の情報を利用して．各クラスター内の県名を表示する． `kmeans.object$cluster` または `kmeans.object[["cluster"]]` を用いればよい．
+
+```{r}
+for(i in 1:k) {
+    cat("=== cluster",i,"===\n")
+    which(js_kmeans[["cluster"]] == i) |> names() |> print()
+}
+```
+
+関数 `ggfortify::autoplot()` を用いて2次元でのクラスタ表示を行う． 前回の主成分分析を利用したクラスタの表示とほぼ同様な記述で行うことができる．
+
+```{r}
+js_kmeans |>
+    autoplot(data = scale(js_df), # kmeans の場合は元のデータの指定が必須
+             ## (kmeansの返値は距離行列の情報しか持っておらず主成分の計算ができないため)
+             frame = TRUE, # クラスタ毎に枠を付ける
+             frame.type = "convex", # 凸包 "convex"・楕円 "norm,t" が指定できる
+             label = TRUE, # ラベルを付加
+             label.repel = TRUE, # 重なりを回避(ラベルが消える場合もあるので注意)
+             label.size = 3, # ラベルの大きさ
+             label.show.legend = FALSE) # 凡例の中のアルファベットを除く
+```
+
+::: column-margin
+関数 `cluster::clusplot()` を用いる場合は以下のようにすればよい．
+
+```{r}
+clusplot(x = js_df, 
+         clus = js_kmeans$cluster, # クラスタ番号
+         stand = TRUE, # データの標準化を行う
+         lines = 0, labels = 3, # 表示の指定
+         main = NULL, sub = NULL, cex = 0.8, # タイトルなどの調整
+         col.p = rainbow(k)[js_kmeans$cluster], # 虹色で色付け
+         col.clus = "orange", shade = FALSE)	 # クラスタ囲みの指定
+```
+:::
+
+データセット `omusubi.csv` でも試してみる． データの読み込むとともに，距離計算用にデータフレームを整理する．
+
+```{r}
+om_data <- bind_cols( # 日本語表記・地方の情報を追加
+    read_csv(file = "data/omusubi.csv"),
+    read_csv(file = "data/prefecture.csv"))
+om_df <- om_data |>  # 距離計算用のデータフレーム
+    select(ume:etc,jp) |>
+    set_names(c("梅","鮭","昆布","鰹","明太子","鱈子","ツナ","その他","県名")) |>
+    column_to_rownames(var = "県名")
+```
+
+k-平均法を実行する．
+
+```{r}
+k <- 6 # 6分割で分析
+om_kmeans <- om_df |>
+    sqrt() |> # Hellinger距離
+    kmeans(centers = k, # クラスタ数
+           nstart = 20) # 初期値を20回変更して試す
+```
+
+各クラスター内の県名を表示する．
+
+```{r}
+for(i in 1:k) {
+    cat("=== cluster",i,"===\n")
+    which(om_kmeans[["cluster"]] == i) |> names() |> print()
+}
+```
+
+2次元でのクラスタ表示を行う．
+
+```{r}
+om_kmeans |>
+    autoplot(data = sqrt(om_df), 
+             frame = TRUE, 
+             frame.type = "norm", # 楕円で囲む
+             label = TRUE, 
+             label.repel = TRUE, 
+             label.size = 3, 
+             label.family = label_family, # 日本語フォントの指定 (不要な場合は削除)
+             label.show.legend = FALSE) 
+```
+
+::: column-margin
+関数 `cluster::clusplot()` を用いて表示する．
+
+```{r}
+clusplot(x = sqrt(om_df), 
+         clus = om_kmeans$cluster, # クラスタ番号
+         stand = FALSE, # データは標準化しない
+         lines = 0, labels = 3, # 表示の指定
+         main = NULL, sub = NULL, cex = 0.8, # タイトルなどの調整
+         col.p = rainbow(k)[om_kmeans$cluster], # 虹色で色付け
+         col.clus = "orange", shade = FALSE)	 # クラスタ囲みの指定
+```
+:::
+
 ## k-medoids による非階層的クラスタリング
+
 ### 問題
 
 データセット `japan_social.csv` を用いて以下を確認しなさい．
 
-- 関数 `cluster::pam()` を用いて変数平均0，絶対偏差1に標準化したデータを7クラスタに分割しなさい．
-- 各クラスタ内の県名を表示しなさい．
-- 2次元散布図に各クラスタを表示しなさい．
-- データセット `omusubi.csv` でも確認しなさい．
+-   関数 `cluster::pam()` を用いて変数平均0，絶対偏差1に標準化したデータを7クラスタに分割しなさい．
+-   各クラスタ内の県名を表示しなさい．
+-   2次元散布図に各クラスタを表示しなさい．
+-   データセット `omusubi.csv` でも確認しなさい．
+
+### 解答例
+
+関数 `cluster::pam()` を用いて k-medoids を実行する．
 
 ```{r}
-
+k <- 7
+js_pam <- js_df |>  
+    pam(stand = TRUE, # 正規化(平均0 絶対偏差1)
+        k = k) # クラスタ数の指定
 ```
 
+各クラスター内の県名を表示する．
+
+```{r}
+for(i in 1:k){
+    cat("=== cluster",i,"===\n")
+    which(js_pam[["clustering"]] == i) |> names() |> print()
+}
+```
+
+2次元でのクラスタ表示を行う
+
+```{r}
+js_pam |> 
+    autoplot(frame = TRUE, 
+             frame.type = "convex", 
+             label = TRUE, 
+             label.repel = TRUE, 
+             label.size = 3, 
+             label.show.legend = FALSE)
+```
+
+Manhattan距離だとどのようになるか試してみる． いくつかのクラスタでメンバが変わっていることが確認できる．
+
+```{r}
+js_df |>  
+    pam(stand = TRUE, 
+        metric = "manhattan",
+        k = k) |>
+    autoplot(frame = TRUE, 
+             frame.type = "convex", 
+             label = TRUE, 
+             label.repel = TRUE, 
+             label.size = 3, 
+             label.show.legend = FALSE) 
+```
+
+::: column-margin
+関数 `cluster::clusplot()` を用いる場合も kmeans とほぼ同様に行うことができる．
+
+```{r}
+clusplot(x = js_df,
+         clus = js_pam$clustering,
+         stand = TRUE,
+         lines = 0, labels = 3, 
+         main = NULL, sub = NULL, cex = 0.8,
+         col.p = rainbow(k)[js_pam$clustering],
+         col.clus = "orange", shade = FALSE)
+```
+:::
+
+データセット `omusubi.csv` でも試してみる． k-medoids を実行する．
+
+```{r}
+k <- 6
+om_pam <- om_df |>
+    sqrt() |>
+    pam(k = k)
+```
+
+各クラスター内の県名を表示する．
+
+```{r}
+for(i in 1:k){
+    cat("=== cluster",i,"===\n")
+    which(om_pam[["clustering"]] == i) |> names() |> print()
+}
+```
+
+2次元でのクラスタ表示を行う．
+
+```{r}
+om_pam |> 
+    autoplot(frame = TRUE, 
+             frame.type = "convex", 
+             label = TRUE, 
+             label.repel = TRUE, 
+             label.size = 3, 
+             label.family = label_family, 
+             label.show.legend = FALSE)
+```
+
+::: column-margin
+関数 `cluster::clusplot()` で表示する場合は， クラスタリングの結果が om_pam\$clustering に保管されていることに注意する．
+
+```{r}
+clusplot(x = sqrt(om_df),
+         clus = om_pam$clustering,
+         stand = TRUE,
+         lines = 0, labels = 3, 
+         main = NULL, sub = NULL, cex = 0.8,
+         col.p = rainbow(k)[om_pam$clustering],
+         col.clus = "orange", shade = FALSE)
+```
+:::
+
 ## 凝集係数による距離の検討
+
 ### 問題
 
 データセット `japan_social.csv` を用いて以下を検討しなさい．
-- 関数 `agnes()` を用いて階層的クラスタリングを行いなさい
-    - 標準化: 行う
-    - データ距離: ユークリッド距離，およびマンハッタン距離
-    - クラスタ距離: 群平均法
-- 凝集係数を用いて2つのデータ距離の評価を行いなさい
-  - 凝集係数が低いいくつかのデータを削除して評価しなさい
+
+-   関数 `agnes()` を用いて階層的クラスタリングを行いなさい．
+    -   標準化: 行う
+    -   データ距離: ユークリッド距離，およびマンハッタン距離
+    -   クラスタ距離: 群平均法
+-   凝集係数を用いて2つのデータ距離の評価を行いなさい．
+-   凝集係数が低いいくつかのデータを削除して評価しなさい．
+
+### 解答例
+
+データ間をユークリッド距離で測り階層的クラスタリングを行う．
 
 ```{r}
-
+js_agnes_euc <- agnes(js_df,
+                      metric="euclidean", # データ距離
+                      stand=TRUE,	    # 標準化
+                      method="average")   # クラスタ距離
+js_agnes_euc |> as.dendrogram() |>  
+    ggdendrogram(rotate = FALSE, 
+                 theme_dendro = FALSE) + 
+    labs(title = "Euclidean distance",
+         x = "Prefecture", y = "Height") +
+    theme(axis.text.y = element_text(size = 9))
 ```
 
+マンハッタン距離で階層的クラスタリングを行う．
+
+```{r}
+js_agnes_man <- agnes(js_df,
+                      metric="manhattan",
+                      stand=TRUE,
+                      method="average")
+js_agnes_man |> as.dendrogram() |>  
+    ggdendrogram(rotate = FALSE, 
+                 theme_dendro = FALSE) + 
+    labs(title = "Manhattan distance",
+         x = "Prefecture", y = "Height") +
+    theme(axis.text.y = element_text(size = 9))
+```
+
+それぞれの凝集係数を確認する．
+
+```{r}
+js_agnes_euc[["ac"]]
+js_agnes_man[["ac"]]
+```
+
+ユークリッド距離の方がわずかに良いことがわかる．
+
+データ毎の凝集係数を表示する．[^1]
+
+[^1]: 一部のデータの距離が大きいと凝集係数は大きくなりがちであるが，その理由を考えてみよう．
+
+```{r}
+tibble(x = js_agnes_euc[["height"]],
+       y = length(js_agnes_euc[["height"]]):1) |>
+    ggplot() +
+    #' 各枝のheightと最大値で矩形を描く
+    geom_rect(aes(xmin = x, xmax = max(x),
+                  ymin = y, ymax = y+1), 
+              fill = "orange", alpha = 0.6) + # 塗り潰し色と透明度を指定
+    #' y軸にラベルを表示する
+    scale_y_continuous(breaks = length(js_agnes_euc[["order.lab"]]):1,
+                       expand = expansion(add = 0.5),
+                       labels = js_agnes_euc[["order.lab"]]) +
+    labs(title = "Euclidean distance") +
+    theme(axis.text.y = element_text(size = 9))
+tibble(x = js_agnes_man[["height"]],
+       y = length(js_agnes_man[["height"]]):1) |>
+    ggplot() +
+    geom_rect(aes(xmin = x, xmax = max(x),
+                  ymin = y, ymax = y+1), 
+              fill = "orange", alpha = 0.6) + 
+    scale_y_continuous(breaks = length(js_agnes_man[["order.lab"]]):1,
+                       expand = expansion(add = 0.5),
+                       labels = js_agnes_man[["order.lab"]]) +
+    labs(title = "Manhattan distance") +
+    theme(axis.text.y = element_text(size = 9))
+```
+
+::: column-margin
+bannerplot の情報を整理するための関数を定義してもよい．
+
+```{r}
+my_bannerplot <- function(object, # agnesの返値
+                          fill = "orange", alpha = 0.6, ...) {
+    p <- tibble(x = object[["height"]],
+                y = length(object[["height"]]):1) |>
+        ggplot() +
+        geom_rect(aes(xmin = x, xmax = max(x),
+                      ymin = y, ymax = y+1), 
+                  fill = fill, alpha = alpha) + 
+        scale_y_continuous(breaks = length(object[["order.lab"]]):1,
+                           expand = expansion(add = 0.5),
+                           labels = object[["order.lab"]])
+    p
+}
+my_bannerplot(js_agnes_euc,
+              fill = "red", alpha = 0.6)
+```
+:::
+
+北海道，東京，宮崎，鹿児島を除いて再計算する．[^2]
+
+[^2]: 返値の要素を抽出する場合にはパイプ(\|\>)が使えない場合があるので注意する．
+
+```{r}
+agnes(js_df |> slice(-c(1,13,45,46)),
+      metric = "euclidean",
+      stand = TRUE,
+      method = "average")[["ac"]]
+agnes(js_df |> slice(-c(1,13,45,46)),
+      metric = "manhattan",
+      stand = TRUE,
+      method = "average")[["ac"]]
+```
+
+いずれにせよユークリッド距離の方が凝集係数は大きいことがわかる．
+
+個別の係数を確認してみる．
+
+```{r}
+js_df |> slice(-c(1,13,45,46)) |>
+    agnes(metric = "euclidean",
+          stand = TRUE,
+          method = "average") |>
+    my_bannerplot() + # 注で定義した関数を利用
+    labs(title = "Euclidean distance") +
+    theme(axis.text.y = element_text(size = 9))
+  js_df |> slice(-c(1,13,45,46)) |>
+    agnes(metric = "manhattan",
+          stand = TRUE,
+          method = "average") |>
+    my_bannerplot() +
+    labs(title = "Manhattan distance") +
+    theme(axis.text.y = element_text(size = 9))
+```
+
+::: column-margin
+graphics系(base R)の関数を利用する場合は以下のようにすればよい．
+
+デンドログラムを表示する．
+
+```{r}
+plot(js_agnes_euc, which.plots=2, 
+     main="euclidean") 
+plot(js_agnes_man, which.plots=2, 
+     main="manhattan") 
+```
+
+データ毎の凝集係数を表示する．
+
+```{r}
+plot(js_agnes_euc, which.plots=1, # banner plotの表示
+     nmax.lab=50,   # 表示するラベルの上限 (標準は40)
+     max.strlen=5,  # 表示するラベルの文字数の上限
+     main="euclidean")
+plot(js_agnes_man, which.plots=1,
+     nmax.lab=50,  
+     max.strlen=5,
+     main="manhattan")
+```
+:::
+
 ## シルエット係数によるクラスタ数の検討
+
 ### 問題
 
 データセット `omusubi.csv` を用いて以下を検討しなさい
 
-- Hellinger距離を用いて距離行列を計算しなさい
+-   Hellinger距離を用いて距離行列を計算しなさい
 
 ::: callout-note
-$\boldsymbol{p},\boldsymbol{q}$ を確率ベクトルとして定義される確率分布の距離
-$$
+$\boldsymbol{p},\boldsymbol{q}$ を確率ベクトルとして定義される確率分布の距離 $$
 \begin{equation}
-  d_{\mathrm{hel}}(\boldsymbol{p},\boldsymbol{q})
-  =
-  \frac{1}{\sqrt{2}}d_{\mathrm{euc}}(\sqrt{\boldsymbol{p}},\sqrt{\boldsymbol{q}})
+d_{\mathrm{hel}}(\boldsymbol{p},\boldsymbol{q})
+=
+\frac{1}{\sqrt{2}}d_{\mathrm{euc}}(\sqrt{\boldsymbol{p}},\sqrt{\boldsymbol{q}})
 \end{equation}
 $$
 :::
-- クラスタ数4-10のシルエット係数を比較しなさい
-- 適当と思われるクラスタ数による分析を行いなさい
-- Euclid距離を用いて同様な分析を行いなさい
+
+-   クラスタ数4-10のシルエット係数を比較しなさい
+-   適当と思われるクラスタ数による分析を行いなさい
+-   Euclid距離を用いて同様な分析を行いなさい
+
+### 解答例
+
+クラスタ数 4-10 で平均シルエット係数を確認する．
 
 ```{r}
-
+om_df_hel <- om_df |> sqrt() # Hellinger距離を計算しやすくデータフレームを用意
+for(k in 4:10){
+    cat(pam(om_df_hel, k = k)$silinfo$avg.width,
+        " (k = ", k, ")\n", sep="")
+}
 ```
+
+`pam(om_df_hel, k = k)[["silinfo"]][["avg.width"]]` と書いても良い．
+
+k=7,8,9 (上位3つ) のシルエット係数を視覚化する．
+
+```{r}
+for(k in 7:9) {
+    p <- pam(om_df_hel, k = k) |>
+        silhouette() |>
+        autoplot() +
+        labs(title = paste("k =", k))
+    print(p) # ggplotはfor文内では明示的にprintする必要がある
+}
+```
+
+悪いシルエット係数が少ないという意味で k=8 が良さそう．
+
+```{r}
+k <- 8
+om_df_hel |>
+    pam(k = k) |>
+    autoplot(frame = TRUE, 
+             frame.type = "convex", 
+             label = TRUE, 
+             label.repel = TRUE, 
+             label.size = 3, 
+             label.family = label_family, 
+             label.show.legend = FALSE)
+```
+
+::: column-margin
+同様な描画は以下でも可能．
+
+```{r}
+om_pam <- om_df_hel |>
+    pam(k = k)
+plot(om_pam,
+     which.plot = 1, # cluster::clusplot のオプションを参考
+     stand = TRUE,
+     lines = 0, labels = 3, 
+     main = "", sub = NULL, cex = 0.8, # タイトルと文字の大きさの調整
+     col.p = rainbow(k)[om_pam$clustering], # クラスタ番号ごとに色付け
+     col.clus = "orange", shade = FALSE) # クラスタを楕円で表示
+```
+:::
+
+Euclid距離による分析を行う． k = 5-10 で検証する．
+
+```{r}
+for(k in 5:10) {
+    foo <- pam(om_df, k = k)
+    p <- foo |>
+        silhouette() |>
+        autoplot() +
+        labs(title = paste("k =", k, "(Silhouette coef. =",
+                           round(foo$silinfo$avg.width, digits = 3), ")"))
+    print(p) 
+}
+```
+
+悪いシルエット係数が少ないという意味で k=7 が良さそう．
+
+```{r}
+k <- 7
+om_df |>
+    pam(k = k) |>
+    autoplot(frame = TRUE, 
+             frame.type = "norm", 
+             label = TRUE, 
+             label.repel = TRUE, 
+             label.size = 3, 
+             label.family = label_family, 
+             label.show.legend = FALSE)
+```
+
+::: column-margin
+階層的クラスタリングでもシルエット係数を計算することができる．
+
+```{r}
+om_agnes <- agnes(om_df_hel)
+om_agnes |> as.dendrogram() |>
+    ggdendrogram()
+silhouette(cutree(om_agnes, k = k), 
+           daisy(om_df_hel)) |> # 距離行列が必要
+    autoplot()
+```
+
+シルエット係数のグラフはクラスタ毎に降順(大きいものが上)に並べ替えられている． グラフに合わせた要素名を取り出すには例えば以下のようにすれば良い．
+
+```{r}
+silhouette(cutree(om_agnes, k = k), daisy(om_df_hel)) |>
+    as_tibble() |>
+    mutate(prefecture=rownames(om_df_hel)) |>
+    arrange(desc(cluster), desc(sil_width))
+```
+:::
