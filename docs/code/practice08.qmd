@@ -1,6 +1,6 @@
 ---
-title: "統計データ解析"
-subtitle: "第8講 サンプルコード"
+title: "第8講 判別分析"
+subtitle: "基本的な考え方"
 date: "`r Sys.Date()`"
 format:
     html: 
@@ -17,8 +17,6 @@ citation-location: margin
 tbl-cap-location: margin
 fig-cap-location: margin
 editor: visual
-editor_options: 
-  chunk_output_type: console
 ---
 
 ## 準備
@@ -28,19 +26,22 @@ editor_options:
 ```{r}
 library(conflicted) # 関数名の衝突を警告
 conflicts_prefer(   # 優先的に使う関数を指定
-  dplyr::filter(),
-  dplyr::select(),
-  dplyr::lag(),
-  )
+    dplyr::filter(),
+    dplyr::lag(),
+    dplyr::select(),
+    scales::discard(),
+    recipes::fixed(),
+    yardstick::spec(),
+    recipes::step(),
+)
 library(tidyverse)  
-library(tidymodels)
-library(MASS)
-library(broom)      # 解析結果を tibble 形式に集約
-library(gt)         # 表の作成
-library(gtsummary)  # 分析結果の表の作成
-library(ggfortify)  # biplot表示のため
+library(ggfortify)
 library(ggrepel)
 library(GGally)
+library(tidymodels)
+library(MASS)
+library(gt)         # 表の作成
+library(gtsummary)  # 分析結果の表の作成
 #' macOSのための日本語表示の設定
 if(Sys.info()["sysname"] == "Darwin") { # macOSか調べる
     jp_font <- "HiraMaruProN-W4"
@@ -140,7 +141,10 @@ predict(object, newdata, prior = object$prior,
 ::: callout-note
 ### 分析結果の取得
 
+関数 `tidy()` は汎用関数(generic function)で，第1引数のクラスに依存してその働きを定義できる． 関数 `lda()/qda()` は `lda/qda` クラスを返すので，クラスごとに定義する． 以下はこの回の演習問題のために用いる例であり，必要に応じて自由に改変して構わない．
+
 ```{r}
+#' lda クラス用
 tidy.lda <- function(x, type = c("statistic","estimate")){
   type <- match.arg(type)
   lda_stat <- \(x){
@@ -154,9 +158,7 @@ tidy.lda <- function(x, type = c("statistic","estimate")){
          statistic = lda_stat(x),
          estimate = lda_est(x))
 }
-```
-
-```{r}
+#' qda クラス用
 tidy.qda <- function(x, type = c("statistic","estimate")){
   type <- match.arg(type)
   qda_stat <- \(x){
@@ -176,7 +178,10 @@ tidy.qda <- function(x, type = c("statistic","estimate")){
 ::: callout-note
 ### 判別のあてはめ値・予測値の計算
 
+関数 `augment()` も汎用関数である．
+
 ```{r}
+#' lda クラス用
 augment.lda <- function(x, data = NULL, newdata = NULL) {
   if(!is.null(newdata)) {
     tmp <- predict(x, newdata = newdata)
@@ -192,9 +197,7 @@ augment.lda <- function(x, data = NULL, newdata = NULL) {
   if(!is.null(data)) {return(bind_cols(data, out))}
   return(out)
 }
-```
-
-```{r}
+#' qda クラス用
 augment.qda <- function(x, data = NULL, newdata = NULL) {
   if(!is.null(newdata)) {
     tmp <- predict(x, newdata = newdata)
@@ -221,37 +224,169 @@ augment.qda <- function(x, data = NULL, newdata = NULL) {
 ::: callout-note
 ### `tokyo_weather.csv` の概要
 
-このデータセットは気象庁より取得した東京の気候データを整理したものである． 情報としては`日付`,`気温`,`降雨`,`日射`,`降雪`,`風向`,`風速`,`気圧`,`湿度`,`雲量`が含まれているので， これを適宜整理して判別分析に利用する．
+気象庁より取得した東京の気候データを整理したもの
 
--   [気象庁のサイト](https://www.data.jma.go.jp/gmd/risk/obsdl/index.php)
+-   year,month,day,day_of_week : 年，月，日，曜日
+-   temp : 平均気温(℃)
+-   rain : 降水量の合計(mm)
+-   solar : 合計全天日射量(MJ/㎡)
+-   snow : 降雪量合計(cm)
+-   wdirs : 最多風向(16方位)
+-   wind : 平均風速(m/s)
+-   press : 平均現地気圧(hPa)
+-   humid : 平均湿度(％)
+-   cloud : 平均雲量(10分比)
+-   参考 : [気象庁](https://www.data.jma.go.jp/gmd/risk/obsdl/index.php)
+
+データの読み込み方
+
+```{r}
+tw_data <- read_csv("data/tokyo_weather.csv") 
+```
 :::
 
 ## 線形判別
 
 ### 問題
 
-東京の気候データを用いて以下の分析を行いなさい．
+1.  以下の人工データを用いて線形判別分析を行いなさい．
 
--   9月と10月の気温と湿度のデータを抽出する．
+``` r
+#' 分散共分散が同じ2クラスのデータ
+n <- 40
+toy_data <-
+    bind_rows(
+        tibble(x1 = rnorm(n, mean=2, sd=2),
+               x2 = rnorm(n, mean=1, sd=1),
+               class = rep(1, n)),
+        tibble(x1 = rnorm(n, mean=-2, sd=2),
+               x2 = rnorm(n, mean=-1, sd=1),
+               class = rep(2, n))) |>
+    mutate(class = as_factor(class))
+```
 
-    ``` r
-    tw_data <- read_csv("data/tokyo_weather.csv") 
-    tw_subset  <- tw_data |>
-        filter(month %in% c(9,10)) |>
-        select(temp, humid, month) |>
-        mutate(month = as_factor(month)) # 月を因子化
-    ```
+2.  東京の気候データを用いて以下の分析を行いなさい．
 
--   半分のデータを用いて線形判別関数を構成し，残りのデータを用いて判別を行う．
+    -   9月と10月の気温と湿度のデータを抽出する．
+    -   半分のデータを用いて線形判別関数を構成し，残りのデータを用いて判別を行う．
 
-    ``` r
-    idx <- seq(2, 60, by = 2)    # 行番号の偶奇で分ける場合
-    tw_train <- tw_subset[ idx,] # 訓練データ
-    tw_test  <- tw_subset[-idx,] # 試験データ
-    tw_lda <- lda(month ~ temp + humid, data = tw_train) # 線形判別関数の構成
-    ```
+``` r
+tw_subset  <- tw_data |>
+    filter(month %in% c(9,10)) |>
+    select(temp, humid, month) |>
+    mutate(month = as_factor(month)) # 月を因子化
+idx <- seq(2, 60, by = 2)    # 行番号の偶奇で分ける場合
+tw_train <- tw_subset[ idx,] # 訓練データ
+tw_test  <- tw_subset[-idx,] # 試験データ
+tw_lda <- lda(month ~ temp + humid, data = tw_train) # 線形判別関数の構成
+```
+
+### 解答欄
+
+```{r}
+
+```
 
 ### 解答例
+
+#### 人工データ
+
+指示に従ってデータを生成する．
+
+```{r}
+n <- 40
+toy_data <-
+    bind_rows(
+        tibble(x1 = rnorm(n, mean=2, sd=2),
+               x2 = rnorm(n, mean=1, sd=1),
+               class = rep(1, n)),
+        tibble(x1 = rnorm(n, mean=-2, sd=2),
+               x2 = rnorm(n, mean=-1, sd=1),
+               class = rep(2, n))) |>
+    mutate(class = as_factor(class))
+```
+
+散布図でデータの性質を確認する．
+
+```{r}
+toy_data |>
+    ggplot(aes(x = x1, y = x2, colour = class)) +
+    geom_point()
+```
+
+判別分析を行う．
+
+```{r}
+toy_model <- class ~ x1 + x2
+toy_lda <- lda(formula = toy_model, data = toy_data)
+toy_lda # 結果を表示
+```
+
+判別結果を整理する．
+
+```{r}
+toy_lda |>
+    tidy()                   # 推定値を確認
+toy_lda |>
+    augment(data = toy_data) # あてはめ値を確認
+toy_lda |>
+    augment(data = toy_data) |> 
+    conf_mat(truth = class, estimate = .class)   # 混同行列
+toy_lda |>                                         
+    augment(data = toy_data) |>
+    ggplot(aes(x = .xLD1, fill = class)) +       # 判別関数値の視覚化
+    geom_histogram(aes(y = after_stat(density)),
+                   bins = 30) +
+    facet_grid(class ~ .)                        # クラスごとに表示
+```
+
+::: column-margin
+関数 `autoplot()` を用いると混同行列を視覚化することができる． 詳しくは '?yardstick::conf_mat' を参照のこと．
+
+```{r}
+toy_lda |>
+    augment(data = toy_data) |> 
+    conf_mat(truth = class, estimate = .class) |>
+    autoplot(type = "mosaic") # "mosaic"(既定値)か"heatmap"が指定できる
+```
+:::
+
+推定された線形判別関数の識別境界を図示する．
+
+```{r}
+range_x <- range(toy_data[["x1"]])          # x1の範囲
+range_y <- range(toy_data[["x2"]])          # x2の範囲
+toy_grid_x <- pretty(range_x, 100)          # 格子点の作成
+toy_grid_y <- pretty(range_y, 100)
+toy_grid_xy <- expand.grid(x1 = toy_grid_x, # 2次元の格子点を作成
+                           x2 = toy_grid_y) 
+toy_lda |>
+    augment(newdata = toy_grid_xy) |>       # 格子点上の判別関数値を計算
+    ggplot(aes(x = x1, y = x2)) +           # 予測されるラベルの図示
+    geom_tile(aes(fill = .class), alpha = 0.3) +
+    geom_point(data = toy_data,
+               aes(x = x1, y = x2, colour = class)) +
+    labs(fill = NULL, colour = NULL)
+```
+
+::: column-margin
+判別関数値を色づけして図示するには以下のようにすればよい．
+
+```{r}
+toy_lda |>
+    augment(newdata = toy_grid_xy) |>
+    ggplot(aes(x = x1, y = x2)) +
+    geom_raster(aes(fill = .xLD1), alpha = 0.5) +
+    scale_fill_gradientn(colours=c("red","white","blue")) +
+    geom_point(data = toy_data,
+               aes(x = x1, y = x2, colour = class)) +
+    labs(fill = NULL, colour = NULL)
+```
+:::
+
+------------------------------------------------------------------------
+
+#### 東京の気候データ
 
 必要なデータを整理する．
 
@@ -337,18 +472,6 @@ table(Truth = tw_train[["month"]],
 ```
 :::
 
-::: column-margin
-関数 `autoplot()` を用いると混同行列を視覚化することができる．
-
-```{r}
-tw_lda |>
-    augment(data = tw_train) |>
-    conf_mat(truth = month, estimate = .class) |>
-    autoplot(type = "mosaic") # "mosaic"(既定値)か"heatmap"が指定できる
-#' 詳しくは '?yardstick::conf_mat' を参照
-```
-:::
-
 試験データによる評価を行う．
 
 ```{r}
@@ -390,36 +513,110 @@ last_plot() +
 
 ```
 
-::: column-margin
-判別関数値を色づけして図示するには以下のようにすればよい．
-
-```{r}
-tw_lda |>
-    augment(newdata = grid_xy) |>
-    ggplot(aes(x = temp, y = humid)) +
-    geom_raster(aes(fill = .xLD1), alpha = 0.5) +
-    scale_fill_gradientn(colours=c("red","white","blue")) +
-    geom_point(data = tw_subset,
-               aes(x = temp, y = humid, colour = month)) +
-    labs(x = "気温", y = "湿度", fill = NULL, colour = NULL)
-```
-:::
-
 ## 2次判別
 
 ### 問題
 
-東京の気候データを用いて以下の分析を行いなさい．
+1.  以下の人工データを用いて線形判別分析を行いなさい．
 
--   前問と同様な設定で2次判別を行いなさい．
+``` r
+#' 分散共分散が異なる2クラスのデータ
+n <- 40
+toy_data <-
+    bind_rows(
+        tibble(x1 = rnorm(n, mean=2, sd=2),
+               x2 = rnorm(n, mean=0, sd=3),
+               class = rep(1, n)),
+        tibble(x1 = rnorm(n, mean=-2, sd=2),
+               x2 = rnorm(n, mean=0, sd=1),
+               class = rep(2, n))) |>
+    mutate(class = as_factor(class))
+```
 
-    ``` r
-    tw_qda <- qda(month ~ temp + humid, data = tw_train) # 2次判別関数の構成
-    ```
+2.  東京の気候データを用いて以下の分析を行いなさい．
 
--   別の月や変数を用いて判別分析を行いなさい．
+    -   前問と同様な設定で2次判別を行いなさい．
+    -   別の月や変数を用いて判別分析を行いなさい．
+
+``` r
+#' 2次判別関数の推定
+tw_qda <- qda(month ~ temp + humid, data = tw_train) 
+```
+
+### 解答欄
+
+```{r}
+
+```
 
 ### 解答例
+
+#### 人工データ
+
+指示に従ってデータを生成する．
+
+```{r}
+n <- 40
+toy_data <-
+    bind_rows(
+        tibble(x1 = rnorm(n, mean=2, sd=2),
+               x2 = rnorm(n, mean=0, sd=3),
+               class = rep(1, n)),
+        tibble(x1 = rnorm(n, mean=-2, sd=2),
+               x2 = rnorm(n, mean=0, sd=1),
+               class = rep(2, n))) |>
+    mutate(class = as_factor(class))
+```
+
+散布図でデータの性質を確認する．
+
+```{r}
+toy_data |>
+    ggplot(aes(x = x1, y = x2, colour = class)) +
+    geom_point()
+```
+
+判別分析を行う．
+
+```{r}
+toy_model <- class ~ x1 + x2
+toy_qda <- qda(formula = toy_model, data = toy_data)
+toy_qda # 結果を表示
+```
+
+判別結果を確認する．
+
+```{r}
+toy_qda |>
+    tidy()                                       # 推定値を確認
+toy_qda |>
+    augment(data = toy_data)                     # あてはめ値を確認
+toy_qda |>
+    augment(data = toy_data) |> 
+    conf_mat(truth = class, estimate = .class)   # 混同行列
+```
+
+推定された線形判別関数の識別境界を図示する．
+
+```{r}
+range_x <- range(toy_data[["x1"]])          # x1の範囲
+range_y <- range(toy_data[["x2"]])          # x2の範囲
+toy_grid_x <- pretty(range_x, 100)          # 格子点の作成
+toy_grid_y <- pretty(range_y, 100)
+toy_grid_xy <- expand.grid(x1 = toy_grid_x, # 2次元の格子点を作成
+                           x2 = toy_grid_y) 
+toy_qda |>
+    augment(newdata = toy_grid_xy) |>       # 格子点上の判別関数値を計算
+    ggplot(aes(x = x1, y = x2)) +           # 予測されるラベルの図示
+    geom_tile(aes(fill = .class), alpha = 0.3) +
+    geom_point(data = toy_data,
+               aes(x = x1, y = x2, colour = class)) +
+    labs(fill = NULL, colour = NULL)
+```
+
+------------------------------------------------------------------------
+
+#### 東京の気候データ
 
 前の練習問題で作成した `tw_train` および `tw_test` を利用する．
 
@@ -465,27 +662,30 @@ tw_qda |>
 
 ### 問題
 
-東京の気候データを用いて以下の分析を行いなさい．
+1.  東京の気候データを用いて以下の分析を行いなさい．
 
--   9月，10月，11月の気温と湿度のデータを用いて判別関数を作成しなさい．
+    -   9月，10月，11月の気温と湿度のデータを用いて判別関数を作成しなさい．
+    -   別の月や変数を用いて判別分析を行いなさい．
 
-    ``` r
-    tw_subset  <- tw_data |>
-        filter(month %in% c(9,10,11)) |>
-        select(temp, humid, month) |>
-        mutate(month = as_factor(month))
-    ```
+``` r
+#' 9-11月のデータを整理する例
+tw_subset  <- tw_data |>
+    filter(month %in% c(9,10,11)) |>
+    select(temp, humid, month) |>
+    mutate(month = as_factor(month))
+#' 雨の有無を識別する例
+tw_subset2 <- tw_data |>
+mutate(rain = factor(rain > 0),
+month = as_factor(month)) |>     # 雨の有無でラベル化する
+select(rain, temp, solar, wind, month)
+tw_lda2 <- lda(rain ~ ., data = tw_subset2) # 'rain' をそれ以外で判別
+```
 
--   別の月や変数を用いて判別分析を行いなさい．
+### 解答欄
 
-    ``` r
-    #' 雨の有無を識別する例
-    tw_subset2 <- tw_data |>
-        mutate(rain = factor(rain > 0),
-               month = as_factor(month)) |>     # 雨の有無でラベル化する
-        select(rain, temp, solar, wind, month)
-    tw_lda2 <- lda(rain ~ ., data = tw_subset2) # 'rain' をそれ以外で判別
-    ```
+```{r}
+
+```
 
 ### 解答例
 
@@ -545,6 +745,8 @@ last_plot() + geom_point(data = augment(tw_lda3, newdata = grid_xy),
 ```
 :::
 
+------------------------------------------------------------------------
+
 12ヶ月分のデータを用いる．数が多いのでサンプリングする．
 
 ```{r}
@@ -553,17 +755,21 @@ tw_subset12 <- slice(tw_data, idx) |>
     mutate(month = as_factor(month))
 tw_lda12 <- lda(month ~ temp + solar + wind + humid,
                 data = tw_subset12)
-tw_lda12 |>
+tw_lda12 |> 
     augment(data = tw_subset12) |>
-    conf_mat(truth = month, estimate = .class) # 混同行列
+    conf_mat(truth = month, estimate = .class) |> # 混同行列
+    autoplot("heatmap")
 tw_lda12 |>
     augment(data = tw_subset12) |>
     select(month,starts_with(".x")) |>
     ggpairs(aes(colour = month),
-            upper = list(continuous = wrap("cor", size = 1.5)))
+            upper = list(continuous = wrap("cor", size = 1.5))) |>
+    theme(aspect.retio = 1)
 ```
 
 判別関数は説明変数の数までしか作成できないので，精度はあまり高くないことがわかる．
+
+------------------------------------------------------------------------
 
 雨の有無を識別する例は以下のようになる．
 
@@ -582,7 +788,7 @@ tw_rain_lda |>                                         # 判別関数値の視�
     facet_grid(rain ~ .) 
 ```
 
-全データを予測する．
+予測の精度を検証する．
 
 ```{r}
 tw_rain_lda |>

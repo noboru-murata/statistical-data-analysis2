@@ -16,7 +16,7 @@ weight = 1016
 -   [第4講 (2025年10月24日)](https://u-tokyo-ac-jp.zoom.us/rec/share/sFdQNXLxO2Z3U3iy_4JmthKDdaCKnA5pEUlqwO371ncRuN2CVYGFkx9l6mv4b1Ep.ZCZXTBVm6KS7f1Ey?startTime=1761292845000)
 -   [第5講 (2025年10月31日)](https://u-tokyo-ac-jp.zoom.us/rec/share/SDq-sHVI-7YLrO-ItiHGOwU85FHyAkiWJ9tqRv9VggPx1i8HvM6DI19QCp3DECi3.BvrVW8b9d1fOBivT?startTime=1761897630000)
 -   [第6講 (2025年11月7日)](https://u-tokyo-ac-jp.zoom.us/rec/share/xMOCmmQfXovpNjfRH5a6mFefWcrTPknM7bdS0JcCHiNtcad79HU3xDoo04LRO7a-.wC4PdVk3osvoqXKU?startTime=1762502423000)
--   第7講 (2025年11月14日)
+-   [第7講 (2025年11月14日)](https://u-tokyo-ac-jp.zoom.us/rec/share/otUyCTGjEkN9e4iBlFEc7Amc6vXBzc8MW5mIj6YiKItWnMHo_vcytbhfu9zEo6n_.fSwVGVUnbT6ur2Nt?startTime=1763107225000)
 -   第8講 (2025年11月28日)
 -   第9講 (2025年12月5日)
 -   第10講 (2025年12月12日)

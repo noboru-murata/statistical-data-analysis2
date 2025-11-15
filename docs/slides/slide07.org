@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2025-10-29 13:16:48 mura>
+# Time-stamp: <2025-11-14 16:19:51 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -1286,7 +1286,7 @@
   #+end_quote
 
 ** バイプロット
-- 関連がある2枚の散布図を1つの画面に表示する散布図を一般に
+- 関連がある2枚の散布図を1つの画面に表示する図を一般に
   *バイプロット* (biplot) と呼ぶ
 - 行列\(G,H\)の各行を2次元座標と見なす
   #+begin_quote
