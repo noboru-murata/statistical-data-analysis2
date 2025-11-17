@@ -166,7 +166,9 @@ tidy.qda <- function(x, type = c("statistic","estimate")){
               x[["means"]] |> as_tibble() |> rename_with(\(x)paste0(x,"_ave")))
   }
   qda_est <- \(x){
-    x[["scaling"]] |> as.data.frame() |> rownames_to_column() |> as_tibble()
+    bind_cols(x[["scaling"]] |> as.data.frame() |> rownames_to_column() |>
+              as_tibble() |> rename_with(\(x)paste0("scale_",x)),
+              x[["ldet"]] |> as_tibble_col(column_name = "log_det/2"))
   }
   switch(type,
          statistic = qda_stat(x),
@@ -274,11 +276,11 @@ toy_data <-
 tw_subset  <- tw_data |>
     filter(month %in% c(9,10)) |>
     select(temp, humid, month) |>
-    mutate(month = as_factor(month)) # 月を因子化
-idx <- seq(2, 60, by = 2)    # 行番号の偶奇で分ける場合
-tw_train <- tw_subset[ idx,] # 訓練データ
-tw_test  <- tw_subset[-idx,] # 試験データ
-tw_lda <- lda(month ~ temp + humid, data = tw_train) # 線形判別関数の構成
+    mutate(month = as_factor(month))   # 月を因子化
+idx <- seq(1, nrow(tw_subset), by = 2) # データの分割(1つおき)
+tw_train <- tw_subset[ idx,]           # 訓練データ
+tw_test  <- tw_subset[-idx,]           # 試験データ
+tw_lda <- lda(month ~ temp + humid, data = tw_train) # 線形判別関数の推定
 ```
 
 ### 解答欄

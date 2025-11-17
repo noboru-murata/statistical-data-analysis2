@@ -1,6 +1,6 @@
 ---
-title: "統計データ解析"
-subtitle: "第9講 判別分析 - 分析の評価"
+title: "第9講 判別分析"
+subtitle: "分析の評価"
 date: "`r Sys.Date()`"
 format:
     html: 
@@ -17,8 +17,6 @@ citation-location: margin
 tbl-cap-location: margin
 fig-cap-location: margin
 editor: visual
-editor_options: 
-  chunk_output_type: console
 ---
 
 ## 準備
@@ -29,17 +27,183 @@ editor_options:
 library(conflicted) # 関数名の衝突を警告
 conflicts_prefer(   # 優先的に使う関数を指定
     dplyr::filter(),
-    dplyr::select(),
     dplyr::lag(),
+    dplyr::select(),
+    scales::discard(),
+    recipes::fixed(),
     yardstick::spec(),
-    yardstick::precision(),
-    yardstick::recall(),
-    )
+    recipes::step(),
+)
 library(tidyverse)  
-library(MASS)
-library(broom)      # 解析結果を tibble 形式に集約
+library(ggfortify)
+library(ggrepel)
+library(GGally)
 library(tidymodels)
+library(MASS)
+library(gt)         # 表の作成
+library(gtsummary)  # 分析結果の表の作成
+#' macOSのための日本語表示の設定
+if(Sys.info()["sysname"] == "Darwin") { # macOSか調べる
+    jp_font <- "HiraMaruProN-W4"
+    theme_update(text = element_text(family = jp_font))
+    update_geom_defaults("text", list(family = theme_get()$text$family))
+    update_geom_defaults("label", list(family = theme_get()$text$family))
+    update_geom_defaults("text_repel", list(family = theme_get()$text$family))
+    update_geom_defaults("label_repel", list(family = theme_get()$text$family))
+} else {jp_font <- NULL}
 ```
+
+## 判別分析に用いる主な関数
+
+分析に用いる主な関数としては以下がある．
+
+-   `MASS::lda()`: 線形判別分析の実行
+-   `MASS::qda()`: 2次判別分析の実行
+-   `yardstick::conf_mat()`: 混同行列の計算
+-   自作 `tidy()` : 判別分析の推定結果
+-   自作 `augment()` : 判別分析のあてはめ値・予測値
+
+::: callout-note
+### 自作の関数
+
+```{r}
+#' lda クラス用
+tidy.lda <- function(x, type = c("statistic","estimate")){
+  type <- match.arg(type)
+  lda_stat <- \(x){
+    bind_cols(x[["prior"]] |> enframe(value = "prior"),
+              x[["means"]] |> as_tibble() |> rename_with(\(x)paste0(x,"_ave")))
+  }
+  lda_est <- \(x){
+    x[["scaling"]] |> as.data.frame() |> rownames_to_column() |> as_tibble()
+  }
+  switch(type,
+         statistic = lda_stat(x),
+         estimate = lda_est(x))
+}
+#' qda クラス用
+tidy.qda <- function(x, type = c("statistic","estimate")){
+  type <- match.arg(type)
+  qda_stat <- \(x){
+    bind_cols(x[["prior"]] |> enframe(value = "prior"),
+              x[["means"]] |> as_tibble() |> rename_with(\(x)paste0(x,"_ave")))
+  }
+  qda_est <- \(x){
+    x[["scaling"]] |> as.data.frame() |> rownames_to_column() |> as_tibble()
+  }
+  switch(type,
+         statistic = qda_stat(x),
+         estimate = qda_est(x))
+}
+```
+
+```{r}
+#' lda クラス用
+augment.lda <- function(x, data = NULL, newdata = NULL) {
+  if(!is.null(newdata)) {
+    tmp <- predict(x, newdata = newdata)
+  } else {
+    tmp <- predict(x)
+  }
+  out <- bind_cols(
+    tmp[["class"]] |> as_tibble_col(column_name = ".class"),
+    tmp[["posterior"]] |> as_tibble() |> rename_with(\(x)paste0(".posterior",x)),
+    tmp[["x"]] |> as_tibble() |> rename_with(\(x)paste0(".x",x))
+  )
+  if(!is.null(newdata)) {return(bind_cols(newdata, out))}
+  if(!is.null(data)) {return(bind_cols(data, out))}
+  return(out)
+}
+#' qda クラス用
+augment.qda <- function(x, data = NULL, newdata = NULL) {
+  if(!is.null(newdata)) {
+    tmp <- predict(x, newdata = newdata)
+  } else {
+    tmp <- predict(x)
+  }
+  out <- bind_cols(
+    tmp[["class"]] |> as_tibble_col(column_name = ".class"),
+    tmp[["posterior"]] |> as_tibble() |> rename_with(\(x)paste0(".posterior",x)),
+  )
+  if(!is.null(newdata)) {return(bind_cols(newdata, out))}
+  if(!is.null(data)) {return(bind_cols(data, out))}
+  return(out)
+}
+```
+:::
+
+``` r
+#' データフレーム 'toy_data' を分析
+formula <- class ~ 説明変数
+toy_lda <- lda(formula, data = toy_data)
+toy_qda <- qda(formula, data = toy_data)
+#' 分析結果の確認
+toy_lda   # 関数 print() による分析結果の表示．qda も同様
+toy_lda |>
+    tidy("statistic") # または "estimate"
+#' 混同行列の計算と図示
+toy_lda |>
+    augment(data = toy_data) |>
+    conf_mat(truth = class, estimate = .class) |>
+    autoplot(type = "mosaic") # または "heatmap"
+```
+
+::: callout-tip
+### `MASS::biopsy` を用いた例
+
+データセットについては後述するが，まずtibble クラスに整理する．
+
+```{r}
+bio_data <-
+    MASS::biopsy |>
+    as_tibble() |>
+    na.omit() # NA を除く
+```
+
+データの散布図を描く．
+
+```{r}
+bio_data |>
+    select(!ID) |> # IDを除く
+    ggpairs(diag = list(mapping = aes(colour = class)),
+            lower = list(mapping = aes(colour = class)))
+```
+
+主成分分析を用いて2次元に縮約した生検と良性・悪性の関係を視覚化する．
+
+```{r}
+autoplot(bio_data |> select(where(is.numeric)) |> prcomp(), 
+         data = bio_data,
+         colour = "class") 
+```
+
+線形判別関数による判別関数値の分布を見る．
+
+```{r}
+bio_lda <- lda(class ~ . -ID, data = bio_data)
+bio_lda |>
+    augment(data = bio_data) |>
+    ggplot(aes(x = .xLD1)) +
+    geom_histogram(aes(fill = class), show.legend = FALSE) +
+    facet_grid(class ~ .)
+```
+:::
+
+## データセット
+
+以下では2つのデータセットを使用する
+
+::: callout-note
+### `tokyo_weather.csv`
+:::
+
+::: callout-note
+### `Wine Quality Data Set`
+:::
+
+::: callout-note
+### `MASS::biopsy`
+:::
 
 ## 判別結果の評価
 
@@ -302,8 +466,8 @@ bio_data <- as_tibble(biopsy) |>
 
 ```{r}
 bio_data |>
-    GGally::ggpairs(diag = list(mapping = aes(colour = class),
-                      lower = list(mapping = aes(colour = class))))
+    ggpairs(diag = list(mapping = aes(colour = class),
+                        lower = list(mapping = aes(colour = class))))
 ```
 
 以下は2次判別の LOO CV による評価の例である． 線形判別も同様に行うことができる．

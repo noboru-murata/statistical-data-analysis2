@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2025-11-08 21:50:31 mura>
+# Time-stamp: <2025-11-17 13:53:59 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -81,6 +81,7 @@
   library(gt)
   library(gtsummary)
   library(ggfortify)
+  library(GGally)
   library(ggrepel)
   #' macOSのための日本語表示の設定
   if(Sys.info()["sysname"] == "Darwin") { # macOSか調べる
@@ -184,6 +185,84 @@ bio_data |>
 - 判別関数による分類
   - 1次式の場合 : *線形判別分析* (linear discriminant analysis)
   - 2次式の場合 : *2次判別分析* (quadratic discriminant analysis)
+
+** COMMENT 判別分析の事例
+- データセット
+  - ~MASS::biopsy~ 
+    #+begin_quote
+    *Biopsy Data on Breast Cancer Patients* \\
+    This breast cancer database was obtained from the University of Wisconsin Hospitals, Madison from Dr. William H. Wolberg. He assessed biopsies of breast tumours for 699 patients up to 15 July 1992; each of nine attributes has been scored on a scale of 1 to 10, and the outcome is also known. There are 699 rows and 11 columns.
+    #+end_quote
+    - 詳細は '?MASS::biopsy' を参照
+
+#+reveal: split
+#+caption: 乳癌の生検データ
+#+name: tbl:biopsy
+#+begin_src R :exports none
+  #' 判別分析の例
+  #' 表の作成
+  bio_data <- MASS::biopsy |>
+    as_tibble() |>
+    na.omit() # NA を除く
+#+end_src
+#+begin_src R :eval no :exports none
+  bio_data |> View() # 左上ペインに表として表示
+#+end_src
+#+begin_src R :exports results :results output html :tangle no
+  #' データの表示(reveal用)
+  bio_data |>
+    slice(1:15) |>
+    gt() |>
+    as_raw_html()
+#+end_src
+#+begin_src R :exports results :results value scalar latex :tangle no
+  #' データの表示(latex用)
+  bio_data |>
+    slice(1:15) |>
+    gt() |>
+    tab_options(table.font.size = 9, latex.tbl.pos = "H") |>
+    as_latex() |> as.character()
+#+end_src
+
+#+reveal: split
+#+begin_src R :file figs/bio-pairs.png :exports results :results graphics
+  bio_data |>
+    select(!ID) |> # IDを除く
+    GGally::ggpairs(diag = list(mapping = aes(colour = class)),
+                    lower = list(mapping = aes(colour = class)))
+#+end_src
+#+caption: 9種類の生検の散布図
+#+name: fig:bio-pairs
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/bio-pairs.png]]
+
+#+reveal: split
+#+begin_src R :file figs/bio-pca.png :exports results :results graphics :height 700
+  autoplot(bio_data |> select(where(is.numeric)) |> prcomp(), # 主成分分析
+           data = bio_data,
+           colour = "class") 
+#+end_src
+#+caption: 主成分分析を用いて2次元に縮約した生検と良性・悪性の関係
+#+name: fig:bio-pca
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/bio-pca.png]]
+
+#+reveal: split
+#+begin_src R :file figs/bio-lda.png :exports results :results graphics :height 700
+bio_lda <- lda(class ~ . -ID, data = bio_data)
+bio_data |>
+    mutate(x = predict(bio_lda)[["x"]]) |>
+    ggplot(aes(x = x)) +
+    geom_histogram(aes(fill = class), show.legend = FALSE) +
+    facet_grid(class ~ .)
+#+end_src
+#+caption: 線形判別関数による判別関数値の分布
+#+name: fig:bio-lda
+#+attr_html: height 100%
+#+attr_latex: :width 0.6\linewidth
+[[file:figs/bio-lda.png]]
 
 ** 判別分析の例
 - [[color:green][検査結果から患者が病気を罹患しているか判定する]]
@@ -708,7 +787,7 @@ bio_data |>
   \begin{equation}
     \delta_{k}(\boldsymbol{x})
     =
-    -\frac{1}{2}\det\Sigma_{k}
+    -\frac{1}{2}\log\det\Sigma_{k}
     -\frac{1}{2}(\boldsymbol{x}-\boldsymbol{\mu}_{k})^{\mathsf{T}}
     \Sigma_{k}^{-1}(\boldsymbol{x}-\boldsymbol{\mu}_{k})
     +\log\pi_{k}
@@ -727,12 +806,12 @@ bio_data |>
     &\Leftrightarrow
       \log f_{k}(\boldsymbol{x})+\log\pi_{k} < \log f_l(\boldsymbol{x})+\log\pi_l\\
     &\Leftrightarrow
-      -\frac{1}{2}\det\Sigma_{k}
+      -\frac{1}{2}\log\det\Sigma_{k}
       -\frac{1}{2}(\boldsymbol{x}-\boldsymbol{\mu}_{k})^{\mathsf{T}}
       \Sigma_{k}^{-1}(\boldsymbol{x}-\boldsymbol{\mu}_{k})
       +\log\pi_{k}\\
     &\phantom{\Leftrightarrow}\quad <
-      -\frac{1}{2}\det\Sigma_l
+      -\frac{1}{2}\log\det\Sigma_l
       -\frac{1}{2}(\boldsymbol{x}-\boldsymbol{\mu}_l)^{\mathsf{T}}
       \Sigma_l^{-1}(\boldsymbol{x}-\boldsymbol{\mu}_l)
       +\log\pi_l\\
@@ -918,7 +997,7 @@ bio_data |>
   - 正規分布を仮定する場合は一般には2次判別
 - 2値判別の統合
   - 2クラスでの比較 : 最大の組合せ数 \({}_{K}C_{2}\) 
-  - グループでの比較 : 最大の組合せ数 \(2^{K}-2\)
+  - グループでの比較 : 最大の組合せ数 \(2^{K-1}-1\)
 - \(K{-}1\) 個の特徴量への変換
   - 説明変数の線形結合による特徴量の構成
   - 異なる\(K\)種の点の集合を\(K{-}1\)次元空間に配置
