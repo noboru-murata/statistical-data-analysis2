@@ -64,7 +64,7 @@ if(Sys.info()["sysname"] == "Darwin") { # macOSか調べる
 -   自作 `augment()` : 判別分析のあてはめ値・予測値
 
 ::: callout-note
-### 自作の関数
+### 自作の関数(再掲)
 
 ```{r}
 #' lda クラス用
@@ -89,7 +89,9 @@ tidy.qda <- function(x, type = c("statistic","estimate")){
               x[["means"]] |> as_tibble() |> rename_with(\(x)paste0(x,"_ave")))
   }
   qda_est <- \(x){
-    x[["scaling"]] |> as.data.frame() |> rownames_to_column() |> as_tibble()
+    bind_cols(x[["scaling"]] |> as.data.frame() |> rownames_to_column() |>
+              as_tibble() |> rename_with(\(x)paste0("scale_",x)),
+              x[["ldet"]] |> as_tibble_col(column_name = "log_det/2"))
   }
   switch(type,
          statistic = qda_stat(x),
@@ -132,9 +134,11 @@ augment.qda <- function(x, data = NULL, newdata = NULL) {
 ```
 :::
 
+典型的な分析の流れは以下のようになる．
+
 ``` r
 #' データフレーム 'toy_data' を分析
-formula <- class ~ 説明変数
+formula <- class ~ . # class以外の変数で説明
 toy_lda <- lda(formula, data = toy_data)
 toy_qda <- qda(formula, data = toy_data)
 #' 分析結果の確認
@@ -191,18 +195,68 @@ bio_lda |>
 
 ## データセット
 
-以下では2つのデータセットを使用する
+以下では3つのデータセットを使用する．
 
 ::: callout-note
-### `tokyo_weather.csv`
+### `tokyo_weather.csv` の概要
+
+気象庁より取得した東京の気候データを整理したもの
+
+-   year,month,day,day_of_week : 年，月，日，曜日
+-   temp : 平均気温(℃)
+-   rain : 降水量の合計(mm)
+-   solar : 合計全天日射量(MJ/㎡)
+-   snow : 降雪量合計(cm)
+-   wdirs : 最多風向(16方位)
+-   wind : 平均風速(m/s)
+-   press : 平均現地気圧(hPa)
+-   humid : 平均湿度(％)
+-   cloud : 平均雲量(10分比)
 :::
 
 ::: callout-note
 ### `Wine Quality Data Set`
+
+UC Irvaine の `Machine Learning Repository` で公開されているデータ． 物理化学的な試験結果からワインの質を予測する練習問題データとして良く知られる．
+
+詳細は <https://archive.ics.uci.edu/dataset/186/wine+quality> を参照
+
+データの読み込み方の例． 元のデータは10段階の評定(`quality`)だが，これからA-Dの4段階の評価(`grade`)を構成している．
+
+```{r}
+#| eval: false
+wq_data <-
+    read_delim("https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-red.csv",
+               delim = ";") |>
+    mutate(grade = factor(
+               case_when( # quality を A,B,C,D に割り当てる
+                   quality >= 7 ~ "A",
+                   quality >= 6 ~ "B",
+                   quality >= 5 ~ "C",
+                   .default = "D"
+               )))
+```
 :::
 
 ::: callout-note
-### `MASS::biopsy`
+### `MASS::biopsy` の概要
+
+**Biopsy Data on Breast Cancer Patients**
+
+This breast cancer database was obtained from the University of Wisconsin Hospitals, Madison from Dr. William H. Wolberg. He assessed biopsies of breast tumours for 699 patients up to 15 July 1992; each of nine attributes has been scored on a scale of 1 to 10, and the outcome is also known. There are 699 rows and 11 columns.
+
+詳細は `?MASS::biopsy` を参照
+
+データの整理の仕方の例． 元のデータは data.frame クラスなので，tibble クラスに変換して整理しておく．
+
+```{r}
+#| eval: false
+glimpse(MASS::biopsy) # 各変数の属性を確認する．
+bio_data <-
+    MASS::biopsy |>
+    as_tibble() |>    # tibble クラスに変換
+    na.omit()         # NA を除く
+```
 :::
 
 ## 判別結果の評価
@@ -246,33 +300,39 @@ bio_lda |>
 
 [^2]: 関数 `lda()` の返値の `posterior` は matrix 型なので，関数 `bind_cols()` を用いてデータフレームとして結合することができる．
 
+### 解答欄
+
+```{r}
+
+```
+
 ### 解答例
 
 データを整理する．
 
 ```{r}
 tw_data <- read_csv("data/tokyo_weather.csv")
-tw_subset  <- tw_data |> 
-    filter(month %in% c(9,10)) |> # 9,10月のデータ
-    select(temp, humid, month) |> # 気温・湿度・月を選択
+tw_subset  <-
+    tw_data |> 
+    filter(month %in% c(9,10)) |>    # 9,10月のデータ
+    select(temp, humid, month) |>    # 気温・湿度・月を選択
     mutate(month = as_factor(month)) # 月を因子化
 ```
 
 判別関数を作成する．
 
 ```{r}
-tw_lda <- lda(formula = month ~ temp + humid,
-              data = tw_subset)
+tw_lda <- lda(formula = month ~ temp + humid, data = tw_subset)
 ```
 
 混同行列を用いて判別結果を評価する．
 
 ```{r}
-tw_lda_fitted <- predict(tw_lda)
-tw_lda_cm <- tw_subset |>
-    bind_cols(fitted = tw_lda_fitted[["class"]]) |> # 関数 mutate() でも良い
-    conf_mat(truth = month, estimate = fitted)
-tw_lda_cm # 簡便な表示
+tw_lda_cm <-
+    tw_lda |>
+    augment(data = tw_subset) |>
+    conf_mat(truth = month, estimate = .class)
+tw_lda_cm          # 簡便な表示
 summary(tw_lda_cm) # 詳細な表示
 ```
 
@@ -286,19 +346,21 @@ autoplot(tw_lda_cm, type = "heatmap") # 行列表示
 ROC曲線の描画を行う．
 
 ```{r}
-tw_subset |>
-    bind_cols(tw_lda_fitted[["posterior"]]) |>
-    roc_curve(truth = month, `9`) |> # 9月(`9`列)への判別を陽性とする
+tw_lda |>
+    augment(data = tw_subset) |>
+    roc_curve(truth = month, .posterior9) |> # 9月への判別確率を陽性とする
     autoplot()
 ```
 
 AUCを計算する．
 
 ```{r}
-tw_subset |>
-    bind_cols(tw_lda_fitted[["posterior"]]) |>
-    roc_auc(truth = month, `9`)
+tw_lda |>
+    augment(data = tw_subset) |>
+    roc_auc(truth = month, .posterior9)
 ```
+
+------------------------------------------------------------------------
 
 以下は12ヶ月分のデータを用いた例で，これを参考に説明変数は適宜選択して検討してほしい．
 
@@ -324,21 +386,21 @@ tw_lda12 <- lda(month ~ ., # 右辺の . は month 以外の全てを説明変�
 判別結果を評価する．
 
 ```{r}
-tw_lda12_fitted <- predict(tw_lda12)
-tw_lda12_cm <- tw_subset12 |>
-    bind_cols(fitted = tw_lda12_fitted[["class"]]) |>
-    conf_mat(truth = month, estimate = fitted)
+tw_lda12_cm <- 
+    tw_lda12 |>
+    augment(data = tw_subset12) |>
+    conf_mat(truth = month, estimate = .class)
 tw_lda12_cm # 表示
 summary(tw_lda12_cm) # 詳細表示
 autoplot(tw_lda12_cm, type = "mosaic") # モザイクプロット
 autoplot(tw_lda12_cm, type = "heatmap") # 行列表示
-tw_subset12 |>
-    bind_cols(tw_lda12_fitted[["posterior"]]) |>
-    roc_curve(truth = month, `1`:`12`) |> 
+tw_lda12 |>
+    augment(data = tw_subset12) |>
+    roc_curve(truth = month, .posterior1:.posterior12) |> 
     autoplot()
-tw_subset12 |> 
-    bind_cols(tw_lda12_fitted[["posterior"]]) |>
-    roc_auc(truth = month, `1`:`12`)
+tw_lda12 |>
+    augment(data = tw_subset12) |>
+    roc_auc(truth = month, .posterior1:.posterior12)
 ```
 
 ## 訓練・試験データによる評価
@@ -361,6 +423,12 @@ Wine Quality Data Set を用いて，以下を確認しなさい．
 -   訓練データを用いて評価を行う．
 
 -   試験データを用いて評価を行う．
+
+### 解答欄
+
+```{r}
+
+```
 
 ### 解答例
 
@@ -399,81 +467,84 @@ wq_qda <- qda(formula = wq_formula, data = training(wq_split))
 訓練データを用いて判別結果を評価する．
 
 ```{r}
-wq_lda_train_cm <- training(wq_split) |>
-    bind_cols(fitted = predict(wq_lda)[["class"]]) |>
-    conf_mat(truth = grade, estimate = fitted)
-summary(wq_lda_train_cm) # 線形判別の評価
+wq_lda_train_cm <- 
+    wq_lda |>
+    augment(data = training(wq_split)) |>
+    conf_mat(truth = grade, estimate = .class)
+summary(wq_lda_train_cm)                       # 線形判別の評価
 autoplot(wq_lda_train_cm, type = "heatmap") +
-    labs(title = "Linear Discriminant (training data)")
-wq_qda_train_cm <- training(wq_split) |>
-    bind_cols(fitted = predict(wq_qda)[["class"]]) |>
-    conf_mat(truth = grade, estimate = fitted)
-summary(wq_qda_train_cm) # 2次判別の評価
+    labs(title = "線形判別 (訓練データ)")
+wq_qda_train_cm <- 
+    wq_qda |>
+    augment(data = training(wq_split)) |>
+    conf_mat(truth = grade, estimate = .class)
+summary(wq_qda_train_cm)                       # 2次判別の評価
 autoplot(wq_qda_train_cm, type = "heatmap") +
-    labs(title = "Quadratic Discriminant (training data)")
+    labs(title = "2次判別 (訓練データ)")
 ```
 
 試験データを用いて判別結果を評価する．
 
 ```{r}
-wq_lda_test_cm <- testing(wq_split) |>
-    bind_cols(fitted = predict(wq_lda,
-                               newdata = testing(wq_split))[["class"]]) |>
-    conf_mat(truth = grade, estimate = fitted)
-summary(wq_lda_test_cm) # 線形判別の評価
+wq_lda_test_cm <-
+    wq_lda |>
+    augment(newdata = testing(wq_split)) |>
+    conf_mat(truth = grade, estimate = .class)
+summary(wq_lda_test_cm)                        # 線形判別の評価
 autoplot(wq_lda_test_cm, type = "heatmap") +
-    labs(title = "Linear Discriminant (test data)")
-wq_qda_test_cm <- testing(wq_split) |>
-    bind_cols(fitted = predict(wq_qda,
-                               newdata = testing(wq_split))[["class"]]) |>
-    conf_mat(truth = grade, estimate = fitted)
-summary(wq_qda_test_cm) # 2次判別の評価
+    labs(title = "線形判別 (試験データ)")
+wq_qda_test_cm <-
+    wq_qda |>
+    augment(newdata = testing(wq_split)) |>
+    conf_mat(truth = grade, estimate = .class)
+summary(wq_qda_test_cm)                        # 2次判別の評価
 autoplot(wq_qda_test_cm, type = "heatmap") +
-    labs(title = "Quadratic Discriminant (test data)")
+    labs(title = "2次判別 (試験データ)")
 ```
 
 ## LOO交叉検証法による予測誤差の評価
 
 ### 問題
 
-データセット `MASS::biopsy` を用いて2次判別の分析を行いなさい．
+-   データセット `MASS::biopsy` を用いて2次判別の分析を行いなさい．
 
-``` r
-bio_data <- as_tibble(biopsy) |>
-    na.omit() |> # NA を除く
-    select(-ID)  # IDを除く
-```
-
--   全てのデータを用いて訓練誤差を評価する．
-
--   LOO交叉検証法を用いて予測誤差を評価する．
+    -   全てのデータを用いて訓練誤差を評価する．
+    -   LOO交叉検証法を用いて予測誤差を評価する．
 
     ``` r
     bio_qda_loo <- qda(class ~ ., data = bio_data, CV = TRUE)
     ```
+
+### 解答欄
+
+```{r}
+
+```
 
 ### 解答例
 
 データを整理する．
 
 ```{r}
-bio_data <- as_tibble(biopsy) |>
-    na.omit() |> # NA を除く
-    select(-ID)  # IDを除く
+bio_data <-
+    MASS::biopsy |>
+    as_tibble() |>
+    na.omit()
 ```
 
 散布図で項目間の関係を確認する．
 
 ```{r}
 bio_data |>
-    ggpairs(diag = list(mapping = aes(colour = class),
-                        lower = list(mapping = aes(colour = class))))
+    select(-ID) |> # 患者IDを除く
+    ggpairs(diag = list(mapping = aes(colour = class)),
+            lower = list(mapping = aes(colour = class)))
 ```
 
 以下は2次判別の LOO CV による評価の例である． 線形判別も同様に行うことができる．
 
 ```{r}
-bio_formula <- class ~ . 
+bio_formula <- class ~ . - ID # IDを除く
 bio_qda <- qda(formula = bio_formula, data = bio_data) 
 bio_qda_loo <- qda(formula = bio_formula, data = bio_data, CV = TRUE)
 ```
@@ -481,23 +552,25 @@ bio_qda_loo <- qda(formula = bio_formula, data = bio_data, CV = TRUE)
 訓練誤差での評価を確認し，可視化する．
 
 ```{r}
-bio_qda_cm <- bio_data |>
-    bind_cols(fitted = predict(bio_qda)[["class"]]) |>
-    conf_mat(truth = class, estimate = fitted)
+bio_qda_cm <-
+    bio_qda |>
+    augment(data = bio_data) |>
+    conf_mat(truth = class, estimate = .class)
 summary(bio_qda_cm) # 2次判別によるあてはめ値の評価(訓練誤差)
 autoplot(bio_qda_cm, type = "heatmap") +
-    labs(title = "Training Error")
+    labs(title = "訓練誤差")
 ```
 
-LOO CV での評価を確認し，可視化する．
+LOO CV での評価を確認し，可視化する． オプション `CV=TRUE` を指定した場合には返値が `list` クラスになるので， 別途処理する必要があるので注意する．
 
 ```{r}
-bio_qda_loo_cm <- bio_data |>
-    bind_cols(fitted = bio_qda_loo[["class"]]) |>
-    conf_mat(truth = class, estimate = fitted)
+bio_qda_loo_cm <-
+    bio_data |>
+    bind_cols(.class = bio_qda_loo[["class"]]) |>
+    conf_mat(truth = class, estimate = .class)
 summary(bio_qda_loo_cm) # LOO CVによる予測の評価(予測誤差)
 autoplot(bio_qda_loo_cm, type = "heatmap") +
-    labs(title = "Test Error (LOO CV)")
+    labs(title = "試験誤差 (LOO CV)")
 ```
 
 あてはめ値による評価は LOO CV より若干良くなっており，あてはめ値では精度を過剰に評価する可能性があることが示唆される．
@@ -519,21 +592,30 @@ Wine Quality Data Set を用いて 線形判別と2次判別の分析を行い�
 
 ### 解答例
 
+```{r}
+
+```
+
+### 解答例
+
 前の問題で既に整理してある `wq_data/wq_split` を用いる． `wq_lda` と比較する．
 
 ```{r}
-wq_lda_loo <- lda(formula = wq_formula, data = training(wq_split),
-                  CV = TRUE)
-training(wq_split) |> # 訓練誤差による評価
-    bind_cols(fitted = predict(wq_lda)[["class"]]) |>
-    conf_mat(truth = grade, estimate = fitted) |>
+wq_lda_loo <- lda(formula = wq_formula, data = training(wq_split), CV = TRUE)
+#' 訓練誤差による評価
+wq_lda |>
+    augment(data = training(wq_split)) |> 
+    conf_mat(truth = grade, estimate = .class) |>
     autoplot(type = "heatmap") +
-    labs(title = "Training Error (LDA)")
-wq_lda_loo_cm <- training(wq_split) |> # LOO CV 予測誤差による評価
-    bind_cols(fitted = wq_lda_loo[["class"]]) |>
-    conf_mat(truth = grade, estimate = fitted)
-wq_lda_loo_cm |> autoplot(type = "heatmap") +
-    labs(title = "LOO CV (LDA)")
+    labs(title = "訓練誤差 (線形判別)")
+#' LOO CV 予測誤差による評価
+wq_lda_loo_cm <-
+    training(wq_split) |> 
+    bind_cols(.class = wq_lda_loo[["class"]]) |>
+    conf_mat(truth = grade, estimate = .class)
+wq_lda_loo_cm |>
+    autoplot(type = "heatmap") +
+    labs(title = "LOO CV (線形判別)")
 ```
 
 線形判別の過学習は微小であることがわかる．
@@ -541,18 +623,20 @@ wq_lda_loo_cm |> autoplot(type = "heatmap") +
 2次判別の LOO CV を `wq_qda` と比較する．
 
 ```{r}
-wq_qda_loo <- qda(formula = wq_formula, data = training(wq_split),
-                  CV = TRUE)
-training(wq_split) |> # 訓練誤差による評価
-    bind_cols(fitted = predict(wq_qda)[["class"]]) |>
-    conf_mat(truth = grade, estimate = fitted) |>
+wq_qda_loo <- qda(formula = wq_formula, data = training(wq_split), CV = TRUE)
+#' 訓練誤差による評価
+wq_qda |>
+    augment(data = training(wq_split)) |> 
+    conf_mat(truth = grade, estimate = .class) |>
     autoplot(type = "heatmap") +
-    labs(title = "Training Error (QDA)")
-wq_qda_loo_cm <- training(wq_split) |> # LOO CV 予測誤差による評価
-    bind_cols(fitted = wq_qda_loo[["class"]]) |>
-    conf_mat(truth = grade, estimate = fitted)
+    labs(title = "訓練誤差 (2次判別)")
+#' LOO CV 予測誤差による評価
+wq_qda_loo_cm <-
+    training(wq_split) |> 
+    bind_cols(.class = wq_qda_loo[["class"]]) |>
+    conf_mat(truth = grade, estimate = .class)
 wq_qda_loo_cm |> autoplot(type = "heatmap") +
-    labs(title = "LOO CV (QDA)")
+    labs(title = "LOO CV (2次判別)")
 ```
 
 2次判別は若干過学習していることが示唆される．
@@ -566,9 +650,11 @@ summary(wq_qda_loo_cm) # 2次
 
 予測誤差の観点からは線形判別の方が良さそうであることが伺える．
 
-`package::tidymodels` を用いた k-重交叉検証は以下のようになる．
+------------------------------------------------------------------------
 
-まず `lda/qda` を tidymodels 用に宣言する．
+以下では `package::tidymodels` を用いた k-重交叉検証の基本的な手続きを紹介する．
+
+まず `lda/qda` を `tidymodels` 用に宣言する．
 
 ```{r}
 library(discrim) # 以下の判別モデルを設定するために必要
@@ -583,42 +669,43 @@ wq_folds <- vfold_cv(training(wq_split),
                      v = 10) # 10-fold を指定 (既定値)
 ```
 
-評価指標を設定する．
+検証に用いる評価指標を定義する．
 
 ```{r}
-wq_metrics <- metric_set(accuracy, # 精度
-                         sens, # 感度 (真陽性率)
-                         spec, # 特異度 (真陰性率)
+wq_metrics <- metric_set(accuracy,  # 精度
+                         sens,      # 感度 (真陽性率)
+                         spec,      # 特異度 (真陰性率)
                          precision, # 適合率
-                         recall, # 再現率(sensと同じ)
-                         roc_auc, # AUC
-                         kap, # kappa
-                         f_meas) # f値
+                         recall,    # 再現率 (sensと同じ)
+                         roc_auc,   # AUC
+                         kap,       # kappa値
+                         f_meas)    # f値
 ```
 
 共通の処理を定義する．
 
 ```{r}
-wq_workflow <- workflow() |> 
-    add_formula(wq_formula) 
+wq_workflow <-
+    workflow() |>           # 枠組の入れ物を用意
+    add_formula(wq_formula) # formula を指定
 ```
 
 線形判別を行い，評価する．
 
 ```{r}
-wq_lda_cv <- wq_workflow |>
-    add_model(tidy_lda) |> 
-    fit_resamples(resamples = wq_folds,
-                  metrics = wq_metrics)
-wq_lda_cv |> collect_metrics()
+wq_workflow |>
+    add_model(tidy_lda) |>                 # 線形判別モデルを用いることを宣言
+    fit_resamples(resamples = wq_folds,    # 交叉検証を実行
+                  metrics = wq_metrics) |>
+    collect_metrics()                      # 評価指標を整理
 ```
 
 2次判別を行い，評価する．
 
 ```{r}
-wq_qda_cv <- wq_workflow |>
-    add_model(tidy_qda) |>
+wq_workflow |>
+    add_model(tidy_qda) |>                 # 2次判別モデルを用いることを宣言
     fit_resamples(resamples = wq_folds,
-                  metrics = wq_metrics)
-wq_qda_cv |> collect_metrics()
+                  metrics = wq_metrics) |>
+    collect_metrics()
 ```

@@ -217,7 +217,25 @@ augment.qda <- function(x, data = NULL, newdata = NULL) {
 ```
 :::
 
-視覚化はこれらの関数で取得したデータフレームを用いて行うことができる．
+視覚化はこれらの関数で取得したデータフレームを用いて行うことができる． また，関数 `augment()` で得られたあてはめ値や予測値と真の値を比べて正答率を評価するには 関数 `yardstick::conf_mat()` が利用できる．
+
+::: callout-note
+### 混同行列の作成
+
+``` r
+conf_mat(
+  data,
+  truth,
+  estimate,
+  dnn = c("Prediction", "Truth"),
+  case_weights = NULL,
+  ...
+)
+#' data: データフレーム
+#' truth: 真値の列
+#' estimate: あてはめ値・予測値の列
+```
+:::
 
 ## データセット
 
@@ -253,35 +271,39 @@ tw_data <- read_csv("data/tokyo_weather.csv")
 
 1.  以下の人工データを用いて線形判別分析を行いなさい．
 
-``` r
-#' 分散共分散が同じ2クラスのデータ
-n <- 40
-toy_data <-
-    bind_rows(
-        tibble(x1 = rnorm(n, mean=2, sd=2),
-               x2 = rnorm(n, mean=1, sd=1),
-               class = rep(1, n)),
-        tibble(x1 = rnorm(n, mean=-2, sd=2),
-               x2 = rnorm(n, mean=-1, sd=1),
-               class = rep(2, n))) |>
-    mutate(class = as_factor(class))
-```
+    ``` r
+    #' 分散共分散が同じ2クラスのデータ
+    n <- 40
+    toy_data <-
+        bind_rows(
+            tibble(x1 = rnorm(n, mean=2, sd=2),
+                   x2 = rnorm(n, mean=1, sd=1),
+                   class = rep(1, n)),
+            tibble(x1 = rnorm(n, mean=-2, sd=2),
+                   x2 = rnorm(n, mean=-1, sd=1),
+                   class = rep(2, n))) |>
+        mutate(class = as_factor(class))
+    ```
 
 2.  東京の気候データを用いて以下の分析を行いなさい．
 
     -   9月と10月の気温と湿度のデータを抽出する．
+
+    ``` r
+    tw_subset  <- tw_data |>
+        filter(month %in% c(9,10)) |>
+        select(temp, humid, month) |>
+        mutate(month = as_factor(month))   # 月を因子化
+    ```
+
     -   半分のデータを用いて線形判別関数を構成し，残りのデータを用いて判別を行う．
 
-``` r
-tw_subset  <- tw_data |>
-    filter(month %in% c(9,10)) |>
-    select(temp, humid, month) |>
-    mutate(month = as_factor(month))   # 月を因子化
-idx <- seq(1, nrow(tw_subset), by = 2) # データの分割(1つおき)
-tw_train <- tw_subset[ idx,]           # 訓練データ
-tw_test  <- tw_subset[-idx,]           # 試験データ
-tw_lda <- lda(month ~ temp + humid, data = tw_train) # 線形判別関数の推定
-```
+    ``` r
+    idx <- seq(1, nrow(tw_subset), by = 2) # データの分割(1つおき)
+    tw_train <- tw_subset[ idx,]           # 訓練データ
+    tw_test  <- tw_subset[-idx,]           # 試験データ
+    tw_lda <- lda(month ~ temp + humid, data = tw_train) # 線形判別関数の推定
+    ```
 
 ### 解答欄
 
@@ -521,29 +543,30 @@ last_plot() +
 
 1.  以下の人工データを用いて線形判別分析を行いなさい．
 
-``` r
-#' 分散共分散が異なる2クラスのデータ
-n <- 40
-toy_data <-
-    bind_rows(
-        tibble(x1 = rnorm(n, mean=2, sd=2),
-               x2 = rnorm(n, mean=0, sd=3),
-               class = rep(1, n)),
-        tibble(x1 = rnorm(n, mean=-2, sd=2),
-               x2 = rnorm(n, mean=0, sd=1),
-               class = rep(2, n))) |>
-    mutate(class = as_factor(class))
-```
+    ``` r
+    #' 分散共分散が異なる2クラスのデータ
+    n <- 40
+    toy_data <-
+        bind_rows(
+            tibble(x1 = rnorm(n, mean=2, sd=2),
+                   x2 = rnorm(n, mean=0, sd=3),
+                   class = rep(1, n)),
+            tibble(x1 = rnorm(n, mean=-2, sd=2),
+                   x2 = rnorm(n, mean=0, sd=1),
+                   class = rep(2, n))) |>
+        mutate(class = as_factor(class))
+    ```
 
 2.  東京の気候データを用いて以下の分析を行いなさい．
 
     -   前問と同様な設定で2次判別を行いなさい．
-    -   別の月や変数を用いて判別分析を行いなさい．
 
-``` r
-#' 2次判別関数の推定
-tw_qda <- qda(month ~ temp + humid, data = tw_train) 
-```
+    ``` r
+    #' 2次判別関数の推定
+    tw_qda <- qda(month ~ temp + humid, data = tw_train) 
+    ```
+
+    -   別の月や変数を用いて判別分析を行いなさい．
 
 ### 解答欄
 
@@ -667,21 +690,25 @@ tw_qda |>
 1.  東京の気候データを用いて以下の分析を行いなさい．
 
     -   9月，10月，11月の気温と湿度のデータを用いて判別関数を作成しなさい．
+
+    ``` r
+    #' 9-11月のデータを整理
+    tw_subset  <- tw_data |>
+        filter(month %in% c(9,10,11)) |>
+        select(temp, humid, month) |>
+        mutate(month = as_factor(month))
+    ```
+
     -   別の月や変数を用いて判別分析を行いなさい．
 
-``` r
-#' 9-11月のデータを整理する例
-tw_subset  <- tw_data |>
-    filter(month %in% c(9,10,11)) |>
-    select(temp, humid, month) |>
-    mutate(month = as_factor(month))
-#' 雨の有無を識別する例
-tw_subset2 <- tw_data |>
-mutate(rain = factor(rain > 0),
-month = as_factor(month)) |>     # 雨の有無でラベル化する
-select(rain, temp, solar, wind, month)
-tw_lda2 <- lda(rain ~ ., data = tw_subset2) # 'rain' をそれ以外で判別
-```
+    ``` r
+    #' 雨の有無を識別する例
+    tw_subset2 <- tw_data |>
+        mutate(rain = factor(rain > 0),
+               month = as_factor(month)) |>     # 雨の有無でラベル化する
+        select(rain, temp, solar, wind, month)
+    tw_lda2 <- lda(rain ~ ., data = tw_subset2) # 'rain' をそれ以外で判別
+    ```
 
 ### 解答欄
 
@@ -765,7 +792,7 @@ tw_lda12 |>
     augment(data = tw_subset12) |>
     select(month,starts_with(".x")) |>
     ggpairs(aes(colour = month),
-            upper = list(continuous = wrap("cor", size = 1.5))) |>
+            upper = list(continuous = wrap("cor", size = 1.5))) +
     theme(aspect.retio = 1)
 ```
 

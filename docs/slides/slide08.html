@@ -45,8 +45,8 @@
 
 </section>
 <section>
-<section id="slide-org6774428">
-<h2 id="org6774428">講義概要</h2>
+<section id="slide-org20c75e5">
+<h2 id="org20c75e5">講義概要</h2>
 <ul>
 <li><b>第1回 : 判別分析の考え方</b></li>
 <li>第2回 : 分析の評価</li>
@@ -55,13 +55,41 @@
 </section>
 </section>
 <section>
-<section id="slide-orga72cb57">
-<h2 id="orga72cb57">判別分析の例</h2>
-<div class="outline-text-2" id="text-orga72cb57">
+<section id="slide-org789a215">
+<h2 id="org789a215">判別分析の考え方</h2>
+<div class="outline-text-2" id="text-org789a215">
 </div>
 </section>
-<section id="slide-org0c3c899">
-<h3 id="org0c3c899">乳癌の良性・悪性の判別</h3>
+<section id="slide-orgc7ae930">
+<h3 id="orgc7ae930">判別分析</h3>
+<ul>
+<li><p>
+判別分析 (<b>discriminant analysis</b>) の目的
+</p>
+<blockquote>
+<p>
+個体の特徴量からその個体の属する
+<b>クラス</b>
+を予測する関係式を構成する方法
+</p>
+</blockquote></li>
+<li>関係式 : <b>判別関数</b> (discriminant function)
+<ul>
+<li>説明変数 : \(X=(X_{1},\dots,X_{q})\)</li>
+<li>目的変数 : \(Y\) (\(K(\geq2)\) 個のクラスラベル)</li>
+
+</ul></li>
+<li>判別関数による分類
+<ul>
+<li>1次式の場合 : <b>線形判別分析</b> (linear discriminant analysis)</li>
+<li>2次式の場合 : <b>2次判別分析</b> (quadratic discriminant analysis)</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-orgbf1abb6">
+<h3 id="orgbf1abb6">判別分析の例</h3>
 <ul>
 <li>データセット
 <ul>
@@ -85,7 +113,7 @@ This breast cancer database was obtained from the University of Wisconsin Hospit
 
 </section>
 <section>
-<div id="rezslazqhw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="gtuozxsezr" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
   
   <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false" style="-webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; display: table; border-collapse: collapse; line-height: normal; margin-left: auto; margin-right: auto; color: #333333; font-size: 16px; font-weight: normal; font-style: normal; background-color: #FFFFFF; width: auto; border-top-style: solid; border-top-width: 2px; border-top-color: #A8A8A8; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #A8A8A8; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3;" bgcolor="#FFFFFF">
   <thead style="border-style: none;">
@@ -277,7 +305,7 @@ This breast cancer database was obtained from the University of Wisconsin Hospit
 </section>
 <section>
 
-<div id="orgc588101" class="figure">
+<div id="org9567faf" class="figure">
 <p><img src="figs/bio-pairs.png" alt="bio-pairs.png" />
 </p>
 <p><span class="figure-number">Figure 1: </span>9種類の生検の散布図</p>
@@ -286,7 +314,7 @@ This breast cancer database was obtained from the University of Wisconsin Hospit
 </section>
 <section>
 
-<div id="org2de0357" class="figure">
+<div id="org6733106" class="figure">
 <p><img src="figs/bio-pca.png" alt="bio-pca.png" />
 </p>
 <p><span class="figure-number">Figure 2: </span>主成分分析を用いて2次元に縮約した生検と良性・悪性の関係</p>
@@ -295,49 +323,14 @@ This breast cancer database was obtained from the University of Wisconsin Hospit
 </section>
 <section>
 
-<div id="org16ab0ed" class="figure">
+<div id="org2b2db76" class="figure">
 <p><img src="figs/bio-lda.png" alt="bio-lda.png" />
 </p>
 <p><span class="figure-number">Figure 3: </span>線形判別関数による判別関数値の分布</p>
 </div>
 </section>
-</section>
-<section>
-<section id="slide-orgc92579b">
-<h2 id="orgc92579b">判別分析の考え方</h2>
-<div class="outline-text-2" id="text-orgc92579b">
-</div>
-</section>
-<section id="slide-org16c8c49">
-<h3 id="org16c8c49">判別分析</h3>
-<ul>
-<li><p>
-判別分析 (<b>discriminant analysis</b>) の目的
-</p>
-<blockquote>
-<p>
-個体の特徴量からその個体の属する
-<b>クラス</b>
-を予測する関係式を構成する方法
-</p>
-</blockquote></li>
-<li>関係式 : <b>判別関数</b> (discriminant function)
-<ul>
-<li>説明変数 : \(X=(X_{1},\dots,X_{q})\)</li>
-<li>目的変数 : \(Y\) (\(K(\geq2)\) 個のクラスラベル)</li>
-
-</ul></li>
-<li>判別関数による分類
-<ul>
-<li>1次式の場合 : <b>線形判別分析</b> (linear discriminant analysis)</li>
-<li>2次式の場合 : <b>2次判別分析</b> (quadratic discriminant analysis)</li>
-
-</ul></li>
-
-</ul>
-</section>
-<section id="slide-orgf57f00a">
-<h3 id="orgf57f00a">判別分析の例</h3>
+<section id="slide-org1c7aa0f">
+<h3 id="org1c7aa0f">その他の例</h3>
 <ul>
 <li><span style="color:green;">検査結果から患者が病気を罹患しているか判定する</span>
 <ul>
@@ -360,8 +353,8 @@ This breast cancer database was obtained from the University of Wisconsin Hospit
 
 </ul>
 </section>
-<section id="slide-org7731157">
-<h3 id="org7731157">判別分析の考え方</h3>
+<section id="slide-orgb4cacc7">
+<h3 id="orgb4cacc7">判別分析の考え方</h3>
 <ul>
 <li>確率による定式化
 <ol>
@@ -394,8 +387,8 @@ This breast cancer database was obtained from the University of Wisconsin Hospit
 
 </ul>
 </section>
-<section id="slide-org4bebe07">
-<h3 id="org4bebe07">条件付確率</h3>
+<section id="slide-org0b5c1c5">
+<h3 id="org0b5c1c5">条件付確率</h3>
 <ul>
 <li>以下では \(X\) は離散型の \(q\) 次元確率変数として説明</li>
 <li><p>
@@ -418,8 +411,8 @@ This breast cancer database was obtained from the University of Wisconsin Hospit
 
 </ul>
 </section>
-<section id="slide-org4640e22">
-<h3 id="org4640e22">条件付確率の表現</h3>
+<section id="slide-orge592ad6">
+<h3 id="orge592ad6">条件付確率の表現</h3>
 <ul>
 <li>\(Y\)の条件付確率 \(p_{k}(\boldsymbol{x})\) のモデル化の方針
 <ul>
@@ -448,13 +441,13 @@ This breast cancer database was obtained from the University of Wisconsin Hospit
 </section>
 </section>
 <section>
-<section id="slide-orgbd5af7d">
-<h2 id="orgbd5af7d">事後確率による判別</h2>
-<div class="outline-text-2" id="text-orgbd5af7d">
+<section id="slide-orgdd7e851">
+<h2 id="orgdd7e851">事後確率による判別</h2>
+<div class="outline-text-2" id="text-orgdd7e851">
 </div>
 </section>
-<section id="slide-org6f37c39">
-<h3 id="org6f37c39">Bayes の公式</h3>
+<section id="slide-orgea07d60">
+<h3 id="orgea07d60">Bayes の公式</h3>
 <ul>
 <li><p>
 \(f_{k}(\boldsymbol{x})\) から \(p_{k}(\boldsymbol{x})\) を得る数学的原理
@@ -490,8 +483,8 @@ Bayes の公式 (Bayes&rsquo; formula)
 
 </ul>
 </section>
-<section id="slide-org00d5d42">
-<h3 id="org00d5d42">Bayes の公式の略証</h3>
+<section id="slide-org5269b06">
+<h3 id="org5269b06">Bayes の公式の略証</h3>
 <ul>
 <li><p>
 定義より
@@ -547,8 +540,8 @@ Bayes の公式 (Bayes&rsquo; formula)
 
 </ul>
 </section>
-<section id="slide-org9a8169e">
-<h3 id="org9a8169e">事前確率と事後確率</h3>
+<section id="slide-org70fb666">
+<h3 id="org70fb666">事前確率と事後確率</h3>
 <ul>
 <li><b>事前確率</b> : \(\pi_{k}=P(Y=k)\) (prior probability)
 <ul>
@@ -583,8 +576,8 @@ Bayes の公式による書き換え
 
 </ul>
 </section>
-<section id="slide-org2ee77a6">
-<h3 id="org2ee77a6">事前確率の決め方</h3>
+<section id="slide-orgdfce85e">
+<h3 id="orgdfce85e">事前確率の決め方</h3>
 <ul>
 <li><p>
 事前に特別な情報がない場合
@@ -621,13 +614,13 @@ Bayes の公式による書き換え
 </section>
 </section>
 <section>
-<section id="slide-orga7aeffd">
-<h2 id="orga7aeffd">線形判別分析</h2>
-<div class="outline-text-2" id="text-orga7aeffd">
+<section id="slide-org1aae54c">
+<h2 id="org1aae54c">線形判別分析</h2>
+<div class="outline-text-2" id="text-org1aae54c">
 </div>
 </section>
-<section id="slide-org13e1ad8">
-<h3 id="org13e1ad8">判別関数</h3>
+<section id="slide-org48d24db">
+<h3 id="org48d24db">判別関数</h3>
 <ul>
 <li>判別の手続き
 <ol>
@@ -661,8 +654,8 @@ Bayes の公式による書き換え
 
 </ul>
 </section>
-<section id="slide-orga31efa0">
-<h3 id="orga31efa0">線形判別</h3>
+<section id="slide-orgf093e75">
+<h3 id="orgf093e75">線形判別</h3>
 <ul>
 <li>\(f_{k}(\boldsymbol{x})\) の仮定
 <ul>
@@ -704,8 +697,8 @@ Bayes の公式による書き換え
 
 </ul>
 </section>
-<section id="slide-orgba2d496">
-<h3 id="orgba2d496">同値性の確認</h3>
+<section id="slide-org84a738e">
+<h3 id="org84a738e">同値性の確認</h3>
 <ul>
 <li><p>
 事後確率と判別関数の関係
@@ -735,8 +728,8 @@ Bayes の公式による書き換え
 
 </ul>
 </section>
-<section id="slide-orgf02e502">
-<h3 id="orgf02e502">平均・分散の推定</h3>
+<section id="slide-org783867f">
+<h3 id="org783867f">平均・分散の推定</h3>
 <ul>
 <li><p>
 平均の推定 (クラスごとに行う)
@@ -775,18 +768,18 @@ Bayes の公式による書き換え
 </section>
 </section>
 <section>
-<section id="slide-orgf050587" data-background="#fef4f4">
-<h2 id="orgf050587">実習</h2>
+<section id="slide-org65bc9a4" data-background="#fef4f4">
+<h2 id="org65bc9a4">実習</h2>
 </section>
 </section>
 <section>
-<section id="slide-org8474cae">
-<h2 id="org8474cae">2次判別分析</h2>
-<div class="outline-text-2" id="text-org8474cae">
+<section id="slide-org3d1cd11">
+<h2 id="org3d1cd11">2次判別分析</h2>
+<div class="outline-text-2" id="text-org3d1cd11">
 </div>
 </section>
-<section id="slide-org85afb97">
-<h3 id="org85afb97">2次判別</h3>
+<section id="slide-orgc99d55a">
+<h3 id="orgc99d55a">2次判別</h3>
 <ul>
 <li>\(f_{k}(\boldsymbol{x})\) の仮定
 <ul>
@@ -828,8 +821,8 @@ Bayes の公式による書き換え
 
 </ul>
 </section>
-<section id="slide-org7cefb80">
-<h3 id="org7cefb80">同値性の確認</h3>
+<section id="slide-orgd41cb88">
+<h3 id="orgd41cb88">同値性の確認</h3>
 <ul>
 <li><p>
 事後確率と判別関数の関係
@@ -862,8 +855,8 @@ Bayes の公式による書き換え
 
 </ul>
 </section>
-<section id="slide-orgcff36df">
-<h3 id="orgcff36df">平均・分散の推定</h3>
+<section id="slide-orgac0b1a6">
+<h3 id="orgac0b1a6">平均・分散の推定</h3>
 <ul>
 <li><p>
 平均の推定 (クラスごとに行う)
@@ -902,18 +895,18 @@ Bayes の公式による書き換え
 </section>
 </section>
 <section>
-<section id="slide-org11f88c2" data-background="#fef4f4">
-<h2 id="org11f88c2">実習</h2>
+<section id="slide-org9433d29" data-background="#fef4f4">
+<h2 id="org9433d29">実習</h2>
 </section>
 </section>
 <section>
-<section id="slide-org080407c">
-<h2 id="org080407c">さまざまな多値判別</h2>
-<div class="outline-text-2" id="text-org080407c">
+<section id="slide-orgbc03ece">
+<h2 id="orgbc03ece">さまざまな多値判別</h2>
+<div class="outline-text-2" id="text-orgbc03ece">
 </div>
 </section>
-<section id="slide-org3d98a42">
-<h3 id="org3d98a42">多値判別の構成方法</h3>
+<section id="slide-orgec3bece">
+<h3 id="orgec3bece">多値判別の構成方法</h3>
 <ul>
 <li>判別関数の比較
 <ul>
@@ -937,8 +930,8 @@ Bayes の公式による書き換え
 
 </ul>
 </section>
-<section id="slide-org7d7f169">
-<h3 id="org7d7f169">変動の分解</h3>
+<section id="slide-orgbc3a0d9">
+<h3 id="orgbc3a0d9">変動の分解</h3>
 <ul>
 <li>3種類の変動
 <ul>
@@ -977,13 +970,13 @@ Bayes の公式による書き換え
 </section>
 </section>
 <section>
-<section id="slide-org45b05d3">
-<h2 id="org45b05d3">Fisher の判別分析</h2>
-<div class="outline-text-2" id="text-org45b05d3">
+<section id="slide-org61f2e38">
+<h2 id="org61f2e38">Fisher の判別分析</h2>
+<div class="outline-text-2" id="text-org61f2e38">
 </div>
 </section>
-<section id="slide-orgdb83ba9">
-<h3 id="orgdb83ba9">Fisherの線形判別</h3>
+<section id="slide-orgf4c0a9f">
+<h3 id="orgf4c0a9f">Fisherの線形判別</h3>
 <ul>
 <li>判別のための特徴量 \(Z=\boldsymbol{\alpha}^{\mathsf{T}} X\)
 <ul>
@@ -1016,8 +1009,8 @@ Fisherの基準
 
 </ul>
 </section>
-<section id="slide-org5a88775">
-<h3 id="org5a88775">Fisherの線形判別の解</h3>
+<section id="slide-org1d5c530">
+<h3 id="org1d5c530">Fisherの線形判別の解</h3>
 <ul>
 <li>\(\boldsymbol{\alpha}\) は \(W^{-1}B\) の固有ベクトル (主成分分析と同様)
 <ul>
@@ -1054,13 +1047,13 @@ Fisherの基準
 </section>
 </section>
 <section>
-<section id="slide-org2b5befe" data-background="#fef4f4">
-<h2 id="org2b5befe">実習</h2>
+<section id="slide-orgedc32d9" data-background="#fef4f4">
+<h2 id="orgedc32d9">実習</h2>
 </section>
 </section>
 <section>
-<section id="slide-org9089fd4">
-<h2 id="org9089fd4">次回の予定</h2>
+<section id="slide-org011d5d0">
+<h2 id="org011d5d0">次回の予定</h2>
 <ul>
 <li>第1回 : 判別分析の考え方</li>
 <li><b>第2回 : 分析の評価</b></li>

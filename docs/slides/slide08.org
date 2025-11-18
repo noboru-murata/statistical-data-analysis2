@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2025-11-17 13:53:59 mura>
+# Time-stamp: <2025-11-17 22:01:02 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -91,7 +91,7 @@
 #+end_src
 
 
-* 判別分析の例
+* COMMENT 判別分析の例
 ** 乳癌の良性・悪性の判別
 - データセット
   - ~MASS::biopsy~ 
@@ -186,7 +186,7 @@ bio_data |>
   - 1次式の場合 : *線形判別分析* (linear discriminant analysis)
   - 2次式の場合 : *2次判別分析* (quadratic discriminant analysis)
 
-** COMMENT 判別分析の事例
+** 判別分析の例
 - データセット
   - ~MASS::biopsy~ 
     #+begin_quote
@@ -226,10 +226,17 @@ bio_data |>
 
 #+reveal: split
 #+begin_src R :file figs/bio-pairs.png :exports results :results graphics
-  bio_data |>
-    select(!ID) |> # IDを除く
-    GGally::ggpairs(diag = list(mapping = aes(colour = class)),
-                    lower = list(mapping = aes(colour = class)))
+      bio_data |>
+        select(!ID) |> # IDを除く
+        ggpairs(upper = list(continuous = wrap("cor", size = 3.5)),
+                diag = list(continuous = wrap("densityDiag", alpha = 0.7),
+                            mapping = aes(colour = class)),
+                lower = list(continuous = wrap("points", alpha = .7),
+                             mapping = aes(colour = class))) +
+    theme(strip.text.x = element_text(size = 11),
+          strip.text.y = element_text(size = 11),
+          axis.text.x = element_text(size = 7),
+          axis.text.y = element_text(size = 8))
 #+end_src
 #+caption: 9種類の生検の散布図
 #+name: fig:bio-pairs
@@ -239,9 +246,12 @@ bio_data |>
 
 #+reveal: split
 #+begin_src R :file figs/bio-pca.png :exports results :results graphics :height 700
-  autoplot(bio_data |> select(where(is.numeric)) |> prcomp(), # 主成分分析
-           data = bio_data,
-           colour = "class") 
+  bio_data |> select(where(is.numeric)) |> prcomp() |> # 主成分分析
+    autoplot(data = bio_data,
+             colour = "class") +
+      theme(legend.position = "inside",
+            legend.position.inside = c(.95, .95),
+            legend.justification = c("right", "top"))
 #+end_src
 #+caption: 主成分分析を用いて2次元に縮約した生検と良性・悪性の関係
 #+name: fig:bio-pca
@@ -251,20 +261,22 @@ bio_data |>
 
 #+reveal: split
 #+begin_src R :file figs/bio-lda.png :exports results :results graphics :height 700
-bio_lda <- lda(class ~ . -ID, data = bio_data)
-bio_data |>
+  bio_lda <- lda(class ~ . -ID, data = bio_data)
+  bio_data |>
     mutate(x = predict(bio_lda)[["x"]]) |>
     ggplot(aes(x = x)) +
-    geom_histogram(aes(fill = class), show.legend = FALSE) +
+    geom_histogram(aes(fill = class), alpha = 0.7,
+                   show.legend = FALSE) +
     facet_grid(class ~ .)
 #+end_src
+
 #+caption: 線形判別関数による判別関数値の分布
 #+name: fig:bio-lda
 #+attr_html: height 100%
 #+attr_latex: :width 0.6\linewidth
 [[file:figs/bio-lda.png]]
 
-** 判別分析の例
+** その他の例
 - [[color:green][検査結果から患者が病気を罹患しているか判定する]]
   - \(X=\) 検査結果
   - \(Y=\) 病気・健康
