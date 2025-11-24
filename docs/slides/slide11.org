@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-12-20 11:54:04 mura>
+# Time-stamp: <2025-11-18 21:32:04 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -643,7 +643,7 @@
 :reveal_background: #fef4f4
 :END:
 # 東京大学
-** R : \(k\)-平均法
+** COMMENT *R : \(k\)-平均法*
 :PROPERTIES:
 :ID:       BF14B712-D1D7-4CDA-BE9C-3BDCFDD7822F
 :END:
@@ -662,7 +662,7 @@
     - 例えば測定値の単位により異なる
     - 必要ならば主成分分析の場合と同様にデータの標準化を行う
 
-** R : 2次元でのクラスタ表示
+** COMMENT *R : 2次元でのクラスタ表示*
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
@@ -675,7 +675,7 @@
   #+end_src
 - 関数 ~cluster::clusplot()~ を利用することもできる
       
-** 練習問題
+** COMMENT *練習問題*
 :PROPERTIES:
 :reveal_background: #fef4f4
 :ID:       F4543112-3BC2-4689-8887-5510E8A66EE1
@@ -790,7 +790,7 @@
   #' ---------------------------------------------------------------------------
 #+end_src
 
-** R : \(k\)-メドイド法 
+** COMMENT *R : \(k\)-メドイド法 *
 :PROPERTIES:
 :ID:       23F6D185-357C-4973-95B4-184D0335F0BC
 :END:
@@ -818,7 +818,7 @@
 :END:
 - [[./code/12-kmeans.r][12-kmeans.r]] を確認してみよう
 
-** 練習問題
+** COMMENT *練習問題*
 :PROPERTIES:
 :reveal_background: #fef4f4
 :ID:       95C3E2F9-62C2-48DA-A6D2-F3315F356388
@@ -1246,7 +1246,7 @@
 :reveal_background: #fef4f4
 :END:
 # 東京大学
-** R : 凝集係数
+** COMMENT *R : 凝集係数*
 :PROPERTIES:
 :ID:       5EFEBBAA-7795-4ED3-9A25-C5506764F4B9
 :END:
@@ -1278,7 +1278,7 @@
                yaxRight = fromLeft, y.mar = 2.4 + max.strlen/2.5, ...)
   #+end_src
 
-** 練習問題
+** COMMENT *練習問題*
 :PROPERTIES:
 :reveal_background: #fef4f4
 :ID:       EAEFCCDA-22C8-40F1-8F9A-462C6E2AD824
@@ -1449,7 +1449,7 @@
 #               fill = "red", alpha = 0.6)
 # #+end_src
 
-** R : シルエット係数
+** COMMENT *R : シルエット係数*
 :PROPERTIES:
 :ID:       6AF1B625-7D2F-40F4-9AC5-236684343A73
 :END:
@@ -1505,7 +1505,7 @@
 :END:
 - [[./code/12-eval.r][12-eval.r]] を確認してみよう
 
-** 練習問題
+** COMMENT *練習問題*
 :PROPERTIES:
 :reveal_background: #fef4f4
 :ID:       AA8EF433-1EEC-4705-BFB1-EE300889D6F1

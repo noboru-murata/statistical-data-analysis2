@@ -3,7 +3,7 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
-# Time-stamp: <2024-12-12 10:59:03 mura>
+# Time-stamp: <2025-11-18 21:28:54 mura>
 #+STARTUP: hidestars content indent
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
@@ -570,7 +570,7 @@
 :reveal_background: #fef4f4
 :END:
 # 東京大学
-** R : クラスタ分析
+** COMMENT *R : クラスタ分析*
 :PROPERTIES:
 :reveal_background: #fef4f4
 :ID:       122E64CD-BC8C-4ECB-96C9-29443B23443D
@@ -614,7 +614,7 @@
     ## i,j: 行・列の指定 (数値ベクトル，データフレームの行名)
   #+end_src
 
-** R : データ間の距離の計算
+** COMMENT *R : データ間の距離の計算*
 :PROPERTIES:
 :reveal_background: #fef4f4
 :ID:       F308DB23-6E0F-48FA-8845-55C7FC617ACC
@@ -640,7 +640,7 @@
     #' 返値は dissimilarity class
   #+end_src
 
-** 練習問題
+** COMMENT *練習問題*
 :PROPERTIES:
 :reveal_background: #fef4f4
 :ID:       D22E87E3-E968-4F93-9ED3-CFA9473F2463
@@ -886,7 +886,7 @@
 :reveal_background: #fef4f4
 :END:
 # 東京大学
-** R : 階層的クラスタリング
+** COMMENT *R : 階層的クラスタリング*
 :PROPERTIES:
 :reveal_background: #fef4f4
 :ID:       F217C7F8-45C2-48ED-9642-0BFA62F9E9B9
@@ -929,7 +929,7 @@
     #' tree: stats::hclust() の返値
   #+end_src
   
-** R : 2次元でのクラスタ表示
+** COMMENT *R : 2次元でのクラスタ表示*
 :PROPERTIES:
 :reveal_background: #fef4f4
 :ID:       06758554-01AD-44DD-B4A1-25B987E163B4
@@ -971,14 +971,13 @@
 #     #' 詳細は '?ggfortify::autoplot.kmeans()' を参照
 #   #+end_src
 
-
 ** COMMENT 演習: 階層的クラスタリング
 :PROPERTIES:
 :reveal_background: #EEEEFF
 :END:
 - [[./code/11-hclust.r][11-hclust.r]] を確認してみよう
 
-** 練習問題
+** COMMENT *練習問題*
 :PROPERTIES:
 :reveal_background: #fef4f4
 :ID:       745A8CD2-BAA4-4F94-8DF0-968E33E8D1CE
@@ -1062,7 +1061,7 @@
   #' ---------------------------------------------------------------------------
 #+end_src
 
-** R : ~package::cluster~ の利用 
+** COMMENT *R : ~package::cluster~ の利用 *
 :PROPERTIES:
 :reveal_background: #fef4f4
 :ID:       2E0591D8-A5AC-4640-A560-8F95B9978D92
@@ -1088,7 +1087,7 @@
   #+end_src
 #  - 関数 ~stats::cutree()~, ~stats::rect.hclust()~ も利用可能
 
-** データセットの準備
+** COMMENT *データセットの準備*
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
@@ -1117,7 +1116,7 @@
    総数    30,318人    100.0%
   #+end_example
 
-** 練習問題
+** COMMENT *練習問題*
 :PROPERTIES:
 :reveal_background: #fef4f4
 :ID:       126BE363-3942-4D86-B307-3A95240D3AAF

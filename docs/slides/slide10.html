@@ -45,8 +45,8 @@
 
 </section>
 <section>
-<section id="slide-org4e5c2b5">
-<h2 id="org4e5c2b5">講義概要</h2>
+<section id="slide-orgdaa587a">
+<h2 id="orgdaa587a">講義概要</h2>
 <ul>
 <li><b>第1回 : 基本的な考え方と階層的方法</b></li>
 <li>第2回 : 非階層的方法と分析の評価</li>
@@ -55,13 +55,13 @@
 </section>
 </section>
 <section>
-<section id="slide-orge4103f9">
-<h2 id="orge4103f9">クラスタ分析の例</h2>
-<div class="outline-text-2" id="text-orge4103f9">
+<section id="slide-orge1d16f2">
+<h2 id="orge1d16f2">クラスタ分析の例</h2>
+<div class="outline-text-2" id="text-orge1d16f2">
 </div>
 </section>
-<section id="slide-org6223b64">
-<h3 id="org6223b64">実データによる例</h3>
+<section id="slide-org0fa8067">
+<h3 id="org0fa8067">実データによる例</h3>
 <ul>
 <li>総務省統計局より取得した都道府県別の社会生活統計指標の一部
 <ul>
@@ -69,7 +69,7 @@
 <li><p>
 データ <a href="https://noboru-murata.github.io/statistical-data-analysis2/data/data06.zip">https://noboru-murata.github.io/statistical-data-analysis2/data/data06.zip</a>
 </p>
-<pre class="example" id="org82314e8">
+<pre class="example" id="org88ccd4d">
 Pref   : 都道府県名
 Forest : 森林面積割合 (%) 2014年
 Agri   : 就業者１人当たり農業産出額(販売農家）(万円) 2014年
@@ -83,9 +83,9 @@ Area   : 地方区分
 
 </ul>
 </section>
-<section id="slide-org29ddad5">
-<h3 id="org29ddad5">データの概要</h3>
-<div id="wfmcynpigk" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<section id="slide-org246e67d">
+<h3 id="org246e67d">データの概要</h3>
+<div id="gtuozxsezr" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
   
   <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false" style="-webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; display: table; border-collapse: collapse; line-height: normal; margin-left: auto; margin-right: auto; color: #333333; font-size: 16px; font-weight: normal; font-style: normal; background-color: #FFFFFF; width: auto; border-top-style: solid; border-top-width: 2px; border-top-color: #A8A8A8; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #A8A8A8; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3;" bgcolor="#FFFFFF">
   <thead style="border-style: none;">
@@ -207,14 +207,13 @@ Area   : 地方区分
 <td headers="Area" class="gt_row gt_center" style="border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden; text-align: center;" valign="middle" align="center">Chubu</td></tr>
   </tbody>
   
-  
 </table>
 </div>
 </section>
-<section id="slide-org93921e3">
-<h3 id="org93921e3">分析の目的</h3>
+<section id="slide-org2d5c0ac">
+<h3 id="org2d5c0ac">分析の目的</h3>
 
-<div id="org92cdec7" class="figure">
+<div id="org3eba265" class="figure">
 <p><img src="figs/10_pairs.png" alt="10_pairs.png" />
 </p>
 <p><span class="figure-number">Figure 1: </span>散布図</p>
@@ -223,7 +222,7 @@ Area   : 地方区分
 </section>
 <section>
 
-<div id="org5cd007a" class="figure">
+<div id="orgb72580a" class="figure">
 <p><img src="figs/10_pcaplot.png" alt="10_pcaplot.png" />
 </p>
 <p><span class="figure-number">Figure 2: </span>主成分得点による散布図</p>
@@ -232,7 +231,7 @@ Area   : 地方区分
 </section>
 <section>
 
-<div id="orgff2746d" class="figure">
+<div id="org5adee98" class="figure">
 <p><img src="figs/10_clusplot.png" alt="10_clusplot.png" />
 </p>
 <p><span class="figure-number">Figure 3: </span>散布図上のクラスタ構造 (クラスタ分析の概念図)</p>
@@ -240,13 +239,13 @@ Area   : 地方区分
 </section>
 </section>
 <section>
-<section id="slide-orgc8889c8">
-<h2 id="orgc8889c8">クラスタ分析の考え方</h2>
-<div class="outline-text-2" id="text-orgc8889c8">
+<section id="slide-org20074fb">
+<h2 id="org20074fb">クラスタ分析の考え方</h2>
+<div class="outline-text-2" id="text-org20074fb">
 </div>
 </section>
-<section id="slide-org5a9741b">
-<h3 id="org5a9741b">クラスタ分析</h3>
+<section id="slide-org926dd48">
+<h3 id="org926dd48">クラスタ分析</h3>
 <ul>
 <li><p>
 クラスタ分析 (<b>cluster analysis</b>) の目的
@@ -269,8 +268,8 @@ Area   : 地方区分
 
 </ul>
 </section>
-<section id="slide-org4dbd282">
-<h3 id="org4dbd282">クラスタ分析の考え方</h3>
+<section id="slide-org0d90f1b">
+<h3 id="org0d90f1b">クラスタ分析の考え方</h3>
 <ul>
 <li>階層的方法
 <ul>
@@ -295,13 +294,13 @@ Area   : 地方区分
 </section>
 </section>
 <section>
-<section id="slide-org574ca6a">
-<h2 id="org574ca6a">階層的方法</h2>
-<div class="outline-text-2" id="text-org574ca6a">
+<section id="slide-org15ebd24">
+<h2 id="org15ebd24">階層的方法</h2>
+<div class="outline-text-2" id="text-org15ebd24">
 </div>
 </section>
-<section id="slide-orgaaff683">
-<h3 id="orgaaff683">凝集的クラスタリング</h3>
+<section id="slide-orge6ecf5b">
+<h3 id="orge6ecf5b">凝集的クラスタリング</h3>
 <ol>
 <li>データ・クラスタ間の距離を定義する
 <ul>
@@ -321,23 +320,23 @@ Area   : 地方区分
 
 </ol>
 </section>
-<section id="slide-orgd4eabe0">
-<h3 id="orgd4eabe0">事例</h3>
+<section id="slide-orga9582f0">
+<h3 id="orga9582f0">事例</h3>
 <ul>
 <li><p>
 <span style="color:green;">社会生活統計指標の一部(関東地方)</span>
 </p>
-<div id="czqfunufwb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="jitzbccham" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 
   <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false" style="-webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; display: table; border-collapse: collapse; line-height: normal; margin-left: auto; margin-right: auto; color: #333333; font-size: 16px; font-weight: normal; font-style: normal; background-color: #FFFFFF; width: auto; border-top-style: solid; border-top-width: 2px; border-top-color: #A8A8A8; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #A8A8A8; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3;" bgcolor="#FFFFFF">
   <thead style="border-style: none;">
     <tr class="gt_col_headings" style="border-style: none; border-top-style: solid; border-top-width: 2px; border-top-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3;">
-	<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="都道府県名" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: left;" bgcolor="#FFFFFF" valign="bottom" align="left">都道府県名</th>
-	<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="森林面積割合" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;" bgcolor="#FFFFFF" valign="bottom" align="right">森林面積割合</th>
-	<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="農業産出額" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;" bgcolor="#FFFFFF" valign="bottom" align="right">農業産出額</th>
-	<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="人口割合" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;" bgcolor="#FFFFFF" valign="bottom" align="right">人口割合</th>
-	<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="土地生産性" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;" bgcolor="#FFFFFF" valign="bottom" align="right">土地生産性</th>
-	<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="商品販売額" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;" bgcolor="#FFFFFF" valign="bottom" align="right">商品販売額</th>
+	<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="a都道府県名" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: left;" bgcolor="#FFFFFF" valign="bottom" align="left">都道府県名</th>
+	<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="a森林面積割合" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;" bgcolor="#FFFFFF" valign="bottom" align="right">森林面積割合</th>
+	<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="a農業産出額" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;" bgcolor="#FFFFFF" valign="bottom" align="right">農業産出額</th>
+	<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="a人口割合" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;" bgcolor="#FFFFFF" valign="bottom" align="right">人口割合</th>
+	<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="a土地生産性" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;" bgcolor="#FFFFFF" valign="bottom" align="right">土地生産性</th>
+	<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="a商品販売額" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;" bgcolor="#FFFFFF" valign="bottom" align="right">商品販売額</th>
     </tr>
   </thead>
   <tbody class="gt_table_body" style="border-style: none; border-top-style: solid; border-top-width: 2px; border-top-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3;">
@@ -385,7 +384,6 @@ Area   : 地方区分
 <td headers="商品販売額" class="gt_row gt_right" style="border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;" valign="middle" align="right">246.1</td></tr>
   </tbody>
 
-
 </table>
 </div></li>
 
@@ -394,7 +392,7 @@ Area   : 地方区分
 </section>
 <section>
 
-<div id="org956c94f" class="figure">
+<div id="org6d56097" class="figure">
 <p><img src="figs/10_hclst0.png" alt="10_hclst0.png" />
 </p>
 <p><span class="figure-number">Figure 4: </span>凝集的クラスタリング</p>
@@ -403,7 +401,7 @@ Area   : 地方区分
 </section>
 <section>
 
-<div id="orge7d25f3" class="figure">
+<div id="org5f25537" class="figure">
 <p><img src="figs/10_hclst1.png" alt="10_hclst1.png" />
 </p>
 <p><span class="figure-number">Figure 5: </span>クラスタリングの手続き (その1)</p>
@@ -412,7 +410,7 @@ Area   : 地方区分
 </section>
 <section>
 
-<div id="orgc04f2b7" class="figure">
+<div id="org0bd97c3" class="figure">
 <p><img src="figs/10_hclst2.png" alt="10_hclst2.png" />
 </p>
 <p><span class="figure-number">Figure 6: </span>クラスタリングの手続き (その2)</p>
@@ -421,7 +419,7 @@ Area   : 地方区分
 </section>
 <section>
 
-<div id="org98b2b58" class="figure">
+<div id="org73ff601" class="figure">
 <p><img src="figs/10_hclst3.png" alt="10_hclst3.png" />
 </p>
 <p><span class="figure-number">Figure 7: </span>クラスタリングの手続き (その3)</p>
@@ -430,7 +428,7 @@ Area   : 地方区分
 </section>
 <section>
 
-<div id="orge5f91b0" class="figure">
+<div id="orgd21bbef" class="figure">
 <p><img src="figs/10_hclst4.png" alt="10_hclst4.png" />
 </p>
 <p><span class="figure-number">Figure 8: </span>クラスタリングの手続き (その4)</p>
@@ -440,7 +438,7 @@ Area   : 地方区分
 </section>
 <section>
 
-<div id="org09b33fe" class="figure">
+<div id="org4432d9d" class="figure">
 <p><img src="figs/10_hclst5.png" alt="10_hclst5.png" />
 </p>
 <p><span class="figure-number">Figure 9: </span>クラスタリングの手続き (その5)</p>
@@ -450,7 +448,7 @@ Area   : 地方区分
 </section>
 <section>
 
-<div id="org7df19c6" class="figure">
+<div id="org178f22e" class="figure">
 <p><img src="figs/10_hclst6.png" alt="10_hclst6.png" />
 </p>
 <p><span class="figure-number">Figure 10: </span>クラスタリングの手続き (その6)</p>
@@ -459,7 +457,7 @@ Area   : 地方区分
 </section>
 <section>
 
-<div id="orgd3e4794" class="figure">
+<div id="org3f79bac" class="figure">
 <p><img src="figs/10_dendro.png" alt="10_dendro.png" />
 </p>
 <p><span class="figure-number">Figure 11: </span>デンドログラムによるクラスタ構造の表示</p>
@@ -467,13 +465,13 @@ Area   : 地方区分
 </section>
 </section>
 <section>
-<section id="slide-orgdaa0cd8">
-<h2 id="orgdaa0cd8">データ間の距離</h2>
-<div class="outline-text-2" id="text-orgdaa0cd8">
+<section id="slide-org0e646d5">
+<h2 id="org0e646d5">データ間の距離</h2>
+<div class="outline-text-2" id="text-org0e646d5">
 </div>
 </section>
-<section id="slide-orgc0ecd77">
-<h3 id="orgc0ecd77">データ間の距離</h3>
+<section id="slide-orgc3fbfa8">
+<h3 id="orgc3fbfa8">データ間の距離</h3>
 <ul>
 <li><p>
 データ : 変数の値を成分としてもつベクトル
@@ -498,8 +496,8 @@ Area   : 地方区分
 
 </ul>
 </section>
-<section id="slide-org56267c8">
-<h3 id="org56267c8">Euclid 距離</h3>
+<section id="slide-orgde9820d">
+<h3 id="orgde9820d">Euclid 距離</h3>
 <ul>
 <li>最も一般的な距離</li>
 <li><p>
@@ -517,8 +515,8 @@ Area   : 地方区分
 
 </ul>
 </section>
-<section id="slide-org443ca69">
-<h3 id="org443ca69">Manhattan 距離</h3>
+<section id="slide-org0c7a045">
+<h3 id="org0c7a045">Manhattan 距離</h3>
 <ul>
 <li>後述する Minkowski 距離の \(p=1\) の場合</li>
 <li><p>
@@ -536,8 +534,8 @@ Area   : 地方区分
 
 </ul>
 </section>
-<section id="slide-org31dc89d">
-<h3 id="org31dc89d">Minkowski 距離</h3>
+<section id="slide-org7a14ec4">
+<h3 id="org7a14ec4">Minkowski 距離</h3>
 <ul>
 <li>Euclid 距離を \(p\) 乗に一般化した距離</li>
 <li><p>
@@ -555,8 +553,8 @@ Area   : 地方区分
 
 </ul>
 </section>
-<section id="slide-orgb9e1491">
-<h3 id="orgb9e1491">その他の距離</h3>
+<section id="slide-org884253a">
+<h3 id="org884253a">その他の距離</h3>
 <ul>
 <li>類似度や乖離度などデータ間に自然に定義されるものを用いることは可能
 <ul>
@@ -570,115 +568,18 @@ Area   : 地方区分
 </section>
 </section>
 <section>
-<section id="slide-org5016fa2" data-background="#fef4f4">
-<h2 id="org5016fa2">実習</h2>
-</section>
-<section id="slide-org2323de7" data-background="#fef4f4">
-<h3 id="org2323de7">R : クラスタ分析</h3>
-<ul>
-<li>関連するパッケージ
-<ul>
-<li><b>stats</b> : base R の基本的な統計に関するパッケージ
-<ul>
-<li>関数 <code>dist()</code>, <code>hclust</code>, <code>kmeans()</code> など</li>
-<li>標準でインストールされている</li>
-
-</ul></li>
-<li><b>cluster</b> : Kaufman and Rousseeuw (1990) にもとづくパッケージ
-<ul>
-<li>関数 <code>daisy()</code>, <code>agnes()</code>, <code>pam()</code> など</li>
-<li>標準でインストールされている</li>
-
-</ul></li>
-<li><b>ggfortify</b> : ggplotによる描画を補助するパッケージ
-<ul>
-<li>関数 <code>autoplot()</code> など</li>
-<li>既に導入済み(回帰，主成分，判別分析でも利用)</li>
-
-</ul></li>
-<li><p>
-<b>ggdendro</b> : ggplotによるデンドログラム描画のパッケージ
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#26368;&#21021;&#12395;&#19968;&#24230;&#12384;&#12369;&#20197;&#19979;&#12398;&#12356;&#12378;&#12428;&#12363;&#12434;&#23455;&#34892;&#12375;&#12390;&#12362;&#12367;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;">  - Package &#12479;&#12502;&#12363;&#12425; ggdendro &#12434;&#12452;&#12531;&#12473;&#12488;&#12540;&#12523;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;">  - &#12467;&#12531;&#12477;&#12540;&#12523;&#19978;&#12391;&#27425;&#12398;&#12467;&#12510;&#12531;&#12489;&#12434;&#23455;&#34892; 'install.packages("ggdendro")'</span>
-</pre>
-</div></li>
-
-</ul></li>
-
-</ul>
-</section>
-<section id="slide-orgf5a8430" data-background="#fef4f4">
-<h3 id="orgf5a8430">R : データ間の距離の計算</h3>
-<ul>
-<li><p>
-関数 <code>stats::dist()</code> 
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R">dist(x, method = <span style="color: #d08928;">"euclidean"</span>, diag = <span style="color: #00aa80;">FALSE</span>, upper = <span style="color: #00aa80;">FALSE</span>, p = 2)
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> x: &#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> method: &#36317;&#38626; (&#27161;&#28310;&#12399;&#12518;&#12540;&#12463;&#12522;&#12483;&#12489;&#36317;&#38626;&#65292;&#20182;&#12399;"manhattan","minkowski"&#12394;&#12393;)</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> diag: &#23550;&#35282;&#25104;&#20998;&#12434;&#25345;&#12383;&#12379;&#12427;&#12363; </span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> upper: &#19978;&#19977;&#35282;&#25104;&#20998;&#12434;&#25345;&#12383;&#12379;&#12427;&#12363; (&#27161;&#28310;&#12399;&#19979;&#19977;&#35282;&#25104;&#20998;&#12398;&#12415;)</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#36820;&#20516;&#12399; dist class</span>
-</pre>
-</div></li>
-<li><p>
-関数 <code>cluster::daisy()</code> 
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R">daisy(x, metric = c(<span style="color: #d08928;">"euclidean"</span>, <span style="color: #d08928;">"manhattan"</span>, <span style="color: #d08928;">"gower"</span>),
-      stand = <span style="color: #00aa80;">FALSE</span>, type = list(), weights = rep.int(1, p),
-      warnBin = warnType, warnAsym = warnType, warnConst = warnType,
-      warnType = <span style="color: #00aa80;">TRUE</span>)
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> x: &#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> metric: &#36317;&#38626; (&#27161;&#28310;&#12399;&#12518;&#12540;&#12463;&#12522;&#12483;&#12489;&#36317;&#38626;&#65292;&#20182;&#12399;"manhattan"&#12394;&#12393;)</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> stand: &#27491;&#35215;&#21270;(&#24179;&#22343;&#12392;&#32118;&#23550;&#20559;&#24046;&#12398;&#24179;&#22343;&#12395;&#12424;&#12427;)&#12398;&#26377;&#28961;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#36820;&#20516;&#12399; dissimilarity class</span>
-</pre>
-</div></li>
-
-</ul>
-</section>
-<section id="slide-orgd61d8b9" data-background="#fef4f4">
-<h3 id="orgd61d8b9">練習問題</h3>
-<ul>
-<li><p>
-都道府県別の社会生活統計指標を用いて以下を確認しなさい
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#12487;&#12540;&#12479;&#12398;&#35501;&#12415;&#36796;&#12415;&#26041;&#12398;&#20363;</span>
-js_df <span style="color: #60aa00;">&lt;-</span> read_csv(<span style="color: #d08928;">"data/japan_social.csv"</span>) |&gt;
-  column_to_rownames(var = <span style="color: #d08928;">"Pref"</span>) |&gt; <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">'Pref'&#12434;&#34892;&#21517;&#12395;&#22793;&#25563;</span>
-  select(-Area) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#22320;&#26041;&#21517;&#12399;&#38500;&#12367;</span>
-</pre>
-</div>
-<ul>
-<li>正規化せずにユークリッド距離とマンハッタン距離の計算を行いなさい</li>
-<li>正規化して上記と同様の計算を行いなさい</li>
-<li>関東の都県同士の距離を表示しなさい (daisyによる正規化を用いなさい)</li>
-<li>大阪と四国の間の距離を表示しなさい</li>
-<li>ユークリッド距離とマンハッタン距離の散布図を描き比較しなさい</li>
-
-</ul></li>
-
-</ul>
+<section id="slide-org7dda729" data-background="#fef4f4">
+<h2 id="org7dda729">実習</h2>
 </section>
 </section>
 <section>
-<section id="slide-org3330b77">
-<h2 id="org3330b77">クラスタ間の距離</h2>
-<div class="outline-text-2" id="text-org3330b77">
+<section id="slide-org53c990f">
+<h2 id="org53c990f">クラスタ間の距離</h2>
+<div class="outline-text-2" id="text-org53c990f">
 </div>
 </section>
-<section id="slide-org86863a1">
-<h3 id="org86863a1">クラスタ間の距離</h3>
+<section id="slide-orgb585b41">
+<h3 id="orgb585b41">クラスタ間の距離</h3>
 <ul>
 <li><p>
 クラスタ : いくつかのデータ点からなる集合
@@ -709,8 +610,8 @@ js_df <span style="color: #60aa00;">&lt;-</span> read_csv(<span style="color: #d
 
 </ul>
 </section>
-<section id="slide-orgc6df429">
-<h3 id="orgc6df429">最短距離法</h3>
+<section id="slide-orgebc11bd">
+<h3 id="orgebc11bd">最短距離法</h3>
 <ul>
 <li><p>
 最も近い対象間の距離を用いる方法
@@ -740,8 +641,8 @@ js_df <span style="color: #60aa00;">&lt;-</span> read_csv(<span style="color: #d
 
 </ul>
 </section>
-<section id="slide-orge272649">
-<h3 id="orge272649">最長距離法</h3>
+<section id="slide-org5cab4a5">
+<h3 id="org5cab4a5">最長距離法</h3>
 <ul>
 <li><p>
 最も遠い対象間の距離を用いる方法
@@ -771,8 +672,8 @@ js_df <span style="color: #60aa00;">&lt;-</span> read_csv(<span style="color: #d
 
 </ul>
 </section>
-<section id="slide-org49c3871">
-<h3 id="org49c3871">群平均法</h3>
+<section id="slide-org7180b25">
+<h3 id="org7180b25">群平均法</h3>
 <ul>
 <li><p>
 全ての対象間の平均距離を用いる方法
@@ -806,8 +707,8 @@ js_df <span style="color: #60aa00;">&lt;-</span> read_csv(<span style="color: #d
 
 </ul>
 </section>
-<section id="slide-orge610416">
-<h3 id="orge610416">距離計算に関する注意</h3>
+<section id="slide-org6a76425">
+<h3 id="org6a76425">距離計算に関する注意</h3>
 <ul>
 <li>データの性質に応じて距離は適宜使い分ける
 <ul>
@@ -827,249 +728,13 @@ js_df <span style="color: #60aa00;">&lt;-</span> read_csv(<span style="color: #d
 </section>
 </section>
 <section>
-<section id="slide-org741826a" data-background="#fef4f4">
-<h2 id="org741826a">実習</h2>
-</section>
-<section id="slide-org92a96d1" data-background="#fef4f4">
-<h3 id="org92a96d1">R : 階層的クラスタリング</h3>
-<ul>
-<li><p>
-関数 <code>stats::hclust()</code> 
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R">hclust(d, method = <span style="color: #d08928;">"complete"</span>, members = <span style="color: #00aa80;">NULL</span>)
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> d: &#36317;&#38626;&#34892;&#21015;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> method: &#20998;&#26512;&#27861; (&#27161;&#28310;&#12399;&#26368;&#38263;&#36317;&#38626;&#27861;&#65292;&#20182;&#12399;"single","average"&#12394;&#12393;)</span>
-</pre>
-</div></li>
-<li><p>
-分析のための補助的な関数
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> stats::cutree() - &#12487;&#12531;&#12489;&#12525;&#12464;&#12521;&#12512;&#12395;&#22522;&#12389;&#12367;&#12463;&#12521;&#12473;&#12479;&#12398;&#20998;&#21106; </span>
-cutree(tree, k = <span style="color: #00aa80;">NULL</span>, h = <span style="color: #00aa80;">NULL</span>)
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> tree: stats::hclust() &#12398;&#36820;&#20516;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> k: &#12463;&#12521;&#12473;&#12479;&#12398;&#25968;&#12434;&#25351;&#23450;&#12375;&#12390;&#20998;&#21106;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> h: &#12463;&#12521;&#12473;&#12479;&#12398;&#39640;&#12373;&#12434;&#25351;&#23450;&#12375;&#12390;&#20998;&#21106;</span>
-</pre>
-</div></li>
-
-</ul>
-
-</section>
-<section data-background="#fef4f4">
-<ul>
-<li><p>
-視覚化のための関数 (ggplot 系)
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R">ggdendrogram(data,
-             segments = <span style="color: #00aa80;">TRUE</span>, labels = <span style="color: #00aa80;">TRUE</span>, leaf_labels = <span style="color: #00aa80;">TRUE</span>,
-             rotate = <span style="color: #00aa80;">FALSE</span>, theme_dendro = <span style="color: #00aa80;">TRUE</span>, ...)
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> data: stats::hclust(), stats::dendrogram() &#12394;&#12393;&#12398;&#36820;&#20516;</span>
-</pre>
-</div></li>
-<li><p>
-視覚化のための関数 (graphics 系)
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> stats::plot.hclust() - &#31995;&#32113;&#27193;&#12398;&#34920;&#31034;</span>
-plot(x, labels = <span style="color: #00aa80;">NULL</span>, hang = 0.1, check = <span style="color: #00aa80;">TRUE</span>,
-     axes = <span style="color: #00aa80;">TRUE</span>, frame.plot = <span style="color: #00aa80;">FALSE</span>, ann = <span style="color: #00aa80;">TRUE</span>,
-     main = <span style="color: #d08928;">"Cluster Dendrogram"</span>,
-     sub = <span style="color: #00aa80;">NULL</span>, xlab = <span style="color: #00aa80;">NULL</span>, ylab = <span style="color: #d08928;">"Height"</span>, ...)
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> x: stats::hclust() &#12398;&#36820;&#20516;</span>
-
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> stats::rect.hclust() - &#12463;&#12521;&#12473;&#12479;&#12398;&#20998;&#21106;&#34920;&#31034; (cutree&#12392;&#12411;&#12412;&#21516;&#27096;)</span>
-rect.hclust(tree, k = <span style="color: #00aa80;">NULL</span>, which = <span style="color: #00aa80;">NULL</span>, x = <span style="color: #00aa80;">NULL</span>, h = <span style="color: #00aa80;">NULL</span>,
-            border = 2, cluster = <span style="color: #00aa80;">NULL</span>)
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> tree: stats::hclust() &#12398;&#36820;&#20516;</span>
-</pre>
-</div></li>
-
-</ul>
-</section>
-<section id="slide-orgcfe849c" data-background="#fef4f4">
-<h3 id="orgcfe849c">R : 2次元でのクラスタ表示</h3>
-<ul>
-<li><p>
-関数 <code>ggfortify::autoplot()</code> (ggplot 系)
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R">autoplot(object, data = <span style="color: #00aa80;">NULL</span>, frame = <span style="color: #00aa80;">FALSE</span>,
-         scale = 1, x = 1, y = 2,
-         variance_percentage = <span style="color: #00aa80;">TRUE</span>, ...)
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> object: stats::prcomp() &#12394;&#12393;&#12398;&#36820;&#20516;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> data: &#25551;&#30011;&#12395;&#24517;&#35201;&#12394;&#36861;&#21152;&#12487;&#12540;&#12479;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> frame: &#12463;&#12521;&#12473;&#12479;&#12372;&#12392;(colour&#12394;&#12393;&#12391;&#25351;&#23450;)&#12395;&#20984;&#21253;&#12414;&#12383;&#12399;&#26965;&#20870;&#12434;&#25551;&#30011;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35443;&#32048;&#12399; '?ggfortify::autoplot.pca_common()/ggbiplot()'&#12434;&#21442;&#29031;</span>
-</pre>
-</div>
-<ul>
-<li>クラスタの分割には関数 cutree() を利用する</li>
-<li>2次元の散布図の作成には主成分分析などを利用する</li>
-
-</ul></li>
-
-</ul>
-</section>
-<section data-background="#fef4f4">
-<ul>
-<li><p>
-関数 <code>cluster::clusplot()</code> (graphics 系)
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R">clusplot(x, clus, diss = <span style="color: #00aa80;">FALSE</span>, stand = <span style="color: #00aa80;">FALSE</span>,
-         lines = 2, shade = <span style="color: #00aa80;">FALSE</span>, color = <span style="color: #00aa80;">FALSE</span>,
-         labels= 0, plotchar = <span style="color: #00aa80;">TRUE</span>,
-         col.p = <span style="color: #d08928;">"dark green"</span>, col.txt = col.p, col.clus = 5&#65292;...)
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> x: &#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> clus: &#12463;&#12521;&#12473;&#12479;&#20998;&#21106;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> stand: &#27491;&#35215;&#21270;&#12398;&#26377;&#28961;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> lines: &#12463;&#12521;&#12473;&#12479;&#38291;&#12398;&#32331;&#12364;&#12426;&#12398;&#34920;&#31034; (0:&#28961;&#65292;1:&#22806;&#65292;2:&#20013;&#24515;)</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> shade: &#32178;&#25499;&#12369;&#12398;&#26377;&#28961;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> labels: &#12521;&#12505;&#12523;&#12398;&#34920;&#31034; (0:&#28961;&#65292;2:&#12487;&#12540;&#12479;&#12392;&#12463;&#12521;&#12473;&#12479;, 3:&#12487;&#12540;&#12479;, 4:&#12463;&#12521;&#12473;&#12479;, &#12394;&#12393;)</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> col.p/txt/clue: &#12487;&#12540;&#12479;&#28857;&#12539;&#25991;&#23383;&#12539;&#12463;&#12521;&#12473;&#12479;&#12398;&#33394;&#25351;&#23450;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35443;&#32048;&#12399; '?cluster::clusplot.default()' &#12434;&#21442;&#29031;</span>
-</pre>
-</div></li>
-
-</ul>
-</section>
-<section id="slide-orga87de76" data-background="#fef4f4">
-<h3 id="orga87de76">練習問題</h3>
-<ul>
-<li>都道府県別の社会生活統計指標を用いて以下の分析を行いなさい
-<ul>
-<li>平均0，分散1に正規化したデータのユークリッド距離を用いて，
-群平均法による階層的クラスタリングを行いなさい</li>
-<li>クラスタ数を5つとして分割を行いなさい</li>
-
-</ul></li>
-
-</ul>
-</section>
-<section id="slide-org5c9d8aa" data-background="#fef4f4">
-<h3 id="org5c9d8aa">R : <code>package::cluster</code> の利用</h3>
-<ul>
-<li><p>
-関数 <code>cluster::agnes()</code> 
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R">agnes(x, diss = inherits(x, <span style="color: #d08928;">"dist"</span>), metric = <span style="color: #d08928;">"euclidean"</span>,
-      stand = <span style="color: #00aa80;">FALSE</span>, method = <span style="color: #d08928;">"average"</span>, par.method,
-      keep.diss = n &lt; 100, keep.data = !diss, trace.lev = 0)
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> x: &#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;&#65292;&#12414;&#12383;&#12399;&#36317;&#38626;&#34892;&#21015;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> metric: &#36317;&#38626; (&#27161;&#28310;&#12399;&#12518;&#12540;&#12463;&#12522;&#12483;&#12489;&#36317;&#38626;&#65292;&#20182;&#12399; 'manhattan' &#12394;&#12393;)</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> stand: &#27491;&#35215;&#21270;(&#24179;&#22343;&#12392;&#32118;&#23550;&#20559;&#24046;&#12398;&#24179;&#22343;&#12395;&#12424;&#12427;)&#12398;&#26377;&#28961;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> method: &#20998;&#26512;&#27861; (&#27161;&#28310;&#12399;&#32676;&#24179;&#22343;&#27861;&#65292;&#20182;&#12399; 'single', 'complete' &#12394;&#12393;)</span>
-</pre>
-</div></li>
-<li><p>
-視覚化のための補助的な関数 (base R系)
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> cluster::plot.agnes() - &#31995;&#32113;&#27193;&#12362;&#12424;&#12403;&#20957;&#38598;&#20418;&#25968;&#12398;&#34920;&#31034;</span>
-plot(x, ask = <span style="color: #00aa80;">FALSE</span>, which.plots = <span style="color: #00aa80;">NULL</span>, main = <span style="color: #00aa80;">NULL</span>,
-     sub = paste(<span style="color: #d08928;">"Agglomerative Coefficient = "</span>,round(x$ac, digits = 2)),
-     adj = 0, nmax.lab = 35, max.strlen = 5, xax.pretty = <span style="color: #00aa80;">TRUE</span>, ...)
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> x: cluster::agnes() &#12398;&#36820;&#20516;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> which.plots: 1 - banner plot, 2 - dendrogram</span>
-</pre>
-</div></li>
-
-</ul>
-</section>
-<section id="slide-org18b8112" data-background="#fef4f4">
-<h3 id="org18b8112">データセットの準備</h3>
-<ul>
-<li>Webアンケート (都道府県別好きなおむすびの具)
-<ul>
-<li>「ごはんを食べよう国民運動推進協議会」(平成30年解散) <br />
-(閉鎖) <a href="http://www.gohan.gr.jp/result/09/anketo09.html">http://www.gohan.gr.jp/result/09/anketo09.html</a></li>
-<li>データ <a href="https://noboru-murata.github.io/multivariate-analysis/data/omusubi.csv">https://noboru-murata.github.io/multivariate-analysis/data/omusubi.csv</a></li>
-
-</ul></li>
-
-</ul>
-
-</section>
-<section data-background="#fef4f4">
-<ul>
-<li><p>
-アンケート概要 (Q2の結果を利用)
-</p>
-<pre class="example" id="org46c2694">
-【応募期間】 2009年1月4日～2009年2月28日
-【応募方法】 インターネット、携帯ウェブ
-【内　　容】
- Q1. おむすびを最近１週間に、何個食べましたか？
-     そのうち市販のおむすびは何個でしたか？
- Q2. おむすびの具では何が一番好きですか？
-     A.梅 B.鮭 C.昆布 D.かつお E.明太子 F.たらこ Ｇ.ツナ H.その他
- Q3. おむすびのことをあなたはなんと呼んでいますか？
-     A.おにぎり B.おむすび C.その他
- Q4. おむすびといえば、どういう形ですか？
-     A.三角形 B.丸形 C.俵形 D.その他
-【回答者数】
- 男性     9,702人     32.0%
- 女性    20,616人     68.0%
- 総数    30,318人    100.0%
-</pre></li>
-
-</ul>
-</section>
-<section id="slide-org6a46a28" data-background="#fef4f4">
-<h3 id="org6a46a28">練習問題</h3>
-<ul>
-<li><p>
-データ `omusubi.csv` を用いて以下の分析を行いなさい．
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#12487;&#12540;&#12479;&#12398;&#35501;&#12415;&#36796;&#12415; </span>
-om_data <span style="color: #60aa00;">&lt;-</span> read_csv(file = <span style="color: #d08928;">"data/omusubi.csv"</span>)
-om_df <span style="color: #60aa00;">&lt;-</span> om_data |&gt; column_to_rownames(var = <span style="color: #d08928;">"prefecture"</span>)
-</pre>
-</div>
-<ul>
-<li><p>
-Hellinger距離を用いて距離行列を作成しなさい
-</p>
-<blockquote>
-<p>
-\(\boldsymbol{p},\boldsymbol{q}\)
-を確率ベクトルとして
-定義される確率分布の間の距離
-</p>
-<div>
-\begin{equation}
-  d_{hel}(\boldsymbol{p},\boldsymbol{q})
-  =
-  \frac{1}{\sqrt{2}}d_{euc}(\sqrt{\boldsymbol{p}},\sqrt{\boldsymbol{q}})
-\end{equation}
-
-</div>
-</blockquote></li>
-<li>群平均法による階層的クラスタリングを行いなさい</li>
-<li>クラスタ数を定めて2次元でのクラスタ表示を作成しなさい</li>
-
-</ul></li>
-
-</ul>
+<section id="slide-org79a5528" data-background="#fef4f4">
+<h2 id="org79a5528">実習</h2>
 </section>
 </section>
 <section>
-<section id="slide-orge85746d">
-<h2 id="orge85746d">次回の予定</h2>
+<section id="slide-org115bc97">
+<h2 id="org115bc97">次回の予定</h2>
 <ul>
 <li>第1回 : 基本的な考え方と階層的方法</li>
 <li><b>第2回 : 非階層的方法と分析の評価</b></li>

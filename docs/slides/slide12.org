@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2024-12-20 16:18:06 mura>
+# Time-stamp: <2025-11-18 21:47:21 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 #+PROPERTY: header-args:R+ :width 1344 :height 960 :res 144
@@ -38,9 +38,9 @@
     dplyr::lag(),
     )
   library(tidyverse)
-  library(forecast)
-  library(scales)
-  library(patchwork)
+  library(fable)
+  library(tsibble)
+  library(feasts)
   library(gt)
   #' 日本語表示・色の設定 (ggplot)
   theme_set(theme_gray(base_size = 16))
@@ -106,26 +106,30 @@
 #+end_src
 #+begin_src R :exports results :results output html :tangle no
   #' データの表示(reveal用)
-  ap_tbl |> gt() |> as_raw_html()
+  ap_tbl |> gt() |>
+    tab_options(table.font.size = 24) |>
+    as_raw_html()
 #+end_src
 #+begin_src R :exports results :results value scalar latex :tangle no
   #' データの表示(latex用)
-  ap_tbl |> gt() |> as_latex() |> as.character()
+  ap_tbl |> gt() |>
+    tab_options(table.font.size = 12, latex.tbl.pos = "H") |>
+    as_latex() |> as.character()
 #+end_src
 
 #+reveal: split
-#+name: fig:12_ap_display
-#+begin_src R :file figs/12_ap_display.png :exports results :results graphics :tangle no
+#+name: fig:ap_display
+#+begin_src R :file figs/ap_display.png :exports results :results graphics :tangle no
   AirPassengers |> as_tsibble() |> gg_tsdisplay()
 #+end_src
 #+caption: 航空機旅客量データ・自己相関・季節性の確認
 #+attr_html: height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/12_ap_display.png]]
+[[file:figs/ap_display.png]]
 
 #+reveal: split
-#+name: fig:12_ap_decompose
-#+begin_src R :file figs/12_ap_decompose.png :exports results :results graphics :tangle no
+#+name: fig:ap_decompose
+#+begin_src R :file figs/ap_decompose.png :exports results :results graphics :tangle no
   AirPassengers |> as_tsibble() |>
     model(stl = STL(value)) |>
     components() |>
@@ -135,11 +139,11 @@
 #+caption: 時系列の分解による表現
 #+attr_html: height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/12_ap_decompose.png]]
+[[file:figs/ap_decompose.png]]
 
 ** データのモデル化
-#+name: fig:12_ap_arima
-#+begin_src R :file figs/12_ap_arima.png :exports results :results graphics :tangle no
+#+name: fig:ap_arima
+#+begin_src R :file figs/ap_arima.png :exports results :results graphics :tangle no
   ap_arima <- AirPassengers |> as_tsibble() |>
     model(arma = ARIMA(log(value) ~ pdq(d=1) + PDQ(D=1)))
   ap_arima |>
@@ -151,11 +155,11 @@
 #+caption: モデルの推定とあてはめ
 #+attr_html: height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/12_ap_arima.png]]
+[[file:figs/ap_arima.png]]
 
 ** モデルにもとづく予測
-#+name: fig:12_ap_predict
-#+begin_src R :file figs/12_ap_predict.png :exports results :results graphics :tangle no
+#+name: fig:ap_predict
+#+begin_src R :file figs/ap_predict.png :exports results :results graphics :tangle no
   ap_arima |>
     forecast(h = 36) |>
     autoplot(AirPassengers) +
@@ -164,7 +168,7 @@
 #+caption: 航空機旅客量の予測
 #+attr_html: height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/12_ap_predict.png]]
+[[file:figs/ap_predict.png]]
 
 
 * 時系列解析の概要
@@ -225,8 +229,8 @@
 - 独立であるため系列としての予測(点推定)は不可能
 
 #+reveal: split
-#+name: fig:12_wn
-#+begin_src R :file figs/12_wn.png :exports results :results graphics :tangle no
+#+name: fig:ts_wn
+#+begin_src R :file figs/ts_wn.png :exports results :results graphics :tangle no
   ### ホワイトノイズの生成
   set.seed(123)
   Tmax <- 200 # 時系列の長さ t=1,..,Tmax
@@ -241,7 +245,7 @@
 #+caption: ホワイトノイズ (標準正規分布)
 #+attr_html: height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/12_wn.png]]
+[[file:figs/ts_wn.png]]
 
 ** トレンドのあるホワイトノイズ
 - 定義
@@ -264,8 +268,8 @@
 - *平均* が時間とともに変動する時系列モデルの1つ
 
 #+reveal: split
-#+name: fig:12_trwn
-#+begin_src R :file figs/12_trwn.png :exports results :results graphics :tangle no
+#+name: fig:ts_trwn
+#+begin_src R :file figs/ts_trwn.png :exports results :results graphics :tangle no
   ### トレンドのあるホワイトノイズ
   set.seed(123)
   ts(replicate(K,
@@ -278,7 +282,7 @@
 #+caption: トレンドのあるホワイトノイズ
 #+attr_html: height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/12_trwn.png]]
+[[file:figs/ts_trwn.png]]
 
 ** ランダムウォーク
 - 定義
@@ -297,8 +301,8 @@
 - 最も単純な *記憶* のあるモデル
 
 #+reveal: split
-#+name: fig:12_rw
-#+begin_src R :file figs/12_rw.png :exports results :results graphics :tangle no
+#+name: fig:ts_rw
+#+begin_src R :file figs/ts_rw.png :exports results :results graphics :tangle no
   ### ランダムウォーク
   set.seed(123)
   ts(replicate(K,
@@ -311,7 +315,7 @@
 #+caption: ランダムウォーク
 #+attr_html: height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/12_rw.png]]
+[[file:figs/ts_rw.png]]
 
 ** COMMENT 数値例
 - 同じモデルに従うパス(系列)を複数観測してみる
@@ -320,7 +324,7 @@
   - ランダムウォーク
   
 #+reveal: split
-#+begin_src R :file figs/12_wn.png :exports results :results graphics :tangle no
+#+begin_src R :file figs/ts_wn.png :exports results :results graphics :tangle no
   ### ホワイトノイズの生成
   library(RColorBrewer)
   k <- 4 # 系列の数
@@ -342,13 +346,13 @@
 #+end_src
 
 #+caption: ホワイトノイズ (標準正規分布)
-#+name: fig:12_wn
+#+name: fig:ts_wn
 #+attr_html: height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/12_wn.png]]
+[[file:figs/ts_wn.png]]
 
 #+reveal: split
-#+begin_src R :file figs/12_trwn.png :exports results :results graphics :tangle no
+#+begin_src R :file figs/ts_trwn.png :exports results :results graphics :tangle no
   ### トレンドのあるホワイトノイズ
   set.seed(123)
   plot(x=ts(1:n),
@@ -362,13 +366,13 @@
 #+end_src
   
 #+caption: トレンドのあるホワイトノイズ
-#+name: fig:12_trwn
+#+name: fig:ts_trwn
 #+attr_html: height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/12_trwn.png]]
+[[file:figs/ts_trwn.png]]
 
 #+reveal: split
-#+begin_src R :file figs/12_rw.png :exports results :results graphics :tangle no
+#+begin_src R :file figs/ts_rw.png :exports results :results graphics :tangle no
   ### ランダムウォーク
   set.seed(123)
   plot(x=ts(1:n),
@@ -382,10 +386,10 @@
 #+end_src
 
 #+caption: ランダムウォーク
-#+name: fig:12_rw
+#+name: fig:ts_rw
 #+attr_html: height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/12_rw.png]]
+[[file:figs/ts_rw.png]]
 
 
 * COMMENT 演習
@@ -458,7 +462,7 @@
 :reveal_background: #fef4f4
 :END:
 # 東京大学
-** R : 時系列データの扱い
+** COMMENT *R : 時系列データの扱い*
 :PROPERTIES:
 :reveal_background: #fef4f4
 :END:
@@ -477,7 +481,7 @@
     #+end_src
     - https://otexts.com/fpp3/ (textbook)
       
-** R : 時系列の作成
+** COMMENT *R : 時系列の作成*
 :PROPERTIES:
 :reveal_background: #fef4f4
 :ID:       FCF431A0-5CF5-41D0-A3A1-0BBCDFE75A6C
@@ -547,7 +551,7 @@
   - その他の詳細は ~?plot.ts~ を参照
   - 表示が異なる関数 ~ts.plot()~ もあるので調べてみよう
 
-** R : 時系列の描画
+** COMMENT *R : 時系列の描画*
 :PROPERTIES:
 :reveal_background: #fef4f4
 :ID:       10AAB94B-BC6A-4B39-9DFF-A31B8C960646
@@ -598,7 +602,7 @@
 :END:
 - [[./code/13-rw.r][13-rw.r]] を確認してみよう
 
-** 練習問題
+** COMMENT *練習問題*
 :PROPERTIES:
 :reveal_background: #fef4f4
 :ID:       2C8D3738-900E-4637-8FDB-7C6F827F07E9
@@ -708,8 +712,8 @@
   - *忘却* しながら記憶するモデル (\(|a_i|<1\) などの条件が必要)
 
 #+reveal: split
-#+name: fig:12_ar
-#+begin_src R :file figs/12_ar.png :exports results :results graphics :tangle no
+#+name: fig:ts_ar
+#+begin_src R :file figs/ts_ar.png :exports results :results graphics :tangle no
   ### AR(2)モデルのシミュレーション
   set.seed(123)
   a <- c(0.67, 0.26) # ARの係数
@@ -732,7 +736,7 @@
 #+caption: AR過程
 #+attr_html: height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/12_ar.png]]
+[[file:figs/ts_ar.png]]
 
 ** 移動平均過程
 - 定義 (MA(q); 次数 \(q\) の moving average の略)
@@ -754,8 +758,8 @@
 
 #+reveal: split
 
-#+name: fig:12_ma
-#+begin_src R :file figs/12_ma.png :exports results :results graphics :tangle no
+#+name: fig:ts_ma
+#+begin_src R :file figs/ts_ma.png :exports results :results graphics :tangle no
   ### MA(2)モデルのシミュレーション
   set.seed(123)
   b <- c(0.44, 0.08) # MAの係数
@@ -778,7 +782,7 @@
 #+caption: MA過程
 #+attr_html: height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/12_ma.png]]
+[[file:figs/ts_ma.png]]
 
 ** 自己回帰移動平均過程
 - 定義 (ARMA(\(p,q\)); 次数 \((p,q)\))
@@ -805,8 +809,8 @@
 
 #+reveal: split
 
-#+name: fig:12_arma
-#+begin_src R :file figs/12_arma.png :exports results :results graphics :tangle no
+#+name: fig:ts_arma
+#+begin_src R :file figs/ts_arma.png :exports results :results graphics :tangle no
   ### ARMA(2,1)モデルのシミュレーション
   set.seed(123)
   a <- c(0.8, -0.64) # ARの係数
@@ -832,7 +836,7 @@
 #+caption: ARMA過程
 #+attr_html: height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/12_arma.png]]
+[[file:figs/ts_arma.png]]
 
 ** COMMENT 数値例
 - 同じモデルに従うパス(系列)を複数観測してみる
@@ -841,7 +845,7 @@
   - 自己回帰移動平均過程 (ARMA過程)
 
 #+reveal: split
-#+begin_src R :file figs/12_ar.png :exports results :results graphics :tangle no
+#+begin_src R :file figs/ts_ar.png :exports results :results graphics :tangle no
   ### AR(2)モデルのシミュレーション
   set.seed(123)
   a <- c(0.669, 0.263) # ARの係数
@@ -860,13 +864,13 @@
 #+end_src
 
 #+CAPTION: AR過程
-#+NAME: fig:12_ar
+#+NAME: fig:ts_ar
 #+ATTR_HTML: height 100%
 #+ATTR_LATEX: :width 0.6\linewidth
-[[file:figs/12_ar.png]]
+[[file:figs/ts_ar.png]]
 
 #+reveal: split
-#+begin_src R :file figs/12_ma.png :exports results :results graphics :tangle no
+#+begin_src R :file figs/ts_ma.png :exports results :results graphics :tangle no
   ### MA(2)モデルのシミュレーション
   set.seed(123)
   b <- c(0.438, 0.078) # MAの係数
@@ -885,13 +889,13 @@
 #+end_src
 
 #+CAPTION: MA過程
-#+NAME: fig:12_ma
+#+NAME: fig:ts_ma
 #+ATTR_HTML: height 100%
 #+ATTR_LATEX: :width 0.6\linewidth
-[[file:figs/12_ma.png]]
+[[file:figs/ts_ma.png]]
 
 #+reveal: split
-#+begin_src R :file figs/12_arma.png :exports results :results graphics :tangle no
+#+begin_src R :file figs/ts_arma.png :exports results :results graphics :tangle no
   ### ARMA(2,1)モデルのシミュレーション
   set.seed(123)
   a <- c(0.8, -0.64) # ARの係数
@@ -910,10 +914,10 @@
   }
 #+end_src
 #+CAPTION: ARMA過程
-#+NAME: fig:12_arma
+#+NAME: fig:ts_arma
 #+ATTR_HTML: height 100%
 #+ATTR_LATEX: :width 0.6\linewidth
-[[file:figs/12_arma.png]]
+[[file:figs/ts_arma.png]]
 
 
 * COMMENT 演習
@@ -1001,7 +1005,7 @@
 :END:
 - [[./code/13-arma.r][13-arma.r]] を確認してみよう
 
-** 練習問題
+** COMMENT *練習問題*
 :PROPERTIES:
 :reveal_background: #fef4f4
 :ID:       DB3D47F3-9943-40AF-8F81-DAEB96F54966
@@ -1251,66 +1255,62 @@
   - 自己回帰移動平均過程 (ARMA過程)
 
 #+reveal: split
-#+begin_src R :file figs/12_aracf.png :exports results :results graphics :tangle no
-  ### AR(2)モデルの自己相関
+#+begin_src R :file figs/ts_aracf.png :exports results :results graphics :tangle no
+  #' AR(2)モデルの自己相関
   set.seed(123)
   a <- c(0.669, 0.263) # ARの係数
-  patch <- list()
-  for(i in 1:K) {
-    patch[[i]] <-
-      forecast::ggAcf(my_ar(a = a, epsilon = rnorm(Tmax)),
-            colour = scales::hue_pal()(K)[i]) +
-      ylim(-0.25,1) +
-      labs(title = paste("Series:", i))
-  }
-  do.call("wrap_plots", patch)
+  replicate(K, my_ar(a = a, epsilon = rnorm(Tmax))) |>
+    ts() |>
+    as_tsibble() |>
+    ACF(value) |>
+    autoplot() +
+    facet_wrap(key ~ .) + 
+    labs(title = "AR(2)")
 #+end_src
 #+caption: AR過程の自己相関
-#+name: fig:12_aracf
+#+name: fig:ts_aracf
 #+attr_html: height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/12_aracf.png]]
+[[file:figs/ts_aracf.png]]
 
 #+reveal: split
-#+begin_src R :file figs/12_maacf.png :exports results :results graphics :tangle no
+#+begin_src R :file figs/ts_maacf.png :exports results :results graphics :tangle no
   ### MA(2)モデルの自己相関
   set.seed(123)
   b <- c(0.438, 0.078) # MAの係数
-  for(i in 1:K) {
-    patch[[i]] <-
-      forecast::ggAcf(my_ma(b = b, epsilon = rnorm(Tmax)),
-            colour = scales::hue_pal()(K)[i]) +
-      ylim(-0.2,0.4) +
-      labs(title = paste("Series:", i))
-  }
-  do.call("wrap_plots", patch)
+  replicate(K, my_ma(b = b, epsilon = rnorm(Tmax))) |>
+    ts() |>
+    as_tsibble() |>
+    ACF(value) |>
+    autoplot() +
+    facet_wrap(key ~ .) + 
+    labs(title = "MA(2)")
 #+end_src
 #+caption: MA過程の自己相関
-#+name: fig:12_maacf
+#+name: fig:ts_maacf
 #+attr_html: height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/12_maacf.png]]
+[[file:figs/ts_maacf.png]]
 
 #+reveal: split
-#+begin_src R :file figs/12_armaacf.png :exports results :results graphics :tangle no
+#+begin_src R :file figs/ts_armaacf.png :exports results :results graphics :tangle no
   ### ARMA(2,1)モデルの自己相関
   set.seed(123)
   a <- c(0.8, -0.64) # ARの係数
   b <- -0.5          # MAの係数
-  for(i in 1:K) {
-    patch[[i]] <-
-      forecast::ggAcf(my_arma(a = a, b = b, epsilon = rnorm(Tmax)),
-            colour = scales::hue_pal()(K)[i]) +
-      ylim(-0.5,0.35) +
-      labs(title = paste("Series:", i))
-  }
-  do.call("wrap_plots", patch)
+  replicate(K, my_arma(a = a, b = b, epsilon = rnorm(Tmax))) |>
+    ts() |>
+    as_tsibble() |>
+    ACF(value) |>
+    autoplot() +
+    facet_wrap(key ~ .) + 
+    labs(title = "ARMA(2,1)")
 #+end_src
 #+caption: ARMA過程の自己相関
-#+name: fig:12_armaacf
+#+name: fig:ts_armaacf
 #+attr_html: height 100%
 #+attr_latex: :width 0.6\linewidth
-[[file:figs/12_armaacf.png]]
+[[file:figs/ts_armaacf.png]]
 
 
 * COMMENT 演習
@@ -1393,7 +1393,7 @@
 :reveal_background: #fef4f4
 :END:
 # 東京大学
-** R : 自己相関・自己共分散の計算・描画
+** COMMENT *R : 自己相関・自己共分散の計算・描画*
 :PROPERTIES:
 :reveal_background: #fef4f4
 :ID:       53DE1CC8-0CB7-45DE-9186-B05CDAD42779
@@ -1435,7 +1435,7 @@
       toy_acf |> autoplot()
     #+end_src
     
-** 練習問題
+** COMMENT *練習問題*
 :PROPERTIES:
 :reveal_background: #fef4f4
 :ID:       EB3F9793-345E-44E2-B8D9-A4D66898B140
@@ -1489,6 +1489,7 @@
 * 次回の内容
 - 第1回 : 時系列の基本モデル
 - *第2回 : モデルの推定と予測*
+
 
 * Footnotes
 * COMMENT ローカル変数

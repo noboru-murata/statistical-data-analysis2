@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2025-11-08 21:52:52 mura>
+# Time-stamp: <2025-11-24 13:05:51 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -168,7 +168,7 @@
   \begin{equation}
     \delta_k(\boldsymbol{x})
     =
-    -\frac{1}{2}\det\Sigma_k
+    -\frac{1}{2}\log\det\Sigma_k
     -\frac{1}{2}(\boldsymbol{x}-\boldsymbol{\mu}_k)^{\mathsf{T}}
     \Sigma_k^{-1}(\boldsymbol{x}-\boldsymbol{\mu}_k)
     +\log\pi_k

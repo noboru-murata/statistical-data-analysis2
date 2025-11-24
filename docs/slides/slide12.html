@@ -45,8 +45,8 @@
 
 </section>
 <section>
-<section id="slide-orgdf99e3b">
-<h2 id="orgdf99e3b">講義概要</h2>
+<section id="slide-org79c3855">
+<h2 id="org79c3855">講義概要</h2>
 <ul>
 <li><b>第1回 : 時系列の基本モデル</b></li>
 <li>第2回 : モデルの推定と予測</li>
@@ -55,13 +55,13 @@
 </section>
 </section>
 <section>
-<section id="slide-orgfa46d09">
-<h2 id="orgfa46d09">時系列解析の例</h2>
-<div class="outline-text-2" id="text-orgfa46d09">
+<section id="slide-org35bc6f7">
+<h2 id="org35bc6f7">時系列解析の例</h2>
+<div class="outline-text-2" id="text-org35bc6f7">
 </div>
 </section>
-<section id="slide-org46ffcd8">
-<h3 id="org46ffcd8">データの概要</h3>
+<section id="slide-org40358a5">
+<h3 id="org40358a5">データの概要</h3>
 <ul>
 <li>米国の航空機旅客量の変遷データ
 <ul>
@@ -86,7 +86,7 @@ Edition. Holden-Day. Series G.
 <section>
 <div id="buzrecfvki" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
   
-  <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false" style="-webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; display: table; border-collapse: collapse; line-height: normal; margin-left: auto; margin-right: auto; color: #333333; font-size: 16px; font-weight: normal; font-style: normal; background-color: #FFFFFF; width: auto; border-top-style: solid; border-top-width: 2px; border-top-color: #A8A8A8; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #A8A8A8; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3;" bgcolor="#FFFFFF">
+  <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false" style="-webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; display: table; border-collapse: collapse; line-height: normal; margin-left: auto; margin-right: auto; color: #333333; font-size: 24px; font-weight: normal; font-style: normal; background-color: #FFFFFF; width: auto; border-top-style: solid; border-top-width: 2px; border-top-color: #A8A8A8; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #A8A8A8; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3;" bgcolor="#FFFFFF">
   <thead style="border-style: none;">
     <tr class="gt_col_headings" style="border-style: none; border-top-style: solid; border-top-width: 2px; border-top-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3;">
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="year" style="border-style: none; color: #333333; background-color: #FFFFFF; font-size: 100%; font-weight: normal; text-transform: inherit; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: bottom; padding-top: 5px; padding-bottom: 6px; padding-left: 5px; padding-right: 5px; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;" bgcolor="#FFFFFF" valign="bottom" align="right">year</th>
@@ -263,15 +263,14 @@ Edition. Holden-Day. Series G.
 <td headers="Dec" class="gt_row gt_right" style="border-style: none; padding-top: 8px; padding-bottom: 8px; padding-left: 5px; padding-right: 5px; margin: 10px; border-top-style: solid; border-top-width: 1px; border-top-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3; vertical-align: middle; overflow-x: hidden; text-align: right; font-variant-numeric: tabular-nums;" valign="middle" align="right">432</td></tr>
   </tbody>
   
-  
 </table>
 </div>
 
 </section>
 <section>
 
-<div id="orge1d8f51" class="figure">
-<p><img src="figs/12_ap_display.png" alt="12_ap_display.png" />
+<div id="org33184bc" class="figure">
+<p><img src="figs/ap_display.png" alt="ap_display.png" />
 </p>
 <p><span class="figure-number">Figure 1: </span>航空機旅客量データ・自己相関・季節性の確認</p>
 </div>
@@ -279,39 +278,39 @@ Edition. Holden-Day. Series G.
 </section>
 <section>
 
-<div id="orgeee0947" class="figure">
-<p><img src="figs/12_ap_decompose.png" alt="12_ap_decompose.png" />
+<div id="org689747f" class="figure">
+<p><img src="figs/ap_decompose.png" alt="ap_decompose.png" />
 </p>
 <p><span class="figure-number">Figure 2: </span>時系列の分解による表現</p>
 </div>
 </section>
-<section id="slide-orgb5b812b">
-<h3 id="orgb5b812b">データのモデル化</h3>
+<section id="slide-org02474c5">
+<h3 id="org02474c5">データのモデル化</h3>
 
-<div id="orgf82e36a" class="figure">
-<p><img src="figs/12_ap_arima.png" alt="12_ap_arima.png" />
+<div id="orgb074a2a" class="figure">
+<p><img src="figs/ap_arima.png" alt="ap_arima.png" />
 </p>
 <p><span class="figure-number">Figure 3: </span>モデルの推定とあてはめ</p>
 </div>
 </section>
-<section id="slide-orgf230f0c">
-<h3 id="orgf230f0c">モデルにもとづく予測</h3>
+<section id="slide-org6327a76">
+<h3 id="org6327a76">モデルにもとづく予測</h3>
 
-<div id="org0032175" class="figure">
-<p><img src="figs/12_ap_predict.png" alt="12_ap_predict.png" />
+<div id="orga567fee" class="figure">
+<p><img src="figs/ap_predict.png" alt="ap_predict.png" />
 </p>
 <p><span class="figure-number">Figure 4: </span>航空機旅客量の予測</p>
 </div>
 </section>
 </section>
 <section>
-<section id="slide-org7fd644c">
-<h2 id="org7fd644c">時系列解析の概要</h2>
-<div class="outline-text-2" id="text-org7fd644c">
+<section id="slide-orgdc01b48">
+<h2 id="orgdc01b48">時系列解析の概要</h2>
+<div class="outline-text-2" id="text-orgdc01b48">
 </div>
 </section>
-<section id="slide-org43706dd">
-<h3 id="org43706dd">時系列解析とは</h3>
+<section id="slide-org93bff5b">
+<h3 id="org93bff5b">時系列解析とは</h3>
 <ul>
 <li>時系列データ
 <ul>
@@ -334,8 +333,8 @@ Edition. Holden-Day. Series G.
 
 </ul>
 </section>
-<section id="slide-org52c427a">
-<h3 id="org52c427a">時系列データ</h3>
+<section id="slide-org8e2acce">
+<h3 id="org8e2acce">時系列データ</h3>
 <ul>
 <li><p>
 統計学・確率論における表現 : <b>確率過程</b>
@@ -366,13 +365,13 @@ Edition. Holden-Day. Series G.
 </section>
 </section>
 <section>
-<section id="slide-orgf2100f9">
-<h2 id="orgf2100f9">基本的なモデル</h2>
-<div class="outline-text-2" id="text-orgf2100f9">
+<section id="slide-org56cc070">
+<h2 id="org56cc070">基本的なモデル</h2>
+<div class="outline-text-2" id="text-org56cc070">
 </div>
 </section>
-<section id="slide-org03b92d0">
-<h3 id="org03b92d0">ホワイトノイズ</h3>
+<section id="slide-orga9d015b">
+<h3 id="orga9d015b">ホワイトノイズ</h3>
 <ul>
 <li><p>
 定義
@@ -420,14 +419,14 @@ Edition. Holden-Day. Series G.
 </section>
 <section>
 
-<div id="org0e90a0d" class="figure">
-<p><img src="figs/12_wn.png" alt="12_wn.png" />
+<div id="org4364b79" class="figure">
+<p><img src="figs/ts_wn.png" alt="ts_wn.png" />
 </p>
 <p><span class="figure-number">Figure 5: </span>ホワイトノイズ (標準正規分布)</p>
 </div>
 </section>
-<section id="slide-org540a798">
-<h3 id="org540a798">トレンドのあるホワイトノイズ</h3>
+<section id="slide-org00da749">
+<h3 id="org00da749">トレンドのあるホワイトノイズ</h3>
 <ul>
 <li><p>
 定義
@@ -462,14 +461,14 @@ Edition. Holden-Day. Series G.
 </section>
 <section>
 
-<div id="org184050d" class="figure">
-<p><img src="figs/12_trwn.png" alt="12_trwn.png" />
+<div id="org31dc86e" class="figure">
+<p><img src="figs/ts_trwn.png" alt="ts_trwn.png" />
 </p>
 <p><span class="figure-number">Figure 6: </span>トレンドのあるホワイトノイズ</p>
 </div>
 </section>
-<section id="slide-orgd4f626a">
-<h3 id="orgd4f626a">ランダムウォーク</h3>
+<section id="slide-orgf003506">
+<h3 id="orgf003506">ランダムウォーク</h3>
 <ul>
 <li><p>
 定義
@@ -498,197 +497,26 @@ Edition. Holden-Day. Series G.
 </section>
 <section>
 
-<div id="org6c35776" class="figure">
-<p><img src="figs/12_rw.png" alt="12_rw.png" />
+<div id="orga391270" class="figure">
+<p><img src="figs/ts_rw.png" alt="ts_rw.png" />
 </p>
 <p><span class="figure-number">Figure 7: </span>ランダムウォーク</p>
 </div>
 </section>
 </section>
 <section>
-<section id="slide-orgeb5876d" data-background="#fef4f4">
-<h2 id="orgeb5876d">実習</h2>
-</section>
-<section id="slide-org50f21c5" data-background="#fef4f4">
-<h3 id="org50f21c5">R : 時系列データの扱い</h3>
-<ul>
-<li>関連するパッケージ
-<ul>
-<li><b>stats</b> : base R の基本的な統計に関するパッケージ
-<ul>
-<li>関数 <code>ts()</code>, <code>acf()</code> など</li>
-<li>標準でインストールされている</li>
-
-</ul></li>
-<li><p>
-<b>fable/tsibble/feasts</b> : 時系列のためのパッケージ
-</p>
-<ul>
-<li><a href="https://tidyverts.org">https://tidyverts.org</a> (開発元)</li>
-<li><code>forecast</code> パッケージの tidyverse 版</li>
-<li>関数 <code>ARIMA()</code>, <code>ACF()</code>, <code>autoplot()</code> など</li>
-
-</ul>
-<div class="org-src-container">
-
-<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#26368;&#21021;&#12395;&#19968;&#24230;&#12384;&#12369;&#20197;&#19979;&#12398;&#12356;&#12378;&#12428;&#12363;&#12434;&#23455;&#34892;&#12375;&#12390;&#12362;&#12367;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;">  - Package &#12479;&#12502;&#12363;&#12425; fable/tsibble/feasts &#12434;&#12452;&#12531;&#12473;&#12488;&#12540;&#12523;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;">  - &#12467;&#12531;&#12477;&#12540;&#12523;&#19978;&#12391;&#27425;&#12398;&#12467;&#12510;&#12531;&#12489;&#12434;&#23455;&#34892; 'install.packages(c("fable","tsibble","feasts")'</span>
-</pre>
-</div>
-<ul>
-<li><a href="https://otexts.com/fpp3/">https://otexts.com/fpp3/</a> (textbook)</li>
-
-</ul></li>
-
-</ul></li>
-
-</ul>
-</section>
-<section id="slide-org9b3b969" data-background="#fef4f4">
-<h3 id="org9b3b969">R : 時系列の作成</h3>
-<ul>
-<li><p>
-関数 <code>stats::ts()</code>
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R">ts(data = <span style="color: #00aa80;">NA</span>, start = 1, end = numeric(), frequency = 1,
-   deltat = 1, ts.eps = getOption(<span style="color: #d08928;">"ts.eps"</span>),
-   class = <span style="color: #6c9ef8;">if</span>(nseries &gt; 1) c(<span style="color: #d08928;">"mts"</span>, <span style="color: #d08928;">"ts"</span>, <span style="color: #d08928;">"matrix"</span>, <span style="color: #d08928;">"array"</span>) <span style="color: #6c9ef8;">else</span> <span style="color: #d08928;">"ts"</span>,
-   names = )
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> data: &#12505;&#12463;&#12488;&#12523;&#65292;&#12414;&#12383;&#12399;&#34892;&#21015;(&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;)</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> start: &#38283;&#22987;&#26178;&#21051;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> end: &#32066;&#20102;&#26178;&#21051;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> frequency: &#21336;&#20301;&#26178;&#38291;&#12354;&#12383;&#12426;&#12398;&#35251;&#28204;&#22238;&#25968;</span>
-</pre>
-</div>
-<ul>
-<li><p>
-<span style="color:green;">典型的な使い方</span>
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R">x <span style="color: #60aa00;">&lt;-</span> rnorm(24) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#27491;&#35215;&#20998;&#24067;&#12398;&#12507;&#12527;&#12452;&#12488;&#12494;&#12452;&#12474;</span>
-ts(data = x) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">t=1,2,... &#12434;&#28155;&#23383;&#12392;&#12377;&#12427;&#21336;&#32020;&#12394;&#26178;&#31995;&#21015;</span>
-ts(data = x, start = c(2020,1), frequency =12) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">2020&#24180;1&#26376;&#12363;&#12425;&#12398;&#26376;&#12372;&#12392;</span>
-ts(data = x, start = c(2020,3), frequency =4) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#22235;&#21322;&#26399;&#12372;&#12392;</span>
-</pre>
-</div>
-<ul>
-<li><code>ts</code> オブジェクトは通常その時間情報を利用して処理が行われるため
-関数によっては扱いがベクトルと異なる場合があるので注意</li>
-
-</ul></li>
-
-</ul></li>
-
-</ul>
-
-</section>
-<section data-background="#fef4f4">
-<ul>
-<li><p>
-関数 <code>tsibble::tsibble()</code> (tidyverse系)
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R">tsibble(..., key = <span style="color: #00aa80;">NULL</span>, index, regular = <span style="color: #00aa80;">TRUE</span>, .drop = <span style="color: #00aa80;">TRUE</span>)
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> ...: &#12487;&#12540;&#12479;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> key: index&#12398;&#35036;&#21161;&#24773;&#22577;(&#21516;&#12376;&#26178;&#38291;&#12398;&#30064;&#12394;&#12427;&#12487;&#12540;&#12479;&#12434;&#34920;&#12377;)</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> index: &#26178;&#38291;&#24773;&#22577;&#12434;&#34920;&#12377;&#21015;&#12434;&#35373;&#23450;</span>
-</pre>
-</div></li>
-<li><p>
-関数 <code>tsibble::as_tsibble()</code>
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R">as_tsibble(x, key = <span style="color: #00aa80;">NULL</span>, index,
-           regular = <span style="color: #00aa80;">TRUE</span>, validate = <span style="color: #00aa80;">TRUE</span>, .drop = <span style="color: #00aa80;">TRUE</span>, ...)
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> x: &#12487;&#12540;&#12479;(&#26178;&#31995;&#21015;&#12458;&#12502;&#12472;&#12455;&#12463;&#12488;&#12420;&#12487;&#12540;&#12479;&#12501;&#12524;&#12540;&#12512;)</span>
-</pre>
-</div>
-<ul>
-<li><p>
-<span style="color:green;">典型的な使い方</span>
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R">tsibble(date = as_date(<span style="color: #d08928;">"2024-01-01"</span>) + 0:9,
-        value = rnorm(10))
-tibble(year = 2001:2020,
-       value = rnorm(20)) |&gt;
-  as_tsibble(index = year) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">year&#12434;&#26178;&#38291;&#24773;&#22577;&#12395;&#25351;&#23450;</span>
-AirPassengers |&gt; as_tsibble() <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#26178;&#31995;&#21015;&#12458;&#12502;&#12472;&#12455;&#12463;&#12488;&#12398;&#22793;&#25563;</span>
-</pre>
-</div></li>
-
-</ul></li>
-
-</ul>
-</section>
-<section id="slide-org38ae0c1" data-background="#fef4f4">
-<h3 id="org38ae0c1">R : 時系列の描画</h3>
-<ul>
-<li><p>
-関数 fabletools::autoplot()
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R">autoplot(object, .vars = <span style="color: #00aa80;">NULL</span>, ...)
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35443;&#32048;&#12399; '?fabletools::autoplot.tbl_ts()'&#12434;&#21442;&#29031;</span>
-</pre>
-</div>
-<ul>
-<li><p>
-<span style="color:green;">典型的な使い方</span>
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R"><span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#21336;&#19968;&#26178;&#31995;&#21015;&#12398;&#25551;&#30011;</span>
-x <span style="color: #60aa00;">&lt;-</span> rnorm(240) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#27491;&#35215;&#20998;&#24067;&#12398;&#12507;&#12527;&#12452;&#12488;&#12494;&#12452;&#12474;</span>
-ts(x, start = c(2000,1), frequency = 12) |&gt; <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">2000&#24180;1&#26376;&#12363;&#12425;&#27598;&#26376;&#12398;&#12487;&#12540;&#12479;</span>
-    as_tsibble() |&gt; <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">tsibble&#12463;&#12521;&#12473;&#12395;&#22793;&#25563;</span>
-    autoplot(value) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">value (as_tsibble&#12395;&#12424;&#12427;&#26178;&#31995;&#21015;&#12487;&#12540;&#12479;&#12398;&#21015;&#21517;&#12398;&#35215;&#23450;&#20516;) &#12434;&#25551;&#30011;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> &#35079;&#25968;&#12398;&#31995;&#21015;&#12434;&#34920;&#31034;&#12377;&#12427;&#22580;&#21512;</span>
-y <span style="color: #60aa00;">&lt;-</span> rt(240, df=4) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">t-&#20998;&#24067;&#12398;&#12507;&#12527;&#12452;&#12488;&#12494;&#12452;&#12474;</span>
-z <span style="color: #60aa00;">&lt;-</span> ts(tibble(x,y), start = c(2000,1), frequency = 12)
-z |&gt; as_tsibble() |&gt;
-    autoplot(value) <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#21516;&#19968;&#12398;&#12464;&#12521;&#12501;&#12391;&#33394;&#12434;&#22793;&#12360;&#12390;&#25551;&#30011;</span>
-z |&gt; as_tsibble() |&gt;
-    autoplot(value) + <span style="color: #808080; font-style: italic;"># </span><span style="color: #808080; font-style: italic;">&#21029;&#12395;&#12377;&#12427;&#22580;&#21512;&#12399; facet &#12434;&#25351;&#23450;&#12377;&#12428;&#12400;&#12424;&#12356;</span>
-    facet_grid(key ~ .)
-</pre>
-</div></li>
-
-</ul></li>
-
-</ul>
-</section>
-<section id="slide-orgadfb1dc" data-background="#fef4f4">
-<h3 id="orgadfb1dc">練習問題</h3>
-<ul>
-<li>指定された確率過程を生成して図示しなさい
-<ul>
-<li>平均0，分散4の正規分布に従うホワイトノイズ</li>
-<li>上記のホワイトノイズに
-初期値-1で単位時刻あたり1/20で増加するトレンドを持つ確率過程</li>
-<li>上記のホワイトノイズから生成されるランダムウォーク</li>
-
-</ul></li>
-
-</ul>
+<section id="slide-org5262f2f" data-background="#fef4f4">
+<h2 id="org5262f2f">実習</h2>
 </section>
 </section>
 <section>
-<section id="slide-org0f271b0">
-<h2 id="org0f271b0">より一般的なモデル</h2>
-<div class="outline-text-2" id="text-org0f271b0">
+<section id="slide-org3b5b0d1">
+<h2 id="org3b5b0d1">より一般的なモデル</h2>
+<div class="outline-text-2" id="text-org3b5b0d1">
 </div>
 </section>
-<section id="slide-org2546d58">
-<h3 id="org2546d58">自己回帰過程</h3>
+<section id="slide-org3f490d2">
+<h3 id="org3f490d2">自己回帰過程</h3>
 <ul>
 <li><p>
 定義 (AR(p); 次数 \(p\) の auto regressive の略)
@@ -725,14 +553,14 @@ z |&gt; as_tsibble() |&gt;
 </section>
 <section>
 
-<div id="org40215a6" class="figure">
-<p><img src="figs/12_ar.png" alt="12_ar.png" />
+<div id="org4d27a19" class="figure">
+<p><img src="figs/ts_ar.png" alt="ts_ar.png" />
 </p>
 <p><span class="figure-number">Figure 8: </span>AR過程</p>
 </div>
 </section>
-<section id="slide-org5c19fbe">
-<h3 id="org5c19fbe">移動平均過程</h3>
+<section id="slide-org231118b">
+<h3 id="org231118b">移動平均過程</h3>
 <ul>
 <li><p>
 定義 (MA(q); 次数 \(q\) の moving average の略)
@@ -767,14 +595,14 @@ z |&gt; as_tsibble() |&gt;
 <section>
 
 
-<div id="org8e5aed9" class="figure">
-<p><img src="figs/12_ma.png" alt="12_ma.png" />
+<div id="org8e12bcf" class="figure">
+<p><img src="figs/ts_ma.png" alt="ts_ma.png" />
 </p>
 <p><span class="figure-number">Figure 9: </span>MA過程</p>
 </div>
 </section>
-<section id="slide-org6ed8977">
-<h3 id="org6ed8977">自己回帰移動平均過程</h3>
+<section id="slide-orgeef8ae9">
+<h3 id="orgeef8ae9">自己回帰移動平均過程</h3>
 <ul>
 <li><p>
 定義 (ARMA(\(p,q\)); 次数 \((p,q)\))
@@ -814,40 +642,26 @@ z |&gt; as_tsibble() |&gt;
 <section>
 
 
-<div id="org90b4e8d" class="figure">
-<p><img src="figs/12_arma.png" alt="12_arma.png" />
+<div id="org8eb2856" class="figure">
+<p><img src="figs/ts_arma.png" alt="ts_arma.png" />
 </p>
 <p><span class="figure-number">Figure 10: </span>ARMA過程</p>
 </div>
 </section>
 </section>
 <section>
-<section id="slide-org05a52db" data-background="#fef4f4">
-<h2 id="org05a52db">実習</h2>
-</section>
-<section id="slide-org64630ca" data-background="#fef4f4">
-<h3 id="org64630ca">練習問題</h3>
-<ul>
-<li>平均0，分散1のホワイトノイズを用いて，
-以下の指定された確率過程を生成し，図示しなさい
-<ul>
-<li>係数\(a_{1}=0.67,a_{2}=0.26\)を持つAR(2)過程</li>
-<li>係数\(b_{1}=0.44,b_{2}=0.08\)を持つMA(2)過程</li>
-<li>係数\(a_{1}=0.8,a_{2}=-0.64,b_{1}=-0.5\)を持つARMA(2,1)過程</li>
-
-</ul></li>
-
-</ul>
+<section id="slide-orgb7efda7" data-background="#fef4f4">
+<h2 id="orgb7efda7">実習</h2>
 </section>
 </section>
 <section>
-<section id="slide-org14dc3d9">
-<h2 id="org14dc3d9">定常過程と非定常過程</h2>
-<div class="outline-text-2" id="text-org14dc3d9">
+<section id="slide-orge592c6f">
+<h2 id="orge592c6f">定常過程と非定常過程</h2>
+<div class="outline-text-2" id="text-orge592c6f">
 </div>
 </section>
-<section id="slide-orgfacf57a">
-<h3 id="orgfacf57a">弱定常性</h3>
+<section id="slide-org7af2fd3">
+<h3 id="org7af2fd3">弱定常性</h3>
 <ul>
 <li>確率過程\(X_{t},\;t=1,\dotsc,T\)が次の性質をもつ 
 <ul>
@@ -897,8 +711,8 @@ z |&gt; as_tsibble() |&gt;
 
 </ul>
 </section>
-<section id="slide-org23e64d2">
-<h3 id="org23e64d2">定常性と非定常性</h3>
+<section id="slide-org910e6b1">
+<h3 id="org910e6b1">定常性と非定常性</h3>
 <ul>
 <li>定常でない確率過程は <b>非定常</b> であるという</li>
 <li>いろいろな確率過程の定常性
@@ -911,8 +725,8 @@ z |&gt; as_tsibble() |&gt;
 
 </ul>
 </section>
-<section id="slide-org2347b13">
-<h3 id="org2347b13">非定常過程の難しさ</h3>
+<section id="slide-orga9bbacf">
+<h3 id="orga9bbacf">非定常過程の難しさ</h3>
 <ul>
 <li>性質を特徴付ける統計量が観測値から得られない
 <ul>
@@ -934,8 +748,8 @@ z |&gt; as_tsibble() |&gt;
 
 </ul>
 </section>
-<section id="slide-org7bc6186">
-<h3 id="org7bc6186">非定常過程の取り扱い</h3>
+<section id="slide-org1cfe240">
+<h3 id="org1cfe240">非定常過程の取り扱い</h3>
 <ul>
 <li>定常過程とみなせるように変換して分析を実行
 <ul>
@@ -988,13 +802,13 @@ z |&gt; as_tsibble() |&gt;
 </section>
 </section>
 <section>
-<section id="slide-org44a3906">
-<h2 id="org44a3906">自己共分散・自己相関</h2>
-<div class="outline-text-2" id="text-org44a3906">
+<section id="slide-org236e0f6">
+<h2 id="org236e0f6">自己共分散・自己相関</h2>
+<div class="outline-text-2" id="text-org236e0f6">
 </div>
 </section>
-<section id="slide-org1e2b239">
-<h3 id="org1e2b239">自己共分散・自己相関</h3>
+<section id="slide-org512296f">
+<h3 id="org512296f">自己共分散・自己相関</h3>
 <ul>
 <li>確率過程\(X_{t}\)が <b>定常過程</b> の場合
 <ul>
@@ -1034,8 +848,8 @@ z |&gt; as_tsibble() |&gt;
 
 </ul>
 </section>
-<section id="slide-org7147dea">
-<h3 id="org7147dea">標本自己共分散・標本自己相関</h3>
+<section id="slide-orge78e160">
+<h3 id="orge78e160">標本自己共分散・標本自己相関</h3>
 <ul>
 <li>観測データ \(X_1,\dotsc,X_{T}\) からの推定
 <ul>
@@ -1073,8 +887,8 @@ z |&gt; as_tsibble() |&gt;
 
 </ul>
 </section>
-<section id="slide-org8b6078a">
-<h3 id="org8b6078a">数値例</h3>
+<section id="slide-org82996b9">
+<h3 id="org82996b9">数値例</h3>
 <ul>
 <li>同じモデルに従うパス(系列)の自己相関を比較する
 <ul>
@@ -1089,8 +903,8 @@ z |&gt; as_tsibble() |&gt;
 </section>
 <section>
 
-<div id="orgea0375e" class="figure">
-<p><img src="figs/12_aracf.png" alt="12_aracf.png" />
+<div id="org8813d70" class="figure">
+<p><img src="figs/ts_aracf.png" alt="ts_aracf.png" />
 </p>
 <p><span class="figure-number">Figure 11: </span>AR過程の自己相関</p>
 </div>
@@ -1098,8 +912,8 @@ z |&gt; as_tsibble() |&gt;
 </section>
 <section>
 
-<div id="org744954c" class="figure">
-<p><img src="figs/12_maacf.png" alt="12_maacf.png" />
+<div id="org5ee3fd2" class="figure">
+<p><img src="figs/ts_maacf.png" alt="ts_maacf.png" />
 </p>
 <p><span class="figure-number">Figure 12: </span>MA過程の自己相関</p>
 </div>
@@ -1107,99 +921,21 @@ z |&gt; as_tsibble() |&gt;
 </section>
 <section>
 
-<div id="orgc2631fb" class="figure">
-<p><img src="figs/12_armaacf.png" alt="12_armaacf.png" />
+<div id="org162428a" class="figure">
+<p><img src="figs/ts_armaacf.png" alt="ts_armaacf.png" />
 </p>
 <p><span class="figure-number">Figure 13: </span>ARMA過程の自己相関</p>
 </div>
 </section>
 </section>
 <section>
-<section id="slide-orgefbf676" data-background="#fef4f4">
-<h2 id="orgefbf676">実習</h2>
-</section>
-<section id="slide-org58d0650" data-background="#fef4f4">
-<h3 id="org58d0650">R : 自己相関・自己共分散の計算・描画</h3>
-<ul>
-<li><p>
-関数 <code>stats::acf()</code> 
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R">acf(x, lag.max = <span style="color: #00aa80;">NULL</span>,
-    type = c(<span style="color: #d08928;">"correlation"</span>, <span style="color: #d08928;">"covariance"</span>, <span style="color: #d08928;">"partial"</span>),
-    plot = <span style="color: #00aa80;">TRUE</span>, na.action = na.fail, demean = <span style="color: #00aa80;">TRUE</span>, ...)
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> x: &#26178;&#31995;&#21015;&#12487;&#12540;&#12479;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> lag.max: &#35336;&#31639;&#12377;&#12427;&#12521;&#12464;&#12398;&#26368;&#22823;&#20516;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> type: &#27161;&#28310;&#12399;&#30456;&#38306;, &#20849;&#20998;&#25955;&#12392;&#20559;&#30456;&#38306;&#12434;&#36984;&#12406;&#12371;&#12392;&#12418;&#12391;&#12365;&#12427;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> plot: &#25551;&#30011;&#12377;&#12427;&#12363;&#21542;&#12363;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> na.action: &#27424;&#25613;&#20516;&#12398;&#20966;&#29702;&#65292;&#27161;&#28310;&#12399;&#27424;&#25613;&#12434;&#21547;&#12416;&#12392;&#35336;&#31639;&#12375;&#12394;&#12356;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> demean: &#20849;&#20998;&#25955;&#12398;&#35336;&#31639;&#12395;&#12362;&#12356;&#12390;&#24179;&#22343;&#12434;&#24341;&#12367;&#12363;&#21542;&#12363;</span>
-</pre>
-</div>
-<ul>
-<li>引数 <code>plot</code> の真偽で描画(graphics系)・計算のみを制御できる</li>
-
-</ul></li>
-
-</ul>
-
-</section>
-<section data-background="#fef4f4">
-<ul>
-<li><p>
-関数 feats::ACF()
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R">ACF(.data,  y, ...,  lag_max = <span style="color: #00aa80;">NULL</span>,
-  type = c(<span style="color: #d08928;">"correlation"</span>, <span style="color: #d08928;">"covariance"</span>, <span style="color: #d08928;">"partial"</span>),
-  na.action = na.contiguous, demean = <span style="color: #00aa80;">TRUE</span>, tapered = <span style="color: #00aa80;">FALSE</span>)
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> .data: &#26178;&#31995;&#21015;&#12487;&#12540;&#12479; (tsibble&#12463;&#12521;&#12473;)</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> y: &#35336;&#31639;&#23550;&#35937;&#12398;&#21015;&#21517;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> type: &#27161;&#28310;&#12399;&#30456;&#38306;, &#20849;&#20998;&#25955;&#12392;&#20559;&#30456;&#38306;&#12434;&#36984;&#12406;&#12371;&#12392;&#12418;&#12391;&#12365;&#12427;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> na.action: &#27424;&#25613;&#20516;&#12398;&#20966;&#29702;&#65292;&#27161;&#28310;&#12399;&#27424;&#25613;&#12434;&#21547;&#12416;&#12392;&#35336;&#31639;&#12375;&#12394;&#12356;</span>
-<span style="color: #808080; font-weight: bold; font-style: italic;">#</span><span style="color: #808080; font-weight: bold; font-style: italic;">'</span><span style="color: #808080; font-style: italic;"> demean: &#20849;&#20998;&#25955;&#12398;&#35336;&#31639;&#12395;&#12362;&#12356;&#12390;&#24179;&#22343;&#12434;&#24341;&#12367;&#12363;&#21542;&#12363;</span>
-</pre>
-</div>
-<ul>
-<li>関数 <code>acf()</code> とほぼ同様(lag=0を表示しない)に描画(graphics系)・計算を行う</li>
-<li>返値を <code>autoplot()</code> に渡せばグラフを描画する</li>
-<li><p>
-<span style="color:green;">典型的な使い方</span>
-</p>
-<div class="org-src-container">
-
-<pre class="src src-R">toy_acf <span style="color: #60aa00;">&lt;-</span> arima.sim(model = list(ar = c(0.8, -0.64),
-                                  ma = c(-0.5)),
-                     n = 200) |&gt;
-  as_tsibble() |&gt; ACF(value) 
-toy_acf |&gt; autoplot()
-</pre>
-</div></li>
-
-</ul></li>
-
-</ul>
-</section>
-<section id="slide-orge78ada6" data-background="#fef4f4">
-<h3 id="orge78ada6">練習問題</h3>
-<ul>
-<li>以下の問に答えなさい
-<ul>
-<li>同じAR過程のモデルから生成した時系列の自己相関を比較しなさい<br />
-(前の練習問題を利用すればよい)</li>
-<li>MA過程についても同様な比較を行いなさい</li>
-<li>ARMA過程についても同様な比較を行いなさい</li>
-
-</ul></li>
-
-</ul>
+<section id="slide-orgfcb46ee" data-background="#fef4f4">
+<h2 id="orgfcb46ee">実習</h2>
 </section>
 </section>
 <section>
-<section id="slide-org0a8718e">
-<h2 id="org0a8718e">次回の内容</h2>
+<section id="slide-org1421232">
+<h2 id="org1421232">次回の内容</h2>
 <ul>
 <li>第1回 : 時系列の基本モデル</li>
 <li><b>第2回 : モデルの推定と予測</b></li>
