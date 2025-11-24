@@ -38,10 +38,10 @@ library(tidyverse)
 library(ggfortify)
 library(ggrepel)
 library(GGally)
-library(tidymodels)
+library(tidymodels) # モデル評価のためのメタパッケージ
 library(MASS)
-library(gt)         # 表の作成
-library(gtsummary)  # 分析結果の表の作成
+library(gt)         
+library(gtsummary)  
 #' macOSのための日本語表示の設定
 if(Sys.info()["sysname"] == "Darwin") { # macOSか調べる
     jp_font <- "HiraMaruProN-W4"
@@ -53,6 +53,34 @@ if(Sys.info()["sysname"] == "Darwin") { # macOSか調べる
 } else {jp_font <- NULL}
 ```
 
+## データセット
+
+以下のデータセットを使用する
+
+::: callout-note
+### `tokyo_weather.csv` の概要
+
+気象庁より取得した東京の気候データを整理したもの
+
+-   year,month,day,day_of_week : 年，月，日，曜日
+-   temp : 平均気温(℃)
+-   rain : 降水量の合計(mm)
+-   solar : 合計全天日射量(MJ/㎡)
+-   snow : 降雪量合計(cm)
+-   wdirs : 最多風向(16方位)
+-   wind : 平均風速(m/s)
+-   press : 平均現地気圧(hPa)
+-   humid : 平均湿度(％)
+-   cloud : 平均雲量(10分比)
+-   参考 : [気象庁](https://www.data.jma.go.jp/gmd/risk/obsdl/index.php)
+
+データの読み込み方
+
+```{r}
+tw_data <- read_csv("data/tokyo_weather.csv") 
+```
+:::
+
 ## 判別分析に用いる主な関数
 
 判別分析を行うRの標準的な関数として
@@ -60,7 +88,7 @@ if(Sys.info()["sysname"] == "Darwin") { # macOSか調べる
 -   `MASS::lda()`
 -   `MASS::qda()`
 
-がある． 講義で説明するように観測データに関する仮定が異なるが，使い方はほぼ同様である．
+がある． 講義で説明するように観測データに関する仮定が異なるが，使い方はほぼ同様であるので， ここで関連する関数をまとめて紹介しておく．
 
 ::: callout-note
 ### 線形判別分析の実行
@@ -147,11 +175,11 @@ predict(object, newdata, prior = object$prior,
 #' lda クラス用
 tidy.lda <- function(x, type = c("statistic","estimate")){
   type <- match.arg(type)
-  lda_stat <- \(x){
+  lda_stat <- \(x){ # 事前確率およびクラスごとの標本平均
     bind_cols(x[["prior"]] |> enframe(value = "prior"),
               x[["means"]] |> as_tibble() |> rename_with(\(x)paste0(x,"_ave")))
   }
-  lda_est <- \(x){
+  lda_est <- \(x){  # 推定された判別関数の係数
     x[["scaling"]] |> as.data.frame() |> rownames_to_column() |> as_tibble()
   }
   switch(type,
@@ -161,11 +189,11 @@ tidy.lda <- function(x, type = c("statistic","estimate")){
 #' qda クラス用
 tidy.qda <- function(x, type = c("statistic","estimate")){
   type <- match.arg(type)
-  qda_stat <- \(x){
+  qda_stat <- \(x){ # 事前確率およびクラスごとの標本平均
     bind_cols(x[["prior"]] |> enframe(value = "prior"),
               x[["means"]] |> as_tibble() |> rename_with(\(x)paste0(x,"_ave")))
   }
-  qda_est <- \(x){
+  qda_est <- \(x){ # 分散1共分散0に変換する行列(共分散の-1/2乗)および1/2log_det共分散
     bind_cols(x[["scaling"]] |> as.data.frame() |> rownames_to_column() |>
               as_tibble() |> rename_with(\(x)paste0("scale_",x)),
               x[["ldet"]] |> as_tibble_col(column_name = "log_det/2"))
@@ -234,34 +262,7 @@ conf_mat(
 #' data: データフレーム
 #' truth: 真値の列
 #' estimate: あてはめ値・予測値の列
-```
-:::
-
-## データセット
-
-以下のデータセットを使用する
-
-::: callout-note
-### `tokyo_weather.csv` の概要
-
-気象庁より取得した東京の気候データを整理したもの
-
--   year,month,day,day_of_week : 年，月，日，曜日
--   temp : 平均気温(℃)
--   rain : 降水量の合計(mm)
--   solar : 合計全天日射量(MJ/㎡)
--   snow : 降雪量合計(cm)
--   wdirs : 最多風向(16方位)
--   wind : 平均風速(m/s)
--   press : 平均現地気圧(hPa)
--   humid : 平均湿度(％)
--   cloud : 平均雲量(10分比)
--   参考 : [気象庁](https://www.data.jma.go.jp/gmd/risk/obsdl/index.php)
-
-データの読み込み方
-
-```{r}
-tw_data <- read_csv("data/tokyo_weather.csv") 
+#' 詳細は '?yardstick::conf_mat' を参照
 ```
 :::
 

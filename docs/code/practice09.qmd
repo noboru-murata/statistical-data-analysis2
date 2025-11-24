@@ -40,8 +40,8 @@ library(ggrepel)
 library(GGally)
 library(tidymodels)
 library(MASS)
-library(gt)         # 表の作成
-library(gtsummary)  # 分析結果の表の作成
+library(gt)         
+library(gtsummary)  
 #' macOSのための日本語表示の設定
 if(Sys.info()["sysname"] == "Darwin") { # macOSか調べる
     jp_font <- "HiraMaruProN-W4"
@@ -52,6 +52,72 @@ if(Sys.info()["sysname"] == "Darwin") { # macOSか調べる
     update_geom_defaults("label_repel", list(family = theme_get()$text$family))
 } else {jp_font <- NULL}
 ```
+
+## データセット
+
+以下では3つのデータセットを使用する．
+
+::: callout-note
+### `tokyo_weather.csv` の概要
+
+気象庁より取得した東京の気候データを整理したもの
+
+-   year,month,day,day_of_week : 年，月，日，曜日
+-   temp : 平均気温(℃)
+-   rain : 降水量の合計(mm)
+-   solar : 合計全天日射量(MJ/㎡)
+-   snow : 降雪量合計(cm)
+-   wdirs : 最多風向(16方位)
+-   wind : 平均風速(m/s)
+-   press : 平均現地気圧(hPa)
+-   humid : 平均湿度(％)
+-   cloud : 平均雲量(10分比)
+:::
+
+::: callout-note
+### `Wine Quality Data Set`
+
+UC Irvaine の `Machine Learning Repository` で公開されているデータ． 物理化学的な試験結果からワインの質を予測する練習問題データとして良く知られる．
+
+詳細は <https://archive.ics.uci.edu/dataset/186/wine+quality> を参照
+
+データの読み込み方の例． 元のデータは10段階の評定(`quality`)だが，これからA-Dの4段階の評価(`grade`)を構成している．
+
+```{r}
+#| eval: false
+wq_data <-
+    read_delim("https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-red.csv",
+               delim = ";") |>
+    mutate(grade = factor(
+               case_when( # quality を A,B,C,D に割り当てる
+                   quality >= 7 ~ "A",
+                   quality >= 6 ~ "B",
+                   quality >= 5 ~ "C",
+                   .default = "D"
+               )))
+```
+:::
+
+::: callout-note
+### `MASS::biopsy` の概要
+
+**Biopsy Data on Breast Cancer Patients**
+
+This breast cancer database was obtained from the University of Wisconsin Hospitals, Madison from Dr. William H. Wolberg. He assessed biopsies of breast tumours for 699 patients up to 15 July 1992; each of nine attributes has been scored on a scale of 1 to 10, and the outcome is also known. There are 699 rows and 11 columns.
+
+詳細は `?MASS::biopsy` を参照
+
+データの整理の仕方の例． 元のデータは data.frame クラスなので，tibble クラスに変換して整理しておく．
+
+```{r}
+#| eval: false
+glimpse(MASS::biopsy) # 各変数の属性を確認する．
+bio_data <-
+    MASS::biopsy |>
+    as_tibble() |>    # tibble クラスに変換
+    na.omit()         # NA を除く
+```
+:::
 
 ## 判別分析に用いる主な関数
 
@@ -155,7 +221,7 @@ toy_lda |>
 ::: callout-tip
 ### `MASS::biopsy` を用いた例
 
-データセットについては後述するが，まずtibble クラスに整理する．
+データフレームを `tibble` クラスに変換して整理する．
 
 ```{r}
 bio_data <-
@@ -176,9 +242,9 @@ bio_data |>
 主成分分析を用いて2次元に縮約した生検と良性・悪性の関係を視覚化する．
 
 ```{r}
-autoplot(bio_data |> select(where(is.numeric)) |> prcomp(), 
-         data = bio_data,
-         colour = "class") 
+bio_data |> select(where(is.numeric)) |> prcomp() |>
+    autoplot(data = bio_data,
+             colour = "class") 
 ```
 
 線形判別関数による判別関数値の分布を見る．
@@ -193,73 +259,77 @@ bio_lda |>
 ```
 :::
 
-## データセット
-
-以下では3つのデータセットを使用する．
-
-::: callout-note
-### `tokyo_weather.csv` の概要
-
-気象庁より取得した東京の気候データを整理したもの
-
--   year,month,day,day_of_week : 年，月，日，曜日
--   temp : 平均気温(℃)
--   rain : 降水量の合計(mm)
--   solar : 合計全天日射量(MJ/㎡)
--   snow : 降雪量合計(cm)
--   wdirs : 最多風向(16方位)
--   wind : 平均風速(m/s)
--   press : 平均現地気圧(hPa)
--   humid : 平均湿度(％)
--   cloud : 平均雲量(10分比)
-:::
-
-::: callout-note
-### `Wine Quality Data Set`
-
-UC Irvaine の `Machine Learning Repository` で公開されているデータ． 物理化学的な試験結果からワインの質を予測する練習問題データとして良く知られる．
-
-詳細は <https://archive.ics.uci.edu/dataset/186/wine+quality> を参照
-
-データの読み込み方の例． 元のデータは10段階の評定(`quality`)だが，これからA-Dの4段階の評価(`grade`)を構成している．
-
-```{r}
-#| eval: false
-wq_data <-
-    read_delim("https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-red.csv",
-               delim = ";") |>
-    mutate(grade = factor(
-               case_when( # quality を A,B,C,D に割り当てる
-                   quality >= 7 ~ "A",
-                   quality >= 6 ~ "B",
-                   quality >= 5 ~ "C",
-                   .default = "D"
-               )))
-```
-:::
-
-::: callout-note
-### `MASS::biopsy` の概要
-
-**Biopsy Data on Breast Cancer Patients**
-
-This breast cancer database was obtained from the University of Wisconsin Hospitals, Madison from Dr. William H. Wolberg. He assessed biopsies of breast tumours for 699 patients up to 15 July 1992; each of nine attributes has been scored on a scale of 1 to 10, and the outcome is also known. There are 699 rows and 11 columns.
-
-詳細は `?MASS::biopsy` を参照
-
-データの整理の仕方の例． 元のデータは data.frame クラスなので，tibble クラスに変換して整理しておく．
-
-```{r}
-#| eval: false
-glimpse(MASS::biopsy) # 各変数の属性を確認する．
-bio_data <-
-    MASS::biopsy |>
-    as_tibble() |>    # tibble クラスに変換
-    na.omit()         # NA を除く
-```
-:::
-
 ## 判別結果の評価
+
+### 評価のための関数
+
+評価のための枠組としては
+
+- *caret* : Max Kuhn @Posit による `base R` のためのパッケージ <https://topepo.github.io/caret/>
+- *tidymodels* : Max Kuhn, Hadley Wickham @Posit による `tidyverse` 向けに再設計されたパッケージ <https://www.tidymodels.org>
+
+がある．本講義では `tidymodels` を中心に説明する．
+以下で用いる評価のための主な関数を列挙する．
+
+::: callout-note
+### 混同行列の計算
+
+``` r
+conf_mat(data, truth, estimate,
+         dnn = c("Prediction", "Truth"), case_weights = NULL, ...)
+#' data: 真値と予測値が含まれるデータフレーム
+#' trush: 真値(ラベル)の列名
+#' estimate: 予測値(ラベル)の列名
+#' 詳細は '?yardstick::conf_mat' を参照
+```
+集計した評価指標を得るには以下を用いればよい．
+``` r
+summary(object,
+        prevalence = NULL, beta = 1, estimator = NULL,
+        event_level = yardstick_event_level(), ...)
+#' object: conf_mat の出力
+#' 様々な評価指標を tibble 形式で出力
+#' 詳細は '?yardstick::summary.conf_mat' を参照
+```
+混同行列を図示するには以下を用いればよい．
+``` r
+autoplot(object, type = c("mosaic", "heatmap"))
+#' object: conf_mat の出力
+```
+:::
+
+::: callout-note
+### ROC曲線の計算
+
+``` r
+roc_curve(data, truth, ...,
+          na_rm = TRUE, event_level = yardstick_event_level(),
+          case_weights = NULL, options = list())
+#' data: 真値と予測値が含まれるデータフレーム
+#' trush: 真値(ラベル)の列名
+#' ...: 予測値(ラベル)の事後確率を与える列名
+#' 詳細は '?yardstick::roc_curve' を参照
+```
+ROC曲線を図示するには以下を用いればよい．
+``` r 
+autoplot(object)
+#' object: roc_curve の出力
+```
+:::
+
+::: callout-note
+### AUCの計算
+
+``` r
+roc_auc(data, truth, ..., estimator = NULL,
+        na_rm = TRUE,  event_level = yardstick_event_level(),
+        case_weights = NULL, options = list())
+#' data: 真値と予測値が含まれるデータフレーム
+#' trush: 真値(ラベル)の列名
+#' ...: 予測値(ラベル)の事後確率を与える列名
+#' 詳細は '?yardstick::roc_auc' を参照
+```
+:::
 
 ### 問題
 
@@ -405,6 +475,34 @@ tw_lda12 |>
 
 ## 訓練・試験データによる評価
 
+### 訓練・試験データを作成するための関数
+
+以下の関数群でデータセットを適切な条件で分割して利用することができる．
+
+::: callout-note
+### 訓練・試験データの作成
+
+以下の関数で分割を行う．
+``` r
+initial_split(data, prop = 3/4,
+              strata = NULL, breaks = 4, pool = 0.1, ...)
+#' data: データフレーム
+#' prop: 訓練データの比率
+#' strata: 層別に分割する場合の変数
+#' 詳細は '?rsample::initial_split' を参照
+```
+訓練データを取得するためには以下の関数を用いる．
+``` r
+training(x, ...)
+#' x : initial_split の出力
+```
+試験データを取得するためには以下の関数を用いる．
+``` r
+testing(x, ...)
+#' x : initial_split の出力
+```
+::: 
+
 ### 問題
 
 Wine Quality Data Set を用いて，以下を確認しなさい．
@@ -419,9 +517,7 @@ Wine Quality Data Set を用いて，以下を確認しなさい．
     ```
 
 -   訓練データを用いて線形・2次判別関数を構成する．
-
 -   訓練データを用いて評価を行う．
-
 -   試験データを用いて評価を行う．
 
 ### 解答欄
@@ -504,6 +600,23 @@ autoplot(wq_qda_test_cm, type = "heatmap") +
 
 ## LOO交叉検証法による予測誤差の評価
 
+### LOO交叉検証
+
+関数 `MASS::lda()/qda()` はオプションで LOO交叉検証を行うことができる．
+
+::: callout-note
+### `CV` オプションの指定方法
+
+``` r
+toy_lda <- lda(formula, toy_data, CV = TRUE)
+toy_lda[["class"]] # LOO CV による予測結果
+#' 特定のデータを除いて判別関数を構成し，そのデータの予測を行っている
+toy_qda <- qda(formula, toy_data, CV = TRUE)
+toy_qda[["class"]] # LOO CV による予測結果
+#' 2次判別についても同様
+```
+:::
+
 ### 問題
 
 -   データセット `MASS::biopsy` を用いて2次判別の分析を行いなさい．
@@ -575,7 +688,35 @@ autoplot(bio_qda_loo_cm, type = "heatmap") +
 
 あてはめ値による評価は LOO CV より若干良くなっており，あてはめ値では精度を過剰に評価する可能性があることが示唆される．
 
+
 ## k-重交叉検証法による予測誤差の評価
+
+### k-重交叉検証法のための関数
+
+`package::tidymodels` の関数群を利用してk-重交叉検証を行うことができる．
+
+::: callout-note
+
+基本的な手続きは以下のとおりである．
+
+``` r
+#' 交叉検証用のデータ分割 
+#' 詳細は '?rsample::vfold_cv' を参照
+vfold_cv(data, v = 10, repeats = 1,
+         strata = NULL, breaks = 4, pool = 0.1, ...)
+#' 最も簡単な処理の流れ(以下の関数の組わ合わせ)
+#' 詳細は '?workflows::workflow'
+#' および '?tune::fit_resamples' を参照
+workflow() |> 
+    add_formula(目的変数 ~ 説明変数) |>
+    add_model(推定に用いるモデル) |> 
+    fit_resamples(resamples = vfold_cvの出力)
+#' 評価の取得
+#' 詳細は '?tune::collect_metrics' を参照
+collect_metrics(fit_resamplesの出力)
+```
+:::
+
 
 ### 問題
 
