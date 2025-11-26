@@ -24,15 +24,15 @@ editor: visual
 以下で利用する共通パッケージを読み込む．
 
 ```{r}
-library(conflicted) # 関数名の衝突を警告
-conflicts_prefer(   # 優先的に使う関数を指定
+library(conflicted) 
+conflicts_prefer(   
     dplyr::filter(),
     dplyr::select(),
     dplyr::lag(),
     )
 library(tidyverse)  
 library(GGally)
-library(broom)      # 解析結果を tibble 形式に集約
+library(broom)      
 library(ggfortify)
 library(ggrepel)
 library(cluster)
@@ -84,11 +84,11 @@ js_data <-
 
 「ごはんを食べよう国民運動推進協議会」(平成30年解散) による 好きなおむすびの具に関するwebアンケートを都道府県別にまとめたもの - (閉鎖) <http://www.gohan.gr.jp/result/09/anketo09.html>
 
-アンケートの概要は以下のとおりで，ファイルはQ2の結果を整理したもの
+アンケートの概要は以下のとおりで，ファイルは質問2の結果を整理したもの
 
 -   【応募期間】 2009年1月4日～2009年2月28日
 -   【応募方法】 インターネット、携帯ウェブ
--   【内　　容】
+-   【質問内容】
     1.  おむすびを最近１週間に、何個食べましたか？ そのうち市販のおむすびは何個でしたか？
     2.  おむすびの具では何が一番好きですか？
         -   A.梅 B.鮭 C.昆布 D.かつお E.明太子 F.たらこ Ｇ.ツナ H.その他
@@ -104,9 +104,10 @@ js_data <-
 データの読み込み方の例．都道府県名や地方区分を日本語にする場合．
 
 ```{r}
-om_data <- bind_cols( # 日本語表記・地方の情報を追加
-    read_csv(file = "data/omusubi.csv"),
-    read_csv(file = "data/prefecture.csv")) |>
+om_data <- 
+    bind_cols( 
+        read_csv(file = "data/omusubi.csv"),       # データの読み込み
+        read_csv(file = "data/prefecture.csv")) |> # 日本語表記・地方の情報を追加
     select(jp,area_jp,ume:etc) |>
     set_names(c("都道府県名","地方区分",
                 "梅","鮭","昆布","鰹","明太子","鱈子","ツナ","その他")) 
@@ -288,6 +289,12 @@ plot(x, ask = FALSE, which.plots = NULL, main = NULL,
 -   大阪と四国の間の距離を表示しなさい．
 -   ユークリッド距離とマンハッタン距離の散布図を描き比較しなさい．
 
+### 解答欄
+
+```{r}
+
+```
+
 ### 解答例
 
 データを読み込む．
@@ -389,6 +396,12 @@ gg + xlim(0,3) + ylim(0,3) # 原点近傍のみ表示
 
 -   平均0，分散1に正規化したデータのユークリッド距離を用いて，群平均法による階層的クラスタリングを行いなさい
 -   クラスタ数を5つとして分割を行いなさい
+
+### 解答欄
+
+```{r}
+
+```
 
 ### 解答例
 
@@ -526,6 +539,12 @@ js_data_sub |>
 -   群平均法による階層的クラスタリングを行いなさい
 
 -   クラスタ数を定めて2次元でのクラスタ表示を作成しなさい
+
+### 解答欄
+
+```{r}
+
+```
 
 ### 解答例
 
