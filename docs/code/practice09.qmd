@@ -265,11 +265,10 @@ bio_lda |>
 
 評価のための枠組としては
 
-- *caret* : Max Kuhn @Posit による `base R` のためのパッケージ <https://topepo.github.io/caret/>
-- *tidymodels* : Max Kuhn, Hadley Wickham @Posit による `tidyverse` 向けに再設計されたパッケージ <https://www.tidymodels.org>
+-   *caret* : Max Kuhn @Posit による `base R` のためのパッケージ <https://topepo.github.io/caret/>
+-   *tidymodels* : Max Kuhn, Hadley Wickham @Posit による `tidyverse` 向けに再設計されたパッケージ <https://www.tidymodels.org>
 
-がある．本講義では `tidymodels` を中心に説明する．
-以下で用いる評価のための主な関数を列挙する．
+がある．本講義では `tidymodels` を中心に説明する． 以下で用いる評価のための主な関数を列挙する．
 
 ::: callout-note
 ### 混同行列の計算
@@ -282,7 +281,9 @@ conf_mat(data, truth, estimate,
 #' estimate: 予測値(ラベル)の列名
 #' 詳細は '?yardstick::conf_mat' を参照
 ```
+
 集計した評価指標を得るには以下を用いればよい．
+
 ``` r
 summary(object,
         prevalence = NULL, beta = 1, estimator = NULL,
@@ -291,7 +292,9 @@ summary(object,
 #' 様々な評価指標を tibble 形式で出力
 #' 詳細は '?yardstick::summary.conf_mat' を参照
 ```
+
 混同行列を図示するには以下を用いればよい．
+
 ``` r
 autoplot(object, type = c("mosaic", "heatmap"))
 #' object: conf_mat の出力
@@ -310,8 +313,10 @@ roc_curve(data, truth, ...,
 #' ...: 予測値(ラベル)の事後確率を与える列名
 #' 詳細は '?yardstick::roc_curve' を参照
 ```
+
 ROC曲線を図示するには以下を用いればよい．
-``` r 
+
+``` r
 autoplot(object)
 #' object: roc_curve の出力
 ```
@@ -333,37 +338,20 @@ roc_auc(data, truth, ..., estimator = NULL,
 
 ### 問題
 
-前回と同様に東京の気候データの線形判別を行い，以下を確認しなさい．
+1.  前回と同様に東京の気候データの線形判別を行い，以下を確認しなさい．
 
--   9月と10月の気温と湿度のデータを抽出する．
+    -   9月と10月の気温と湿度のデータを抽出する．
+    -   線形判別関数を構成する．
+    -   混同行列を用いて構成した判別関数の評価を行う．[^1]
+    -   ROC曲線を描画しAUCを求める．[^2]
 
     ``` r
+    #' 必要なデータを抽出して整理
     tw_data <- read_csv("data/tokyo_weather.csv") 
     tw_subset  <- tw_data |>
         filter(month %in% c(9,10)) |>
         select(temp, humid, month) |>
         mutate(month = as_factor(month)) # 月を因子化
-    ```
-
--   線形判別関数を構成する．
-
-    ``` r
-    tw_lda <- lda(formula = month ~ temp + humid, data = tw_subset)
-    ```
-
--   混同行列を用いて構成した判別関数の評価を行う．[^1]
-
-    ``` r
-    tw_lda_fitted <- predict(tw_lda)              # あてはめ値を求める
-    tw_subset |>
-        mutate(fitted = tw_lda_fitted[["class"]]) # あてはめ値を加えたデータフレーム
-    ```
-
--   ROC曲線を描画しAUCを求める．[^2]
-
-    ``` r
-    tw_subset |>
-        bind_cols(tw_lda_fitted[["posterior"]])
     ```
 
 [^1]: 関数 `lda()` の返値の `class` は vector 型なので，関数 `mutate()` を用いてデータフレームの列として加えることができる．
@@ -483,6 +471,7 @@ tw_lda12 |>
 ### 訓練・試験データの作成
 
 以下の関数で分割を行う．
+
 ``` r
 initial_split(data, prop = 3/4,
               strata = NULL, breaks = 4, pool = 0.1, ...)
@@ -491,34 +480,38 @@ initial_split(data, prop = 3/4,
 #' strata: 層別に分割する場合の変数
 #' 詳細は '?rsample::initial_split' を参照
 ```
+
 訓練データを取得するためには以下の関数を用いる．
+
 ``` r
 training(x, ...)
 #' x : initial_split の出力
 ```
+
 試験データを取得するためには以下の関数を用いる．
+
 ``` r
 testing(x, ...)
 #' x : initial_split の出力
 ```
-::: 
+:::
 
 ### 問題
 
-Wine Quality Data Set を用いて，以下を確認しなさい．
+1.  Wine Quality Data Set を用いて，以下を確認しなさい．
 
--   8:2の比率で訓練データと試験データに分割する ．
+    -   8:2の比率で訓練データと試験データに分割する ．
+    -   訓練データを用いて線形・2次判別関数を構成する．
+    -   訓練データを用いて評価を行う．
+    -   試験データを用いて評価を行う．
 
     ``` r
+    #' データの分割の例
     wq_split <-
         initial_split(wq_data, prop = 0.8, strata = grade)
     training(wq_split))
     testing(wq_split)
     ```
-
--   訓練データを用いて線形・2次判別関数を構成する．
--   訓練データを用いて評価を行う．
--   試験データを用いて評価を行う．
 
 ### 解答欄
 
@@ -619,7 +612,7 @@ toy_qda[["class"]] # LOO CV による予測結果
 
 ### 問題
 
--   データセット `MASS::biopsy` を用いて2次判別の分析を行いなさい．
+1.  データセット `MASS::biopsy` を用いて2次判別の分析を行いなさい．
 
     -   全てのデータを用いて訓練誤差を評価する．
     -   LOO交叉検証法を用いて予測誤差を評価する．
@@ -688,7 +681,6 @@ autoplot(bio_qda_loo_cm, type = "heatmap") +
 
 あてはめ値による評価は LOO CV より若干良くなっており，あてはめ値では精度を過剰に評価する可能性があることが示唆される．
 
-
 ## k-重交叉検証法による予測誤差の評価
 
 ### k-重交叉検証法のための関数
@@ -696,7 +688,6 @@ autoplot(bio_qda_loo_cm, type = "heatmap") +
 `package::tidymodels` の関数群を利用してk-重交叉検証を行うことができる．
 
 ::: callout-note
-
 基本的な手続きは以下のとおりである．
 
 ``` r
@@ -717,19 +708,18 @@ collect_metrics(fit_resamplesの出力)
 ```
 :::
 
-
 ### 問題
 
-Wine Quality Data Set を用いて 線形判別と2次判別の分析を行いなさい．
+1.  Wine Quality Data Set を用いて 線形判別と2次判別の分析を行いなさい．
 
--   LOO交叉検証法を用いて予測誤差を評価する．
+    -   LOO交叉検証法を用いて予測誤差を評価する．
+    -   k-重交叉検証法を用いて予測誤差を評価する．
 
     ``` r
+    #' lda/qda での LOO CV の指定の方法
     wq_lda_loo <- lda(formula = wq_formula, data = training(wq_split), CV = TRUE)
     wq_qda_loo <- qda(formula = wq_formula, data = training(wq_split), CV = TRUE)
     ```
-
--   k-重交叉検証法を用いて予測誤差を評価する．
 
 ### 解答例
 
