@@ -1,6 +1,6 @@
 ---
-title: "統計データ解析"
-subtitle: "第10講 サンプルコード"
+title: "第10講 クラスタ分析"
+subtitle: "基本的な考え方と階層的方法"
 date: "`r Sys.Date()`"
 format:
     html: 
@@ -551,9 +551,10 @@ js_data_sub |>
 データ `omusubi.csv` を読み込んで，整理する．
 
 ```{r}
-om_data <- bind_cols( # 日本語表記・地方の情報を追加
-    read_csv(file = "data/omusubi.csv"),
-    read_csv(file = "data/prefecture.csv")) |>
+om_data <-
+    bind_cols( # 日本語表記・地方の情報を追加
+        read_csv(file = "data/omusubi.csv"),
+        read_csv(file = "data/prefecture.csv")) |>
     select(jp,area_jp,ume:etc) |>
     set_names(c("都道府県名","地方区分",
                 "梅","鮭","昆布","鰹","明太子","鱈子","ツナ","その他")) 

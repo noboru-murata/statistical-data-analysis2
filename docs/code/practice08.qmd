@@ -379,19 +379,26 @@ toy_lda |>
 推定された線形判別関数の識別境界を図示する．
 
 ```{r}
-range_x <- range(toy_data[["x1"]])          # x1の範囲
-range_y <- range(toy_data[["x2"]])          # x2の範囲
-toy_grid_x <- pretty(range_x, 100)          # 格子点の作成
+range_x <- range(toy_data[["x1"]])               # x1の範囲
+range_y <- range(toy_data[["x2"]])               # x2の範囲
+toy_grid_x <- pretty(range_x, 100)               # 格子点の作成
 toy_grid_y <- pretty(range_y, 100)
-toy_grid_xy <- expand.grid(x1 = toy_grid_x, # 2次元の格子点を作成
+toy_grid_xy <- expand.grid(x1 = toy_grid_x,      # 2次元の格子点を作成
                            x2 = toy_grid_y) 
 toy_lda |>
-    augment(newdata = toy_grid_xy) |>       # 格子点上の判別関数値を計算
-    ggplot(aes(x = x1, y = x2)) +           # 予測されるラベルの図示
+    augment(newdata = toy_grid_xy) |>            # 格子点上の判別関数値を計算
+    ggplot(aes(x = x1, y = x2)) +                # 予測されるラベルの図示
     geom_tile(aes(fill = .class), alpha = 0.3) +
+    labs(fill = NULL)
+```
+
+上記の図にデータ点を重ね描きする．
+
+```{r}
+last_plot() +
     geom_point(data = toy_data,
                aes(x = x1, y = x2, colour = class)) +
-    labs(fill = NULL, colour = NULL)
+    labs(colour = NULL)
 ```
 
 ::: column-margin
@@ -458,9 +465,9 @@ mutate(across(c(year, month, day), as_factor))
 気温と湿度の散布図を作成して，データを視覚化する．
 
 ```{r}
-tw_subset |> # 
+tw_subset |>  
     ggplot(aes(x = temp, y = humid)) + 
-    geom_point(aes(colour = month)) + # 月ごとに点の色を変える
+    geom_point(aes(colour = month)) +       # 月ごとに点の色を変える
     labs(x = "Temperature", y = "Humidity",
          title = "September & October")
 ```
@@ -524,18 +531,10 @@ tw_lda |>
     augment(newdata = grid_xy) |>                 # 格子点上の判別関数値を計算
     ggplot(aes(x = temp, y = humid)) +            # 判別関数により予測されるラベルの図示
     geom_tile(aes(fill = .class), alpha = 0.3) +
-    labs(x = "気温", y = "湿度", fill = NULL,
-         title = "線形判別分析")
-```
-
-上記の図にデータ点を重ね描きする．
-
-```{r}
-last_plot() +                          
     geom_point(data = tw_subset,
                aes(x = temp, y = humid, colour = month)) +
-    labs(colour = NULL)
-
+    labs(x = "気温", y = "湿度", fill = NULL, colour = NULL,
+         title = "線形判別分析")
 ```
 
 ## 2次判別

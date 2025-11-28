@@ -1,6 +1,6 @@
 ---
-title: "統計データ解析"
-subtitle: "第11講 サンプルコード"
+title: "第11講 クラスタ分析"
+subtitle: "非階層的方法と分析の評価"
 date: "`r Sys.Date()`"
 format:
     html: 
@@ -17,8 +17,6 @@ citation-location: margin
 tbl-cap-location: margin
 fig-cap-location: margin
 editor: visual
-editor_options: 
-  chunk_output_type: console
 ---
 
 ## 準備
@@ -26,60 +24,130 @@ editor_options:
 以下で利用する共通パッケージを読み込む．
 
 ```{r}
-library(conflicted) # 関数名の衝突を警告
-conflicts_prefer(   # 優先的に使う関数を指定
+library(conflicted) 
+conflicts_prefer(   
     dplyr::filter(),
     dplyr::select(),
     dplyr::lag(),
     )
 library(tidyverse)  
 library(GGally)
-library(broom)      # 解析結果を tibble 形式に集約
+library(broom)      
 library(ggfortify)
+library(ggrepel)
 library(cluster)
 library(ggdendro)
 #' macOSのための日本語表示の設定
 if(Sys.info()["sysname"] == "Darwin") { # macOSか調べる
-    theme_update(text = element_text(family = "HiraMaruProN-W4"))
-    label_family <- "HiraMaruProN-W4"
-} else {label_family <- NULL}
+    jp_font <- "HiraMaruProN-W4"
+    theme_update(text = element_text(family = jp_font))
+    update_geom_defaults("text", list(family = theme_get()$text$family))
+    update_geom_defaults("label", list(family = theme_get()$text$family))
+    update_geom_defaults("text_repel", list(family = theme_get()$text$family))
+    update_geom_defaults("label_repel", list(family = theme_get()$text$family))
+    par(family = jp_font)
+} else {jp_font <- NULL}
 ```
+
+## データセット
+
+以下では2つのデータセットを使用する．
+
+::: callout-note
+### `japan_social2.csv` の概要
+
+総務省統計局より取得した都道府県別の社会生活統計指標の一部
+
+`japan_social.csv` を日本語化したもの
+
+-   都道府県名 :
+-   地方区分 :
+-   森林面積割合: 森林面積割合 (%) 2014年
+-   農業産出額 : 就業者１人当たり農業産出額(販売農家）(万円) 2014年
+-   人口割合 : 全国総人口に占める人口割合 (%) 2015年
+-   土地生産性 : 土地生産性（耕地面積１ヘクタール当たり）(万円) 2014年
+-   商品販売額 : 商業年間商品販売額［卸売業＋小売業］（事業所当たり）(百万円) 2013年
+-   参考 : <https://www.e-stat.go.jp/SG1/estat/List.do?bid=000001083999&cycode=0>
+
+データの読み込み方の例．
+
+```{r}
+#| eval: false
+js_data <-
+    read_csv("data/japan_social2.csv",
+             col_types = list(地方区分 = col_factor())) # 地方区分を因子化
+```
+:::
+
+::: callout-note
+### `omusubi.csv` の概要
+
+「ごはんを食べよう国民運動推進協議会」(平成30年解散) による 好きなおむすびの具に関するwebアンケートを都道府県別にまとめたもの - (閉鎖) <http://www.gohan.gr.jp/result/09/anketo09.html>
+
+アンケートの概要は以下のとおりで，ファイルは質問2の結果を整理したもの
+
+-   【応募期間】 2009年1月4日～2009年2月28日
+-   【応募方法】 インターネット、携帯ウェブ
+-   【質問内容】
+    1.  おむすびを最近１週間に、何個食べましたか？ そのうち市販のおむすびは何個でしたか？
+    2.  おむすびの具では何が一番好きですか？
+        -   A.梅 B.鮭 C.昆布 D.かつお E.明太子 F.たらこ Ｇ.ツナ H.その他
+    3.  おむすびのことをあなたはなんと呼んでいますか？
+        -   A.おにぎり B.おむすび C.その他
+    4.  おむすびといえば、どういう形ですか？
+        -   A.三角形 B.丸形 C.俵形 D.その他
+-   【回答者数】
+    -   男性 9,702人 32.0%
+    -   女性 20,616人 68.0%
+    -   総数 30,318人 100.0%
+
+データの読み込み方の例．都道府県名や地方区分を日本語にする場合．
+
+```{r}
+om_data <- 
+    bind_cols( 
+        read_csv(file = "data/omusubi.csv"),       # データの読み込み
+        read_csv(file = "data/prefecture.csv")) |> # 日本語表記・地方の情報を追加
+    select(jp,area_jp,ume:etc) |>
+    set_names(c("都道府県名","地方区分",
+                "梅","鮭","昆布","鰹","明太子","鱈子","ツナ","その他")) 
+```
+:::
+
+## 非階層的クラスタ分析に用いる主な関数
 
 ## k-means による非階層的クラスタリング
 
 ### 問題
 
-データセット `japan_social.csv` を用いて以下を確認しなさい．
-
-``` r
-js_df <- read_csv("data/japan_social.csv") |>
-    column_to_rownames(var = "Pref") |> # 'Pref'を行名に変換
-    select(-Area) # 地方名は除く
-```
-
--   関数 `stats::kmeans()` を用いて各変数平均0，分散1に標準化 (関数 `base::scale()` を利用)したデータを7クラスタに分割しなさい．
--   各クラスタ内の県名を表示しなさい．
--   2次元散布図に各クラスタを表示しなさい．
+-   データセット `japan_social2.csv` を用いて以下を確認しなさい．
+    -   関数 `stats::kmeans()` を用いて各変数平均0，分散1に標準化 (関数 `base::scale()` を利用)したデータを7クラスタに分割しなさい．
+    -   各クラスタ内の県名を表示しなさい．
+    -   2次元散布図に各クラスタを表示しなさい．
 -   データセット `omusubi.csv` でも確認しなさい．
 
 ### 解答例
 
-データの読み込みを行う．
+データの読み込みを行う． データ点のラベルを行名から取得して保存する仕様の `base R` の関数のために data.frame クラスも用意しておく．
 
 ```{r}
-js_data <- read_csv("data/japan_social.csv") 
-js_df <- js_data |> # 距離計算用のデータフレーム
-    column_to_rownames(var = "Pref") |> # 'Pref'を行名に変換
-    select(-Area) # 地方名は除く
+js_data <-                                            # tibble クラス
+    read_csv("data/japan_social2.csv",
+             col_types = list(地方区分 = col_factor())) # 地方区分を因子化
+js_df <-                                              # data.frame クラス
+    js_data |>
+    column_to_rownames(var = "都道府県名") |>           # 都道府県名を行名に変換
+    select(-地方区分)                                   # 距離計算に不要な地方区分は除く
 ```
 
-関数 `stats::kmeans()` を用いて k-平均法を実行する．
+関数 `stats::kmeans()` を用いて k-平均法を実行する． 結果は確率的なので，必要に応じて乱数のシード値を指定する
 
 ```{r}
-set.seed(1234) # 必要に応じて初期値の乱数のシード値を指定する
-k <- 7 # 分割数を指定
-js_kmeans <- js_df |>
-    scale() |> # 標準化(平均0 分散1)
+set.seed(1234)          # 乱数のシード値を指定
+k <- 7                  # 分割数を指定
+js_kmeans <-
+    js_df |>
+    scale() |>          # 標準化(平均0 分散1)
     kmeans(centers = k, # クラスタ数
            nstart = 20) # 初期値を20回変更して試す
 ```
@@ -97,13 +165,12 @@ for(i in 1:k) {
 
 ```{r}
 js_kmeans |>
-    autoplot(data = scale(js_df), # kmeans の場合は元のデータの指定が必須
-             ## (kmeansの返値は距離行列の情報しか持っておらず主成分の計算ができないため)
-             frame = TRUE, # クラスタ毎に枠を付ける
-             frame.type = "convex", # 凸包 "convex"・楕円 "norm,t" が指定できる
-             label = TRUE, # ラベルを付加
-             label.repel = TRUE, # 重なりを回避(ラベルが消える場合もあるので注意)
-             label.size = 3, # ラベルの大きさ
+    autoplot(data = scale(js_df),       # PCAを計算するデータの指定が必須
+             frame = TRUE,              # クラスタ毎に枠を付ける
+             frame.type = "convex",     # 凸包 "convex"・楕円 "norm,t" が指定できる
+             label = TRUE,              # ラベルを付加
+             label.repel = TRUE,        # 重なりを回避(ラベルが消える場合もあるので注意)
+             label.size = 3,            # ラベルの大きさ
              label.show.legend = FALSE) # 凡例の中のアルファベットを除く
 ```
 
@@ -112,35 +179,39 @@ js_kmeans |>
 
 ```{r}
 clusplot(x = js_df, 
-         clus = js_kmeans$cluster, # クラスタ番号
-         stand = TRUE, # データの標準化を行う
-         lines = 0, labels = 3, # 表示の指定
-         main = NULL, sub = NULL, cex = 0.8, # タイトルなどの調整
+         clus = js_kmeans$cluster,              # クラスタ番号
+         stand = TRUE,                          # データの標準化を行う
+         lines = 0, labels = 3,                 # 表示の指定
+         main = NULL, sub = NULL, cex = 0.8,    # タイトルなどの調整
          col.p = rainbow(k)[js_kmeans$cluster], # 虹色で色付け
-         col.clus = "orange", shade = FALSE)	 # クラスタ囲みの指定
+         col.clus = "orange", shade = FALSE)	# クラスタ囲みの指定
 ```
 :::
 
-データセット `omusubi.csv` でも試してみる． データの読み込むとともに，距離計算用にデータフレームを整理する．
+------------------------------------------------------------------------
+
+データセット `omusubi.csv` でも試してみる． ここでは `tibble` クラスのみでの実装の例を示す．
 
 ```{r}
-om_data <- bind_cols( # 日本語表記・地方の情報を追加
-    read_csv(file = "data/omusubi.csv"),
-    read_csv(file = "data/prefecture.csv"))
-om_df <- om_data |>  # 距離計算用のデータフレーム
-    select(ume:etc,jp) |>
-    set_names(c("梅","鮭","昆布","鰹","明太子","鱈子","ツナ","その他","県名")) |>
-    column_to_rownames(var = "県名")
+om_data <-
+    bind_cols( # 日本語表記・地方の情報を追加
+        read_csv(file = "data/omusubi.csv"),
+        read_csv(file = "data/prefecture.csv")) |>
+    select(jp,area_jp,ume:etc) |>
+    set_names(c("都道府県名","地方区分",
+                "梅","鮭","昆布","鰹","明太子","鱈子","ツナ","その他")) 
 ```
 
 k-平均法を実行する．
 
 ```{r}
 k <- 6 # 6分割で分析
-om_kmeans <- om_df |>
-    sqrt() |> # Hellinger距離
-    kmeans(centers = k, # クラスタ数
-           nstart = 20) # 初期値を20回変更して試す
+om_kmeans <-
+    om_data |>
+    select(where(is.double)) |> # 計算対象の列を抽出
+    sqrt() |>                   # Hellinger距離
+    kmeans(centers = k,         # クラスタ数
+           nstart = 20)         # 初期値を20回変更して試す
 ```
 
 各クラスター内の県名を表示する．
@@ -148,7 +219,11 @@ om_kmeans <- om_df |>
 ```{r}
 for(i in 1:k) {
     cat("=== cluster",i,"===\n")
-    which(om_kmeans[["cluster"]] == i) |> names() |> print()
+    om_data |>
+        mutate(cluster = om_kmeans[["cluster"]]) |>
+        filter(cluster == i) |>
+        pull(都道府県名) |>
+        print() 
 }
 ```
 
@@ -156,13 +231,14 @@ for(i in 1:k) {
 
 ```{r}
 om_kmeans |>
-    autoplot(data = sqrt(om_df), 
+    autoplot(data = om_data |>
+                 mutate(across(where(is.double),\(x)c(sqrt(x)))), 
              frame = TRUE, 
              frame.type = "norm", # 楕円で囲む
              label = TRUE, 
+             label.label = "都道府県名", 
              label.repel = TRUE, 
              label.size = 3, 
-             label.family = label_family, # 日本語フォントの指定 (不要な場合は削除)
              label.show.legend = FALSE) 
 ```
 
@@ -170,7 +246,10 @@ om_kmeans |>
 関数 `cluster::clusplot()` を用いて表示する．
 
 ```{r}
-clusplot(x = sqrt(om_df), 
+clusplot(x = om_data |>
+             column_to_rownames(var = "都道府県名") |> 
+             select(where(is.double)) |>
+             sqrt(),
          clus = om_kmeans$cluster, # クラスタ番号
          stand = FALSE, # データは標準化しない
          lines = 0, labels = 3, # 表示の指定
@@ -184,11 +263,12 @@ clusplot(x = sqrt(om_df),
 
 ### 問題
 
-データセット `japan_social.csv` を用いて以下を確認しなさい．
+-   データセット `japan_social2.csv` を用いて以下を確認しなさい．
 
--   関数 `cluster::pam()` を用いて変数平均0，絶対偏差1に標準化したデータを7クラスタに分割しなさい．
--   各クラスタ内の県名を表示しなさい．
--   2次元散布図に各クラスタを表示しなさい．
+    -   関数 `cluster::pam()` を用いて変数平均0，絶対偏差1に標準化したデータを7クラスタに分割しなさい．
+    -   各クラスタ内の県名を表示しなさい．
+    -   2次元散布図に各クラスタを表示しなさい．
+
 -   データセット `omusubi.csv` でも確認しなさい．
 
 ### 解答例
@@ -197,9 +277,10 @@ clusplot(x = sqrt(om_df),
 
 ```{r}
 k <- 7
-js_pam <- js_df |>  
+js_pam <-
+    js_df |>  
     pam(stand = TRUE, # 正規化(平均0 絶対偏差1)
-        k = k) # クラスタ数の指定
+        k = k)        # クラスタ数の指定
 ```
 
 各クラスター内の県名を表示する．
@@ -252,11 +333,16 @@ clusplot(x = js_df,
 ```
 :::
 
+------------------------------------------------------------------------
+
 データセット `omusubi.csv` でも試してみる． k-medoids を実行する．
 
 ```{r}
 k <- 6
-om_pam <- om_df |>
+om_pam <- 
+    om_data |>
+    column_to_rownames(var = "都道府県名") |> 
+    select(where(is.double)) |>
     sqrt() |>
     pam(k = k)
 ```
@@ -266,7 +352,11 @@ om_pam <- om_df |>
 ```{r}
 for(i in 1:k){
     cat("=== cluster",i,"===\n")
-    which(om_pam[["clustering"]] == i) |> names() |> print()
+    om_data |>
+        mutate(cluster = om_pam[["clustering"]]) |>
+        filter(cluster == i) |>
+        pull(都道府県名) |>
+        print() 
 }
 ```
 
@@ -279,7 +369,6 @@ om_pam |>
              label = TRUE, 
              label.repel = TRUE, 
              label.size = 3, 
-             label.family = label_family, 
              label.show.legend = FALSE)
 ```
 
@@ -287,7 +376,10 @@ om_pam |>
 関数 `cluster::clusplot()` で表示する場合は， クラスタリングの結果が om_pam\$clustering に保管されていることに注意する．
 
 ```{r}
-clusplot(x = sqrt(om_df),
+clusplot(x = om_data |>
+             column_to_rownames(var = "都道府県名") |> 
+             select(where(is.double)) |>
+             sqrt(),
          clus = om_pam$clustering,
          stand = TRUE,
          lines = 0, labels = 3, 
@@ -301,14 +393,11 @@ clusplot(x = sqrt(om_df),
 
 ### 問題
 
-データセット `japan_social.csv` を用いて以下を検討しなさい．
+-   データセット `japan_social.csv` を用いて以下を検討しなさい．
 
--   関数 `agnes()` を用いて階層的クラスタリングを行いなさい．
-    -   標準化: 行う
-    -   データ距離: ユークリッド距離，およびマンハッタン距離
-    -   クラスタ距離: 群平均法
--   凝集係数を用いて2つのデータ距離の評価を行いなさい．
--   凝集係数が低いいくつかのデータを削除して評価しなさい．
+    -   関数 `agnes()` を用いて階層的クラスタリングを行いなさい． - 標準化: 行う - データ距離: ユークリッド距離，およびマンハッタン距離 - クラスタ距離: 群平均法
+    -   凝集係数を用いて2つのデータ距離の評価を行いなさい．
+    -   凝集係数が低いいくつかのデータを削除して評価しなさい．
 
 ### 解答例
 
@@ -493,7 +582,11 @@ $$
 クラスタ数 4-10 で平均シルエット係数を確認する．
 
 ```{r}
-om_df_hel <- om_df |> sqrt() # Hellinger距離を計算しやすくデータフレームを用意
+om_df_hel <- # Hellinger距離を計算しやすくデータフレームを用意
+    om_data |>
+    column_to_rownames(var = "都道府県名") |> 
+    select(where(is.double)) |>
+    sqrt() 
 for(k in 4:10){
     cat(pam(om_df_hel, k = k)$silinfo$avg.width,
         " (k = ", k, ")\n", sep="")
@@ -506,13 +599,56 @@ k=7,8,9 (上位3つ) のシルエット係数を視覚化する．
 
 ```{r}
 for(k in 7:9) {
-    p <- pam(om_df_hel, k = k) |>
+    gg <- pam(om_df_hel, k = k) |>
         silhouette() |>
         autoplot() +
         labs(title = paste("k =", k))
-    print(p) # ggplotはfor文内では明示的にprintする必要がある
+    print(gg) # ggplotはfor文内では明示的にprintする必要がある
 }
 ```
+
+::: column-margin
+ラベルも表示したい場合は繁雑だが以下のように指定することができる．
+
+```{r}
+foo <-
+    om_df_hel |>
+    pam(k = 8) |>
+    silhouette()
+foo |>
+    autoplot() +
+    scale_x_continuous(
+        breaks = 1:47,
+        labels = foo |>
+            as.data.frame() |>
+            rownames_to_column() |>
+            as_tibble() |>
+            group_by(cluster) |>
+            arrange(sil_width, .by_group = TRUE) |>
+            pull(rowname)) # シルエット係数の並び順の都道府県名
+```
+
+または並び順は異なるが必要な情報をデータフレームにして， 自身で描画することもできる．
+
+```{r}
+foo <- 
+    om_df_hel |>
+    pam(k = 8)
+foo |>
+    silhouette() |>
+    as.data.frame() |>
+    rownames_to_column() |>
+    as_tibble() |>
+    mutate(rowname = fct_rev(as_factor(rowname)),
+           cluster = as_factor(cluster)) |>
+    ggplot(aes(x = rowname, y = sil_width, fill = cluster)) +
+    geom_bar(stat = "identity") +
+    geom_hline(yintercept = foo[["silinfo"]][["avg.width"]],
+               colour = "orange", linetype = "dashed") +
+    labs(x = "都道府県名", y = "シルエット係数") +
+    coord_flip()
+```
+:::
 
 悪いシルエット係数が少ないという意味で k=8 が良さそう．
 
@@ -525,7 +661,6 @@ om_df_hel |>
              label = TRUE, 
              label.repel = TRUE, 
              label.size = 3, 
-             label.family = label_family, 
              label.show.legend = FALSE)
 ```
 
@@ -533,7 +668,8 @@ om_df_hel |>
 同様な描画は以下でも可能．
 
 ```{r}
-om_pam <- om_df_hel |>
+om_pam <-
+    om_df_hel |>
     pam(k = k)
 plot(om_pam,
      which.plot = 1, # cluster::clusplot のオプションを参考
@@ -549,7 +685,11 @@ Euclid距離による分析を行う． k = 5-10 で検証する．
 
 ```{r}
 for(k in 5:10) {
-    foo <- pam(om_df, k = k)
+    foo <-
+        om_data |>
+        column_to_rownames(var = "都道府県名") |> 
+        select(where(is.double)) |>
+        pam(k = k)
     p <- foo |>
         silhouette() |>
         autoplot() +
@@ -563,14 +703,15 @@ for(k in 5:10) {
 
 ```{r}
 k <- 7
-om_df |>
+om_data |>
+    column_to_rownames(var = "都道府県名") |> 
+    select(where(is.double)) |>
     pam(k = k) |>
     autoplot(frame = TRUE, 
              frame.type = "norm", 
              label = TRUE, 
              label.repel = TRUE, 
              label.size = 3, 
-             label.family = label_family, 
              label.show.legend = FALSE)
 ```
 
