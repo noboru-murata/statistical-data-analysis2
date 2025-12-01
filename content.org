@@ -176,7 +176,7 @@
 :EXPORT_FILE_NAME: lecture10
 :EXPORT_DATE: <2020-09-19 Sat>
 :END:
-<2025-11-26 Wed> 更新
+<2025-12-01 Mon> 更新
 ** スライド
 #+hugo: {{< myslide base="statistical-data-analysis2" name="slide10" >}}
 ** ハンドアウト
@@ -276,7 +276,7 @@
 - [[https://u-tokyo-ac-jp.zoom.us/rec/share/SDq-sHVI-7YLrO-ItiHGOwU85FHyAkiWJ9tqRv9VggPx1i8HvM6DI19QCp3DECi3.BvrVW8b9d1fOBivT?startTime=1761897630000][第5講 (2025年10月31日)]]
 - [[https://u-tokyo-ac-jp.zoom.us/rec/share/xMOCmmQfXovpNjfRH5a6mFefWcrTPknM7bdS0JcCHiNtcad79HU3xDoo04LRO7a-.wC4PdVk3osvoqXKU?startTime=1762502423000][第6講 (2025年11月7日)]]
 - [[https://u-tokyo-ac-jp.zoom.us/rec/share/otUyCTGjEkN9e4iBlFEc7Amc6vXBzc8MW5mIj6YiKItWnMHo_vcytbhfu9zEo6n_.fSwVGVUnbT6ur2Nt?startTime=1763107225000][第7講 (2025年11月14日)]]
-- 第8講 (2025年11月28日)
+- [[https://u-tokyo-ac-jp.zoom.us/rec/share/sq9gDsUY7gpQOF-E8VA9HUK_QG6wSAWkY1eGED13uwQTMIkZAnwWW77RBpaUmMaf.8o1Jcaz2sUZwwjl4?startTime=1764316825000][第8講 (2025年11月28日)]]
 - 第9講 (2025年12月5日)
 - 第10講 (2025年12月12日)
 - 第11講 (2025年12月19日)

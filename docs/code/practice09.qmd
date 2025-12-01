@@ -277,7 +277,7 @@ bio_lda |>
 conf_mat(data, truth, estimate,
          dnn = c("Prediction", "Truth"), case_weights = NULL, ...)
 #' data: 真値と予測値が含まれるデータフレーム
-#' trush: 真値(ラベル)の列名
+#' truth: 真値(ラベル)の列名
 #' estimate: 予測値(ラベル)の列名
 #' 詳細は '?yardstick::conf_mat' を参照
 ```
@@ -309,7 +309,7 @@ roc_curve(data, truth, ...,
           na_rm = TRUE, event_level = yardstick_event_level(),
           case_weights = NULL, options = list())
 #' data: 真値と予測値が含まれるデータフレーム
-#' trush: 真値(ラベル)の列名
+#' truth: 真値(ラベル)の列名
 #' ...: 予測値(ラベル)の事後確率を与える列名
 #' 詳細は '?yardstick::roc_curve' を参照
 ```
@@ -330,7 +330,7 @@ roc_auc(data, truth, ..., estimator = NULL,
         na_rm = TRUE,  event_level = yardstick_event_level(),
         case_weights = NULL, options = list())
 #' data: 真値と予測値が含まれるデータフレーム
-#' trush: 真値(ラベル)の列名
+#' truth: 真値(ラベル)の列名
 #' ...: 予測値(ラベル)の事後確率を与える列名
 #' 詳細は '?yardstick::roc_auc' を参照
 ```
@@ -695,7 +695,7 @@ autoplot(bio_qda_loo_cm, type = "heatmap") +
 #' 詳細は '?rsample::vfold_cv' を参照
 vfold_cv(data, v = 10, repeats = 1,
          strata = NULL, breaks = 4, pool = 0.1, ...)
-#' 最も簡単な処理の流れ(以下の関数の組わ合わせ)
+#' 最も簡単な処理の流れ(以下の関数の組み合わせ)
 #' 詳細は '?workflows::workflow'
 #' および '?tune::fit_resamples' を参照
 workflow() |> 

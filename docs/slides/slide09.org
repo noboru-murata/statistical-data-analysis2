@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2025-11-24 13:05:51 mura>
+# Time-stamp: <2025-12-01 13:28:26 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -1150,7 +1150,7 @@
     #' 詳細は 'rsample::vfold_cv' を参照
     vfold_cv(data, v = 10, repeats = 1,
              strata = NULL, breaks = 4, pool = 0.1, ...)
-    #' 最も簡単な処理の流れ(以下の関数の組わ合わせ)
+    #' 最も簡単な処理の流れ(以下の関数の組み合わせ)
     #' 詳細は 'workflows::workflow'
     #' および 'tune::fit_resamples' を参照
     workflow() |> 
