@@ -196,7 +196,7 @@
 #+hugo: {{< myslide base="statistical-data-analysis2" name="slide11" >}}
 ** ハンドアウト
 - [[github:pdfs/slide11.pdf][PDF file]]
-** COMMENT 付録
+** 付録
 - 実習用 [[githubraw:code/practice11.qmd][Quarto]]
 - 解答例 [[github:code/practice11.html][HTML]]
 
