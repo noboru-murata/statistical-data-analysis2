@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2025-12-01 13:28:26 mura>
+# Time-stamp: <2025-12-05 14:49:40 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 # C-c C-x C-v でinlineを切り替え
@@ -1045,7 +1045,7 @@
 
 ** 交叉検証法
 - *cross-validation (CV)* 
-- \(k\)-重交叉検証法 (\(k\)-fold cross-validation; \(k\)-fold CV)
+- \(k\)重交叉検証法 (\(k\)-fold cross-validation; \(k\)-fold CV)
   - \(n\) 個のデータを \(k\) ブロックにランダムに分割
   - 第 \(i\) ブロックを除いた \(k{-}1\) ブロックで判別関数を推定
   - 除いておいた第 \(i\) ブロックで予測誤差を評価

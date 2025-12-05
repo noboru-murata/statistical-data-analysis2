@@ -509,7 +509,7 @@ testing(x, ...)
     #' データの分割の例
     wq_split <-
         initial_split(wq_data, prop = 0.8, strata = grade)
-    training(wq_split))
+    training(wq_split)
     testing(wq_split)
     ```
 
@@ -681,11 +681,11 @@ autoplot(bio_qda_loo_cm, type = "heatmap") +
 
 あてはめ値による評価は LOO CV より若干良くなっており，あてはめ値では精度を過剰に評価する可能性があることが示唆される．
 
-## k-重交叉検証法による予測誤差の評価
+## k重交叉検証法による予測誤差の評価
 
-### k-重交叉検証法のための関数
+### k重交叉検証法のための関数
 
-`package::tidymodels` の関数群を利用してk-重交叉検証を行うことができる．
+`package::tidymodels` の関数群を利用してk重交叉検証を行うことができる．
 
 ::: callout-note
 基本的な手続きは以下のとおりである．
@@ -713,7 +713,7 @@ collect_metrics(fit_resamplesの出力)
 1.  Wine Quality Data Set を用いて 線形判別と2次判別の分析を行いなさい．
 
     -   LOO交叉検証法を用いて予測誤差を評価する．
-    -   k-重交叉検証法を用いて予測誤差を評価する．
+    -   k重交叉検証法を用いて予測誤差を評価する．
 
     ``` r
     #' lda/qda での LOO CV の指定の方法
@@ -783,7 +783,7 @@ summary(wq_qda_loo_cm) # 2次
 
 ------------------------------------------------------------------------
 
-以下では `package::tidymodels` を用いた k-重交叉検証の基本的な手続きを紹介する．
+以下では `package::tidymodels` を用いた k重交叉検証の基本的な手続きを紹介する．
 
 まず `lda/qda` を `tidymodels` 用に宣言する．
 
