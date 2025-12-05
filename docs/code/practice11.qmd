@@ -114,9 +114,36 @@ om_data <-
 ```
 :::
 
-## 非階層的クラスタ分析に用いる主な関数
-
 ## k-means による非階層的クラスタリング
+
+### k-meansに関連した関数
+
+::: callout-note
+#### 関数 `stats::kmeans()`
+
+``` r
+kmeans(x, centers, iter.max = 10, nstart = 1,
+       algorithm = c("Hartigan-Wong", "Lloyd", "Forgy",
+                     "MacQueen"), trace = FALSE)
+#' x: データフレーム
+#' centers: クラスタ数
+#' iter.max: 最大繰り返し数
+#' nstart: 初期値の候補数
+#' algorithm: 最適化法の指定．既定値は 'Hartigan-Wong'
+#' 詳細は '?stats::kmeans' を参照
+```
+:::
+
+::: callout-note
+#### 関数 `ggfortify::autoplot()`
+
+``` r
+autoplot(object, data = NULL, colour = "cluster", ...)
+#' object: stats::kmeans(), cluster::pam() などの返値
+#' data: クラスタリングに用いたデータ (kmeansの場合に必要)
+#' 詳細は '?ggfortify::autoplot.kmeans' を参照
+```
+:::
 
 ### 問題
 
@@ -125,6 +152,12 @@ om_data <-
     -   各クラスタ内の県名を表示しなさい．
     -   2次元散布図に各クラスタを表示しなさい．
 -   データセット `omusubi.csv` でも確認しなさい．
+
+### 解答欄
+
+```{r}
+
+```
 
 ### 解答例
 
@@ -261,6 +294,30 @@ clusplot(x = om_data |>
 
 ## k-medoids による非階層的クラスタリング
 
+### k-medoids に関連した関数
+
+::: callout-note
+#### 関数 `cluster::pam()`
+
+``` r
+pam(x, k, diss = inherits(x, "dist"),
+    metric = c("euclidean", "manhattan"), 
+    medoids = if(is.numeric(nstart)) "random",
+    nstart = if(variant == "faster") 1 else NA,
+    stand = FALSE, cluster.only = FALSE,
+    do.swap = TRUE,
+    keep.diss = !diss && !cluster.only && n < 100,
+    keep.data = !diss && !cluster.only,
+    variant = c("original", "o_1", "o_2", "f_3", "f_4", "f_5", "faster"),
+    pamonce = FALSE, trace.lev = 0)
+#' x: データフレーム，または距離行列 
+#' k: クラスタの数
+#' metric: 距離の指定(xがデータフレームの場合)
+#' stand: 標準化(平均0，絶対偏差1)
+#' 詳細は '?cluster::pam' を参照
+```
+:::
+
 ### 問題
 
 -   データセット `japan_social2.csv` を用いて以下を確認しなさい．
@@ -270,6 +327,12 @@ clusplot(x = om_data |>
     -   2次元散布図に各クラスタを表示しなさい．
 
 -   データセット `omusubi.csv` でも確認しなさい．
+
+### 解答欄
+
+```{r}
+
+```
 
 ### 解答例
 
@@ -391,6 +454,44 @@ clusplot(x = om_data |>
 
 ## 凝集係数による距離の検討
 
+### 凝集係数の計算
+
+::: callout-note
+#### 関数 `cluster::agnes()` の返値の情報
+
+以下を利用して banner plot を描くことができる．
+
+``` r
+object[["ac"]] # 凝集係数の取得 (object$ac でも良い)
+object[["height"]] # デンドログラムの高さ(結合時のクラスタ距離)
+object[["order.lab"]] # デンドログラムの並び順のラベル
+#' object: cluster::agnes() の返値
+```
+
+関数 `summary(object)` はこれらの情報をまとめて表示する．
+:::
+
+::: column-margin
+`base R` での視覚化では，以下の関数を用いることができる．
+
+``` r
+#' cluster::plot.agnes() 系統樹および凝集係数の表示
+plot(x, ask = FALSE, which.plots = NULL, main = NULL,
+     sub = paste("Agglomerative Coefficient = ",round(x$ac, digits = 2)),
+     adj = 0, nmax.lab = 35, max.strlen = 5, xax.pretty = TRUE, ...)
+#' x: cluster::agnes() の返値
+#' which.plots: 1 (banner plot), 2 (dendrogram)
+#' banner plot の表示には以下の cluster::bannerplot() が呼出される
+bannerplot(x, w = rev(x$height), fromLeft = TRUE,
+           main=NULL, sub=NULL, xlab = "Height",  adj = 0,
+           col = c(2, 0), border = 0, axes = TRUE, frame.plot = axes,
+           rev.xax = !fromLeft, xax.pretty = TRUE,
+           labels = NULL, nmax.lab = 35, max.strlen = 5,
+           yax.do = axes && length(x$order) <= nmax.lab,
+           yaxRight = fromLeft, y.mar = 2.4 + max.strlen/2.5, ...)
+```
+:::
+
 ### 問題
 
 -   データセット `japan_social.csv` を用いて以下を検討しなさい．
@@ -398,6 +499,12 @@ clusplot(x = om_data |>
     -   関数 `agnes()` を用いて階層的クラスタリングを行いなさい． - 標準化: 行う - データ距離: ユークリッド距離，およびマンハッタン距離 - クラスタ距離: 群平均法
     -   凝集係数を用いて2つのデータ距離の評価を行いなさい．
     -   凝集係数が低いいくつかのデータを削除して評価しなさい．
+
+### 解答欄
+
+```{r}
+
+```
 
 ### 解答例
 
@@ -530,7 +637,7 @@ js_df |> slice(-c(1,13,45,46)) |>
 ```
 
 ::: column-margin
-graphics系(base R)の関数を利用する場合は以下のようにすればよい．
+`base R` の関数を利用する場合は以下のようにすればよい．
 
 デンドログラムを表示する．
 
@@ -557,6 +664,68 @@ plot(js_agnes_man, which.plots=1,
 
 ## シルエット係数によるクラスタ数の検討
 
+### シルエット係数の計算
+
+::: callout-note
+#### 関数 `cluster::pam()` の返値の情報
+
+``` r
+object[["silinfo"]] # シルエット係数に関する様々な情報
+object[["silinfo"]][["widths"]] # 各データのシルエット係数
+object[["silinfo"]][["clus.avg.widths"]] # 各クラスタのシルエット係数の平均
+object[["silinfo"]][["avg.width"]] # シルエット係数の平均
+#' object: cluster::agnes() の返値
+```
+
+関数 `summary(object)` はこれらの情報をまとめて表示する．
+:::
+
+::: callout-note
+#### 補助的な関数
+
+``` r
+#' シルエット係数の取得
+silhouette(x, ...)
+#' x: cluster::pam() などの返値
+silhouette(x, dist, dmatrix, ...)
+#' x: stats::cutree() などの返値
+#' dist/dmatrix: 距離行列または解離度を表す行列など
+```
+:::
+
+::: callout-note
+#### 視覚化のための関数 (`tidyverse`)
+
+``` r
+#' ggfortify::autoplot.silhouette() シルエット係数の表示
+autoplot(object,
+         colour = "red", linetype = "dashed", size = 0.5, bar.width = 1, ...)
+#' object: cluster::silhouette() の返値
+#' colour/linetype/size: reference line の設定
+```
+:::
+
+::: column-margin
+`base R` での視覚化では，以下の関数を用いることができる．
+
+``` r
+#' cluster::plot.partition() 2次元クラスタおよびシルエット係数の表示
+plot(x, ask = FALSE, which.plots = NULL,
+     nmax.lab = 40, max.strlen = 5, data = x$data, dist = NULL,
+     stand = FALSE, lines = 2,
+     shade = FALSE, color = FALSE, labels = 0, plotchar = TRUE,
+     span = TRUE, xlim = NULL, ylim = NULL, main = NULL, ...)
+#' x: cluster::pam() などの返値
+#' which.plots: 1 (cluster plot), 2 (silhouette plot)
+#' silhouette plot の表示には以下の cluster::plot.silhouette() が呼出される
+plot(x, nmax.lab = 40, max.strlen = 5,
+     main = NULL, sub = NULL, xlab = expression("Silhouette width "* s[i]),
+     col = "gray",  do.col.sort = length(col) > 1, border = 0,
+     cex.names = par("cex.axis"), do.n.k = TRUE, do.clus.stat = TRUE, ...)
+#' x: cluster::silhouette() の返値
+```
+:::
+
 ### 問題
 
 データセット `omusubi.csv` を用いて以下を検討しなさい
@@ -576,6 +745,12 @@ $$
 -   クラスタ数4-10のシルエット係数を比較しなさい
 -   適当と思われるクラスタ数による分析を行いなさい
 -   Euclid距離を用いて同様な分析を行いなさい
+
+### 解答欄
+
+```{r}
+
+```
 
 ### 解答例
 
