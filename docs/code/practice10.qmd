@@ -155,7 +155,7 @@ daisy(x, metric = c("euclidean", "manhattan", "gower"),
       warnType = TRUE)
 #' x: データフレーム
 #' metric: 距離 (標準はユークリッド距離，他は"manhattan"など)
-#' stand: 正規化(平均と絶対偏差の平均による)の有無
+#' stand: 標準化(平均と絶対偏差の平均による)の有無
 #' 返値は dissimilarity クラス
 #' 詳細は '?cluster::daisy' を参照
 ```
@@ -179,7 +179,7 @@ agnes(x, diss = inherits(x, "dist"), metric = "euclidean",
       keep.diss = n < 100, keep.data = !diss, trace.lev = 0)
 #' x: データフレーム，または距離行列
 #' metric: 距離 (標準はユークリッド距離，他は 'manhattan' など)
-#' stand: 正規化(平均と絶対偏差の平均による)の有無
+#' stand: 標準化(平均と絶対偏差の平均による)の有無
 #' method: 分析法 (標準は群平均法，他は 'single', 'complete' など)
 #' 詳細は '?cluster::agnes' を参照
 ```
@@ -259,7 +259,7 @@ clusplot(x, clus, diss = FALSE, stand = FALSE,
          col.p = "dark green", col.txt = col.p, col.clus = 5，...)
 #' x: データフレーム
 #' clus: クラスタ分割
-#' stand: 正規化の有無
+#' stand: 標準化の有無
 #' lines: クラスタ間の繋がりの表示 (0:無，1:外，2:中心)
 #' shade: 網掛けの有無
 #' labels: ラベルの表示 (0:無，2:データとクラスタ, 3:データ, 4:クラスタ, など)
@@ -283,9 +283,9 @@ plot(x, ask = FALSE, which.plots = NULL, main = NULL,
 
 都道府県別の社会生活統計指標 (`japan_social2.csv`)を用いて以下を確認しなさい．
 
--   正規化せずにユークリッド距離とマンハッタン距離の計算を行いなさい．
--   正規化して上記と同様の計算を行いなさい．
--   関数 `cluster::daisy()` による正規化を用いて，関東の都県同士の距離を表示しなさい．
+-   標準化せずにユークリッド距離とマンハッタン距離の計算を行いなさい．
+-   標準化して上記と同様の計算を行いなさい．
+-   関数 `cluster::daisy()` による標準化を用いて，関東の都県同士の距離を表示しなさい．
 -   大阪と四国の間の距離を表示しなさい．
 -   ユークリッド距離とマンハッタン距離の散布図を描き比較しなさい．
 
@@ -327,7 +327,7 @@ as.matrix(js_dist_euc)[1:5,1:5]
 as.matrix(js_daisy_euc)[1:5,1:5]
 ```
 
-正規化したユークリッド距離とマンハッタン距離を計算する． 関数 `stats::dist()` 単体では正規化する機能はないので，関数 `base::scale()` を併用する． 関数 `cluster::daisy()` には正規化のオプションがあるので，これを利用する．
+標準化したユークリッド距離とマンハッタン距離を計算する． 関数 `stats::dist()` 単体では標準化する機能はないので，関数 `base::scale()` を併用する． 関数 `cluster::daisy()` には標準化のオプションがあるので，これを利用する．
 
 ```{r}
 js_dist_euc <- dist(scale(js_df), method = "euclidean")
@@ -336,14 +336,14 @@ js_daisy_euc <- daisy(js_df, metric = "euclidean", stand = TRUE)
 js_daisy_man <- daisy(js_df, metric = "manhattan", stand = TRUE)
 ```
 
-関数 `base::scale()` と `cluster::daisy()` では正規化の方法が異なることに注意する．
+関数 `base::scale()` と `cluster::daisy()` では標準化の方法が異なることに注意する．
 
 ```{r}
 as.matrix(js_dist_man)[10:15,10:15]
 as.matrix(js_daisy_man)[10:15,10:15]
 ```
 
-以下では関数 `cluster::daisy()` による正規化を用いる．
+以下では関数 `cluster::daisy()` による標準化を用いる．
 
 関東の都県同士の距離を表示する．
 
@@ -394,7 +394,7 @@ gg + xlim(0,3) + ylim(0,3) # 原点近傍のみ表示
 
 都道府県別の社会生活統計指標を用いて以下の分析を行いなさい．
 
--   平均0，分散1に正規化したデータのユークリッド距離を用いて，群平均法による階層的クラスタリングを行いなさい
+-   平均0，分散1に標準化したデータのユークリッド距離を用いて，群平均法による階層的クラスタリングを行いなさい
 -   クラスタ数を5つとして分割を行いなさい
 
 ### 解答欄
@@ -405,7 +405,7 @@ gg + xlim(0,3) + ylim(0,3) # 原点近傍のみ表示
 
 ### 解答例
 
-正規化してユークリッド距離を測る
+標準化してユークリッド距離を測る
 
 ```{r}
 js_dist <-

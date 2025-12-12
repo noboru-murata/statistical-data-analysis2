@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Generated on 2025-12-12 Fri 12:49 -->
 <meta charset="utf-8"/>
 <title>クラスタ分析</title>
 <meta name="author" content="村田 昇"/>
@@ -45,8 +46,8 @@
 
 </section>
 <section>
-<section id="slide-orgff585db">
-<h2 id="orgff585db">講義概要</h2>
+<section id="slide-org17488f2">
+<h2 id="org17488f2">講義概要</h2>
 <ul>
 <li><b>第1回 : 基本的な考え方と階層的方法</b></li>
 <li>第2回 : 非階層的方法と分析の評価</li>
@@ -55,13 +56,13 @@
 </section>
 </section>
 <section>
-<section id="slide-org0e89085">
-<h2 id="org0e89085">クラスタ分析の考え方</h2>
-<div class="outline-text-2" id="text-org0e89085">
+<section id="slide-orgfa18b4e">
+<h2 id="orgfa18b4e">クラスタ分析の考え方</h2>
+<div class="outline-text-2" id="text-orgfa18b4e">
 </div>
 </section>
-<section id="slide-org4774208">
-<h3 id="org4774208">クラスタ分析</h3>
+<section id="slide-orgd4ab73d">
+<h3 id="orgd4ab73d">クラスタ分析</h3>
 <ul>
 <li><p>
 クラスタ分析 (<b>cluster analysis</b>) の目的
@@ -84,22 +85,22 @@
 
 </ul>
 </section>
-<section id="slide-org7ada6e6">
-<h3 id="org7ada6e6">クラスタ分析の例</h3>
+<section id="slide-orgf300a06">
+<h3 id="orgf300a06">クラスタ分析の例</h3>
 <ul>
 <li>総務省統計局より取得した都道府県別の社会生活統計指標の一部
 <ul>
 <li><p>
 総務省 <a href="https://www.e-stat.go.jp/SG1/estat/List.do?bid=000001083999&amp;cycode=0">https://www.e-stat.go.jp/SG1/estat/List.do?bid=000001083999&amp;cycode=0</a>
 </p>
-<pre class="example" id="orgd78a3f6">
-Pref   : 都道府県名
-Forest : 森林面積割合 (%) 2014年
-Agri   : 就業者１人当たり農業産出額(販売農家）(万円) 2014年
-Ratio  : 全国総人口に占める人口割合 (%) 2015年
-Land   : 土地生産性（耕地面積１ヘクタール当たり）(万円) 2014年
-Goods  : 商業年間商品販売額［卸売業＋小売業］（事業所当たり）(百万円) 2013年
-Area   : 地方区分
+<pre class="example" id="org6fdef0c">
+都道府県名 :
+地方区分 :
+森林面積割合: 森林面積割合 (%) 2014年
+農業産出額 : 就業者１人当たり農業産出額(販売農家）(万円) 2014年
+人口割合 : 全国総人口に占める人口割合 (%) 2015年
+土地生産性 : 土地生産性（耕地面積１ヘクタール当たり）(万円) 2014年
+商品販売額 : 商業年間商品販売額［卸売業＋小売業］（事業所当たり）(百万円) 2013年
 </pre></li>
 
 </ul></li>
@@ -108,7 +109,7 @@ Area   : 地方区分
 
 </section>
 <section>
-<div id="cmvdjuzcya" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="dxcsmjtppw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
   
   <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false" style="-webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; display: table; border-collapse: collapse; line-height: normal; margin-left: auto; margin-right: auto; color: #333333; font-size: 20px; font-weight: normal; font-style: normal; background-color: #FFFFFF; width: auto; border-top-style: solid; border-top-width: 2px; border-top-color: #A8A8A8; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #A8A8A8; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3;" bgcolor="#FFFFFF">
   <thead style="border-style: none;">
@@ -236,7 +237,7 @@ Area   : 地方区分
 </section>
 <section>
 
-<div id="orgddca198" class="figure">
+<div id="orgb8d9219" class="figure">
 <p><img src="figs/js_cluspairs.png" alt="js_cluspairs.png" />
 </p>
 <p><span class="figure-number">Figure 1: </span>散布図</p>
@@ -245,7 +246,7 @@ Area   : 地方区分
 </section>
 <section>
 
-<div id="org690fd31" class="figure">
+<div id="org167fc0c" class="figure">
 <p><img src="figs/js_pcaplot.png" alt="js_pcaplot.png" />
 </p>
 <p><span class="figure-number">Figure 2: </span>主成分得点による散布図</p>
@@ -254,14 +255,14 @@ Area   : 地方区分
 </section>
 <section>
 
-<div id="org3e90055" class="figure">
+<div id="org5d61ae4" class="figure">
 <p><img src="figs/js_clusplot.png" alt="js_clusplot.png" />
 </p>
 <p><span class="figure-number">Figure 3: </span>散布図上のクラスタ構造 (クラスタ分析の概念図)</p>
 </div>
 </section>
-<section id="slide-org645dbb9">
-<h3 id="org645dbb9">クラスタ分析の考え方</h3>
+<section id="slide-org2160df3">
+<h3 id="org2160df3">クラスタ分析の考え方</h3>
 <ul>
 <li>階層的方法
 <ul>
@@ -286,13 +287,13 @@ Area   : 地方区分
 </section>
 </section>
 <section>
-<section id="slide-orgbd258da">
-<h2 id="orgbd258da">階層的方法</h2>
-<div class="outline-text-2" id="text-orgbd258da">
+<section id="slide-org82deb59">
+<h2 id="org82deb59">階層的方法</h2>
+<div class="outline-text-2" id="text-org82deb59">
 </div>
 </section>
-<section id="slide-org5557651">
-<h3 id="org5557651">凝集的クラスタリング</h3>
+<section id="slide-orge645af2">
+<h3 id="orge645af2">凝集的クラスタリング</h3>
 <ol>
 <li>データ・クラスタ間の距離を定義する
 <ul>
@@ -312,13 +313,13 @@ Area   : 地方区分
 
 </ol>
 </section>
-<section id="slide-orgf7e3f50">
-<h3 id="orgf7e3f50">事例</h3>
+<section id="slide-org1362964">
+<h3 id="org1362964">事例</h3>
 <ul>
 <li><p>
 <span style="color:green;">社会生活統計指標の一部(関東地方)</span>
 </p>
-<div id="eqipdszzmn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="nvyfgijhol" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 
   <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false" style="-webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; display: table; border-collapse: collapse; line-height: normal; margin-left: auto; margin-right: auto; color: #333333; font-size: 16px; font-weight: normal; font-style: normal; background-color: #FFFFFF; width: auto; border-top-style: solid; border-top-width: 2px; border-top-color: #A8A8A8; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #A8A8A8; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3;" bgcolor="#FFFFFF">
   <thead style="border-style: none;">
@@ -384,7 +385,7 @@ Area   : 地方区分
 </section>
 <section>
 
-<div id="orgf01f8b0" class="figure">
+<div id="org2a81bc0" class="figure">
 <p><img src="figs/10_hclst0.png" alt="10_hclst0.png" />
 </p>
 <p><span class="figure-number">Figure 4: </span>凝集的クラスタリング</p>
@@ -393,7 +394,7 @@ Area   : 地方区分
 </section>
 <section>
 
-<div id="orgc2e0769" class="figure">
+<div id="org9c5fbaf" class="figure">
 <p><img src="figs/10_hclst1.png" alt="10_hclst1.png" />
 </p>
 <p><span class="figure-number">Figure 5: </span>クラスタリングの手続き (その1)</p>
@@ -402,7 +403,7 @@ Area   : 地方区分
 </section>
 <section>
 
-<div id="org118f2e7" class="figure">
+<div id="orgf9570c5" class="figure">
 <p><img src="figs/10_hclst2.png" alt="10_hclst2.png" />
 </p>
 <p><span class="figure-number">Figure 6: </span>クラスタリングの手続き (その2)</p>
@@ -411,7 +412,7 @@ Area   : 地方区分
 </section>
 <section>
 
-<div id="org3883dc5" class="figure">
+<div id="orgd07d9c5" class="figure">
 <p><img src="figs/10_hclst3.png" alt="10_hclst3.png" />
 </p>
 <p><span class="figure-number">Figure 7: </span>クラスタリングの手続き (その3)</p>
@@ -420,7 +421,7 @@ Area   : 地方区分
 </section>
 <section>
 
-<div id="org28a1b00" class="figure">
+<div id="org04f8ff8" class="figure">
 <p><img src="figs/10_hclst4.png" alt="10_hclst4.png" />
 </p>
 <p><span class="figure-number">Figure 8: </span>クラスタリングの手続き (その4)</p>
@@ -430,7 +431,7 @@ Area   : 地方区分
 </section>
 <section>
 
-<div id="org878fc35" class="figure">
+<div id="orgc434051" class="figure">
 <p><img src="figs/10_hclst5.png" alt="10_hclst5.png" />
 </p>
 <p><span class="figure-number">Figure 9: </span>クラスタリングの手続き (その5)</p>
@@ -440,7 +441,7 @@ Area   : 地方区分
 </section>
 <section>
 
-<div id="orga73674d" class="figure">
+<div id="org5a42945" class="figure">
 <p><img src="figs/10_hclst6.png" alt="10_hclst6.png" />
 </p>
 <p><span class="figure-number">Figure 10: </span>クラスタリングの手続き (その6)</p>
@@ -449,7 +450,7 @@ Area   : 地方区分
 </section>
 <section>
 
-<div id="org7337e7e" class="figure">
+<div id="orga4489f5" class="figure">
 <p><img src="figs/10_dendro.png" alt="10_dendro.png" />
 </p>
 <p><span class="figure-number">Figure 11: </span>デンドログラムによるクラスタ構造の表示</p>
@@ -457,13 +458,13 @@ Area   : 地方区分
 </section>
 </section>
 <section>
-<section id="slide-org8664d63">
-<h2 id="org8664d63">データ間の距離</h2>
-<div class="outline-text-2" id="text-org8664d63">
+<section id="slide-org90d64dc">
+<h2 id="org90d64dc">データ間の距離</h2>
+<div class="outline-text-2" id="text-org90d64dc">
 </div>
 </section>
-<section id="slide-org7c0b176">
-<h3 id="org7c0b176">データ間の距離</h3>
+<section id="slide-org1ca86d6">
+<h3 id="org1ca86d6">データ間の距離</h3>
 <ul>
 <li><p>
 データ : 変数の値を成分としてもつベクトル
@@ -488,8 +489,8 @@ Area   : 地方区分
 
 </ul>
 </section>
-<section id="slide-orga3107aa">
-<h3 id="orga3107aa">Euclid 距離</h3>
+<section id="slide-orge5117f1">
+<h3 id="orge5117f1">Euclid 距離</h3>
 <ul>
 <li>最も一般的な距離</li>
 <li><p>
@@ -507,8 +508,8 @@ Area   : 地方区分
 
 </ul>
 </section>
-<section id="slide-orgf6873bb">
-<h3 id="orgf6873bb">Manhattan 距離</h3>
+<section id="slide-orgc26ce1f">
+<h3 id="orgc26ce1f">Manhattan 距離</h3>
 <ul>
 <li>後述する Minkowski 距離の \(p=1\) の場合</li>
 <li><p>
@@ -526,8 +527,8 @@ Area   : 地方区分
 
 </ul>
 </section>
-<section id="slide-org0a48237">
-<h3 id="org0a48237">Minkowski 距離</h3>
+<section id="slide-orgcacc50f">
+<h3 id="orgcacc50f">Minkowski 距離</h3>
 <ul>
 <li>Euclid 距離を \(p\) 乗に一般化した距離</li>
 <li><p>
@@ -545,8 +546,8 @@ Area   : 地方区分
 
 </ul>
 </section>
-<section id="slide-orga1fd4e5">
-<h3 id="orga1fd4e5">その他の距離</h3>
+<section id="slide-org79c3012">
+<h3 id="org79c3012">その他の距離</h3>
 <ul>
 <li>類似度や乖離度などデータ間に自然に定義されるものを用いることは可能
 <ul>
@@ -560,18 +561,18 @@ Area   : 地方区分
 </section>
 </section>
 <section>
-<section id="slide-orgf2ae5a7" data-background="#fef4f4">
-<h2 id="orgf2ae5a7">実習</h2>
+<section id="slide-org28124f7" data-background="#fef4f4">
+<h2 id="org28124f7">実習</h2>
 </section>
 </section>
 <section>
-<section id="slide-orgf9cea9e">
-<h2 id="orgf9cea9e">クラスタ間の距離</h2>
-<div class="outline-text-2" id="text-orgf9cea9e">
+<section id="slide-org3d8b7be">
+<h2 id="org3d8b7be">クラスタ間の距離</h2>
+<div class="outline-text-2" id="text-org3d8b7be">
 </div>
 </section>
-<section id="slide-org0237047">
-<h3 id="org0237047">クラスタ間の距離</h3>
+<section id="slide-org1d697d7">
+<h3 id="org1d697d7">クラスタ間の距離</h3>
 <ul>
 <li><p>
 クラスタ : いくつかのデータ点からなる集合
@@ -602,8 +603,8 @@ Area   : 地方区分
 
 </ul>
 </section>
-<section id="slide-orge83e99d">
-<h3 id="orge83e99d">最短距離法</h3>
+<section id="slide-org589dfb6">
+<h3 id="org589dfb6">最短距離法</h3>
 <ul>
 <li><p>
 最も近い対象間の距離を用いる方法
@@ -637,8 +638,8 @@ Area   : 地方区分
 
 </ul>
 </section>
-<section id="slide-orgaa9603f">
-<h3 id="orgaa9603f">最長距離法</h3>
+<section id="slide-org4944c24">
+<h3 id="org4944c24">最長距離法</h3>
 <ul>
 <li><p>
 最も遠い対象間の距離を用いる方法
@@ -668,8 +669,8 @@ Area   : 地方区分
 
 </ul>
 </section>
-<section id="slide-org9780267">
-<h3 id="org9780267">群平均法</h3>
+<section id="slide-org8e88acc">
+<h3 id="org8e88acc">群平均法</h3>
 <ul>
 <li><p>
 全ての対象間の平均距離を用いる方法
@@ -703,8 +704,8 @@ Area   : 地方区分
 
 </ul>
 </section>
-<section id="slide-org40e72e2">
-<h3 id="org40e72e2">距離計算に関する注意</h3>
+<section id="slide-orgf1dcb52">
+<h3 id="orgf1dcb52">距離計算に関する注意</h3>
 <ul>
 <li>データの性質に応じて距離は適宜使い分ける
 <ul>
@@ -724,18 +725,24 @@ Area   : 地方区分
 </section>
 </section>
 <section>
-<section id="slide-org8e66278" data-background="#fef4f4">
-<h2 id="org8e66278">実習</h2>
+<section id="slide-orgf5d864b" data-background="#fef4f4">
+<h2 id="orgf5d864b">実習</h2>
 </section>
 </section>
 <section>
-<section id="slide-org6053ffb">
-<h2 id="org6053ffb">次回の予定</h2>
+<section id="slide-orgb18ea60">
+<h2 id="orgb18ea60">次回の予定</h2>
 <ul>
 <li>第1回 : 基本的な考え方と階層的方法</li>
 <li><b>第2回 : 非階層的方法と分析の評価</b></li>
 
 </ul>
+</section>
+</section>
+<section>
+<section id="slide-org4c77688">
+</section>
+</section>
 </div>
 </div>
 <script src="./reveal.js/dist/reveal.js"></script>
