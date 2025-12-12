@@ -45,7 +45,6 @@ if(Sys.info()["sysname"] == "Darwin") { # macOSか調べる
     update_geom_defaults("label", list(family = theme_get()$text$family))
     update_geom_defaults("text_repel", list(family = theme_get()$text$family))
     update_geom_defaults("label_repel", list(family = theme_get()$text$family))
-    par(family = jp_font)
 } else {jp_font <- NULL}
 ```
 
@@ -226,10 +225,10 @@ plot(x, labels = NULL, hang = 0.1, check = TRUE,
 関数 `cutree()` とほぼ同様な仕様で， クラスタの分割表示を行うこともできる．
 
 ``` r
-rect.hclust(tree, k = NULL, which = NULL, x = NULL, h = NULL,
+hclust.hclust(tree, k = NULL, which = NULL, x = NULL, h = NULL,
             border = 2, cluster = NULL)
 #' tree: stats::hclust() の返値
-#' 詳細は 'stats::rect.hclust' を参照
+#' 詳細は 'stats::hclust.hclust' を参照
 ```
 :::
 
@@ -452,6 +451,7 @@ for(i in 1:k){
 関数 `stats::hclust()` では base R の関数 `plot()` を利用して下記のような方法で簡便にクラスタの分割を表示できる． ggplot で同様なグラフを描く方法は後述する．
 
 ```{r}
+if(Sys.info()["sysname"] == "Darwin") par(family = jp_font) # macOS用
 plot(js_hclust,
      hang = -1, # ラベルを揃えて表示
      cex = 0.8, # 文字のサイズを調整
@@ -701,7 +701,7 @@ om_agnes |>
 `package::cluster` には `base R` 系の描画関数が含まれている． 例えば上記と同様なグラフは以下のようにして書ける．
 
 ```{r}
-if(Sys.info()["sysname"] == "Darwin") par(family = "HiraMaruProN-W4") # macOS用
+if(Sys.info()["sysname"] == "Darwin") par(family = jp_font) # macOS用
 plot(om_agnes, which.plot = 2, cex = 0.8, # 関数plot.agnes()を使う場合
      main = "Dendrogram of Omusubi Data")
 plot(as.dendrogram(om_agnes), # 関数plot.dendrogram()を使う場合

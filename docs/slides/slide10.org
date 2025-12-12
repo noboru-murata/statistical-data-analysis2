@@ -3,7 +3,7 @@
 #+AUTHOR: 村田 昇
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
-# Time-stamp: <2025-12-12 12:44:04 mura>
+# Time-stamp: <2025-12-12 13:01:01 mura>
 #+STARTUP: hidestars content indent
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
@@ -762,7 +762,7 @@
           warnType = TRUE)
     #' x: データフレーム
     #' metric: 距離 (標準はユークリッド距離，他は"manhattan"など)
-    #' stand: 正規化(平均と絶対偏差の平均による)の有無
+    #' stand: 標準化(平均と絶対偏差の平均による)の有無
     #' 返値は dissimilarity class
   #+end_src
 
@@ -778,9 +778,9 @@
       column_to_rownames(var = "Pref") |> # 'Pref'を行名に変換
       select(-Area) # 地方名は除く
   #+end_src
-  - 正規化せずにユークリッド距離とマンハッタン距離の計算を行いなさい
-  - 正規化して上記と同様の計算を行いなさい 
-  - 関東の都県同士の距離を表示しなさい (daisyによる正規化を用いなさい)
+  - 標準化せずにユークリッド距離とマンハッタン距離の計算を行いなさい
+  - 標準化して上記と同様の計算を行いなさい 
+  - 関東の都県同士の距離を表示しなさい (daisyによる標準化を用いなさい)
   - 大阪と四国の間の距離を表示しなさい
   - ユークリッド距離とマンハッタン距離の散布図を描き比較しなさい
     
@@ -809,16 +809,16 @@
   as.matrix(js_dist_euc)[1:5,1:5]
   as.matrix(js_daisy_euc)[1:5,1:5]
 
-  #' 正規化したユークリッド距離とマンハッタン距離の計算
+  #' 標準化したユークリッド距離とマンハッタン距離の計算
   js_dist_euc <- dist(scale(js_df), method = "euclidean")
   js_dist_man <- dist(scale(js_df), method = "manhattan")
   js_daisy_euc <- daisy(js_df, metric = "euclidean", stand = TRUE)
   js_daisy_man <- daisy(js_df, metric = "manhattan", stand = TRUE)
-  #' 正規化の方法が異なることに注意
+  #' 標準化の方法が異なることに注意
   as.matrix(js_dist_man)[10:15,10:15]
   as.matrix(js_daisy_man)[10:15,10:15]
 
-  #' 以下 daisy による正規化を用いる
+  #' 以下 daisy による標準化を用いる
   #' 関東の都県同士の距離を表示しなさい
   glimpse(js_daisy_euc) # 距離行列のもつ情報を見る
   attr(js_daisy_euc, "Labels") # 県名を確認 ('attributes(js_daisy_euc)$Labels' でも良い)
@@ -924,9 +924,9 @@
 - データの性質に応じて距離は適宜使い分ける
   - データ間の距離の選択
   - クラスタ間の距離の選択
-- 変数の正規化は必要に応じて行う
+- 変数の標準化は必要に応じて行う
   - 物理的な意味合いを積極的に利用する場合はそのまま
-  - 単位の取り方などによる分析の不確定性を避ける場合は平均0，分散1に正規化
+  - 単位の取り方などによる分析の不確定性を避ける場合は平均0，分散1に標準化
 - データの性質を鑑みて適切に前処理
 
 
@@ -1081,7 +1081,7 @@
              col.p = "dark green", col.txt = col.p, col.clus = 5，...)
     #' x: データフレーム
     #' clus: クラスタ分割
-    #' stand: 正規化の有無
+    #' stand: 標準化の有無
     #' lines: クラスタ間の繋がりの表示 (0:無，1:外，2:中心)
     #' shade: 網掛けの有無
     #' labels: ラベルの表示 (0:無，2:データとクラスタ, 3:データ, 4:クラスタ, など)
@@ -1109,7 +1109,7 @@
 :ID:       745A8CD2-BAA4-4F94-8DF0-968E33E8D1CE
 :END:
 - 都道府県別の社会生活統計指標を用いて以下の分析を行いなさい
-  - 平均0，分散1に正規化したデータのユークリッド距離を用いて，
+  - 平均0，分散1に標準化したデータのユークリッド距離を用いて，
     群平均法による階層的クラスタリングを行いなさい
   - クラスタ数を5つとして分割を行いなさい
 ** COMMENT 解答例
@@ -1119,7 +1119,7 @@
 #+end_src
 #+begin_src R :eval no :exports none
   #' クラスタリングの実行
-  #' 正規化してユークリッド距離を測る
+  #' 標準化してユークリッド距離を測る
   js_dist <- js_df |> scale() |> dist() # 'dist(scale(js_df))' でも良い
   js_hclust <- js_dist |>
     hclust(method = "average") # 群平均法
@@ -1199,7 +1199,7 @@
           keep.diss = n < 100, keep.data = !diss, trace.lev = 0)
     #' x: データフレーム，または距離行列
     #' metric: 距離 (標準はユークリッド距離，他は 'manhattan' など)
-    #' stand: 正規化(平均と絶対偏差の平均による)の有無
+    #' stand: 標準化(平均と絶対偏差の平均による)の有無
     #' method: 分析法 (標準は群平均法，他は 'single', 'complete' など)
   #+end_src
 - 視覚化のための補助的な関数 (base R系)
