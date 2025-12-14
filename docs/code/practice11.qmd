@@ -45,7 +45,6 @@ if(Sys.info()["sysname"] == "Darwin") { # macOSか調べる
     update_geom_defaults("label", list(family = theme_get()$text$family))
     update_geom_defaults("text_repel", list(family = theme_get()$text$family))
     update_geom_defaults("label_repel", list(family = theme_get()$text$family))
-    par(family = jp_font)
 } else {jp_font <- NULL}
 ```
 
@@ -211,6 +210,7 @@ js_kmeans |>
 関数 `cluster::clusplot()` を用いる場合は以下のようにすればよい．
 
 ```{r}
+par(family = jp_font)
 clusplot(x = js_df, 
          clus = js_kmeans$cluster,              # クラスタ番号
          stand = TRUE,                          # データの標準化を行う
@@ -279,6 +279,7 @@ om_kmeans |>
 関数 `cluster::clusplot()` を用いて表示する．
 
 ```{r}
+par(family = jp_font)
 clusplot(x = om_data |>
              column_to_rownames(var = "都道府県名") |> 
              select(where(is.double)) |>
@@ -386,6 +387,7 @@ js_df |>
 関数 `cluster::clusplot()` を用いる場合も kmeans とほぼ同様に行うことができる．
 
 ```{r}
+par(family = jp_font)
 clusplot(x = js_df,
          clus = js_pam$clustering,
          stand = TRUE,
@@ -439,12 +441,13 @@ om_pam |>
 関数 `cluster::clusplot()` で表示する場合は， クラスタリングの結果が om_pam\$clustering に保管されていることに注意する．
 
 ```{r}
+par(family = jp_font)
 clusplot(x = om_data |>
              column_to_rownames(var = "都道府県名") |> 
              select(where(is.double)) |>
              sqrt(),
          clus = om_pam$clustering,
-         stand = TRUE,
+         stand = FALSE,
          lines = 0, labels = 3, 
          main = NULL, sub = NULL, cex = 0.8,
          col.p = rainbow(k)[om_pam$clustering],
@@ -642,6 +645,7 @@ js_df |> slice(-c(1,13,45,46)) |>
 デンドログラムを表示する．
 
 ```{r}
+par(family = jp_font)
 plot(js_agnes_euc, which.plots=2, 
      main="euclidean") 
 plot(js_agnes_man, which.plots=2, 
@@ -843,12 +847,13 @@ om_df_hel |>
 同様な描画は以下でも可能．
 
 ```{r}
+par(family = jp_font)
 om_pam <-
     om_df_hel |>
     pam(k = k)
 plot(om_pam,
      which.plot = 1, # cluster::clusplot のオプションを参考
-     stand = TRUE,
+     stand = FALSE,
      lines = 0, labels = 3, 
      main = "", sub = NULL, cex = 0.8, # タイトルと文字の大きさの調整
      col.p = rainbow(k)[om_pam$clustering], # クラスタ番号ごとに色付け
