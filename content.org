@@ -205,14 +205,14 @@
 :EXPORT_FILE_NAME: lecture12
 :EXPORT_DATE: <2020-09-19 Sat>
 :END:
-<2024-12-25 Wed> 更新
+<2025-12-22 Mon> 更新
 ** スライド
 #+hugo: {{< myslide base="statistical-data-analysis2" name="slide12" >}}
 ** ハンドアウト
 - [[github:pdfs/slide12.pdf][PDF file]]
-** COMMENT 付録
-- 実習用 [[githubraw:code/practice12.qmd][Quarto]] (解答例 [[githubraw:code/sample-code12.qmd][Quarto]] [[github:code/sample-code12.html][HTML]])
-- [[github:code/slide12.R][R Script]]
+** 付録
+- 実習用 [[githubraw:code/practice12.qmd][Quarto]]
+- 解答例 [[github:code/practice12.html][HTML]]
 
 * 第13講
 :PROPERTIES:
@@ -279,7 +279,7 @@
 - [[https://u-tokyo-ac-jp.zoom.us/rec/share/sq9gDsUY7gpQOF-E8VA9HUK_QG6wSAWkY1eGED13uwQTMIkZAnwWW77RBpaUmMaf.8o1Jcaz2sUZwwjl4?startTime=1764316825000][第8講 (2025年11月28日)]]
 - [[https://u-tokyo-ac-jp.zoom.us/rec/share/whGo4IGQV2GYyoRTd_8mIIVJx8NPJSDZjZXgVJZ963cNJ1P0o4wiAz9eWdkJaYfz.dExDe_0n5fbiL7xE?startTime=1764921630000][第9講 (2025年12月5日)]]
 - [[https://u-tokyo-ac-jp.zoom.us/rec/share/tLgyETEeRwNXrT6oux2bNCLSfrSvbtD_NoYtFDyxkvgToJrP5yTvWEsLcMHXwzIW.46xe11xS0p5rGY8h?startTime=1765526431000][第10講 (2025年12月12日)]]
-- 第11講 (2025年12月19日)
+- [[https://u-tokyo-ac-jp.zoom.us/rec/share/1B_OTqVF3YOW-65d0w21_O-GNR5Ngkjl-y8DhxjybGtGTE163x1JnL7g1g7zCuRp.v43VrPIA1wMTumEH?startTime=1766131223000][第11講 (2025年12月19日)]]
 - 第12講 (2025年12月26日)
 - 第13講 (2026年1月9日)
 
