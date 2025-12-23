@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2025-11-18 21:50:29 mura>
+# Time-stamp: <2025-12-23 12:07:21 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 #+PROPERTY: header-args:R+ :width 1344 :height 960 :res 144
@@ -69,17 +69,35 @@
 #+end_src
 #+begin_src R :exports none
   ### 第13講 サンプルコード
-  library(conflicted)
-  conflicts_prefer(
+  library(conflicted) # 関数名の衝突を警告
+  conflicts_prefer(   # 優先的に使う関数を指定
     dplyr::filter(),
-    dplyr::select(),
     dplyr::lag(),
-  )
-  library(tidyverse)
+    dplyr::select(),
+    scales::discard(),
+    recipes::fixed(),
+    yardstick::spec(),
+    recipes::step(),
+    )
+  library(tidyverse)  
+  library(ggfortify)
+  library(ggrepel)
+  library(GGally)
+  library(gt)         
+  library(gtsummary)  
   library(fable)
   library(tsibble)
   library(feasts)
   library(urca)
+  #' macOSのための日本語表示の設定
+  if(Sys.info()["sysname"] == "Darwin") { # macOSか調べる
+    jp_font <- "HiraMaruProN-W4"
+    theme_update(text = element_text(family = jp_font))
+    update_geom_defaults("text", list(family = theme_get()$text$family))
+    update_geom_defaults("label", list(family = theme_get()$text$family))
+    update_geom_defaults("text_repel", list(family = theme_get()$text$family))
+    update_geom_defaults("label_repel", list(family = theme_get()$text$family))
+  } else {jp_font <- NULL}
 #+end_src
 
 
@@ -1349,12 +1367,14 @@
 [[file:figs/ap_arima.png]]
 
 ** 分解モデルによる予測
-- トレンド成分+季節成分+ランダム成分への分解
+- *トレンド*+*季節*+*ランダム*成分への分解
   #+begin_quote
   \begin{equation}
     X_{t}=T_{t}+S_{t}+R_{t}
   \end{equation}
+  #+end_quote
   あるいは
+  #+begin_quote
   \begin{equation}
     X_{t}=T_{t}\times S_{t}\times R_{t}\qquad
     (\log X_{t}=\log T_{t} + \log S_{t} + \log R_{t})
@@ -2043,7 +2063,7 @@
 #+attr_latex: :width 0.6\linewidth
 [[file:figs/covid_8wave_sts_pred.png]]
   
-** まとめ
+** 分析のまとめ
 - 感染者数の推移は非定常なデータ
 - 構造が時不変と考えられる区間を捉えれば
   - 時系列の適切な変換 (指数的な増大のため対数変換)

@@ -45,6 +45,7 @@ if(Sys.info()["sysname"] == "Darwin") { # macOSか調べる
     update_geom_defaults("label", list(family = theme_get()$text$family))
     update_geom_defaults("text_repel", list(family = theme_get()$text$family))
     update_geom_defaults("label_repel", list(family = theme_get()$text$family))
+    par(family = jp_font)
 } else {jp_font <- NULL}
 ```
 
@@ -210,7 +211,6 @@ js_kmeans |>
 関数 `cluster::clusplot()` を用いる場合は以下のようにすればよい．
 
 ```{r}
-par(family = jp_font)
 clusplot(x = js_df, 
          clus = js_kmeans$cluster,              # クラスタ番号
          stand = TRUE,                          # データの標準化を行う
@@ -279,7 +279,6 @@ om_kmeans |>
 関数 `cluster::clusplot()` を用いて表示する．
 
 ```{r}
-par(family = jp_font)
 clusplot(x = om_data |>
              column_to_rownames(var = "都道府県名") |> 
              select(where(is.double)) |>
@@ -387,7 +386,6 @@ js_df |>
 関数 `cluster::clusplot()` を用いる場合も kmeans とほぼ同様に行うことができる．
 
 ```{r}
-par(family = jp_font)
 clusplot(x = js_df,
          clus = js_pam$clustering,
          stand = TRUE,
@@ -441,13 +439,12 @@ om_pam |>
 関数 `cluster::clusplot()` で表示する場合は， クラスタリングの結果が om_pam\$clustering に保管されていることに注意する．
 
 ```{r}
-par(family = jp_font)
 clusplot(x = om_data |>
              column_to_rownames(var = "都道府県名") |> 
              select(where(is.double)) |>
              sqrt(),
          clus = om_pam$clustering,
-         stand = FALSE,
+         stand = TRUE,
          lines = 0, labels = 3, 
          main = NULL, sub = NULL, cex = 0.8,
          col.p = rainbow(k)[om_pam$clustering],
@@ -497,12 +494,9 @@ bannerplot(x, w = rev(x$height), fromLeft = TRUE,
 
 ### 問題
 
--   データセット `japan_social2.csv` を用いて以下を検討しなさい．
+-   データセット `japan_social.csv` を用いて以下を検討しなさい．
 
-    -   関数 `agnes()` を用いて階層的クラスタリングを行いなさい．
-        -   標準化: 行う
-        -   データ距離: ユークリッド距離，およびマンハッタン距離
-        -   クラスタ距離: 群平均法
+    -   関数 `agnes()` を用いて階層的クラスタリングを行いなさい． - 標準化: 行う - データ距離: ユークリッド距離，およびマンハッタン距離 - クラスタ距離: 群平均法
     -   凝集係数を用いて2つのデータ距離の評価を行いなさい．
     -   凝集係数が低いいくつかのデータを削除して評価しなさい．
 
@@ -648,7 +642,6 @@ js_df |> slice(-c(1,13,45,46)) |>
 デンドログラムを表示する．
 
 ```{r}
-par(family = jp_font)
 plot(js_agnes_euc, which.plots=2, 
      main="euclidean") 
 plot(js_agnes_man, which.plots=2, 
@@ -850,13 +843,12 @@ om_df_hel |>
 同様な描画は以下でも可能．
 
 ```{r}
-par(family = jp_font)
 om_pam <-
     om_df_hel |>
     pam(k = k)
 plot(om_pam,
      which.plot = 1, # cluster::clusplot のオプションを参考
-     stand = FALSE,
+     stand = TRUE,
      lines = 0, labels = 3, 
      main = "", sub = NULL, cex = 0.8, # タイトルと文字の大きさの調整
      col.p = rainbow(k)[om_pam$clustering], # クラスタ番号ごとに色付け

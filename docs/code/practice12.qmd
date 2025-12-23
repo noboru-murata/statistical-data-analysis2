@@ -1,6 +1,6 @@
 ---
-title: "統計データ解析"
-subtitle: "第12講 サンプルコード"
+title: "第12講 時系列解析"
+subtitle: "時系列の基本モデル"
 date: "`r Sys.Date()`"
 format:
     html: 
@@ -27,22 +27,141 @@ editor_options:
 
 ```{r}
 library(conflicted) # 関数名の衝突を警告
-conflicts_prefer(   # 優先的に使う関数を指定
+  conflicts_prefer(   # 優先的に使う関数を指定
     dplyr::filter(),
-    dplyr::select(),
     dplyr::lag(),
+    dplyr::select(),
+    scales::discard(),
+    recipes::fixed(),
+    yardstick::spec(),
+    recipes::step(),
     )
-library(tidyverse)
+library(tidyverse)  
+library(ggfortify)
+library(ggrepel)
+library(GGally)
+library(gt)         
+library(gtsummary)  
 library(fable)
 library(tsibble)
 library(feasts)
-library(gt)
 library(patchwork)
 #' macOSのための日本語表示の設定
 if(Sys.info()["sysname"] == "Darwin") { # macOSか調べる
-    theme_update(text = element_text(family = "HiraMaruProN-W4"))
-    label_family <- "HiraMaruProN-W4"
-} else {label_family <- NULL}
+    jp_font <- "HiraMaruProN-W4"
+    theme_update(text = element_text(family = jp_font))
+    update_geom_defaults("text", list(family = theme_get()$text$family))
+    update_geom_defaults("label", list(family = theme_get()$text$family))
+    update_geom_defaults("text_repel", list(family = theme_get()$text$family))
+    update_geom_defaults("label_repel", list(family = theme_get()$text$family))
+} else {jp_font <- NULL}
+```
+
+## 時系列解析に用いる関数
+
+時系列解析のためのパッケージは多岐に渡るが， 本講義では `tidyverse` の考え方に沿って時系列解析用に開発されているパッケージ群である `tidyverts` を主に取り上げる． 以下に本講義で扱う範囲内の `base R` および `tidyverts` の基本的な関数を説明する．
+
+-   *stats* : base R の基本的な統計に関するパッケージ
+    -   関数 `ts()`, `acf()` など
+    -   標準でインストールされている
+-   *fable/tsibble/feasts* : 時系列のためのパッケージ
+    -   <https://tidyverts.org> (開発元)
+    -   `forecast` パッケージの `tidyverse` 版
+    -   関数 `ARIMA()`, `ACF()`, `autoplot()` など
+
+1次元の時系列はベクトル， 多次元の時系列はデータフレームとして表すことができるが， 時刻や周期といった時系列特有の情報を扱いやすくするために 時系列特有のクラスがいくつか定義されている． 最も単純な時系列の作成は以下の関数 `stats::ts()` を用いる．
+
+::: callout-note
+### 時系列の作成
+
+``` r
+ts(data = NA, start = 1, end = numeric(), frequency = 1,
+   deltat = 1, ts.eps = getOption("ts.eps"),
+   class = if(nseries > 1) c("mts", "ts", "matrix", "array") else "ts",
+   names = )
+#' data: ベクトル，または行列(データフレーム)
+#' start: 開始時刻
+#' end: 終了時刻
+#' frequency: 単位時間あたりの観測回数
+#' 詳細は '?stats::ts' を参照
+```
+:::
+
+典型的な使い方は以下のようになる．
+
+```{r}
+#| eval: false
+x <- rnorm(24) # 正規分布のホワイトノイズ
+ts(data = x) # t=1,2,... を添字とする単純な時系列
+ts(data = x, start = c(2020,1), frequency =12) # 2020年1月からの月ごと
+ts(data = x, start = c(2020,3), frequency =4) # 四半期ごと
+```
+
+`ts` オブジェクトは通常その時間情報を利用して処理が行われるため， 関数によっては扱いがベクトルと異なる場合があるので注意する必要がある．
+
+`tidyverts` では関数 `tsibble::tsiblle()` を用いて 時系列版の`tibble` クラスを作成する．
+
+::: callout-note
+### 時系列の作成
+
+``` r
+tsibble(..., key = NULL, index, regular = TRUE, .drop = TRUE)
+#' ...: データ
+#' key: indexの補助情報(同じ時間の異なるデータを表す)
+#' index: 時間情報を表す列を設定
+#' 詳細は '?tsibble::tsibble' を参照
+```
+
+`ts` クラスや `tibble` クラスを `tsibble` クラスに変換するには以下を用いる．
+
+``` r
+as_tsibble(x, key = NULL, index,
+           regular = TRUE, validate = TRUE, .drop = TRUE, ...)
+#' x: データ(時系列オブジェクトやデータフレーム)
+#' 詳細は '?tsibble::as_tsibble' を参照
+```
+:::
+
+以下は使い方の例である．
+
+```{r}
+#| eval: false
+tsibble(date = as_date("2024-01-01") + 0:9,
+        value = rnorm(10))
+tibble(year = 2001:2020,
+       value = rnorm(20)) |>
+    as_tsibble(index = year) # yearを時間情報に指定
+AirPassengers |> as_tsibble() # 時系列オブジェクトの変換
+```
+
+時系列の視覚化には関数 `fabletools::autoplot()` を利用すればよい．
+
+::: callout-note
+### 時系列の描画
+
+``` r
+autoplot(object, .vars = NULL, ...)
+#' 詳細は '?fabletools::autoplot.tbl_ts()'を参照
+```
+:::
+
+以下のように1次元でも多次元でも使うことができる．
+
+```{r}
+#| eval: false
+#' 単一時系列の描画
+x <- rnorm(240) # 正規分布のホワイトノイズ
+ts(x, start = c(2000,1), frequency = 12) |> # 2000年1月から毎月のデータ
+    as_tsibble() |> # tsibbleクラスに変換
+    autoplot(value) # value (as_tsibbleによる時系列データの列名の規定値) を描画
+#' 複数の系列を表示する場合
+y <- rt(240, df=4) # t-分布のホワイトノイズ
+z <- ts(tibble(x,y), start = c(2000,1), frequency = 12)
+z |> as_tsibble() |>
+    autoplot(value) # 同一のグラフで色を変えて描画
+z |> as_tsibble() |>
+    autoplot(value) + # 別にする場合は facet を指定すればよい
+    facet_grid(key ~ .)
 ```
 
 ## 基本的な時系列モデル
@@ -54,6 +173,12 @@ if(Sys.info()["sysname"] == "Darwin") { # macOSか調べる
 -   平均0，分散4の正規分布に従うホワイトノイズ．
 -   上記のホワイトノイズに初期値-1で単位時刻あたり1/20で増加するトレンドを持つ確率過程．
 -   上記のホワイトノイズから生成されるランダムウォーク．
+
+### 解答欄
+
+```{r}
+
+```
 
 ### 解答例
 
@@ -174,9 +299,13 @@ z |> as_tsibble() |>
 -   係数 $b_{1}=0.44,b_{2}=0.08$ を持つMA(2)過程．
 -   係数 $a_{1}=0.8,a_{2}=-0.64,b_{1}=-0.5$ を持つARMA(2,1)過程．
 
-### 解答例
+### 解答欄
 
-\#' 書き方は以下に示したもの以外にもいろいろあるので考えてみて下さい
+```{r}
+
+```
+
+### 解答例
 
 前の練習問題と同じように設定する．
 
@@ -300,7 +429,8 @@ ts_arma |> as_tsibble() |>
 ::: column-margin
 ここでは時系列の生成過程を知ってもらうために自作の関数を作成したが， 関数 `stats::arima.sim()` や `stats::filter()` などを利用することもできる． 上記のARMA(2,1)のシミュレーションは以下のようにして行うことができる．
 
-``` r
+```{r}
+#| eval: false
 arima.sim(model = list(ar = c(0.8, -0.64), # ARの係数ベクトル
                        ma = c(-0.5)),      # MAの係数ベクトル
           n = Tmax, # 時系列の長さ
@@ -312,6 +442,54 @@ arima.sim(model = list(ar = c(0.8, -0.64), # ARの係数ベクトル
 
 ## 自己相関
 
+自己相関や相互相関および共分散の計算には 関数 `feats::ACF()` を用いればよい．
+
+::: callout-note
+### 相関
+
+``` r
+ACF(.data,  y, ...,  lag_max = NULL,
+    type = c("correlation", "covariance", "partial"),
+    na.action = na.contiguous, demean = TRUE, tapered = FALSE)
+#' .data: 時系列データ (tsibbleクラス)
+#' y: 計算対象の列名
+#' type: 標準は相関, 共分散と偏相関を選ぶこともできる
+#' na.action: 欠損値の処理，標準は欠損を含むと計算しない
+#' demean: 共分散の計算において平均を引くか否か
+#' 詳細は '?feats::ACF' を参照
+```
+:::
+
+関数 `ACF()`の返値を関数 `autoplot()` に渡せば 適切なグラフを描画することができる．
+
+```{r}
+#| eval: false
+toy_acf <- arima.sim(model = list(ar = c(0.8, -0.64),
+                                  ma = c(-0.5)),
+                     n = 200) |>
+    as_tsibble() |> ACF(value) 
+toy_acf |> autoplot()
+```
+
+::: column-margin
+`base R` にも自己相関を計算する関数は用意されている．
+
+``` r
+acf(x, lag.max = NULL,
+    type = c("correlation", "covariance", "partial"),
+    plot = TRUE, na.action = na.fail, demean = TRUE, ...)
+#' x: 時系列データ
+#' lag.max: 計算するラグの最大値
+#' type: 標準は相関, 共分散と偏相関を選ぶこともできる
+#' plot: 描画するか否か
+#' na.action: 欠損値の処理，標準は欠損を含むと計算しない
+#' demean: 共分散の計算において平均を引くか否か
+#' 詳細は '?stats::acf' を参照
+```
+
+引数 `plot` の真偽で描画するか，計算のみするかを制御できる．
+:::
+
 ### 問題
 
 以下の問に答えなさい．
@@ -319,6 +497,12 @@ arima.sim(model = list(ar = c(0.8, -0.64), # ARの係数ベクトル
 -   同じAR過程のモデルから生成した時系列の自己相関を比較しなさい．(前の練習問題を利用すればよい)
 -   MA過程についても同様な比較を行いなさい．
 -   ARMA過程についても同様な比較を行いなさい．
+
+### 解答欄
+
+```{r}
+
+```
 
 ### 解答例
 
