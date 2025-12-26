@@ -17,8 +17,6 @@ citation-location: margin
 tbl-cap-location: margin
 fig-cap-location: margin
 editor: visual
-editor_options: 
-  chunk_output_type: console
 ---
 
 ## 準備
@@ -97,9 +95,9 @@ ts(data = x, start = c(2020,1), frequency =12) # 2020年1月からの月ごと
 ts(data = x, start = c(2020,3), frequency =4) # 四半期ごと
 ```
 
-`ts` オブジェクトは通常その時間情報を利用して処理が行われるため， 関数によっては扱いがベクトルと異なる場合があるので注意する必要がある．
+`ts` クラスのオブジェクトは通常その時間情報を利用して処理が行われるため， 関数によっては扱いがベクトルと異なる場合があるので注意する必要がある．
 
-`tidyverts` では関数 `tsibble::tsiblle()` を用いて 時系列版の`tibble` クラスを作成する．
+`tidyverts` では関数 `tsibble::tsibble()` を用いて 時系列版の`tibble` クラスを作成する．
 
 ::: callout-note
 ### 時系列の作成
@@ -155,13 +153,13 @@ ts(x, start = c(2000,1), frequency = 12) |> # 2000年1月から毎月のデー�
     as_tsibble() |> # tsibbleクラスに変換
     autoplot(value) # value (as_tsibbleによる時系列データの列名の規定値) を描画
 #' 複数の系列を表示する場合
-y <- rt(240, df=4) # t-分布のホワイトノイズ
+y <- rt(240, df=4)  # t分布のホワイトノイズ
 z <- ts(tibble(x,y), start = c(2000,1), frequency = 12)
 z |> as_tsibble() |>
     autoplot(value) # 同一のグラフで色を変えて描画
 z |> as_tsibble() |>
-    autoplot(value) + # 別にする場合は facet を指定すればよい
-    facet_grid(key ~ .)
+    autoplot(value, show.legend = FALSE) + 
+    facet_grid(key ~ .) # 別にする場合は facet を指定すればよい
 ```
 
 ## 基本的な時系列モデル
@@ -522,6 +520,21 @@ ts_ar[,1:K] |> as_tsibble() |> ACF(value) |>
     facet_wrap(key ~ ., nrow = 2) +
     labs(title = "AR(2)")
 ```
+
+::: column-margin
+`tsibble` クラスのデータフレームを保存しておいて利用することもできる． その場合は関数 `filter` などを使って操作することができる．
+
+```{r}
+tsb_ar <- ts_ar |> as_tsibble()
+tsb_ar |> ACF(value) |> autoplot()
+tsb_ar |>
+    filter(str_detect(key,"[1-4]")) |> # Series [1-4] のみ取り出す
+    ACF(value) |>
+    autoplot() + 
+    facet_wrap(key ~ ., nrow = 2) +
+    labs(title = "AR(2)")
+```
+:::
 
 同様にMA(2)モデルの自己相関を計算し，視覚化する．
 
