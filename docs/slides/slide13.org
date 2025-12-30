@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2025-12-23 12:07:21 mura>
+# Time-stamp: <2025-12-30 22:17:29 mura>
 :REVEAL:
 #+SETUPFILE: "./reveal.js/local/mycourse.org"
 #+PROPERTY: header-args:R+ :width 1344 :height 960 :res 144
@@ -1417,7 +1417,7 @@
          x = "Year", y = "Passengers/1000")
 #+end_src
 #+name: fig:ap_ets
-#+caption: ETSモデル(expornential smoothing)による予測
+#+caption: ETSモデル(exponential smoothing)による予測
 #+attr_html: :height 100%
 #+attr_latex: :width 0.6\linewidth
 [[file:figs/ap_ets.png]]

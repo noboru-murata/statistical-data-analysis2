@@ -35,6 +35,8 @@ library(conflicted) # 関数名の衝突を警告
     recipes::fixed(),
     yardstick::spec(),
     recipes::step(),
+    ggtime::gg_tsresiduals(),
+    ggtime::gg_tsdisplay(),
     )
 library(tidyverse)  
 library(ggfortify)
@@ -45,6 +47,8 @@ library(gtsummary)
 library(fable)
 library(tsibble)
 library(feasts)
+library(ggtime)
+library(urca)
 library(patchwork)
 #' macOSのための日本語表示の設定
 if(Sys.info()["sysname"] == "Darwin") { # macOSか調べる
@@ -71,7 +75,7 @@ ACF(.data,  y, ...,  lag_max = NULL,
 #' type: 標準は相関, 共分散と偏相関を選ぶこともできる
 #' na.action: 欠損値の処理，標準は欠損を含むと計算しない
 #' demean: 共分散の計算において平均を引くか否か
-#' 詳細は '?feats::ACF' を参照
+#' 詳細は '?feasts::ACF' を参照
 ```
 :::
 
@@ -462,7 +466,7 @@ tw_tsbl |>
     labs(title = "Temperature in Tokyo",
          x = "date", y = "temperature")
 tw_tsbl |> # 一部を切り出して視覚化する
-    filter_index("2023-06-01" ~ "2023-07-31") |>
+    filter_index("2024-06-01" ~ "2024-07-31") |>
     autoplot(temp, colour = "red") +
     labs(title = "Temperature in Tokyo",
          x = "date", y = "temperature")
