@@ -286,10 +286,10 @@ glance(object, ...)
 ``` r
 gg_tsresiduals(data, type = "innovation", ...)
 #' data: 推定された時系列モデル
-#' 詳細は `?feasts::gg_tsresiduals` を参照
+#' 詳細は `?ggtimes::gg_tsresiduals` を参照
 ```
 
-描画には関数 `feasts::gg_tsdisplay()` が利用される
+描画には関数 `ggtime::gg_tsdisplay()` が利用される
 :::
 
 具体的な使い方は以下のようになる．
@@ -524,8 +524,9 @@ as_tsibble(AirPassengers) |>
     forecast(h = 36) |> autoplot(AirPassengers)
 ```
 
-分解モデルの推定には関数 `fable::ETS()` を用いる． ::: callout-note
+分解モデルの推定には関数 `fable::ETS()` を用いる．
 
+::: callout-note
 ``` r
 ETS(formula, opt_crit = c("lik", "amse", "mse", "sigma", "mae"),
     nmse = 3, bounds = c("both", "usual", "admissible"),
@@ -535,7 +536,6 @@ ETS(formula, opt_crit = c("lik", "amse", "mse", "sigma", "mae"),
 #' ic: モデル選択のための情報量規準
 #' その他詳細は '?fable::ETS' を参照
 ```
-
 :::
 
 以下が推定の例である．
