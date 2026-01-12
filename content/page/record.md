@@ -6,7 +6,7 @@ draft = false
 weight = 1016
 +++
 
-<span class="timestamp-wrapper"><span class="timestamp">&lt;2025-12-27 Sat&gt; </span></span> 更新
+<span class="timestamp-wrapper"><span class="timestamp">&lt;2026-01-12 Mon&gt; </span></span> 更新
 
 講義の進捗に合わせて追加します
 
@@ -22,4 +22,4 @@ weight = 1016
 -   [第10講 (2025年12月12日)](https://u-tokyo-ac-jp.zoom.us/rec/share/tLgyETEeRwNXrT6oux2bNCLSfrSvbtD_NoYtFDyxkvgToJrP5yTvWEsLcMHXwzIW.46xe11xS0p5rGY8h?startTime=1765526431000)
 -   [第11講 (2025年12月19日)](https://u-tokyo-ac-jp.zoom.us/rec/share/1B_OTqVF3YOW-65d0w21_O-GNR5Ngkjl-y8DhxjybGtGTE163x1JnL7g1g7zCuRp.v43VrPIA1wMTumEH?startTime=1766131223000)
 -   [第12講 (2025年12月26日)](https://u-tokyo-ac-jp.zoom.us/rec/share/gf6ms0BzdjUFLT5QrfyuYbm9tP907FXV0UZW9GV4nzON9kzn807R6OQPOzXSmhwQ.2oU2oyewcEGLNGZX?startTime=1766736048000)
--   第13講 (2026年1月9日)
+-   [第13講 (2026年1月9日)](https://u-tokyo-ac-jp.zoom.us/rec/share/7xfEZXdKVpGINtigE0ZXlOweG7muL9qkeDnD_izfudKIY_aCAsxVzQUeToXdCZjG.3xBy2V2ZCZuAfRtz?startTime=1767945658000)
