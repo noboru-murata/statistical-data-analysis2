@@ -155,24 +155,22 @@ bb_tbl <-
 
 ::: {.content-visible when-format="html"}
 ::: {.scroll-tall}
-
 ```{r}
 bb_tbl
 ```
-
 :::
 :::
 
 ::: {.content-visible when-format="pdf"}
-
 ```{r}
 bb_tbl |>
   tab_options(table.font.size = 11,
+              heading.title.font.size = "normal",
+              heading.subtitle.font.size = "small",
               table.width = pct(50),
               latex.tbl.pos = "h") |>
   as_latex()
 ```
-
 :::
 
 
@@ -229,24 +227,22 @@ bw_tbl <-
 
 ::: {.content-visible when-format="html"}
 ::: {.scroll-tall}
-
 ```{r}
 bw_tbl
 ```
-
 :::
 :::
 
 ::: {.content-visible when-format="pdf"}
-
 ```{r}
 bw_tbl |>
   tab_options(table.font.size = 10,
+              heading.title.font.size = "normal",
+              heading.subtitle.font.size = "small",
               table.width = pct(60),
               latex.tbl.pos = "h") |>
   as_latex()
 ```
-
 :::
 
 
@@ -265,7 +261,6 @@ bw_data |>
 ### 推定結果 {.head-center}
 
 ::: {.content-visible when-format="html"}
-
 ```{r}
 bw_fit <- lm(`価格(対数比)` ~ . - `ヴィンテージ`, # VINTを除く全て
              data = bw_data)
@@ -274,22 +269,21 @@ bw_fit |>
   tbl_regression(estimate_fun = label_style_sigfig(digits = 4)) |>
   add_glance_source_note(include = c(r.squared,adj.r.squared,statistic,p.value))
 ```
-
 :::
 
 ::: {.content-visible when-format="pdf"}
-
 ```{r}
 bw_fit |>
   tbl_regression(estimate_fun = label_style_sigfig(digits = 4)) |>
   add_glance_source_note(include = c(r.squared,adj.r.squared,statistic,p.value)) |>
   as_gt() |>
   tab_options(table.font.size = 10,
+              heading.title.font.size = "normal",
+              heading.subtitle.font.size = "small",
               table.width = pct(50),
               latex.tbl.pos = "h") |>
   as_latex() 
 ```
-
 :::
 
 
@@ -329,7 +323,6 @@ ja_data <- bind_cols(
 
 ::: {.content-visible when-format="html"}
 ::: {.scroll-tall}
-
 ```{r}
 ja_data |>
   gt() |>
@@ -337,12 +330,10 @@ ja_data |>
     title = "生活環境データ"
   )
 ```
-
 :::
 :::
 
 ::: {.content-visible when-format="pdf"}
-
 ```{r}
 ja_data |>
   select(1:11) |> # 大きな表なので一部を選択する(列:select，行:slice)
@@ -351,11 +342,12 @@ ja_data |>
     title = "生活環境データ"
   ) |>
   tab_options(table.font.size = 9,
+              heading.title.font.size = "normal",
+              heading.subtitle.font.size = "small",
               table.width = pct(100),
               latex.tbl.pos = "h") |>
   as_latex()
 ```
-
 :::
 
 
@@ -453,24 +445,22 @@ bio_tbl <-
 
 ::: {.content-visible when-format="html"}
 ::: {.scroll-tall}
-
 ```{r}
 bio_tbl
 ```
-
 :::
 :::
 
 ::: {.content-visible when-format="pdf"}
-
 ```{r}
 bio_tbl |>
   tab_options(table.font.size = 10,
+              heading.title.font.size = "normal",
+              heading.subtitle.font.size = "small",
               table.width = pct(60),
               latex.tbl.pos = "h") |>
   as_latex()
 ```
-
 :::
 
 
@@ -538,24 +528,22 @@ om_tbl <-
 
 ::: {.content-visible when-format="html"}
 ::: {.scroll-tall}
-
 ```{r}
 om_tbl
 ```
-
 :::
 :::
 
 ::: {.content-visible when-format="pdf"}
-
 ```{r}
 om_tbl |>
   tab_options(table.font.size = 9,
+              heading.title.font.size = "normal",
+              heading.subtitle.font.size = "small",
               table.width = pct(60),
               latex.tbl.pos = "h") |>
   as_latex()
 ```
-
 :::
 
 
@@ -624,23 +612,21 @@ ap_tbl <-
 ```
 
 ::: {.content-visible when-format="html"}
-
 ```{r}
 ap_tbl
 ```
-
 :::
 
 ::: {.content-visible when-format="pdf"}
-
 ```{r}
 ap_tbl |> 
   tab_options(table.font.size = 10,
-              table.width = pct(70),
+              heading.title.font.size = "normal",
+              heading.subtitle.font.size = "small",
+              table.width = pct(80),
               latex.tbl.pos = "h") |>
   as_latex()
 ```
-
 :::
 
 

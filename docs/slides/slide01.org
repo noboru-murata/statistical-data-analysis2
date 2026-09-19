@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2026-09-19 13:04:47 mura>
+# Time-stamp: <2026-09-19 14:59:43 mura>
 :QUARTO:
 #+SETUPFILE: _quarto/org/lecture.org
 # C-c C-x C-v でinlineを切り替え
@@ -102,9 +102,6 @@
    - 築年数・駅からの距離・広さ・間取りで家賃を説明する式を作り，新規に家賃を設定する際に利用する
 
 ** 例 : 体重と脳の重さの関係
-:PROPERTIES:
-:ID:       22678FE1-03AA-4F0B-8469-0223E5FAA78A
-:END:
 
 #+begin_src R
   #' 単回帰の例
@@ -122,23 +119,25 @@
     )
 #+end_src
 
-::: {.content-visible when-format="html"}
-::: {.scroll-tall}
+#+begin_content-visible :when-format "html"
+#+begin_scroll-tall
 #+begin_src R
   bb_tbl
 #+end_src
-:::
-:::
+#+end_scroll-tall
+#+end_content-visible
 
-::: {.content-visible when-format="pdf"}
+#+begin_content-visible :when-format "pdf"
 #+begin_src R
   bb_tbl |>
     tab_options(table.font.size = 11,
+                heading.title.font.size = "normal",
+                heading.subtitle.font.size = "small",
                 table.width = pct(50),
                 latex.tbl.pos = "h") |>
     as_latex()
 #+end_src
-:::
+#+end_content-visible
 
 *** 体重と脳の重さの関係
 :PROPERTIES:
@@ -203,23 +202,25 @@
     )
 #+end_src
 
-::: {.content-visible when-format="html"}
-::: {.scroll-tall}
+#+begin_content-visible :when-format "html"
+#+begin_scroll-tall
 #+begin_src R
   bw_tbl
 #+end_src
-:::
-:::
+#+end_scroll-tall
+#+end_content-visible
 
-::: {.content-visible when-format="pdf"}
+#+begin_content-visible :when-format "pdf"
 #+begin_src R
   bw_tbl |>
     tab_options(table.font.size = 10,
+                heading.title.font.size = "normal",
+                heading.subtitle.font.size = "small",
                 table.width = pct(60),
                 latex.tbl.pos = "h") |>
     as_latex()
 #+end_src
-:::
+#+end_content-visible
 
 *** 価格と気候の散布図
 :PROPERTIES:
@@ -242,7 +243,7 @@
 :ID:       76AFAEE3-59D4-486E-8576-1D9C2A410C93
 :END:
 
-::: {.content-visible when-format="html"}
+#+begin_content-visible :when-format "html"
 #+begin_src R
   bw_fit <- lm(`価格(対数比)` ~ . - `ヴィンテージ`, # VINTを除く全て
                data = bw_data)
@@ -251,20 +252,22 @@
     tbl_regression(estimate_fun = label_style_sigfig(digits = 4)) |>
     add_glance_source_note(include = c(r.squared,adj.r.squared,statistic,p.value))
 #+end_src
-:::
+#+end_content-visible
 
-::: {.content-visible when-format="pdf"}
+#+begin_content-visible :when-format "pdf"
 #+begin_src R
   bw_fit |>
     tbl_regression(estimate_fun = label_style_sigfig(digits = 4)) |>
     add_glance_source_note(include = c(r.squared,adj.r.squared,statistic,p.value)) |>
     as_gt() |>
     tab_options(table.font.size = 10,
+                heading.title.font.size = "normal",
+                heading.subtitle.font.size = "small",
                 table.width = pct(50),
                 latex.tbl.pos = "h") |>
     as_latex() 
 #+end_src
-:::
+#+end_content-visible
 
 *** 重回帰による予測値と実際の価格
 :PROPERTIES:
@@ -304,8 +307,9 @@
     set_names(names(read_csv(file = "data/jpamenityitem.csv")))) # 簡略化した項目名に変更
 #+end_src
 
-::: {.content-visible when-format="html"}
-::: {.scroll-tall}
+
+#+begin_content-visible :when-format "html"
+#+begin_scroll-tall
 #+begin_src R 
   ja_data |>
     gt() |>
@@ -313,10 +317,10 @@
       title = "生活環境データ"
     )
 #+end_src
-:::
-:::
+#+end_scroll-tall
+#+end_content-visible
 
-::: {.content-visible when-format="pdf"}
+#+begin_content-visible :when-format "pdf"
 #+begin_src R 
   ja_data |>
     select(1:11) |> # 大きな表なので一部を選択する(列:select，行:slice)
@@ -325,11 +329,13 @@
       title = "生活環境データ"
     ) |>
     tab_options(table.font.size = 9,
+                heading.title.font.size = "normal",
+                heading.subtitle.font.size = "small",
                 table.width = pct(100),
                 latex.tbl.pos = "h") |>
     as_latex()
 #+end_src
-:::
+#+end_content-visible
 
 *** 都道府県別の人口動態
 :PROPERTIES:
@@ -436,23 +442,26 @@
     )
 #+end_src
 
-::: {.content-visible when-format="html"}
-::: {.scroll-tall}
+
+#+begin_content-visible :when-format "html"
+#+begin_scroll-tall
 #+begin_src R
   bio_tbl
 #+end_src
-:::
-:::
+#+end_scroll-tall
+#+end_content-visible
 
-::: {.content-visible when-format="pdf"}
+#+begin_content-visible :when-format "pdf"
 #+begin_src R
   bio_tbl |>
     tab_options(table.font.size = 10,
+                heading.title.font.size = "normal",
+                heading.subtitle.font.size = "small",
                 table.width = pct(60),
                 latex.tbl.pos = "h") |>
     as_latex()
 #+end_src
-:::
+#+end_content-visible
 
 *** 乳癌患者(良性・悪性)の生研検査の散布図
 :PROPERTIES:
@@ -526,23 +535,25 @@
     )
 #+end_src
 
-::: {.content-visible when-format="html"}
-::: {.scroll-tall}
+#+begin_content-visible :when-format "html"
+#+begin_scroll-tall
 #+begin_src R
   om_tbl
 #+end_src
-:::
-:::
+#+end_scroll-tall
+#+end_content-visible
 
-::: {.content-visible when-format="pdf"}
+#+begin_content-visible :when-format "pdf"
 #+begin_src R
   om_tbl |>
     tab_options(table.font.size = 9,
+                heading.title.font.size = "normal",
+                heading.subtitle.font.size = "small",
                 table.width = pct(60),
                 latex.tbl.pos = "h") |>
     as_latex()
 #+end_src
-:::
+#+end_content-visible
 
 *** 都道府県別の好きなおむすびの具の集計結果
 :PROPERTIES:
@@ -615,21 +626,23 @@
                subtitle = "1949-1960")
 #+end_src
 
-::: {.content-visible when-format="html"}
+#+begin_content-visible :when-format "html"
 #+begin_src R
   ap_tbl
 #+end_src
-:::
+#+end_content-visible
 
-::: {.content-visible when-format="pdf"}
+#+begin_content-visible :when-format "pdf"
 #+begin_src R
   ap_tbl |> 
     tab_options(table.font.size = 10,
-                table.width = pct(70),
+                heading.title.font.size = "normal",
+                heading.subtitle.font.size = "small",
+                table.width = pct(80),
                 latex.tbl.pos = "h") |>
     as_latex()
 #+end_src
-:::
+#+end_content-visible
 
 *** 旅客量の変遷
 :PROPERTIES:
