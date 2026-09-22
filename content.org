@@ -46,8 +46,8 @@
 - [[github:pdfs/slide01.pdf][PDF file]]
 ** 付録
 - 実習用 [[githubraw:code/practice01.qmd][Quarto]]
-- 解答例 [[githubraw:code/sample-code01.qmd][Quarto]] [[github:code/sample-code01.html][HTML]]
-- データセット [[github:data/data01.zip][練習問題で用いる配布データ]]
+- 解答例 [[github:code/practice01.html][HTML]]
+- データセット [[github:data/data.zip][実習用データ]]
   
 * 第2講
 :PROPERTIES:
