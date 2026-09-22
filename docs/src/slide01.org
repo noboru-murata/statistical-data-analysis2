@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2026-09-20 22:18:02 mura>
+# Time-stamp: <2026-09-22 16:53:26 mura>
 :QUARTO:
 #+SETUPFILE: _quarto/org/lecture.org
 # C-c C-x C-v でinlineを切り替え
@@ -49,6 +49,9 @@
    - 築年数・駅からの距離・広さ・間取りで家賃を説明する式を作り，新規に家賃を設定する際に利用する
 
 ** 例 : 体重と脳の重さの関係
+:PROPERTIES:
+:ID:       d01271f4-330d-41ff-8d88-3947bf8c3519
+:END:
 
 #+begin_src R
   #' 単回帰の例
@@ -692,6 +695,9 @@
   - メニュー : *Tools > Global Options* で設定
 
 ** コンソール (左下ペイン)
+:PROPERTIES:
+:ID:       16bb25e8-5af3-4d2e-9ace-0d8996761926
+:END:
 - R言語で記述されたコマンドを入力
   - 例えば以下のような計算を行うことができる
     #+attr_quarto: :echo true :eval false
@@ -763,6 +769,9 @@
 # - 中断するときは *Close Project* を選択
   
 ** 終了時の注意
+:PROPERTIES:
+:ID:       7bca2230-612f-456a-a2b9-267ad8117a28
+:END:
 - 終了時にコンソールに以下のメッセージ，
   または同様の内容のダイアログボックスが表示される場合がある
   #+attr_quarto: :echo true :eval false
@@ -822,6 +831,9 @@
     - ショートカットキーも用意されている
     
 ** 文書の整形
+:PROPERTIES:
+:ID:       36d28695-d9f8-493c-84c9-26f310d400da
+:END:
 - ~歯車~ ボタンで出力時の挙動を設定する
   - *Preview in Window* : ブラウザに表示
   - *Preview in Viewer Pane* : RStudioの右下ペインViewerタブに表示
@@ -831,7 +843,6 @@
   - フォーマットによって拡張子が異なる
   - 付加的なファイルは "ファイル名 + files" に保存される
   - 単一のファイルにするにはYAMLヘッダーで以下を宣言する
-    #+attr_quarto: :echo true :eval false
     #+begin_src yaml
       ---
       format:
@@ -873,6 +884,9 @@
 #  - sin, cos, tan (三角関数)，exp (指数関数)，log (対数関数)
 
 ** 電卓として使う
+:PROPERTIES:
+:ID:       16910df6-a70f-4bca-93d2-b0cd7ce8fc7e
+:END:
 - コンソール上での計算例
   #+attr_quarto: :echo true
   #+begin_src R
@@ -926,6 +940,9 @@
   - *#* 以降の文字列は実行されないのでコメントとして有用
 
 ** 関数
+:PROPERTIES:
+:ID:       788fe1ad-0f97-43de-8634-5781c67dc577
+:END:
 - 関数の取り扱いは一般的な計算機言語とほぼ同様
   - 関数は引数とその値を指定して実行(引数がない場合もある)
   - 引数名は順序を守れば省略可能
@@ -951,6 +968,9 @@
   # - 典型例はRを終了する関数 ~q()~
 
 ** 関数の実行例
+:PROPERTIES:
+:ID:       e6c131b0-54d2-4257-9050-86724c47df27
+:END:
 - 正弦関数の計算
   #+begin_src R
     #' @exercise 関数の実行
@@ -1022,6 +1042,9 @@
   #   を実行してみればよい
 
 ** ヘルプ機能の利用例
+:PROPERTIES:
+:ID:       55a331db-f1c3-4baf-94d4-62e765f7fece
+:END:
 - ヘルプの使い方 
   #+begin_src R
     #' @exercise ヘルプの使い方
@@ -1058,6 +1081,9 @@
   *Environment* タブで確認できる
 
 ** オブジェクトの代入の例
+:PROPERTIES:
+:ID:       9ea7a201-5eea-4422-a101-d963f6eef38f
+:END:
 - 代入操作の例
   #+attr_quarto: :echo true
   #+begin_src R
@@ -1072,6 +1098,9 @@
   - 変数名は自由に決められるが，
     予約語 ~c, q, t, C, D, F, I, T~ には注意が必要
 ** 自作関数
+:PROPERTIES:
+:ID:       d0e1e822-6d8b-4ae9-9071-eb879cfdf2a1
+:END:
 - 他の言語と同様にRでも関数を定義できる   
 - 関数の定義には関数 ~function()~ を利用する 
   #+attr_quarto: :echo true :eval false
@@ -1084,6 +1113,9 @@
   #+end_src
 
 ** 自作関数の例
+:PROPERTIES:
+:ID:       0e003396-d6c8-4d71-8e25-7d41e8c91a7e
+:END:
 - 縦と横の長さを与えて長方形の面積を計算
   #+begin_src R :exports none
     #' @exercise 自作関数の定義
@@ -1139,6 +1171,9 @@
     \end{align}
 
 ** 解答例
+:PROPERTIES:
+:ID:       8e681465-d77e-4d84-bb59-b40a7b74154c
+:END:
 - 関数 integrate() を利用して定積分を計算
   #+attr_quarto: :echo true
   #+begin_src R

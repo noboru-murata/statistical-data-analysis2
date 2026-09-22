@@ -28,6 +28,7 @@ format:
           \mathtoolsset{showonlyrefs,showmanualtags}	    
       - _quarto/tex/fig-scale.tex
       - _quarto/tex/table-center.tex
+      - _quarto/tex/callout-title-gothic.tex
   html: 
     self-contained: false
     grid: 
@@ -55,8 +56,6 @@ filters:
 
 
 ```{r}
-### 第1講 サンプルコード
-#' 
 #' このファイルには資料の中の例題や演習問題の解答例があります
 #' コメント行は "#'" で開始され，RStudio では緑(既定値)で表示されます
 #' コメント内の "@..." は
@@ -68,10 +67,10 @@ filters:
 #'
 library(conflicted)
 conflicts_prefer(
-  dplyr::filter(),
-  dplyr::select(),
-  dplyr::lag(),
-  )
+    dplyr::filter(),
+    dplyr::select(),
+    dplyr::lag(),
+    )
 library(tidyverse)
 library(ggfortify)     # 分析結果の視覚化にggplotを利用するためのパッケージ
 library(GGally)
@@ -93,18 +92,18 @@ if (knitr::is_latex_output()) knitr::opts_chunk$set(dev = "cairo_pdf")
 
 #' 日本語表示の設定
 if (Sys.info()["sysname"] == "Darwin") {
-  jp_font <- if (knitr::is_latex_output()) {
-               "Hiragino Maru Gothic ProN"   # cairo は fontconfig 経由なのでファミリ名
-             } else {
-               "HiraMaruProN-W4"             # quartz/AGG は PostScript 名
-             }
-  theme_update(text = element_text(family = jp_font))
-  update_geom_defaults("text", list(family = theme_get()$text$family))
-  update_geom_defaults("label", list(family = theme_get()$text$family))
-  update_geom_defaults("text_repel", list(family = theme_get()$text$family))
-  update_geom_defaults("label_repel", list(family = theme_get()$text$family))
+    jp_font <- if (knitr::is_latex_output()) {
+                   "Hiragino Maru Gothic ProN"   # cairo は fontconfig 経由なのでファミリ名
+               } else {
+                   "HiraMaruProN-W4"             # quartz/AGG は PostScript 名
+               }
+    theme_update(text = element_text(family = jp_font))
+    update_geom_defaults("text", list(family = theme_get()$text$family))
+    update_geom_defaults("label", list(family = theme_get()$text$family))
+    update_geom_defaults("text_repel", list(family = theme_get()$text$family))
+    update_geom_defaults("label_repel", list(family = theme_get()$text$family))
 } else {
-  jp_font <- NULL
+    jp_font <- NULL
 }
 ```
 
@@ -905,9 +904,7 @@ ap_fit |> select(`arima auto`) |>
     -   付加的なファイルは "ファイル名 + files" に保存される
     -   単一のファイルにするにはYAMLヘッダーで以下を宣言する
         
-        ```{yaml}
-        #| echo: true
-        #| eval: false
+        ```yaml
         ---
         format:
           html:

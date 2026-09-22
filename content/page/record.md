@@ -6,9 +6,27 @@ draft = false
 weight = 1016
 +++
 
-<span class="timestamp-wrapper"><span class="timestamp">&lt;2026-01-12 Mon&gt;</span></span> 更新
+<span class="timestamp-wrapper"><span class="timestamp">&lt;2026-09-22 Tue&gt;</span></span> 更新
 
 講義の進捗に合わせて追加します
+
+-   第1講 (2026年10月2日)
+-   第2講 (2026年10月9日)
+-   第3講 (2026年10月16日)
+-   第4講 (2026年10月23日)
+-   第5講 (2026年10月30日)
+-   第6講 (2026年11月6日)
+-   第7講 (2026年11月13日)
+-   第8講 (2026年11月27日)
+-   第9講 (2026年12月4日)
+-   第10講 (2026年12月11日)
+-   第11講 (2026年12月18日)
+-   第12講 (2026年12月25日)
+-   第13講 (2027年1月8日)
+
+---
+
+以下は2025年度の記録
 
 -   [第1講 (2025年10月3日)](https://u-tokyo-ac-jp.zoom.us/rec/share/zzOeePEhBZqa7pFJZtTC8cgS2q9CguiCW-piAvfFK41WLenHrg-L4Dp6MyK-6UDN.8OHjsDncpb8yOTV5?startTime=1759478726000)
 -   [第2講 (2025年10月10日)](https://u-tokyo-ac-jp.zoom.us/rec/share/k9SeotKPLmx8iwyIsumlm8o2FbICb3N0bq-aoKyjB_3tKx6fd1hV14i4WgPyk6Wh.kRdhV9Hn3UN4NfaH?startTime=1760083233000)
