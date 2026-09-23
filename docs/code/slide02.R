@@ -1,5 +1,3 @@
-### 第2講 サンプルコード
-
 #' 最初に一度だけ以下のいずれかを実行しておく
 #'  - Package タブから tidyverse をインストール
 #'  - コンソール上で次のコマンドを実行 'install.packages("tidyverse")'
@@ -28,13 +26,18 @@ library(tidyverse)
 #' "foo", "bar", "baz" は使い捨ての変数名として良く用いられる
 #' その他 "tmp", "temp" なども用いられることが多い
 
+write_csv(x, file = "ファイル名") # データフレームxをファイルに書き出す
+
+y <- read_csv(file = "ファイル名") # 変数yにCSVファイルの内容を読み込む
+
 #' ダウンロードしたファイルの読み込み
 #' ファイル名 pcr_case_daily.csv として作業ディレクトリの data 以下に保存
 pcr_data <- read_csv("data/pcr_case_daily.csv") # 一般的な読み込み方
 # View(pcr_data) # 中身を左上ペインに表示
-(pcr_colnames <- names(pcr_data)) # 列名を確認して保存 colnames(pcr_data) でも良い
+pcr_colnames <- names(pcr_data) # 列名を確認して保存 colnames(pcr_data) でも良い
 names(pcr_data) <- # 列名を扱い易いように英語略記に変更する
   c("date","niid","ciq","hc","ai","univ","mi","sub","si","total")
+names(pcr_colnames) <- names(pcr_data) # 和英の列名の対応づけができるようにしておく
 #' National Institute of Infectious Diseases
 #' Customs-Immigration-Quarantine
 #' Health Center
@@ -44,10 +47,9 @@ names(pcr_data) <- # 列名を扱い易いように英語略記に変更する
 #' subtotal
 #' Self Inspection
 #' total
-pcr_data # 中身を確認(10行だけ表示される)
 #' 以降の処理のために date 列を関数 lubridate::date() で date 型に変換する
 #' 列の変換・追加などには関数 dplyr::mutate() を用いる
-(pcr_data <- mutate(pcr_data, date = date(date)))
+pcr_data <- mutate(pcr_data, date = date(date))
 
 #' @exercise 要素の選択
 
@@ -126,7 +128,6 @@ pcr_data |> # 月名
 #' Sys.setlocale(category = "LC_TIME", locale = "")
 
 #' @exercise 折れ線グラフの描画
-
 #' 行政検査(ai)と医療機関(mi)の検査件数の推移の視覚化
 
 pcr_data |> # パイプ演算子でデータフレームを関数 ggplot2::ggplot() に渡す
@@ -166,7 +167,6 @@ pcr_data |> select(!c(sub,total)) |>
   facet_grid(vars(organ)) # "organ" ごとに異なる図を並べる
 
 #' @exercise 散布図の描画
-
 #' 国立感染症研究所(niid)と医療機関(mi)の検査件数の関係
 
 if(Sys.info()["sysname"] == "Darwin") { # MacOSか調べて日本語フォントを指定
@@ -183,20 +183,23 @@ pcr_data |>
 
 #' 各軸を対数表示に変更
 
+#' 各軸を対数表示に変更
+
 pcr_data |> 
   ggplot(aes(x = niid, y = mi)) + 
   geom_point(colour = "blue", shape = 19) + 
   scale_x_log10() + scale_y_log10() + # 各軸を対数で表示
-  labs(x = pcr_colnames["niid"], y = pcr_colnames["mi"])
+  labs(x = pcr_colnames["niid"], y = pcr_colnames["mi"]) 
 
 #' @exercise 散布図行列の描画
-
 #' 各検査機関での検査件数の関係
 library(GGally)
 
 pcr_data |>
   select(!c(date,sub,total)) |> # 日付と集計値を除いて必要なデータフレームに整形
   ggpairs() # 標準の散布図行列
+
+#' 四半期ごとに分類して色分けして表示する
 
 #' 四半期ごとに分類して色分けして表示する
 
@@ -231,6 +234,8 @@ pcr_data |>
 
 #' @exercise 箱ひげ図の描画
 
+#' @exercise 箱ひげ図の描画
+
 #' 大学等(univ)での検査件数の分布(2021年分)
 pcr_data |>
   filter(year(date) == 2021) |> # 2021年を抽出
@@ -238,6 +243,8 @@ pcr_data |>
   ggplot(aes(x = date, y = univ)) + # 月毎に集計する
   geom_boxplot(fill = "orange") + # 塗り潰しの色を指定
   labs(title = "月ごとの検査件数 (2021年)", x = "月", y = pcr_colnames["univ"])
+
+#' @exercise 棒グラフの描画
 
 #' @exercise 棒グラフの描画
 
@@ -254,6 +261,8 @@ pcr_data |>
   ggplot(aes(x = organ, y = nums, fill = month)) +
   geom_bar(stat = "identity", position = "dodge", na.rm = TRUE) +
   theme(legend.position = "top") + guides(fill = guide_legend(nrow = 1))
+
+#' @exercise 中心極限定理
 
 #' @exercise 中心極限定理
 
@@ -281,6 +290,10 @@ for(n in c(1,2,4,8,16)){ # nを変えて実験
          title = paste0("n=", n)) # タイトルにnを記載
   print(p) # for 文の中では明示的に print する必要がある
 }
+
+#' @exercise コイン投げの賭け
+
+#' @exercise コイン投げの賭け
 
 #' コイン投げの試行 (いろいろな書き方があるので以下は一例)
 mc_trial <- function(){

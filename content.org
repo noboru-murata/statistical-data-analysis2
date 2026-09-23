@@ -54,16 +54,14 @@
 :EXPORT_FILE_NAME: lecture02
 :EXPORT_DATE: <2020-09-19 Sat>
 :END:
-<2025-10-09 Thu> 更新
+<2026-09-23 Wed> 更新
 ** スライド
 #+hugo: {{< myslide base="statistical-data-analysis2" name="slide02" >}}
 ** ハンドアウト
 - [[github:pdfs/slide02.pdf][PDF file]]
 ** 付録
 - 実習用 [[githubraw:code/practice02.qmd][Quarto]]
-- 解答例 [[githubraw:code/sample-code02.qmd][Quarto]] [[github:code/sample-code02.html][HTML]]
-- データセット [[github:data/data02.zip][練習問題用データセット]] \\
-   (ダウンロードして unzip すると文字コード utf-8 のファイルになります)
+- 解答例 [[github:code/practice02.html][HTML]]
 
 * 第3講
 :PROPERTIES:
