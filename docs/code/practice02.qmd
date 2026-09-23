@@ -5,21 +5,20 @@ date: "`r Sys.Date()`"
 format:
     html: 
       toc: true
-      html-math-method: katex
       self-contained: true
       grid: 
         margin-width: 350px
 execute: 
-  echo: true
-  warning: false
+  echo: fenced
 reference-location: margin
 citation-location: margin
 tbl-cap-location: margin
 fig-cap-location: margin
+warning: false
 editor: visual
 ---
 
-## 準備
+# 準備
 
 データの操作と視覚化のために `tidyverse` パッケージを読み込む．
 
@@ -37,7 +36,7 @@ Quartoファイルの中で使われているパッケージがインストー�
 `tidyverse` は第1講のサンプルで使っているので通常はインストールされているが， R言語のバージョンがアップグレードされた場合などに対応が必要となる．
 :::
 
-`library(tidyverse)` を実行すると読み込まれたパッケージが表示される． 同名の関数が存在する場合には *Conflicts* として衝突する関数名が表示される． 衝突する場合はパッケージ名を明示的に付ける必要がある． 例えば `filter()` には以下の2つがある．
+`library(tidyverse)` を実行すると読み込まれたパッケージが表示される． 同名の関数が存在する場合には **Conflicts** として衝突する関数名が表示される． 衝突する場合はパッケージ名を明示的に付ける必要がある． 例えば `filter()` には以下の2つがある．
 
 -   `dplyer::filter()` データフレームの抽出のための関数
 -   `stats::filter()` 時系列処理のための線形フィルタ関数
@@ -50,10 +49,7 @@ library(conflicted)
 ```
 :::
 
-## データフレームの作成
-
-::: callout-note
-### 参考
+# データフレームの作成
 
 データフレームは 同じ長さのベクトル(関数 `base::c()` で作成)を関数 `tibble::tibble()` に渡して作成する．
 
@@ -70,9 +66,8 @@ library(conflicted)
 #| eval: false
 (baz <- bind_cols(foo,bar))
 ```
-:::
 
-### 問題
+## 問題
 
 次の表に対応するデータフレームを作成しなさい．
 
@@ -85,13 +80,10 @@ library(conflicted)
 | Eve   |   50 |   80 |   75 | 100 |
 
 ```{r}
-
+#' ここにコードを書く
 ```
 
-## ファイルの読み書き
-
-::: callout-note
-### 参考
+# ファイルの読み書き
 
 ファイルの書き出しには関数 `readr::write_csv()` を用いる．
 
@@ -106,9 +98,8 @@ write_csv(x, file = "ファイル名") # データフレームxをファイル�
 #| eval: false
 y <- read_csv(file = "ファイル名") # 変数yにCSVファイルの内容を読み込む
 ```
-:::
 
-### 問題
+## 問題
 
 以下の問いに答えなさい．
 
@@ -117,13 +108,10 @@ y <- read_csv(file = "ファイル名") # 変数yにCSVファイルの内容を�
 3.  `pcr_case_daily.csv` (厚労省からダウンロードしたファイル)を変数 `pcr_data` に読み込みなさい．
 
 ```{r}
-
+#' ここにコードを書く
 ```
 
-## データフレームの操作
-
-::: callout-note
-### 参考
+# データフレームの操作
 
 行の選択には関数 `dplyer::filter()` を， 列の選択には関数 `dplyer::select()` を用いる．
 
@@ -135,9 +123,8 @@ y <- read_csv(file = "ファイル名") # 変数yにCSVファイルの内容を�
 #' パイプを用いると以下のように簡潔に書ける
 z |> filter(three >= 7) |> select(one, three)
 ```
-:::
 
-### 問題
+## 問題
 
 `pcr_case_daily.csv` から以下の条件を満たすデータを取り出しなさい．
 
@@ -146,13 +133,10 @@ z |> filter(three >= 7) |> select(one, three)
 3.  2020年3月の各機関(sub,total は集計なので除く)の検査件数データ．
 
 ```{r}
-
+#' ここにコードを書く
 ```
 
-## データフレームの集約
-
-::: callout-note
-### 参考
+# データフレームの集約
 
 列の集計には関数 `dplyr::summarise()` を用いる．
 
@@ -167,9 +151,8 @@ grade_data |>
 ```
 
 集計に必要な関数が用意されていない場合は， 無名関数として定義して利用すれば良い．
-:::
 
-### 問題
+## 問題
 
 `pcr_case_daily.csv` について以下の集計を行いなさい．
 
@@ -182,13 +165,10 @@ grade_data |>
 2.  気筒数 (cyl) とギア数 (gear) ごとの燃費 (mpg) の平均値．
 
 ```{r}
-
+#' ここにコードを書く
 ```
 
-## 基本的なグラフの描画
-
-::: callout-note
-### 参考
+# 基本的なグラフの描画
 
 グラフの描画には 関数 `ggplot2::ggplot()` で描画に用いるデータフレームを指定し， 描きたいグラフの種類に応じて関数 `ggplot2::geom_XXX()` を加える．
 
@@ -210,9 +190,8 @@ pcr_data |>
     select(!c(date,sub,total)) |> # 日付と集計値を除いて必要なデータフレームに整形
     ggpairs() # 標準の散布図行列
 ```
-:::
 
-### 問題
+## 問題
 
 `pcr_case_daily.csv` を用いて以下の描画を行いなさい．
 
@@ -220,12 +199,12 @@ pcr_data |>
 2.  民間検査会社 (d)，大学等 (e)，医療機関 (f) での検査件数の関係 (散布図)．
 
 ```{r}
-
+#' ここにコードを書く
 ```
 
-## 擬似乱数
+# 擬似乱数
 
-### 問題
+## 問題
 
 ヘルプを用いて以下の関数を調べよ．
 
@@ -241,12 +220,12 @@ pcr_data |>
 2.  4枚のコインを投げたときの表の枚数．
 
 ```{r}
-
+#' ここにコードを書く
 ```
 
-## 双六ゲーム
+# 双六ゲーム
 
-### 問題
+## 問題
 
 以下の簡単な双六ゲームを考える．
 
@@ -257,5 +236,5 @@ pcr_data |>
 さいころを振る回数の分布がどうなるか実験を行いなさい．
 
 ```{r}
-
+#' ここにコードを書く
 ```
