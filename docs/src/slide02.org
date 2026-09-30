@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2026-09-23 15:48:10 mura>
+# Time-stamp: <2026-09-24 10:29:57 mura>
 :QUARTO:
 #+SETUPFILE: _quarto/org/lecture.org
 # C-c C-x C-v でinlineを切り替え
@@ -141,6 +141,9 @@
   - 変更の仕方 : 主に *Session* メニューを利用
 
 ** CSV ファイルの操作
+:PROPERTIES:
+:ID:       f6c1e18e-c6f4-44f1-a14b-55cc4683a1d8
+:END:
 - 関数 ~readr::write_csv()~ : ファイルの書き出し
   #+attr_quarto: :echo true :eval false
   #+begin_src R
@@ -158,6 +161,7 @@
 * 実習
 :PROPERTIES:
 :QUARTO_ATTR: {background-color="#fef4f4"}
+:ID:       a4f707a1-f6b9-41ad-bdad-7d207d5ae2b9
 :END:
 
 #+attr_quarto: :eval true
@@ -215,6 +219,9 @@
   #+end_src
 
 ** 部分集合(行)の選択
+:PROPERTIES:
+:ID:       38877b1b-dc0a-407a-b965-bbb579c1ede0
+:END:
 - 関数 ~dplyr::filter()~ : 条件を指定して行を選択
   #+attr_quarto: :echo true :eval false
   #+begin_src R:tangle no
@@ -231,6 +238,9 @@
   - 論理式 : ~&~ (かつ), ~|~ (または)
 
 ** 部分集合(列)の選択
+:PROPERTIES:
+:ID:       a6995b80-1925-4f49-849b-1680cd51cc01
+:END:
 - 関数 ~dplyr::select()~ : 条件を指定して列を選択
   #+attr_quarto: :echo true :eval false
   #+begin_src R :tangle no
@@ -270,6 +280,9 @@
   #+end_src
     
 ** データフレームの形の変更
+:PROPERTIES:
+:ID:       318dc304-11fb-422e-8d19-2ca0433f98fe
+:END:
 - 関数 ~dplyr::pivot_longer()~ : 同じ属性の列をまとめる
   #+attr_quarto: :echo true :eval false
   #+begin_src R :tangle no
@@ -486,6 +499,9 @@
   #+end_src
 
 *** 行政検査と医療機関の検査件数の推移
+:PROPERTIES:
+:ID:       a71c255e-8b1e-4ff6-b72d-7b54943b2ad6
+:END:
   #+begin_src R
     #' @exercise 折れ線グラフの描画
     #' 行政検査(ai)と医療機関(mi)の検査件数の推移の視覚化
@@ -506,6 +522,9 @@
   #+end_src
 
 *** 全ての機関の検査件数の推移 
+:PROPERTIES:
+:ID:       b098df82-61f0-41e5-996b-f1c224d370ab
+:END:
   #+begin_src R
     #' 全ての機関の検査件数の推移の視覚化
     #' 複数のデータを描画するためにはデータフレームを適切に書き換える必要がある
@@ -527,6 +546,9 @@
   #+end_src
 
 *** 別の形式での描画
+:PROPERTIES:
+:ID:       52e27a2f-199f-4512-b1d9-c002d5a656fd
+:END:
   #+begin_src R :exports none
     #' それぞれを別のグラフとする場合には
     #' 関数 ggplot2::facet_wrap() や関数 ggplot2::facet_grid() を用いると良い
@@ -567,6 +589,9 @@
   #+end_src
 
 *** 国立感染症研究所と医療機関の検査件数の関係
+:PROPERTIES:
+:ID:       4876c228-51d2-4d44-96ed-b4dd7ba87ac6
+:END:
   #+begin_src R :exports none
     #' @exercise 散布図の描画
     #' 国立感染症研究所(niid)と医療機関(mi)の検査件数の関係
@@ -588,6 +613,9 @@
   #+end_src
 
 *** 各軸を対数表示
+:PROPERTIES:
+:ID:       0fc17d70-79a6-49a9-b164-45b485d33914
+:END:
   #+begin_src R :exports none
     #' 各軸を対数表示に変更
   #+end_src
@@ -613,9 +641,17 @@
     ggpairs(
       data, mapping = NULL,
       columns = 1:ncol(data),
-      upper = list(continuous = "cor", combo = "box_no_facet", discrete = "count", na = "na"),
-      lower = list(continuous = "points", combo = "facethist", discrete = "facetbar", na = "na"),
-      diag = list(continuous = "densityDiag", discrete = "barDiag", na = "naDiag"),
+      upper = list(continuous = "cor",          # 連続量の扱い
+                   combo = "box_no_facet",      # 連続・離散の扱い
+                   discrete = "count",          # 離散量の扱い
+                   na = "na"),                  # 欠損の扱い
+      lower = list(continuous = "points",
+                   combo = "facethist",
+                   discrete = "facetbar",
+                   na = "na"),
+      diag = list(continuous = "densityDiag",
+                  discrete = "barDiag",
+                  na = "naDiag"),
       ...,
       axisLabels = c("show", "internal", "none"),
       columnLabels = colnames(data[columns]),
@@ -630,6 +666,9 @@
   #+end_src
 
 *** 各検査機関での検査件数の関係を視覚化
+:PROPERTIES:
+:ID:       626a6be7-a477-4b8b-9d8b-49de08241ca2
+:END:
   #+begin_src R
     #' @exercise 散布図行列の描画
     #' 各検査機関での検査件数の関係
@@ -643,6 +682,9 @@
   #+end_src
 
 *** 日付の情報を付加
+:PROPERTIES:
+:ID:       2cd99b9d-5e78-4d50-b790-13331937a99c
+:END:
   #+begin_src R
     #' 四半期ごとに分類して色分けして表示する
   #+end_src
@@ -663,6 +705,9 @@
   #+end_src
 
 ** 図の保存
+:PROPERTIES:
+:ID:       9d4dbc2e-01f5-4418-baf1-4db92e29278d
+:END:
 - RStudioの機能を使う (少数の場合はこちらが簡便)
   - 右下ペイン *Plots* タブから *Export* をクリック
   - 形式やサイズを指定する
@@ -768,6 +813,9 @@
   #+end_src
 
 *** 月ごとの大学等での検査件数の分布(分位点)
+:PROPERTIES:
+:ID:       2e2b2f11-e540-4594-b2bf-422d8eee0f3a
+:END:
   #+begin_src R
     #' @exercise 箱ひげ図の描画
   #+end_src
@@ -806,10 +854,13 @@
   #+end_src
 
 *** 機関ごとの月の検査件数の推移
+:PROPERTIES:
+:ID:       13340d8a-11b3-4157-acaa-f6b443968a32
+:END:
   #+begin_src R
     #' @exercise 棒グラフの描画
   #+end_src
-  #+attr_quarto: :echo true :eval true
+  #+attr_quarto: :echo true :eval true :class-source code-lines-8
   #+begin_src R
     #' 機関ごとの月の検査件数の推移 (2021年分)
     pcr_data |>
@@ -898,6 +949,9 @@
 - 直感的には "多数の独立な確率変数の和はほぼ正規分布に従う" ことを主張している
 
 *** 確率シミュレーション
+:PROPERTIES:
+:ID:       8a979b3f-d0e5-412c-8496-9251934e7753
+:END:
   #+begin_src R
     #' @exercise 中心極限定理
   #+end_src
@@ -944,6 +998,9 @@
   #+end_src
 
 *** 確率シミュレーション
+:PROPERTIES:
+:ID:       55d22192-40f2-43da-877b-45e32a0cd0c0
+:END:
   #+begin_src R
     #' @exercise コイン投げの賭け
   #+end_src

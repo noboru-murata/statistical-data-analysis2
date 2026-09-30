@@ -68,7 +68,7 @@
 :EXPORT_FILE_NAME: lecture03
 :EXPORT_DATE: <2020-09-19 Sat>
 :END:
-<2025-10-09 Thu> 更新
+<2026-09-30 Wed> 更新
 ** スライド
 #+hugo: {{< myslide base="statistical-data-analysis2" name="slide03" >}}
 ** ハンドアウト
@@ -76,7 +76,6 @@
 ** 付録
 - 実習用 [[githubraw:code/practice03.qmd][Quarto]]
 - 解答例 [[github:code/practice03.html][HTML]]
-- データセット [[github:data/data03.zip][練習問題用データセット]]
 
 * 第4講
 :PROPERTIES:

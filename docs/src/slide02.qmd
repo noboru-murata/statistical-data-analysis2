@@ -50,7 +50,6 @@ execute:
   fig-width: 5
 filters:
   - _quarto/lib/no-hrule.lua
-
 ---
 
 
@@ -757,9 +756,17 @@ pcr_data |>
     ggpairs(
       data, mapping = NULL,
       columns = 1:ncol(data),
-      upper = list(continuous = "cor", combo = "box_no_facet", discrete = "count", na = "na"),
-      lower = list(continuous = "points", combo = "facethist", discrete = "facetbar", na = "na"),
-      diag = list(continuous = "densityDiag", discrete = "barDiag", na = "naDiag"),
+      upper = list(continuous = "cor",          # 連続量の扱い
+                   combo = "box_no_facet",      # 連続・離散の扱い
+                   discrete = "count",          # 離散量の扱い
+                   na = "na"),                  # 欠損の扱い
+      lower = list(continuous = "points",
+                   combo = "facethist",
+                   discrete = "facetbar",
+                   na = "na"),
+      diag = list(continuous = "densityDiag",
+                  discrete = "barDiag",
+                  na = "naDiag"),
       ...,
       axisLabels = c("show", "internal", "none"),
       columnLabels = colnames(data[columns]),
@@ -981,6 +988,7 @@ pcr_data |>
 ```{r}
 #| echo: true
 #| eval: true
+#| class-source: code-lines-8
 #' 機関ごとの月の検査件数の推移 (2021年分)
 pcr_data |>
   filter(year(date) == 2021) |>

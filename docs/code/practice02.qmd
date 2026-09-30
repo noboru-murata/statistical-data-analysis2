@@ -1,6 +1,6 @@
 ---
 title: "第2講 練習問題"
-subtitle: "統計データ解析"
+subtitle: "R言語速習"
 date: "`r Sys.Date()`"
 format:
     html: 
@@ -18,6 +18,9 @@ warning: false
 editor: visual
 ---
 
+
+
+
 # 準備
 
 データの操作と視覚化のために `tidyverse` パッケージを読み込む．
@@ -27,27 +30,28 @@ editor: visual
 library(tidyverse)
 ```
 
-::: column-margin
+::: {.column-margin}
 Quartoファイルの中で使われているパッケージがインストールされていない場合は， エディタ上部にインストールを促す警告が出るので，その指示に従ってインストールすればよい． 手動でインストールする場合は以下のいずれかを実行する．
 
-- `Package` タブからインストール
-- コンソール上で次のコマンドを実行 `install.packages("パッケージ名")`
+-   `Package` タブからインストール
+-   コンソール上で次のコマンドを実行 `install.packages("パッケージ名")`
 
 `tidyverse` は第1講のサンプルで使っているので通常はインストールされているが， R言語のバージョンがアップグレードされた場合などに対応が必要となる．
 :::
 
 `library(tidyverse)` を実行すると読み込まれたパッケージが表示される． 同名の関数が存在する場合には **Conflicts** として衝突する関数名が表示される． 衝突する場合はパッケージ名を明示的に付ける必要がある． 例えば `filter()` には以下の2つがある．
 
-- `dplyer::filter()` データフレームの抽出のための関数
-- `stats::filter()` 時系列処理のための線形フィルタ関数
+-   `dplyer::filter()` データフレームの抽出のための関数
+-   `stats::filter()` 時系列処理のための線形フィルタ関数
 
-::: column-margin
+::: {.column-margin}
 名前の衝突による不具合を避けたい場合は `conflicted` パッケージの利用を推奨する．
 
-``` r
+```r
 library(conflicted)
 ```
 :::
+
 
 # データフレームの作成
 
@@ -67,17 +71,19 @@ library(conflicted)
 (baz <- bind_cols(foo,bar))
 ```
 
+
 ## 問題
 
 次の表に対応するデータフレームを作成しなさい．
 
 | name  | math | phys | chem | bio |
 |:------|-----:|-----:|-----:|----:|
-| Alice |   90 |   25 |   65 |  70 |
-| Bob   |   80 |   50 |  100 |  50 |
-| Carol |   70 |   75 |   70 |  30 |
-| Dave  |   60 |  100 |   40 |  80 |
-| Eve   |   50 |   80 |   75 | 100 |
+| Alice | 90   | 25   | 65   | 70  |
+| Bob   | 80   | 50   | 100  | 50  |
+| Carol | 70   | 75   | 70   | 30  |
+| Dave  | 60   | 100  | 40   | 80  |
+| Eve   | 50   | 80   | 75   | 100 |
+
 
 ## 解答欄
 
@@ -85,11 +91,13 @@ library(conflicted)
 #' ここにコードを書く
 ```
 
+
 ## 解答例
 
 各項目が同じ長さのベクトルなので，これらを並べればよい．
 
 ```{r}
+#| code-fold: true
 (grade_data <- tibble( # 変数名は自由に決めてよい
    name = c("Alice", "Bob", "Carol", "Dave", "Eve"),
    math = c(90, 80, 70, 60, 50),
@@ -101,6 +109,7 @@ library(conflicted)
 行や列の名前を操作するには以下のようにする．
 
 ```{r}
+#| code-fold: true
 names(grade_data)   # 列の名前を表示する
 print(grade_data)   # データフレームの内容を表示(printは省略できる)
 glimpse(grade_data) # データフレームの内容を別の形式で表示
@@ -109,6 +118,7 @@ glimpse(grade_data) # データフレームの内容を別の形式で表示
 データの取り出し方は後ほど詳しく述べるが，例えば以下のように操作することができる．
 
 ```{r}
+#| code-fold: true
 grade_data[2,3]      # 特定の要素を数値で参照する
 grade_data[2,"phys"] # 列を名前で参照する (上記と同じ結果)
 grade_data[3,]       # 特定の行を表示 (データフレームになる)
@@ -118,26 +128,28 @@ grade_data[["bio"]]  # ベクトルとして取り出す (リストとしての�
 grade_data$bio       # 上記と同じ結果
 ```
 
-::: column-margin
+::: {.column-margin}
 変数や関数の名称については各自で命名規則を決めておくと良い． 例えば以下のサイトが参考になる．
 
-- <https://style.tidyverse.org/index.html>
-- <https://google.github.io/styleguide/Rguide.html>
+-   <https://style.tidyverse.org/index.html>
+-   <https://google.github.io/styleguide/Rguide.html>
 :::
+
 
 # ファイルの読み書き
 
 ファイルの書き出しには関数 `readr::write_csv()` を用いる．
 
-``` r
+```r
 write_csv(x, file = "ファイル名") # データフレームxをファイルに書き出す
 ```
 
 ファイルの読み込みには関数 `readr::~read_csv()` を用いる．
 
-``` r
+```r
 y <- read_csv(file = "ファイル名") # 変数yにCSVファイルの内容を読み込む
 ```
+
 
 ## 問題
 
@@ -147,17 +159,20 @@ y <- read_csv(file = "ファイル名") # 変数yにCSVファイルの内容を�
 2.  書き出したファイルから別の変数に読み込みなさい．
 3.  `pcr_case_daily.csv` (厚労省からダウンロードしたファイル)を変数 `pcr_data` に読み込みなさい．
 
+
 ## 解答欄
 
 ```{r}
 #' ここにコードを書く
 ```
 
+
 ## 解答例
 
 前の練習問題で作ったデータフレームを作業ディレクトリの `data` 以下に `grade_data.csv` として保存する．
 
 ```{r}
+#| code-fold: true
 write_csv(grade_data, file = "data/grade_data.csv")
 ```
 
@@ -166,6 +181,7 @@ write_csv(grade_data, file = "data/grade_data.csv")
 `grade_copy` というオブジェクトにファイルの内容を代入して，その中身を確認する．
 
 ```{r}
+#| code-fold: true
 (grade_copy <- read_csv(file = "data/grade_data.csv"))
 ```
 
@@ -174,6 +190,7 @@ write_csv(grade_data, file = "data/grade_data.csv")
 ダウンロードしたファイルをファイル名 `pcr_case_daily.csv` として作業ディレクトリの `data` 以下に保存しておく．
 
 ```{r}
+#| code-fold: true
 pcr_data <- read_csv("data/pcr_case_daily.csv") 
 print(pcr_data) # 中身の一部を表示
 ```
@@ -181,26 +198,28 @@ print(pcr_data) # 中身の一部を表示
 列名を確認して `pcr_colnames` に保存しておく．
 
 ```{r}
+#| code-fold: true
 (pcr_colnames <- names(pcr_data)) # colnames(pcr_data) でも良い
 ```
 
 列名を扱い易いように英語略記に変更する．
 
-::: column-margin
+::: {.column-margin}
 略称はそれぞれ以下の意味．
 
-- National Institute of Infectious Diseases
-- Customs-Immigration-Quarantine
-- Health Center
-- Administrative Inspection
-- University
-- Medical Institution
-- subtotal
-- Self Inspection
-- total
+-   National Institute of Infectious Diseases
+-   Customs-Immigration-Quarantine
+-   Health Center
+-   Administrative Inspection
+-   University
+-   Medical Institution
+-   subtotal
+-   Self Inspection
+-   total
 :::
 
 ```{r}
+#| code-fold: true
 names(pcr_data) <- # 
   c("date","niid","ciq","hc","ai","univ","mi","sub","si","total")
 pcr_data # 中身を確認(10行だけ表示される)
@@ -211,13 +230,14 @@ pcr_colnames
 以降の処理のために date 列を関数 `lubridate::date()` で date 型に変換する． 列の変換・追加などには関数 `dplyr::mutate()` を用いる．
 
 ```{r}
+#| code-fold: true
 (pcr_data <- mutate(pcr_data, date = date(date)))
 ```
 
-::: column-margin
+::: {.column-margin}
 以下，この項で用いた関数に関する補足．
 
-``` r
+```r
 #' 関数 print() を用いると表示する行数を指定できる
 print(pcr_data, n = 5) # 全ては n = Inf
 #' 日本語を含むファイルでは文字化けが起こった場合は以下で対応する
@@ -250,6 +270,7 @@ pcr_data <- mutate(pcr_data, date = date(date)) # date型に変更
 ```
 :::
 
+
 # データフレームの操作
 
 行の選択には関数 `dplyer::filter()` を， 列の選択には関数 `dplyer::select()` を用いる．
@@ -263,6 +284,7 @@ pcr_data <- mutate(pcr_data, date = date(date)) # date型に変更
 z |> filter(three >= 7) |> select(one, three)
 ```
 
+
 ## 問題
 
 `pcr_case_daily.csv` から以下の条件を満たすデータを取り出しなさい．
@@ -271,17 +293,20 @@ z |> filter(three >= 7) |> select(one, three)
 2.  大学等 (univ) と医療機関 (mi) でともに検査件数が2000を越えたデータ．
 3.  2020年3月の各機関(sub,total は集計なので除く)の検査件数データ．
 
+
 ## 解答欄
 
 ```{r}
 #' ここにコードを書く
 ```
 
+
 ## 解答例
 
 それぞれ以下のようにすれば条件に合致したデータを抽出することができる．
 
 ```{r}
+#| code-fold: true
 pcr_data |>            # データフレーム
   filter(mi > 2000) |> # 行の条件による絞り込み
   select(c(niid,mi))   # 列の選択 select(niid,mi) としても良い
@@ -291,6 +316,7 @@ pcr_data |>
   filter(date >= "2020-03-01" & date < "2020-04-01") |> # 日付の範囲での指定
   select(!c(sub,total)) # 列の削除は select(-c(sub,total)), select(-sub,-total) も可
 ```
+
 
 # データフレームの集約
 
@@ -308,6 +334,7 @@ grade_data |>
 
 集計に必要な関数が用意されていない場合は， 無名関数として定義して利用すれば良い．
 
+
 ## 問題
 
 `pcr_case_daily.csv` について以下の集計を行いなさい．
@@ -320,23 +347,27 @@ grade_data |>
 1.  気筒数 (cyl) ごとに排気量 (disp) の最大値，最小値．
 2.  気筒数 (cyl) とギア数 (gear) ごとの燃費 (mpg) の平均値．
 
+
 ## 解答欄
 
 ```{r}
 #' ここにコードを書く
 ```
 
+
 ## 解答例
 
 `pcr_case_daily.csv` において各機関でのPCR検査件数の最大値を求めるには基本的には以下のようにすればよい．
 
 ```{r}
+#| code-fold: true
 pcr_data |> summarise(across(!date, max))
 ```
 
 NAが含まれる列については最大値求めることができないので，最大値の計算で NA (欠損データ) を除く必要がある．
 
 ```{r}
+#| code-fold: true
 pcr_data |> # max の無名関数を利用する方法
   summarise(across(!date, \(x) max(x, na.rm = TRUE)))
 pcr_data |> # package::purrr の lambda 式を利用する方法
@@ -346,6 +377,7 @@ pcr_data |> # package::purrr の lambda 式を利用する方法
 2021年の月ごとの各機関でのPCR検査件数の最大値は以下のようになる．
 
 ```{r}
+#| code-fold: true
 pcr_data |>
   filter(year(date) == 2021) |>
   group_by(month(date)) |>
@@ -355,6 +387,7 @@ pcr_data |>
 `datasets::mtcars` の集計は以下のとおりである．
 
 ```{r}
+#| code-fold: true
 mtcars |>
   group_by(cyl) |>
   summarise(max_disp = max(disp))
@@ -369,7 +402,7 @@ mtcars |>
   summarise(mpg = mean(mpg))
 ```
 
-::: column-margin
+::: {.column-margin}
 グループは既定値では順次解除されるので以下のような集計も可能である．
 
 ```{r}
@@ -380,6 +413,7 @@ mtcars |>
   summarise(mpg = max(mpg)) # cyl ごとに平均値の最大値を求める
 ```
 :::
+
 
 # 基本的なグラフの描画
 
@@ -404,6 +438,7 @@ pcr_data |>
     ggpairs() # 標準の散布図行列
 ```
 
+
 ## 問題
 
 `pcr_case_daily.csv` を用いて以下の描画を行いなさい．
@@ -411,17 +446,20 @@ pcr_data |>
 1.  検疫所 (b)，地方衛生研究所.保健所 (c)，民間検査会社 (d) における検査件数の推移．
 2.  民間検査会社 (d)，大学等 (e)，医療機関 (f) での検査件数の関係 (散布図)．
 
+
 ## 解答欄
 
 ```{r}
 #' ここにコードを書く
 ```
 
+
 ## 解答例
 
 書き方はいろいろあるので，以下はあくまで一例である．
 
 ```{r}
+#| code-fold: true
 if(Sys.info()["sysname"] == "Darwin") { # MacOSの場合には日本語フォントを指定する
   theme_update(text = element_text(family = "HiraginoSans-W4"))}
 pcr_data |>
@@ -435,6 +473,7 @@ pcr_data |>
 y軸を対数表示にする場合は以下のようにすればよい．
 
 ```{r}
+#| code-fold: true
 pcr_data |>
   select(c(date,ciq,hc,ai)) |> # 描画対象の列を抽出
   pivot_longer(!date, names_to = "organ", values_to = "nums") |> # 
@@ -447,6 +486,7 @@ pcr_data |>
 散布図を並べるために `GGally` パッケージを利用する．
 
 ```{r}
+#| code-fold: true
 #| fig-width: 7
 #| fig-height: 7
 library(GGally)
@@ -455,7 +495,9 @@ pcr_data |>
   ggpairs(columnLabels = pcr_colnames[c("ai","univ","mi")]) # ラベルを渡す
 ```
 
+
 # 擬似乱数
+
 
 ## 問題
 
@@ -472,17 +514,20 @@ pcr_data |>
 1.  サイコロを10回振る．
 2.  4枚のコインを投げたときの表の枚数．
 
+
 ## 解答欄
 
 ```{r}
 #' ここにコードを書く
 ```
 
+
 ## 解答例
 
 それぞれの関数の基本的な使い方は以下の例のようになる(問題の試行も含まれる)．
 
 ```{r}
+#| code-fold: true
 #' 関数sampleの使い方
 (x <- 1:10)   # サンプリング対象の集合を定義
 set.seed(123) # 乱数のシード値(任意に決めてよい)を指定
@@ -513,17 +558,20 @@ set.seed(1) # 乱数の初期値をseed=1で指定
 runif(5)    # 初めのseed=1の場合と同じ結果
 ```
 
+
 # 双六ゲーム
+
 
 ## 問題
 
 以下の簡単な双六ゲームを考える．
 
-- ゴールまでのます目は100とする．
-- さいころを振り出た目の数だけ進む．
-- ゴールに辿り着くまで繰り返す．
+-   ゴールまでのます目は100とする．
+-   さいころを振り出た目の数だけ進む．
+-   ゴールに辿り着くまで繰り返す．
 
 さいころを振る回数の分布がどうなるか実験を行いなさい．
+
 
 ## 解答欄
 
@@ -531,11 +579,13 @@ runif(5)    # 初めのseed=1の場合と同じ結果
 #' ここにコードを書く
 ```
 
+
 ## 解答例
 
 双六の試行を行う関数を作成する．
 
 ```{r}
+#| code-fold: true
 mc_trial <- function(){
   step <- 0 # 最初の位置
   num <- 0  # さいころを振る回数
@@ -549,10 +599,10 @@ mc_trial <- function(){
 }
 ```
 
-::: column-margin
+::: {.column-margin}
 同じ試行でも関数の作り方はいろいろある． 例えば100回サイコロを振れば必ずどこかで100を越えるので，計算は無駄があるが条件分岐のない関数を考えることもできる．
 
-``` r
+```r
 mc_trial <- function() {
   which.max(cumsum(sample(1:6, 100, replace = TRUE)) >= 100)
 } # 関数 which.max() は初めて TRUE(1) になった場所を返す
@@ -562,19 +612,21 @@ mc_trial <- function() {
 試しに10回の試行を実行してみる．
 
 ```{r}
+#| code-fold: true
 for(i in 1:10) print(mc_trial())
 ```
 
 確率シミュレーション(Monte-Carlo実験)を行う．
 
 ```{r}
+#| code-fold: true
 set.seed(12345) # 必要に応じて乱数のシードを設定する
 mc_num <- 10000 # 実験回数を設定 
 mc_data <- replicate(mc_num, mc_trial()) 
 summary(mc_data) # 簡単な集計
 ```
 
-::: column-margin
+::: {.column-margin}
 同じ操作を繰り返すには関数 `purrr::map()` を用いることもできる．
 
 ```{r}
@@ -591,6 +643,7 @@ mc_data <-
 ヒストグラムを作成して結果を視覚化する．
 
 ```{r}
+#| code-fold: true
 #| fig-width: 7
 #| fig-height: 7
 tibble(x = mc_data) |> # ヒストグラムを出力
