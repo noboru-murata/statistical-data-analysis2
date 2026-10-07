@@ -285,10 +285,41 @@ $callout-padding:       0 !default;
 $callout-radius:        8px !default;
 
 
+// -----------------------------------------------------------------------------
+// Title slide and dark slides
+// -----------------------------------------------------------------------------
+// Colours of the deck's own title slide (#title-slide). `null` leaves the
+// property out, which keeps the look this theme has always had: no background
+// of its own, the title in $oer-heading, everything else in the body colour.
+// A colour layer listed after this file in `theme:` sets them, e.g.
+//
+//   $title-slide-bg:          #17211E;
+//   $title-slide-title-color: #EEF3F0;
+//
+// The background is painted on reveal's background layer, so a background set
+// in the YAML (`title-slide-attributes: data-background-color/-image`) still
+// wins. title-bg.scss draws its white veil over that same layer; drop it from
+// `theme:` when the title slide is given a dark colour here.
+$title-slide-bg:             null !default;
+$title-slide-title-color:    $oer-heading !default;
+$title-slide-subtitle-color: null !default;
+$title-slide-meta-color:     null !default;   // author, institute, date
+
+// Bold text and links on a slide whose own background is dark
+// (`{background-color="#17211E"}`). White by default; a colour layer can give
+// them an accent that reads on dark.
+$dark-bg-strong-color: #fff !default;
+
+
 /*-- scss:mixins --*/
 
 @mixin oer-callout($color, $bg) {
-  width: 100%;
+  // Let the parent decide the width and count the border inside it. With
+  // `width: 100%` the left bar and the side margins Quarto gives a callout
+  // were added on top, so inside `::: {.columns}` a callout overflowed its
+  // column and covered the one next to it.
+  width: auto;
+  box-sizing: border-box;
   font-style: normal;
   padding: $callout-padding;
   border: none;
@@ -392,7 +423,7 @@ section.has-dark-background {
   a[href],
   a[href^="http"],
   a[href^="mailto:"],
-  a[href^="ftp:"] { color: #fff; }
+  a[href^="ftp:"] { color: $dark-bg-strong-color; }
 
   code { background: rgba(255, 255, 255, 0.12); color: #fff; }
 }
@@ -490,7 +521,7 @@ section.has-dark-background {
   // otherwise beat the container's alignment by inheritance.
   .title {
     margin: 1.2em 0 0.5em 0;
-    color: $oer-heading;
+    color: $title-slide-title-color;
     text-align: $presentation-title-slide-text-align;
   }
 
@@ -498,6 +529,7 @@ section.has-dark-background {
     font-size: 0.6em;
     line-height: 1;
     margin: 0 0 1.5rem 0;
+    color: $title-slide-subtitle-color;
   }
 
   // One size step down, applied on the outer blocks only.
@@ -509,6 +541,7 @@ section.has-dark-background {
     font-size: 0.6em;
     line-height: 1.2;
     margin: 0.2em 0;
+    color: $title-slide-meta-color;
   }
 
   // Multiple authors: Quarto lays these out as a centered flex row.
@@ -530,6 +563,14 @@ section.has-dark-background {
     font-size: 1em;
     line-height: 1.2;
     text-align: $presentation-title-slide-text-align;
+  }
+}
+
+// The title slide is always the first slide, so its background is the first
+// one in reveal's background layer.
+@if $title-slide-bg != null {
+  .reveal .backgrounds > .slide-background:first-child {
+    background-color: $title-slide-bg;
   }
 }
 

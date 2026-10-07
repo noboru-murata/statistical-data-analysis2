@@ -1,6 +1,6 @@
 ---
-title: "第2講 練習問題"
-subtitle: "R言語速習"
+title: "第2講 R言語速習"
+subtitle: "練習問題"
 date: "`r Sys.Date()`"
 format:
     html: 
@@ -18,9 +18,6 @@ warning: false
 editor: visual
 ---
 
-
-
-
 # 準備
 
 データの操作と視覚化のために `tidyverse` パッケージを読み込む．
@@ -30,28 +27,27 @@ editor: visual
 library(tidyverse)
 ```
 
-::: {.column-margin}
+::: column-margin
 Quartoファイルの中で使われているパッケージがインストールされていない場合は， エディタ上部にインストールを促す警告が出るので，その指示に従ってインストールすればよい． 手動でインストールする場合は以下のいずれかを実行する．
 
--   `Package` タブからインストール
--   コンソール上で次のコマンドを実行 `install.packages("パッケージ名")`
+- `Package` タブからインストール
+- コンソール上で次のコマンドを実行 `install.packages("パッケージ名")`
 
 `tidyverse` は第1講のサンプルで使っているので通常はインストールされているが， R言語のバージョンがアップグレードされた場合などに対応が必要となる．
 :::
 
 `library(tidyverse)` を実行すると読み込まれたパッケージが表示される． 同名の関数が存在する場合には **Conflicts** として衝突する関数名が表示される． 衝突する場合はパッケージ名を明示的に付ける必要がある． 例えば `filter()` には以下の2つがある．
 
--   `dplyer::filter()` データフレームの抽出のための関数
--   `stats::filter()` 時系列処理のための線形フィルタ関数
+- `dplyer::filter()` データフレームの抽出のための関数
+- `stats::filter()` 時系列処理のための線形フィルタ関数
 
-::: {.column-margin}
+::: column-margin
 名前の衝突による不具合を避けたい場合は `conflicted` パッケージの利用を推奨する．
 
-```r
+``` r
 library(conflicted)
 ```
 :::
-
 
 # データフレームの作成
 
@@ -71,26 +67,23 @@ library(conflicted)
 (baz <- bind_cols(foo,bar))
 ```
 
-
 ## 問題
 
 次の表に対応するデータフレームを作成しなさい．
 
 | name  | math | phys | chem | bio |
 |:------|-----:|-----:|-----:|----:|
-| Alice | 90   | 25   | 65   | 70  |
-| Bob   | 80   | 50   | 100  | 50  |
-| Carol | 70   | 75   | 70   | 30  |
-| Dave  | 60   | 100  | 40   | 80  |
-| Eve   | 50   | 80   | 75   | 100 |
-
+| Alice |   90 |   25 |   65 |  70 |
+| Bob   |   80 |   50 |  100 |  50 |
+| Carol |   70 |   75 |   70 |  30 |
+| Dave  |   60 |  100 |   40 |  80 |
+| Eve   |   50 |   80 |   75 | 100 |
 
 ## 解答欄
 
 ```{r}
 #' ここにコードを書く
 ```
-
 
 ## 解答例
 
@@ -128,28 +121,26 @@ grade_data[["bio"]]  # ベクトルとして取り出す (リストとしての�
 grade_data$bio       # 上記と同じ結果
 ```
 
-::: {.column-margin}
+::: column-margin
 変数や関数の名称については各自で命名規則を決めておくと良い． 例えば以下のサイトが参考になる．
 
--   <https://style.tidyverse.org/index.html>
--   <https://google.github.io/styleguide/Rguide.html>
+- <https://style.tidyverse.org/index.html>
+- <https://google.github.io/styleguide/Rguide.html>
 :::
-
 
 # ファイルの読み書き
 
 ファイルの書き出しには関数 `readr::write_csv()` を用いる．
 
-```r
+``` r
 write_csv(x, file = "ファイル名") # データフレームxをファイルに書き出す
 ```
 
 ファイルの読み込みには関数 `readr::~read_csv()` を用いる．
 
-```r
+``` r
 y <- read_csv(file = "ファイル名") # 変数yにCSVファイルの内容を読み込む
 ```
-
 
 ## 問題
 
@@ -159,13 +150,11 @@ y <- read_csv(file = "ファイル名") # 変数yにCSVファイルの内容を�
 2.  書き出したファイルから別の変数に読み込みなさい．
 3.  `pcr_case_daily.csv` (厚労省からダウンロードしたファイル)を変数 `pcr_data` に読み込みなさい．
 
-
 ## 解答欄
 
 ```{r}
 #' ここにコードを書く
 ```
-
 
 ## 解答例
 
@@ -204,18 +193,18 @@ print(pcr_data) # 中身の一部を表示
 
 列名を扱い易いように英語略記に変更する．
 
-::: {.column-margin}
+::: column-margin
 略称はそれぞれ以下の意味．
 
--   National Institute of Infectious Diseases
--   Customs-Immigration-Quarantine
--   Health Center
--   Administrative Inspection
--   University
--   Medical Institution
--   subtotal
--   Self Inspection
--   total
+- National Institute of Infectious Diseases
+- Customs-Immigration-Quarantine
+- Health Center
+- Administrative Inspection
+- University
+- Medical Institution
+- subtotal
+- Self Inspection
+- total
 :::
 
 ```{r}
@@ -234,10 +223,10 @@ pcr_colnames
 (pcr_data <- mutate(pcr_data, date = date(date)))
 ```
 
-::: {.column-margin}
+::: column-margin
 以下，この項で用いた関数に関する補足．
 
-```r
+``` r
 #' 関数 print() を用いると表示する行数を指定できる
 print(pcr_data, n = 5) # 全ては n = Inf
 #' 日本語を含むファイルでは文字化けが起こった場合は以下で対応する
@@ -270,7 +259,6 @@ pcr_data <- mutate(pcr_data, date = date(date)) # date型に変更
 ```
 :::
 
-
 # データフレームの操作
 
 行の選択には関数 `dplyer::filter()` を， 列の選択には関数 `dplyer::select()` を用いる．
@@ -284,7 +272,6 @@ pcr_data <- mutate(pcr_data, date = date(date)) # date型に変更
 z |> filter(three >= 7) |> select(one, three)
 ```
 
-
 ## 問題
 
 `pcr_case_daily.csv` から以下の条件を満たすデータを取り出しなさい．
@@ -293,13 +280,11 @@ z |> filter(three >= 7) |> select(one, three)
 2.  大学等 (univ) と医療機関 (mi) でともに検査件数が2000を越えたデータ．
 3.  2020年3月の各機関(sub,total は集計なので除く)の検査件数データ．
 
-
 ## 解答欄
 
 ```{r}
 #' ここにコードを書く
 ```
-
 
 ## 解答例
 
@@ -317,7 +302,6 @@ pcr_data |>
   select(!c(sub,total)) # 列の削除は select(-c(sub,total)), select(-sub,-total) も可
 ```
 
-
 # データフレームの集約
 
 列の集計には関数 `dplyr::summarise()` を用いる．
@@ -334,7 +318,6 @@ grade_data |>
 
 集計に必要な関数が用意されていない場合は， 無名関数として定義して利用すれば良い．
 
-
 ## 問題
 
 `pcr_case_daily.csv` について以下の集計を行いなさい．
@@ -347,13 +330,11 @@ grade_data |>
 1.  気筒数 (cyl) ごとに排気量 (disp) の最大値，最小値．
 2.  気筒数 (cyl) とギア数 (gear) ごとの燃費 (mpg) の平均値．
 
-
 ## 解答欄
 
 ```{r}
 #' ここにコードを書く
 ```
-
 
 ## 解答例
 
@@ -402,7 +383,7 @@ mtcars |>
   summarise(mpg = mean(mpg))
 ```
 
-::: {.column-margin}
+::: column-margin
 グループは既定値では順次解除されるので以下のような集計も可能である．
 
 ```{r}
@@ -413,7 +394,6 @@ mtcars |>
   summarise(mpg = max(mpg)) # cyl ごとに平均値の最大値を求める
 ```
 :::
-
 
 # 基本的なグラフの描画
 
@@ -438,7 +418,6 @@ pcr_data |>
     ggpairs() # 標準の散布図行列
 ```
 
-
 ## 問題
 
 `pcr_case_daily.csv` を用いて以下の描画を行いなさい．
@@ -446,13 +425,11 @@ pcr_data |>
 1.  検疫所 (b)，地方衛生研究所.保健所 (c)，民間検査会社 (d) における検査件数の推移．
 2.  民間検査会社 (d)，大学等 (e)，医療機関 (f) での検査件数の関係 (散布図)．
 
-
 ## 解答欄
 
 ```{r}
 #' ここにコードを書く
 ```
-
 
 ## 解答例
 
@@ -495,9 +472,7 @@ pcr_data |>
   ggpairs(columnLabels = pcr_colnames[c("ai","univ","mi")]) # ラベルを渡す
 ```
 
-
 # 擬似乱数
-
 
 ## 問題
 
@@ -514,13 +489,11 @@ pcr_data |>
 1.  サイコロを10回振る．
 2.  4枚のコインを投げたときの表の枚数．
 
-
 ## 解答欄
 
 ```{r}
 #' ここにコードを書く
 ```
-
 
 ## 解答例
 
@@ -558,27 +531,23 @@ set.seed(1) # 乱数の初期値をseed=1で指定
 runif(5)    # 初めのseed=1の場合と同じ結果
 ```
 
-
 # 双六ゲーム
-
 
 ## 問題
 
 以下の簡単な双六ゲームを考える．
 
--   ゴールまでのます目は100とする．
--   さいころを振り出た目の数だけ進む．
--   ゴールに辿り着くまで繰り返す．
+- ゴールまでのます目は100とする．
+- さいころを振り出た目の数だけ進む．
+- ゴールに辿り着くまで繰り返す．
 
 さいころを振る回数の分布がどうなるか実験を行いなさい．
-
 
 ## 解答欄
 
 ```{r}
 #' ここにコードを書く
 ```
-
 
 ## 解答例
 
@@ -599,10 +568,10 @@ mc_trial <- function(){
 }
 ```
 
-::: {.column-margin}
+::: column-margin
 同じ試行でも関数の作り方はいろいろある． 例えば100回サイコロを振れば必ずどこかで100を越えるので，計算は無駄があるが条件分岐のない関数を考えることもできる．
 
-```r
+``` r
 mc_trial <- function() {
   which.max(cumsum(sample(1:6, 100, replace = TRUE)) >= 100)
 } # 関数 which.max() は初めて TRUE(1) になった場所を返す
@@ -626,7 +595,7 @@ mc_data <- replicate(mc_num, mc_trial())
 summary(mc_data) # 簡単な集計
 ```
 
-::: {.column-margin}
+::: column-margin
 同じ操作を繰り返すには関数 `purrr::map()` を用いることもできる．
 
 ```{r}

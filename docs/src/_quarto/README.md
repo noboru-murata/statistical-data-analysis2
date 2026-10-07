@@ -215,3 +215,164 @@ so the block between them ends up centred. Consequences worth knowing:
   shrinks that h1 to the h2 size unless reveal.js has set
   `data-navigation-mode="linear"`. Both files restore the h1 size in all
   navigation modes.
+
+
+# oerreveal: structure + palette + deck
+
+`oerreveal-lecture.scss` has been split into three layers so that colours and
+decoration can be swapped without touching the slide structure.
+
+```
+oerreveal.scss        structure only: sizes, fonts, figures, lists, code,
+                      tables, callouts, scroll boxes, title-slide layout,
+                      vertical alignment (.v-center ...). Neutral grey alone.
+
+-- palettes: colours only (variables, no rules) --
+indigo-palette.scss  indigo / crimson on light grey (the former lecture look)
+jade-palette.scss     green / amber on pale green-grey, dark title slide
+dracula-palette.scss  the Dracula colours (dark deck)
+lavender-palette.scss purple / wine on lilac paper, deep-purple headings,
+                      aubergine (not black) for the title and dark slides
+                      (the former burgundy-palette)
+burgundy-palette.scss burgundy / deep teal on warm ivory, deep-wine headings,
+                      dark wine for the title and dark slides
+
+-- decks: decoration (rules) --
+lecture-deck.scss     "↗" after external links, tinted menu button
+line-deck.scss        thin line under h2/h3; .eyebrow .muted .accent
+                      .secondary .alert; .kpi big numbers
+logo-deck.scss        logo + fading line under h2/h3 (default-header look)
+```
+
+```yaml
+format:
+  revealjs:
+    theme:
+      - default
+      - _quarto/scss/oerreveal.scss
+      - _quarto/scss/indigo-palette.scss   # swap: jade- / dracula- / lavender- / burgundy-palette
+      - _quarto/scss/lecture-deck.scss      # stackable
+      - _quarto/scss/logo-deck.scss         # or line-deck (pick one of the two)
+```
+
+`oerreveal + indigo-palette + lecture-deck` reproduces the former
+`oerreveal-lecture.scss` (checked slide by slide on slide02).
+
+## Rules for writing a palette or a deck
+
+Quarto reads the `scss:defaults` of the **last** file in `theme:` first.
+
+- Every variable is `!default`, so the file listed later wins.
+- A palette sets the `$oer-*` names (and callout, code, table, title-slide
+  colours) with literal values only. It must not refer to oerreveal's
+  variables: they do not exist yet when the palette is read.
+- A deck's colour variables default to `null` and are resolved against the
+  palette inside `scss:rules` (`if($line-color, $line-color, $oer-primary)`),
+  so a deck works with any palette, and a palette may also preset them
+  (indigo-palette sets `$menu-icon-color`).
+
+Palette names a deck can rely on: `$oer-text $oer-viewport-bg $oer-heading
+$oer-accent $oer-link $oer-link-external $oer-gray $oer-muted $oer-surface
+$oer-quote-bg $oer-example-bg $oer-rule $oer-primary $oer-secondary
+$oer-alert $oer-on-dark $oer-on-dark-muted $dark-bg-strong-color
+$title-slide-bg $title-slide-title-color $title-slide-subtitle-color
+$title-slide-meta-color`.
+
+With a dark title slide (piml) or a dark deck (dracula), leave `title-bg.scss`
+out of `theme:`. With dracula-palette, also set `highlight-style: dracula`.
+
+For your own logo with logo-deck, `logo.scss` still works (list it after
+logo-deck); `$header-logo` and the other `$header-*` names are the same as in
+default-header.scss.
+
+# text-size: 文字と数式の大きさ (どの theme でも使える)
+
+`scss/text-size.scss` は `math-size.scss` の後継で，theme の並びのどこに置いてもよい
+(他の scss の変数に依存しない)．`math-size.scss` は古いデッキのために残してある．
+
+```yaml
+theme:
+  - default
+  - _quarto/scss/oerreveal.scss      # default / dracula だけでも可
+  - _quarto/scss/indigo-palette.scss
+  - _quarto/scss/lecture-deck.scss
+  - _quarto/scss/text-size.scss
+filters:
+  - _quarto/lib/text-size.lua        # PDF 出力でも .text-NN / .math-NN を効かせる (任意)
+```
+
+| 書き方 (qmd)                    | 書き方 (org)                         | 効果                                   |
+|---------------------------------|--------------------------------------|----------------------------------------|
+| `::: {.text-90}` … `:::`        | `#+begin_text-90` … `#+end_text-90`  | ブロック全体 (表・callout・数式も) 90% |
+| `[語句]{.text-120}`             | `[語句]{.text-120}`                  | 行内 120%                              |
+| `## 見出し {.text-85}`          | `:QUARTO_ATTR: {.text-85}`           | 見出しはそのまま，本文だけ 85%         |
+| `::: {.callout-note .text-85}`  | `#+begin_callout-note :class "text-85"` | その callout だけ 85%             |
+| `::: {.math-85}` … `:::`        | `#+begin_math-85` … `#+end_math-85`  | 数式ブロック 85% (従来どおり)          |
+| `::: {.math-scroll}` … `:::`    | `#+begin_math-scroll` …              | はみ出す数式を横スクロール             |
+
+NN は 50〜150 が 5 刻み，160〜200 が 10 刻み (`$text-sizes` で変更可)．em なので入れ子は掛け算．
+`.smaller` (Quarto 0.7 / oerreveal 0.6) と `.larger` (1.25) もそのまま使えるが，新しく書く分は
+`.text-NN` に揃えるとよい．
+
+# callout の見出し帯
+
+oerreveal は callout の見出し帯を枠の色で塗る: 帯の色 = `mix(枠の色, callout の地の色, $callout-title-tint)`
+(既定 12%)．種類なしの `.callout` も含めてすべての callout に効き，地の色に混ぜるので
+dracula のような濃い palette でも正しく出る．palette 側で `$callout-title-tint` を変えれば濃さを調整できる．
+
+# pixel-snap: Safari で文字がぼやけるのを防ぐ
+
+reveal.js はスライド全体を `translate(-50%, -50%) scale(s)` で窓の中央に置き，`center: true` の
+スライドは縦位置を (窓の高さ − 中身の高さ) / 2 で決める．どちらも小数ピクセルになりやすく，
+Safari (WebKit) はそのとき文字をぼかして描く．`lib/pixel-snap.html` は reveal が配置を終えるたびに
+
+1. スライド全体の中心を整数ピクセルに置き，
+2. 拡大率を縦横の半分の大きさが整数ピクセルになる値に切り下げ (1050×700 なら 1/175 刻み)，
+3. 各スライドの top を整数ピクセルに丸める．
+
+見た目の変化は高々 1 ピクセル程度．テーマ (scss) によらず使える．URL に `?nosnap` を付けると無効になる (見比べ用)．
+
+```yaml
+format:
+  revealjs:
+    include-in-header:
+      - _quarto/lib/mathjax-fix.html
+      - _quarto/lib/pixel-snap.html
+```
+
+# palette の名前
+
+主色の名前に揃えた (10-05): `lecture-palette` → `indigo-palette` (#283593)，`piml-palette` → `jade-palette` (#0B7558)．
+`dracula-palette` はそのまま．旧 `burgundy-palette` (紫) は `lavender-palette` に改名し，`burgundy-palette` は burgundy (#8C1C3A) を主色とする新しい palette にした (10-06)．
+
+# section-toc: 梗概と節扉の一覧
+
+`lib/section-toc.lua` (filter) と `scss/section-toc.scss` (theme) を足すと，第 1 階層の見出しから
+節の一覧を自動で作る．org に一覧を書く必要はない．
+
+```org
+* 講演の流れ                          ← 梗概: 全節の題と summary を箇条書きで並べる
+:PROPERTIES:
+:QUARTO_ATTR: {.overview}
+:END:
+
+* フィジカルAI                        ← 節扉: 全節の題を並べ，この節だけ濃く (他は薄く)
+:PROPERTIES:
+:QUARTO_ATTR: {summary="現実世界で動く AI と，その中で物理の知識が担う役割"}
+:END:
+```
+
+節扉に一覧を出さない節は `{.no-toc}`，一覧から外す節は `{.toc-skip}`．
+濃淡・大きさは `$toc-other-opacity` (0.35)，`$toc-font-size`，`$overview-font-size` で調整．palette 非依存．
+
+```yaml
+theme: [..., _quarto/scss/section-toc.scss]
+filters: [_quarto/lib/section-toc.lua, ...]
+```
+
+# 脚注
+
+スライドの脚注 (org の `[fn:..]`) の上に細い線を引き，本文より小さくする (oerreveal)．
+`$footnote-font-size` (0.55em)，`$footnote-rule-color` (既定 `$oer-rule`)．
+
+callout の大きさの既定は，Quarto の html と同じく周りの文字と同じ (`$callout-font-size: 1em`．以前は 0.85em)．

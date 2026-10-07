@@ -3,13 +3,26 @@ title: Rによるデータ解析
 subtitle: 第1講 - さまざまな多変量解析とR言語の使い方
 author: 村田 昇
 license: "CC BY-NC"
+csl: _quarto/csl/apa.csl            # 文献の書式 (本文は (著者, 年))
+link-citations: true
+cite-aside-max: 2                   # 引用が 3 件以上のスライドでは書誌を脚注欄に出さない (lib/cite-aside.lua)
 format:
   revealjs: 
-    theme: [default, _quarto/scss/lecture.scss]
+    theme:
+      - default
+      - _quarto/scss/oerreveal.scss          # structure
+      - _quarto/scss/indigo-palette.scss    # colours  (jade- / dracula- / lavender- / burgundy-palette)
+      - _quarto/scss/lecture-deck.scss       # decoration (+ line-deck / logo-deck)
+      - _quarto/scss/parts.scss              # 部品: .muted .kpi .flow-arrow .formulation など
+      - _quarto/scss/iframe.scss
+      - _quarto/scss/title-bg.scss
+      - _quarto/scss/text-size.scss
     slide-level: 3
     max-scale: 2.0 
     embed-resources: true
-    include-in-header: _quarto/lib/mathjax-fix.html
+    include-in-header:
+      - _quarto/lib/mathjax-fix.html
+      - _quarto/lib/pixel-snap.html     # スライドの位置を整数ピクセルに (Safari のぼやけ対策)
     center: true
     controls: true
     controls-layout: bottom-right
@@ -29,6 +42,7 @@ format:
       - _quarto/tex/fig-scale.tex
       - _quarto/tex/table-center.tex
       - _quarto/tex/callout-title-gothic.tex
+      - _quarto/tex/gt-table-tight.tex
   html: 
     self-contained: false
     grid: 
@@ -48,8 +62,11 @@ execute:
   message: false
   fig-height: 5
   fig-width: 5
-filters:
+filters:                          # 節扉は見出しをそのまま出す (section-toc は使わない)
   - _quarto/lib/no-hrule.lua
+  - _quarto/lib/iframe.lua
+  - _quarto/lib/cite-aside.lua    # 各スライドで引用した文献の書誌を脚注欄に出す (revealjs のみ)
+  - _quarto/lib/text-size.lua   # .text-NN / .math-NN を PDF でも効かせる
 
 ---
 
@@ -286,7 +303,7 @@ bw_fit |>
 :::
 
 
-### 重回帰による予測値と実際の価格 {.head-center .fig-tall}
+### 重回帰によるあてはめ値と実際の価格 {.head-center .fig-tall}
 
 ```{r}
 bw_fit |>
@@ -842,7 +859,7 @@ ap_fit |> select(`arima auto`) |>
 
 ## Quarto を用いた処理
 
--   Quarto とは
+-   [Quarto](https://quarto.org) とは
     -   Pandoc を利用した出版システム
     -   文章とプログラムをまとめて記述
     -   レポート，スライド，Webページを簡単に作成
@@ -887,9 +904,9 @@ ap_fit |> select(`arima auto`) |>
     -   **Chunk Output in Console** : コンソール内に出力
 -   実行法にはいくつかのオプションが用意されている
     -   [▶](color:green) : チャンク内を実行
-    -   [<span class="underline">▽</span>](color:green) : そのチャンク以前を実行 
-        -   カーソル位置のみ実行することも可能
-        -   ショートカットキーも用意されている
+    -   [<span class="underline">▽</span>](color:green) : そのチャンク以前を実行
+    -   カーソル位置のみ実行することも可能
+    -   ショートカットキーも用意されている
 
 
 ## 文書の整形
@@ -950,11 +967,10 @@ ap_fit |> select(`arima auto`) |>
 
 ## 電卓として使う
 
--   コンソール上での計算例
+-   コンソール上での計算例 (コードチャンクでも同様)
     
     ```{r}
     #| echo: true
-    #' 与えられた式の計算をコンソール上で実行する
     #' 1 x 2 + 3^2 の計算
     1 * 2 + 3^2
     #' sin(2π) の計算
@@ -964,6 +980,7 @@ ap_fit |> select(`arima auto`) |>
     ```
     
     ```{r}
+    #' 与えられた式の計算をコンソール上で実行する
     #' @notes
     #' 演算子の前後に空白があっても良い(空白は可読性のために適宜利用する)
     #' 2文字以上の演算子の途中には空白は入れられない(例: 羃乗の別記法の"**")
@@ -993,7 +1010,7 @@ ap_fit |> select(`arima auto`) |>
     
     -   **擬似コード** = 実行しても動かないコード
 -   実装されている関数の使い方は `help(関数名)` または `?関数名` で
-    ヘルプが表示される
+    ヘルプが表示される (後述)
 
 
 ## 関数の実行例
@@ -1045,7 +1062,7 @@ ap_fit |> select(`arima auto`) |>
 
 ## ヘルプ機能の利用例
 
--   ヘルプの使い方 
+-   コンソール上でのヘルプの使い方 
     
     ```{r}
     #' @exercise ヘルプの使い方

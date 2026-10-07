@@ -147,7 +147,7 @@ pcr_data |> # パイプ演算子でデータフレームを関数 ggplot2::ggplo
 pcr_data |> select(!c(sub,total)) |> # 集計値を除く
   pivot_longer(!date, names_to = "organ", values_to = "nums") |> 
   ggplot(aes(x = date, y = nums, colour = organ)) + geom_line() +
-  labs(title = "PCR Tests in Various Organizatios",
+  labs(title = "PCR Tests in Various Organizations",
        x = "Date", y = "Number of Tests") # xy軸のラベルを変更
 
 #' @notes
@@ -183,8 +183,6 @@ pcr_data |>
 
 #' 各軸を対数表示に変更
 
-#' 各軸を対数表示に変更
-
 pcr_data |> 
   ggplot(aes(x = niid, y = mi)) + 
   geom_point(colour = "blue", shape = 19) + 
@@ -201,12 +199,10 @@ pcr_data |>
 
 #' 四半期ごとに分類して色分けして表示する
 
-#' 四半期ごとに分類して色分けして表示する
-
 pcr_data |> select(!c(sub,total)) |> # 日付から四半期の因子を作成
   mutate(quarter = as_factor(quarter(date, with_year = TRUE))) |>
   ggpairs(columns = 2:8, columnLabels = pcr_colnames[-c(1,8,10)], axisLabels = "none",
-          aes(colour = quarter), legend = c(2,1), # 四半期ごとに色づけて(1,1)の凡例を使用
+          aes(colour = quarter), legend = c(2,1), # 四半期ごとに色づけて(2,1)の凡例を使用
           upper = "blank", diag = list(continuous = "barDiag")) +
   theme(legend.position = "top") # 凡例を上に表示
 
@@ -234,8 +230,6 @@ pcr_data |>
 
 #' @exercise 箱ひげ図の描画
 
-#' @exercise 箱ひげ図の描画
-
 #' 大学等(univ)での検査件数の分布(2021年分)
 pcr_data |>
   filter(year(date) == 2021) |> # 2021年を抽出
@@ -243,8 +237,6 @@ pcr_data |>
   ggplot(aes(x = date, y = univ)) + # 月毎に集計する
   geom_boxplot(fill = "orange") + # 塗り潰しの色を指定
   labs(title = "月ごとの検査件数 (2021年)", x = "月", y = pcr_colnames["univ"])
-
-#' @exercise 棒グラフの描画
 
 #' @exercise 棒グラフの描画
 
@@ -261,8 +253,6 @@ pcr_data |>
   ggplot(aes(x = organ, y = nums, fill = month)) +
   geom_bar(stat = "identity", position = "dodge", na.rm = TRUE) +
   theme(legend.position = "top") + guides(fill = guide_legend(nrow = 1))
-
-#' @exercise 中心極限定理
 
 #' @exercise 中心極限定理
 
@@ -290,8 +280,6 @@ for(n in c(1,2,4,8,16)){ # nを変えて実験
          title = paste0("n=", n)) # タイトルにnを記載
   print(p) # for 文の中では明示的に print する必要がある
 }
-
-#' @exercise コイン投げの賭け
 
 #' @exercise コイン投げの賭け
 

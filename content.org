@@ -54,7 +54,7 @@
 :EXPORT_FILE_NAME: lecture02
 :EXPORT_DATE: <2020-09-19 Sat>
 :END:
-<2026-09-23 Wed> 更新
+<2026-10-07 Wed> 更新
 ** スライド
 #+hugo: {{< myslide base="statistical-data-analysis2" name="slide02" >}}
 ** ハンドアウト

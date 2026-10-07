@@ -3,18 +3,26 @@ title: 回帰分析
 subtitle: 回帰モデルの考え方と推定
 author: 村田 昇
 license: "CC BY-NC"
+csl: _quarto/csl/apa.csl            # 文献の書式 (本文は (著者, 年))
+link-citations: true
+cite-aside-max: 2                   # 引用が 3 件以上のスライドでは書誌を脚注欄に出さない (lib/cite-aside.lua)
 format:
   revealjs: 
     theme:
       - default
-      - _quarto/scss/oerreveal-lecture.scss
+      - _quarto/scss/oerreveal.scss          # structure
+      - _quarto/scss/indigo-palette.scss    # colours  (jade- / dracula- / lavender- / burgundy-palette)
+      - _quarto/scss/lecture-deck.scss       # decoration (+ line-deck / logo-deck)
+      - _quarto/scss/parts.scss              # 部品: .muted .kpi .flow-arrow .formulation など
       - _quarto/scss/iframe.scss
       - _quarto/scss/title-bg.scss
-      - _quarto/scss/math-size.scss
+      - _quarto/scss/text-size.scss
     slide-level: 3
     max-scale: 2.0 
     embed-resources: true
-    include-in-header: _quarto/lib/mathjax-fix.html
+    include-in-header:
+      - _quarto/lib/mathjax-fix.html
+      - _quarto/lib/pixel-snap.html     # スライドの位置を整数ピクセルに (Safari のぼやけ対策)
     center: true
     controls: true
     controls-layout: bottom-right
@@ -54,9 +62,11 @@ execute:
   message: false
   fig-height: 5
   fig-width: 5
-filters:
+filters:                          # 節扉は見出しをそのまま出す (section-toc は使わない)
   - _quarto/lib/no-hrule.lua
   - _quarto/lib/iframe.lua
+  - _quarto/lib/cite-aside.lua    # 各スライドで引用した文献の書誌を脚注欄に出す (revealjs のみ)
+  - _quarto/lib/text-size.lua   # .text-NN / .math-NN を PDF でも効かせる
 
 ---
 
@@ -118,11 +128,13 @@ if (Sys.info()["sysname"] == "Darwin") {
 }
 ```
 
+::: {.content-visible when-format="pdf"}
 ```{=latex}
 \figfitboth
 \setlength{\figmaxheight}{0.42\textheight}
 \setlength{\figmaxwidth}{0.84\textwidth}
 ```
+:::
 
 
 # 講義の内容
@@ -408,7 +420,7 @@ if (Sys.info()["sysname"] == "Darwin") {
 
 ## 推定の幾何学的解釈
 
--   **あてはめ値 / 予測値** (fitted values / predicted values)
+-   **あてはめ値** (fitted values)
     
     \begin{equation}
       \boldsymbol{\hat{y}}
@@ -468,7 +480,7 @@ if (Sys.info()["sysname"] == "Darwin") {
 
 ## 最小二乗推定量の残差
 
--   観測値と推定値 $\boldsymbol{\hat{\beta}}$ による予測値の差
+-   観測値と推定値 $\boldsymbol{\hat{\beta}}$ によるあてはめ値の差
     
     \begin{equation}
       \hat{\epsilon}_i=
@@ -478,7 +490,7 @@ if (Sys.info()["sysname"] == "Darwin") {
     
     -   誤差項 $\epsilon_1,\dotsc,\epsilon_n$ の推定値
     -   全てができるだけ小さいほど良い
-    -   予測値とは独立に偏りがないほど良い
+    -   あてはめ値とは独立に偏りがないほど良い
 -   残差ベクトル
     
     \begin{equation}

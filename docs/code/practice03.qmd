@@ -1,6 +1,6 @@
 ---
-title: "第3講 練習問題"
-subtitle: "統計データ解析"
+title: "第3講 回帰分析"
+subtitle: "回帰モデルの考え方と推定"
 date: "`r Sys.Date()`"
 format:
     html: 
@@ -34,6 +34,13 @@ conflicts_prefer(   # 優先的に使う関数を指定
 library(tidyverse)  
 library(broom)      # 解析結果を tibble 形式に集約
 library(gt)         # 表の作成
+#' 日本語表示の設定．最後の例で利用する
+if (Sys.info()["sysname"] == "Darwin") { # macOSのみ設定
+  jp_font <- "HiraMaruProN-W4"
+  theme_update(text = element_text(family = jp_font))
+} else {
+  jp_font <- NULL
+}
 ```
 
 # 回帰係数の推定
@@ -645,21 +652,23 @@ bind_rows(glance(tw_lm1),    # 3つのモデルの評価指標を結合
   fmt_number(decimals = 3)   # 表示を3桁に
 ```
 
-予測値と実測値の比較は以下のようになる．
+予測値と実測値の比較は以下のようになる．[^5]
+
+[^5]: プロットのための作成する `tibble` クラスの列名を日本語にする場合の例となっている．オブジェクトは日本語(unicode)でも操作できるので，コードの可搬性・可読性を鑑みて適宜利用すると良い．
 
 ```{r}
 #| code-fold: true
 tw_subset |>
-  mutate(model1 = fitted(tw_lm1),                  # モデルごとに予測値をデータフレームに追加
+  mutate(model1 = fitted(tw_lm1),                 # モデルごとにあてはめ値をデータフレームに追加
          model2 = fitted(tw_lm2),
          model3 = fitted(tw_lm3)) |>
-  pivot_longer(starts_with("model"),               # モデルをラベルとして予測値をまとめる
-               names_to = "model",
-               values_to = "fitted") |>
-  ggplot(aes(x = temp, y = fitted)) +              # 気温の実測値をx軸，予測値をy軸で表示
+  pivot_longer(starts_with("model"),              # モデルをラベルとしてあてはめ値をまとめる
+               names_to = "モデル",
+               values_to = "あてはめ値") |>
+  ggplot(aes(x = temp, y = あてはめ値)) +           # 気温の実測値をx軸，あてはめ値をy軸で表示
   geom_abline(slope = 1,
               intercept = 0,
               colour = "red") +                    # 基準線
-  geom_point(aes(colour = model, shape = model)) + # 予測値をモデル別に表示
-  labs(x = "temperature", y = "fitted values")
+  geom_point(aes(colour = モデル, shape = モデル)) + # あてはめ値をモデル別に表示
+  labs(x = "実際の気温")
 ```

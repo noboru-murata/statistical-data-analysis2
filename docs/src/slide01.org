@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2026-09-23 14:49:45 mura>
+# Time-stamp: <2026-10-02 15:49:17 mura>
 :QUARTO:
 #+SETUPFILE: _quarto/org/lecture.org
 # C-c C-x C-v でinlineを切り替え
@@ -220,7 +220,7 @@
 #+end_src
 #+end_content-visible
 
-*** 重回帰による予測値と実際の価格
+*** 重回帰によるあてはめ値と実際の価格
 :PROPERTIES:
 :QUARTO_ATTR: {.head-center .fig-tall}
 :ID:       DD7DD364-74A6-4583-9C8D-B65B961CFE8A
@@ -789,7 +789,7 @@
 
 * Quarto の利用法
 ** Quarto を用いた処理
-- Quarto とは
+- [[https://quarto.org][Quarto]] とは
   - Pandoc を利用した出版システム
   - 文章とプログラムをまとめて記述
   - レポート，スライド，Webページを簡単に作成
@@ -828,8 +828,8 @@
 - 実行法にはいくつかのオプションが用意されている
   - [[color:green][▶]] : チャンク内を実行
   - [[color:green][_▽_]] : そのチャンク以前を実行 
-    - カーソル位置のみ実行することも可能
-    - ショートカットキーも用意されている
+  - カーソル位置のみ実行することも可能
+  - ショートカットキーも用意されている
     
 ** 文書の整形
 :PROPERTIES:
@@ -888,10 +888,9 @@
 :PROPERTIES:
 :ID:       16910df6-a70f-4bca-93d2-b0cd7ce8fc7e
 :END:
-- コンソール上での計算例
+- コンソール上での計算例 (コードチャンクでも同様)
   #+attr_quarto: :echo true
   #+begin_src R
-    #' 与えられた式の計算をコンソール上で実行する
     #' 1 x 2 + 3^2 の計算
     1 * 2 + 3^2
     #' sin(2π) の計算
@@ -900,6 +899,7 @@
     sqrt(2) + abs(-0.6)
   #+end_src
   #+begin_src R
+    #' 与えられた式の計算をコンソール上で実行する
     #' @notes
     #' 演算子の前後に空白があっても良い(空白は可読性のために適宜利用する)
     #' 2文字以上の演算子の途中には空白は入れられない(例: 羃乗の別記法の"**")
@@ -956,7 +956,7 @@
   #+end_src
   - *擬似コード* = 実行しても動かないコード
 - 実装されている関数の使い方は ~help(関数名)~ または ~?関数名~ で
-  ヘルプが表示される
+  ヘルプが表示される (後述)
 
   # - 引数が存在しない，
   #  もしくはすべての引数に対し既定値が設定されている関数もある．
@@ -1046,7 +1046,7 @@
 :PROPERTIES:
 :ID:       55a331db-f1c3-4baf-94d4-62e765f7fece
 :END:
-- ヘルプの使い方 
+- コンソール上でのヘルプの使い方 
   #+begin_src R
     #' @exercise ヘルプの使い方
   #+end_src

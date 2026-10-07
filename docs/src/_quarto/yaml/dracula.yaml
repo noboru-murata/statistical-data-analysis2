@@ -15,6 +15,8 @@ format:
     controls-tutorial: true
     navigation-mode: vertical
     auto-stretch: false
+    include-in-header:
+      - _quarto/lib/pixel-snap.html     # スライドの位置を整数ピクセルに (Safari のぼやけ対策)
   pdf:
     keep-tex: true
     echo: false
@@ -23,8 +25,8 @@ format:
       - text: |
           \usepackage{luatexja-preset}
           \usepackage{mathtools}
-      - _quarto/fig-scale.tex
-      - _quarto/table-center.tex
+      - _quarto/tex/fig-scale.tex
+      - _quarto/tex/table-center.tex
   html: 
     self-contained: false
     grid: 

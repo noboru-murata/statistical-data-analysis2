@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2026-09-24 10:29:57 mura>
+# Time-stamp: <2026-10-07 15:13:17 mura>
 :QUARTO:
 #+SETUPFILE: _quarto/org/lecture.org
 # C-c C-x C-v でinlineを切り替え
@@ -534,7 +534,7 @@
     pcr_data |> select(!c(sub,total)) |> # 集計値を除く
       pivot_longer(!date, names_to = "organ", values_to = "nums") |> 
       ggplot(aes(x = date, y = nums, colour = organ)) + geom_line() +
-      labs(title = "PCR Tests in Various Organizatios",
+      labs(title = "PCR Tests in Various Organizations",
            x = "Date", y = "Number of Tests") # xy軸のラベルを変更
   #+end_src
   #+begin_src R
@@ -693,7 +693,7 @@
     pcr_data |> select(!c(sub,total)) |> # 日付から四半期の因子を作成
       mutate(quarter = as_factor(quarter(date, with_year = TRUE))) |>
       ggpairs(columns = 2:8, columnLabels = pcr_colnames[-c(1,8,10)], axisLabels = "none",
-              aes(colour = quarter), legend = c(2,1), # 四半期ごとに色づけて(1,1)の凡例を使用
+              aes(colour = quarter), legend = c(2,1), # 四半期ごとに色づけて(2,1)の凡例を使用
               upper = "blank", diag = list(continuous = "barDiag")) +
       theme(legend.position = "top") # 凡例を上に表示
   #+end_src
@@ -806,7 +806,7 @@
       notch = FALSE, notchwidth = 0.5, varwidth = FALSE,
       na.rm = FALSE, orientation = NA, show.legend = NA, inherit.aes = TRUE
     )
-    #' ourlier.*: 外れ値の描画方法の指定
+    #' outlier.*: 外れ値の描画方法の指定
     #' notch*: ボックスの切れ込みの設定
     #' varwidth: ボックスの幅でデータ数を表示
     #' 詳細は '?ggplot2::geom_boxplot' を参照
