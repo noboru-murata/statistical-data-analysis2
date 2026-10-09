@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2026-10-07 15:13:17 mura>
+# Time-stamp: <2026-10-09 16:10:55 mura>
 :QUARTO:
 #+SETUPFILE: _quarto/org/lecture.org
 # C-c C-x C-v でinlineを切り替え
@@ -154,7 +154,7 @@
   #+begin_src R
     y <- read_csv(file = "ファイル名") # 変数yにCSVファイルの内容を読み込む
   #+end_src
-  - Rの標準関数 ~base::data.frame()~ とは行名の扱いに違いがあるので注意
+  - Rの標準関数 ~base::read.csv()~ とは行名の扱いに違いがあるので注意
 
 
 
@@ -533,9 +533,9 @@
   #+begin_src R
     pcr_data |> select(!c(sub,total)) |> # 集計値を除く
       pivot_longer(!date, names_to = "organ", values_to = "nums") |> 
-      ggplot(aes(x = date, y = nums, colour = organ)) + geom_line() +
-      labs(title = "PCR Tests in Various Organizations",
-           x = "Date", y = "Number of Tests") # xy軸のラベルを変更
+      ggplot(aes(x = date, y = nums, colour = organ)) +
+      geom_line() +
+      labs(title = "PCR Tests in Various Organizations", x = "Date", y = "Number of Tests") # xy軸のラベルを変更
   #+end_src
   #+begin_src R
     #' @notes
@@ -558,8 +558,8 @@
     pcr_data |> select(!c(sub,total)) |> 
       pivot_longer(!date, names_to = "organ", values_to = "nums") |> 
       ggplot(aes(x = date, y = nums, colour = organ)) +
-      labs(title = "PCR Tests in Various Organizatios", x = "Date", y = "Number of Tests") +
       geom_line(show.legend  =  FALSE) + # 凡例を消す
+      labs(title = "PCR Tests in Various Organizatios", x = "Date", y = "Number of Tests") +
       facet_grid(vars(organ)) # "organ" ごとに異なる図を並べる
   #+end_src
 
@@ -878,7 +878,7 @@
   #+end_src
 
 
-* 実習
+* COMMENT 実習
 :PROPERTIES:
 :QUARTO_ATTR: {background-color="#fef4f4"}
 :END:

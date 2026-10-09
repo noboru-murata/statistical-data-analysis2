@@ -2,6 +2,12 @@
 title: R言語速習
 subtitle: 第2講 - データの扱い・可視化・確率シミュレーション
 author: 村田 昇
+# lecture — 講義用 revealjs＋pdf (lualatex)＋html (既定の配色: indigo-palette)
+# 使い方: org の先頭で  #+SETUPFILE: _quarto/org/lecture.org
+#   (プロジェクトに _quarto と _extensions をシンボリックリンクで置く．ox-quarto/README.org)
+# 配色は大元の org で  #+QUARTO_PALETTE: jade  (indigo (既定) / jade / lavender / burgundy / dracula)．pdf と html は配色によらない．
+#   dracula では表紙の title-bg を外し，コードも dracula 配色にする (ox-quarto-ext-palette-rules)．
+# talk.yaml との違い: 表紙に title-bg，節扉は見出しをそのまま出す (section-toc なし)，PDF と html も出せる．
 license: "CC BY-NC"
 csl: _quarto/csl/apa.csl            # 文献の書式 (本文は (著者, 年))
 link-citations: true
@@ -11,8 +17,8 @@ format:
     theme:
       - default
       - _quarto/scss/oerreveal.scss          # structure
-      - _quarto/scss/indigo-palette.scss    # colours  (jade- / dracula- / lavender- / burgundy-palette)
-      - _quarto/scss/lecture-deck.scss       # decoration (+ line-deck / logo-deck)
+      - _quarto/scss/indigo-palette.scss     # 配色 (#+QUARTO_PALETTE で差し替わる)
+      - _quarto/scss/lecture-deck.scss       # 修飾 (#+QUARTO_DECK の deck はこの後に足される)
       - _quarto/scss/parts.scss              # 部品: .muted .kpi .flow-arrow .formulation など
       - _quarto/scss/iframe.scss
       - _quarto/scss/title-bg.scss
@@ -30,6 +36,7 @@ format:
     controls-tutorial: true
     navigation-mode: vertical
     auto-stretch: false
+    slide-number: c/t                  # 右下に「頁/総頁」(talk と同じ)
   pdf:
     keep-tex: true
     echo: false
@@ -272,7 +279,7 @@ if (Sys.info()["sysname"] == "Darwin") {
     y <- read_csv(file = "ファイル名") # 変数yにCSVファイルの内容を読み込む
     ```
     
-    -   Rの標準関数 `base::data.frame()` とは行名の扱いに違いがあるので注意
+    -   Rの標準関数 `base::read.csv()` とは行名の扱いに違いがあるので注意
 
 
 # 実習 {background-color="#fef4f4"}
@@ -673,9 +680,9 @@ pcr_data |> # パイプ演算子でデータフレームを関数 ggplot2::ggplo
 #| eval: true
 pcr_data |> select(!c(sub,total)) |> # 集計値を除く
   pivot_longer(!date, names_to = "organ", values_to = "nums") |> 
-  ggplot(aes(x = date, y = nums, colour = organ)) + geom_line() +
-  labs(title = "PCR Tests in Various Organizations",
-       x = "Date", y = "Number of Tests") # xy軸のラベルを変更
+  ggplot(aes(x = date, y = nums, colour = organ)) +
+  geom_line() +
+  labs(title = "PCR Tests in Various Organizations", x = "Date", y = "Number of Tests") # xy軸のラベルを変更
 ```
 
 ```{r}
@@ -695,8 +702,8 @@ pcr_data |> select(!c(sub,total)) |> # 集計値を除く
 pcr_data |> select(!c(sub,total)) |> 
   pivot_longer(!date, names_to = "organ", values_to = "nums") |> 
   ggplot(aes(x = date, y = nums, colour = organ)) +
-  labs(title = "PCR Tests in Various Organizatios", x = "Date", y = "Number of Tests") +
   geom_line(show.legend  =  FALSE) + # 凡例を消す
+  labs(title = "PCR Tests in Various Organizatios", x = "Date", y = "Number of Tests") +
   facet_grid(vars(organ)) # "organ" ごとに異なる図を並べる
 ```
 
@@ -1021,9 +1028,6 @@ pcr_data |>
   geom_bar(stat = "identity", position = "dodge", na.rm = TRUE) +
   theme(legend.position = "top") + guides(fill = guide_legend(nrow = 1))
 ```
-
-
-# 実習 {background-color="#fef4f4"}
 
 
 # 参考
