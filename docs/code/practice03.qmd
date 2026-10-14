@@ -445,8 +445,7 @@ crossprod(as.matrix(adv_data)) # 計算できる
   (\boldsymbol{y}-\boldsymbol{\hat{y}})+ 
   (\boldsymbol{\hat{y}}-\bar{\boldsymbol{y}})^{\mathsf{T}}
   (\boldsymbol{\hat{y}}-\bar{\boldsymbol{y}})
-\end{equation}
-\begin{equation}
+\end{equation} \begin{equation}
   S_y=S+S_r
 \end{equation}
 

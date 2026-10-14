@@ -2,8 +2,14 @@
 title: 回帰分析
 subtitle: 回帰モデルの考え方と推定
 author: 村田 昇
+# lecture — 講義用 revealjs＋pdf (lualatex)＋html (既定の配色: indigo-palette)
+# 使い方: org の先頭で  #+SETUPFILE: _quarto/org/lecture.org
+#   (プロジェクトに _quarto と _extensions をシンボリックリンクで置く．ox-quarto/README.org)
+# 配色は大元の org で  #+QUARTO_PALETTE: jade  (indigo (既定) / jade / lavender / burgundy / dracula)．pdf と html は配色によらない．
+#   dracula では表紙の title-bg を外し，コードも dracula 配色にする (ox-quarto-ext-palette-rules)．
+# talk.yaml との違い: 表紙に title-bg，節扉は見出しをそのまま出す (section-toc なし)，PDF と html も出せる．
 license: "CC BY-NC"
-csl: _quarto/csl/apa.csl            # 文献の書式 (本文は (著者, 年))
+csl: _quarto/csl/apa-short.csl      # 文献の書式 (本文は (著者, 年)．一覧は 4 名以上を 2 名 + et al. に．解説文は apa.csl)
 link-citations: true
 cite-aside-max: 2                   # 引用が 3 件以上のスライドでは書誌を脚注欄に出さない (lib/cite-aside.lua)
 format:
@@ -11,8 +17,8 @@ format:
     theme:
       - default
       - _quarto/scss/oerreveal.scss          # structure
-      - _quarto/scss/indigo-palette.scss    # colours  (jade- / dracula- / lavender- / burgundy-palette)
-      - _quarto/scss/lecture-deck.scss       # decoration (+ line-deck / logo-deck)
+      - _quarto/scss/indigo-palette.scss     # 配色 (#+QUARTO_PALETTE で差し替わる)
+      - _quarto/scss/lecture-deck.scss       # 修飾 (#+QUARTO_DECK の deck はこの後に足される)
       - _quarto/scss/parts.scss              # 部品: .muted .kpi .flow-arrow .formulation など
       - _quarto/scss/iframe.scss
       - _quarto/scss/title-bg.scss
@@ -23,6 +29,7 @@ format:
     include-in-header:
       - _quarto/lib/mathjax-fix.html
       - _quarto/lib/pixel-snap.html     # スライドの位置を整数ピクセルに (Safari のぼやけ対策)
+      - _quarto/lib/slide-number-arrows.html  # 頁番号を矢印の箱の中へ (Safari でも矢印の真ん中に)
     center: true
     controls: true
     controls-layout: bottom-right
@@ -30,6 +37,7 @@ format:
     controls-tutorial: true
     navigation-mode: vertical
     auto-stretch: false
+    slide-number: c/t                  # 右下に「頁/総頁」(talk と同じ)
   pdf:
     keep-tex: true
     echo: false
@@ -66,7 +74,13 @@ filters:                          # 節扉は見出しをそのまま出す (sec
   - _quarto/lib/no-hrule.lua
   - _quarto/lib/iframe.lua
   - _quarto/lib/cite-aside.lua    # 各スライドで引用した文献の書誌を脚注欄に出す (revealjs のみ)
+  - _quarto/lib/ack.lua           # 謝辞の頁の人の一覧 (::: people) を写真・名前・所属の組に
   - _quarto/lib/text-size.lua   # .text-NN / .math-NN を PDF でも効かせる
+  - _quarto/lib/slide-notes.lua # 発表者ノートを pdf / html では枠で囲む (slide-notes)
+  - _quarto/lib/title-qr.lua    # 表紙の右下の QR コード (revealjs のみ．org の #+QUARTO_QR)
+  - _quarto/lib/pin.lua           # .pin-top / .pin-bottom: absolute の要素をキャンバスの端に固定 (title-qr の後に)
+  - _quarto/lib/text-center.lua   # #+begin_center (::: {.text-center}) を html / pdf / typst で中央寄せに
+slide-notes-default: box          # 発表者ノート (::: notes) を pdf / html でどう出すか: box / margin / hide / plain (lib/slide-notes.lua．org では #+QUARTO_OPTIONS: slide-notes:margin)
 
 ---
 
@@ -201,7 +215,7 @@ if (Sys.info()["sysname"] == "Darwin") {
     \end{equation}
     
     -   $\beta_0,\beta_1,\dots,\beta_p$ : **回帰係数** (regression coefficients)
-    -   $\beta_0$ : **定数項 / 切片** (constant term / intersection)
+    -   $\beta_0$ : **定数項 / 切片** (constant term / intercept)
 -   線形回帰分析 (linear regression analysis)
     -   未知の回帰係数をデータから決定する分析方法
     -   決定された回帰係数の統計的な性質を診断
@@ -378,7 +392,7 @@ if (Sys.info()["sysname"] == "Darwin") {
 
 -   正規方程式の基本的な性質
     -   正規方程式は必ず解をもつ (一意に決まらない場合もある)
-    -   正規方程式の解は最小二乗推定量であるための必要条件
+    -   正規方程式の解は最小二乗推定量であるための必要十分条件
 -   解の一意性の条件
     -   Gram 行列 $X^{\mathsf{T}}X$ が **正則**
     -   $X$ の列ベクトルが独立 (後述)

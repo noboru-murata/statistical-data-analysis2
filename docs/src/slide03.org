@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2026-10-07 15:26:30 mura>
+# Time-stamp: <2026-10-14 12:18:16 mura>
 :QUARTO:
 #+SETUPFILE: _quarto/org/lecture.org
 # C-c C-x C-v でinlineを切り替え
@@ -88,7 +88,7 @@
      y=\beta_0+\beta_1x_1+\cdots+\beta_px_p
    \end{equation}
    - \(\beta_0,\beta_1,\dots,\beta_p\) : *回帰係数* (regression coefficients)
-   - \(\beta_0\) : *定数項 / 切片* (constant term / intersection)
+   - \(\beta_0\) : *定数項 / 切片* (constant term / intercept)
 - 線形回帰分析 (linear regression analysis)
    - 未知の回帰係数をデータから決定する分析方法
    - 決定された回帰係数の統計的な性質を診断
@@ -232,7 +232,7 @@
    \end{equation}
    ただし \(x_{i0}=1\; (i=1,\dotsc,n)\)
 
-
+   
 * COMMENT 演習
 :PROPERTIES:
 :QUARTO_ATTR: {background-color="#fef4f4"}
@@ -327,7 +327,7 @@
 ** 正規方程式の解
 - 正規方程式の基本的な性質
    - 正規方程式は必ず解をもつ (一意に決まらない場合もある)
-   - 正規方程式の解は最小二乗推定量であるための必要条件
+   - 正規方程式の解は最小二乗推定量であるための必要十分条件
 - 解の一意性の条件
    - Gram 行列 \(X^{\mathsf{T}}X\) が *正則*
    - \(X\) の列ベクトルが独立 (後述)
