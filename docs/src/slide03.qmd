@@ -191,7 +191,7 @@ if (Sys.info()["sysname"] == "Darwin") {
 ## 線形回帰
 
 -   任意の $f$ では一般的すぎて分析に不向き
--   $f$ として **1次関数** を考える
+-   $f$ として **1次関数** を考える   
     ある定数 $\beta_0,\beta_1,\dots,\beta_p$ を用いた式 :
     
     \begin{equation}
@@ -391,10 +391,10 @@ if (Sys.info()["sysname"] == "Darwin") {
 ## 正規方程式の解
 
 -   正規方程式の基本的な性質
-    -   正規方程式は必ず解をもつ (一意に決まらない場合もある)
     -   正規方程式の解は最小二乗推定量であるための必要十分条件
+    -   正規方程式は必ず解をもつ (一意に決まらない場合もある)
 -   解の一意性の条件
-    -   Gram 行列 $X^{\mathsf{T}}X$ が **正則**
+    -   Gram 行列 $X^{\mathsf{T}}X$ が **正則** (逆行列をもつ)
     -   $X$ の列ベクトルが独立 (後述)
 
 ::: {.callout-important icon="false"}
@@ -445,10 +445,16 @@ if (Sys.info()["sysname"] == "Darwin") {
       \dots + \hat{\beta}_{p} X_{p(\text{第p成分})}
     \end{equation}
 
-![$n=3$ , $p+1=2$ の場合の最小二乗法による推定](figs/projection.png){#fig-projection width=75% fig-align="center"}
+![$n=3$ , $p+1=2$ の場合の最小二乗法による推定](figs/projection.png){#fig-projection width=65% fig-align="center"}
 
 ---
 
+::: {.columns}
+::: {.column width="50%"}
+![$n=3$ , $p+1=2$ の場合](figs/projection.png){width=100% fig-align="center"}
+:::
+
+::: {.column width="50%"}
 -   最小二乗推定量 $\boldsymbol{\hat{y}}$ の幾何学的性質
     -   $L[X]$ : $X$ の列ベクトルが張る $\mathbb{R}^n$ の線形部分空間
     -   $X$ の階数が $p{+}1$ ならば $L[X]$ の次元は $p{+}1$ (解の一意性)
@@ -461,6 +467,8 @@ if (Sys.info()["sysname"] == "Darwin") {
         \begin{equation}
           \boldsymbol{\hat{\epsilon}}\cdot\boldsymbol{\hat{y}}=0
         \end{equation}
+:::
+:::
 
 
 ## 線形回帰式と標本平均
@@ -517,7 +525,7 @@ if (Sys.info()["sysname"] == "Darwin") {
 ## 平方和の分解
 
 -   $\bar{\boldsymbol{y}}=\bar{y}\boldsymbol{1}=(\bar{y},\bar{y},\dotsc,\bar{y})^{\mathsf{T}}$ :
-    標本平均のベクトル
+    標本平均のベクトル (データ数=$n$次元)
 -   いろいろなばらつき
     -   $S_y=(\boldsymbol{y}-\bar{\boldsymbol{y}})^{\mathsf{T}}
               (\boldsymbol{y}-\bar{\boldsymbol{y}})$ :

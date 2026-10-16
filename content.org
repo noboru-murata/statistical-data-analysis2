@@ -45,7 +45,7 @@
 ** ハンドアウト
 - [[github:pdfs/slide01.pdf][PDF file]]
 ** 付録
-- 実習用 [[githubraw:code/practice01.qmd][Quarto]]
+- 実習用 [[github:code/practice01.qmd][Quarto]]
 - 解答例 [[github:code/practice01.html][HTML]]
 - データセット [[github:data/data.zip][実習用データ]]
   
@@ -60,7 +60,7 @@
 ** ハンドアウト
 - [[github:pdfs/slide02.pdf][PDF file]]
 ** 付録
-- 実習用 [[githubraw:code/practice02.qmd][Quarto]]
+- 実習用 [[github:code/practice02.qmd][Quarto]]
 - 解答例 [[github:code/practice02.html][HTML]]
 
 * 第3講
@@ -68,7 +68,7 @@
 :EXPORT_FILE_NAME: lecture03
 :EXPORT_DATE: <2020-09-19 Sat>
 :END:
-<2026-09-30 Wed> 更新
+<2026-10-16 Fri> 更新
 ** スライド
 #+hugo: {{< myslide base="statistical-data-analysis2" name="slide03" >}}
 ** ハンドアウト
@@ -88,7 +88,7 @@
 ** ハンドアウト
 - [[github:pdfs/slide04.pdf][PDF file]]
 ** 付録
-- 実習用 [[githubraw:code/practice04.qmd][Quarto]]
+- 実習用 [[github:code/practice04.qmd][Quarto]]
 - 解答例 [[github:code/practice04.html][HTML]]
 - データセット [[github:data/data04.zip][2024年の気象データ]]
 
@@ -106,7 +106,7 @@
 :PROPERTIES:
 :ID:       126533CA-3724-4BBF-B0D0-2D0CE46F301E
 :END:
-- 実習用 [[githubraw:code/practice05.qmd][Quarto]]
+- 実習用 [[github:code/practice05.qmd][Quarto]]
 - 解答例 [[github:code/practice05.html][HTML]]
 - 参考資料 [[github:data/data05.zip][コード・データセット]]
 

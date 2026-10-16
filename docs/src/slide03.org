@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2026-10-14 12:18:16 mura>
+# Time-stamp: <2026-10-16 14:59:23 mura>
 :QUARTO:
 #+SETUPFILE: _quarto/org/lecture.org
 # C-c C-x C-v でinlineを切り替え
@@ -70,17 +70,17 @@
 
 ** 線形回帰
 - 任意の \(f\) では一般的すぎて分析に不向き
-- \(f\) として *1次関数* を考える
+- \(f\) として *1次関数* を考える \\
    ある定数 \(\beta_0,\beta_1,\dots,\beta_p\) を用いた式 :
    \begin{equation}
      f(x_1,\dots,x_p)=\beta_0+\beta_1x_1+\cdots+\beta_px_p
    \end{equation}
-   - 1次関数の場合 : *線形回帰* (linear regression)
-   - 一般の場合 : 非線形回帰 (nonlinear regression)
+  - 1次関数の場合 : *線形回帰* (linear regression)
+  - 一般の場合 : 非線形回帰 (nonlinear regression)
 - 非線形関係は新たな説明変数の導入で対応可能
-   - 適切な多項式 : \(x_j^2, x_jx_k, x_jx_kx_l,\dotsc\)
-   - その他の非線形変換 : \(\log x_j, x_j^\alpha,\dotsc\)
-   - 全ての非線形関係ではないことに注意
+  - 適切な多項式 : \(x_j^2, x_jx_k, x_jx_kx_l,\dotsc\)
+  - その他の非線形変換 : \(\log x_j, x_j^\alpha,\dotsc\)
+  - 全ての非線形関係ではないことに注意
 
 ** 回帰係数
 - 線形回帰式
@@ -326,10 +326,10 @@
 
 ** 正規方程式の解
 - 正規方程式の基本的な性質
-   - 正規方程式は必ず解をもつ (一意に決まらない場合もある)
    - 正規方程式の解は最小二乗推定量であるための必要十分条件
+   - 正規方程式は必ず解をもつ (一意に決まらない場合もある)
 - 解の一意性の条件
-   - Gram 行列 \(X^{\mathsf{T}}X\) が *正則*
+   - Gram 行列 \(X^{\mathsf{T}}X\) が *正則* (逆行列をもつ)
    - \(X\) の列ベクトルが独立 (後述)
 
 #+begin_callout-important :icon false :title "正規方程式の解"
@@ -377,11 +377,21 @@
 
 #+caption: \(n=3\) , \(p+1=2\) の場合の最小二乗法による推定
 #+name: fig-projection
-#+attr_quarto: :width 75% :fig-align "center"
+#+attr_quarto: :width 65% :fig-align "center"
 [[file:figs/projection.png]]
 
 -----
 
+#+begin_columns
+#+attr_quarto: :width "50%"
+#+begin_column
+#+caption: \(n=3\) , \(p+1=2\) の場合
+#+attr_quarto: :width 100% :fig-align "center"
+[[file:figs/projection.png]]
+#+end_column
+
+#+attr_quarto: :width "50%"
+#+begin_column
 - 最小二乗推定量 \(\boldsymbol{\hat{y}}\) の幾何学的性質
    - \(L[X]\) : \(X\) の列ベクトルが張る \(\mathbb{R}^n\) の線形部分空間
    - \(X\) の階数が \(p{+}1\) ならば \(L[X]\) の次元は \(p{+}1\) (解の一意性)
@@ -393,6 +403,8 @@
       \begin{equation}
         \boldsymbol{\hat{\epsilon}}\cdot\boldsymbol{\hat{y}}=0
       \end{equation}
+#+end_column
+#+end_columns
 
 ** 線形回帰式と標本平均
 - \(\boldsymbol{x}_i=(x_{i1},\dotsc,x_{ip})^{\mathsf{T}}\):
@@ -513,7 +525,7 @@
 
 ** 平方和の分解
 - \(\bar{\boldsymbol{y}}=\bar{y}\boldsymbol{1}=(\bar{y},\bar{y},\dotsc,\bar{y})^{\mathsf{T}}\) :
-   標本平均のベクトル 
+   標本平均のベクトル (データ数=\(n\)次元)
 - いろいろなばらつき
    - \(S_y=(\boldsymbol{y}-\bar{\boldsymbol{y}})^{\mathsf{T}}
       (\boldsymbol{y}-\bar{\boldsymbol{y}})\) :

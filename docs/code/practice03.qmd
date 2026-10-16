@@ -316,7 +316,6 @@ as.matrix(データフレーム)       # base::as.matrix()
 - 行列 $A,B$ の積 $AB$ および ベクトル $a,b$ の内積 $a\cdot b$
 
   ``` r
-  #| eval: false
   A %*% B # 行列の大きさは適切である必要がある
   a %*% b # ベクトルは同じ長さである必要がある
   ```
@@ -340,7 +339,7 @@ as.matrix(データフレーム)       # base::as.matrix()
 
   ``` r
   crossprod(X,Y) = t(X) %*% Y
-  #' XY^T = (X^TY)^T を計算する関数 tcrossprod() もある
+  #' XY^T を計算する関数 tcrossprod() もある
   tcrossprod(X,Y) = X %*% t(Y)
   ```
 
@@ -445,7 +444,8 @@ crossprod(as.matrix(adv_data)) # 計算できる
   (\boldsymbol{y}-\boldsymbol{\hat{y}})+ 
   (\boldsymbol{\hat{y}}-\bar{\boldsymbol{y}})^{\mathsf{T}}
   (\boldsymbol{\hat{y}}-\bar{\boldsymbol{y}})
-\end{equation} \begin{equation}
+\end{equation}
+\begin{equation}
   S_y=S+S_r
 \end{equation}
 
@@ -510,7 +510,7 @@ glance(x, ...)
 #' 詳細は ?broom::glance.lm
 ```
 
-関数 `broom::augumet()` では 関数 `stats::resid()` や `stats::fitted()` で得られる情報を `tibble` クラスのデータフレームとして取得できる．
+関数 `broom::augument()` では 関数 `stats::resid()` や `stats::fitted()` で得られる情報を `tibble` クラスのデータフレームとして取得できる．
 
 ``` r
 augment(
@@ -537,16 +537,16 @@ augment(
 
 ```{r}
 library(broom)
-glance(bw_lm2)                         # 全ての指標を tibble クラで取得
+glance(bw_lm2)                         # 全ての指標を tibble クラスで取得
 glance(bw_lm2)[["r.squared"]]          # 決定係数
 glance(bw_lm2)[["adj.r.squared"]]      # 自由度調整済み決定係数
 bw_lm2 |>                              # パイプ演算子を用いた方法
     glance() |>
     pull(adj.r.squared)                # 列をベクトルとして取得
-bind_rows(                             # 3つのモデルの評価指標を結合
+bind_rows(                             # 2つのモデルの評価指標を結合
     glance(bw_lm1),
     glance(bw_lm2)) |>
-    select(r.squared,adj.r.squared) |>  # 必要な3列を選択
+    select(r.squared,adj.r.squared) |>  # 必要な2列を選択
     mutate(name = c("モデル1","モデル2"), # モデルの名称
            .before = 1)                 # 先頭に付加
 #' 列番号がわかっている場合は select(1:2) でも良い

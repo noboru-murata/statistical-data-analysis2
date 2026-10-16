@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2026-10-14">
+<meta name="dcterms.date" content="2026-10-16">
 
 <title>第3講 回帰分析</title>
 <style>
@@ -2403,7 +2403,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 14, 2026</p>
+      <p class="date">October 16, 2026</p>
     </div>
   </div>
   
@@ -2841,9 +2841,8 @@ Coefficients:
 <p>代表的な行列とベクトルの計算は以下のようにする．</p>
 <ul>
 <li><p>行列 <span class="math inline">\(A,B\)</span> の積 <span class="math inline">\(AB\)</span> および ベクトル <span class="math inline">\(a,b\)</span> の内積 <span class="math inline">\(a\cdot b\)</span></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>A <span class="sc">%*%</span> B <span class="co"># 行列の大きさは適切である必要がある</span></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>a <span class="sc">%*%</span> b <span class="co"># ベクトルは同じ長さである必要がある</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>A <span class="sc">%*%</span> B <span class="co"># 行列の大きさは適切である必要がある</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>a <span class="sc">%*%</span> b <span class="co"># ベクトルは同じ長さである必要がある</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 <li><p>正方行列 <span class="math inline">\(A\)</span> の逆行列 <span class="math inline">\(A^{-1}\)</span></p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">solve</span>(A) <span class="co"># 他にもいくつか関数はある</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 <li><p><span class="math inline">\(X^{\mathsf{T}}Y\)</span> および <span class="math inline">\(X^{\mathsf{T}}X\)</span> の計算</p>
@@ -2853,7 +2852,7 @@ Coefficients:
 <span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="fu">crossprod</span>(X) <span class="co"># 同じものを掛ける場合は引数は1つで良い</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>行列の転置を計算する関数 <code>t()</code> と積を組み合わせてもよい．</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">crossprod</span>(X,Y) <span class="ot">=</span> <span class="fu">t</span>(X) <span class="sc">%*%</span> Y</span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39; XY^T = (X^TY)^T を計算する関数 tcrossprod() もある</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39; XY^T を計算する関数 tcrossprod() もある</span></span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tcrossprod</span>(X,Y) <span class="ot">=</span> X <span class="sc">%*%</span> <span class="fu">t</span>(Y)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 </ul>
 </section>
@@ -3120,7 +3119,7 @@ F-statistic: 859.6 on 2 and 197 DF,  p-value: &lt; 2.2e-16
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(x, ...)</span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39; x: stats::lm() の返値</span></span>
 <span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39; 詳細は ?broom::glance.lm</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>関数 <code>broom::augumet()</code> では 関数 <code>stats::resid()</code> や <code>stats::fitted()</code> で得られる情報を <code>tibble</code> クラスのデータフレームとして取得できる．</p>
+<p>関数 <code>broom::augument()</code> では 関数 <code>stats::resid()</code> や <code>stats::fitted()</code> で得られる情報を <code>tibble</code> クラスのデータフレームとして取得できる．</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">augment</span>(</span>
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>  x,</span>
 <span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> <span class="fu">model.frame</span>(x),</span>
@@ -3144,16 +3143,16 @@ F-statistic: 859.6 on 2 and 197 DF,  p-value: &lt; 2.2e-16
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
-<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(bw_lm2)                         <span class="co"># 全ての指標を tibble クラで取得</span></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(bw_lm2)                         <span class="co"># 全ての指標を tibble クラスで取得</span></span>
 <span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(bw_lm2)[[<span class="st">&quot;r.squared&quot;</span>]]          <span class="co"># 決定係数</span></span>
 <span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(bw_lm2)[[<span class="st">&quot;adj.r.squared&quot;</span>]]      <span class="co"># 自由度調整済み決定係数</span></span>
 <span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>bw_lm2 <span class="sc">|&gt;</span>                              <span class="co"># パイプ演算子を用いた方法</span></span>
 <span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">glance</span>() <span class="sc">|&gt;</span></span>
 <span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>(adj.r.squared)                <span class="co"># 列をベクトルとして取得</span></span>
-<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_rows</span>(                             <span class="co"># 3つのモデルの評価指標を結合</span></span>
+<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_rows</span>(                             <span class="co"># 2つのモデルの評価指標を結合</span></span>
 <span id="cb59-10"><a href="#cb59-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">glance</span>(bw_lm1),</span>
 <span id="cb59-11"><a href="#cb59-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">glance</span>(bw_lm2)) <span class="sc">|&gt;</span></span>
-<span id="cb59-12"><a href="#cb59-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(r.squared,adj.r.squared) <span class="sc">|&gt;</span>  <span class="co"># 必要な3列を選択</span></span>
+<span id="cb59-12"><a href="#cb59-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(r.squared,adj.r.squared) <span class="sc">|&gt;</span>  <span class="co"># 必要な2列を選択</span></span>
 <span id="cb59-13"><a href="#cb59-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">name =</span> <span class="fu">c</span>(<span class="st">&quot;モデル1&quot;</span>,<span class="st">&quot;モデル2&quot;</span>), <span class="co"># モデルの名称</span></span>
 <span id="cb59-14"><a href="#cb59-14" aria-hidden="true" tabindex="-1"></a>           <span class="at">.before =</span> <span class="dv">1</span>)                 <span class="co"># 先頭に付加</span></span>
 <span id="cb59-15"><a href="#cb59-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39; 列番号がわかっている場合は select(1:2) でも良い</span></span>
@@ -3302,20 +3301,20 @@ F-statistic: 859.6 on 2 and 197 DF,  p-value: &lt; 2.2e-16
 <span id="cb69-16"><a href="#cb69-16" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
-<div id="wbexiaecxl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#wbexiaecxl table {
+<div id="nxhkkcpsvp" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#nxhkkcpsvp table {
 font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
 }
-#wbexiaecxl thead, #wbexiaecxl tbody, #wbexiaecxl tfoot, #wbexiaecxl tr, #wbexiaecxl td, #wbexiaecxl th {
+#nxhkkcpsvp thead, #nxhkkcpsvp tbody, #nxhkkcpsvp tfoot, #nxhkkcpsvp tr, #nxhkkcpsvp td, #nxhkkcpsvp th {
 border-style: none;
 }
-#wbexiaecxl p {
+#nxhkkcpsvp p {
 margin: 0;
 padding: 0;
 }
-#wbexiaecxl .gt_table {
+#nxhkkcpsvp .gt_table {
 display: table;
 border-collapse: collapse;
 line-height: normal;
@@ -3340,11 +3339,11 @@ border-left-style: none;
 border-left-width: 2px;
 border-left-color: #D3D3D3;
 }
-#wbexiaecxl .gt_caption {
+#nxhkkcpsvp .gt_caption {
 padding-top: 4px;
 padding-bottom: 4px;
 }
-#wbexiaecxl .gt_title {
+#nxhkkcpsvp .gt_title {
 color: #333333;
 font-size: 125%;
 font-weight: initial;
@@ -3355,7 +3354,7 @@ padding-right: 5px;
 border-bottom-color: #FFFFFF;
 border-bottom-width: 0;
 }
-#wbexiaecxl .gt_subtitle {
+#nxhkkcpsvp .gt_subtitle {
 color: #333333;
 font-size: 85%;
 font-weight: initial;
@@ -3366,7 +3365,7 @@ padding-right: 5px;
 border-top-color: #FFFFFF;
 border-top-width: 0;
 }
-#wbexiaecxl .gt_heading {
+#nxhkkcpsvp .gt_heading {
 background-color: #FFFFFF;
 text-align: center;
 border-bottom-color: #FFFFFF;
@@ -3377,12 +3376,12 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#wbexiaecxl .gt_bottom_border {
+#nxhkkcpsvp .gt_bottom_border {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#wbexiaecxl .gt_col_headings {
+#nxhkkcpsvp .gt_col_headings {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -3396,7 +3395,7 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#wbexiaecxl .gt_col_heading {
+#nxhkkcpsvp .gt_col_heading {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3415,7 +3414,7 @@ padding-left: 5px;
 padding-right: 5px;
 overflow-x: hidden;
 }
-#wbexiaecxl .gt_column_spanner_outer {
+#nxhkkcpsvp .gt_column_spanner_outer {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3426,13 +3425,13 @@ padding-bottom: 0;
 padding-left: 4px;
 padding-right: 4px;
 }
-#wbexiaecxl .gt_column_spanner_outer:first-child {
+#nxhkkcpsvp .gt_column_spanner_outer:first-child {
 padding-left: 0;
 }
-#wbexiaecxl .gt_column_spanner_outer:last-child {
+#nxhkkcpsvp .gt_column_spanner_outer:last-child {
 padding-right: 0;
 }
-#wbexiaecxl .gt_column_spanner {
+#nxhkkcpsvp .gt_column_spanner {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
@@ -3443,10 +3442,10 @@ overflow-x: hidden;
 display: inline-block;
 width: 100%;
 }
-#wbexiaecxl .gt_spanner_row {
+#nxhkkcpsvp .gt_spanner_row {
 border-bottom-style: hidden;
 }
-#wbexiaecxl .gt_group_heading {
+#nxhkkcpsvp .gt_group_heading {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3471,7 +3470,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 text-align: left;
 }
-#wbexiaecxl .gt_empty_group_heading {
+#nxhkkcpsvp .gt_empty_group_heading {
 padding: 0.5px;
 color: #333333;
 background-color: #FFFFFF;
@@ -3485,13 +3484,13 @@ border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 vertical-align: middle;
 }
-#wbexiaecxl .gt_from_md > :first-child {
+#nxhkkcpsvp .gt_from_md > :first-child {
 margin-top: 0;
 }
-#wbexiaecxl .gt_from_md > :last-child {
+#nxhkkcpsvp .gt_from_md > :last-child {
 margin-bottom: 0;
 }
-#wbexiaecxl .gt_row {
+#nxhkkcpsvp .gt_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3509,7 +3508,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 overflow-x: hidden;
 }
-#wbexiaecxl .gt_stub {
+#nxhkkcpsvp .gt_stub {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3521,7 +3520,7 @@ border-right-color: #D3D3D3;
 padding-left: 5px;
 padding-right: 5px;
 }
-#wbexiaecxl .gt_stub_row_group {
+#nxhkkcpsvp .gt_stub_row_group {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3534,13 +3533,13 @@ padding-left: 5px;
 padding-right: 5px;
 vertical-align: top;
 }
-#wbexiaecxl .gt_row_group_first td {
+#nxhkkcpsvp .gt_row_group_first td {
 border-top-width: 2px;
 }
-#wbexiaecxl .gt_row_group_first th {
+#nxhkkcpsvp .gt_row_group_first th {
 border-top-width: 2px;
 }
-#wbexiaecxl .gt_summary_row {
+#nxhkkcpsvp .gt_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -3549,14 +3548,14 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#wbexiaecxl .gt_first_summary_row {
+#nxhkkcpsvp .gt_first_summary_row {
 border-top-style: solid;
 border-top-color: #D3D3D3;
 }
-#wbexiaecxl .gt_first_summary_row.thick {
+#nxhkkcpsvp .gt_first_summary_row.thick {
 border-top-width: 2px;
 }
-#wbexiaecxl .gt_last_summary_row {
+#nxhkkcpsvp .gt_last_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3565,7 +3564,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#wbexiaecxl .gt_grand_summary_row {
+#nxhkkcpsvp .gt_grand_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -3574,7 +3573,7 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#wbexiaecxl .gt_first_grand_summary_row {
+#nxhkkcpsvp .gt_first_grand_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3583,7 +3582,7 @@ border-top-style: double;
 border-top-width: 6px;
 border-top-color: #D3D3D3;
 }
-#wbexiaecxl .gt_last_grand_summary_row_top {
+#nxhkkcpsvp .gt_last_grand_summary_row_top {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3592,10 +3591,10 @@ border-bottom-style: double;
 border-bottom-width: 6px;
 border-bottom-color: #D3D3D3;
 }
-#wbexiaecxl .gt_striped {
+#nxhkkcpsvp .gt_striped {
 background-color: rgba(128, 128, 128, 0.05);
 }
-#wbexiaecxl .gt_table_body {
+#nxhkkcpsvp .gt_table_body {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -3603,7 +3602,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#wbexiaecxl .gt_footnotes {
+#nxhkkcpsvp .gt_footnotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -3616,7 +3615,7 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#wbexiaecxl .gt_footnote {
+#nxhkkcpsvp .gt_footnote {
 margin: 0px;
 font-size: 90%;
 padding-top: 4px;
@@ -3624,7 +3623,7 @@ padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#wbexiaecxl .gt_sourcenotes {
+#nxhkkcpsvp .gt_sourcenotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -3637,64 +3636,64 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#wbexiaecxl .gt_sourcenote {
+#nxhkkcpsvp .gt_sourcenote {
 font-size: 90%;
 padding-top: 4px;
 padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#wbexiaecxl .gt_left {
+#nxhkkcpsvp .gt_left {
 text-align: left;
 }
-#wbexiaecxl .gt_center {
+#nxhkkcpsvp .gt_center {
 text-align: center;
 }
-#wbexiaecxl .gt_right {
+#nxhkkcpsvp .gt_right {
 text-align: right;
 font-variant-numeric: tabular-nums;
 }
-#wbexiaecxl .gt_font_normal {
+#nxhkkcpsvp .gt_font_normal {
 font-weight: normal;
 }
-#wbexiaecxl .gt_font_bold {
+#nxhkkcpsvp .gt_font_bold {
 font-weight: bold;
 }
-#wbexiaecxl .gt_font_italic {
+#nxhkkcpsvp .gt_font_italic {
 font-style: italic;
 }
-#wbexiaecxl .gt_super {
+#nxhkkcpsvp .gt_super {
 font-size: 65%;
 }
-#wbexiaecxl .gt_footnote_marks {
+#nxhkkcpsvp .gt_footnote_marks {
 font-size: 75%;
 vertical-align: 0.4em;
 position: initial;
 }
-#wbexiaecxl .gt_asterisk {
+#nxhkkcpsvp .gt_asterisk {
 font-size: 100%;
 vertical-align: 0;
 }
-#wbexiaecxl .gt_indent_1 {
+#nxhkkcpsvp .gt_indent_1 {
 text-indent: 5px;
 }
-#wbexiaecxl .gt_indent_2 {
+#nxhkkcpsvp .gt_indent_2 {
 text-indent: 10px;
 }
-#wbexiaecxl .gt_indent_3 {
+#nxhkkcpsvp .gt_indent_3 {
 text-indent: 15px;
 }
-#wbexiaecxl .gt_indent_4 {
+#nxhkkcpsvp .gt_indent_4 {
 text-indent: 20px;
 }
-#wbexiaecxl .gt_indent_5 {
+#nxhkkcpsvp .gt_indent_5 {
 text-indent: 25px;
 }
-#wbexiaecxl .katex-display {
+#nxhkkcpsvp .katex-display {
 display: inline-flex !important;
 margin-bottom: 0.75em !important;
 }
-#wbexiaecxl div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#nxhkkcpsvp div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
 height: 0px !important;
 }
 </style>
@@ -3709,19 +3708,19 @@ height: 0px !important;
 </thead>
 <tbody class="gt_table_body">
 <tr class="odd">
-<td class="gt_row gt_left" headers="モデル式">temp ~ solar</td>
-<td class="gt_row gt_right" headers="決定係数">0.087</td>
-<td class="gt_row gt_right" headers="自由度調整済み決定係数">0.054</td>
+<td class="gt_row gt_left" headers="aモデル式">temp ~ solar</td>
+<td class="gt_row gt_right" headers="a決定係数">0.087</td>
+<td class="gt_row gt_right" headers="a自由度調整済み決定係数">0.054</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="モデル式">temp ~ solar + press</td>
-<td class="gt_row gt_right" headers="決定係数">0.529</td>
-<td class="gt_row gt_right" headers="自由度調整済み決定係数">0.495</td>
+<td class="gt_row gt_left" headers="aモデル式">temp ~ solar + press</td>
+<td class="gt_row gt_right" headers="a決定係数">0.529</td>
+<td class="gt_row gt_right" headers="a自由度調整済み決定係数">0.495</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="モデル式">temp ~ solar + press + cloud</td>
-<td class="gt_row gt_right" headers="決定係数">0.556</td>
-<td class="gt_row gt_right" headers="自由度調整済み決定係数">0.505</td>
+<td class="gt_row gt_left" headers="aモデル式">temp ~ solar + press + cloud</td>
+<td class="gt_row gt_right" headers="a決定係数">0.556</td>
+<td class="gt_row gt_right" headers="a自由度調整済み決定係数">0.505</td>
 </tr>
 </tbody>
 </table>
