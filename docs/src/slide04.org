@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2026-09-30 15:51:39 mura>
+# Time-stamp: <2026-10-21 17:29:37 mura>
 :QUARTO:
 #+SETUPFILE: _quarto/org/lecture.org
 # C-c C-x C-v でinlineを切り替え
@@ -843,7 +843,7 @@
      2\int_{|t|}^\infty f(x)dx
      \quad\text{(両側検定)}
    \end{equation}
-- *帰無仮説 \(H_{0}\) が正しければ \(p\)値は小さくならない*
+- *帰無仮説 \(H_{0}\) が正しければ \(p\) 値は \([0,1]\) 上で一様分布する*
 
 #  - 帰無仮説 \(\beta_j=0\) が正しければ \(p\)値は小さくならない
 # - 帰無仮説 \(H_{0}\) が正しければ \(p\)値は小さくならない
@@ -922,7 +922,7 @@
      \int_{F}^\infty f(x)dx
      \quad\text{(片側検定)}
    \end{equation}
-- *帰無仮説 \(H_{0}\) が正しければ \(p\)値は小さくならない*
+- *帰無仮説 \(H_{0}\) が正しければ \(p\) 値は \([0,1]\) 上で一様分布する*
    
 #  - 帰無仮説 \(\forall j\;\beta_j=0\) が正しければ \(p\)値は小さくならない
 # - 帰無仮説 \(H_{0}\) が正しければ \(p\)値は小さくならない

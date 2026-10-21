@@ -90,7 +90,6 @@
 ** 付録
 - 実習用 [[github:code/practice04.qmd][Quarto]]
 - 解答例 [[github:code/practice04.html][HTML]]
-- データセット [[github:data/data04.zip][2024年の気象データ]]
 
 * 第5講
 :PROPERTIES:
@@ -108,7 +107,6 @@
 :END:
 - 実習用 [[github:code/practice05.qmd][Quarto]]
 - 解答例 [[github:code/practice05.html][HTML]]
-- 参考資料 [[github:data/data05.zip][コード・データセット]]
 
 * 第6講
 :PROPERTIES:

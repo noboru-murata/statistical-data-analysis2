@@ -213,7 +213,7 @@ mc_data |>
 
 ```{r}
 #| label: fig-greek
-#| fig-cap: "ギリシャ文字を利用するの例"
+#| fig-cap: "ギリシャ文字を利用する例"
 #| fig-width: 6
 #| fig-height: 6
 last_plot() + # 直前のプロットを指す
@@ -226,7 +226,7 @@ last_plot() + # 直前のプロットを指す
 
 ```{r}
 #| label: fig-marginal
-#| fig-cap: "周辺分布を付加するの例"
+#| fig-cap: "周辺分布を付加する例"
 #| fig-width: 6
 #| fig-height: 6
 library(ggExtra)
@@ -289,11 +289,10 @@ for(k in 1:2) {
 
 - 人工データを用いて標準誤差と真の誤差を比較する．標準誤差は以下のようにして取り出せる．
 
-  ```{r}
-  #| ecex: no
+  ``` r
   toy_lm <- lm(toy_formula, toy_data)
   tidy(toy_lm)                   # 係数に関する情報をtibbleクラスとして取得
-  tidy(toy_lm)[2]                # 列番号での要素の指定
+  tidy(toy_lm)[3]                # 列番号での要素の指定
   tidy(toy_lm)["std.error"]      # 列名での要素の指定
   ```
 
@@ -367,11 +366,12 @@ for(k in 1:3) {
 #| code-fold: true
 adv_remote  <- "https://www.statlearning.com/s/Advertising.csv"
 adv_file <- "data/advertising.csv"
-if(file.exists(adv_file)) {               # 保存してある場合
-  adv_data <- read_csv(file = adv_file)   
-} else {                                  # 保存していない場合
-  adv_data <- read_csv(file = adv_remote) 
-  write_csv(adv_data, file = adv_file)    # 保存する
+if(file.exists(adv_file)) {               # ローカルにある場合
+  adv_data <- read_csv(file = adv_file)   # ローカルファイルを読み込む
+} else {                                  # ローカルにない場合
+  adv_data <- read_csv(file = adv_remote, # リモートファイルを読み込む
+                       col_select = -1)   # 不要な番号の列を除く 
+  write_csv(adv_data, file = adv_file)    # ローカルファイルに保存する
 }
 ```
 
@@ -398,7 +398,7 @@ tidy(adv_lm3) |> select(1:3)
 
 ```{r}
 #| column: margin
-#' 規定の表
+#' 既定の表
 tbl_merge( 
   tbls = list(
     tbl_regression(adv_lm1),
@@ -407,7 +407,7 @@ tbl_merge(
   tab_spanner = paste0("モデル",1:3))
 ```
 
-規定の表では推定値・信頼区間・p値のみなので，必要な項目を並べるための関数を設定すると良い．
+既定の表では推定値・信頼区間・p値のみなので，必要な項目を並べるための関数を設定すると良い．
 
 ```{r}
 #| column: margin
@@ -427,13 +427,13 @@ tbl_merge(
 
 東京の気候データによる分析は以下のとおりである．
 
-まず，データを読み込み，9月のデータを抽出して整理する．
+データを読み込み，以下例として8月のデータを抽出して分析を行う．
 
 ```{r}
 #| code-fold: true
 tw_subset <-
   read_csv("data/tokyo_weather.csv") |>
-  filter(month == 9)
+  filter(month == 8)
 ```
 
 回帰モデルの推定を行う．
@@ -585,9 +585,9 @@ tbl_merge(
 
 ```{r}
 #| code-fold: true
-summary(lm(temp ~ solar + press, data = tw_subset))
-summary(lm(temp ~ press, data = tw_subset))
-summary(lm(temp ~ solar, data = tw_subset))
+summary(lm(temp ~ solar + press, data = tw_subset)) # 両方用いたモデル
+summary(lm(temp ~ press, data = tw_subset))         # 気圧のみのモデル
+summary(lm(temp ~ solar, data = tw_subset))         # 日射のみのモデル
 ```
 
 ```{r}
@@ -597,7 +597,7 @@ tbl_merge(
     my_gts(lm(temp ~ solar + press, data = tw_subset)),
     my_gts(lm(temp ~ press, data = tw_subset)),
     my_gts(lm(temp ~ solar, data = tw_subset))),
-  tab_spanner = c("モデル1","モデル2","モデル3"))
+  tab_spanner = c("日射と気圧","気圧のみ","日射のみ"))
 ```
 
 `press` 単体では係数の推定精度も決定係数も低いが， `solar` と組み合わせることにより精度が上がり説明力も高くなることがわかる．
@@ -616,7 +616,7 @@ tbl_merge(
   #| eval: false
   toy_lm <- lm(toy_formula, toy_data)
   glance(toy_lm)[c("statistic","p.value","df","df.residual")] # 以下全て等価
-  glance(toy_lm)[4:6,11]
+  glance(toy_lm)[c(4:6,11)]
   glance(toy_lm) |> select(statistic,p.value,df,df.residual)
   toy_lm |> glance() |> select(4:6,11)
   ```
@@ -715,7 +715,7 @@ summary(lm(sales ~ radio, data = adv_data))
 summary(lm(sales ~ newspaper, data = adv_data))
 ```
 
-`radio`, `newspaper` は決定係数は小さく説明力は無いが，$F$ 統計量はそれなりに小さいのでモデルの有効性が無いとは言えない．
+`radio`, `newspaper` は決定係数は小さく説明力は無いが，$F$ 統計量はそれなりに大きいのでモデルの有効性が無いとは言えない．
 
 関数 `gtsummary::tbl_regression()` を利用してまとめる場合は，例えば以下のようにすればよい．
 
@@ -739,12 +739,12 @@ tbl_merge(
 
 ```{r}
 #| code-fold: true
-summary(lm(temp ~ press, data = tw_subset))
-summary(lm(temp ~ press + solar, data = tw_subset))
-summary(lm(temp ~ press + solar + rain, data = tw_subset))
+summary(lm(temp ~ press, data = tw_subset))                # 気圧のみ
+summary(lm(temp ~ press + solar, data = tw_subset))        # 日射を追加
+summary(lm(temp ~ press + solar + rain, data = tw_subset)) # さらに雨量を追加
 ```
 
-`press` のみではモデルの有効性があるとは言えないが， `solar` と組み合わせることにより有効性が確認できる． `rain` を加えても `press` の係数に変化は見られないが， `solar` の係数が変化し決定係数が大きくなることから `solar` と `rain` が相補的にモデルの精度を上げている可能性が示唆される．
+`press` のみではモデルの有効性があるとは言えないが， `solar` を追加したモデルでは決定係数が大幅に上昇し，また $F$ 統計量からもモデルの有効性が確認できる． `rain` を加えると若干ではあるが，決定係数が大きくなる． `press` の $t$ 統計量の変化も考慮に入れると， `rain` と `press` が相補的にモデルの精度を上げている可能性が示唆される．
 
 表形式にまとめると以下のようになる．
 

@@ -23,4 +23,3 @@ weight = 1005
 
 -   実習用 [Quarto](https://noboru-murata.github.io/statistical-data-analysis2/code/practice04.qmd)
 -   解答例 [HTML](https://noboru-murata.github.io/statistical-data-analysis2/code/practice04.html)
--   データセット [2024年の気象データ](https://noboru-murata.github.io/statistical-data-analysis2/data/data04.zip)

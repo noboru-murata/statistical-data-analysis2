@@ -130,7 +130,8 @@ adv_file <- "data/advertising.csv"
 if(file.exists(adv_file)) {               # ローカルにある場合
   adv_data <- read_csv(file = adv_file)   # ローカルファイルを読み込む
 } else {                                  # ローカルにない場合
-  adv_data <- read_csv(file = adv_remote) # リモートファイルを読み込む
+  adv_data <- read_csv(file = adv_remote, # リモートファイルを読み込む
+                       col_select = -1)   # 不要な番号の列を除く 
   write_csv(adv_data, file = adv_file)    # ローカルファイルに保存する
 }
 ```
@@ -145,7 +146,7 @@ GGally パッケージを利用して散布図を描く．[^3]
 #| fig-width: 6
 #| fig-height: 6
 library(GGally)
-ggpairs(adv_data, columns = 2:5)
+ggpairs(adv_data)
 ```
 
 "TV" の宣伝費で売上を説明する．

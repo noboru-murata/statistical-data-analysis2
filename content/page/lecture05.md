@@ -23,4 +23,3 @@ weight = 1006
 
 -   実習用 [Quarto](https://noboru-murata.github.io/statistical-data-analysis2/code/practice05.qmd)
 -   解答例 [HTML](https://noboru-murata.github.io/statistical-data-analysis2/code/practice05.html)
--   参考資料 [コード・データセット](https://noboru-murata.github.io/statistical-data-analysis2/data/data05.zip)

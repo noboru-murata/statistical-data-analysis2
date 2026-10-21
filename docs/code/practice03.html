@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2026-10-16">
+<meta name="dcterms.date" content="2026-10-21">
 
 <title>第3講 回帰分析</title>
 <style>
@@ -2403,7 +2403,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 16, 2026</p>
+      <p class="date">October 21, 2026</p>
     </div>
   </div>
   
@@ -2550,10 +2550,11 @@ Coefficients:
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">file.exists</span>(adv_file)) {               <span class="co"># ローカルにある場合</span></span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  adv_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file =</span> adv_file)   <span class="co"># ローカルファイルを読み込む</span></span>
 <span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {                                  <span class="co"># ローカルにない場合</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  adv_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file =</span> adv_remote) <span class="co"># リモートファイルを読み込む</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_csv</span>(adv_data, <span class="at">file =</span> adv_file)    <span class="co"># ローカルファイルに保存する</span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  adv_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file =</span> adv_remote, <span class="co"># リモートファイルを読み込む</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>                       <span class="at">col_select =</span> <span class="sc">-</span><span class="dv">1</span>)   <span class="co"># 不要な番号の列を除く </span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_csv</span>(adv_data, <span class="at">file =</span> adv_file)    <span class="co"># ローカルファイルに保存する</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div id="fn3"><p><sup>3</sup> : 標準設定では図は横長で描画される．この例では縦横が同じ大きさ(7inch)になるように指定している．</p></div></div><p>GGally パッケージを利用して散布図を描く．<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
 <div class="cell">
@@ -2564,7 +2565,7 @@ Coefficients:
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 6</span></span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 6</span></span>
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally)</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpairs</span>(adv_data, <span class="at">columns =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpairs</span>(adv_data)</span>
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
@@ -3301,20 +3302,20 @@ F-statistic: 859.6 on 2 and 197 DF,  p-value: &lt; 2.2e-16
 <span id="cb69-16"><a href="#cb69-16" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
-<div id="nxhkkcpsvp" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#nxhkkcpsvp table {
+<div id="kkuvrgpsnf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#kkuvrgpsnf table {
 font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
 }
-#nxhkkcpsvp thead, #nxhkkcpsvp tbody, #nxhkkcpsvp tfoot, #nxhkkcpsvp tr, #nxhkkcpsvp td, #nxhkkcpsvp th {
+#kkuvrgpsnf thead, #kkuvrgpsnf tbody, #kkuvrgpsnf tfoot, #kkuvrgpsnf tr, #kkuvrgpsnf td, #kkuvrgpsnf th {
 border-style: none;
 }
-#nxhkkcpsvp p {
+#kkuvrgpsnf p {
 margin: 0;
 padding: 0;
 }
-#nxhkkcpsvp .gt_table {
+#kkuvrgpsnf .gt_table {
 display: table;
 border-collapse: collapse;
 line-height: normal;
@@ -3339,11 +3340,11 @@ border-left-style: none;
 border-left-width: 2px;
 border-left-color: #D3D3D3;
 }
-#nxhkkcpsvp .gt_caption {
+#kkuvrgpsnf .gt_caption {
 padding-top: 4px;
 padding-bottom: 4px;
 }
-#nxhkkcpsvp .gt_title {
+#kkuvrgpsnf .gt_title {
 color: #333333;
 font-size: 125%;
 font-weight: initial;
@@ -3354,7 +3355,7 @@ padding-right: 5px;
 border-bottom-color: #FFFFFF;
 border-bottom-width: 0;
 }
-#nxhkkcpsvp .gt_subtitle {
+#kkuvrgpsnf .gt_subtitle {
 color: #333333;
 font-size: 85%;
 font-weight: initial;
@@ -3365,7 +3366,7 @@ padding-right: 5px;
 border-top-color: #FFFFFF;
 border-top-width: 0;
 }
-#nxhkkcpsvp .gt_heading {
+#kkuvrgpsnf .gt_heading {
 background-color: #FFFFFF;
 text-align: center;
 border-bottom-color: #FFFFFF;
@@ -3376,12 +3377,12 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#nxhkkcpsvp .gt_bottom_border {
+#kkuvrgpsnf .gt_bottom_border {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#nxhkkcpsvp .gt_col_headings {
+#kkuvrgpsnf .gt_col_headings {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -3395,7 +3396,7 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#nxhkkcpsvp .gt_col_heading {
+#kkuvrgpsnf .gt_col_heading {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3414,7 +3415,7 @@ padding-left: 5px;
 padding-right: 5px;
 overflow-x: hidden;
 }
-#nxhkkcpsvp .gt_column_spanner_outer {
+#kkuvrgpsnf .gt_column_spanner_outer {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3425,13 +3426,13 @@ padding-bottom: 0;
 padding-left: 4px;
 padding-right: 4px;
 }
-#nxhkkcpsvp .gt_column_spanner_outer:first-child {
+#kkuvrgpsnf .gt_column_spanner_outer:first-child {
 padding-left: 0;
 }
-#nxhkkcpsvp .gt_column_spanner_outer:last-child {
+#kkuvrgpsnf .gt_column_spanner_outer:last-child {
 padding-right: 0;
 }
-#nxhkkcpsvp .gt_column_spanner {
+#kkuvrgpsnf .gt_column_spanner {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
@@ -3442,10 +3443,10 @@ overflow-x: hidden;
 display: inline-block;
 width: 100%;
 }
-#nxhkkcpsvp .gt_spanner_row {
+#kkuvrgpsnf .gt_spanner_row {
 border-bottom-style: hidden;
 }
-#nxhkkcpsvp .gt_group_heading {
+#kkuvrgpsnf .gt_group_heading {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3470,7 +3471,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 text-align: left;
 }
-#nxhkkcpsvp .gt_empty_group_heading {
+#kkuvrgpsnf .gt_empty_group_heading {
 padding: 0.5px;
 color: #333333;
 background-color: #FFFFFF;
@@ -3484,13 +3485,13 @@ border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 vertical-align: middle;
 }
-#nxhkkcpsvp .gt_from_md > :first-child {
+#kkuvrgpsnf .gt_from_md > :first-child {
 margin-top: 0;
 }
-#nxhkkcpsvp .gt_from_md > :last-child {
+#kkuvrgpsnf .gt_from_md > :last-child {
 margin-bottom: 0;
 }
-#nxhkkcpsvp .gt_row {
+#kkuvrgpsnf .gt_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3508,7 +3509,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 overflow-x: hidden;
 }
-#nxhkkcpsvp .gt_stub {
+#kkuvrgpsnf .gt_stub {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3520,7 +3521,7 @@ border-right-color: #D3D3D3;
 padding-left: 5px;
 padding-right: 5px;
 }
-#nxhkkcpsvp .gt_stub_row_group {
+#kkuvrgpsnf .gt_stub_row_group {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3533,13 +3534,13 @@ padding-left: 5px;
 padding-right: 5px;
 vertical-align: top;
 }
-#nxhkkcpsvp .gt_row_group_first td {
+#kkuvrgpsnf .gt_row_group_first td {
 border-top-width: 2px;
 }
-#nxhkkcpsvp .gt_row_group_first th {
+#kkuvrgpsnf .gt_row_group_first th {
 border-top-width: 2px;
 }
-#nxhkkcpsvp .gt_summary_row {
+#kkuvrgpsnf .gt_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -3548,14 +3549,14 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#nxhkkcpsvp .gt_first_summary_row {
+#kkuvrgpsnf .gt_first_summary_row {
 border-top-style: solid;
 border-top-color: #D3D3D3;
 }
-#nxhkkcpsvp .gt_first_summary_row.thick {
+#kkuvrgpsnf .gt_first_summary_row.thick {
 border-top-width: 2px;
 }
-#nxhkkcpsvp .gt_last_summary_row {
+#kkuvrgpsnf .gt_last_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3564,7 +3565,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#nxhkkcpsvp .gt_grand_summary_row {
+#kkuvrgpsnf .gt_grand_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -3573,7 +3574,7 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#nxhkkcpsvp .gt_first_grand_summary_row {
+#kkuvrgpsnf .gt_first_grand_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3582,7 +3583,7 @@ border-top-style: double;
 border-top-width: 6px;
 border-top-color: #D3D3D3;
 }
-#nxhkkcpsvp .gt_last_grand_summary_row_top {
+#kkuvrgpsnf .gt_last_grand_summary_row_top {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3591,10 +3592,10 @@ border-bottom-style: double;
 border-bottom-width: 6px;
 border-bottom-color: #D3D3D3;
 }
-#nxhkkcpsvp .gt_striped {
+#kkuvrgpsnf .gt_striped {
 background-color: rgba(128, 128, 128, 0.05);
 }
-#nxhkkcpsvp .gt_table_body {
+#kkuvrgpsnf .gt_table_body {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -3602,7 +3603,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#nxhkkcpsvp .gt_footnotes {
+#kkuvrgpsnf .gt_footnotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -3615,7 +3616,7 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#nxhkkcpsvp .gt_footnote {
+#kkuvrgpsnf .gt_footnote {
 margin: 0px;
 font-size: 90%;
 padding-top: 4px;
@@ -3623,7 +3624,7 @@ padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#nxhkkcpsvp .gt_sourcenotes {
+#kkuvrgpsnf .gt_sourcenotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -3636,64 +3637,64 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#nxhkkcpsvp .gt_sourcenote {
+#kkuvrgpsnf .gt_sourcenote {
 font-size: 90%;
 padding-top: 4px;
 padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#nxhkkcpsvp .gt_left {
+#kkuvrgpsnf .gt_left {
 text-align: left;
 }
-#nxhkkcpsvp .gt_center {
+#kkuvrgpsnf .gt_center {
 text-align: center;
 }
-#nxhkkcpsvp .gt_right {
+#kkuvrgpsnf .gt_right {
 text-align: right;
 font-variant-numeric: tabular-nums;
 }
-#nxhkkcpsvp .gt_font_normal {
+#kkuvrgpsnf .gt_font_normal {
 font-weight: normal;
 }
-#nxhkkcpsvp .gt_font_bold {
+#kkuvrgpsnf .gt_font_bold {
 font-weight: bold;
 }
-#nxhkkcpsvp .gt_font_italic {
+#kkuvrgpsnf .gt_font_italic {
 font-style: italic;
 }
-#nxhkkcpsvp .gt_super {
+#kkuvrgpsnf .gt_super {
 font-size: 65%;
 }
-#nxhkkcpsvp .gt_footnote_marks {
+#kkuvrgpsnf .gt_footnote_marks {
 font-size: 75%;
 vertical-align: 0.4em;
 position: initial;
 }
-#nxhkkcpsvp .gt_asterisk {
+#kkuvrgpsnf .gt_asterisk {
 font-size: 100%;
 vertical-align: 0;
 }
-#nxhkkcpsvp .gt_indent_1 {
+#kkuvrgpsnf .gt_indent_1 {
 text-indent: 5px;
 }
-#nxhkkcpsvp .gt_indent_2 {
+#kkuvrgpsnf .gt_indent_2 {
 text-indent: 10px;
 }
-#nxhkkcpsvp .gt_indent_3 {
+#kkuvrgpsnf .gt_indent_3 {
 text-indent: 15px;
 }
-#nxhkkcpsvp .gt_indent_4 {
+#kkuvrgpsnf .gt_indent_4 {
 text-indent: 20px;
 }
-#nxhkkcpsvp .gt_indent_5 {
+#kkuvrgpsnf .gt_indent_5 {
 text-indent: 25px;
 }
-#nxhkkcpsvp .katex-display {
+#kkuvrgpsnf .katex-display {
 display: inline-flex !important;
 margin-bottom: 0.75em !important;
 }
-#nxhkkcpsvp div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#kkuvrgpsnf div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
 height: 0px !important;
 }
 </style>
@@ -3708,19 +3709,19 @@ height: 0px !important;
 </thead>
 <tbody class="gt_table_body">
 <tr class="odd">
-<td class="gt_row gt_left" headers="aモデル式">temp ~ solar</td>
-<td class="gt_row gt_right" headers="a決定係数">0.087</td>
-<td class="gt_row gt_right" headers="a自由度調整済み決定係数">0.054</td>
+<td class="gt_row gt_left" headers="モデル式">temp ~ solar</td>
+<td class="gt_row gt_right" headers="決定係数">0.087</td>
+<td class="gt_row gt_right" headers="自由度調整済み決定係数">0.054</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="aモデル式">temp ~ solar + press</td>
-<td class="gt_row gt_right" headers="a決定係数">0.529</td>
-<td class="gt_row gt_right" headers="a自由度調整済み決定係数">0.495</td>
+<td class="gt_row gt_left" headers="モデル式">temp ~ solar + press</td>
+<td class="gt_row gt_right" headers="決定係数">0.529</td>
+<td class="gt_row gt_right" headers="自由度調整済み決定係数">0.495</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="aモデル式">temp ~ solar + press + cloud</td>
-<td class="gt_row gt_right" headers="a決定係数">0.556</td>
-<td class="gt_row gt_right" headers="a自由度調整済み決定係数">0.505</td>
+<td class="gt_row gt_left" headers="モデル式">temp ~ solar + press + cloud</td>
+<td class="gt_row gt_right" headers="決定係数">0.556</td>
+<td class="gt_row gt_right" headers="自由度調整済み決定係数">0.505</td>
 </tr>
 </tbody>
 </table>
