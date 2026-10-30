@@ -5,21 +5,20 @@ date: "`r Sys.Date()`"
 format:
     html: 
       toc: true
-      html-math-method: katex
       self-contained: true
       grid: 
         margin-width: 350px
 execute: 
-  echo: true
-  warning: false
+  echo: fenced
 reference-location: margin
 citation-location: margin
 tbl-cap-location: margin
 fig-cap-location: margin
+warning: false
 editor: visual
 ---
 
-## 準備
+# 準備
 
 以下で利用する共通パッケージを読み込む．
 
@@ -48,15 +47,15 @@ if(Sys.info()["sysname"] == "Darwin") { # macOSか調べる
 } else {jp_font <- NULL}
 ```
 
-## 主成分分析に用いる主な関数
+# 主成分分析に用いる主な関数
 
 分析に用いる主な関数としては以下がある．
 
--   `stats::prcomp()`: 主成分分析の実行
--   `base::summary()`: 主成分負荷・寄与率を表示
--   `broom::tidy()`: 主成分得点・負荷・寄与率を tibble クラスで取得
--   `broom::augment()`: tibble クラスで主成分得点を計算
--   `ggfortify::autoplot()`: 主成分得点による散布図およびバイプロット
+- `stats::prcomp()`: 主成分分析の実行
+- `base::summary()`: 主成分負荷・寄与率を表示
+- `broom::tidy()`: 主成分得点・負荷・寄与率を tibble クラスで取得
+- `broom::augment()`: tibble クラスで主成分得点を計算
+- `ggfortify::autoplot()`: 主成分得点による散布図およびバイプロット
 
 ``` r
 #' データフレーム 'toy_data' を分析
@@ -73,8 +72,7 @@ toy_pca |>
     autoplot(scale = 0, x = 1, y = 2) 
 ```
 
-::: callout-tip
-### `jpamenity.csv` を用いた例
+## `jpamenity.csv` を用いた例
 
 人口関連データを整理する．
 
@@ -127,27 +125,25 @@ ja_pca |>
              loadings.label.colour = "darkgray", # 負荷ラベルの表示
              loadings.label.size = 4) 
 ```
-:::
 
-## データセット
+# データセット
 
 以下では2つのデータセットを使用する
 
-::: callout-note
-### `japan_social2.csv` の概要
+## `japan_social2.csv` の概要
 
 総務省統計局より取得した都道府県別の社会生活統計指標の一部
 
 `japan_social.csv` を日本語化したもの
 
--   都道府県名 :
--   地方区分 :
--   森林面積割合: 森林面積割合 (%) 2014年
--   農業産出額 : 就業者１人当たり農業産出額(販売農家）(万円) 2014年
--   人口割合 : 全国総人口に占める人口割合 (%) 2015年
--   土地生産性 : 土地生産性（耕地面積１ヘクタール当たり）(万円) 2014年
--   商品販売額 : 商業年間商品販売額［卸売業＋小売業］（事業所当たり）(百万円) 2013年
--   参考 : <https://www.e-stat.go.jp/SG1/estat/List.do?bid=000001083999&cycode=0>
+- 都道府県名 :
+- 地方区分 :
+- 森林面積割合: 森林面積割合 (%) 2014年
+- 農業産出額 : 就業者１人当たり農業産出額(販売農家）(万円) 2014年
+- 人口割合 : 全国総人口に占める人口割合 (%) 2015年
+- 土地生産性 : 土地生産性（耕地面積１ヘクタール当たり）(万円) 2014年
+- 商品販売額 : 商業年間商品販売額［卸売業＋小売業］（事業所当たり）(百万円) 2013年
+- 参考 : <https://www.e-stat.go.jp/SG1/estat/List.do?bid=000001083999&cycode=0>
 
 データの読み込み方の例．
 
@@ -157,7 +153,6 @@ js_data <-
     read_csv("data/japan_social2.csv",
              col_types = list(地方区分 = col_factor())) # 地方区分を因子化
 ```
-:::
 
 ::: column-margin
 列の `type` を指定したい場所が判っていて，先頭の方であれば以下でも可．
@@ -170,8 +165,7 @@ js_data <-
 ```
 :::
 
-::: callout-note
-### `MASS::UScereal` の概要
+## `MASS::UScereal` の概要
 
 **Nutritional and Marketing Information on US Cereals**
 
@@ -189,16 +183,15 @@ uc_data <-
     rownames_to_column(var = "product") |> # 行名の製品名を product 列に加える
     as_tibble()                            # tibble クラスに変換
 ```
-:::
 
-## 寄与率・累積寄与率
+# 寄与率・累積寄与率
 
-### 問題
+## 問題
 
 データセット
 
--   `japan_social.csv`
--   `MASS::UScereal`
+- `japan_social.csv`
+- `MASS::UScereal`
 
 について，標準化の有無の違いで寄与率・累積寄与率がどのように異なるか確認しなさい．
 
@@ -208,16 +201,23 @@ toy_data |> prcomp(scale. = TRUE) # 標準化を行う場合
 ```
 
 ::: column-margin
-正式なオプション名は `scale.` であるが，`sc = TRUE` など他のオプションと区別できれば短縮表記も可能．
+正式なオプション名は `scale.` であるが，\~sc = TRUE\~ など他のオプションと区別できれば短縮表記も可能．
 :::
 
-### 解答例
+## 解答欄
 
-#### `japan_social2.csv` の場合
+```{r}
+#' ここにコードを書く
+```
+
+## 解答例
+
+### `japan_social2.csv` の場合
 
 データを読み込む．
 
 ```{r}
+#| code-fold: true
 js_data <-
     read_csv("data/japan_social2.csv",
              col_types = list(地方区分 = col_factor())) # 地方区分を因子化
@@ -226,6 +226,7 @@ js_data <-
 データの性質を把握するために視覚化を行う．以下は全体の散布図および特定の2項目の散布図を描いた例である．
 
 ```{r}
+#| code-fold: true
 js_data |> 
     ggpairs(columns = which(sapply(js_data,is.double)),    # 数値列を指定．列番号(3:7)でも指定可
             legend = c(2,1),                               # 2行1列のグラフから凡例を作成
@@ -233,9 +234,10 @@ js_data |>
                          mapping = aes(colour = 地方区分))) # 地方区分で色分け
 ```
 
-いくつかの変数は相関が強いことがわかる．`農業算出額` と `森林面積割合` で散布図を確認する．
+いくつかの変数は相関が強いことがわかる．~農業算出額~ と `森林面積割合` で散布図を確認する．
 
 ```{r}
+#| code-fold: true
 js_data |>
     ggplot(aes(x = 農業算出額, y = 森林面積割合, label = 都道府県名)) +
     geom_point(colour = "blue") +
@@ -245,6 +247,7 @@ js_data |>
 主成分分析を実行する．
 
 ```{r}
+#| code-fold: true
 js_pca_raw <-
     js_data |>
     select(where(is.double)) |> # 数値列を指定
@@ -274,6 +277,7 @@ js_pca <- js_data |>
 標準化しない場合の分析結果は以下のようになる． まず，寄与率および累積寄与率を確認する．
 
 ```{r}
+#| code-fold: true
 summary(js_pca_raw) 
 ```
 
@@ -282,6 +286,7 @@ summary(js_pca_raw)
 主成分負荷量を取り出す．
 
 ```{r}
+#| code-fold: true
 js_pca_raw$rotation 
 ```
 
@@ -290,6 +295,7 @@ js_pca_raw$rotation
 寄与率および累積寄与率を tibble クラスで取得すれば， さまざまな表やグラフを作成することができる． 寄与率に関する情報は，各主成分ごとに標準偏差，寄与率，累積寄与率の列を持つデータフレームなので， 例えば以下のような表示が可能である．
 
 ```{r}
+#| code-fold: true
 #' 寄与率に関する表を作成
 js_pca_raw |>                              
     tidy("eigenvalues") |>                 # "d" または "eigenvalues" または "pcs"
@@ -319,6 +325,7 @@ js_pca_raw |>
 主成分負荷量に関する情報は， 主成分と特性量を指定して負荷量を得る型式の長い表なので， 目的に応じて以下のように整理する必要がる．
 
 ```{r}
+#| code-fold: true
 #' 主成分負荷量に関する表を作成
 js_pca_raw |>
     tidy("loadings") |>
@@ -347,6 +354,7 @@ js_pca_raw |>
 簡単な散布図の表示方法として `package::ggfortify` を利用する方法は以下のようになる．
 
 ```{r}
+#| code-fold: true
 js_pca_raw |>
     autoplot(asp =1,                   # 縦横の比率を1
              scale = 0,                # 主成分得点のままの散布図
@@ -360,6 +368,7 @@ js_pca_raw |>
 同様に標準化した場合の分析結果を見てみる．
 
 ```{r}
+#| code-fold: true
 js_pca |>                                  # 寄与率に関する情報
     tidy("eigenvalues") |>                
     gt() |>      
@@ -402,11 +411,12 @@ screeplot(js_pca)
 ```
 :::
 
-#### `MASS::UScereal` の場合
+### `MASS::UScereal` の場合
 
 データを整理する．また，分析を行う前に適当な方法で視覚化をすることを推奨する．
 
 ```{r}
+#| code-fold: true
 uc_data <-
     MASS::UScereal |> 
     rownames_to_column(var = "product") |>
@@ -422,6 +432,7 @@ uc_data |>
 標準化なしの分析は以下のようになる．
 
 ```{r}
+#| code-fold: true
 uc_pca_raw <-
     uc_data |>
     select(where(is.double)) |>
@@ -464,6 +475,7 @@ uc_pca_raw |>
 標準化ありの分析は以下のようになる．
 
 ```{r}
+#| code-fold: true
 uc_pca <-
     uc_data |>
     select(where(is.double)) |>
@@ -503,12 +515,11 @@ uc_pca |>
     labs(colour = "company")
 ```
 
-## 主成分分析の視覚化
+# 主成分分析の視覚化
 
 主成分分析の分析結果を可視化するバイプロット表示は， 関数 `ggfortify::autoplot()` にオプションを指定することで実行できる．
 
-::: callout-note
-### バイプロット表示
+## バイプロット表示
 
 ``` r
 #' データフレームを分析する
@@ -530,7 +541,6 @@ toy_pca |>
     autoplot(scale = 0,             # パラメタ s の指定
              loadings = TRUE)
 ```
-:::
 
 ::: column-margin
 `base R` には関数 `biplot()` が用意されており， 同様の描画を行うことができる．
@@ -545,32 +555,33 @@ biplot(toy_pca, scale=0)
 ```
 :::
 
-### 問題
+## 問題
 
 データセット
 
--   `japan_social.csv`
--   `MASS::UScereal`
+- `japan_social.csv`
+- `MASS::UScereal`
 
 の主成分分析の結果を利用してバイプロットによる可視化を行いなさい．
 
--   標準化したデータでの主成分分析を行いなさい
--   第1主成分と第2主成分でのバイプロットを描きなさい
--   第2主成分と第3主成分でのバイプロットを描きなさい
+- 標準化したデータでの主成分分析を行いなさい
+- 第1主成分と第2主成分でのバイプロットを描きなさい
+- 第2主成分と第3主成分でのバイプロットを描きなさい
 
-### 解答欄
+## 解答欄
 
 ```{r}
 
 ```
 
-### 解答例
+## 解答例
 
-#### `japan_social2.csv` の場合
+### `japan_social2.csv` の場合
 
 簡素なバイプロット表示の指定は以下のとおりである．
 
 ```{r}
+#| code-fold: true
 js_pca |>
     autoplot(data = js_data,           # 既定値では第1 vs 第2主成分
              asp = 1,                  # 縦横比を1
@@ -583,6 +594,7 @@ js_pca |>
 指定可能なオプションの例は以下のようになる．
 
 ```{r}
+#| code-fold: true
 js_pca |>
     autoplot(data = js_data,                  # 地方区分などの補助情報を渡す
              asp = 1,
@@ -608,6 +620,7 @@ js_pca |>
 農業産出額を降順に並べる．
 
 ```{r}
+#| code-fold: true
 js_data |>
     arrange(desc(農業算出額)) |> # 指定の列の降順に並べ替える
     slice_head(n = 10) |>      # 上位10件を選択
@@ -617,6 +630,7 @@ js_data |>
 第2,3主成分を確認すると，第3主成分方向の負の向きには土地生産性の上位県が集中している．
 
 ```{r}
+#| code-fold: true
 js_pca |>
     autoplot(x = 2, y = 3,
              data = js_data,
@@ -633,15 +647,17 @@ js_pca |>
 土地生産性を昇順に並べると，北海道の土地生産性は低いことがわかる．
 
 ```{r}
+#| code-fold: true
 js_data |>
     arrange(土地生産性) |>  # arrangeの既定値は昇順
     slice_head(n = 10) |> # 昇順なので下位10件を選択
     gt()
 ```
 
-#### `MASS::UScereal` の場合
+### `MASS::UScereal` の場合
 
 ```{r}
+#| code-fold: true
 uc_pca |>
     autoplot(data = uc_data,
              asp = 1,
@@ -680,6 +696,7 @@ uc_pca |>
 第1,2主成分得点で散布図を描き，上と比較してみる．
 
 ```{r}
+#| code-fold: true
 uc_pca |>
     augment(data = uc_data) |>
     ggplot(aes(x = .fittedPC1, y = .fittedPC2,
@@ -692,6 +709,7 @@ uc_pca |>
 配置は変わらないが，座標軸が異なることがわかる． 関数 `autoplot()` において `scale=0` とするとデータの座標は主成分得点となる．
 
 ```{r}
+#| code-fold: true
 options(ggrepel.max.overlaps = 40)
 uc_pca |>
     autoplot(scale = 0, 

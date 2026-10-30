@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2026-09-30 16:12:38 mura>
+# Time-stamp: <2026-10-30 13:58:17 mura>
 :QUARTO:
 #+SETUPFILE: _quarto/org/lecture.org
 # C-c C-x C-v でinlineを切り替え
@@ -399,23 +399,6 @@
       remove_abbreviation() |>
       modify_abbreviation("SE = 標準誤差")
   } 
-  my_gts <- function(x){
-    tbl_regression(x, intercept = TRUE) |>            # 標準の表
-      modify_column_unhide(columns = c(statistic)) |> # 標準誤差とt統計量を表示
-      add_significance_stars(
-        hide_ci = TRUE,
-        hide_se = FALSE,
-        hide_p = FALSE,
-        pattern = "{p.value}{stars}"
-      ) |>
-      modify_header(label = "**変数**",
-                    estimate = "**係数**",
-                    std.error = "**SE**",
-                    statistic = "**t統計量**",
-                    p.value = "**p値**") |>
-      remove_abbreviation() |>
-      modify_abbreviation("SE = 標準誤差")
-  } 
   tw_gt <- 
     tbl_merge(
       tbls = list(
@@ -643,10 +626,10 @@
   \begin{equation}
     \mathcal{I}^{c}_{\alpha}
     =
-    \left(
+    \left[
       \hat{y}-C_{\alpha}\hat{\sigma}\gamma_{c}(\boldsymbol{x}),\;
       \hat{y}+C_{\alpha}\hat{\sigma}\gamma_{c}(\boldsymbol{x})
-    \right)
+    \right]
   \end{equation}
   #  ただし \(C_{\alpha}\) は以下を満たす定数
   \begin{equation}
@@ -763,10 +746,10 @@
   \begin{equation}
     \mathcal{I}^{p}_{\alpha}
     =
-    \left(
+    \left[
       \hat{y}-C_{\alpha}\hat{\sigma}\gamma_{p}(\boldsymbol{x}),\;
       \hat{y}+C_{\alpha}\hat{\sigma}\gamma_{p}(\boldsymbol{x})
-    \right)
+    \right]
   \end{equation}
   # ただし \(C_{\alpha}\) は以下を満たす定数
   \begin{equation}
