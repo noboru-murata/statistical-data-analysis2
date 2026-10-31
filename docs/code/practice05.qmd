@@ -107,7 +107,7 @@ bind_rows(tw_train_fitted, tw_test_fitted) |>
   labs(x = "fitted", y = "observed")
 ```
 
-この場合は順序付きの因子になるので，'shape' を利用すると警告が出る．
+この場合は順序付きの因子になるので， `shape` を利用すると警告が出る．
 :::
 
 ## 区間表示のための関数
@@ -146,8 +146,8 @@ geom_errorbar(
 
 ``` r
 tw_data <- read_csv("data/tokyo_weather.csv")
-tw_train <- tw_data |> filter(month == 8) # 単一の数字と比較
-tw_test  <- tw_data |> filter(month %in% c(9,10)) # 集合と比
+tw_train <- tw_data |> filter(month == 8)         # 単一の数字と比較
+tw_test  <- tw_data |> filter(month %in% c(9,10)) # 集合と比較
 ```
 
 ## 解答欄
@@ -350,7 +350,7 @@ autoplot(lm(temp ~ solar * press * humid, data = tw_subset))
 
 雨の有無(カテゴリカル変数)と気温の関係を分析する． 雨の有無および月(整数値)をダミー化(因子化)[^1]する．
 
-[^1]: : 論理値は因子として扱われるが，明示的に因子としたい場合は `factor(rain > 0)` としても良い． 因子の属性を与える関数としては `base::as.factor()` と `forcats::as_factor()` があるが，前者は文字列を辞書順に並べ変えてから，後者はデータフレームでの出現順に因子化する．回帰の計算においては特に問題ないが，因子化の順序はグラフなど凡例の順番に影響する．
+[^1]: 論理値は因子として扱われるが，明示的に因子としたい場合は `factor(rain > 0)` としても良い． 因子の属性を与える関数としては `base::as.factor()` と `forcats::as_factor()` があるが，前者は文字列を辞書順に並べ変えてから，後者はデータフレームでの出現順に因子化する．回帰の計算においては特に問題ないが，因子化の順序はグラフなど凡例の順番に影響する．
 
 ```{r}
 #| code-fold: true
@@ -391,7 +391,15 @@ autoplot(lm(temp ~ rain + month, data = tw_data_fact))
 変数が増えるとモデルの比較が困難となるが， 関数 `stats::step()` で自動化することができる．
 
 ```{r}
-adv_data <- read_csv('https://www.statlearning.com/s/Advertising.csv')
+adv_remote  <- "https://www.statlearning.com/s/Advertising.csv"
+adv_file <- "data/advertising.csv"
+if(file.exists(adv_file)) {
+  adv_data <- read_csv(file = adv_file)   
+} else {                                  
+  adv_data <- read_csv(file = adv_remote, 
+                       col_select = -1)   
+  write_csv(adv_data, file = adv_file)    
+}
 summary(lm(sales ~ radio, data = adv_data))
 summary(lm(sales ~ TV + radio, data = adv_data))
 summary(lm(sales ~ TV + radio + newspaper, data = adv_data))

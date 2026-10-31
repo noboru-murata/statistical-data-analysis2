@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2026-10-30">
+<meta name="dcterms.date" content="2026-10-31">
 
 <title>第5講 回帰分析</title>
 <style>
@@ -2401,7 +2401,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 30, 2026</p>
+      <p class="date">October 31, 2026</p>
     </div>
   </div>
   
@@ -2527,7 +2527,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>この場合は順序付きの因子になるので，‘shape’ を利用すると警告が出る．</p>
+<p>この場合は順序付きの因子になるので， <code>shape</code> を利用すると警告が出る．</p>
 </div></div></section>
 <section id="区間表示のための関数" class="level2">
 <h2 class="anchored" data-anchor-id="区間表示のための関数">区間表示のための関数</h2>
@@ -2559,8 +2559,8 @@ window.Quarto = {
 </ul>
 <p>特定の月のデータを取り出すには，例えば以下のようにすればよい</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>tw_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/tokyo_weather.csv&quot;</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>tw_train <span class="ot">&lt;-</span> tw_data <span class="sc">|&gt;</span> <span class="fu">filter</span>(month <span class="sc">==</span> <span class="dv">8</span>) <span class="co"># 単一の数字と比較</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>tw_test  <span class="ot">&lt;-</span> tw_data <span class="sc">|&gt;</span> <span class="fu">filter</span>(month <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">9</span>,<span class="dv">10</span>)) <span class="co"># 集合と比</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>tw_train <span class="ot">&lt;-</span> tw_data <span class="sc">|&gt;</span> <span class="fu">filter</span>(month <span class="sc">==</span> <span class="dv">8</span>)         <span class="co"># 単一の数字と比較</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>tw_test  <span class="ot">&lt;-</span> tw_data <span class="sc">|&gt;</span> <span class="fu">filter</span>(month <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">9</span>,<span class="dv">10</span>)) <span class="co"># 集合と比較</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="解答欄" class="level2">
 <h2 class="anchored" data-anchor-id="解答欄">解答欄</h2>
@@ -2958,7 +2958,7 @@ F-statistic: 19.92 on 7 and 83 DF,  p-value: 2.028e-15</code></pre>
 </div>
 </div>
 <p>雨の有無(カテゴリカル変数)と気温の関係を分析する． 雨の有無および月(整数値)をダミー化(因子化)<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>する．</p>
-<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup> : 論理値は因子として扱われるが，明示的に因子としたい場合は <code>factor(rain &gt; 0)</code> としても良い． 因子の属性を与える関数としては <code>base::as.factor()</code> と <code>forcats::as_factor()</code> があるが，前者は文字列を辞書順に並べ変えてから，後者はデータフレームでの出現順に因子化する．回帰の計算においては特に問題ないが，因子化の順序はグラフなど凡例の順番に影響する．</p></div></div><div class="cell">
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup> 論理値は因子として扱われるが，明示的に因子としたい場合は <code>factor(rain &gt; 0)</code> としても良い． 因子の属性を与える関数としては <code>base::as.factor()</code> と <code>forcats::as_factor()</code> があるが，前者は文字列を辞書順に並べ変えてから，後者はデータフレームでの出現順に因子化する．回帰の計算においては特に問題ないが，因子化の順序はグラフなど凡例の順番に影響する．</p></div></div><div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
@@ -3068,14 +3068,22 @@ F-statistic:   292 on 12 and 352 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>変数が増えるとモデルの比較が困難となるが， 関数 <code>stats::step()</code> で自動化することができる．</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>adv_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&#39;https://www.statlearning.com/s/Advertising.csv&#39;</span>)</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(sales <span class="sc">~</span> radio, <span class="at">data =</span> adv_data))</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(sales <span class="sc">~</span> TV <span class="sc">+</span> radio, <span class="at">data =</span> adv_data))</span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(sales <span class="sc">~</span> TV <span class="sc">+</span> radio <span class="sc">+</span> newspaper, <span class="at">data =</span> adv_data))</span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(adv_init <span class="ot">&lt;-</span> <span class="fu">lm</span>(sales <span class="sc">~</span> TV <span class="sc">*</span> radio <span class="sc">*</span> newspaper, <span class="at">data =</span> adv_data))</span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>adv_opt <span class="ot">&lt;-</span> <span class="fu">step</span>(adv_init) <span class="co"># 最大のモデルから削減増加による探索</span></span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(adv_opt) <span class="co"># 探索された(準)最適なモデルの確認</span></span>
-<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>adv_remote  <span class="ot">&lt;-</span> <span class="st">&quot;https://www.statlearning.com/s/Advertising.csv&quot;</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>adv_file <span class="ot">&lt;-</span> <span class="st">&quot;data/advertising.csv&quot;</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">file.exists</span>(adv_file)) {</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  adv_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file =</span> adv_file)   </span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {                                  </span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  adv_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file =</span> adv_remote, </span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>                       <span class="at">col_select =</span> <span class="sc">-</span><span class="dv">1</span>)   </span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_csv</span>(adv_data, <span class="at">file =</span> adv_file)    </span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(sales <span class="sc">~</span> radio, <span class="at">data =</span> adv_data))</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(sales <span class="sc">~</span> TV <span class="sc">+</span> radio, <span class="at">data =</span> adv_data))</span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(sales <span class="sc">~</span> TV <span class="sc">+</span> radio <span class="sc">+</span> newspaper, <span class="at">data =</span> adv_data))</span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(adv_init <span class="ot">&lt;-</span> <span class="fu">lm</span>(sales <span class="sc">~</span> TV <span class="sc">*</span> radio <span class="sc">*</span> newspaper, <span class="at">data =</span> adv_data))</span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>adv_opt <span class="ot">&lt;-</span> <span class="fu">step</span>(adv_init) <span class="co"># 最大のモデルから削減増加による探索</span></span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(adv_opt) <span class="co"># 探索された(準)最適なモデルの確認</span></span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -3757,13 +3765,13 @@ height: 0px !important;
 <thead>
 <tr class="gt_col_headings gt_spanner_row header">
 <th rowspan="2" id="label" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"><strong>Characteristic</strong></th>
-<th id="level-1;-estimate_1" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="col"><div class="gt_column_spanner">
+<th id="level 1; estimate_1" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="col"><div class="gt_column_spanner">
 モデル1
 </div></th>
-<th id="level-1;-estimate_2" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="col"><div class="gt_column_spanner">
+<th id="level 1; estimate_2" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="col"><div class="gt_column_spanner">
 モデル2
 </div></th>
-<th id="level-1;-estimate_3" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="col"><div class="gt_column_spanner">
+<th id="level 1; estimate_3" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="col"><div class="gt_column_spanner">
 モデル3
 </div></th>
 </tr>
@@ -4407,19 +4415,19 @@ height: 0px !important;
 <thead>
 <tr class="gt_col_headings gt_spanner_row header">
 <th rowspan="2" id="label" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"><strong>変数</strong></th>
-<th id="level-1;-estimate_1" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="col"><div class="gt_column_spanner">
+<th id="level 1; estimate_1" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="col"><div class="gt_column_spanner">
 モデル1
 </div></th>
-<th id="level-1;-estimate_2" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="col"><div class="gt_column_spanner">
+<th id="level 1; estimate_2" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="col"><div class="gt_column_spanner">
 モデル2
 </div></th>
-<th id="level-1;-estimate_3" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="col"><div class="gt_column_spanner">
+<th id="level 1; estimate_3" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="col"><div class="gt_column_spanner">
 モデル3
 </div></th>
-<th id="level-1;-estimate_4" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="col"><div class="gt_column_spanner">
+<th id="level 1; estimate_4" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="col"><div class="gt_column_spanner">
 モデル4
 </div></th>
-<th id="level-1;-estimate_5" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="col"><div class="gt_column_spanner">
+<th id="level 1; estimate_5" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="col"><div class="gt_column_spanner">
 モデル5
 </div></th>
 </tr>
@@ -4950,19 +4958,19 @@ height: 0px !important;
 <thead>
 <tr class="gt_col_headings gt_spanner_row header">
 <th rowspan="2" id="label" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"><strong>変数</strong></th>
-<th id="level-1;-estimate_1" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="col"><div class="gt_column_spanner">
+<th id="level 1; estimate_1" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="col"><div class="gt_column_spanner">
 モデル1
 </div></th>
-<th id="level-1;-estimate_2" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="col"><div class="gt_column_spanner">
+<th id="level 1; estimate_2" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="col"><div class="gt_column_spanner">
 モデル2
 </div></th>
-<th id="level-1;-estimate_3" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="col"><div class="gt_column_spanner">
+<th id="level 1; estimate_3" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="col"><div class="gt_column_spanner">
 モデル3
 </div></th>
-<th id="level-1;-estimate_4" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="col"><div class="gt_column_spanner">
+<th id="level 1; estimate_4" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="col"><div class="gt_column_spanner">
 モデル4
 </div></th>
-<th id="level-1;-estimate_5" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="col"><div class="gt_column_spanner">
+<th id="level 1; estimate_5" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="col"><div class="gt_column_spanner">
 モデル5
 </div></th>
 </tr>
@@ -5514,13 +5522,13 @@ height: 0px !important;
 <thead>
 <tr class="gt_col_headings gt_spanner_row header">
 <th rowspan="2" id="label" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"><strong>変数</strong></th>
-<th colspan="3" id="level-1;-estimate_1" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="colgroup"><div class="gt_column_spanner">
+<th colspan="3" id="level 1; estimate_1" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="colgroup"><div class="gt_column_spanner">
 モデル3
 </div></th>
-<th colspan="3" id="level-1;-estimate_2" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="colgroup"><div class="gt_column_spanner">
+<th colspan="3" id="level 1; estimate_2" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="colgroup"><div class="gt_column_spanner">
 モデル4
 </div></th>
-<th colspan="3" id="level-1;-estimate_3" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="colgroup"><div class="gt_column_spanner">
+<th colspan="3" id="level 1; estimate_3" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="colgroup"><div class="gt_column_spanner">
 モデル5
 </div></th>
 </tr>
