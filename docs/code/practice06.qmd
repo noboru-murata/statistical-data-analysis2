@@ -153,7 +153,7 @@ autoplot(
 #' object: prcomp が出力したオブジェクト
 #' data: 分析に用いたデータフレーム(分析に用いた列以外を利用する場合)
 #' scale: 得点と負荷のスケール
-#' x,y: xy軸に用いる主成分．規定値は第1と第2主成分
+#' x,y: xy軸に用いる主成分．既定値は第1と第2主成分
 #' variance_percentage: 寄与率の表示
 #' 詳細は '?ggfortify::autoplot.prcomp' を参照
 ```
@@ -363,7 +363,7 @@ toy_data <-
 ggpairs(toy_data) 
 ```
 
-推定された第1主成分負荷量を取得する．
+推定された第1主成分得点を取得する．
 
 ```{r}
 #| code-fold: true
@@ -379,7 +379,7 @@ library(scatterplot3d)
 s3d <- scatterplot3d(toy_data, type = "h",
                      ## asp=1, # 軸の比率を揃える場合
                      highlight.3d = TRUE)
-s3d$points3d(pc1 %o% a, col = "blue")
+s3d$points3d(pc1 %o% toy_pca$rotation[,1], col = "blue")
 ```
 :::
 
@@ -564,7 +564,7 @@ js_data |>
 #| code-fold: true
 js_pca <-
     js_data |>
-    select(where(is.double)) |> # 実数値の列(都道府県名・地方区分)を抽出
+    select(where(is.double)) |> # 実数値の列(都道府県名・地方区分以外)を抽出
     prcomp(scale. = TRUE)       # 変数のばらつきを規格化して分析
 js_pca # 結果の表示．関数 print() を用いてもよい
 ```
@@ -614,7 +614,7 @@ js_pca |>
 ```
 :::
 
-主成分得点による地図は関数 ~ggfortify::autoplot()~を利用することもできる．
+主成分得点による地図は関数 `ggfortify::autoplot()` を利用することもできる．
 
 ```{r}
 #| code-fold: true
@@ -624,7 +624,8 @@ js_pca |>
              colour = "Area",      # 地方区分ごとに色付
              label = TRUE,         # ラベルを付加
              label.label = "Pref", # 都道府県名を追加
-             label.repel = TRUE)   # 横にずらして表示
+             label.repel = TRUE,   # 横にずらして表示
+             label.show.legend = FALSE)
 ```
 
 寄与率を表示する．詳しくは次週説明する．
@@ -671,7 +672,7 @@ js_data <-
         set_names("県名","地方区分"), # 列の名称を"県名"と"地方区分"に変更
         read_csv(file = "data/japan_social.csv",
                  col_select = 2:6) |> 
-        set_names("森林面積割合","農業算出額","人口割合","土地生産性","商品販売額")
+        set_names("森林面積割合","農業産出額","人口割合","土地生産性","商品販売額")
     )|> # 簡略化した項目名に変更
     mutate(地方区分 = as_factor(地方区分)) # 地方区分を出現順に因子化
 #' macOSのための日本語表示の設定(ここから)

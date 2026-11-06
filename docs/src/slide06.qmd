@@ -2,6 +2,7 @@
 title: 主成分分析
 subtitle: 基本的な考え方
 author: 村田 昇
+oxq-email: "noboru.murata@gmail.com"
 # lecture — 講義用 revealjs＋pdf (lualatex)＋html (既定の配色: indigo-palette)
 # 使い方: org の先頭で  #+SETUPFILE: _quarto/org/lecture.org
 #   (プロジェクトに _quarto と _extensions をシンボリックリンクで置く．ox-quarto/README.org)
@@ -173,7 +174,7 @@ if (Sys.info()["sysname"] == "Darwin") {
     -   変量を効率的に縮約して少数の特徴量を構成する
     -   特徴量に関与する変量間の関係を明らかにする
 -   **PCA** (Principal Component Analysis)
-    -   構成する特徴量 : **主成分** (princial component)
+    -   構成する特徴量 : **主成分** (principal component)
 
 
 ## 主成分分析の例 {.head-center .fig-tall}
@@ -202,7 +203,6 @@ ja_data <-
 ```{r}
 #' データの表示(reveal用)
 ja_data |>
-  slice(1:14) |>
   gt() |>
   tab_caption("都道府県別の人口関連データ") |>
   tab_options(table.font.size = 19)
@@ -229,7 +229,7 @@ ja_data |>
 ja_data |>
   ggpairs(columns = 3:10,  # 都道府県名・地方区分を除く
           legend = c(2,1), # 2行1列のグラフから凡例を作成
-          upper = list(continuous = wrap("cor", size = 3.5)),
+          upper = list(continuous = wrap("cor", size = 2.5)),
           lower = list(continuous = wrap("points", alpha = .5),
                        mapping = aes(colour = 地方区分))) +
   theme(text = element_text(size = 8)) 
@@ -250,10 +250,11 @@ autoplot(ja_pca, # バイプロット
          label = TRUE, # ラベルの表示
          label.label = "都道府県名",
          label.repel = TRUE, # ラベルの表示を自動調整 (パッケージ ggrepel)
+         label.show.legend = FALSE,
          label.family = jp_font, label.size = 3,
          loadings = TRUE, loadings.colour = "orchid", # 負荷の表示
          loadings.label = TRUE, loadings.label.colour = "darkgray", # 負荷ラベルの表示
-         loadings.label.family = jp_font, loadings.label.size = 4) 
+         loadings.label.family = jp_font, loadings.label.size = 4)
 ```
 
 
@@ -296,7 +297,7 @@ autoplot(ja_pca, # バイプロット
     -   データの情報を最も保持する変量の **線形結合を構成**
     -   データの情報を最も反映する **座標軸を探索**
 -   **教師なし学習** の代表的手法の1つ
-    -   特徴抽出 : 情報処理に重要な特性を変数に凝集
+    -   特徴抽出 : 情報処理に重要な特性を少数の変数に凝集
     -   次元縮約 : 入力をできるだけ少ない変数で表現
 
 
@@ -415,7 +416,7 @@ autoplot(ja_pca, # バイプロット
 
 ## ベクトル $\boldsymbol{a}$ の解
 
--   最適化問題
+-   制約付き最適化問題
     \begin{equation}
       \text{maximize}\quad
       f(\boldsymbol{a})
@@ -427,7 +428,7 @@ autoplot(ja_pca, # バイプロット
 
 ---
 
--   制約付き最適化なので未定係数法を用いればよい
+-   制約付きの最適化なので未定係数法を用いればよい
     \begin{equation}
       L(\boldsymbol{a},\lambda)
       =f(\boldsymbol{a})+\lambda(1-\boldsymbol{a}^{\mathsf{T}}\boldsymbol{a})

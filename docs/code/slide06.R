@@ -26,7 +26,7 @@ ja_data |>
           upper = list(continuous = wrap("cor", size = 3.5)),
           lower = list(continuous = wrap("points", alpha = .5),
                        mapping = aes(colour = 地方区分))) +
-  theme(text = element_text(size = 8))
+  theme(text = element_text(size = 8)) 
 
 #| fig-width: 6
 ja_pca <- ja_data |> 
@@ -42,4 +42,4 @@ autoplot(ja_pca, # バイプロット
          label.family = jp_font, label.size = 3,
          loadings = TRUE, loadings.colour = "orchid", # 負荷の表示
          loadings.label = TRUE, loadings.label.colour = "darkgray", # 負荷ラベルの表示
-         loadings.label.family = jp_font, loadings.label.size = 4)
+         loadings.label.family = jp_font, loadings.label.size = 4) 
