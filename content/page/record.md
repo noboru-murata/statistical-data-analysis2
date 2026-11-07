@@ -15,7 +15,7 @@ weight = 1016
 -   [第3講 (2026年10月16日)](https://u-tokyo-ac-jp.zoom.us/rec/share/xh175V7jYuVu-S4NXS7qsS5N2UWucdzg-kwfCJJjqDBz657fFmPbrZtsqSaTj2S3.1S1QwUaaPIl1ZQtW?startTime=1792137619000)
 -   [第4講 (2026年10月23日)](https://u-tokyo-ac-jp.zoom.us/rec/share/FlcUXgNWz6xmddXZLLzkfAzqdrtuOAyTzt7VRMlsaK5QDr-BpxKUOHjeKDUhaJY.bG6QEcYEmUsw-zFm?startTime=1792742421000)
 -   [第5講 (2026年10月30日)](https://u-tokyo-ac-jp.zoom.us/rec/share/f6ahn0CmwwddlFkxdbPVnO1RG3DxqnXTyEdo-wiGGRPaHFSzo1cReEB16VEtltM.zOdNyLWVoqRRZKrf?startTime=1793347224000)
--   第6講 (2026年11月6日)
+-   [第6講 (2026年11月6日)](https://u-tokyo-ac-jp.zoom.us/rec/share/eLPMAC0LujAgh_3LgymBbEikkGmRiv_p1jBRX7g7IgTS327vx_KFtmfWMYHmDyc.GfmQ5-A8CqZ8Vb4k?startTime=1793952072000)
 -   第7講 (2026年11月13日)
 -   第8講 (2026年11月27日)
 -   第9講 (2026年12月4日)
