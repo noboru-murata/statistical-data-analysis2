@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2026-10-30 18:52:47 mura>
+# Time-stamp: <2026-11-09 14:04:32 mura>
 :QUARTO:
 #+SETUPFILE: _quarto/org/lecture.org
 # C-c C-x C-v でinlineを切り替え
@@ -931,11 +931,11 @@
       =
       \begin{pmatrix}
         D & O_{r,p-r}\\
-        O_{n-r,r} & O_{n-r,m-r}
+        O_{n-r,r} & O_{n-r,p-r}
       \end{pmatrix}
     \end{equation}
     - \(O_{s,t}\) は \(s\times t\) 型零行列
-    - \(D\) は \(\sigma_{1}\geq\sigma_{2}\geq\sigma_{r}>0\) 
+    - \(D\) は \(\sigma_{1}\ge\sigma_{2}\ge\dotsb\ge\sigma_{r}>0\) 
       を対角成分とする \(r\times r\) 型対角行列
 
 ** 特異値
@@ -948,7 +948,7 @@
       &\ddots&&O_{r,p-r}\\
       &&\sigma_{r}&\\
       &&&\\
-      &O_{n-r,r} && O_{n-r,m-r}
+      &O_{n-r,r} && O_{n-r,p-r}
     \end{pmatrix}
   \end{equation}
 - \(D\) の対角成分: \(X\) の *特異値* (singular value)

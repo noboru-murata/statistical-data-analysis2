@@ -52,7 +52,7 @@ if(Sys.info()["sysname"] == "Darwin") { # macOSか調べる
 分析に用いる主な関数としては以下がある．
 
 - `stats::prcomp()`: 主成分分析の実行
-- `base::summary()`: 主成分負荷・寄与率を表示
+- `base::summary()`: 標準偏差・寄与率・累積寄与率を表示
 - `broom::tidy()`: 主成分得点・負荷・寄与率を tibble クラスで取得
 - `broom::augment()`: tibble クラスで主成分得点を計算
 - `ggfortify::autoplot()`: 主成分得点による散布図およびバイプロット
@@ -64,7 +64,7 @@ toy_pca <-
     select(計算対象の列) |> # 必要な列を選択するか不要な列を削除
     prcomp(必要なら標準化)  # 'scale.=TRUE' で標準化 
 #' 分析結果の確認
-summary(toy_pca)   # 主成分負荷量と寄与率を確認
+summary(toy_pca)   # 標準偏差・寄与率・累積寄与率を確認
 toy_pca |>
     tidy("eigenvalues") # "scores","loadings","eigenvalues" で指定(別表記もあり)
 #' 第1,2主成分得点で散布図を描く
@@ -130,7 +130,7 @@ ja_pca |>
 
 以下では2つのデータセットを使用する
 
-## `japan_social2.csv` の概要
+## `japan_social_jp.csv` の概要
 
 総務省統計局より取得した都道府県別の社会生活統計指標の一部
 
@@ -150,7 +150,7 @@ ja_pca |>
 ```{r}
 #| eval: false
 js_data <-
-    read_csv("data/japan_social2.csv",
+    read_csv("data/japan_social_jp.csv",
              col_types = list(地方区分 = col_factor())) # 地方区分を因子化
 ```
 
@@ -161,7 +161,7 @@ js_data <-
 #| eval: false
 #' 1列目は自動判定(?)，2列目は因子(f)，3列目以降は自動判定
 js_data <-
-    read_csv("data/japan_social2.csv", col_types = "?f")
+    read_csv("data/japan_social_jp.csv", col_types = "?f")
 ```
 :::
 
@@ -190,7 +190,7 @@ uc_data <-
 
 データセット
 
-- `japan_social.csv`
+- `japan_social_jp.csv`
 - `MASS::UScereal`
 
 について，標準化の有無の違いで寄与率・累積寄与率がどのように異なるか確認しなさい．
@@ -201,7 +201,7 @@ toy_data |> prcomp(scale. = TRUE) # 標準化を行う場合
 ```
 
 ::: column-margin
-正式なオプション名は `scale.` であるが，\~sc = TRUE\~ など他のオプションと区別できれば短縮表記も可能．
+正式なオプション名は `scale.` であるが， `sc = TRUE` など他のオプションと区別できれば短縮表記も可能．
 :::
 
 ## 解答欄
@@ -212,14 +212,14 @@ toy_data |> prcomp(scale. = TRUE) # 標準化を行う場合
 
 ## 解答例
 
-### `japan_social2.csv` の場合
+### `japan_social_jp.csv` の場合
 
 データを読み込む．
 
 ```{r}
 #| code-fold: true
 js_data <-
-    read_csv("data/japan_social2.csv",
+    read_csv("data/japan_social_jp.csv",
              col_types = list(地方区分 = col_factor())) # 地方区分を因子化
 ```
 
@@ -234,12 +234,12 @@ js_data |>
                          mapping = aes(colour = 地方区分))) # 地方区分で色分け
 ```
 
-いくつかの変数は相関が強いことがわかる．~農業算出額~ と `森林面積割合` で散布図を確認する．
+いくつかの変数は相関が強いことがわかる． `農業産出額` と `森林面積割合` で散布図を確認する．
 
 ```{r}
 #| code-fold: true
 js_data |>
-    ggplot(aes(x = 農業算出額, y = 森林面積割合, label = 都道府県名)) +
+    ggplot(aes(x = 農業産出額, y = 森林面積割合, label = 都道府県名)) +
     geom_point(colour = "blue") +
     geom_text_repel(colour = "brown")
 ```
@@ -306,7 +306,7 @@ js_pca_raw |>
     tidy("eigenvalues") |> 
     ggplot(aes(x = PC, y = percent)) +     
     geom_bar(stat = "identity")
-#' 各主成分ごとに累積寄与率(cumlative)を表示
+#' 各主成分ごとに累積寄与率(cumulative)を表示
 js_pca_raw |>
     tidy("eigenvalues") |> 
     ggplot(aes(x = PC, y = cumulative)) +  
@@ -322,7 +322,7 @@ js_pca_raw |>
     theme(legend.position = "none") 
 ```
 
-主成分負荷量に関する情報は， 主成分と特性量を指定して負荷量を得る型式の長い表なので， 目的に応じて以下のように整理する必要がる．
+主成分負荷量に関する情報は， 主成分と特性量を指定して負荷量を得る型式の長い表なので， 目的に応じて以下のように整理する必要がある．
 
 ```{r}
 #| code-fold: true
@@ -559,7 +559,7 @@ biplot(toy_pca, scale=0)
 
 データセット
 
-- `japan_social.csv`
+- `japan_social_jp.csv`
 - `MASS::UScereal`
 
 の主成分分析の結果を利用してバイプロットによる可視化を行いなさい．
@@ -576,7 +576,7 @@ biplot(toy_pca, scale=0)
 
 ## 解答例
 
-### `japan_social2.csv` の場合
+### `japan_social_jp.csv` の場合
 
 簡素なバイプロット表示の指定は以下のとおりである．
 
@@ -622,7 +622,7 @@ js_pca |>
 ```{r}
 #| code-fold: true
 js_data |>
-    arrange(desc(農業算出額)) |> # 指定の列の降順に並べ替える
+    arrange(desc(農業産出額)) |> # 指定の列の降順に並べ替える
     slice_head(n = 10) |>      # 上位10件を選択
     gt()
 ```

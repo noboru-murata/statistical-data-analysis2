@@ -2,6 +2,7 @@
 title: 主成分分析
 subtitle: 評価と視覚化
 author: 村田 昇
+oxq-email: "noboru.murata@gmail.com"
 # lecture — 講義用 revealjs＋pdf (lualatex)＋html (既定の配色: indigo-palette)
 # 使い方: org の先頭で  #+SETUPFILE: _quarto/org/lecture.org
 #   (プロジェクトに _quarto と _extensions をシンボリックリンクで置く．ox-quarto/README.org)
@@ -417,12 +418,12 @@ if (Sys.info()["sysname"] == "Darwin") {
           =
           \begin{pmatrix}
             D & O_{r,p-r}\\
-            O_{n-r,r} & O_{n-r,m-r}
+            O_{n-r,r} & O_{n-r,p-r}
           \end{pmatrix}
         \end{equation}
         
         -   $O_{s,t}$ は $s\times t$ 型零行列
-        -   $D$ は $\sigma_{1}\geq\sigma_{2}\geq\sigma_{r}>0$ 
+        -   $D$ は $\sigma_{1}\ge\sigma_{2}\ge\dotsb\ge\sigma_{r}>0$ 
             を対角成分とする $r\times r$ 型対角行列
 
 
@@ -437,7 +438,7 @@ if (Sys.info()["sysname"] == "Darwin") {
         &\ddots&&O_{r,p-r}\\
         &&\sigma_{r}&\\
         &&&\\
-        &O_{n-r,r} && O_{n-r,m-r}
+        &O_{n-r,r} && O_{n-r,p-r}
       \end{pmatrix}
     \end{equation}
 -   $D$ の対角成分: $X$ の **特異値** (singular value)
