@@ -93,7 +93,7 @@ wq_data <-
            )))
 ```
 
-なお，現在 UCI repository に繋りにく状況のようなので，暫定的に以下から配布する． <https://noboru-murata.github.io/statistical-data-analysis2/data/wine-quality-red.csv>
+なお，現在 UCI repository に繋りにく状況のようなので，暫定的に以下から配布する． <https://noboru-murata.github.io/statistical-data-analysis2/data/winequality-red.csv>
 
 ## `MASS::biopsy` の概要
 
