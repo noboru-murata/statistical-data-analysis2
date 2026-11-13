@@ -258,8 +258,8 @@ library(tidymodels)
 
 -   新しい特徴量 $Z=\boldsymbol{\alpha}^{\mathsf{T}} X$ を考える
 -   良い $Z$ の基準
-    -   クラス内では集まっているほど良い ($\boldsymbol{\alpha}^{\mathsf{T}} W\boldsymbol{\alpha}$は小)
-    -   クラス間では離れているほど良い ($\boldsymbol{\alpha}^{\mathsf{T}} B\boldsymbol{\alpha}$は大)
+    -   クラス内では集まっているほど良い ($\boldsymbol{\alpha}^{\mathsf{T}} W\boldsymbol{\alpha}$ は小)
+    -   クラス間では離れているほど良い ($\boldsymbol{\alpha}^{\mathsf{T}} B\boldsymbol{\alpha}$ は大)
 -   Fisherの基準
     \begin{equation}
       \text{maximize}\quad \boldsymbol{\alpha}^{\mathsf{T}} B\boldsymbol{\alpha}
