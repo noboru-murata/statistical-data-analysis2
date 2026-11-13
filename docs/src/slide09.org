@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2026-11-13 11:30:19 mura>
+# Time-stamp: <2026-11-13 16:02:18 mura>
 :QUARTO:
 #+SETUPFILE: _quarto/org/lecture.org
 # C-c C-x C-v でinlineを切り替え
@@ -17,6 +17,9 @@
   
 
 * Preamble                                                           :ignore:
+:PROPERTIES:
+:ID:       C70E8BA7-68E8-4656-8358-8C3866FDE00A
+:END:
 #+begin_src R
   ### 第9講 資料
 #+end_src
