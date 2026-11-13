@@ -60,16 +60,16 @@ if(Sys.info()["sysname"] == "Darwin") { # macOSか調べる
 
 気象庁より取得した東京の気候データを整理したもの
 
-- year,month,day,day<sub>of</sub><sub>week</sub> : 年，月，日，曜日
-- temp : 平均気温(℃)
-- rain : 降水量の合計(mm)
-- solar : 合計全天日射量(MJ/㎡)
-- snow : 降雪量合計(cm)
-- wdirs : 最多風向(16方位)
-- wind : 平均風速(m/s)
-- press : 平均現地気圧(hPa)
-- humid : 平均湿度(％)
-- cloud : 平均雲量(10分比)
+- `year`, `month`, `day,day_of_week` : 年，月，日，曜日
+- `temp` : 平均気温(℃)
+- `rain` : 降水量の合計(mm)
+- `solar` : 合計全天日射量(MJ/㎡)
+- `snow` : 降雪量合計(cm)
+- `wdirs` : 最多風向(16方位)
+- `wind` : 平均風速(m/s)
+- `press` : 平均現地気圧(hPa)
+- `humid` : 平均湿度(％)
+- `cloud` : 平均雲量(10分比)
 - 参考 : [気象庁](https://www.data.jma.go.jp/gmd/risk/obsdl/index.php)
 
 データの読み込み方
