@@ -4,7 +4,7 @@
 #+EMAIL: noboru.murata@gmail.com
 #+DATE: 
 #+STARTUP: hidestars content indent
-# Time-stamp: <2026-11-13 10:46:19 mura>
+# Time-stamp: <2026-11-23 16:32:16 mura>
 :QUARTO:
 #+SETUPFILE: _quarto/org/lecture.org
 # C-c C-x C-v でinlineを切り替え
@@ -17,6 +17,9 @@
 
 
 * Preamble                                                           :ignore:
+:PROPERTIES:
+:ID:       7054f0c5-a61e-4acb-912b-35cc3870dbeb
+:END:
 #+begin_src R
   ### 第8講 資料
 #+end_src
@@ -166,6 +169,7 @@
 ** 判別分析の例
 :PROPERTIES:
 :QUARTO_ATTR: {.head-center .fig-tall}
+:ID:       3f4bb3ce-7e0f-4fb1-a2cf-dd60be2a4648
 :END:
 #+begin_src R
   #| include: false
@@ -202,6 +206,7 @@
 *** 9種類の生検の散布図
 :PROPERTIES:
 :QUARTO_ATTR: {.head-center .fig-tall}
+:ID:       0565bb66-2d00-4188-9b4d-ea4ebbc3fbaa
 :END:
 
 #+begin_src R
@@ -220,6 +225,7 @@
 *** 主成分分析を用いて2次元に縮約した生検と良性・悪性の関係
 :PROPERTIES:
 :QUARTO_ATTR: {.head-center .fig-tall}
+:ID:       ed6c8a9a-9369-40ac-a29b-bc1125479b5b
 :END:
 
 #+begin_src R
@@ -235,6 +241,7 @@
 *** 線形判別関数による判別関数値の分布
 :PROPERTIES:
 :QUARTO_ATTR: {.head-center .fig-tall}
+:ID:       f0f6faac-092a-42a7-a287-34461b2b0176
 :END:
 
 #+begin_src R
@@ -249,12 +256,12 @@
 #+end_src
 
 ** その他の例
-- 検査結果から患者が病気を罹患しているか判定する
+- 検査結果から患者が病気に罹患しているか判定する
   - \(X=\) 検査結果
   - \(Y=\) 病気・健康
-- 今日の経済指標から明日株価を予測する
+- 今日の経済指標から明日の株価を予測する
   - \(X=\) 今日の経済指標
-  - \(Y=\) 明日株価の上昇・下降
+  - \(Y=\) 明日の株価の上昇・下降
 - 今日の大気の状態から, 明日の天気を予測する
   - \(X=\) 今日の大気の状態
   - \(Y=\) 晴・くもり・雨・雪
@@ -590,7 +597,7 @@
     =
     \frac{1}{n_{k}}\sum_{i:y_{i}=k}\boldsymbol{x}_{i}
   \end{equation}
-  - だたし \(n_{k}\) は \(y_{i}=k\) であるようなデータの総数
+  - ただし \(n_{k}\) は \(y_{i}=k\) であるようなデータの総数
 - 分散の推定 (クラスごとに行う)
   \begin{equation}
     \hat{\Sigma}_{k}
@@ -800,9 +807,9 @@
     \begin{equation}
       \boldsymbol{\alpha}\propto
       W^{-1}(\boldsymbol{\mu}_{1}-\boldsymbol{\mu}_2)
-      =\Sigma^{-1}(\boldsymbol{\mu}_{1}-\boldsymbol{\mu}_2)
+      \propto\Sigma^{-1}(\boldsymbol{\mu}_{1}-\boldsymbol{\mu}_2)
     \end{equation}
-  - 一般の \(K\) の場合 : 第1から第 \(K{-}1\) 固有値を用いる
+  - 一般の \(K\) の場合 : 第1から第 \(\min(q,K{-}1)\) 固有値を用いる
 - 判別の手続き
   - 特徴量とクラスの中心までの距離を用いる
     1. \(d_{k}=\sum_{l=1}^{K{-}1}(\boldsymbol{\alpha}_l^{\mathsf{T}}\boldsymbol{x}-\boldsymbol{\alpha}_l^{\mathsf{T}}\boldsymbol{\mu}_{k})^2\) 

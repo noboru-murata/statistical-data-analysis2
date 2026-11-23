@@ -9,28 +9,26 @@ bio_data <- MASS::biopsy |>
 
 bio_data |> View() # 左上ペインに表として表示
 
-#| fig-width: 6
+#| fig-width: 5.6
   bio_data |>
     select(!ID) |> # IDを除く
-    ggpairs(upper = list(continuous = wrap("cor", size = 3.5)),
+    ggpairs(upper = list(continuous = wrap("cor", size = 2.5)),
             diag = list(continuous = wrap("densityDiag", alpha = 0.7),
                         mapping = aes(colour = class)),
             lower = list(continuous = wrap("points", alpha = .7),
                          mapping = aes(colour = class))) +
-theme(strip.text.x = element_text(size = 11),
-      strip.text.y = element_text(size = 11),
-      axis.text.x = element_text(size = 7),
-      axis.text.y = element_text(size = 8))
+theme(strip.text = element_text(size = 8),
+      axis.text = element_text(size = 5))
 
-#| fig-width: 6
-bio_data |> select(where(is.numeric)) |> prcomp() |> # 主成分分析
+#| fig-width: 6.4
+bio_data |>
+  select(where(is.numeric)) |>
+  prcomp() |> # 主成分分析
   autoplot(data = bio_data,
-           colour = "class") +
-    theme(legend.position = "inside",
-          legend.position.inside = c(.95, .95),
-          legend.justification = c("right", "top"))
+           asp = 1,
+           colour = "class")
 
-#| fig-width: 6
+#| fig-width: 5.6
 bio_lda <- lda(class ~ . -ID, data = bio_data)
 bio_data |>
   mutate(x = predict(bio_lda)[["x"]]) |>

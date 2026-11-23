@@ -3,12 +3,12 @@ title: 判別分析
 subtitle: 基本的な考え方
 author: 村田 昇
 oxq-email: "noboru.murata@gmail.com"
-# lecture — 講義用 revealjs＋pdf (lualatex)＋html (既定の配色: indigo-palette)
+# lecture — 講義用 revealjs＋pdf (lualatex)＋html (既定の配色: palette-indigo)
 # 使い方: org の先頭で  #+SETUPFILE: _quarto/org/lecture.org
 #   (プロジェクトに _quarto と _extensions をシンボリックリンクで置く．ox-quarto/README.org)
 # 配色は大元の org で  #+QUARTO_PALETTE: jade  (indigo (既定) / jade / lavender / mint / amethyst / garnet / dracula)．pdf と html は callout の色だけ配色に合わせる (callout-palette)．
-#   dracula では表紙の title-bg を外し，コードも dracula 配色にする (ox-quarto-ext-palette-rules)．
-# talk.yaml との違い: 表紙に title-bg，節扉は見出しをそのまま出す (section-toc なし)，PDF と html も出せる，pointer (q) は肉球．
+#   dracula ではコードも dracula 配色にする (ox-quarto-ext-palette-rules)．
+# talk.yaml との違い: 節扉は見出しをそのまま出す (section-toc なし)，PDF と html も出せる，pointer (q) は肉球．
 callout-palette: indigo             # pdf と html の callout の色 (lib/callout-colors.lua．#+QUARTO_PALETTE に合わせて書き換わる)
 license: "CC BY-NC"
 csl: _quarto/csl/apa-short.csl      # 文献の書式 (本文は (著者, 年)．一覧は 4 名以上を 2 名 + et al. に．解説文は apa.csl)
@@ -18,13 +18,12 @@ format:
   revealjs: 
     theme:
       - default
-      - _quarto/scss/oerreveal.scss          # structure
-      - _quarto/scss/indigo-palette.scss     # 配色 (#+QUARTO_PALETTE で差し替わる)
-      - _quarto/scss/lecture-deck.scss       # 修飾
-      - _quarto/scss/paw-deck.scss           # pointer (q) を肉球に．丸い点に戻すなら #+QUARTO_DECK: dot (#+QUARTO_DECK の deck はこの後に足される)
+      - _quarto/scss/oer-revealjs.scss       # structure
+      - _quarto/scss/palette-indigo.scss     # 配色 (#+QUARTO_PALETTE で差し替わる)
+      - _quarto/scss/deck-lecture.scss       # 修飾
+      - _quarto/scss/deck-paw.scss           # pointer (q) を肉球に．丸い点に戻すなら #+QUARTO_DECK: dot (#+QUARTO_DECK の deck はこの後に足される)
       - _quarto/scss/parts.scss              # 部品: .muted .kpi .flow-arrow .formulation など
       - _quarto/scss/iframe.scss
-      - _quarto/scss/title-bg.scss
       - _quarto/scss/text-size.scss
     slide-level: 3
     max-scale: 2.0 
@@ -46,14 +45,8 @@ format:
     echo: false
     pdf-engine: lualatex
     papersize: a4                   # 用紙 (Quarto の既定は letter．report / handout も a4)．org から: #+QUARTO_PDF_OPTIONS: papersize:letter
-    include-in-header: 
-      - text: |
-          \usepackage{luatexja-preset}
-          % luatexja-fontspec (TeX Live 2026，2026-09 以降) が regexpatch を読み，後で xpatch を読むと \xpatchcmd が二重定義の誤りになる．
-          % regexpatch は xpatch の命令も持つので，xpatch は読んだことにする (amsthm を読む文書で起きた．NOTES.org)
-          \makeatletter\@ifpackageloaded{regexpatch}{\@ifpackageloaded{xpatch}{}{\expandafter\def\csname ver@xpatch.sty\endcsname{2020/03/25 v0.3a (provided by regexpatch)}}}{}\makeatother
-          \usepackage{mathtools}
-          \mathtoolsset{showonlyrefs,showmanualtags}	    
+    include-in-header:
+      - _quarto/tex/ja-latex.tex          # 和文 (luatexja)・xpatch の回避・mathtools (式の番号)
       - _quarto/tex/fig-scale.tex
       - _quarto/tex/table-center.tex
       - _quarto/tex/callout-title-gothic.tex
@@ -270,12 +263,12 @@ bio_data |>
 
 ## その他の例
 
--   検査結果から患者が病気を罹患しているか判定する
+-   検査結果から患者が病気に罹患しているか判定する
     -   $X=$ 検査結果
     -   $Y=$ 病気・健康
--   今日の経済指標から明日株価を予測する
+-   今日の経済指標から明日の株価を予測する
     -   $X=$ 今日の経済指標
-    -   $Y=$ 明日株価の上昇・下降
+    -   $Y=$ 明日の株価の上昇・下降
 -   今日の大気の状態から, 明日の天気を予測する
     -   $X=$ 今日の大気の状態
     -   $Y=$ 晴・くもり・雨・雪
@@ -566,7 +559,7 @@ bio_data |>
       \frac{1}{n_{k}}\sum_{i:y_{i}=k}\boldsymbol{x}_{i}
     \end{equation}
     
-    -   だたし $n_{k}$ は $y_{i}=k$ であるようなデータの総数
+    -   ただし $n_{k}$ は $y_{i}=k$ であるようなデータの総数
 -   分散の推定 (クラスごとに行う)
     \begin{equation}
       \hat{\Sigma}_{k}
@@ -647,9 +640,9 @@ bio_data |>
         \begin{equation}
           \boldsymbol{\alpha}\propto
           W^{-1}(\boldsymbol{\mu}_{1}-\boldsymbol{\mu}_2)
-          =\Sigma^{-1}(\boldsymbol{\mu}_{1}-\boldsymbol{\mu}_2)
+          \propto\Sigma^{-1}(\boldsymbol{\mu}_{1}-\boldsymbol{\mu}_2)
         \end{equation}
-    -   一般の $K$ の場合 : 第1から第 $K{-}1$ 固有値を用いる
+    -   一般の $K$ の場合 : 第1から第 $\min(q,K{-}1)$ 固有値を用いる
 -   判別の手続き
     -   特徴量とクラスの中心までの距離を用いる
         1.  $d_{k}=\sum_{l=1}^{K{-}1}(\boldsymbol{\alpha}_l^{\mathsf{T}}\boldsymbol{x}-\boldsymbol{\alpha}_l^{\mathsf{T}}\boldsymbol{\mu}_{k})^2$ 
