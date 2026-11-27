@@ -5,7 +5,23 @@ date: "`r Sys.Date()`"
 format:
     html: 
       toc: true
-      include-after-body: toggle-code.html
+      code-tools: true
+      include-in-header:
+        text: |
+          <style>
+          /* code-tools メニューを画面右上に固定追従させる */
+          #quarto-code-tools-menu {
+            position: fixed;
+            top: 1.2rem;
+            right: 1.5rem;
+            z-index: 1030;
+            background-color: var(--bs-body-bg, #ffffff);
+            padding: 0.35rem 0.65rem;
+            border: 1px solid var(--bs-border-color, #dee2e6);
+            border-radius: 0.375rem;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+          }
+          </style>      
       self-contained: true
       grid: 
         margin-width: 350px
