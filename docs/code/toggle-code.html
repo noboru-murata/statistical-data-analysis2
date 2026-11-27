@@ -1,0 +1,51 @@
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+      const codeBlocks = document.querySelectorAll('div.cell-code.collapse, details.code-fold');
+      if (codeBlocks.length === 0) return;
+
+      const container = document.createElement('div');
+      container.style.marginBottom = '1rem';
+
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = 'すべてのコードを開く';
+      // サイドバー幅に馴染むよう少しコンパクトなスタイルに調整
+      btn.className = 'btn btn-sm btn-outline-secondary w-100';
+      btn.style.fontSize = '0.8rem';
+
+      let isExpanded = false;
+
+      btn.addEventListener('click', function () {
+          isExpanded = !isExpanded;
+          btn.textContent = isExpanded ? 'すべてのコードを閉じる' : 'すべてのコードを開く';
+          toggleAllCode(isExpanded);
+      });
+
+      container.appendChild(btn);
+
+      // 右サイドバーの先頭（目次の上）に挿入
+      // 画面幅が狭い場合やサイドバーがない場合はタイトル下にフォールバック
+      const sidebar = document.querySelector('#quarto-margin-sidebar');
+      const titleHeader = document.querySelector('#title-block-header');
+      
+      if (sidebar) {
+          sidebar.prepend(container);
+      } else if (titleHeader) {
+          titleHeader.appendChild(container);
+      }
+
+      function toggleAllCode(expand) {
+          document.querySelectorAll('div.cell-code.collapse').forEach(el => {
+              if (typeof bootstrap !== 'undefined' && bootstrap.Collapse) {
+                  const bsCollapse = bootstrap.Collapse.getOrCreateInstance(el, { toggle: false });
+                  expand ? bsCollapse.show() : bsCollapse.hide();
+              } else {
+                  el.classList.toggle('show', expand);
+              }
+          });
+          document.querySelectorAll('details.code-fold').forEach(el => {
+              el.open = expand;
+          });
+      }
+  });
+</script>

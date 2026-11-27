@@ -23,3 +23,4 @@ weight = 1009
 
 -   実習用 [Quarto](https://noboru-murata.github.io/statistical-data-analysis2/code/practice08.qmd)
 -   解答例 [HTML](https://noboru-murata.github.io/statistical-data-analysis2/code/practice08.html)
+-   Quarto用の追加ファイル [コードの開閉](https://noboru-murata.github.io/statistical-data-analysis2/code/toggole-code.html)

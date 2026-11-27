@@ -5,6 +5,7 @@ date: "`r Sys.Date()`"
 format:
     html: 
       toc: true
+      include-after-body: toggle-code.html
       self-contained: true
       grid: 
         margin-width: 350px

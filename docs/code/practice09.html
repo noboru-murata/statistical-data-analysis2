@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2026-11-13">
+<meta name="dcterms.date" content="2026-11-27">
 
 <title>第9講 判別分析</title>
 <style>
@@ -2277,7 +2277,7 @@ vertical-align: -.125em;
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 13, 2026</p>
+      <p class="date">November 27, 2026</p>
     </div>
   </div>
   
@@ -2293,35 +2293,39 @@ vertical-align: -.125em;
 <h1>準備</h1>
 <p>以下で利用する共通パッケージを読み込む．</p>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(conflicted) <span class="co"># 関数名の衝突を警告</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">conflicts_prefer</span>(   <span class="co"># 優先的に使う関数を指定</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(),</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">lag</span>(),</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">select</span>(),</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    scales<span class="sc">::</span><span class="fu">discard</span>(),</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    recipes<span class="sc">::</span><span class="fu">fixed</span>(),</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    yardstick<span class="sc">::</span><span class="fu">spec</span>(),</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    recipes<span class="sc">::</span><span class="fu">step</span>(),</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)  </span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggfortify)</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally)</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)         </span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gtsummary)  </span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39; macOSのための日本語表示の設定</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">Sys.info</span>()[<span class="st">&quot;sysname&quot;</span>] <span class="sc">==</span> <span class="st">&quot;Darwin&quot;</span>) { <span class="co"># macOSか調べる</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    jp_font <span class="ot">&lt;-</span> <span class="st">&quot;HiraMaruProN-W4&quot;</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_update</span>(<span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">family =</span> jp_font))</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">update_geom_defaults</span>(<span class="st">&quot;text&quot;</span>, <span class="fu">list</span>(<span class="at">family =</span> <span class="fu">theme_get</span>()<span class="sc">$</span>text<span class="sc">$</span>family))</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">update_geom_defaults</span>(<span class="st">&quot;label&quot;</span>, <span class="fu">list</span>(<span class="at">family =</span> <span class="fu">theme_get</span>()<span class="sc">$</span>text<span class="sc">$</span>family))</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">update_geom_defaults</span>(<span class="st">&quot;text_repel&quot;</span>, <span class="fu">list</span>(<span class="at">family =</span> <span class="fu">theme_get</span>()<span class="sc">$</span>text<span class="sc">$</span>family))</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">update_geom_defaults</span>(<span class="st">&quot;label_repel&quot;</span>, <span class="fu">list</span>(<span class="at">family =</span> <span class="fu">theme_get</span>()<span class="sc">$</span>text<span class="sc">$</span>family))</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {jp_font <span class="ot">&lt;-</span> <span class="cn">NULL</span>}</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: true</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(conflicted) <span class="co"># 関数名の衝突を警告</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">conflicts_prefer</span>(   <span class="co"># 優先的に使う関数を指定</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(),</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">lag</span>(),</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">select</span>(),</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    scales<span class="sc">::</span><span class="fu">discard</span>(),</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    recipes<span class="sc">::</span><span class="fu">fixed</span>(),</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    yardstick<span class="sc">::</span><span class="fu">spec</span>(),</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    recipes<span class="sc">::</span><span class="fu">step</span>(),</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)  </span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggfortify)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)         </span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gtsummary)  </span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39; macOSのための日本語表示の設定</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">Sys.info</span>()[<span class="st">&quot;sysname&quot;</span>] <span class="sc">==</span> <span class="st">&quot;Darwin&quot;</span>) { <span class="co"># macOSか調べる</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    jp_font <span class="ot">&lt;-</span> <span class="st">&quot;HiraMaruProN-W4&quot;</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_update</span>(<span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">family =</span> jp_font))</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">update_geom_defaults</span>(<span class="st">&quot;text&quot;</span>, <span class="fu">list</span>(<span class="at">family =</span> <span class="fu">theme_get</span>()<span class="sc">$</span>text<span class="sc">$</span>family))</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">update_geom_defaults</span>(<span class="st">&quot;label&quot;</span>, <span class="fu">list</span>(<span class="at">family =</span> <span class="fu">theme_get</span>()<span class="sc">$</span>text<span class="sc">$</span>family))</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">update_geom_defaults</span>(<span class="st">&quot;text_repel&quot;</span>, <span class="fu">list</span>(<span class="at">family =</span> <span class="fu">theme_get</span>()<span class="sc">$</span>text<span class="sc">$</span>family))</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">update_geom_defaults</span>(<span class="st">&quot;label_repel&quot;</span>, <span class="fu">list</span>(<span class="at">family =</span> <span class="fu">theme_get</span>()<span class="sc">$</span>text<span class="sc">$</span>family))</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {jp_font <span class="ot">&lt;-</span> <span class="cn">NULL</span>}</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 </section>
 <section id="データセット" class="level1">
@@ -2363,7 +2367,6 @@ vertical-align: -.125em;
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>           )))</span>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>なお，現在 UCI repository に繋りにく状況のようなので，暫定的に以下から配布する． <a href="https://noboru-murata.github.io/statistical-data-analysis2/data/winequality-red.csv" class="uri">https://noboru-murata.github.io/statistical-data-analysis2/data/winequality-red.csv</a></p>
 </section>
 <section id="massbiopsy-の概要" class="level2">
 <h2 class="anchored" data-anchor-id="massbiopsy-の概要"><code>MASS::biopsy</code> の概要</h2>
@@ -3529,6 +3532,57 @@ Prediction  1  2  3  4  5  6  7  8  9 10 11 12
 
 </main>
 <!-- /main column -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+      const codeBlocks = document.querySelectorAll('div.cell-code.collapse, details.code-fold');
+      if (codeBlocks.length === 0) return;
+
+      const container = document.createElement('div');
+      container.style.marginBottom = '1rem';
+
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = 'すべてのコードを開く';
+      // サイドバー幅に馴染むよう少しコンパクトなスタイルに調整
+      btn.className = 'btn btn-sm btn-outline-secondary w-100';
+      btn.style.fontSize = '0.8rem';
+
+      let isExpanded = false;
+
+      btn.addEventListener('click', function () {
+          isExpanded = !isExpanded;
+          btn.textContent = isExpanded ? 'すべてのコードを閉じる' : 'すべてのコードを開く';
+          toggleAllCode(isExpanded);
+      });
+
+      container.appendChild(btn);
+
+      // 右サイドバーの先頭（目次の上）に挿入
+      // 画面幅が狭い場合やサイドバーがない場合はタイトル下にフォールバック
+      const sidebar = document.querySelector('#quarto-margin-sidebar');
+      const titleHeader = document.querySelector('#title-block-header');
+      
+      if (sidebar) {
+          sidebar.prepend(container);
+      } else if (titleHeader) {
+          titleHeader.appendChild(container);
+      }
+
+      function toggleAllCode(expand) {
+          document.querySelectorAll('div.cell-code.collapse').forEach(el => {
+              if (typeof bootstrap !== 'undefined' && bootstrap.Collapse) {
+                  const bsCollapse = bootstrap.Collapse.getOrCreateInstance(el, { toggle: false });
+                  expand ? bsCollapse.show() : bsCollapse.hide();
+              } else {
+                  el.classList.toggle('show', expand);
+              }
+          });
+          document.querySelectorAll('details.code-fold').forEach(el => {
+              el.open = expand;
+          });
+      }
+  });
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

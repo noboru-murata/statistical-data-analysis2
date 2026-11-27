@@ -5,6 +5,7 @@ date: "`r Sys.Date()`"
 format:
     html: 
       toc: true
+      include-after-body: toggle-code.html
       self-contained: true
       grid: 
         margin-width: 350px
@@ -23,6 +24,7 @@ editor: visual
 以下で利用する共通パッケージを読み込む．
 
 ```{r}
+#| code-fold: true
 library(conflicted) # 関数名の衝突を警告
 conflicts_prefer(   # 優先的に使う関数を指定
     dplyr::filter(),
@@ -92,8 +94,6 @@ wq_data <-
              .default = "D"
            )))
 ```
-
-なお，現在 UCI repository に繋りにく状況のようなので，暫定的に以下から配布する． <https://noboru-murata.github.io/statistical-data-analysis2/data/winequality-red.csv>
 
 ## `MASS::biopsy` の概要
 
