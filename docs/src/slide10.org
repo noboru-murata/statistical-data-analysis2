@@ -1,0 +1,963 @@
+#+TITLE: クラスタ分析
+#+SUBTITLE: 基本的な考え方と階層的方法
+#+AUTHOR: 村田 昇
+#+EMAIL: noboru.murata@gmail.com
+#+DATE: 
+# Time-stamp: <2026-11-27 13:02:11 mura>
+#+STARTUP: hidestars content indent
+:QUARTO:
+#+SETUPFILE: _quarto/org/lecture.org
+# C-c C-x C-v でinlineを切り替え
+# <m C-i でlatex block (math env用)
+# C-c '
+:END:
+
+* COMMENT メモ
+[[file:README.org::第10講]]
+
+
+* Preamble                                                           :ignore:
+#+begin_src R
+  ### 第10講 資料
+#+end_src
+#+include: "preamble.R" src R
+#+begin_content-visible :when-format "pdf"
+#+begin_export latex
+\figfitboth
+\setlength{\figmaxheight}{0.42\textheight}
+\setlength{\figmaxwidth}{0.84\textwidth}
+#+end_export
+#+end_content-visible
+
+
+* 講義の内容
+:PROPERTIES:
+:ID:       67BA72E8-0F1A-4886-8DC5-389510617DF1
+:END:
+- *第1回 : 基本的な考え方と階層的方法*
+- 第2回 : 非階層的方法と分析の評価
+
+
+* COMMENT クラスタ分析の例
+** 実データによる例
+# 東京大学 (再)
+- 総務省統計局より取得した都道府県別の社会生活統計指標の一部
+  - 総務省 [[https://www.e-stat.go.jp/SG1/estat/List.do?bid=000001083999&cycode=0]]
+  - データ [[https://noboru-murata.github.io/statistical-data-analysis2/data/data06.zip]]
+    #+begin_example
+    Pref   : 都道府県名
+    Forest : 森林面積割合 (%) 2014年
+    Agri   : 就業者１人当たり農業産出額(販売農家）(万円) 2014年
+    Ratio  : 全国総人口に占める人口割合 (%) 2015年
+    Land   : 土地生産性（耕地面積１ヘクタール当たり）(万円) 2014年
+    Goods  : 商業年間商品販売額［卸売業＋小売業］（事業所当たり）(百万円) 2013年
+    Area   : 地方区分
+    #+end_example
+
+** COMMENT 実データによる例
+# 早稲田大学 (再)
+- 総務省統計局より取得した都道府県別の社会生活統計指標の一部
+  - 総務省 [[https://www.e-stat.go.jp/SG1/estat/List.do?bid=000001083999&cycode=0]]
+  - データ [[https://noboru-murata.github.io/lectures/multivariate-analysis/data/japan_social.csv]]
+    #+begin_example
+    Pref   : 都道府県名
+    Forest : 森林面積割合 (%) 2014年
+    Agri   : 就業者１人当たり農業産出額(販売農家）(万円) 2014年
+    Ratio  : 全国総人口に占める人口割合 (%) 2015年
+    Land   : 土地生産性（耕地面積１ヘクタール当たり）(万円) 2014年
+    Goods  : 商業年間商品販売額［卸売業＋小売業］（事業所当たり）(百万円) 2013年
+    Area   : 地方区分
+    #+end_example
+  
+** データの概要
+:PROPERTIES:
+:QUARTO_ATTR: {.head-center .fig-tall}
+:ID:       B6A543CF-F3D8-423A-9BD2-93B6021BD821
+:END:
+#+begin_src R
+  #| include: false
+  #' @exercise 実データによるクラスタ分析の例
+  #' 以下の例で用いる分析のための関数の詳細は今回・次回で解説
+  #' データの読み込み
+  js_data <- read_csv("data/japan_social.csv") |>
+    mutate(Area = as_factor(Area))
+#+end_src
+#+begin_src R :eval no :exports none
+  js_data |> View() # 左上ペインに表として表示
+#+end_src
+#+begin_content-visible :when-format "html"
+#+begin_scroll-tall
+#+begin_src R :tangle no
+  #' データの表示(reveal用)
+  js_data |>
+    slice(1:15) |>
+    gt()
+#+end_src
+#+end_scroll-tall
+#+end_content-visible
+#+begin_content-visible :when-format "pdf"
+#+begin_src R :tangle no
+  #' データの表示(latex用)
+  js_data |>
+    gt() |>
+    tab_options(table.font.size = 9) |>
+    as_latex()
+#+end_src
+#+end_content-visible
+
+# #+reveal: split
+# - データの内容
+#   #+html: <font size=5>
+#   #+begin_src R :exports results :results output html :tangle no
+#     #' データの表示(reveal用)
+#     library(gt)
+#     js_data |> slice(1:15) |> 
+#       gt() |> as_raw_html()
+#   #+end_src
+#   #+html: </font>
+#   #+begin_src R :exports results :results output latex :tangle no
+#     #' データの表示(latex用)
+#     js_data |> slice(1:15) |> 
+#       gt() |> as_latex()
+#   #+end_src
+
+** 分析の目的
+:PROPERTIES:
+:QUARTO_ATTR: {.head-center .fig-tall}
+:ID:       13EA22C7-AB69-443F-90F8-DEDD858394D4
+:END:
+#+begin_src R
+  #| fig-width: 6
+  #' データの視覚化
+  js_data |> # 散布図．いくつかの変数は相関強いことがわかる
+    ggpairs(columns = 2:6,
+            upper = list(continuous = "cor"),
+            diag = list(continuous = wrap("densityDiag", alpha = 0.4),
+                        mapping = aes(colour = Area)),
+            lower = list(continuous = wrap("points", size = 1),
+                         mapping = aes(colour = Area)))
+#+end_src
+
+*** 主成分得点による散布図
+:PROPERTIES:
+:QUARTO_ATTR: {.head-center .fig-tall}
+:END:
+
+#+begin_src R
+  #| fig-width: 6
+  js_data |> 
+    column_to_rownames(var = "Pref") |> 
+    select(where(is.double)) |> 
+    pam(1) |> # クラスタリングしない
+    autoplot(data = js_data,
+             colour = "Area",
+             label = TRUE,
+             label.repel = TRUE,
+             label.show.legend = FALSE) +
+    theme(legend.position = c(.9,.3))
+#+end_src
+
+*** 散布図上のクラスタ構造 (クラスタ分析の概念図)
+:PROPERTIES:
+:QUARTO_ATTR: {.head-center .fig-tall}
+:END:
+
+#+begin_src R
+  #| fig-width: 6
+  #' クラスタ分析
+  js_data |> 
+    column_to_rownames(var = "Pref") |> 
+    select(where(is.double)) |> 
+    pam(6) |>
+    autoplot(frame = TRUE,
+             frame.type = "convex",
+             label = TRUE,
+             label.repel = TRUE,
+             label.show.legend = FALSE) +
+    theme(legend.position = c(.9,.2))
+#+end_src
+
+
+* クラスタ分析の考え方
+** クラスタ分析
+- クラスタ分析 (*cluster analysis*) の目的 \\
+  個体の間に隠れている
+  *集まり=クラスタ*
+  を個体間の"距離"にもとづいて発見する方法
+- 個体間の類似度・距離(非類似度)を定義
+  - 同じクラスタに属する個体どうしは似通った性質
+  - 異なるクラスタに属する個体どうしは異なる性質
+- さらなるデータ解析やデータの可視化に利用
+- 教師なし学習の代表的な手法の一つ
+
+** クラスタ分析の例
+# 東京大学 (再)/早稲田大学
+- 総務省統計局より取得した都道府県別の社会生活統計指標の一部
+  - 総務省 [[https://www.e-stat.go.jp/SG1/estat/List.do?bid=000001083999&cycode=0]]
+    #+begin_example
+    都道府県名　
+    地方区分　　
+    森林面積割合 : 森林面積割合 (%) 2014年
+    農業産出額　 : 就業者１人当たり農業産出額(販売農家）(万円) 2014年
+    人口割合　　 : 全国総人口に占める人口割合 (%) 2015年
+    土地生産性　 : 土地生産性（耕地面積１ヘクタール当たり）(万円) 2014年
+    商品販売額　 : 商業年間商品販売額［卸売業＋小売業］（事業所当たり）(百万円) 2013年
+    #+end_example
+
+*** 都道府県別の社会生活統計指標データ
+:PROPERTIES:
+:QUARTO_ATTR: {.head-center .fig-tall}
+:END:
+
+#+begin_src R
+  #| include: false
+  #' @exercise 実データによるクラスタ分析の例
+  #' 以下の例で用いる分析のための関数の詳細は今回・次回で解説
+  #' データの読み込み
+  js_data <-
+    read_csv("data/japan_social2.csv",
+             col_types = list(地方区分 = col_factor()))
+#+end_src
+#+begin_src R :eval no :exports none
+  js_data |> View() # 左上ペインに表として表示
+#+end_src
+#+begin_content-visible :when-format "html"
+#+begin_scroll-tall
+#+begin_src R :tangle no
+  #' データの表示(reveal用)
+  js_data |>
+    gt() |>
+    tab_options(table.font.size = 20)
+#+end_src
+#+end_scroll-tall
+#+end_content-visible
+#+begin_content-visible :when-format "pdf"
+#+begin_src R :tangle no
+  #' データの表示(latex用)
+  js_data |>
+    gt() |>
+    tab_options(table.font.size = 9, table.width = pct(80)) |>
+    as_latex()
+#+end_src
+#+end_content-visible
+
+# #+reveal: split
+# - データの内容
+#   #+html: <font size=5>
+#   #+begin_src R :exports results :results output html :tangle no
+#     #' データの表示(reveal用)
+#     library(gt)
+#     js_data |> slice(1:15) |> 
+#       gt() |> as_raw_html()
+#   #+end_src
+#   #+html: </font>
+#   #+begin_src R :exports results :results output latex :tangle no
+#     #' データの表示(latex用)
+#     js_data |> slice(1:15) |> 
+#       gt() |> as_latex()
+#   #+end_src
+
+*** 散布図
+:PROPERTIES:
+:QUARTO_ATTR: {.head-center .fig-tall}
+:END:
+
+#+begin_src R
+  #| fig-width: 6.4
+  #' データの視覚化
+  js_data |> # 散布図．いくつかの変数は相関強いことがわかる
+    ggpairs(columns = 3:7,
+            legend = c(2,1), # 2行1列のグラフから凡例を作成
+            upper = list(continuous = wrap("cor", size = 3.5)),
+            diag = list(continuous = wrap("densityDiag", alpha = .5),
+                        mapping = aes(colour = 地方区分)),
+            lower = list(continuous = wrap("points", alpha = .5),
+                         mapping = aes(colour = 地方区分))) +
+    theme(strip.text = element_text(size = 8),
+          axis.text = element_text(size = 5))
+#+end_src
+
+*** 主成分得点による散布図
+:PROPERTIES:
+:QUARTO_ATTR: {.head-center .fig-tall}
+:END:
+
+#+begin_src R
+  #| fig-width: 7
+  js_data |> 
+    column_to_rownames(var = "都道府県名") |> 
+    select(where(is.double)) |> 
+    pam(1) |> # クラスタリングしない
+    autoplot(data = js_data,
+             asp = 1,
+             colour = "地方区分",
+             label = TRUE,
+             label.repel = TRUE,
+             label.show.legend = FALSE) 
+#+end_src
+
+*** 散布図上のクラスタ構造 (クラスタ分析の概念図)
+:PROPERTIES:
+:QUARTO_ATTR: {.head-center .fig-tall}
+:END:
+
+#+begin_src R
+  #| fig-width: 7
+  #' クラスタ分析
+  js_data |> 
+    column_to_rownames(var = "都道府県名") |> 
+    select(where(is.double)) |> 
+    pam(6) |>
+    autoplot(asp = 1,
+             frame = TRUE,
+             frame.type = "convex",
+             label = TRUE,
+             label.repel = TRUE,
+             label.show.legend = FALSE)
+#+end_src
+
+** クラスタ分析の考え方
+- 階層的方法
+  - データ点およびクラスタの間に *距離* を定義
+  - 距離に基づいてグループ化
+    - 近いものから順にクラスタを *凝集*
+    - 近いものが同じクラスタに残るように *分割*
+- 非階層的方法
+  - クラスタの数を事前に指定
+  - クラスタの *集まりの良さ* を評価する損失関数を定義
+  - 損失関数を最小化するようにクラスタを形成
+
+
+* 階層的方法
+** 凝集的クラスタリング
+1. データ・クラスタ間の距離を定義する
+   - データ点とデータ点の距離
+   - クラスタとクラスタの距離
+2. データ点およびクラスタ間の距離を求める
+3. 最も近い2つを統合し新たなクラスタを形成する
+   - データ点とデータ点
+   - データ点とクラスタ
+   - クラスタとクラスタ
+4. クラスタ数が1つになるまで2-3の手続きを繰り返す
+
+*** 社会生活統計指標の一部(関東地方)
+:PROPERTIES:
+:QUARTO_ATTR: {.head-center .fig-tall}
+:END:
+
+#+begin_src R
+  #| include: false
+  js_kanto <-
+    js_data |>
+    slice(8:14) |>
+    select(-地方区分)
+#+end_src
+#+begin_src R :eval no :exports none
+  js_kanto |> View() # 左上ペインに表として表示
+#+end_src
+#+begin_content-visible :when-format "html"
+#+begin_scroll-tall
+#+begin_src R :tangle no
+  #' データの表示(reveal用)
+  js_kanto |>
+    gt()
+#+end_src
+#+end_scroll-tall
+#+end_content-visible
+#+begin_content-visible :when-format "pdf"
+#+begin_src R :tangle no
+  #' データの表示(latex用)
+  js_kanto |>
+    gt() |>
+    tab_options(table.font.size = 9, table.width = pct(80)) |>
+    as_latex()
+#+end_src
+#+end_content-visible
+
+*** データ点の配置
+:PROPERTIES:
+:QUARTO_ATTR: {.head-center .fig-tall}
+:END:
+
+#+begin_src R :tangle no
+  #| fig-width: 6
+  library(cluster)
+  myPlot <- function(k) {
+    if(Sys.info()["sysname"]=="Darwin"){par(family = jp_font)}
+    tmpa <- js_kanto |>
+      column_to_rownames(var = "都道府県名")
+    # tmpa <- js_data[8:14,]
+    tmpb <- list(c(1,2,3,4,1,6,7),
+                 c(1,2,3,1,1,6,7),
+                 c(1,2,2,1,1,6,7),
+                 c(1,2,2,1,1,6,1),
+                 c(1,1,1,1,1,6,1),
+                 c(1,1,1,1,1,1,1))
+    clusplot(x=tmpa,
+             clus=c(1,2,3,4,5,6,7),
+             diss=FALSE,
+             stand=TRUE, lines=0, labels=3, lwd=2,
+             main=NULL, sub=NULL, cex=1, cex.txt=1.5,
+             xlim=c(-2.5,2.5), ylim=c(-2.5,2.5),
+             xaxt="n", yaxt="n", ann=FALSE,
+             col.p="blue", col.txt="darkgray", col.clus="white", shade=FALSE)
+    if(k>0) {
+      for(i in 1:k) {
+        clusplot(x=tmpa,
+                 clus=tmpb[[i]],
+                 diss=FALSE, cex=0.2, 
+                 stand=TRUE, add=TRUE, span=FALSE,
+                 lines=0, lwd=4, col.p="blue", col.clus="orange")
+      }
+    }
+  }
+  myPlot(0)
+#+end_src
+
+*** クラスタリングの手続き (その1)
+:PROPERTIES:
+:QUARTO_ATTR: {.head-center .fig-tall}
+:END:
+
+#+begin_src R :tangle no
+  #| fig-width: 6
+  myPlot(1)
+#+end_src
+
+*** クラスタリングの手続き (その2)
+:PROPERTIES:
+:QUARTO_ATTR: {.head-center .fig-tall}
+:END:
+
+#+begin_src R :tangle no
+  #| fig-width: 6
+  myPlot(2)
+#+end_src
+
+*** クラスタリングの手続き (その3)
+:PROPERTIES:
+:QUARTO_ATTR: {.head-center .fig-tall}
+:END:
+
+#+begin_src R :tangle no
+  #| fig-width: 6
+  myPlot(3)
+#+end_src
+
+*** クラスタリングの手続き (その4)
+:PROPERTIES:
+:QUARTO_ATTR: {.head-center .fig-tall}
+:END:
+
+#+begin_src R :tangle no
+  #| fig-width: 6
+  myPlot(4)
+#+end_src
+
+*** クラスタリングの手続き (その5)
+:PROPERTIES:
+:QUARTO_ATTR: {.head-center .fig-tall}
+:END:
+
+#+begin_src R :tangle no
+  #| fig-width: 6
+  myPlot(5)
+#+end_src
+
+*** クラスタリングの手続き (その6)
+:PROPERTIES:
+:QUARTO_ATTR: {.head-center .fig-tall}
+:END:
+
+#+begin_src R :tangle no
+  #| fig-width: 6
+  myPlot(6)
+#+end_src
+
+*** デンドログラムによるクラスタ構造の表示
+:PROPERTIES:
+:QUARTO_ATTR: {.head-center .fig-tall}
+:END:
+
+#+begin_src R :tangle no
+  #| fig-width: 6
+  if(Sys.info()["sysname"]=="Darwin"){par(family = jp_font)}
+  js_kanto |>
+    column_to_rownames(var = "都道府県名") |>
+    scale() |>
+    agnes() |>
+    plot(which.plots=2, main="",sub="",xlab="")
+#+end_src
+
+   
+* データ間の距離
+** データ間の距離
+- データ : 変数の値を成分としてもつベクトル
+  \begin{equation}
+    \boldsymbol{x}=(x_{1},\dotsc,x_{d})^{\mathsf{T}},
+    \boldsymbol{y}=(y_{1},\dotsc,y_{d})^{\mathsf{T}}\in\mathbb{R}^{d}
+  \end{equation}
+- 距離 : \(d(\boldsymbol{x},\boldsymbol{y})\)
+- 代表的なデータ間の距離
+  - Euclid 距離 (ユークリッド ; Euclidean distance)
+  - Manhattan 距離 (マンハッタン ; Manhattan distance)
+  - Minkowski 距離 (ミンコフスキー ; Minkowski distance)
+
+** Euclid 距離
+- 最も一般的な距離
+- 各成分の差の2乗和の平方根 (2ノルム)
+  \begin{equation}
+    d(\boldsymbol{x},\boldsymbol{y})
+    =\sqrt{(x_{1}-y_{1})^{2}+\dotsb+(x_{d}-y_{d})^{2}}
+  \end{equation}
+
+** Manhattan 距離
+- 後述する Minkowski 距離の \(p=1\) の場合
+- 格子状に引かれた路に沿って移動するときの距離
+  \begin{equation}
+    d(\boldsymbol{x},\boldsymbol{y})
+    =|x_{1}-y_{1}|+\dotsb+|x_{d}-y_{d}|
+  \end{equation}
+
+** Minkowski 距離
+- Euclid 距離を \(p\) 乗に一般化した距離
+- 各成分の差の \(p\) 乗和の \(p\) 乗根(\(p\)-ノルム)
+  \begin{equation}
+    d(\boldsymbol{x},\boldsymbol{y})
+    =\bigl\{|x_{1}-y_{1}|^{p}+\dotsb+|x_{d}-y_{d}|^{p}\bigr\}^{1/p}
+  \end{equation}
+
+** その他の距離
+- 類似度や乖離度などデータ間に自然に定義されるものを用いることは可能
+  - 語句の共起 (同一文書に現れる頻度・確率)
+  - 会社間の取引量 (売上高などで正規化が必要)
+- 擬似的な距離でもアルゴリズムは動く
+
+
+* COMMENT 演習
+:PROPERTIES:
+:QUARTO_ATTR: {background-color="#fef4f4"}
+:END:
+# 早稲田大学
+
+** 問題
+- 以下の問に答えなさい
+  - 距離の定義を述べなさい
+  - Minkowski 距離において
+    \(p\to\infty\)
+    とするとどのような距離となるか答えなさい
+    \begin{equation}
+      d(\boldsymbol{x},\boldsymbol{y})
+      =\bigl\{|x_{1}-y_{1}|^{p}+\dotsb+|x_{d}-y_{d}|^{p}\bigr\}^{1/p}
+    \end{equation}
+
+** 解答例
+- 2変数の実数値関数で以下の3つの条件を満たす
+  - 非退化性
+    \begin{equation}
+      x=y \Leftrightarrow d(x,y)=0
+    \end{equation}
+  - 対称性
+    \begin{equation}
+      d(x,y)=d(y,x)
+    \end{equation}
+  - 劣加法性 (三角不等式の成立)
+    \begin{equation}
+      d(x,y)+d(y,z)\ge d(x,z)
+    \end{equation}
+
+-----
+
+- 非負性 \(d(x,y)\ge 0\) は3つの条件から自然に導かれる
+  \begin{align}
+    &d(x,y)+d(y,x)\ge d(x,x)&&\text{(劣加法性)}\\
+    &d(x,y)+d(x,y)\ge d(x,x)&&\text{(対称性)}\\
+    &2d(x,y)\ge 0&&\text{(非退化性)}\\
+    &d(x,y)\ge 0
+  \end{align}
+
+-----
+
+- 最大の要素に着目して計算すればよい
+  \begin{align}
+    \lim_{p\to\infty} d(\boldsymbol{x},\boldsymbol{y})
+    &=
+      \lim_{p\to\infty} 
+      \bigl\{|x_{1}-y_{1}|^{p}+\dotsb+|x_{d}-y_{d}|^{p}\bigr\}^{1/p}\\
+    &=
+      \lim_{p\to\infty} \max_{k}|x_{k}-y_{k}|
+      \left\{
+      \left(\frac{|x_{1}-y_{1}|}{\max_{k}|x_{k}-y_{k}|}
+      \right)^{p}
+      \right.\\
+    &\qquad
+      +\dotsb
+      \left.
+      \left(\frac{|x_{d}-y_{d}|}{\max_{k}|x_{k}-y_{k}|}
+      \right)^{p}
+      \right\}^{1/p}\\
+    &=
+      \max_{k}|x_{k}-y_{k}|
+      \lim_{p\to\infty} 
+      \text{(1以上の有限値)}^{1/p}\\
+    &=
+      \max_{k}|x_{k}-y_{k}|
+  \end{align}
+  - Chebyshev 距離(最大距離，チェス盤距離)という
+    # Čebyšëv
+
+-----
+
+- \(p\to-\infty\) の場合は以下となることを確認せよ
+  \begin{equation}
+    \lim_{p\to-\infty} d(\boldsymbol{x},\boldsymbol{y})
+    =\min_{k}|x_{k}-y_{k}|
+  \end{equation}
+  
+
+* 実習
+:PROPERTIES:
+:QUARTO_ATTR: {background-color="#fef4f4"}
+:END:
+# 東京大学
+
+
+* クラスタ間の距離   
+** クラスタ間の距離
+- クラスタ : いくつかのデータ点からなる集合
+  \begin{equation}
+    C_{a}=\left\{\boldsymbol{x}_{i}|i\in\Lambda_{a}\right\},\;
+    C_{b}=\left\{\boldsymbol{x}_{j}|j\in\Lambda_{b}\right\},\quad
+    C_{a}\cap C_{b}=\emptyset
+  \end{equation}
+- 2つのクラスタ間の距離 : \(D(C_{a},C_{b})\)
+  - データ点の距離から陽に定義する方法
+  - クラスタの統合にもとづき再帰的に定義する方法
+- 代表的なクラスタ間の距離
+  - 最短距離法 (単連結法 ; single linkage method)
+  - 最長距離法 (完全連結法 ; complete linkage method)
+  - 群平均法 (average linkage method)
+
+** 最短距離法
+- 最も近い対象間の距離を用いる方法
+  \begin{equation}
+    D(C_{a},C_{b})
+    =\min_{\boldsymbol{x}\in C_{a},\;\boldsymbol{y}\in C_{b}} d(\boldsymbol{x},\boldsymbol{y})
+  \end{equation}
+- 統合前後のクラスタ間の関係
+  \begin{equation}
+    D(C_{a}+ C_{b}, C_{c})
+    =\min\bigl\{D(C_{a},C_{c}), D(C_{b},C_{c})\bigr\}
+    % =\min\left\{D(C_{a},C_{c}), D(C_{b},C_{c})\right\}
+  \end{equation}
+  - \(A+B\)は集合\(A,B\)の直和を表す．
+
+** 最長距離法
+- 最も遠い対象間の距離を用いる方法
+  \begin{equation}
+    D(C_{a},C_{b})
+    =\max_{\boldsymbol{x}\in C_{a},\;\boldsymbol{y}\in C_{b}} d(\boldsymbol{x},\boldsymbol{y})
+  \end{equation}
+- 統合前後のクラスタ間の関係
+  \begin{equation}
+    D(C_{a}+ C_{b}, C_{c})
+    =\max\bigl\{D(C_{a},C_{c}), D(C_{b},C_{c})\bigr\}
+    % =\max\left\{D(C_{a},C_{c}), D(C_{b},C_{c})\right\}
+  \end{equation}
+
+** 群平均法
+- 全ての対象間の平均距離を用いる方法
+  \begin{equation}
+    D(C_{a},C_{b})
+    =\frac{1}{|C_{a}||C_{b}|}
+    \sum_{\boldsymbol{x}\in C_{a},\;\boldsymbol{y}\in C_{b}} d(\boldsymbol{x},\boldsymbol{y})
+  \end{equation}
+  - ただし \(|C_{a}|\), \(|C_{b}|\) はクラスタ内の要素の数を表す
+- 統合前後のクラスタ間の関係
+  \begin{equation}
+    D(C_{a}+ C_{b}, C_{c})
+    =\frac{|C_{a}|D(C_{a},C_{c})+|C_{b}|D(C_{b},C_{c})}{|C_{a}|+|C_{b}|}
+  \end{equation}
+
+** 距離計算に関する注意
+- データの性質に応じて距離は適宜使い分ける
+  - データ間の距離の選択
+  - クラスタ間の距離の選択
+- 変数の標準化は必要に応じて行う
+  - 物理的な意味合いを積極的に利用する場合はそのまま
+  - 単位の取り方などによる分析の不確定性を避ける場合は平均0，分散1に標準化
+- データの性質を鑑みて適切に前処理
+
+
+* COMMENT 演習
+:PROPERTIES:
+:QUARTO_ATTR: {background-color="#fef4f4"}
+:END:
+# 早稲田大学
+
+** 問題
+- 以下の問に答えなさい
+  - 群平均法におけるクラスタの距離の定義
+    \begin{equation}
+      D(C_{a},C_{b})
+      =\frac{1}{|C_{a}||C_{b}|}
+      \sum_{\boldsymbol{x}\in C_{a},\;\boldsymbol{y}\in C_{b}} d(\boldsymbol{x},\boldsymbol{y})
+    \end{equation}
+    から統合前後のクラスタの距離の関係
+    \begin{equation}
+      D(C_{a}+ C_{b}, C_{c})
+      =\frac{|C_{a}|D(C_{a},C_{c})+|C_{b}|D(C_{b},C_{c})}{|C_{a}|+|C_{b}|}
+    \end{equation}
+    を導け
+
+** 解答例
+- 定義に従って計算する
+  \begin{align}
+    D(C_{a}+C_{b}, C_{c})
+    &=
+      \frac{1}{|C_{a}+C_{b}||C_{c}|}
+      \sum_{\boldsymbol{x}\in C_{a}+C_{b},\;\boldsymbol{y}\in C_{c}}
+      d(\boldsymbol{x},\boldsymbol{y})\\
+    &=
+      \frac{1}{|C_{a}+C_{b}||C_{c}|}
+      \sum_{\boldsymbol{x}\in C_{a},\;\boldsymbol{y}\in C_{c}}
+      d(\boldsymbol{x},\boldsymbol{y})\\
+    &\qquad+
+      \frac{1}{|C_{a}+C_{b}||C_{c}|}
+      \sum_{\boldsymbol{x}\in C_{b},\;\boldsymbol{y}\in C_{c}}
+      d(\boldsymbol{x},\boldsymbol{y})\\
+  \end{align}
+
+-----
+
+- (続き)
+  \begin{align}
+    &=
+      \frac{|C_{a}||C_{c}|}{|C_{a}+C_{b}||C_{c}|}
+      \frac{1}{|C_{a}||C_{c}|}
+      \sum_{\boldsymbol{x}\in C_{a},\;\boldsymbol{y}\in C_{c}}
+      d(\boldsymbol{x},\boldsymbol{y})\\
+    &\qquad+
+      \frac{|C_{b}||C_{c}|}{|C_{a}+C_{b}||C_{c}|}
+      \frac{1}{|C_{b}||C_{c}|}
+      \sum_{\boldsymbol{x}\in C_{b},\;\boldsymbol{y}\in C_{c}}
+      d(\boldsymbol{x},\boldsymbol{y})\\
+    &=
+      \frac{|C_{a}||C_{c}|}{|C_{a}+C_{b}||C_{c}|}
+      D(C_{a}, C_{c})
+      +
+      \frac{|C_{b}||C_{c}|}{|C_{a}+C_{b}||C_{c}|}
+      D(C_{b}, C_{c})\\
+    &=
+      \frac{|C_{a}|D(C_{a}, C_{c})+|C_{b}|D(C_{b}, C_{c})}
+      {|C_{a}|+|C_{b}|}
+  \end{align}
+
+
+* 実習
+:PROPERTIES:
+:QUARTO_ATTR: {background-color="#fef4f4"}
+:END:
+# 東京大学
+
+
+* COMMENT 解析事例
+# 早稲田大学
+
+** 都道府県別の社会生活統計指標
+:PROPERTIES:
+:ID:       18026234-D183-45BA-96C2-F7A94C09F8EC
+:END:
+- 各データを正規化
+   #+begin_example
+   森林面積割合 : 森林面積割合 (%) 2014年
+   農業産出額　 : 就業者１人当たり農業産出額(販売農家）(万円) 2014年
+   人口割合　　 : 全国総人口に占める人口割合 (%) 2015年
+   土地生産性　 : 土地生産性（耕地面積１ヘクタール当たり）(万円) 2014年
+   商品販売額　 : 商業年間商品販売額［卸売業＋小売業］（事業所当たり）(百万円) 2013年
+   #+end_example
+- 分析方法 : Euclid 距離 + 群平均法
+
+*** 社会生活統計指標のクラスタ分析 (デンドログラム)
+:PROPERTIES:
+:QUARTO_ATTR: {.head-center .fig-tall}
+:END:
+
+#+begin_src R
+  #| fig-width: 6
+  #' 階層的クラスタリングの実行:
+  js_hclust <-
+    js_data |>
+    select(-地方区分) |>
+    column_to_rownames(var = "都道府県名") |>
+    agnes(stand = TRUE)
+  js_hclust |>
+    as.dendrogram() |>
+    ggdendrogram(rotate = FALSE, theme_dendro = FALSE) +
+    labs(title = "Euclid 距離 + 群平均法",
+         x = "県名", y = "距離") +
+    theme(axis.text.x = element_text(size = 9))
+#+end_src
+
+
+*** 5分割の例
+:PROPERTIES:
+:QUARTO_ATTR: {.head-center .fig-tall}
+:END:
+
+#+begin_src R
+  #| fig-width: 6
+  k <- 5 # 分割数を指定
+  js_clust <- cutree(js_hclust, k = k)  # クラスタを作成
+  js_dendr <- dendro_data(js_hclust, type="rectangle") # ggplot用に変換
+  js_rect <- left_join(label(js_dendr),
+                       tibble(label = js_data[["都道府県名"]],
+                              cluster = js_clust)) |>
+    group_by(cluster) |>
+    summarize(xmin = min(x)-0.3, xmax = max(x)+0.3)
+  js_ymax <- mean(sort(js_hclust$height, decreasing = TRUE)[k-0:1])
+  js_hclust |>
+    as.dendrogram() |>
+    ggdendrogram(rotate = FALSE, theme_dendro = FALSE) +
+    labs(title = "クラスタの分割",
+         x = "県名", y = "距離") +
+    theme(axis.text.x = element_text(size = 9)) +
+    geom_rect(data = js_rect,
+              aes(xmin = xmin, xmax = xmax, ymin = 0, ymax = js_ymax,
+                  fill = as_factor(cluster)),
+              alpha = 0.3, show.legend = FALSE)
+  ## segment(js_dendr) |>
+  ##   ggplot() +
+  ##   geom_segment(aes(x = x, y = y, xend = xend, yend = yend)) +
+  ##   geom_text(data = label(js_dendr),
+  ##             aes(x, y, label = label, hjust = 0, color = js_clust),
+  ##             size = 3)
+#+end_src
+
+** COMMENT 5クラスタに分割する例
+
+-----
+
+- 5クラスタに分割
+  #+begin_src R
+    ## 結果の確認 (各クラスタ内の県名を表示)
+    js_clst <- cutree(js_est, k=k) # デンドログラムを分割
+    js_pref <- rownames(js_data) # 県名の取得
+    for(i in 1:k) {
+      cat("=== cluster ",i,"===\n")
+      print(js_pref[js_clst==i])
+    }
+  #+end_src
+
+** 都道府県別好きなおむすびの具
+:PROPERTIES:
+:ID:       D18A17B8-52C8-4157-9CA0-846C0D82A92F
+:END:
+- Webアンケート
+  - 「ごはんを食べよう国民運動推進協議会」(平成30年解散) \\
+    http://www.gohan.gr.jp/result/09/anketo09.html (閉鎖) 
+  - データ [[https://noboru-murata.github.io/lectures/multivariate-analysis/data/omusubi.csv]]
+
+-----
+
+- アンケート概要 (Q2の結果を利用)
+  #+begin_example
+  【応募期間】 2009年1月4日～2009年2月28日
+  【応募方法】 インターネット、携帯ウェブ
+  【内　　容】
+   Q1. おむすびを最近１週間に、何個食べましたか？
+       そのうち市販のおむすびは何個でしたか？
+   Q2. おむすびの具では何が一番好きですか？
+       A.梅 B.鮭 C.昆布 D.かつお E.明太子 F.たらこ Ｇ.ツナ H.その他
+   Q3. おむすびのことをあなたはなんと呼んでいますか？
+       A.おにぎり B.おむすび C.その他
+   Q4. おむすびといえば、どういう形ですか？
+       A.三角形 B.丸形 C.俵形 D.その他
+  【回答者数】
+   男性     9,702人     32.0%
+   女性    20,616人     68.0%
+   総数    30,318人    100.0%
+  #+end_example
+- 分析方法 : Hellinger距離(確率分布の距離) + 群平均法
+
+*** データの概要
+:PROPERTIES:
+:QUARTO_ATTR: {.head-center .fig-tall}
+:END:
+
+#+begin_src R
+  #| include: false
+  #' データの読み込み("omusubi.csv"を用いる)
+  om_data <- bind_cols(
+    read_csv(file="data/omusubi.csv"),
+    read_csv(file="data/prefecture.csv"))
+#+end_src
+
+
+#+begin_src R
+  #| fig-width: 6
+  #' 県別の人気比率:
+  om_data |>
+    select(ume:etc,jp) |>
+    set_names(c("梅","鮭","昆布","鰹","明太子","鱈子","ツナ","その他","県名")) |>
+    pivot_longer(-県名) |>
+    mutate(県名 = fct_rev(as_factor(県名)),
+           name = as_factor(name)) |> # ggplot(aes(x = 県名, y = value)) +
+    ggplot(aes(y = 県名, x = value)) +
+    geom_bar(aes(fill = name),
+             stat = "identity",
+             position = position_stack(reverse=TRUE)) +
+    labs(title = "おむすびの具 県別人気アンケート (2009)",
+         x = "人気比率", fill = "具材") +
+    theme(legend.position = "top",
+          axis.text.y = element_text(size = 9))
+#+end_src
+
+*** データの散布図
+:PROPERTIES:
+:QUARTO_ATTR: {.head-center .fig-tall}
+:END:
+
+#+begin_src R
+  #| fig-width: 6
+  #' データの散布図:
+  om_data |>
+    select(ume:etc,jp,area_jp) |>
+    set_names(c("梅","鮭","昆布","鰹","明太子","鱈子","ツナ","その他","県名","地方")) |>
+    GGally::ggpairs(columns = 1:8,
+                    upper = list(continuous = wrap("cor", size = 4.0)),
+                    diag = list(continuous = "barDiag"),
+                    lower = list(continuous = wrap("points", size = 0.5),
+                                 ## wrap("smooth", se = FALSE, size = 0.5),
+                                 mapping = aes(colour = 地方)))
+#+end_src
+
+*** デンドログラム
+:PROPERTIES:
+:QUARTO_ATTR: {.head-center .fig-tall}
+:END:
+
+#+begin_src R
+  #| fig-width: 6
+  #' 距離計算
+  om_data |>
+    select(ume:etc,jp) |>
+    set_names(c("梅","鮭","昆布","鰹","明太子","鱈子","ツナ","その他","県名")) |>
+    column_to_rownames(var = "県名") |>
+    sqrt() |>
+    daisy() |>
+    agnes() |>
+    as.dendrogram() |>
+    ggdendrogram(rotate = TRUE, theme_dendro = FALSE) +
+    labs(title = "おむすびの具人気アンケートによるクラスタ分析",
+         x = "県名", y = "距離") +
+    theme(axis.text.y = element_text(size = 9))
+#+end_src
+   
+
+* 次回の予定
+  - 第1回 : 基本的な考え方と階層的方法
+  - *第2回 : 非階層的方法と分析の評価*
+
+
+* Footnotes

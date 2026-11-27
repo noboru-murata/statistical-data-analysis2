@@ -1,0 +1,625 @@
+---
+title: クラスタ分析
+subtitle: 非階層的方法と分析の評価
+author: 村田 昇
+oxq-email: "noboru.murata@gmail.com"
+# lecture — 講義用 revealjs＋pdf (lualatex)＋html (既定の配色: palette-indigo)
+# 使い方: org の先頭で  #+SETUPFILE: _quarto/org/lecture.org
+#   (プロジェクトに _quarto と _extensions をシンボリックリンクで置く．ox-quarto/README.org)
+# 配色は大元の org で  #+QUARTO_PALETTE: jade  (indigo (既定) / jade / lavender / mint / amethyst / garnet / dracula)．pdf と html は callout の色だけ配色に合わせる (callout-palette)．
+#   dracula ではコードも dracula 配色にする (ox-quarto-ext-palette-rules)．
+# talk.yaml との違い: 節扉は見出しをそのまま出す (section-toc なし)，PDF と html も出せる，pointer (q) は肉球．
+callout-palette: indigo             # pdf と html の callout の色 (lib/callout-colors.lua．#+QUARTO_PALETTE に合わせて書き換わる)
+# 定理の類 (#+begin_theorem :id "thm-…" など) と証明の見出しの語 (ほかの見出しの語は Quarto の既定のまま)
+language:
+  crossref-thm-title: 定理
+  crossref-thm-prefix: 定理
+  crossref-lem-title: 補題
+  crossref-lem-prefix: 補題
+  crossref-cor-title: 系
+  crossref-cor-prefix: 系
+  crossref-prp-title: 命題
+  crossref-prp-prefix: 命題
+  crossref-def-title: 定義
+  crossref-def-prefix: 定義
+  crossref-exm-title: 例
+  crossref-exm-prefix: 例
+  crossref-cnj-title: 予想
+  crossref-cnj-prefix: 予想
+  crossref-exr-title: 演習
+  crossref-exr-prefix: 演習
+  crossref-sol-title: 解
+  crossref-sol-prefix: 解
+  crossref-rem-title: 注意
+  crossref-rem-prefix: 注意
+  crossref-alg-title: アルゴリズム
+  crossref-alg-prefix: アルゴリズム
+  environment-proof-title: 証明      # #+begin_proof (番号なし)
+  environment-remark-title: 注意     # #+begin_remark
+  environment-solution-title: 解     # #+begin_solution
+license: "CC BY-NC"
+csl: _quarto/csl/apa-short.csl      # 文献の書式 (本文は (著者, 年)．一覧は 4 名以上を 2 名 + et al. に．解説文は apa.csl)
+link-citations: true
+cite-aside-max: 2                   # 引用が 3 件以上のスライドでは書誌を脚注欄に出さない (lib/cite-aside.lua)
+format:
+  revealjs: 
+    theme:
+      - default
+      - _quarto/scss/oer-revealjs.scss       # structure
+      - _quarto/scss/palette-indigo.scss     # 配色 (#+QUARTO_PALETTE で差し替わる)
+      - _quarto/scss/deck-lecture.scss       # 修飾
+      - _quarto/scss/deck-paw.scss           # pointer (q) を肉球に．丸い点に戻すなら #+QUARTO_DECK: dot (#+QUARTO_DECK の deck はこの後に足される)
+      - _quarto/scss/parts.scss              # 部品: .muted .kpi .flow-arrow .formulation など
+      - _quarto/scss/iframe.scss
+      - _quarto/scss/text-size.scss
+    slide-level: 3
+    max-scale: 2.0 
+    embed-resources: true
+    include-in-header:
+      - _quarto/lib/mathjax-fix.html
+      - _quarto/lib/pixel-snap.html     # スライドの位置を整数ピクセルに (Safari のぼやけ対策)
+      - _quarto/lib/slide-number-arrows.html  # 頁番号を矢印の箱の中へ (Safari でも矢印の真ん中に)
+    center: true
+    controls: true
+    controls-layout: bottom-right
+    controls-back-arrows: visible
+    controls-tutorial: true
+    navigation-mode: vertical
+    auto-stretch: false
+    slide-number: c/t                  # 右下に「頁/総頁」(talk と同じ)
+  pdf:
+    keep-tex: true
+    echo: false
+    pdf-engine: lualatex
+    papersize: a4                   # 用紙 (Quarto の既定は letter．report / handout も a4)．org から: #+QUARTO_PDF_OPTIONS: papersize:letter
+    include-in-header:
+      - _quarto/tex/ja-latex.tex          # 和文 (luatexja)・xpatch の回避・mathtools (式の番号)
+      - _quarto/tex/theorem-number.tex    # 定理の類の番号を通し番号に (定理 1．html などと同じ)
+      - _quarto/tex/fig-scale.tex
+      - _quarto/tex/table-center.tex
+      - _quarto/tex/callout-title-gothic.tex
+      - _quarto/tex/gt-table-tight.tex
+  html: 
+    self-contained: false
+    grid: 
+      margin-width: 350px
+    code-fold: true
+revealjs-plugins:
+  - pointer
+pointer:
+  color: "rgba(255, 0, 0, 0.4)"
+  pointerSize: 120
+  alwaysVisible: false
+knitr:
+  opts_chunk:
+    fig.align: center
+execute:
+  warning: false
+  message: false
+  fig-height: 5
+  fig-width: 5
+filters:                          # 節扉は見出しをそのまま出す (section-toc は使わない)
+  - _quarto/lib/no-hrule.lua
+  - _quarto/lib/iframe.lua
+  - _quarto/lib/cite-aside.lua    # 各スライドで引用した文献の書誌を脚注欄に出す (revealjs のみ)
+  - _quarto/lib/ack.lua           # 謝辞の頁の人の一覧 (::: people) を写真・名前・所属の組に
+  - _quarto/lib/text-size.lua   # .text-NN / .math-NN を PDF でも効かせる
+  - _quarto/lib/slide-notes.lua # 発表者ノートを pdf / html では枠で囲む (slide-notes)
+  - _quarto/lib/title-qr.lua    # 表紙の右下の QR コード (revealjs のみ．org の #+QUARTO_QR)
+  - _quarto/lib/pin.lua           # .pin-top / .pin-bottom: absolute の要素をキャンバスの端に固定 (title-qr の後に)
+  - _quarto/lib/text-center.lua   # #+begin_center (::: {.text-center}) を html / pdf / typst で中央寄せに
+  - _quarto/lib/callout-colors.lua # callout を palette の役割の色に (pdf / html．revealjs は scss)
+  - at: post-quarto                 # スライドで定理の類を callout の箱に (定理 important，定義 note，例 tip，注意 warning．証明は箱なし)
+    path: _quarto/lib/theorem-callout.lua
+slide-notes-default: box          # 発表者ノート (::: notes) を pdf / html でどう出すか: box / margin / hide / plain (lib/slide-notes.lua．org では #+QUARTO_OPTIONS: slide-notes:margin)
+
+---
+
+
+
+```{r}
+### 第11講 資料
+```
+
+```{r}
+#' このファイルには資料の中の例題や演習問題の解答例があります
+#' コメント行は "#'" で開始され，RStudio では緑(既定値)で表示されます
+#' コメント内の "@..." は
+#'   @exercise 例題 (スライドの説明と並行して実習)
+#'   @practice 演習 (時間を取って各自で実習)
+#'   @notes 注意 (講義の補足説明)
+#'   @appendix 補遺 (講義では扱い切れなかった付加的な事柄)
+#' のタグで，RStudio では青(既定値)でハイライトされます
+#'
+library(conflicted)
+conflicts_prefer(
+    dplyr::filter(),
+    dplyr::select(),
+    dplyr::lag(),
+    )
+library(tidyverse)
+library(ggfortify)     # 分析結果の視覚化にggplotを利用するためのパッケージ
+library(GGally)
+library(ggrepel)
+library(gt)            # 表を作成するためのパッケージ
+library(gtsummary)
+library(broom)
+library(broom.helpers) # gtsummary のいくつかの関数で利用(インストールされていれば不要)
+library(MASS)          # パッケージ MASS に含まれる判別分析のための関数を利用
+library(cluster)       # クラスタ分析のためのパッケージ
+library(ggdendro)      # ggplot でデンドログラムを描くためのパッケージ
+library(tsibble)       # 時系列を扱うためのパッケージ
+library(feasts)        # ggplotで時系列を扱うための拡張パッケージ
+library(fable)         # 時系列関連
+library(ggtime)        # 時系列関連
+#' 日本語表示の設定
+#' 出力形式に応じた作図デバイス
+if (knitr::is_latex_output()) knitr::opts_chunk$set(dev = "cairo_pdf")
+
+#' 日本語表示の設定
+if (Sys.info()["sysname"] == "Darwin") {
+    jp_font <- if (knitr::is_latex_output()) {
+                   "Hiragino Maru Gothic ProN"   # cairo は fontconfig 経由なのでファミリ名
+               } else {
+                   "HiraMaruProN-W4"             # quartz/AGG は PostScript 名
+               }
+    theme_update(text = element_text(family = jp_font))
+    update_geom_defaults("text", list(family = theme_get()$text$family))
+    update_geom_defaults("label", list(family = theme_get()$text$family))
+    update_geom_defaults("text_repel", list(family = theme_get()$text$family))
+    update_geom_defaults("label_repel", list(family = theme_get()$text$family))
+} else {
+    jp_font <- NULL
+}
+```
+
+::: {.content-visible when-format="pdf"}
+```{=latex}
+\figfitboth
+\setlength{\figmaxheight}{0.42\textheight}
+\setlength{\figmaxwidth}{0.84\textwidth}
+```
+:::
+
+
+# 講義の内容
+
+-   第1回 : クラスタ分析の考え方と階層的方法
+-   **第2回 : 非階層的方法と分析の評価**
+
+
+# クラスタ分析の復習
+
+
+## クラスタ分析
+
+-   クラスタ分析 (**cluster analysis**) の目的   
+    個体の間に隠れている
+    **集まり=クラスタ**
+    を個体間の"距離"にもとづいて発見する方法
+-   個体間の類似度・距離(非類似度)を定義
+    -   同じクラスタに属する個体どうしは似通った性質
+    -   異なるクラスタに属する個体どうしは異なる性質
+-   さらなるデータ解析やデータの可視化に利用
+-   教師なし学習の代表的な手法の一つ
+
+
+## クラスタ分析の考え方
+
+-   階層的方法
+    -   データ点およびクラスタの間に **距離** を定義
+    -   距離に基づいてグループ化
+        -   近いものから順にクラスタを **凝集**
+        -   近いものが同じクラスタに残るように **分割**
+-   非階層的方法
+    -   クラスタの数を事前に指定
+    -   クラスタの **集まりの良さ** を評価する損失関数を定義
+    -   損失関数を最小化するようにクラスタを形成
+
+
+## 階層的クラスタリング {.head-center .fig-tall}
+
+::: {.columns}
+::: {.column width="55%"}
+-   凝集的手続き
+    1.  データ・クラスタ間の距離を定義
+        -   データ点間の距離
+        -   クラスタ間の距離
+    2.  データ点およびクラスタ間の距離を計算
+    3.  最も近い2つを統合し新たなクラスタを形成
+    4.  クラスタ数が1つになるまで2-3の手続きを繰り返す
+:::
+
+::: {.column width="45%"}
+::: {.fig-tall}
+
+
+```{r}
+#| fig-cap: "凝集的手続きの例"
+library(cluster)
+js_data <- 
+  read_csv(file="data/japan_social2.csv")
+myPlot <- function(k) {
+  if(Sys.info()["sysname"]=="Darwin"){par(family = jp_font)}
+  tmpa <- js_data |>
+    slice(8:14) |>
+    select(where(is.double),都道府県名) |>
+    column_to_rownames(var = "都道府県名")
+  # tmpa <- js_data[8:14,]
+  tmpb <- list(c(1,2,3,4,1,6,7),
+               c(1,2,3,1,1,6,7),
+               c(1,2,2,1,1,6,7),
+               c(1,2,2,1,1,6,1),
+               c(1,1,1,1,1,6,1),
+               c(1,1,1,1,1,1,1))
+  clusplot(x=tmpa,
+           clus=c(1,2,3,4,5,6,7),
+           diss=FALSE,
+           stand=TRUE, lines=0, labels=3, 
+           main=NULL, sub=NULL, cex=1.5,
+           xlim=c(-2.5,2.5), ylim=c(-2.5,2.5),
+           xaxt="n", yaxt="n", ann=FALSE,
+           col.p="blue", col.txt="darkgray", col.clus="white", shade=FALSE)
+  if(k>0) {
+    for(i in 1:k) {
+      clusplot(x=tmpa,
+               clus=tmpb[[i]],
+               diss=FALSE, cex=0.2,
+               stand=TRUE, add=TRUE, span=FALSE,
+               lines=0, lwd=3, col.p="blue", col.clus="orange")
+    }
+  }
+}
+if(Sys.info()["sysname"]=="Darwin"){par(family = jp_font)}
+par(mfrow=c(4,2), mar=rep(0.5,4))
+for(i in 0:6) myPlot(i)
+js_data |>
+  slice(8:14) |>
+  select(where(is.double),都道府県名) |>
+  column_to_rownames(var = "都道府県名") |>
+  scale() |>
+  agnes() |>
+  plot(which.plots=2, main="",sub="",xlab="")
+```
+:::
+:::
+:::
+
+
+# 非階層的方法
+
+
+## 非階層的方法の手続き
+
+-   対象の変数 : $\boldsymbol{X}=(X_1,X_2,\dotsc,X_{d})^{\mathsf{T}}$ ($d$次元)
+-   観測データ : $n$ 個の個体の組
+    \begin{equation}
+      \{\boldsymbol{x}_{i}\}_{i=1}^{n}
+      =
+      \{(x_{i1},x_{i2},\dotsc,x_{id})^{\mathsf{T}}\}_{i=1}^{n}
+    \end{equation}
+-   個体とクラスタの対応 $C$ を推定 
+    \begin{equation}
+      C(i)
+      =\text{(個体 \(i\) が属するクラスタ番号)}
+    \end{equation}
+    
+    -   対応 $C$ の **全体の良さ** を評価する損失関数を設定
+    -   観測データ
+        $\{\boldsymbol{x}_{i}\}_{i=1}^{n}$
+        に最適な対応
+        $\{C(i)\}_{i=1}^{n}$ を決定
+
+
+## $k$-平均法の損失関数
+
+-   クラスタの個数 $k$ を指定
+-   2つの個体 $i,i'$ の **近さ=損失** を距離の二乗で評価
+    \begin{equation}
+      \|\boldsymbol{x}_i-\boldsymbol{x}_{i'}\|^2
+      =
+      \sum_{j=1}^{d}(x_{ij}-x_{i'j})^2
+    \end{equation}
+-   損失関数 $W(C)$ : クラスタ内の平均の近さを評価
+    \begin{equation}
+      W(C)
+      =
+      \sum_{l=1}^k\frac{1}{n_l}\sum_{i:C(i)=l}\sum_{i':C(i')=l}\|\boldsymbol{x}_i-\boldsymbol{x}_{i'}\|^2
+    \end{equation}
+
+
+## $k$-平均法の性質
+
+-   クラスタ $l$ に属する個体の平均
+    \begin{equation}
+      \bar{\boldsymbol{x}}_l
+      =
+      \frac{1}{n_l}\sum_{i:C(i)=l}\boldsymbol{x}_i,
+      \quad\text{(\(n_l\) はクラスタ \(l\) に属する個体数)}
+    \end{equation}
+-   損失関数 $W(C)$ の等価な表現
+    \begin{equation}
+      W(C)
+      =
+      2\sum_{l=1}^k\sum_{i:C(i)=l}\|\boldsymbol{x}_i-\bar{\boldsymbol{x}}_{l}\|^2
+    \end{equation}
+-   最適な対応 $C$ : クラスタ内変動の総和が最小
+
+
+# 近似的な最適化
+
+
+## クラスタ対応の最適化
+
+-   最適化 : 損失関数 $W(C)$ を最小とする $C$ を決定
+-   貪欲な $C$ の探索
+    -   原理的には全ての値を計算すればよい
+    -   可能な $C$ の数 : $k^n$ 通り (有限個のパターン)
+    -   サンプル数 $n$ が小さくない限り実時間での実行は不可能
+-   近似的な $C$ の探索
+    -   いくつかのアルゴリズムが提案されている
+    -   基本的な考え方 : **Lloyd-Forgyのアルゴリズム**   
+        標本平均と変動の平方和の性質を利用
+        \begin{equation}
+          \bar{\boldsymbol{x}}_l
+          =\arg\min_{\mu}
+          \sum_{i:C(i)=l}\|\boldsymbol{x}_i-\boldsymbol{\mu}\|^2
+          \quad
+          \text{(クラスタ\(l\)の標本平均)}
+        \end{equation}
+
+
+## Lloyd-Forgyのアルゴリズム
+
+1.  クラスタ中心の初期値 
+    $\boldsymbol{\mu}_1,\boldsymbol{\mu}_2,\dots,\boldsymbol{\mu}_k$ を与える
+2.  各データの所属クラスタ番号 $C(i)$ を求める
+    \begin{equation}
+      C(i)
+      =
+      \arg\min_l\|\boldsymbol{x}_i-\boldsymbol{\mu}_l\|
+    \end{equation}
+3.  各クラスタ中心 $\boldsymbol{\mu}_l\;(l=1,2,\dotsc,k)$ を更新する
+    \begin{equation}
+      \boldsymbol{\mu}_l
+      =
+      \frac{1}{n_l}\sum_{i:C(i)=l}\boldsymbol{x}_i,
+      \quad
+      n_l=|\{\boldsymbol{x}_i|C(i)=l\}|
+    \end{equation}
+4.  中心が変化しなくなるまで 2,3 を繰り返す
+
+
+### 関東・関西圏を除く好きなおむすびの具 {.head-center .fig-tall}
+
+```{r}
+#| include: false
+om_data <- bind_cols(
+  read_csv(file="data/omusubi.csv"),
+  read_csv(file="data/prefecture.csv"))
+om_subset <- om_data |>
+  select(ume:etc,jp) |>
+  slice(-c(8:14,24:30)) |>
+  column_to_rownames(var = "jp") |>
+  set_names(c("梅","鮭","昆布","鰹","明太子","鱈子","ツナ","その他")) 
+n <- nrow(om_subset)
+```
+
+::: {.content-visible when-format="html"}
+::: {.scroll-tall}
+```{r}
+#' データの表示(reveal用)
+om_subset |>
+  mutate(県名 = rownames(om_subset), .before = 1) |>
+  gt()
+```
+:::
+:::
+
+::: {.content-visible when-format="pdf"}
+```{r}
+#' データの表示(latex用)
+om_subset |>
+  mutate(県名 = rownames(om_subset), .before = 1) |>
+  gt() |>
+  tab_options(table.font.size = 9, table.width = pct(80)) |>
+  as_latex()
+```
+:::
+
+
+### データ点の配置 {.head-center .fig-tall}
+
+```{r}
+#| fig-width: 6
+jdx <- 1:ncol(om_subset) # jdx <- sample(ncol(om_subset),2)
+om_pca <- prcomp(om_subset[,jdx])
+
+if(Sys.info()["sysname"]=="Darwin"){par(family = jp_font)}
+plot(predict(om_pca),
+     col="blue", pch=19, cex=0.5,
+     xaxt="n", yaxt="n", ann=FALSE)
+text(transform(predict(om_pca), PC2=PC2+0.5),
+     labels=rownames(om_subset), col="blue", cex=1)
+```
+
+
+### Lloyd-Forgyのアルゴリズム (その1) {.head-center .fig-tall}
+
+```{r}
+#| fig-width: 6
+## 図示のための関数
+myPlot <- function(cntr) {
+  dsy <- daisy(rbind(om_subset[,jdx],cntr))
+  clst <- apply(as.matrix(dsy)[1:n,(1:k)+n],
+                1,
+                function(x){which.min(x)})
+  plot(predict(om_pca), col=clst, pch=clst, type="n",
+       xaxt="n", yaxt="n", ann=FALSE)
+  text(predict(om_pca), labels=clst, col=clst, cex=1.5)
+  points(predict(om_pca,newdata=cntr), col=1:k, pch=19, cex=2)
+  cntr <- aggregate(. ~ clst,
+                    data=data.frame(om_subset[,jdx],clst),
+                    mean)[,-1]
+  return(cntr)
+}
+set.seed(1212)
+k <- 5
+idx <- sample(n,k)
+cntr <- om_subset[idx,jdx]
+## 
+cntr <- myPlot(cntr)
+```
+
+
+### Lloyd-Forgyのアルゴリズム (その2) {.head-center .fig-tall}
+
+```{r}
+#| fig-width: 6
+cntr <- myPlot(cntr)
+```
+
+
+### Lloyd-Forgyのアルゴリズム (その3) {.head-center .fig-tall}
+
+```{r}
+#| fig-width: 6
+cntr <- myPlot(cntr)
+```
+
+
+### Lloyd-Forgyのアルゴリズム (その4) {.head-center .fig-tall}
+
+```{r}
+#| fig-width: 6
+cntr <- myPlot(cntr)
+```
+
+
+### Lloyd-Forgyのアルゴリズム (その5) {.head-center .fig-tall}
+
+```{r}
+#| fig-width: 6
+cntr <- myPlot(cntr)
+```
+
+
+### Lloyd-Forgyのアルゴリズム (その6) {.head-center .fig-tall}
+
+```{r}
+#| fig-width: 6
+cntr <- myPlot(cntr)
+```
+
+
+### クラスタリングの結果 {.head-center .fig-tall}
+
+```{r}
+#| fig-width: 6
+if(Sys.info()["sysname"]=="Darwin"){par(family = jp_font)}
+dsy <- daisy(rbind(om_subset[,jdx],cntr))
+clst <- apply(as.matrix(dsy)[1:n,(1:k)+n],
+              1,
+              function(x){which.min(x)})
+plot(predict(om_pca),
+     col="blue", pch=19, cex=0.5,
+     xaxt="n", yaxt="n", ann=FALSE)
+text(transform(predict(om_pca), PC2=PC2+0.5),
+     labels=rownames(om_subset), col=clst, cex=1)
+```
+
+
+## アルゴリズムの性質
+
+-   結果は **確率的**
+    -   初期値 $\boldsymbol{\mu}_1,\boldsymbol{\mu}_2,\dots,\boldsymbol{\mu}_k$ に依存
+    -   アルゴリズムの成否は確率的なため，最適解が得られない場合もある
+-   一般には複数の初期値をランダムに試して損失を最小とする解を採用する
+-   平均の代わりにメドイド (medoid; 中心にある観測値) を用いる方法もある
+    \begin{equation}
+      \boldsymbol{x}^{\mathrm{medoid}}_{l}
+      =\arg\min_{\boldsymbol{x}_{i}}
+      \sum_{i':C(i')=l}
+      \|\boldsymbol{x}_{i}-\boldsymbol{x}_{i'}\|^2
+    \end{equation}
+
+
+# 実習 {background-color="#fef4f4"}
+
+
+# クラスタ構造の評価
+
+
+## 階層的方法の評価
+
+-   評価の対象
+    -   データ $\boldsymbol{x}_i$ と最初に統合されたクラスタ $C$ の距離
+        \begin{equation}
+          d_i
+          =
+          D({\boldsymbol{x}_i},C)
+        \end{equation}
+    -   最後に統合された2つのクラスタ $C',C''$ の距離
+        \begin{equation}
+          D
+          =
+          D(C',C'')
+        \end{equation}
+-   **凝集係数** (agglomerative coefficient)
+    \begin{equation}
+      AC
+      =
+      \frac{1}{n}\sum_{i=1}^{n}\left(1-\frac{d_i}{D}\right)
+    \end{equation}
+
+
+## 凝集係数の性質
+
+-   定義より
+    \begin{equation}
+      0\le AC\le 1
+    \end{equation}
+    
+    -   1に近いほどクラスタ構造が明瞭
+-   banner plot: 各 $(1-{d_i}/{D})$ を並べた棒グラフ
+-   banner plot の面積比として視覚化
+
+
+## 非階層的方法の評価
+
+-   評価の対象
+    -   $\boldsymbol{x}_i$ を含むクラスタ $C^1$ と $\boldsymbol{x}_i$ の距離
+        \begin{equation}
+          d^1_i=D({\boldsymbol{x}_i},C^1\setminus{\boldsymbol{x}_i})
+        \end{equation}
+    -   一番近いクラスタ $C^2$ と $\boldsymbol{x}_i$ の距離
+        \begin{equation}
+          d^2_i=D({\boldsymbol{x}_i},C^2)
+        \end{equation}
+-   **シルエット係数** (silhouette coefficient)
+    \begin{equation}
+      S_i
+      =
+      \frac{d^2_i-d^1_i}{\max(d^1_i,d^2_i)}
+    \end{equation}
+
+
+## シルエット係数の性質
+
+-   定義より
+    \begin{equation}
+      -1\le S_i\le 1
+    \end{equation}
+    
+    -   1に近いほど適切なクラスタリング
+-   全体の良さを評価するには $S_i$ の平均を用いる
+-   距離の計算を適切に行えば階層的方法でも利用可
+
+
+# 実習 {background-color="#fef4f4"}
+
+
+# 次回の予定
+
+-   **第1回 : 時系列の基本モデル**
+-   第2回 : モデルの推定と予測

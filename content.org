@@ -142,7 +142,7 @@
 :EXPORT_FILE_NAME: lecture08
 :EXPORT_DATE: <2020-09-19 Sat>
 :END:
-<2026-11-23 Mon> 更新
+<2026-11-27 Fri> 更新
 ** スライド
 #+hugo: {{< myslide base="statistical-data-analysis2" name="slide08" >}}
 ** ハンドアウト
@@ -156,7 +156,7 @@
 :EXPORT_FILE_NAME: lecture09
 :EXPORT_DATE: <2020-09-19 Sat>
 :END:
-<2026-11-13 Fri> 更新
+<2026-11-27 Fri> 更新
 ** スライド
 #+hugo: {{< myslide base="statistical-data-analysis2" name="slide09" >}}
 ** ハンドアウト
@@ -170,28 +170,27 @@
 :EXPORT_FILE_NAME: lecture10
 :EXPORT_DATE: <2020-09-19 Sat>
 :END:
-<2025-12-01 Mon> 更新
+<2026-11-27 Fri> 更新
 ** スライド
 #+hugo: {{< myslide base="statistical-data-analysis2" name="slide10" >}}
 ** ハンドアウト
 - [[github:pdfs/slide10.pdf][PDF file]]
 ** 付録
-- 実習用 [[githubraw:code/practice10.qmd][Quarto]]
+- 実習用 [[github:code/practice10.qmd][Quarto]]
 - 解答例 [[github:code/practice10.html][HTML]]
-- データセット [[github:data/data10.zip][練習問題用データセット]]
 
 * 第11講
 :PROPERTIES:
 :EXPORT_FILE_NAME: lecture11
 :EXPORT_DATE: <2020-09-19 Sat>
 :END:
-<2025-12-05 Fri> 更新
+<2026-11-27 Fri> 更新
 ** スライド
 #+hugo: {{< myslide base="statistical-data-analysis2" name="slide11" >}}
 ** ハンドアウト
 - [[github:pdfs/slide11.pdf][PDF file]]
 ** 付録
-- 実習用 [[githubraw:code/practice11.qmd][Quarto]]
+- 実習用 [[github:code/practice11.qmd][Quarto]]
 - 解答例 [[github:code/practice11.html][HTML]]
 
 * 第12講

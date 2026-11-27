@@ -1,0 +1,611 @@
+---
+title: クラスタ分析
+subtitle: 基本的な考え方と階層的方法
+author: 村田 昇
+oxq-email: "noboru.murata@gmail.com"
+# lecture — 講義用 revealjs＋pdf (lualatex)＋html (既定の配色: palette-indigo)
+# 使い方: org の先頭で  #+SETUPFILE: _quarto/org/lecture.org
+#   (プロジェクトに _quarto と _extensions をシンボリックリンクで置く．ox-quarto/README.org)
+# 配色は大元の org で  #+QUARTO_PALETTE: jade  (indigo (既定) / jade / lavender / mint / amethyst / garnet / dracula)．pdf と html は callout の色だけ配色に合わせる (callout-palette)．
+#   dracula ではコードも dracula 配色にする (ox-quarto-ext-palette-rules)．
+# talk.yaml との違い: 節扉は見出しをそのまま出す (section-toc なし)，PDF と html も出せる，pointer (q) は肉球．
+callout-palette: indigo             # pdf と html の callout の色 (lib/callout-colors.lua．#+QUARTO_PALETTE に合わせて書き換わる)
+# 定理の類 (#+begin_theorem :id "thm-…" など) と証明の見出しの語 (ほかの見出しの語は Quarto の既定のまま)
+language:
+  crossref-thm-title: 定理
+  crossref-thm-prefix: 定理
+  crossref-lem-title: 補題
+  crossref-lem-prefix: 補題
+  crossref-cor-title: 系
+  crossref-cor-prefix: 系
+  crossref-prp-title: 命題
+  crossref-prp-prefix: 命題
+  crossref-def-title: 定義
+  crossref-def-prefix: 定義
+  crossref-exm-title: 例
+  crossref-exm-prefix: 例
+  crossref-cnj-title: 予想
+  crossref-cnj-prefix: 予想
+  crossref-exr-title: 演習
+  crossref-exr-prefix: 演習
+  crossref-sol-title: 解
+  crossref-sol-prefix: 解
+  crossref-rem-title: 注意
+  crossref-rem-prefix: 注意
+  crossref-alg-title: アルゴリズム
+  crossref-alg-prefix: アルゴリズム
+  environment-proof-title: 証明      # #+begin_proof (番号なし)
+  environment-remark-title: 注意     # #+begin_remark
+  environment-solution-title: 解     # #+begin_solution
+license: "CC BY-NC"
+csl: _quarto/csl/apa-short.csl      # 文献の書式 (本文は (著者, 年)．一覧は 4 名以上を 2 名 + et al. に．解説文は apa.csl)
+link-citations: true
+cite-aside-max: 2                   # 引用が 3 件以上のスライドでは書誌を脚注欄に出さない (lib/cite-aside.lua)
+format:
+  revealjs: 
+    theme:
+      - default
+      - _quarto/scss/oer-revealjs.scss       # structure
+      - _quarto/scss/palette-indigo.scss     # 配色 (#+QUARTO_PALETTE で差し替わる)
+      - _quarto/scss/deck-lecture.scss       # 修飾
+      - _quarto/scss/deck-paw.scss           # pointer (q) を肉球に．丸い点に戻すなら #+QUARTO_DECK: dot (#+QUARTO_DECK の deck はこの後に足される)
+      - _quarto/scss/parts.scss              # 部品: .muted .kpi .flow-arrow .formulation など
+      - _quarto/scss/iframe.scss
+      - _quarto/scss/text-size.scss
+    slide-level: 3
+    max-scale: 2.0 
+    embed-resources: true
+    include-in-header:
+      - _quarto/lib/mathjax-fix.html
+      - _quarto/lib/pixel-snap.html     # スライドの位置を整数ピクセルに (Safari のぼやけ対策)
+      - _quarto/lib/slide-number-arrows.html  # 頁番号を矢印の箱の中へ (Safari でも矢印の真ん中に)
+    center: true
+    controls: true
+    controls-layout: bottom-right
+    controls-back-arrows: visible
+    controls-tutorial: true
+    navigation-mode: vertical
+    auto-stretch: false
+    slide-number: c/t                  # 右下に「頁/総頁」(talk と同じ)
+  pdf:
+    keep-tex: true
+    echo: false
+    pdf-engine: lualatex
+    papersize: a4                   # 用紙 (Quarto の既定は letter．report / handout も a4)．org から: #+QUARTO_PDF_OPTIONS: papersize:letter
+    include-in-header:
+      - _quarto/tex/ja-latex.tex          # 和文 (luatexja)・xpatch の回避・mathtools (式の番号)
+      - _quarto/tex/theorem-number.tex    # 定理の類の番号を通し番号に (定理 1．html などと同じ)
+      - _quarto/tex/fig-scale.tex
+      - _quarto/tex/table-center.tex
+      - _quarto/tex/callout-title-gothic.tex
+      - _quarto/tex/gt-table-tight.tex
+  html: 
+    self-contained: false
+    grid: 
+      margin-width: 350px
+    code-fold: true
+revealjs-plugins:
+  - pointer
+pointer:
+  color: "rgba(255, 0, 0, 0.4)"
+  pointerSize: 120
+  alwaysVisible: false
+knitr:
+  opts_chunk:
+    fig.align: center
+execute:
+  warning: false
+  message: false
+  fig-height: 5
+  fig-width: 5
+filters:                          # 節扉は見出しをそのまま出す (section-toc は使わない)
+  - _quarto/lib/no-hrule.lua
+  - _quarto/lib/iframe.lua
+  - _quarto/lib/cite-aside.lua    # 各スライドで引用した文献の書誌を脚注欄に出す (revealjs のみ)
+  - _quarto/lib/ack.lua           # 謝辞の頁の人の一覧 (::: people) を写真・名前・所属の組に
+  - _quarto/lib/text-size.lua   # .text-NN / .math-NN を PDF でも効かせる
+  - _quarto/lib/slide-notes.lua # 発表者ノートを pdf / html では枠で囲む (slide-notes)
+  - _quarto/lib/title-qr.lua    # 表紙の右下の QR コード (revealjs のみ．org の #+QUARTO_QR)
+  - _quarto/lib/pin.lua           # .pin-top / .pin-bottom: absolute の要素をキャンバスの端に固定 (title-qr の後に)
+  - _quarto/lib/text-center.lua   # #+begin_center (::: {.text-center}) を html / pdf / typst で中央寄せに
+  - _quarto/lib/callout-colors.lua # callout を palette の役割の色に (pdf / html．revealjs は scss)
+  - at: post-quarto                 # スライドで定理の類を callout の箱に (定理 important，定義 note，例 tip，注意 warning．証明は箱なし)
+    path: _quarto/lib/theorem-callout.lua
+slide-notes-default: box          # 発表者ノート (::: notes) を pdf / html でどう出すか: box / margin / hide / plain (lib/slide-notes.lua．org では #+QUARTO_OPTIONS: slide-notes:margin)
+
+---
+
+
+
+```{r}
+### 第10講 資料
+```
+
+```{r}
+#' このファイルには資料の中の例題や演習問題の解答例があります
+#' コメント行は "#'" で開始され，RStudio では緑(既定値)で表示されます
+#' コメント内の "@..." は
+#'   @exercise 例題 (スライドの説明と並行して実習)
+#'   @practice 演習 (時間を取って各自で実習)
+#'   @notes 注意 (講義の補足説明)
+#'   @appendix 補遺 (講義では扱い切れなかった付加的な事柄)
+#' のタグで，RStudio では青(既定値)でハイライトされます
+#'
+library(conflicted)
+conflicts_prefer(
+    dplyr::filter(),
+    dplyr::select(),
+    dplyr::lag(),
+    )
+library(tidyverse)
+library(ggfortify)     # 分析結果の視覚化にggplotを利用するためのパッケージ
+library(GGally)
+library(ggrepel)
+library(gt)            # 表を作成するためのパッケージ
+library(gtsummary)
+library(broom)
+library(broom.helpers) # gtsummary のいくつかの関数で利用(インストールされていれば不要)
+library(MASS)          # パッケージ MASS に含まれる判別分析のための関数を利用
+library(cluster)       # クラスタ分析のためのパッケージ
+library(ggdendro)      # ggplot でデンドログラムを描くためのパッケージ
+library(tsibble)       # 時系列を扱うためのパッケージ
+library(feasts)        # ggplotで時系列を扱うための拡張パッケージ
+library(fable)         # 時系列関連
+library(ggtime)        # 時系列関連
+#' 日本語表示の設定
+#' 出力形式に応じた作図デバイス
+if (knitr::is_latex_output()) knitr::opts_chunk$set(dev = "cairo_pdf")
+
+#' 日本語表示の設定
+if (Sys.info()["sysname"] == "Darwin") {
+    jp_font <- if (knitr::is_latex_output()) {
+                   "Hiragino Maru Gothic ProN"   # cairo は fontconfig 経由なのでファミリ名
+               } else {
+                   "HiraMaruProN-W4"             # quartz/AGG は PostScript 名
+               }
+    theme_update(text = element_text(family = jp_font))
+    update_geom_defaults("text", list(family = theme_get()$text$family))
+    update_geom_defaults("label", list(family = theme_get()$text$family))
+    update_geom_defaults("text_repel", list(family = theme_get()$text$family))
+    update_geom_defaults("label_repel", list(family = theme_get()$text$family))
+} else {
+    jp_font <- NULL
+}
+```
+
+::: {.content-visible when-format="pdf"}
+```{=latex}
+\figfitboth
+\setlength{\figmaxheight}{0.42\textheight}
+\setlength{\figmaxwidth}{0.84\textwidth}
+```
+:::
+
+
+# 講義の内容
+
+-   **第1回 : 基本的な考え方と階層的方法**
+-   第2回 : 非階層的方法と分析の評価
+
+
+# クラスタ分析の考え方
+
+
+## クラスタ分析
+
+-   クラスタ分析 (**cluster analysis**) の目的   
+    個体の間に隠れている
+    **集まり=クラスタ**
+    を個体間の"距離"にもとづいて発見する方法
+-   個体間の類似度・距離(非類似度)を定義
+    -   同じクラスタに属する個体どうしは似通った性質
+    -   異なるクラスタに属する個体どうしは異なる性質
+-   さらなるデータ解析やデータの可視化に利用
+-   教師なし学習の代表的な手法の一つ
+
+
+## クラスタ分析の例
+
+-   総務省統計局より取得した都道府県別の社会生活統計指標の一部
+    -   総務省 <https://www.e-stat.go.jp/SG1/estat/List.do?bid=000001083999&cycode=0>
+        
+            都道府県名　
+            地方区分　　
+            森林面積割合 : 森林面積割合 (%) 2014年
+            農業産出額　 : 就業者１人当たり農業産出額(販売農家）(万円) 2014年
+            人口割合　　 : 全国総人口に占める人口割合 (%) 2015年
+            土地生産性　 : 土地生産性（耕地面積１ヘクタール当たり）(万円) 2014年
+            商品販売額　 : 商業年間商品販売額［卸売業＋小売業］（事業所当たり）(百万円) 2013年
+
+
+### 都道府県別の社会生活統計指標データ {.head-center .fig-tall}
+
+```{r}
+#| include: false
+#' @exercise 実データによるクラスタ分析の例
+#' 以下の例で用いる分析のための関数の詳細は今回・次回で解説
+#' データの読み込み
+js_data <-
+  read_csv("data/japan_social2.csv",
+           col_types = list(地方区分 = col_factor()))
+```
+
+::: {.content-visible when-format="html"}
+::: {.scroll-tall}
+```{r}
+#' データの表示(reveal用)
+js_data |>
+  gt() |>
+  tab_options(table.font.size = 20)
+```
+:::
+:::
+
+::: {.content-visible when-format="pdf"}
+```{r}
+#' データの表示(latex用)
+js_data |>
+  gt() |>
+  tab_options(table.font.size = 9, table.width = pct(80)) |>
+  as_latex()
+```
+:::
+
+
+### 散布図 {.head-center .fig-tall}
+
+```{r}
+#| fig-width: 6.4
+#' データの視覚化
+js_data |> # 散布図．いくつかの変数は相関強いことがわかる
+  ggpairs(columns = 3:7,
+          legend = c(2,1), # 2行1列のグラフから凡例を作成
+          upper = list(continuous = wrap("cor", size = 3.5)),
+          diag = list(continuous = wrap("densityDiag", alpha = .5),
+                      mapping = aes(colour = 地方区分)),
+          lower = list(continuous = wrap("points", alpha = .5),
+                       mapping = aes(colour = 地方区分))) +
+  theme(strip.text = element_text(size = 8),
+        axis.text = element_text(size = 5))
+```
+
+
+### 主成分得点による散布図 {.head-center .fig-tall}
+
+```{r}
+#| fig-width: 7
+js_data |> 
+  column_to_rownames(var = "都道府県名") |> 
+  select(where(is.double)) |> 
+  pam(1) |> # クラスタリングしない
+  autoplot(data = js_data,
+           asp = 1,
+           colour = "地方区分",
+           label = TRUE,
+           label.repel = TRUE,
+           label.show.legend = FALSE) 
+```
+
+
+### 散布図上のクラスタ構造 (クラスタ分析の概念図) {.head-center .fig-tall}
+
+```{r}
+#| fig-width: 7
+#' クラスタ分析
+js_data |> 
+  column_to_rownames(var = "都道府県名") |> 
+  select(where(is.double)) |> 
+  pam(6) |>
+  autoplot(asp = 1,
+           frame = TRUE,
+           frame.type = "convex",
+           label = TRUE,
+           label.repel = TRUE,
+           label.show.legend = FALSE)
+```
+
+
+## クラスタ分析の考え方
+
+-   階層的方法
+    -   データ点およびクラスタの間に **距離** を定義
+    -   距離に基づいてグループ化
+        -   近いものから順にクラスタを **凝集**
+        -   近いものが同じクラスタに残るように **分割**
+-   非階層的方法
+    -   クラスタの数を事前に指定
+    -   クラスタの **集まりの良さ** を評価する損失関数を定義
+    -   損失関数を最小化するようにクラスタを形成
+
+
+# 階層的方法
+
+
+## 凝集的クラスタリング
+
+1.  データ・クラスタ間の距離を定義する
+    -   データ点とデータ点の距離
+    -   クラスタとクラスタの距離
+2.  データ点およびクラスタ間の距離を求める
+3.  最も近い2つを統合し新たなクラスタを形成する
+    -   データ点とデータ点
+    -   データ点とクラスタ
+    -   クラスタとクラスタ
+4.  クラスタ数が1つになるまで2-3の手続きを繰り返す
+
+
+### 社会生活統計指標の一部(関東地方) {.head-center .fig-tall}
+
+```{r}
+#| include: false
+js_kanto <-
+  js_data |>
+  slice(8:14) |>
+  select(-地方区分)
+```
+
+::: {.content-visible when-format="html"}
+::: {.scroll-tall}
+```{r}
+#' データの表示(reveal用)
+js_kanto |>
+  gt()
+```
+:::
+:::
+
+::: {.content-visible when-format="pdf"}
+```{r}
+#' データの表示(latex用)
+js_kanto |>
+  gt() |>
+  tab_options(table.font.size = 9, table.width = pct(80)) |>
+  as_latex()
+```
+:::
+
+
+### データ点の配置 {.head-center .fig-tall}
+
+```{r}
+#| fig-width: 6
+library(cluster)
+myPlot <- function(k) {
+  if(Sys.info()["sysname"]=="Darwin"){par(family = jp_font)}
+  tmpa <- js_kanto |>
+    column_to_rownames(var = "都道府県名")
+  # tmpa <- js_data[8:14,]
+  tmpb <- list(c(1,2,3,4,1,6,7),
+               c(1,2,3,1,1,6,7),
+               c(1,2,2,1,1,6,7),
+               c(1,2,2,1,1,6,1),
+               c(1,1,1,1,1,6,1),
+               c(1,1,1,1,1,1,1))
+  clusplot(x=tmpa,
+           clus=c(1,2,3,4,5,6,7),
+           diss=FALSE,
+           stand=TRUE, lines=0, labels=3, lwd=2,
+           main=NULL, sub=NULL, cex=1, cex.txt=1.5,
+           xlim=c(-2.5,2.5), ylim=c(-2.5,2.5),
+           xaxt="n", yaxt="n", ann=FALSE,
+           col.p="blue", col.txt="darkgray", col.clus="white", shade=FALSE)
+  if(k>0) {
+    for(i in 1:k) {
+      clusplot(x=tmpa,
+               clus=tmpb[[i]],
+               diss=FALSE, cex=0.2, 
+               stand=TRUE, add=TRUE, span=FALSE,
+               lines=0, lwd=4, col.p="blue", col.clus="orange")
+    }
+  }
+}
+myPlot(0)
+```
+
+
+### クラスタリングの手続き (その1) {.head-center .fig-tall}
+
+```{r}
+#| fig-width: 6
+myPlot(1)
+```
+
+
+### クラスタリングの手続き (その2) {.head-center .fig-tall}
+
+```{r}
+#| fig-width: 6
+myPlot(2)
+```
+
+
+### クラスタリングの手続き (その3) {.head-center .fig-tall}
+
+```{r}
+#| fig-width: 6
+myPlot(3)
+```
+
+
+### クラスタリングの手続き (その4) {.head-center .fig-tall}
+
+```{r}
+#| fig-width: 6
+myPlot(4)
+```
+
+
+### クラスタリングの手続き (その5) {.head-center .fig-tall}
+
+```{r}
+#| fig-width: 6
+myPlot(5)
+```
+
+
+### クラスタリングの手続き (その6) {.head-center .fig-tall}
+
+```{r}
+#| fig-width: 6
+myPlot(6)
+```
+
+
+### デンドログラムによるクラスタ構造の表示 {.head-center .fig-tall}
+
+```{r}
+#| fig-width: 6
+if(Sys.info()["sysname"]=="Darwin"){par(family = jp_font)}
+js_kanto |>
+  column_to_rownames(var = "都道府県名") |>
+  scale() |>
+  agnes() |>
+  plot(which.plots=2, main="",sub="",xlab="")
+```
+
+
+# データ間の距離
+
+
+## データ間の距離
+
+-   データ : 変数の値を成分としてもつベクトル
+    \begin{equation}
+      \boldsymbol{x}=(x_{1},\dotsc,x_{d})^{\mathsf{T}},
+      \boldsymbol{y}=(y_{1},\dotsc,y_{d})^{\mathsf{T}}\in\mathbb{R}^{d}
+    \end{equation}
+-   距離 : $d(\boldsymbol{x},\boldsymbol{y})$
+-   代表的なデータ間の距離
+    -   Euclid 距離 (ユークリッド ; Euclidean distance)
+    -   Manhattan 距離 (マンハッタン ; Manhattan distance)
+    -   Minkowski 距離 (ミンコフスキー ; Minkowski distance)
+
+
+## Euclid 距離
+
+-   最も一般的な距離
+-   各成分の差の2乗和の平方根 (2ノルム)
+    \begin{equation}
+      d(\boldsymbol{x},\boldsymbol{y})
+      =\sqrt{(x_{1}-y_{1})^{2}+\dotsb+(x_{d}-y_{d})^{2}}
+    \end{equation}
+
+
+## Manhattan 距離
+
+-   後述する Minkowski 距離の $p=1$ の場合
+-   格子状に引かれた路に沿って移動するときの距離
+    \begin{equation}
+      d(\boldsymbol{x},\boldsymbol{y})
+      =|x_{1}-y_{1}|+\dotsb+|x_{d}-y_{d}|
+    \end{equation}
+
+
+## Minkowski 距離
+
+-   Euclid 距離を $p$ 乗に一般化した距離
+-   各成分の差の $p$ 乗和の $p$ 乗根($p$-ノルム)
+    \begin{equation}
+      d(\boldsymbol{x},\boldsymbol{y})
+      =\bigl\{|x_{1}-y_{1}|^{p}+\dotsb+|x_{d}-y_{d}|^{p}\bigr\}^{1/p}
+    \end{equation}
+
+
+## その他の距離
+
+-   類似度や乖離度などデータ間に自然に定義されるものを用いることは可能
+    -   語句の共起 (同一文書に現れる頻度・確率)
+    -   会社間の取引量 (売上高などで正規化が必要)
+-   擬似的な距離でもアルゴリズムは動く
+
+
+# 実習 {background-color="#fef4f4"}
+
+
+# クラスタ間の距離
+
+
+## クラスタ間の距離
+
+-   クラスタ : いくつかのデータ点からなる集合
+    \begin{equation}
+      C_{a}=\left\{\boldsymbol{x}_{i}|i\in\Lambda_{a}\right\},\;
+      C_{b}=\left\{\boldsymbol{x}_{j}|j\in\Lambda_{b}\right\},\quad
+      C_{a}\cap C_{b}=\emptyset
+    \end{equation}
+-   2つのクラスタ間の距離 : $D(C_{a},C_{b})$
+    -   データ点の距離から陽に定義する方法
+    -   クラスタの統合にもとづき再帰的に定義する方法
+-   代表的なクラスタ間の距離
+    -   最短距離法 (単連結法 ; single linkage method)
+    -   最長距離法 (完全連結法 ; complete linkage method)
+    -   群平均法 (average linkage method)
+
+
+## 最短距離法
+
+-   最も近い対象間の距離を用いる方法
+    \begin{equation}
+      D(C_{a},C_{b})
+      =\min_{\boldsymbol{x}\in C_{a},\;\boldsymbol{y}\in C_{b}} d(\boldsymbol{x},\boldsymbol{y})
+    \end{equation}
+-   統合前後のクラスタ間の関係
+    \begin{equation}
+      D(C_{a}+ C_{b}, C_{c})
+      =\min\bigl\{D(C_{a},C_{c}), D(C_{b},C_{c})\bigr\}
+      % =\min\left\{D(C_{a},C_{c}), D(C_{b},C_{c})\right\}
+    \end{equation}
+    
+    -   $A+B$は集合$A,B$の直和を表す．
+
+
+## 最長距離法
+
+-   最も遠い対象間の距離を用いる方法
+    \begin{equation}
+      D(C_{a},C_{b})
+      =\max_{\boldsymbol{x}\in C_{a},\;\boldsymbol{y}\in C_{b}} d(\boldsymbol{x},\boldsymbol{y})
+    \end{equation}
+-   統合前後のクラスタ間の関係
+    \begin{equation}
+      D(C_{a}+ C_{b}, C_{c})
+      =\max\bigl\{D(C_{a},C_{c}), D(C_{b},C_{c})\bigr\}
+      % =\max\left\{D(C_{a},C_{c}), D(C_{b},C_{c})\right\}
+    \end{equation}
+
+
+## 群平均法
+
+-   全ての対象間の平均距離を用いる方法
+    \begin{equation}
+      D(C_{a},C_{b})
+      =\frac{1}{|C_{a}||C_{b}|}
+      \sum_{\boldsymbol{x}\in C_{a},\;\boldsymbol{y}\in C_{b}} d(\boldsymbol{x},\boldsymbol{y})
+    \end{equation}
+    
+    -   ただし $|C_{a}|$, $|C_{b}|$ はクラスタ内の要素の数を表す
+-   統合前後のクラスタ間の関係
+    \begin{equation}
+      D(C_{a}+ C_{b}, C_{c})
+      =\frac{|C_{a}|D(C_{a},C_{c})+|C_{b}|D(C_{b},C_{c})}{|C_{a}|+|C_{b}|}
+    \end{equation}
+
+
+## 距離計算に関する注意
+
+-   データの性質に応じて距離は適宜使い分ける
+    -   データ間の距離の選択
+    -   クラスタ間の距離の選択
+-   変数の標準化は必要に応じて行う
+    -   物理的な意味合いを積極的に利用する場合はそのまま
+    -   単位の取り方などによる分析の不確定性を避ける場合は平均0，分散1に標準化
+-   データの性質を鑑みて適切に前処理
+
+
+# 実習 {background-color="#fef4f4"}
+
+
+# 次回の予定
+
+-   第1回 : 基本的な考え方と階層的方法
+-   **第2回 : 非階層的方法と分析の評価**
